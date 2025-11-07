@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alberto Yépiz - Perfil & Radio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0a1e4d 0%, #1a3a6e 25%, #2d1b69 50%, #4a0e7d 75%, #1a3a6e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #1a1a1a;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* PANTALLA DE CARGA */
+        .loader-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: blackFadeOut 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.9s forwards;
+        }
+
+        @keyframes blackFadeOut {
+            0% {
+                opacity: 1;
+                visibility: visible;
+            }
+            100% {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .loader-content {
+            text-align: center;
+            animation: fadeInLoader 0.4s ease-out;
+        }
+
+        @keyframes fadeInLoader {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .loader-icon {
+            display: none;
+        }
+
+        .loader-text {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            animation: dotAnimation 1.4s steps(4, end) infinite;
+        }
+
+        @keyframes dotAnimation {
+            0%, 20% {
+                content: 'Loading.';
+                opacity: 1;
+            }
+            40% {
+                content: 'Loading..';
+                opacity: 1;
+            }
+            60% {
+                content: 'Loading...';
+                opacity: 1;
+            }
+            80%, 100% {
+                content: 'Loading';
+                opacity: 1;
+            }
+        }
+
+        /* ANIMACIONES */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* SECCIÓN DE PERFIL */
+        .profile-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            animation: fadeInDown 0.6s ease-out 2s forwards;
+            opacity: 0;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            border: 4px solid #0066cc;
+            object-fit: cover;
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.3);
+            display: block;
+        }
+
+        .profile-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 12px;
+            text-align: center;
+            display: block;
+        }
+
+        .profile-bio {
+            font-size: 13px;
+            color: rgba(0, 0, 0, 0.75);
+            line-height: 1.5;
+            margin-bottom: 20px;
+            text-align: center;
+            display: block;
+        }
+
+        /* SECCIÓN DE ENLACES */
+        .links-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            animation: fadeInDown 0.6s ease-out 1.1s forwards;
+            opacity: 0;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .links-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+
+        .link-btn {
+            padding: 14px 16px;
+            border: none;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .link-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            z-index: 0;
+        }
+
+        .link-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .link-btn > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .link-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .link-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .btn-linkedin {
+            background: rgba(0, 119, 181, 0.5);
+        }
+
+        .btn-instagram {
+            background: rgba(100, 80, 180, 0.5);
+        }
+
+        .btn-github {
+            background: rgba(80, 80, 100, 0.5);
+        }
+
+        .btn-whatsapp {
+            background: rgba(100, 150, 100, 0.5);
+        }
+
+        .btn-drive {
+            background: rgba(120, 100, 180, 0.5);
+        }
+
+        .btn-heyzine {
+            background: rgba(150, 80, 120, 0.5);
+        }
+
+        .btn-spotify {
+            background: rgba(100, 140, 80, 0.5);
+        }
+
+        .btn-bose {
+            background: rgba(150, 110, 80, 0.5);
+        }
+
+        /* REPRODUCTOR DE MÚSICA */
+        .player-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            animation: fadeInUp 0.6s ease-out 2.4s forwards;
+            opacity: 0;
+        }
+
+        .player-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #0066cc;
+            margin-bottom: 20px;
+        }
+
+        .now-playing {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .track-label {
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.6);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .track-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #000;
+            min-height: 24px;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0066cc, #00a3e0);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.6);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .control-btn {
+            background: linear-gradient(135deg, #0066cc, #004fa3);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+        }
+
+        .play-btn {
+            padding: 14px 28px;
+            font-size: 16px;
+        }
+
+        .prev-next-btn {
+            padding: 10px 16px;
+            font-size: 12px;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .volume-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.6);
+            min-width: 60px;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0066cc, #00a3e0);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 102, 204, 0.4);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0066cc, #00a3e0);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0, 102, 204, 0.4);
+        }
+
+        .playlist {
+            max-height: 200px;
+            overflow-y: auto;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+            padding-top: 15px;
+        }
+
+        .playlist-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 12px;
+        }
+
+        .playlist-item {
+            padding: 10px 12px;
+            background: rgba(0, 0, 0, 0.05);
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            color: rgba(0, 0, 0, 0.6);
+            transition: all 0.2s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .playlist-item:hover {
+            background: rgba(0, 0, 0, 0.08);
+            border-left-color: #0066cc;
+            transform: translateX(4px);
+        }
+
+        .playlist-item.active {
+            background: rgba(0, 102, 204, 0.15);
+            border-left-color: #0066cc;
+            color: #0066cc;
+            font-weight: 600;
+        }
+
+        .empty-playlist {
+            text-align: center;
+            padding: 20px;
+            color: rgba(0, 0, 0, 0.5);
+            font-size: 13px;
+        }
+
+        audio {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .profile-section {
+                padding: 20px;
+            }
+
+            .profile-name {
+                font-size: 24px;
+            }
+
+            .player-section {
+                padding: 20px;
+            }
+
+            .control-btn {
+                padding: 10px 16px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader-screen">
+        <div class="loader-content">
+            <div class="loader-icon"></div>
+            <div class="loader-text">CARGANDO...</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- SECCIÓN DE PERFIL -->
+        <div class="profile-section">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23e0e0e0' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23999' text-anchor='middle' dy='.3em'%3E👤%3C/text%3E%3C/svg%3E" alt="Alberto Yépiz" class="profile-pic">
+            <div class="profile-name">Alberto Yépiz</div>
+            <div class="profile-bio">
+                MBA, UX/Agile, EdTech, ApplePro, CX Product Expert. +15yr experience at Apple, PepsiCo, Avis, Santillana—Richmond. Founder JovenesSTEM 🚀 STEM Speaker-Writer 🧬
+            </div>
+        </div>
+
+        <!-- SECCIÓN DE ENLACES -->
+        <div class="links-section">
+            <div class="links-grid">
+                <a href="https://linkedin.com/in/yepzhi" target="_blank" class="link-btn btn-linkedin">
+                    💼 LinkedIn
+                </a>
+                <a href="https://instagram.com/yepzhi" target="_blank" class="link-btn btn-instagram">
+                    📸 Instagram
+                </a>
+                <a href="https://github.com/yepzhi" target="_blank" class="link-btn btn-github">
+                    💻 GitHub
+                </a>
+                <a href="https://wa.me/qr/MESCGUHS7SYSF1" target="_blank" class="link-btn btn-whatsapp">
+                    💬 WhatsApp
+                </a>
+                <a href="https://drive.google.com/file/d/1f7eSHWHFn-dZraXkoewz6hweGjqLGY-t/view?usp=drivesdk" target="_blank" class="link-btn btn-drive">
+                    📄 JóvenesSTEM
+                </a>
+                <a href="https://heyzine.com/flip-book/b3d2f0a53e.html" target="_blank" class="link-btn btn-heyzine">
+                    📚 BlueBook
+                </a>
+                <a href="https://open.spotify.com/show/3wLCHgay5RrtgEWSH2XoTu?si=i5wQe0DKROS9U2IAbDh1eA" target="_blank" class="link-btn btn-spotify">
+                    🎙️ Podcasts
+                </a>
+                <a href="https://www.instagram.com/hidefparties" target="_blank" class="link-btn btn-bose">
+                    🔊 Bose Rental
+                </a>
+            </div>
+        </div>
+
+        <!-- REPRODUCTOR DE MÚSICA -->
+        <div class="player-section">
+            <div class="player-title">🎵 Mi Radio</div>
+
+            <div class="now-playing">
+                <div class="track-label">REPRODUCIENDO AHORA</div>
+                <div class="track-name" id="trackName">Selecciona una canción</div>
+            </div>
+
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="time-display">
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+
+            <div class="controls">
+                <button class="control-btn prev-next-btn" id="prevBtn">⏮ Anterior</button>
+                <button class="control-btn play-btn" id="playBtn">▶ Reproducir</button>
+                <button class="control-btn prev-next-btn" id="nextBtn">Siguiente ⏭</button>
+            </div>
+
+            <div class="volume-control">
+                <label class="volume-label">🔊 Volumen</label>
+                <input type="range" id="volumeControl" min="0" max="100" value="70">
+            </div>
+
+            <div class="playlist">
+                <div class="playlist-title">📋 Playlist</div>
+                <div id="playlistContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+
+    <script>
+        // CONFIGURA TUS CANCIONES AQUÍ
+        const songs = [
+            { title: "Canción 1 - Reemplaza este nombre", url: "musica/cancion1.mp3" },
+            { title: "Canción 2 - Reemplaza este nombre", url: "musica/cancion2.mp3" },
+            { title: "Canción 3 - Reemplaza este nombre", url: "musica/cancion3.mp3" },
+            { title: "Canción 4 - Reemplaza este nombre", url: "musica/cancion4.mp3" },
+            { title: "Canción 5 - Reemplaza este nombre", url: "musica/cancion5.mp3" }
+        ];
+
+        let currentSongIndex = 0;
+        const audio = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const trackName = document.getElementById('trackName');
+        const progressFill = document.getElementById('progressFill');
+        const progressBar = document.getElementById('progressBar');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+        const volumeControl = document.getElementById('volumeControl');
+        const playlistContainer = document.getElementById('playlistContainer');
+
+        function loadPlaylist() {
+            playlistContainer.innerHTML = '';
+            if (songs.length === 0) {
+                playlistContainer.innerHTML = '<div class="empty-playlist">Carga canciones en la carpeta /musica/</div>';
+                return;
+            }
+            songs.forEach((song, index) => {
+                const item = document.createElement('div');
+                item.className = 'playlist-item' + (index === currentSongIndex ? ' active' : '');
+                item.textContent = `${index + 1}. ${song.title}`;
+                item.onclick = () => {
+                    currentSongIndex = index;
+                    loadSong();
+                    audio.play();
+                    updatePlayBtn();
+                };
+                playlistContainer.appendChild(item);
+            });
+        }
+
+        function loadSong() {
+            const song = songs[currentSongIndex];
+            audio.src = song.url;
+            trackName.textContent = song.title;
+            updatePlaylist();
+        }
+
+        function updatePlaylist() {
+            document.querySelectorAll('.playlist-item').forEach((item, index) => {
+                item.classList.toggle('active', index === currentSongIndex);
+            });
+        }
+
+        function formatTime(seconds) {
+            if (!seconds || isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        playBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                if (!audio.src) loadSong();
+                audio.play();
+            } else {
+                audio.pause();
+            }
+            updatePlayBtn();
+        });
+
+        function updatePlayBtn() {
+            playBtn.textContent = audio.paused ? '▶ Reproducir' : '⏸ Pausar';
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            loadSong();
+            audio.play();
+            updatePlayBtn();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            loadSong();
+            audio.play();
+            updatePlayBtn();
+        });
+
+        volumeControl.addEventListener('input', (e) => {
+            audio.volume = e.target.value / 100;
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const percent = (audio.currentTime / audio.duration) * 100;
+            progressFill.style.width = percent + '%';
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+        });
+
+        progressBar.addEventListener('click', (e) => {
+            const rect = progressBar.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = percent * audio.duration;
+        });
+
+        audio.addEventListener('loadedmetadata', () => {
+            durationEl.textContent = formatTime(audio.duration);
+        });
+
+        audio.addEventListener('ended', () => {
+            nextBtn.click();
+        });
+
+        audio.volume = 0.7;
+        loadPlaylist();
+        loadSong();
+    </script>
+</body>
+</html>
