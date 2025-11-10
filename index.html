@@ -474,6 +474,7 @@
             animation: fadeInUp 0.6s ease-out 1.5s forwards;
             opacity: 0;
             text-align: center;
+            margin-bottom: 20px;
         }
 
         .jovenes-stem-title {
@@ -523,6 +524,38 @@
             font-size: 12px;
             color: rgba(255, 255, 255, 0.8);
             font-weight: 600;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            animation: fadeInUp 0.6s ease-out 1.7s forwards;
+            opacity: 0;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #3b82f6;
+            text-decoration: underline;
+        }
+
+        .visit-counter {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 6px 14px;
+            margin-top: 10px;
+            font-size: 11px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         audio {
@@ -648,11 +681,25 @@
                 Si sacas más de 80% serás candidato a recibir tu primer badge L1 de JóvenesSTEM 🏅
             </div>
         </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <div>Developed by <a href="https://github.com/yepzhi" target="_blank">@yepzhi</a></div>
+            <div class="visit-counter">👁️ Visitas: <span id="visitCount">0</span></div>
+        </div>
     </div>
 
     <audio id="audioPlayer"></audio>
 
     <script>
+        // CONTADOR DE VISITAS
+        function initVisitCounter() {
+            let visits = localStorage.getItem('yepzhi-visits') || 0;
+            visits = parseInt(visits) + 1;
+            localStorage.setItem('yepzhi-visits', visits);
+            document.getElementById('visitCount').textContent = visits;
+        }
+
         const songs = [
             { title: "SZA - 30For30", url: "musica/30For30.mp3" },
             { title: "GloRilla Typa", url: "musica/GloRillaTypa.mp3" },
@@ -677,6 +724,59 @@
         const durationEl = document.getElementById('duration');
         const volumeControl = document.getElementById('volumeControl');
         const playlistContainer = document.getElementById('playlistContainer');
+
+        // ECUALIZADOR ROCK CON 90% TREBLE - Inicializar al reproducir
+        let audioContext;
+        let equalizerActive = false;
+
+        function initEqualizer() {
+            if (equalizerActive) return;
+            
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const source = audioContext.createMediaElementAudioSource(audio);
+
+                const lowBass = audioContext.createBiquadFilter();
+                const midBass = audioContext.createBiquadFilter();
+                const mid = audioContext.createBiquadFilter();
+                const midTreble = audioContext.createBiquadFilter();
+                const treble = audioContext.createBiquadFilter();
+
+                source.connect(lowBass);
+                lowBass.connect(midBass);
+                midBass.connect(mid);
+                mid.connect(midTreble);
+                midTreble.connect(treble);
+                treble.connect(audioContext.destination);
+
+                lowBass.type = 'lowshelf';
+                lowBass.frequency.value = 60;
+                lowBass.gain.value = 8;
+
+                midBass.type = 'peaking';
+                midBass.frequency.value = 200;
+                midBass.gain.value = 6;
+                midBass.Q.value = 1;
+
+                mid.type = 'peaking';
+                mid.frequency.value = 1000;
+                mid.gain.value = -2;
+                mid.Q.value = 1;
+
+                midTreble.type = 'peaking';
+                midTreble.frequency.value = 3000;
+                midTreble.gain.value = 4;
+                midTreble.Q.value = 1;
+
+                treble.type = 'highshelf';
+                treble.frequency.value = 8000;
+                treble.gain.value = 9;
+
+                equalizerActive = true;
+            } catch (e) {
+                console.log('Ecualizador no disponible en este navegador');
+            }
+        }
 
         function loadPlaylist() {
             playlistContainer.innerHTML = '';
@@ -721,6 +821,7 @@
         playBtn.addEventListener('click', () => {
             if (audio.paused) {
                 if (!audio.src) loadSong();
+                initEqualizer();
                 audio.play();
             } else {
                 audio.pause();
@@ -735,6 +836,7 @@
         nextBtn.addEventListener('click', () => {
             currentSongIndex = (currentSongIndex + 1) % songs.length;
             loadSong();
+            initEqualizer();
             audio.play();
             updatePlayBtn();
         });
@@ -766,6 +868,21 @@
         audio.volume = 0.7;
         loadPlaylist();
         loadSong();
+        initVisitCounter();
     </script>
+    <!-- Default Statcounter code for yepzhiweb https://yepzhi.com/ -->
+<script type="text/javascript">
+var sc_project=13182229; 
+var sc_invisible=0; 
+var sc_security="0cd44f01"; 
+var scJsHost = "https://";
+document.write("<sc"+"ript type='text/javascript' src='" + scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="Web Analytics"
+href="https://statcounter.com/" target="_blank"><img class="statcounter"
+src="https://c.statcounter.com/13182229/0/0cd44f01/0/" alt="Web Analytics"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+<!-- End of Statcounter Code -->
 </body>
 </html>
