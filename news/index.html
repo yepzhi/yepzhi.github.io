@@ -245,44 +245,54 @@
         let displayedReviews = 0;
         const reviewsPerLoad = 3;
 
-        // CARGAR TWEETS DESDE RSS
-        async function loadTweetsFromRSS() {
-            const container = document.getElementById('tweetsContainer');
-            
-            try {
-                const rssUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https://x.com/Yepzhi/rss';
-                
-                const response = await fetch(rssUrl);
-                const data = await response.json();
+       // CARGAR TWEETS DIRECTAMENTE DESDE NITTER RSS
+async function loadTweetsFromRSS() {
+    const container = document.getElementById('tweetsContainer');
 
-                if (!data.items || data.items.length === 0) {
-                    container.innerHTML = '<div class="empty-message">📌 No hay tweets disponibles.</div>';
-                    return;
-                }
+    try {
+        const rssUrl = 'https://nitter.net/Yepzhi/'; // usa una instancia Nitter activa
+        const res = await fetch(rssUrl);
+        const text = await res.text();
 
-                container.innerHTML = '';
+        // Parsear XML
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(text, 'application/xml');
+        const items = xml.querySelectorAll('item');
 
-                data.items.slice(0, 5).forEach((tweet) => {
-                    const description = tweet.description || tweet.content || '';
-                    const cleanText = description.replace(/<[^>]*>/g, '').substring(0, 150);
-                    
-                    const item = document.createElement('div');
-                    item.className = 'news-item';
-                    item.innerHTML = `
-                        <p class="news-item-text">${cleanText}</p>
-                        <div class="news-item-footer">
-                            <span>${new Date(tweet.pubDate).toLocaleDateString('es-ES')}</span>
-                            <a href="${tweet.link}" target="_blank" class="news-item-link">Ver en X →</a>
-                        </div>
-                    `;
-                    
-                    container.appendChild(item);
-                });
-            } catch (error) {
-                console.error('Error cargando RSS:', error);
-                container.innerHTML = '<div class="empty-message">⚠️ Error al cargar tweets.</div>';
-            }
+        if (!items || items.length === 0) {
+            container.innerHTML = '<div class="empty-message">📌 No hay tweets disponibles.</div>';
+            return;
         }
+
+        container.innerHTML = '';
+
+        // Mostrar solo los últimos 5 tweets
+        items.forEach((el, i) => {
+            if (i < 5) {
+                const title = el.querySelector('title')?.textContent || '';
+                const link = el.querySelector('link')?.textContent || '#';
+                const pubDate = el.querySelector('pubDate')?.textContent || '';
+
+                // Limpiar texto y cortar largo
+                const cleanText = title.replace(/https?:\/\/\S+/g, '').trim().substring(0, 150);
+
+                const item = document.createElement('div');
+                item.className = 'news-item';
+                item.innerHTML = `
+                    <p class="news-item-text">${cleanText}</p>
+                    <div class="news-item-footer">
+                        <span>${new Date(pubDate).toLocaleDateString('es-ES')}</span>
+                        <a href="${link}" target="_blank" class="news-item-link">Ver en 𝕏 →</a>
+                    </div>
+                `;
+                container.appendChild(item);
+            }
+        });
+    } catch (error) {
+        console.error('Error cargando tweets:', error);
+        container.innerHTML = '<div class="empty-message">⚠️ Error al cargar tweets.</div>';
+    }
+}
 
         // CARGAR REVIEWS DESDE SHEETSDB
         async function loadMoreReviews() {
