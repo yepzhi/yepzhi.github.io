@@ -1,17 +1,3 @@
-// ============================================
-// CHATBOT FAQ BILINGÜE
-// Para agregar más preguntas, edita el objeto faqData
-// ============================================
-
-// ============================================
-// CHATBOT FAQ BILINGÜE
-// Para agregar más preguntas, edita el objeto faqData
-// ============================================
-
-// ============================================
-// CHATBOT FAQ BILINGÜE
-// ============================================
-
 const faqData = {
     es: [
         // --- Preguntas Generales JóvenesSTEM ---
@@ -305,24 +291,29 @@ const faqData = {
     ]
 };
 
-// Detectar idioma
+// --- Detección de Idioma MEJORADA ---
 function detectLanguage(text) {
     const lowerText = text.toLowerCase();
-    const spanishWords = ['que', 'como', 'donde', 'cuando', 'por', 'para', 'qué', 'cómo', 'dónde', 'hola', 'gracias', 'favor', 'puedo', 'sobre', 'más'];
-    const englishWords = ['what', 'how', 'where', 'when', 'can', 'about', 'hello', 'hi', 'thanks', 'please', 'more', 'help'];
+    
+    // Lista de palabras comunes para identificar el idioma
+    // (Se agregaron palabras de función comunes en español como 'el', 'la', 'un', 'es', 'por')
+    const spanishWords = ['que', 'como', 'donde', 'hola', 'gracias', 'cuanto', 'cuesta', 'precio', 'implementar', 'es', 'el', 'la', 'un', 'una', 'si', 'por', 'con'];
+    const englishWords = ['what', 'how', 'where', 'hello', 'thanks', 'much', 'cost', 'price', 'is', 'the', 'a', 'an', 'by', 'with'];
     
     let spanishScore = 0;
     let englishScore = 0;
     
     spanishWords.forEach(word => {
-        if (lowerText.includes(word)) spanishScore++;
+        if (lowerText.includes(word)) spanishScore += 2; // Damos más peso a estas palabras
     });
     
     englishWords.forEach(word => {
-        if (lowerText.includes(word)) englishScore++;
+        if (lowerText.includes(word)) englishScore += 2;
     });
     
+    // Desempate y verificación de caracteres únicos (ñ, tildes, ¿, ¡)
     if (spanishScore === englishScore) {
+        // Si hay empate en la puntuación, los caracteres únicos del español ganan
         return /[áéíóúñ¿¡]/i.test(text) ? 'es' : 'en';
     }
     
