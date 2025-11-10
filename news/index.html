@@ -20,7 +20,7 @@
         }
 
         .container {
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
         }
 
@@ -28,20 +28,21 @@
             text-align: center;
             padding: 20px 0;
             margin-bottom: 20px;
-            animation: fadeInDown 0.6s ease-out 0.9s forwards;
+            animation: fadeInDown 0.6s ease-out 0.3s forwards;
             opacity: 0;
         }
 
         .header-section h1 {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
             color: white;
             margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .header-section p {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
             margin-bottom: 15px;
         }
 
@@ -50,10 +51,10 @@
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 50px;
             text-decoration: none;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             transition: all 0.3s ease;
             cursor: pointer;
@@ -63,111 +64,100 @@
         .back-button:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .section-card {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 20px;
+            padding: 25px;
             margin-bottom: 20px;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             border: 1px solid rgba(255, 255, 255, 0.25);
-            animation: fadeInUp 0.6s ease-out;
+            animation: fadeInUp 0.6s ease-out 0.6s forwards;
+            opacity: 0;
         }
 
         .section-title {
-            font-size: 16px;
+            font-size: 20px;
             font-weight: 700;
             color: white;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .news-item {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 12px;
-            border-left: 3px solid #1da1f2;
-            transition: all 0.3s ease;
-        }
-
-        .news-item:hover {
-            background: rgba(255, 255, 255, 0.12);
-            transform: translateX(4px);
-        }
-
-        .news-item.review {
-            border-left-color: #3b82f6;
-        }
-
-        .news-item-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 6px;
-        }
-
-        .news-item-text {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.4;
-            margin-bottom: 8px;
-        }
-
-        .news-item-footer {
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.6);
+            gap: 10px;
         }
 
-        .news-item-link {
-            color: #3b82f6;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.2s ease;
+        .twitter-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 15px;
+            min-height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .news-item-link:hover {
-            color: white;
-            text-decoration: underline;
-        }
-
-        .loading {
+        .loading-tweets {
             text-align: center;
             color: rgba(255, 255, 255, 0.7);
-            font-size: 13px;
-            padding: 20px;
+            font-size: 14px;
         }
 
-        .empty-message {
+        .twitter-fallback {
             text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 12px;
-            padding: 15px;
+            padding: 30px 20px;
         }
 
-        .load-more-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+        .twitter-fallback a {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.25);
             color: white;
-            padding: 10px 20px;
+            padding: 14px 28px;
             border-radius: 50px;
-            font-size: 12px;
+            text-decoration: none;
             font-weight: 600;
-            cursor: pointer;
-            width: 100%;
+            font-size: 14px;
             transition: all 0.3s ease;
-            margin-top: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .load-more-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+        .twitter-fallback a:hover {
+            background: rgba(255, 255, 255, 0.35);
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .twitter-fallback p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            margin-top: 15px;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            animation: fadeInUp 0.6s ease-out 0.9s forwards;
+            opacity: 0;
+        }
+
+        .info-box p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 12px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .info-box strong {
+            color: white;
+            font-weight: 600;
         }
 
         @keyframes fadeInDown {
@@ -192,25 +182,32 @@
             }
         }
 
+        /* Estilos para el timeline de Twitter */
+        .twitter-timeline {
+            border-radius: 12px !important;
+            overflow: hidden;
+        }
+
         @media (max-width: 600px) {
+            .container {
+                max-width: 100%;
+            }
+
             .header-section h1 {
-                font-size: 24px;
+                font-size: 26px;
             }
 
             .section-card {
-                padding: 16px;
+                padding: 20px;
             }
 
-            .news-item {
-                padding: 12px;
+            .section-title {
+                font-size: 18px;
             }
 
-            .news-item-title {
-                font-size: 13px;
-            }
-
-            .news-item-text {
-                font-size: 11px;
+            .twitter-container {
+                padding: 10px;
+                min-height: 500px;
             }
         }
     </style>
@@ -219,102 +216,85 @@
     <div class="container">
         <!-- HEADER -->
         <div class="header-section">
-            <a href="../index.html" class="back-button">← Volver</a>
+            <a href="../index.html" class="back-button">← Volver al inicio</a>
             <h1>📰 yepzhiNews</h1>
-            <p>Tweets, reviews y publicaciones</p>
+            <p>Todo lo que comparto en X (Twitter)</p>
         </div>
 
-        <!-- TWEETS -->
+        <!-- TWEETS SECTION -->
         <div class="section-card">
-            <div class="section-title">𝕏 Últimos Tweets</div>
-
-            <a class="twitter-timeline"
-               href="https://x.com/Yepzhi?ref_src=twsrc%5Etfw"
-               data-theme="dark"
-               data-width="500"
-               data-height="600">
-               Tweets by @Yepzhi
-            </a>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-        </div>
-
-        <!-- REVIEWS -->
-        <div class="section-card">
-            <div class="section-title">✍️ Mis Reviews & Opiniones</div>
-            <div id="reviewsContainer">
-                <div class="loading">Cargando reviews...</div>
+            <div class="section-title">
+                <span>𝕏</span>
+                <span>Mis Últimos Tweets</span>
             </div>
+
+            <div class="twitter-container">
+                <!-- Widget oficial de Twitter/X -->
+                <a class="twitter-timeline" 
+                   href="https://twitter.com/Yepzhi?ref_src=twsrc%5Etfw"
+                   data-width="100%"
+                   data-height="600"
+                   data-theme="dark"
+                   data-chrome="noheader nofooter noborders"
+                   data-tweet-limit="10"
+                   data-dnt="true">
+                    <div class="loading-tweets">
+                        Cargando tweets de @Yepzhi...
+                    </div>
+                </a>
+                
+                <!-- Fallback si no carga el widget -->
+                <noscript>
+                    <div class="twitter-fallback">
+                        <a href="https://twitter.com/Yepzhi" target="_blank" rel="noopener noreferrer">
+                            Ver tweets en X (Twitter) →
+                        </a>
+                        <p>El widget de tweets requiere JavaScript habilitado</p>
+                    </div>
+                </noscript>
+            </div>
+
+            <!-- Botón alternativo -->
+            <div class="twitter-fallback" style="margin-top: 20px;">
+                <a href="https://twitter.com/Yepzhi" target="_blank" rel="noopener noreferrer">
+                    🔗 Ver perfil completo en X →
+                </a>
+            </div>
+        </div>
+
+        <!-- INFO BOX -->
+        <div class="info-box">
+            <p>
+                <strong>💡 Nota:</strong> Los tweets se actualizan automáticamente. 
+                Si no ves el contenido, asegúrate de tener JavaScript habilitado o 
+                <a href="https://twitter.com/Yepzhi" target="_blank" style="color: #3b82f6; font-weight: 600;">visita mi perfil en X</a>.
+            </p>
         </div>
     </div>
 
+    <!-- Script del widget de Twitter -->
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    
+    <!-- Script para manejar el fallback -->
     <script>
-        let displayedReviews = 0;
-        const reviewsPerLoad = 3;
-
-        // CARGAR REVIEWS DESDE SHEETSDB
-        async function loadMoreReviews() {
-            const container = document.getElementById('reviewsContainer');
-
-            try {
-                const API_URL = 'https://api.sheetdb.io/v1/YOUR_API_KEY';
-
-                const response = await fetch(API_URL);
-                const data = await response.json();
-
-                if (!data || data.length === 0) {
-                    if (displayedReviews === 0) {
-                        container.innerHTML = '<div class="empty-message">📝 Aún no hay reviews.</div>';
-                    }
-                    return;
-                }
-
-                if (displayedReviews === 0) {
-                    container.innerHTML = '';
-                }
-
-                const endIndex = Math.min(displayedReviews + reviewsPerLoad, data.length);
-                const newReviews = data.slice(displayedReviews, endIndex);
-
-                newReviews.forEach((review) => {
-                    const item = document.createElement('div');
-                    item.className = 'news-item review';
-                    item.innerHTML = `
-                        <p class="news-item-title">${review.titulo || 'Sin título'}</p>
-                        <p class="news-item-text">${review.contenido || review.content || ''}</p>
-                        <div class="news-item-footer">
-                            <span>${review.fecha || new Date().toLocaleDateString('es-ES')}</span>
-                        </div>
-                    `;
-
-                    container.appendChild(item);
-                });
-
-                displayedReviews = endIndex;
-
-                if (displayedReviews < data.length) {
-                    if (!document.getElementById('loadMoreBtn')) {
-                        const btn = document.createElement('button');
-                        btn.id = 'loadMoreBtn';
-                        btn.className = 'load-more-btn';
-                        btn.textContent = 'Cargar más reviews →';
-                        btn.onclick = () => {
-                            btn.remove();
-                            loadMoreReviews();
-                        };
-                        container.appendChild(btn);
-                    }
-                }
-            } catch (error) {
-                console.error('Error cargando reviews:', error);
-                if (displayedReviews === 0) {
-                    container.innerHTML = '<div class="empty-message">⚠️ Error al cargar reviews.</div>';
-                }
+        // Detectar si el widget de Twitter no carga después de 5 segundos
+        setTimeout(() => {
+            const timeline = document.querySelector('.twitter-timeline');
+            const container = document.querySelector('.twitter-container');
+            
+            // Si el iframe del widget no se creó, mostrar mensaje alternativo
+            if (timeline && !document.querySelector('iframe.twitter-timeline-rendered')) {
+                container.innerHTML = `
+                    <div class="twitter-fallback">
+                        <a href="https://twitter.com/Yepzhi" target="_blank" rel="noopener noreferrer">
+                            🔗 Ver tweets en X (Twitter) →
+                        </a>
+                        <p>El widget de Twitter no pudo cargar correctamente.<br>
+                        Click arriba para ver todos los tweets en X.</p>
+                    </div>
+                `;
             }
-        }
-
-        // Cargar las reviews al abrir
-        loadMoreReviews();
+        }, 5000);
     </script>
 </body>
 </html>
