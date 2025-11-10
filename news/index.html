@@ -224,12 +224,19 @@
             <p>Tweets, reviews y publicaciones</p>
         </div>
 
-        <!-- TWEETS RSS -->
+        <!-- TWEETS -->
         <div class="section-card">
             <div class="section-title">𝕏 Últimos Tweets</div>
-            <div id="tweetsContainer">
-                <div class="loading">Cargando tweets...</div>
-            </div>
+
+            <a class="twitter-timeline"
+               href="https://twitter.com/Yepzhi?ref_src=twsrc%5Etfw"
+               data-theme="dark"
+               data-width="500"
+               data-height="600">
+               Tweets by @Yepzhi
+            </a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
         </div>
 
         <!-- REVIEWS -->
@@ -245,62 +252,13 @@
         let displayedReviews = 0;
         const reviewsPerLoad = 3;
 
-       // CARGAR TWEETS DIRECTAMENTE DESDE NITTER RSS
-async function loadTweetsFromRSS() {
-    const container = document.getElementById('tweetsContainer');
-
-    try {
-        const rssUrl = 'https://nitter.net/Yepzhi/'; // usa una instancia Nitter activa
-        const res = await fetch(rssUrl);
-        const text = await res.text();
-
-        // Parsear XML
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(text, 'application/xml');
-        const items = xml.querySelectorAll('item');
-
-        if (!items || items.length === 0) {
-            container.innerHTML = '<div class="empty-message">📌 No hay tweets disponibles.</div>';
-            return;
-        }
-
-        container.innerHTML = '';
-
-        // Mostrar solo los últimos 5 tweets
-        items.forEach((el, i) => {
-            if (i < 5) {
-                const title = el.querySelector('title')?.textContent || '';
-                const link = el.querySelector('link')?.textContent || '#';
-                const pubDate = el.querySelector('pubDate')?.textContent || '';
-
-                // Limpiar texto y cortar largo
-                const cleanText = title.replace(/https?:\/\/\S+/g, '').trim().substring(0, 150);
-
-                const item = document.createElement('div');
-                item.className = 'news-item';
-                item.innerHTML = `
-                    <p class="news-item-text">${cleanText}</p>
-                    <div class="news-item-footer">
-                        <span>${new Date(pubDate).toLocaleDateString('es-ES')}</span>
-                        <a href="${link}" target="_blank" class="news-item-link">Ver en 𝕏 →</a>
-                    </div>
-                `;
-                container.appendChild(item);
-            }
-        });
-    } catch (error) {
-        console.error('Error cargando tweets:', error);
-        container.innerHTML = '<div class="empty-message">⚠️ Error al cargar tweets.</div>';
-    }
-}
-
         // CARGAR REVIEWS DESDE SHEETSDB
         async function loadMoreReviews() {
             const container = document.getElementById('reviewsContainer');
-            
+
             try {
                 const API_URL = 'https://api.sheetdb.io/v1/YOUR_API_KEY';
-                
+
                 const response = await fetch(API_URL);
                 const data = await response.json();
 
@@ -328,7 +286,7 @@ async function loadTweetsFromRSS() {
                             <span>${review.fecha || new Date().toLocaleDateString('es-ES')}</span>
                         </div>
                     `;
-                    
+
                     container.appendChild(item);
                 });
 
@@ -355,14 +313,8 @@ async function loadTweetsFromRSS() {
             }
         }
 
-        // Cargar al abrir
-        loadTweetsFromRSS();
+        // Cargar las reviews al abrir
         loadMoreReviews();
-
-        // Actualizar cada 10 minutos
-        setInterval(() => {
-            loadTweetsFromRSS();
-        }, 10 * 60 * 1000);
     </script>
 </body>
 </html>
