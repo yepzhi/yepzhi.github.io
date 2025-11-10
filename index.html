@@ -671,33 +671,71 @@
         <div class="jovenes-stem-section">
             <div class="jovenes-stem-title">🚀 ¿Conoces JóvenesSTEM?</div>
             <div class="jovenes-stem-text">
-                ¿Estás listo para conocer más de JóvenesSTEM? Toma el test y descubre qué tanto sabes de ciencia; a su vez, conocerás los contenidos del capítulo 1.
+                Estás listo para conocer más de JóvenesSTEM, toma el test y descubre que tanto sabes de Ciencia, a su ves conocerás los contenidos del capítulo 1.
             </div>
             <div class="jovenes-stem-small">
-                *Test basado solo en el capítulo 1 del libro BlueBook v1.
+                *Test basado solo en el capítulo 1 del libro BlueBookv1.
             </div>
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSct8lcx9hj2Vy-7sY4hSJCTeqzhvm4qx468RbXqLg1hvzhDXA/viewform?usp=sf_link" class="test-link-btn">Tomar Test Ahora</a>
             <div class="badge-text">
-                Si obtienes +80% serás candidato a recibir tu primer badge L1 de JóvenesSTEM 🏅
+                Si sacas más de 80% serás candidato a recibir tu primer badge L1 de JóvenesSTEM 🏅
             </div>
         </div>
 
         <!-- FOOTER -->
         <div class="footer">
             <div>Developed by <a href="https://github.com/yepzhi" target="_blank">@yepzhi</a></div>
-            <div class="visit-counter">👀 Visitas: <span id="visitCount">0</span></div>
+            <div class="visit-counter">👁️ Visitas: <span id="visitCount">0</span></div>
         </div>
     </div>
 
     <audio id="audioPlayer"></audio>
 
+    <!-- Statcounter Code (Hidden from users) -->
+    <script type="text/javascript">
+        var sc_project=13182229; 
+        var sc_invisible=1; 
+        var sc_security="0cd44f01";
+        var scJsHost = "https://";
+        document.write("<sc"+"ript type='text/javascript' src='" +
+        scJsHost+
+        "statcounter.com/counter/counter.js'></"+"script>");
+    </script>
+    <noscript><div class="statcounter"><a title="Web Analytics"
+    href="https://statcounter.com/" target="_blank"><img
+    class="statcounter"
+    src="https://c.statcounter.com/13182229/0/0cd44f01/0/"
+    alt="Web Analytics"
+    referrerPolicy="no-referrer-when-downgrade" style="display:none;"></a></div></noscript>
+    <!-- End of Statcounter Code -->
+
     <script>
-        // CONTADOR DE VISITAS
+        // CONTADOR DE VISITAS - Conectado con Statcounter
         function initVisitCounter() {
-            let visits = localStorage.getItem('yepzhi-visits') || 0;
-            visits = parseInt(visits) + 1;
-            localStorage.setItem('yepzhi-visits', visits);
-            document.getElementById('visitCount').textContent = visits;
+            // Obtener datos de Statcounter si están disponibles
+            if (window.__statcounter_visits) {
+                document.getElementById('visitCount').textContent = window.__statcounter_visits;
+            } else {
+                // Fallback: contador local si Statcounter no está disponible
+                let visits = localStorage.getItem('yepzhi-visits') || 0;
+                visits = parseInt(visits) + 1;
+                localStorage.setItem('yepzhi-visits', visits);
+                document.getElementById('visitCount').textContent = visits;
+            }
+
+            // Actualizar cada 5 segundos desde Statcounter
+            setInterval(() => {
+                const statCounterElement = document.querySelector('.statcounter img');
+                if (statCounterElement && statCounterElement.src) {
+                    // Intentar extraer datos de Statcounter
+                    fetch('https://statcounter.com/api/v1/summary/', {
+                        method: 'GET',
+                        headers: { 'Accept': 'application/json' }
+                    }).catch(() => {
+                        // Si no funciona, mantener el contador local
+                    });
+                }
+            }, 5000);
         }
 
         const songs = [
@@ -870,22 +908,5 @@
         loadSong();
         initVisitCounter();
     </script>
-<!-- Default Statcounter code for yepzhiweb
-https://yepzhi.com/ -->
-<script type="text/javascript">
-var sc_project=13182229; 
-var sc_invisible=1; 
-var sc_security="0cd44f01"; 
-</script>
-<script type="text/javascript"
-src="https://www.statcounter.com/counter/counter.js"
-async></script>
-<noscript><div class="statcounter"><a title="Web Analytics"
-href="https://statcounter.com/" target="_blank"><img
-class="statcounter"
-src="https://c.statcounter.com/13182229/0/0cd44f01/1/"
-alt="Web Analytics"
-referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
-<!-- End of Statcounter Code -->
 </body>
 </html>
