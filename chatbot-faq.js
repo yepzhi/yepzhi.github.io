@@ -8,6 +8,10 @@
 // Para agregar más preguntas, edita el objeto faqData
 // ============================================
 
+// ============================================
+// CHATBOT FAQ BILINGÜE
+// ============================================
+
 const faqData = {
     es: [
         // --- Preguntas Generales JóvenesSTEM ---
@@ -67,7 +71,7 @@ const faqData = {
         },
         {
             keywords: ['capitulo 3', 'programacion', 'codigo', 'front-end', 'back-end', 'ai', 'ml', 'algoritmos'],
-            answer: 'El Capítulo 3 (Programación) es "el idioma de la tecnología". Te introduce a los fundamentos (lógica, algoritmos, paradigmas), la estructura del desarrollo web (cliente-servidor, HTML/CSS/JS, front-end, back-end), APIs, bases de datos, y un panorama de Inteligencia Artificial (AI) y Machine Learning (ML).'
+            answer: 'El Capítulo 3 (Programación) es "el idioma de la tecnología." Te introduce a los fundamentos (lógica, algoritmos, paradigmas), la estructura del desarrollo web (cliente-servidor, HTML/CSS/JS, front-end, back-end), APIs, bases de datos, y un panorama de Inteligencia Artificial (AI) y Machine Learning (ML).'
         },
 
         // --- Preguntas sobre los Formatos del Curso (Online vs FastTrack) ---
@@ -98,7 +102,7 @@ const faqData = {
             answer: 'Sí, al finalizar el curso y aprobar las evaluaciones se otorga una constancia o certificado como "jóvenSTEM". Se recomienda que la institución que lo imparte agregue su sello institucional.'
         },
         {
-            keywords: ['estandares', 'sep', 'conocer', 'ngss', 'oficial'],
+            keywords: ['estandares', 'sep', 'conocer', 'ngss', 'oficial', 'alineado'], // <-- ¡PALABRA AGREGADA!
             answer: 'El programa está alineado con los Estándares de Competencia (EC) del marco CONOCER (SEP México) y con los Next Generation Science Standards (NGSS) de Estados Unidos, garantizando su pertinencia educativa.'
         },
         {
@@ -243,7 +247,7 @@ const faqData = {
             answer: 'Yes, upon finishing the course and passing the evaluations, a "jóvenSTEM" certificate or proof of completion is awarded. It is recommended that the institution teaching it add its institutional seal.'
         },
         {
-            keywords: ['standards', 'sep', 'conocer', 'ngss', 'official'],
+            keywords: ['standards', 'sep', 'conocer', 'ngss', 'official', 'aligned'],
             answer: 'The program is aligned with the Competency Standards (EC) of the CONOCER framework (SEP Mexico) and the Next Generation Science Standards (NGSS) from the United States, ensuring its educational relevance.'
         },
         {
