@@ -562,7 +562,9 @@
             <img src="perfil2.png" alt="Alberto Yépiz" class="profile-pic">
             <div class="profile-name">Alberto Yépiz</div>
             <div class="profile-bio">
-                MBA, UX/Agile, EdTech, ApplePro, CX Product Expert. +15yr experience at Apple, PepsiCo, Avis, Santillana—Richmond. Founder JovenesSTEM 🚀 STEM Speaker-Writer 🧬
+                MBA • UX/Agile • EdTech • CX Product Expert 
+                +15 años en Apple · PepsiCo · Avis · Santillana-Richmond 
+                STEM Speaker-Writer 🧬 Founder @JóvenesSTEM 🚀 y Bose Hi-Def Parties🔊
             </div>
             <div class="social-icons">
                 <a href="https://linkedin.com/in/yepzhi" target="_blank" class="social-icon linkedin" title="LinkedIn">
@@ -584,16 +586,16 @@
                     👋 WhatsApp - Click Aqui!
                 </a>
                 <a href="https://drive.google.com/file/d/1f7eSHWHFn-dZraXkoewz6hweGjqLGY-t/view?usp=drivesdk" target="_blank" class="link-btn">
-                    📄 Propuesta JóvenesSTEM FastTrack
+                    📄 Propuesta JóvenesSTEM FastTrack^
                 </a>
                 <a href="https://heyzine.com/flip-book/b3d2f0a53e.html" target="_blank" class="link-btn">
-                    📚 Read the BlueBook v1 Free!
+                    📚 Mi libro BlueBook v1 gratis!
                 </a>
                 <a href="https://open.spotify.com/show/3wLCHgay5RrtgEWSH2XoTu?si=i5wQe0DKROS9U2IAbDh1eA" target="_blank" class="link-btn">
-                    🎙️ Listen My Podcasts
+                    🎙️ Escucha mis Podcasts
                 </a>
                 <a href="https://www.instagram.com/hidefparties" target="_blank" class="link-btn">
-                    🔊 Bose Rental Parties
+                    🔊 Renta equipo Bose aquí!
                 </a>
             </div>
         </div>
@@ -636,14 +638,14 @@
         <div class="jovenes-stem-section">
             <div class="jovenes-stem-title">🚀 ¿Conoces JóvenesSTEM?</div>
             <div class="jovenes-stem-text">
-                Listo para conocer más de JóvenesSTEM, toma el test para ver que tanto sabes de Ciencia y a la ves conocerás los contenidos del capitulo 1.
+                Estás listo para conocer más de JóvenesSTEM, toma el test y descubre que tanto sabes de Ciencia, a su ves conocerás los contenidos del capítulo 1.
             </div>
             <div class="jovenes-stem-small">
-                *Test basado solo en el capitulo 1 del libro BlueBook
+                *Test basado solo en el capítulo 1 del libro BlueBookv1.
             </div>
-            <a href="#" class="test-link-btn">Tomar Test Ahora</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSct8lcx9hj2Vy-7sY4hSJCTeqzhvm4qx468RbXqLg1hvzhDXA/viewform?usp=sf_link" class="test-link-btn">Tomar Test Ahora</a>
             <div class="badge-text">
-                Si sacas más de 80% solicita tu primer badge L1 de JóvenesSTEM 🏅
+                Si sacas más de 80% serás candidato a recibir tu primer badge L1 de JóvenesSTEM 🏅
             </div>
         </div>
     </div>
@@ -651,55 +653,6 @@
     <audio id="audioPlayer"></audio>
 
     <script>
-        // Crear contexto de audio
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const audioElement = document.getElementById('audioPlayer');
-        const source = audioContext.createMediaElementAudioSource(audioElement);
-
-        // Crear ecualizador de 5 bandas (tipo Rock)
-        const lowBass = audioContext.createBiquadFilter();
-        const midBass = audioContext.createBiquadFilter();
-        const mid = audioContext.createBiquadFilter();
-        const midTreble = audioContext.createBiquadFilter();
-        const treble = audioContext.createBiquadFilter();
-
-        // Conectar filtros en cadena
-        source.connect(lowBass);
-        lowBass.connect(midBass);
-        midBass.connect(mid);
-        mid.connect(midTreble);
-        midTreble.connect(treble);
-        treble.connect(audioContext.destination);
-
-        // Configurar ecualizador tipo Rock
-        // Bajo profundo
-        lowBass.type = 'lowshelf';
-        lowBass.frequency.value = 60;
-        lowBass.gain.value = 8;
-
-        // Bajo medio
-        midBass.type = 'peaking';
-        midBass.frequency.value = 200;
-        midBass.gain.value = 6;
-        midBass.Q.value = 1;
-
-        // Medios (ligeramente reducidos)
-        mid.type = 'peaking';
-        mid.frequency.value = 1000;
-        mid.gain.value = -2;
-        mid.Q.value = 1;
-
-        // Medios-altos
-        midTreble.type = 'peaking';
-        midTreble.frequency.value = 3000;
-        midTreble.gain.value = 4;
-        midTreble.Q.value = 1;
-
-        // Altos/Treble
-        treble.type = 'highshelf';
-        treble.frequency.value = 8000;
-        treble.gain.value = 9;
-
         const songs = [
             { title: "SZA - 30For30", url: "musica/30For30.mp3" },
             { title: "GloRilla Typa", url: "musica/GloRillaTypa.mp3" },
