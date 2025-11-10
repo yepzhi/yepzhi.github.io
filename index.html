@@ -115,29 +115,46 @@
             position: relative;
         }
 
-        .news-button {
+        .news-button-wrapper {
             position: absolute;
             top: 20px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            text-align: right;
+        }
+
+        .news-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
             padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 11px;
+            border-radius: 50px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             display: inline-block;
+            margin-bottom: 8px;
         }
 
         .news-button:hover {
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .news-hint {
+            text-align: right;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .news-hint strong {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 2px;
         }
 
         .profile-pic {
@@ -566,7 +583,7 @@
             color: white;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .footer a:hover {
@@ -618,6 +635,13 @@
     <div class="container">
         <!-- SECCIÓN DE PERFIL -->
         <div class="profile-section">
+            <div class="news-button-wrapper">
+                <a href="news/index.html" class="news-button">📰 yepzhiNews</a>
+                <div class="news-hint">
+                    <strong>Últimas noticias</strong>
+                    Click Aquí ↑
+                </div>
+            </div>
             <img src="perfil2.png" alt="Alberto Yépiz" class="profile-pic">
             <div class="profile-name">Alberto Yépiz</div>
             <div class="profile-bio">
