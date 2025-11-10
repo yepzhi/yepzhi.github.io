@@ -250,7 +250,7 @@
             const container = document.getElementById('tweetsContainer');
             
             try {
-                const rssUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https://twitter.com/yepzhi/rss';
+                const rssUrl = 'https://queryfeed.net/api/v1/twitter/user/yepzhi?count=10&result=json';
                 
                 const response = await fetch(rssUrl);
                 const data = await response.json();
