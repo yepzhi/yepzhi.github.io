@@ -342,11 +342,16 @@
                 <div class="form-group">
                     <label for="nombre">Nombre *</label>
                     <input type="text" id="nombre" required placeholder="Ej: Juan">
-                </div>
-
+                    <span class="character-limit-note">
+                    Se sugiere usar solo el primer nombre.
+                    </span>
+             </div>
                 <div class="form-group">
                     <label for="apellido">Apellido *</label>
                     <input type="text" id="apellido" required placeholder="Ej: Pérez García">
+                    <span class="character-limit-note">
+                    El nombre completo no debe exceder los 17 caracteres totales.
+            </span>
                 </div>
 
                 <div class="form-group">
@@ -374,15 +379,17 @@
                 ✓ Plantilla oficial cargada
             </div>
 
-            <div class="info-box">
-                <strong>📋 Formato del archivo Excel:</strong>
-                Columnas requeridas:
-                <br>• <strong>Nombre</strong>: Primer nombre
-                <br>• <strong>Apellido</strong>: Apellidos completos
-                <br>• <strong>Evento</strong>: Nombre del evento
-                <br>• <strong>Fecha</strong>: Formato DD/MM/YYYY (ej: 24/08/2025)
-                <br>• <strong>Horas</strong>: Duración en horas
-            </div>
+<div class="info-box">
+    <strong>📋 Formato del archivo Excel:</strong>
+    Columnas requeridas:
+    <br>• **Nombre**: Primer nombre
+    <br>• **Apellido**: Apellidos completos
+    <br>• **Evento**: Nombre del evento
+    <br>• **Fecha**: Formato DD/MM/YYYY (ej: 24/08/2025)
+    <br>• **Horas**: Duración en horas
+    <br><br>
+    <strong style="color: #FFC107;">⚠️ Importante:</strong> El nombre completo (**Nombre + Apellido**) no debe rebasar los **17 caracteres** para asegurar que encaje en el certificado.
+</div>
 
             <button type="button" onclick="downloadTemplate()" class="btn-template">
                 📥 Descarga la Plantilla Excel
@@ -681,14 +688,14 @@
                     Nombre: "Juan",
                     Apellido: "Pérez García",
                     Evento: "Fostering Learning Communities",
-                    Fecha: "08/08/2025",
+                    Fecha: "24/08/2025",
                     Horas: 2
                 },
                 {
                     Nombre: "María",
                     Apellido: "Rodríguez López",
                     Evento: "Advanced Teaching Strategies Workshop",
-                    Fecha: "15/08/2025",
+                    Fecha: "24/08/2025",
                     Horas: 3
                 }
             ];
