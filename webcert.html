@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Certificados Richmond</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         * {
@@ -30,7 +30,7 @@
             padding: 40px;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             border: 1px solid rgba(255, 255, 255, 0.18);
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
         }
 
@@ -82,7 +82,7 @@
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         label {
@@ -170,18 +170,58 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
-        button:active {
-            transform: translateY(0);
-        }
-
         button:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+            transform: none;
         }
 
         .btn-template {
             background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%) !important;
             margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .progress {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            color: white;
+            text-align: center;
+            margin-top: 8px;
+            font-size: 14px;
         }
 
         .modal {
@@ -227,7 +267,6 @@
         .modal-content button {
             width: auto;
             padding: 12px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         .checkmark {
@@ -250,12 +289,8 @@
         }
 
         @keyframes scaleIn {
-            from {
-                transform: scale(0);
-            }
-            to {
-                transform: scale(1);
-            }
+            from { transform: scale(0); }
+            to { transform: scale(1); }
         }
 
         .error {
@@ -268,54 +303,16 @@
             border-radius: 5px;
         }
 
-        .info-box {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            color: white;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .info-box strong {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 15px;
-        }
-
-        .progress {
-            margin-top: 15px;
-            display: none;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4CAF50, #8BC34A);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .progress-text {
-            color: white;
-            text-align: center;
-            margin-top: 8px;
-            font-size: 14px;
+        .section-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            margin: 25px 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Generador de Certificados Richmond</h1>
-        <p class="subtitle">Crea certificados de participación individuales/masivos</p>
+        <p class="subtitle">Usa tu plantilla PDF personalizada</p>
 
         <div class="tabs">
             <button class="tab active" onclick="switchTab('individual')">Individual</button>
@@ -326,49 +323,57 @@
         <div class="tab-content active" id="individual">
             <form id="certificateForm">
                 <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan">
-                    <div class="error" id="nombreError">Por favor ingresa un nombre válido</div>
+                    <label for="templateFile">📄 Plantilla PDF *</label>
+                    <div class="file-upload">
+                        <input type="file" id="templateFile" accept=".pdf" required onchange="handleTemplateSelect(event)">
+                        <label for="templateFile" class="file-upload-label">
+                            Subir plantilla de certificado
+                        </label>
+                    </div>
+                    <div class="file-name" id="templateName"></div>
+                </div>
+
+                <div class="section-divider"></div>
+
+                <div class="form-group">
+                    <label for="nombre">Nombre *</label>
+                    <input type="text" id="nombre" required placeholder="Ej: Juan">
                 </div>
 
                 <div class="form-group">
-                    <label for="apellido">Apellido</label>
-                    <input type="text" id="apellido" name="apellido" required placeholder="Ej: Pérez">
-                    <div class="error" id="apellidoError">Por favor ingresa un apellido válido</div>
+                    <label for="apellido">Apellido *</label>
+                    <input type="text" id="apellido" required placeholder="Ej: Pérez García">
                 </div>
 
                 <div class="form-group">
-                    <label for="evento">Nombre del Evento/Capacitación</label>
-                    <textarea id="evento" name="evento" required placeholder="Ej: Fostering Learning Communities session"></textarea>
-                    <div class="error" id="eventoError">Por favor ingresa el nombre del evento</div>
+                    <label for="evento">Nombre del Evento *</label>
+                    <textarea id="evento" required placeholder="Ej: Fostering Learning Communities"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="fecha">Fecha del Certificado (DD/MM/YYYY)</label>
-                    <input type="text" id="fecha" name="fecha" required placeholder="01/11/2025" pattern="\d{2}/\d{2}/\d{4}">
-                    <div class="error" id="fechaError">Por favor ingresa la fecha en formato DD/MM/YYYY</div>
+                    <label for="fecha">Fecha (Formato: August 08, 2025) *</label>
+                    <input type="text" id="fecha" required placeholder="August 08, 2025">
                 </div>
 
                 <div class="form-group">
-                    <label for="horas">Duración (horas)</label>
-                    <input type="number" id="horas" name="horas" required placeholder="Ej: 2" min="0.5" step="0.5">
-                    <div class="error" id="horasError">Por favor ingresa las horas de duración</div>
+                    <label for="horas">Duración (horas) *</label>
+                    <input type="number" id="horas" required placeholder="2" min="0.5" step="0.5">
                 </div>
 
-                <button type="submit">Generar y Descargar Certificado</button>
+                <button type="submit">Generar Certificado</button>
             </form>
         </div>
 
         <!-- TAB MASIVO -->
         <div class="tab-content" id="masivo">
             <div class="info-box">
-                <strong>Formato del archivo Excel (.xlsx):</strong>
-                El archivo debe tener las siguientes columnas:
+                <strong>📋 Formato del archivo Excel:</strong>
+                Columnas requeridas:
                 <br>• <strong>Nombre</strong>: Primer nombre
-                <br>• <strong>Apellido</strong>: Apellido paterno
-                <br>• <strong>Evento</strong>: Nombre del evento/capacitación
-                <br>• <strong>Fecha</strong>: Formato DD/MM/YYYY (ej: 08/08/2025)
-                <br>• <strong>Horas</strong>: Duración en horas (ej: 2)
+                <br>• <strong>Apellido</strong>: Apellidos completos
+                <br>• <strong>Evento</strong>: Nombre del evento
+                <br>• <strong>Fecha</strong>: Ej: August 08, 2025
+                <br>• <strong>Horas</strong>: Duración en horas
             </div>
 
             <button type="button" onclick="downloadTemplate()" class="btn-template">
@@ -377,14 +382,28 @@
 
             <form id="massiveForm">
                 <div class="form-group">
+                    <label for="templateFileMasivo">📄 Plantilla PDF *</label>
                     <div class="file-upload">
-                        <input type="file" id="excelFile" accept=".xlsx,.xls" onchange="handleFileSelect(event)">
+                        <input type="file" id="templateFileMasivo" accept=".pdf" required onchange="handleTemplateMasivoSelect(event)">
+                        <label for="templateFileMasivo" class="file-upload-label">
+                            Subir plantilla de certificado
+                        </label>
+                    </div>
+                    <div class="file-name" id="templateNameMasivo"></div>
+                </div>
+
+                <div class="section-divider"></div>
+
+                <div class="form-group">
+                    <label for="excelFile">📊 Archivo Excel *</label>
+                    <div class="file-upload">
+                        <input type="file" id="excelFile" accept=".xlsx,.xls" required onchange="handleFileSelect(event)">
                         <label for="excelFile" class="file-upload-label">
-                            📁 Seleccionar archivo Excel (.xlsx)
+                            Seleccionar archivo Excel
                         </label>
                     </div>
                     <div class="file-name" id="fileName"></div>
-                    <div class="error" id="fileError">Por favor selecciona un archivo válido</div>
+                    <div class="error" id="fileError">Error al procesar archivo</div>
                 </div>
 
                 <div class="progress" id="progress">
@@ -402,21 +421,18 @@
     <div class="modal" id="successModal">
         <div class="modal-content">
             <div class="checkmark"></div>
-            <h2 id="modalTitle">¡Certificado Generado!</h2>
-            <p id="modalMessage">El certificado ha sido generado y descargado correctamente</p>
+            <h2 id="modalTitle">¡Éxito!</h2>
+            <p id="modalMessage">Operación completada</p>
             <button onclick="closeModal()">Aceptar</button>
         </div>
     </div>
 
     <script>
-        const { jsPDF } = window.jspdf;
-        let currentTab = 'individual';
-
-        // Logo Richmond en base64 (pequeño para header)
-        const richmondLogo = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAAAyCAYAAAAZUZThAAAACXBIWXMAAAsTAAALEwEAmpwYAAAHYElEQVR4nO2dW4hVVRzGv3POzIwXtDQrKwPJCqLCIHuIICKQoKAeepAeIsqHCKKXXnoKol56iSh6KQh6iCDoQlBBRBcqKzPNW2qZqZmXcRzHy9iZ0+z1r7X3/p+1zzl7n7X3nH2+H/zZc9ba+6zv/7/r+621RyaTyWQymUwmk8lkMplMJpPJZDKZTCaTyWQymUwmk5nkSKMNcLAK+ArADwBuAfBpY83JdCo9DTbAQxeA7QA+AnAcwEMAvmukQZnOpVMCiI4uAE8C2AFgHYAHG2tOplPphADSBeA9AD8CWNI4UzKdTtEAsgLANgBXApjbOFMynU6RAHIFgM8BbAGwEMC8xpqT6XSKBJAtAJ6p/J2Dykyj6Wm0AQ5WANgM4P6GAch+ADsBHEVlxtsE4FS9F8lkYunUA/kWwKcAdgN4EcDdjTEn06kUCSCbAOwD8C+AvwB8jkqBn8k0laIB5GflbzoyvwBYBOCWxpiT6VSKBhCTCwBuR2X2fyaTyWQymUwmk8lkMplMJpPJZDKZTCaTyWQymUwmk8lkMplMJpPJZDKZTCaTyWQymUwmk8lkMplMJpPJZDKZTCaTyWQymUymWekp4J73AXgNwA4Af2vHvwXwNoDnARxqgF2ZNlDUgC8B8ASAJQB6lXP7ANwE4CSq76zPdBBFA/48ABcDmOk4fyuAy+AWBWSmlKIBZCGAbwBcFDi/FsBK+LeLZKaAogHkHgAnAFwTOH83gL0AHkBWsDSKDQAW1PHzIwCWovqO/P/wAoBXEe7WJkURg/kKAI97zq+o/H8BgC9RWSWvB3C6TnZlytEH4FQdP6dQKUZXo7xQejGAXyrXu7w+JjUHRQzmpQAu8Zyfg+r7SScO41fUx6ZMZ3AW1e+WTk2RAHIzgK895xegWgUzs4JOJpPJZDKZTCaTyWQymUwmk8lkMplMJpPJZDKZTCaTyWQymUxj0AX/dwD4EcDeOttRRCYAzAGwGMB5AGcA7IP7LeSTkXEAKwHsRwMkI08DeBjAWQCDAF4GsFBsYzJW0wFgF4C1AL4GcALAYwCeQXgZ/FRlOoBlAH4F8CSAbQB+BrABwMO+H80DsBvANM/1FgH4DMB2AG8COAlgMQo+A/UC+BvAeo/NWwFsRBpAclU0F8DfAJ7znH8HlTd6hrAuwEYAT3nOP4fqG0sniysrv3/Dc/5xAPsB3Nn8poLSAHIBwPNK2ykA73uukRqQewDsArDac24dgL8BLE9tU5sySQT5Vf/+twAeUdrzAFxagw2TldUAhoXjL6GyZ9HHVQB+87Tf55mATvIE0gUPNSBXom/z6iMAvvS0/wTgshpsqCdLA/LNV+kxHIvr2+j3eFa59jg8gqmyAWQOgH885+4W2n8FMB3peA/Ag8LxlwCMKG3HJ7ShLZwE8IfQ/g2A15W2fgCbE+7/MIBvhPY+VDZOStd5BMDfCfdPwfVCvjhd+f8hVJ6lbgE8uw9Sm9jKuDN88i3/zDjp+P3sOq7daSxywNmDcQVxN4CtCddcJhwb9twnnNd/EEoB3ABgp3D8afrb/L+UfGDaT3IOITxYEfKtdA7j77hL+Huh496dxKCAm2d8wXmpZ3l5wrXbkW89AaRU+dG0+n86v1b4bB8qPYvEEiF4HKjjup3CIQG3Mf9mwv1t3CQcC/WsSZ+NTv4/1fGZBuDfiv1dqPxGV/n/AOX/z1LaewH8V/ksR7i+nyxIA4hPP/M8gHNK22YAXyfeb52SOfoLfBeDT4I5V7nnMGr7Q3YySwH8KeB+UPm/CvI/kW8N5d8fhe+eDmAWgKnK/w+jIkL4FsDU+m+CAbkMwE8o53z+ZOgByApU/qBUPF+k3PcEgIfMg1pAJvvO+PmU//86eXxS72r5u07BpDaQDhDfxgpbPJXxzf5dwDirn2cQMr9DPXw0fkT/Agg3r/4DcL7Oz98AvgcwU2xpPPkw+dZ3/kNPvsgyibunz2Q67z5UpgQ7kf1Q+0/mHSaTPZCOQRozf41w/B+D9jNjZAoCnNe7XUjFTHv/EnzxqXCPo5Tfbud8/j/O8X9q+jLw+yN1tnOyYuN8P8Xzh/P+ZHT4/q9kMplMJpPJZDKZTCaTyWQymUwmk8lkMplMJpPJZDKZTCaTyWQynUAu1DsLXah3+XvEjxW47l4Av1T+v7nA9drNCAaGYRvCRxE+yUgLB/a3oc0/AY+gvK8WVX57K4A/hM/QHDsmDU3b11i4UO8gKoV6F4D7hHsV+q54BN+gUqj3oboV5kuD+yLkFOqdjdPA8Qhej/BhUb4FHkd5Ye8MKkEEqIj1JiO+TcAhXCtc91Tlt/uFz9Ac+yfN5j1h75VvY8VcAPtRXah3RFw/0JKEe7+IsDrV7jdRPE4gvHr2ANz5JCXfblX+f0j4DM2xfzLheoxbAfwhtAexhXqJ1QXZcaG+Qr0xXIVqod4VqG8hni0ca+R7ROLYFPlOPktO2n24Qv1uH78K/+47qQn2k3d8fPYTr/nOC7f9//2Jqy1V6v0BpJxCvZlMJpPJZDKZTCaTyWQymUwmk8lkMplMJpPJZDKZTCbzv+I/tAqY0kksvVAAAAAASUVORK5CYII=";
+        const { PDFDocument, rgb, StandardFonts } = PDFLib;
+        let templatePdfBytes = null;
+        let templatePdfBytesMasivo = null;
 
         function switchTab(tab) {
-            currentTab = tab;
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             
@@ -424,60 +440,67 @@
             document.getElementById(tab).classList.add('active');
         }
 
+        async function handleTemplateSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('templateName').textContent = `✓ ${file.name}`;
+                templatePdfBytes = await file.arrayBuffer();
+            }
+        }
+
+        async function handleTemplateMasivoSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('templateNameMasivo').textContent = `✓ ${file.name}`;
+                templatePdfBytesMasivo = await file.arrayBuffer();
+            }
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('fileName').textContent = `✓ ${file.name}`;
+            }
+        }
+
         // FORMULARIO INDIVIDUAL
-        document.getElementById('certificateForm').addEventListener('submit', function(e) {
+        document.getElementById('certificateForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            if (!templatePdfBytes) {
+                alert('Por favor sube la plantilla PDF primero');
+                return;
+            }
+
             const nombre = document.getElementById('nombre').value.trim();
             const apellido = document.getElementById('apellido').value.trim();
             const evento = document.getElementById('evento').value.trim();
-            const fecha = document.getElementById('fecha').value;
+            const fecha = document.getElementById('fecha').value.trim();
             const horas = document.getElementById('horas').value;
 
-            let isValid = true;
-
-            if (!nombre) {
-                showError('nombreError');
-                isValid = false;
+            try {
+                await generateCertificate(nombre, apellido, evento, fecha, horas, templatePdfBytes);
+                
+                document.getElementById('modalTitle').textContent = '¡Certificado Generado!';
+                document.getElementById('modalMessage').textContent = 'El certificado se ha descargado correctamente';
+                document.getElementById('successModal').classList.add('active');
+            } catch (error) {
+                alert('Error al generar certificado: ' + error.message);
             }
-
-            if (!apellido) {
-                showError('apellidoError');
-                isValid = false;
-            }
-
-            if (!evento) {
-                showError('eventoError');
-                isValid = false;
-            }
-
-            if (!fecha) {
-                showError('fechaError');
-                isValid = false;
-            }
-
-            if (!horas || horas <= 0) {
-                showError('horasError');
-                isValid = false;
-            }
-
-            if (!isValid) return;
-
-            generateCertificate(nombre, apellido, evento, fecha, horas);
-            
-            document.getElementById('modalTitle').textContent = '¡Certificado Generado!';
-            document.getElementById('modalMessage').textContent = 'El certificado ha sido generado y descargado correctamente';
-            document.getElementById('successModal').classList.add('active');
-            document.getElementById('certificateForm').reset();
         });
 
         // FORMULARIO MASIVO
         document.getElementById('massiveForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            if (!templatePdfBytesMasivo) {
+                alert('Por favor sube la plantilla PDF primero');
+                return;
+            }
+
             const fileInput = document.getElementById('excelFile');
             if (!fileInput.files.length) {
-                showError('fileError');
+                alert('Por favor selecciona un archivo Excel');
                 return;
             }
 
@@ -485,17 +508,10 @@
             await processExcelFile(file);
         });
 
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (file) {
-                document.getElementById('fileName').textContent = `📄 ${file.name}`;
-            }
-        }
-
         async function processExcelFile(file) {
             const reader = new FileReader();
             
-            reader.onload = function(e) {
+            reader.onload = async function(e) {
                 try {
                     const data = new Uint8Array(e.target.result);
                     const workbook = XLSX.read(data, { type: 'array' });
@@ -507,7 +523,7 @@
                         return;
                     }
 
-                    generateMassiveCertificates(jsonData);
+                    await generateMassiveCertificates(jsonData);
                 } catch (error) {
                     alert('Error al procesar el archivo: ' + error.message);
                 }
@@ -530,231 +546,120 @@
                 const progress = ((i + 1) / data.length) * 100;
                 
                 progressFill.style.width = progress + '%';
-                progressText.textContent = `Generando certificado ${i + 1} de ${data.length}...`;
+                progressText.textContent = `Generando ${i + 1} de ${data.length}...`;
 
-                generateCertificate(
+                await generateCertificate(
                     row.Nombre || row.nombre,
                     row.Apellido || row.apellido,
                     row.Evento || row.evento,
                     row.Fecha || row.fecha,
-                    row.Horas || row.horas
+                    row.Horas || row.horas,
+                    templatePdfBytesMasivo
                 );
 
-                await new Promise(resolve => setTimeout(resolve, 300));
+                await new Promise(resolve => setTimeout(resolve, 200));
             }
 
             progressDiv.style.display = 'none';
             btn.disabled = false;
             
             document.getElementById('modalTitle').textContent = '¡Certificados Generados!';
-            document.getElementById('modalMessage').textContent = `Se generaron ${data.length} certificados correctamente`;
+            document.getElementById('modalMessage').textContent = `Se generaron ${data.length} certificados`;
             document.getElementById('successModal').classList.add('active');
-            document.getElementById('massiveForm').reset();
-            document.getElementById('fileName').textContent = '';
         }
 
-function generateCertificate(nombre, apellido, evento, fecha, horas) {
-  const doc = new jsPDF({
-    orientation: 'landscape',
-    unit: 'mm',
-    format: 'a4'
-  });
+        async function generateCertificate(nombre, apellido, evento, fecha, horas, pdfBytes) {
+            // Cargar el PDF plantilla
+            const pdfDoc = await PDFDocument.load(pdfBytes);
+            const pages = pdfDoc.getPages();
+            const firstPage = pages[0];
+            
+            // Obtener dimensiones de la página
+            const { width, height } = firstPage.getSize();
 
-  const pageWidth = 297;
-  const pageHeight = 210;
+            // Cargar fuentes
+            const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+            const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-  // Fondo blanco
-  doc.setFillColor(255, 255, 255);
-  doc.rect(0, 0, pageWidth, pageHeight, 'F');
+            // Nombre completo (centrado, grande, negro)
+            const nombreCompleto = `${apellido} ${nombre}`;
+            const nombreSize = 48;
+            const nombreWidth = fontBold.widthOfTextAtSize(nombreCompleto, nombreSize);
+            firstPage.drawText(nombreCompleto, {
+                x: (width - nombreWidth) / 2,
+                y: height - 350,
+                size: nombreSize,
+                font: fontBold,
+                color: rgb(0, 0, 0),
+            });
 
-  // Bordes elegantes
-  doc.setDrawColor(102, 126, 234);
-  doc.setLineWidth(1.5);
-  doc.rect(10, 10, pageWidth - 20, pageHeight - 20);
+            // Texto del evento (centrado, mediano, gris oscuro)
+            const textoEvento = `For attending the ${evento} session.`;
+            const eventoSize = 16;
+            const eventoWidth = fontRegular.widthOfTextAtSize(textoEvento, eventoSize);
+            firstPage.drawText(textoEvento, {
+                x: (width - eventoWidth) / 2,
+                y: height - 420,
+                size: eventoSize,
+                font: fontRegular,
+                color: rgb(0.3, 0.3, 0.3),
+            });
 
-  doc.setDrawColor(118, 75, 162);
-  doc.setLineWidth(0.5);
-  doc.rect(15, 15, pageWidth - 30, pageHeight - 30);
+            // Fecha y horas (centrado, pequeño, gris)
+            const textoFecha = `${fecha} (${horas} hour${horas != 1 ? 's' : ''})`;
+            const fechaSize = 14;
+            const fechaWidth = fontRegular.widthOfTextAtSize(textoFecha, fechaSize);
+            firstPage.drawText(textoFecha, {
+                x: (width - fechaWidth) / 2,
+                y: height - 500,
+                size: fechaSize,
+                font: fontRegular,
+                color: rgb(0.5, 0.5, 0.5),
+            });
 
-  // Elementos decorativos
-  doc.setFillColor(102, 126, 234, 0.1);
-  doc.circle(25, 25, 15, 'F');
-  doc.circle(pageWidth - 25, 25, 15, 'F');
-  doc.circle(25, pageHeight - 25, 15, 'F');
-  doc.circle(pageWidth - 25, pageHeight - 25, 15, 'F');
-
-  // Logo Richmond o fallback
-  try {
-    doc.addImage(richmondLogo, 'PNG', pageWidth / 2 - 30, 25, 60, 12);
-  } catch (e) {
-    doc.setTextColor(102, 126, 234);
-    doc.setFontSize(24);
-    doc.setFont('helvetica', 'bold');
-    doc.text('Richmond', pageWidth / 2, 35, { align: 'center' });
-  }
-
-  // Título principal
-  doc.setTextColor(102, 126, 234);
-  doc.setFontSize(32);
-  doc.setFont('helvetica', 'bold');
-  doc.text('CERTIFICATE OF PARTICIPATION', pageWidth / 2, 65, { align: 'center' });
-
-  // Línea decorativa
-  doc.setDrawColor(118, 75, 162);
-  doc.setLineWidth(0.8);
-  doc.line(pageWidth / 2 - 60, 70, pageWidth / 2 + 60, 70);
-
-  // Subtítulo
-  doc.setTextColor(80, 80, 80);
-  doc.setFontSize(14);
-  doc.setFont('helvetica', 'italic');
-  doc.text('Proudly presented to:', pageWidth / 2, 85, { align: 'center' });
-
-  // Nombre del participante
-  const nombreCompleto = `${nombre} ${apellido}`;
-  doc.setTextColor(118, 75, 162);
-  doc.setFontSize(36);
-  doc.setFont('times', 'bold');
-  doc.text(nombreCompleto, pageWidth / 2, 110, { align: 'center' });
-
-  // Línea bajo el nombre
-  const nombreWidth = doc.getTextWidth(nombreCompleto);
-  doc.setDrawColor(102, 126, 234);
-  doc.setLineWidth(0.5);
-  doc.line(pageWidth / 2 - nombreWidth / 2 - 10, 115, pageWidth / 2 + nombreWidth / 2 + 10, 115);
-
-  // Texto descriptivo
-  doc.setTextColor(60, 60, 60);
-  doc.setFontSize(12);
-  doc.setFont('helvetica', 'normal');
-  doc.text('For successfully completing', pageWidth / 2, 132, { align: 'center' });
-
-  // Evento
-  doc.setTextColor(102, 126, 234);
-  doc.setFontSize(16);
-  doc.setFont('helvetica', 'bold');
-  const maxWidth = 220;
-  const eventoLines = doc.splitTextToSize(evento, maxWidth);
-  let eventoY = 145;
-  eventoLines.forEach(line => {
-    doc.text(line, pageWidth / 2, eventoY, { align: 'center' });
-    eventoY += 7;
-  });
-
-  // Fecha formateada
-  const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-  let fechaFormateada;
-  try {
-    const partes = fecha.split('/');
-    if (partes.length === 3) {
-      const dia = parseInt(partes[0]);
-      const mes = parseInt(partes[1]) - 1;
-      const año = parseInt(partes[2]);
-      fechaFormateada = `${dia} de ${meses[mes]} de ${año}`;
-    } else {
-      fechaFormateada = fecha;
-    }
-  } catch (e) {
-    fechaFormateada = fecha;
-  }
-
-  // Fecha + horas
-  doc.setTextColor(80, 80, 80);
-  doc.setFontSize(11);
-  doc.text(`${fechaFormateada} • ${horas} hour${horas != 1 ? 's' : ''}`, pageWidth / 2, eventoY + 10, { align: 'center' });
-
-  // Sello decorativo
-  doc.setDrawColor(118, 75, 162);
-  doc.setLineWidth(1.5);
-  doc.circle(pageWidth - 35, pageHeight - 35, 12);
-  doc.setFontSize(8);
-  doc.setTextColor(118, 75, 162);
-  doc.setFont('helvetica', 'bold');
-  doc.text('Richmond', pageWidth - 35, pageHeight - 37, { align: 'center' });
-  doc.setFontSize(6);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Certified', pageWidth - 35, pageHeight - 32, { align: 'center' });
-
-  // Footer
-  doc.setTextColor(150, 150, 150);
-  doc.setFontSize(8);
-  doc.setFont('helvetica', 'italic');
-  const today = new Date();
-  const fechaEmision = `${today.getDate()} de ${meses[today.getMonth()]} de ${today.getFullYear()}`;
-  doc.text(`Certificate issued on: ${fechaEmision}`, pageWidth / 2, pageHeight - 20, { align: 'center' });
-
-  // Código único
-  const codigo = `RC-${Date.now().toString(36).toUpperCase()}`;
-  doc.setFontSize(7);
-  doc.text(`Certificate ID: ${codigo}`, pageWidth / 2, pageHeight - 15, { align: 'center' });
-
-  // Descargar PDF
-  doc.save(`Certificate_${nombreCompleto}.pdf`);
-}
-            // Guardar PDF
-            const fileName = `Certificado_${nombre}_${apellido}.pdf`;
-            doc.save(fileName);
-        }
-
-        function showError(errorId) {
-            const errorElement = document.getElementById(errorId);
-            errorElement.style.display = 'block';
-            setTimeout(() => {
-                errorElement.style.display = 'none';
-            }, 3000);
-        }
-
-        function closeModal() {
-            document.getElementById('successModal').classList.remove('active');
+            // Guardar y descargar
+            const pdfBytesResult = await pdfDoc.save();
+            const blob = new Blob([pdfBytesResult], { type: 'application/pdf' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Certificate_${apellido}_${nombre}.pdf`;
+            link.click();
         }
 
         function downloadTemplate() {
-            // Crear datos de ejemplo
             const templateData = [
                 {
                     Nombre: "Juan",
-                    Apellido: "Pérez",
-                    Evento: "Fostering Learning Communities session",
-                    Fecha: "08/08/2025",
+                    Apellido: "Pérez García",
+                    Evento: "Fostering Learning Communities",
+                    Fecha: "August 08, 2025",
                     Horas: 2
                 },
                 {
                     Nombre: "María",
-                    Apellido: "García",
+                    Apellido: "Rodríguez López",
                     Evento: "Advanced Teaching Strategies Workshop",
-                    Fecha: "15/08/2025",
+                    Fecha: "August 15, 2025",
                     Horas: 3
-                },
-                {
-                    Nombre: "Carlos",
-                    Apellido: "Rodríguez",
-                    Evento: "Digital Education Tools Training",
-                    Fecha: "22/08/2025",
-                    Horas: 4
                 }
             ];
 
-            // Crear workbook
             const wb = XLSX.utils.book_new();
             const ws = XLSX.utils.json_to_sheet(templateData);
-
-            // Ajustar columnas
             ws['!cols'] = [
                 { wch: 15 },
-                { wch: 15 },
+                { wch: 20 },
                 { wch: 45 },
-                { wch: 15 },
+                { wch: 20 },
                 { wch: 8 }
             ];
 
             XLSX.utils.book_append_sheet(wb, ws, "Certificados");
-            
-            try {
-                XLSX.writeFile(wb, "Plantilla_Certificados_Richmond.xlsx");
-            } catch(e) {
-                alert('Error al descargar la plantilla. Por favor intenta de nuevo.');
-                console.error(e);
-            }
+            XLSX.writeFile(wb, "Plantilla_Certificados_Richmond.xlsx");
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('active');
         }
     </script>
 </body>
