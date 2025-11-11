@@ -356,7 +356,7 @@
 
                 <div class="form-group">
                     <label for="fecha">Fecha (DD/MM/YYYY) *</label>
-                    <input type="text" id="fecha" required placeholder="08/08/2025" pattern="\d{2}/\d{2}/\d{4}">
+                    <input type="text" id="fecha" required placeholder="24/08/2025" pattern="\d{2}/\d{2}/\d{4}">
                 </div>
 
                 <div class="form-group">
@@ -380,7 +380,7 @@
                 <br>• <strong>Nombre</strong>: Primer nombre
                 <br>• <strong>Apellido</strong>: Apellidos completos
                 <br>• <strong>Evento</strong>: Nombre del evento
-                <br>• <strong>Fecha</strong>: Formato DD/MM/YYYY (ej: 08/08/2025)
+                <br>• <strong>Fecha</strong>: Formato DD/MM/YYYY (ej: 24/08/2025)
                 <br>• <strong>Horas</strong>: Duración en horas
             </div>
 
@@ -660,7 +660,7 @@
             const fechaWidth = fontRegular.widthOfTextAtSize(textoFecha, fechaSize);
             firstPage.drawText(textoFecha, {
                 x: (width - fechaWidth) / 2,
-                y: height - 500,
+                y: height - 470,
                 size: fechaSize,
                 font: fontRegular,
                 color: rgb(0.5, 0.5, 0.5),
