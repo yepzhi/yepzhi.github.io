@@ -58,11 +58,12 @@
         .tab {
             flex: 1;
             padding: 12px;
-            background: rgba(255, 255, 255, 0.2);
             border: none;
             border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
             color: white;
             font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -70,15 +71,6 @@
         .tab.active {
             background: rgba(255, 255, 255, 0.9);
             color: #667eea;
-            font-weight: 600;
-        }
-
-        .tab:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .tab.active:hover {
-            background: rgba(255, 255, 255, 0.9);
         }
 
         .tab-content {
@@ -90,7 +82,7 @@
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         label {
@@ -101,7 +93,7 @@
             font-size: 14px;
         }
 
-        input, select {
+        input, textarea {
             width: 100%;
             padding: 12px 15px;
             border: none;
@@ -109,9 +101,15 @@
             background: rgba(255, 255, 255, 0.9);
             font-size: 16px;
             transition: all 0.3s ease;
+            font-family: inherit;
         }
 
-        input:focus, select:focus {
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        input:focus, textarea:focus {
             outline: none;
             background: rgba(255, 255, 255, 1);
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
@@ -120,37 +118,36 @@
         .file-upload {
             position: relative;
             overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-upload-label {
+            display: block;
+            padding: 15px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
-            padding: 15px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
-        }
-
-        .file-upload:hover {
-            background: rgba(255, 255, 255, 1);
-        }
-
-        .file-upload input[type="file"] {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .file-upload-text {
             color: #667eea;
             font-weight: 600;
         }
 
+        .file-upload-label:hover {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
         .file-name {
             color: white;
-            margin-top: 10px;
             font-size: 14px;
+            margin-top: 10px;
             text-align: center;
         }
 
@@ -166,7 +163,6 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            margin-top: 10px;
         }
 
         button:hover {
@@ -181,7 +177,6 @@
         button:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-            transform: none;
         }
 
         .modal {
@@ -227,6 +222,7 @@
         .modal-content button {
             width: auto;
             padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         .checkmark {
@@ -257,25 +253,14 @@
             }
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 20px 0;
+        .error {
+            color: #ff4444;
+            font-size: 14px;
+            margin-top: 5px;
             display: none;
-        }
-
-        .progress-bar.active {
-            display: block;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4CAF50, #8BC34A);
-            transition: width 0.3s ease;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px;
+            border-radius: 5px;
         }
 
         .info-box {
@@ -290,278 +275,364 @@
 
         .info-box strong {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-size: 15px;
+        }
+
+        .progress {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            color: white;
+            text-align: center;
+            margin-top: 8px;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Generador de Certificados Richmond</h1>
-        <p class="subtitle">Crea certificados de asistencia de forma individual o masiva</p>
+        <p class="subtitle">Crea certificados de asistencia individuales o masivos</p>
 
         <div class="tabs">
             <button class="tab active" onclick="switchTab('individual')">Individual</button>
             <button class="tab" onclick="switchTab('masivo')">Carga Masiva</button>
         </div>
 
-        <!-- Tab Individual -->
-        <div id="individual" class="tab-content active">
+        <!-- TAB INDIVIDUAL -->
+        <div class="tab-content active" id="individual">
             <form id="certificateForm">
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
                     <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan">
+                    <div class="error" id="nombreError">Por favor ingresa un nombre válido</div>
                 </div>
 
                 <div class="form-group">
                     <label for="apellido">Apellido</label>
                     <input type="text" id="apellido" name="apellido" required placeholder="Ej: Pérez">
+                    <div class="error" id="apellidoError">Por favor ingresa un apellido válido</div>
                 </div>
 
                 <div class="form-group">
-                    <label for="sesion">Nombre de la Sesión</label>
-                    <input type="text" id="sesion" name="sesion" required placeholder="Ej: Fostering Learning Communities">
+                    <label for="evento">Nombre del Evento/Capacitación</label>
+                    <textarea id="evento" name="evento" required placeholder="Ej: Fostering Learning Communities session"></textarea>
+                    <div class="error" id="eventoError">Por favor ingresa el nombre del evento</div>
                 </div>
 
                 <div class="form-group">
                     <label for="fecha">Fecha del Certificado</label>
                     <input type="date" id="fecha" name="fecha" required>
+                    <div class="error" id="fechaError">Por favor selecciona una fecha</div>
                 </div>
 
                 <div class="form-group">
                     <label for="horas">Duración (horas)</label>
                     <input type="number" id="horas" name="horas" required placeholder="Ej: 2" min="0.5" step="0.5">
+                    <div class="error" id="horasError">Por favor ingresa las horas de duración</div>
                 </div>
 
-                <button type="submit">Generar Certificado</button>
+                <button type="submit">Generar y Descargar Certificado</button>
             </form>
         </div>
 
-        <!-- Tab Masivo -->
-        <div id="masivo" class="tab-content">
+        <!-- TAB MASIVO -->
+        <div class="tab-content" id="masivo">
             <div class="info-box">
-                <strong>Formato del archivo Excel (XLSX):</strong>
-                Columnas requeridas: Nombre | Apellido | Sesion | Fecha | Horas<br>
-                Fecha en formato: DD/MM/YYYY
+                <strong>Formato del archivo Excel (.xlsx):</strong>
+                El archivo debe tener las siguientes columnas:
+                <br>• <strong>Nombre</strong>: Primer nombre
+                <br>• <strong>Apellido</strong>: Apellido paterno
+                <br>• <strong>Evento</strong>: Nombre del evento/capacitación
+                <br>• <strong>Fecha</strong>: Formato YYYY-MM-DD (ej: 2025-08-08)
+                <br>• <strong>Horas</strong>: Duración en horas (ej: 2)
             </div>
 
-            <div class="form-group">
-                <label for="fileUpload">Subir archivo Excel (XLSX)</label>
-                <div class="file-upload">
-                    <input type="file" id="fileUpload" accept=".xlsx,.xls" onchange="handleFileUpload(event)">
-                    <div class="file-upload-text">
-                        📁 Haz clic o arrastra tu archivo aquí
+            <form id="massiveForm">
+                <div class="form-group">
+                    <div class="file-upload">
+                        <input type="file" id="excelFile" accept=".xlsx,.xls" onchange="handleFileSelect(event)">
+                        <label for="excelFile" class="file-upload-label">
+                            📁 Seleccionar archivo Excel (.xlsx)
+                        </label>
                     </div>
+                    <div class="file-name" id="fileName"></div>
+                    <div class="error" id="fileError">Por favor selecciona un archivo válido</div>
                 </div>
-                <div class="file-name" id="fileName"></div>
-            </div>
 
-            <div class="progress-bar" id="progressBar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
+                <div class="progress" id="progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Generando certificados...</div>
+                </div>
 
-            <button onclick="processMassive()" id="generateMassiveBtn" disabled>Generar Certificados Masivos</button>
+                <button type="submit" id="massiveBtn">Generar Certificados Masivos</button>
+            </form>
         </div>
     </div>
 
-    <!-- Modal de confirmación -->
     <div class="modal" id="successModal">
         <div class="modal-content">
             <div class="checkmark"></div>
             <h2 id="modalTitle">¡Certificado Generado!</h2>
-            <p id="modalMessage">El certificado ha sido descargado correctamente</p>
+            <p id="modalMessage">El certificado ha sido generado y descargado correctamente</p>
             <button onclick="closeModal()">Aceptar</button>
         </div>
     </div>
 
     <script>
         const { jsPDF } = window.jspdf;
-        let massiveData = [];
+        let currentTab = 'individual';
 
-        // Cambiar entre tabs
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             
             event.target.classList.add('active');
-            document.getElementById(tabName).classList.add('active');
+            document.getElementById(tab).classList.add('active');
         }
 
-        // Formulario individual
+        // FORMULARIO INDIVIDUAL
         document.getElementById('certificateForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const nombre = document.getElementById('nombre').value.trim();
             const apellido = document.getElementById('apellido').value.trim();
-            const sesion = document.getElementById('sesion').value.trim();
+            const evento = document.getElementById('evento').value.trim();
             const fecha = document.getElementById('fecha').value;
             const horas = document.getElementById('horas').value;
 
-            generateCertificate(nombre, apellido, sesion, fecha, horas);
+            let isValid = true;
+
+            if (!nombre) {
+                showError('nombreError');
+                isValid = false;
+            }
+
+            if (!apellido) {
+                showError('apellidoError');
+                isValid = false;
+            }
+
+            if (!evento) {
+                showError('eventoError');
+                isValid = false;
+            }
+
+            if (!fecha) {
+                showError('fechaError');
+                isValid = false;
+            }
+
+            if (!horas || horas <= 0) {
+                showError('horasError');
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            generateCertificate(nombre, apellido, evento, fecha, horas);
             
             document.getElementById('modalTitle').textContent = '¡Certificado Generado!';
-            document.getElementById('modalMessage').textContent = `Certificado de ${nombre} ${apellido} descargado correctamente`;
+            document.getElementById('modalMessage').textContent = 'El certificado ha sido generado y descargado correctamente';
             document.getElementById('successModal').classList.add('active');
-            
-            this.reset();
+            document.getElementById('certificateForm').reset();
         });
 
-        // Manejo de archivo
-        function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            document.getElementById('fileName').textContent = `Archivo: ${file.name}`;
-            document.getElementById('generateMassiveBtn').disabled = false;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                massiveData = XLSX.utils.sheet_to_json(firstSheet);
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        // Procesar carga masiva
-        function processMassive() {
-            if (massiveData.length === 0) {
-                alert('No hay datos para procesar');
+        // FORMULARIO MASIVO
+        document.getElementById('massiveForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const fileInput = document.getElementById('excelFile');
+            if (!fileInput.files.length) {
+                showError('fileError');
                 return;
             }
 
-            const progressBar = document.getElementById('progressBar');
-            const progressFill = document.getElementById('progressFill');
-            progressBar.classList.add('active');
-            
-            let processed = 0;
-            const total = massiveData.length;
+            const file = fileInput.files[0];
+            await processExcelFile(file);
+        });
 
-            massiveData.forEach((row, index) => {
-                setTimeout(() => {
-                    const nombre = row.Nombre || row.nombre || '';
-                    const apellido = row.Apellido || row.apellido || '';
-                    const sesion = row.Sesion || row.sesion || '';
-                    const fecha = row.Fecha || row.fecha || '';
-                    const horas = row.Horas || row.horas || '';
-
-                    // Convertir fecha si viene en formato DD/MM/YYYY
-                    let fechaISO = fecha;
-                    if (fecha.includes('/')) {
-                        const parts = fecha.split('/');
-                        fechaISO = `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
-                    }
-
-                    generateCertificate(nombre, apellido, sesion, fechaISO, horas, index + 1);
-                    
-                    processed++;
-                    const progress = (processed / total) * 100;
-                    progressFill.style.width = progress + '%';
-
-                    if (processed === total) {
-                        setTimeout(() => {
-                            progressBar.classList.remove('active');
-                            progressFill.style.width = '0%';
-                            document.getElementById('modalTitle').textContent = '¡Certificados Generados!';
-                            document.getElementById('modalMessage').textContent = `Se generaron ${total} certificados correctamente`;
-                            document.getElementById('successModal').classList.add('active');
-                        }, 500);
-                    }
-                }, index * 300);
-            });
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('fileName').textContent = `📄 ${file.name}`;
+            }
         }
 
-        // Generar certificado PDF
-        function generateCertificate(nombre, apellido, sesion, fecha, horas, index = '') {
+        async function processExcelFile(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonData = XLSX.utils.sheet_to_json(firstSheet);
+
+                    if (jsonData.length === 0) {
+                        alert('El archivo está vacío');
+                        return;
+                    }
+
+                    generateMassiveCertificates(jsonData);
+                } catch (error) {
+                    alert('Error al procesar el archivo: ' + error.message);
+                }
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+
+        async function generateMassiveCertificates(data) {
+            const progressDiv = document.getElementById('progress');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const btn = document.getElementById('massiveBtn');
+
+            progressDiv.style.display = 'block';
+            btn.disabled = true;
+
+            for (let i = 0; i < data.length; i++) {
+                const row = data[i];
+                const progress = ((i + 1) / data.length) * 100;
+                
+                progressFill.style.width = progress + '%';
+                progressText.textContent = `Generando certificado ${i + 1} de ${data.length}...`;
+
+                generateCertificate(
+                    row.Nombre || row.nombre,
+                    row.Apellido || row.apellido,
+                    row.Evento || row.evento,
+                    row.Fecha || row.fecha,
+                    row.Horas || row.horas
+                );
+
+                // Pequeña pausa para no saturar el navegador
+                await new Promise(resolve => setTimeout(resolve, 300));
+            }
+
+            progressDiv.style.display = 'none';
+            btn.disabled = false;
+            
+            document.getElementById('modalTitle').textContent = '¡Certificados Generados!';
+            document.getElementById('modalMessage').textContent = `Se generaron ${data.length} certificados correctamente`;
+            document.getElementById('successModal').classList.add('active');
+            document.getElementById('massiveForm').reset();
+            document.getElementById('fileName').textContent = '';
+        }
+
+        function generateCertificate(nombre, apellido, evento, fecha, horas) {
             const doc = new jsPDF({
                 orientation: 'landscape',
                 unit: 'mm',
                 format: 'a4'
             });
 
-            // Patrón geométrico izquierdo (azul)
-            doc.setFillColor(44, 108, 218);
-            for (let i = 0; i < 12; i++) {
-                for (let j = 0; j < 8; j++) {
-                    const x = i * 15;
-                    const y = j * 15;
+            const pageWidth = 297;
+            const pageHeight = 210;
+
+            // Patrón geométrico izquierdo
+            doc.setFillColor(128, 48, 128); // Morado oscuro
+            for (let i = 0; i < 15; i++) {
+                for (let j = 0; j < 15; j++) {
+                    const x = i * 12;
+                    const y = j * 14;
                     
                     if ((i + j) % 2 === 0) {
-                        doc.triangle(x, y, x + 15, y, x, y + 15, 'F');
-                        doc.setFillColor(255, 255, 255);
-                        doc.triangle(x + 15, y, x + 15, y + 15, x, y + 15, 'F');
-                        doc.setFillColor(44, 108, 218);
+                        doc.setFillColor(128, 48, 128);
                     } else {
-                        doc.triangle(x, y, x + 15, y, x + 15, y + 15, 'F');
-                        doc.setFillColor(255, 255, 255);
-                        doc.triangle(x, y, x, y + 15, x + 15, y + 15, 'F');
-                        doc.setFillColor(44, 108, 218);
+                        doc.setFillColor(80, 120, 230);
                     }
+                    
+                    // Triángulos alternados
+                    doc.triangle(x, y, x + 12, y, x + 6, y + 14, 'F');
                 }
             }
 
             // Barra lateral morada
-            doc.setFillColor(139, 41, 126);
-            doc.rect(0, 0, 35, 210, 'F');
+            doc.setFillColor(128, 48, 128);
+            doc.rect(0, 0, 40, pageHeight, 'F');
 
-            // Texto lateral
+            // Texto vertical en la barra
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(16);
             doc.setFont('helvetica', 'normal');
-            doc.text('Certificate of Achievement: Spelling Bee UTT 2025', 17.5, 105, {
-                angle: 90,
-                align: 'center'
+            doc.text('Certificate of Achievement: Spelling Bee UTT 2025', 20, pageHeight - 10, {
+                angle: 90
             });
 
-            // Logo Richmond Pro (simulado)
-            doc.setFillColor(44, 108, 218);
-            doc.circle(235, 30, 8, 'F');
-            doc.setTextColor(44, 108, 218);
-            doc.setFontSize(18);
-            doc.setFont('helvetica', 'bold');
-            doc.text('Richmond Pro', 245, 28);
+            // Área blanca principal
+            doc.setFillColor(255, 255, 255);
+            doc.rect(100, 20, pageWidth - 120, pageHeight - 40, 'F');
 
-            // Logo UTT (simulado)
-            doc.setTextColor(139, 41, 126);
-            doc.setFontSize(14);
-            doc.setFont('helvetica', 'bold');
-            doc.text('UTT', 270, 25);
-            doc.setFontSize(8);
-            doc.setFont('helvetica', 'normal');
-            doc.text('Universidad Tecnológica', 260, 30);
-            doc.text('de Tijuana', 267, 34);
-
-            // Contenido principal
-            doc.setTextColor(0, 0, 0);
-            doc.setFontSize(11);
-            doc.setFont('helvetica', 'normal');
-            doc.text(`In recognition of the ${sesion} held at`, 148, 70, { align: 'center' });
-            
-            doc.setFontSize(12);
-            doc.setFont('helvetica', 'bold');
-            doc.text('Universidad Tecnológica de Tijuana, Richmond', 148, 78, { align: 'center' });
-            
-            doc.setFont('helvetica', 'normal');
-            doc.text('proudly presents this award to the winners for their', 148, 86, { align: 'center' });
-            doc.text('outstanding performance.', 148, 93, { align: 'center' });
-
-            // Nombre completo
+            // Logo Richmond Pro (simulado con texto)
+            doc.setTextColor(80, 120, 230);
             doc.setFontSize(24);
             doc.setFont('helvetica', 'bold');
-            const nombreCompleto = `${apellido} ${nombre}`;
-            doc.text(nombreCompleto, 148, 115, { align: 'center' });
+            doc.text('Richmond Pro', 130, 45);
 
-            // Línea bajo el nombre
-            doc.setDrawColor(200, 200, 200);
-            doc.setLineWidth(0.5);
-            doc.line(70, 120, 226, 120);
+            // Logo UTT (simulado)
+            doc.setTextColor(128, 48, 128);
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('UTT', 250, 40);
+            doc.setFontSize(8);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Universidad Tecnológica de Tijuana', 235, 45);
 
-            // Texto de asistencia
+            // Texto principal
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(11);
             doc.setFont('helvetica', 'normal');
-            doc.text(`For attending the ${sesion} session.`, 148, 132, { align: 'center' });
+            
+            const mainText = `In recognition of the ${evento} held at Universidad`;
+            doc.text(mainText, 150, 70);
+            
+            doc.setFont('helvetica', 'bold');
+            doc.text('Tecnológica de Tijuana, Richmond', 150, 77);
+            
+            doc.setFont('helvetica', 'normal');
+            doc.text('proudly presents this', 150, 84);
+            doc.text('award to the winners for their outstanding performance.', 150, 91);
+
+            // Nombre del participante
+            doc.setTextColor(80, 120, 230);
+            doc.setFontSize(20);
+            doc.setFont('helvetica', 'bold');
+            const nombreCompleto = `${apellido} ${nombre}`;
+            doc.text(nombreCompleto, 150, 110);
+
+            // Línea bajo el nombre
+            doc.setDrawColor(80, 120, 230);
+            doc.setLineWidth(0.5);
+            doc.line(110, 112, 270, 112);
+
+            // Texto "For attending"
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`For attending the ${evento}.`, 150, 125);
 
             // Fecha y horas
             const fechaFormateada = new Date(fecha + 'T00:00:00').toLocaleDateString('en-US', {
@@ -569,55 +640,52 @@
                 month: 'long',
                 day: 'numeric'
             });
-            doc.text(`${fechaFormateada} (${horas} hours)`, 148, 142, { align: 'center' });
+            doc.text(`${fechaFormateada} (${horas} hours)`, 150, 132);
 
-            // Logo Richmond Learning Platform (simulado)
-            doc.setFillColor(219, 87, 155);
-            doc.roundedRect(90, 165, 20, 20, 3, 3, 'F');
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(10);
-            doc.text('R', 100, 178, { align: 'center' });
-
+            // Licencia (opcional - puedes quitar esto si no aplica)
             doc.setTextColor(0, 0, 0);
-            doc.setFontSize(14);
-            doc.setFont('helvetica', 'bold');
-            doc.text('Richmond', 120, 173);
-            doc.setFontSize(12);
-            doc.setFont('helvetica', 'italic');
-            doc.text('Learning', 120, 179);
-            doc.setFont('helvetica', 'bold');
-            doc.text('Platform', 120, 185);
-
             doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.text('This certificate grants one (1) valid license', 150, 147);
             doc.setFont('helvetica', 'normal');
-            doc.text('...is for everyone', 120, 192);
+            doc.setFontSize(9);
+            doc.text('for use on the Richmond Pro Learning Platform.', 150, 153);
 
             // Fecha y firma
+            doc.setTextColor(80, 120, 230);
             doc.setFontSize(10);
-            doc.setTextColor(100, 100, 100);
-            doc.text('Date', 180, 175);
-            doc.setDrawColor(200, 200, 200);
-            doc.line(180, 178, 240, 178);
-            
-            doc.setTextColor(139, 41, 126);
-            doc.setFontSize(11);
-            doc.text(fechaFormateada.replace(',', ''), 180, 185);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Date', 120, 175);
+            doc.text('Richmond México', 220, 175);
 
-            doc.setTextColor(100, 100, 100);
-            doc.setFontSize(10);
-            doc.text('Richmond México', 245, 175);
+            doc.setTextColor(128, 48, 128);
+            doc.setFont('helvetica', 'normal');
+            const today = new Date().toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            doc.text(today, 120, 182);
+            doc.text('Manuel Ramírez', 220, 182);
+
+            // Líneas de firma
             doc.setDrawColor(200, 200, 200);
-            doc.line(245, 178, 285, 178);
-            
-            doc.setTextColor(139, 41, 126);
-            doc.setFontSize(11);
-            doc.text('Manuel Ramírez', 245, 185);
+            doc.setLineWidth(0.3);
+            doc.line(110, 180, 170, 180);
+            doc.line(210, 180, 270, 180);
 
             // Guardar PDF
-            const fileName = index ? 
-                `Certificado_${apellido}_${nombre}_${index}.pdf` : 
-                `Certificado_${apellido}_${nombre}.pdf`;
+            const fileName = `Certificado_${nombre}_${apellido}.pdf`;
             doc.save(fileName);
+        }
+
+        function showError(errorId) {
+            const errorElement = document.getElementById(errorId);
+            errorElement.style.display = 'block';
+            setTimeout(() => {
+                errorElement.style.display = 'none';
+            }, 3000);
         }
 
         function closeModal() {
