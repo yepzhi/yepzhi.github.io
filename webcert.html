@@ -639,7 +639,7 @@
 
             // Nombre completo (centrado, grande, negro)
             const nombreCompleto = `${apellido} ${nombre}`;
-            const nombreSize = 48;
+            const nombreSize = 37;
             const nombreWidth = fontBold.widthOfTextAtSize(nombreCompleto, nombreSize);
             firstPage.drawText(nombreCompleto, {
                 x: (width - nombreWidth) / 2,
@@ -649,18 +649,52 @@
                 color: rgb(0, 0, 0),
             });
 
-            // Texto del evento (centrado, mediano, gris oscuro)
-            const textoEvento = `For attending the ${evento} session.`;
-            const eventoSize = 16;
-            const eventoWidth = fontRegular.widthOfTextAtSize(textoEvento, eventoSize);
-            firstPage.drawText(textoEvento, {
-                x: (width - eventoWidth) / 2,
-                y: height - 420,
-                size: eventoSize,
-                font: fontRegular,
-                color: rgb(0.3, 0.3, 0.3),
-            });
+// Texto del evento (centrado, mediano, gris oscuro)
+const eventoSize = 16;
+const baseColor = rgb(0.3, 0.3, 0.3);
 
+// 1. Texto fijo inicial
+const startText = 'For attending the ';
+const startWidth = fontRegular.widthOfTextAtSize(startText, eventoSize);
+
+// 2. Nombre del Evento (Negritas)
+const eventoWidth = fontBold.widthOfTextAtSize(evento, eventoSize);
+
+// 3. Texto fijo final
+const endText = ' session.';
+const endWidth = fontRegular.widthOfTextAtSize(endText, eventoSize);
+
+// Calcular posición inicial para centrar todo el bloque
+const totalWidth = startWidth + eventoWidth + endWidth;
+let currentX = (width - totalWidth) / 2;
+const yPosition = height - 420; // Mantener la posición Y original
+
+// DIBUJAR LOS TRES SEGMENTOS
+firstPage.drawText(startText, {
+    x: currentX,
+    y: yPosition,
+    size: eventoSize,
+    font: fontRegular, // Regular
+    color: baseColor,
+});
+currentX += startWidth; // Mover la posición X
+
+firstPage.drawText(evento, {
+    x: currentX,
+    y: yPosition,
+    size: eventoSize,
+    font: fontBold, // <-- ¡Negritas para el evento!
+    color: baseColor,
+});
+currentX += eventoWidth; // Mover la posición X
+
+firstPage.drawText(endText, {
+    x: currentX,
+    y: yPosition,
+    size: eventoSize,
+    font: fontRegular, // Regular
+    color: baseColor,
+});
             // Fecha y horas (centrado, pequeño, gris)
             const textoFecha = `${fechaFormateada} (${horas} hour${horas != 1 ? 's' : ''})`;
             const fechaSize = 14;
