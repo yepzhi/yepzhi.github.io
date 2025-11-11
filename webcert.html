@@ -179,6 +179,11 @@
             cursor: not-allowed;
         }
 
+        .btn-template {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%) !important;
+            margin-bottom: 20px;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -310,7 +315,7 @@
 <body>
     <div class="container">
         <h1>Generador de Certificados Richmond</h1>
-        <p class="subtitle">Crea certificados de asistencia individuales o masivos</p>
+        <p class="subtitle">Crea certificados de participación individuales o masivos</p>
 
         <div class="tabs">
             <button class="tab active" onclick="switchTab('individual')">Individual</button>
@@ -366,7 +371,7 @@
                 <br>• <strong>Horas</strong>: Duración en horas (ej: 2)
             </div>
 
-            <button type="button" onclick="downloadTemplate()" style="margin-bottom: 20px; background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);">
+            <button type="button" onclick="downloadTemplate()" class="btn-template">
                 📥 Descargar Plantilla Excel
             </button>
 
@@ -406,6 +411,9 @@
     <script>
         const { jsPDF } = window.jspdf;
         let currentTab = 'individual';
+
+        // Logo Richmond en base64 (pequeño para header)
+        const richmondLogo = "data:image/png;base64,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";
 
         function switchTab(tab) {
             currentTab = tab;
@@ -532,7 +540,6 @@
                     row.Horas || row.horas
                 );
 
-                // Pequeña pausa para no saturar el navegador
                 await new Promise(resolve => setTimeout(resolve, 300));
             }
 
@@ -556,97 +563,142 @@
             const pageWidth = 297;
             const pageHeight = 210;
 
-            // Patrón geométrico izquierdo
-            doc.setFillColor(128, 48, 128); // Morado oscuro
-            for (let i = 0; i < 15; i++) {
-                for (let j = 0; j < 15; j++) {
-                    const x = i * 12;
-                    const y = j * 14;
-                    
-                    if ((i + j) % 2 === 0) {
-                        doc.setFillColor(128, 48, 128);
-                    } else {
-                        doc.setFillColor(80, 120, 230);
-                    }
-                    
-                    // Triángulos alternados
-                    doc.triangle(x, y, x + 12, y, x + 6, y + 14, 'F');
-                }
+            // Fondo degradado suave
+            const gradient1 = doc.linearGradient(0, 0, pageWidth, pageHeight);
+            
+            // Fondo blanco con bordes sutiles
+            doc.setFillColor(255, 255, 255);
+            doc.rect(0, 0, pageWidth, pageHeight, 'F');
+
+            // Borde elegante doble
+            doc.setDrawColor(102, 126, 234);
+            doc.setLineWidth(1.5);
+            doc.rect(10, 10, pageWidth - 20, pageHeight - 20);
+            
+            doc.setDrawColor(118, 75, 162);
+            doc.setLineWidth(0.5);
+            doc.rect(15, 15, pageWidth - 30, pageHeight - 30);
+
+            // Elementos decorativos - Círculos en esquinas
+            doc.setFillColor(102, 126, 234, 0.1);
+            doc.circle(25, 25, 15, 'F');
+            doc.circle(pageWidth - 25, 25, 15, 'F');
+            doc.circle(25, pageHeight - 25, 15, 'F');
+            doc.circle(pageWidth - 25, pageHeight - 25, 15, 'F');
+
+            // Líneas decorativas superiores
+            doc.setDrawColor(102, 126, 234, 0.3);
+            doc.setLineWidth(0.3);
+            for(let i = 0; i < 5; i++) {
+                doc.line(30 + (i * 10), 30, 50 + (i * 10), 30);
+                doc.line(pageWidth - 50 - (i * 10), 30, pageWidth - 30 - (i * 10), 30);
             }
 
-            // Área blanca principal
-            doc.setFillColor(255, 255, 255);
-            doc.rect(100, 20, pageWidth - 120, pageHeight - 40, 'F');
+            // Logo Richmond (centrado arriba)
+            try {
+                doc.addImage(richmondLogo, 'PNG', pageWidth/2 - 30, 25, 60, 12);
+            } catch(e) {
+                // Si falla el logo, mostrar texto
+                doc.setTextColor(102, 126, 234);
+                doc.setFontSize(24);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Richmond', pageWidth/2, 35, { align: 'center' });
+            }
 
-            // Logo Richmond Pro
-            doc.setTextColor(80, 120, 230);
-            doc.setFontSize(28);
+            // Título principal
+            doc.setTextColor(102, 126, 234);
+            doc.setFontSize(32);
             doc.setFont('helvetica', 'bold');
-            doc.text('Richmond Pro', 190, 45, { align: 'center' });
+            doc.text('CERTIFICATE OF PARTICIPATION', pageWidth/2, 65, { align: 'center' });
 
-            // Texto principal
-            doc.setTextColor(0, 0, 0);
+            // Línea decorativa bajo el título
+            doc.setDrawColor(118, 75, 162);
+            doc.setLineWidth(0.8);
+            doc.line(pageWidth/2 - 60, 70, pageWidth/2 + 60, 70);
+
+            // Subtítulo elegante
+            doc.setTextColor(80, 80, 80);
             doc.setFontSize(14);
-            doc.setFont('helvetica', 'bold');
-            doc.text('CERTIFICATE OF ATTENDANCE', 190, 70, { align: 'center' });
-            
-            doc.setFontSize(11);
-            doc.setFont('helvetica', 'normal');
-            doc.text('This certifies that', 190, 85, { align: 'center' });
+            doc.setFont('helvetica', 'italic');
+            doc.text('Proudly presented to:', pageWidth/2, 85, { align: 'center' });
 
-            // Nombre del participante
-            doc.setTextColor(80, 120, 230);
-            doc.setFontSize(22);
-            doc.setFont('helvetica', 'bold');
-            const nombreCompleto = `${apellido} ${nombre}`;
-            doc.text(nombreCompleto, 190, 105, { align: 'center' });
+            // Nombre del participante (grande y elegante)
+            const nombreCompleto = `${nombre} ${apellido}`;
+            doc.setTextColor(118, 75, 162);
+            doc.setFontSize(36);
+            doc.setFont('times', 'bold');
+            doc.text(nombreCompleto, pageWidth/2, 110, { align: 'center' });
 
-            // Línea bajo el nombre
-            doc.setDrawColor(80, 120, 230);
+            // Línea elegante bajo el nombre
+            doc.setDrawColor(102, 126, 234);
             doc.setLineWidth(0.5);
-            doc.line(110, 108, 270, 108);
+            const nombreWidth = doc.getTextWidth(nombreCompleto);
+            doc.line(pageWidth/2 - nombreWidth/2 - 10, 115, pageWidth/2 + nombreWidth/2 + 10, 115);
 
-            // Texto "For attending"
-            doc.setTextColor(0, 0, 0);
-            doc.setFontSize(11);
+            // Texto de reconocimiento
+            doc.setTextColor(60, 60, 60);
+            doc.setFontSize(12);
             doc.setFont('helvetica', 'normal');
-            doc.text('Has successfully attended', 190, 125, { align: 'center' });
-            
+            doc.text('For successfully completing', pageWidth/2, 132, { align: 'center' });
+
+            // Nombre del evento (destacado)
+            doc.setTextColor(102, 126, 234);
+            doc.setFontSize(16);
             doc.setFont('helvetica', 'bold');
-            doc.text(evento, 190, 135, { align: 'center' });
+            
+            // Dividir el texto del evento si es muy largo
+            const maxWidth = 220;
+            const eventoLines = doc.splitTextToSize(evento, maxWidth);
+            let eventoY = 145;
+            eventoLines.forEach(line => {
+                doc.text(line, pageWidth/2, eventoY, { align: 'center' });
+                eventoY += 7;
+            });
+
+            // Formatear fecha en español
+            const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                          'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            const fechaObj = new Date(fecha + 'T00:00:00');
+            const dia = fechaObj.getDate();
+            const mes = meses[fechaObj.getMonth()];
+            const año = fechaObj.getFullYear();
+            const fechaFormateada = `${dia} de ${mes} de ${año}`;
 
             // Fecha y horas
+            doc.setTextColor(80, 80, 80);
+            doc.setFontSize(11);
             doc.setFont('helvetica', 'normal');
-            const fechaFormateada = new Date(fecha + 'T00:00:00').toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-            doc.text(`${fechaFormateada} (${horas} hours)`, 190, 145, { align: 'center' });
+            doc.text(`${fechaFormateada} • ${horas} hour${horas != 1 ? 's' : ''}`, pageWidth/2, eventoY + 10, { align: 'center' });
 
-            // Fecha de emisión y firma
-            doc.setTextColor(80, 120, 230);
-            doc.setFontSize(10);
+            // Elementos decorativos inferiores - Figuras geométricas
+            doc.setFillColor(102, 126, 234, 0.15);
+            doc.triangle(30, pageHeight - 40, 50, pageHeight - 40, 40, pageHeight - 25, 'F');
+            doc.triangle(pageWidth - 50, pageHeight - 40, pageWidth - 30, pageHeight - 40, pageWidth - 40, pageHeight - 25, 'F');
+
+            // Sello/Badge decorativo
+            doc.setDrawColor(118, 75, 162);
+            doc.setLineWidth(1.5);
+            doc.circle(pageWidth - 35, pageHeight - 35, 12);
+            doc.setFontSize(8);
+            doc.setTextColor(118, 75, 162);
             doc.setFont('helvetica', 'bold');
-            doc.text('Date', 130, 170);
-            doc.text('Richmond México', 240, 170);
-
-            doc.setTextColor(0, 0, 0);
+            doc.text('Richmond', pageWidth - 35, pageHeight - 37, { align: 'center' });
+            doc.setFontSize(6);
             doc.setFont('helvetica', 'normal');
-            const today = new Date().toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-            doc.text(today, 130, 177);
-            doc.text('Manuel Ramírez', 240, 177);
+            doc.text('Certified', pageWidth - 35, pageHeight - 32, { align: 'center' });
 
-            // Líneas de firma
-            doc.setDrawColor(200, 200, 200);
-            doc.setLineWidth(0.3);
-            doc.line(110, 174, 170, 174);
-            doc.line(220, 174, 280, 174);
+            // Footer con fecha de emisión
+            doc.setTextColor(150, 150, 150);
+            doc.setFontSize(8);
+            doc.setFont('helvetica', 'italic');
+            const today = new Date();
+            const fechaEmision = `${today.getDate()} de ${meses[today.getMonth()]} de ${today.getFullYear()}`;
+            doc.text(`Certificate issued on: ${fechaEmision}`, pageWidth/2, pageHeight - 20, { align: 'center' });
+
+            // Código de certificado único
+            const codigo = `RC-${Date.now().toString(36).toUpperCase()}`;
+            doc.setFontSize(7);
+            doc.text(`Certificate ID: ${codigo}`, pageWidth/2, pageHeight - 15, { align: 'center' });
 
             // Guardar PDF
             const fileName = `Certificado_${nombre}_${apellido}.pdf`;
@@ -663,6 +715,49 @@
 
         function closeModal() {
             document.getElementById('successModal').classList.remove('active');
+        }
+
+        function downloadTemplate() {
+            // Crear datos de ejemplo
+            const templateData = [
+                {
+                    Nombre: "Juan",
+                    Apellido: "Pérez",
+                    Evento: "Fostering Learning Communities session",
+                    Fecha: "2025-08-08",
+                    Horas: 2
+                },
+                {
+                    Nombre: "María",
+                    Apellido: "García",
+                    Evento: "Advanced Teaching Strategies Workshop",
+                    Fecha: "2025-08-15",
+                    Horas: 3
+                },
+                {
+                    Nombre: "Carlos",
+                    Apellido: "Rodríguez",
+                    Evento: "Digital Education Tools Training",
+                    Fecha: "2025-08-22",
+                    Horas: 4
+                }
+            ];
+
+            // Crear workbook
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(templateData);
+
+            // Ajustar columnas
+            ws['!cols'] = [
+                { wch: 15 },
+                { wch: 15 },
+                { wch: 45 },
+                { wch: 12 },
+                { wch: 8 }
+            ];
+
+            XLSX.utils.book_append_sheet(wb, ws, "Certificados");
+            XLSX.writeFile(wb, "Plantilla_Certificados_Richmond.xlsx");
         }
     </script>
 </body>
