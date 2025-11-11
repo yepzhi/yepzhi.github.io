@@ -315,7 +315,7 @@
 <body>
     <div class="container">
         <h1>Generador de Certificados Richmond</h1>
-        <p class="subtitle">Crea certificados de participación individuales/masivos</p>
+        <p class="subtitle">Crea certificados de participación individuales o masivos</p>
 
         <div class="tabs">
             <button class="tab active" onclick="switchTab('individual')">Individual</button>
@@ -344,9 +344,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="fecha">Fecha del Certificado</label>
-                    <input type="date" id="fecha" name="fecha" required>
-                    <div class="error" id="fechaError">Por favor selecciona una fecha</div>
+                    <label for="fecha">Fecha del Certificado (DD/MM/YYYY)</label>
+                    <input type="text" id="fecha" name="fecha" required placeholder="01/11/2025" pattern="\d{2}/\d{2}/\d{4}">
+                    <div class="error" id="fechaError">Por favor ingresa la fecha en formato DD/MM/YYYY</div>
                 </div>
 
                 <div class="form-group">
@@ -367,7 +367,7 @@
                 <br>• <strong>Nombre</strong>: Primer nombre
                 <br>• <strong>Apellido</strong>: Apellido paterno
                 <br>• <strong>Evento</strong>: Nombre del evento/capacitación
-                <br>• <strong>Fecha</strong>: Formato YYYY-MM-DD (ej: 2025-08-08)
+                <br>• <strong>Fecha</strong>: Formato DD/MM/YYYY (ej: 08/08/2025)
                 <br>• <strong>Horas</strong>: Duración en horas (ej: 2)
             </div>
 
@@ -655,14 +655,25 @@
                 eventoY += 7;
             });
 
-            // Formatear fecha en español
+            // Formatear fecha en español desde DD/MM/YYYY
             const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
                           'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-            const fechaObj = new Date(fecha + 'T00:00:00');
-            const dia = fechaObj.getDate();
-            const mes = meses[fechaObj.getMonth()];
-            const año = fechaObj.getFullYear();
-            const fechaFormateada = `${dia} de ${mes} de ${año}`;
+            
+            let fechaFormateada;
+            try {
+                // Parsear fecha en formato DD/MM/YYYY
+                const partes = fecha.split('/');
+                if (partes.length === 3) {
+                    const dia = parseInt(partes[0]);
+                    const mes = parseInt(partes[1]) - 1; // Mes 0-indexed
+                    const año = parseInt(partes[2]);
+                    fechaFormateada = `${dia} de ${meses[mes]} de ${año}`;
+                } else {
+                    fechaFormateada = fecha;
+                }
+            } catch (e) {
+                fechaFormateada = fecha;
+            }
 
             // Fecha y horas
             doc.setTextColor(80, 80, 80);
@@ -724,21 +735,21 @@
                     Nombre: "Juan",
                     Apellido: "Pérez",
                     Evento: "Fostering Learning Communities session",
-                    Fecha: "2025-08-08",
+                    Fecha: "08/08/2025",
                     Horas: 2
                 },
                 {
                     Nombre: "María",
                     Apellido: "García",
                     Evento: "Advanced Teaching Strategies Workshop",
-                    Fecha: "2025-08-15",
+                    Fecha: "15/08/2025",
                     Horas: 3
                 },
                 {
                     Nombre: "Carlos",
                     Apellido: "Rodríguez",
                     Evento: "Digital Education Tools Training",
-                    Fecha: "2025-08-22",
+                    Fecha: "22/08/2025",
                     Horas: 4
                 }
             ];
@@ -752,12 +763,18 @@
                 { wch: 15 },
                 { wch: 15 },
                 { wch: 45 },
-                { wch: 12 },
+                { wch: 15 },
                 { wch: 8 }
             ];
 
             XLSX.utils.book_append_sheet(wb, ws, "Certificados");
-            XLSX.writeFile(wb, "Plantilla_Certificados_Richmond.xlsx");
+            
+            try {
+                XLSX.writeFile(wb, "Plantilla_Certificados_Richmond.xlsx");
+            } catch(e) {
+                alert('Error al descargar la plantilla. Por favor intenta de nuevo.');
+                console.error(e);
+            }
         }
     </script>
 </body>
