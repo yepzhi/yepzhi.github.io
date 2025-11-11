@@ -366,6 +366,10 @@
                 <br>• <strong>Horas</strong>: Duración en horas (ej: 2)
             </div>
 
+            <button type="button" onclick="downloadTemplate()" style="margin-bottom: 20px; background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);">
+                📥 Descargar Plantilla Excel
+            </button>
+
             <form id="massiveForm">
                 <div class="form-group">
                     <div class="file-upload">
@@ -570,95 +574,64 @@
                 }
             }
 
-            // Barra lateral morada
-            doc.setFillColor(128, 48, 128);
-            doc.rect(0, 0, 40, pageHeight, 'F');
-
-            // Texto vertical en la barra
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(16);
-            doc.setFont('helvetica', 'normal');
-            doc.text('Certificate of Achievement: Spelling Bee UTT 2025', 20, pageHeight - 10, {
-                angle: 90
-            });
-
             // Área blanca principal
             doc.setFillColor(255, 255, 255);
             doc.rect(100, 20, pageWidth - 120, pageHeight - 40, 'F');
 
-            // Logo Richmond Pro (simulado con texto)
+            // Logo Richmond Pro
             doc.setTextColor(80, 120, 230);
-            doc.setFontSize(24);
+            doc.setFontSize(28);
             doc.setFont('helvetica', 'bold');
-            doc.text('Richmond Pro', 130, 45);
-
-            // Logo UTT (simulado)
-            doc.setTextColor(128, 48, 128);
-            doc.setFontSize(16);
-            doc.setFont('helvetica', 'bold');
-            doc.text('UTT', 250, 40);
-            doc.setFontSize(8);
-            doc.setFont('helvetica', 'normal');
-            doc.text('Universidad Tecnológica de Tijuana', 235, 45);
+            doc.text('Richmond Pro', 190, 45, { align: 'center' });
 
             // Texto principal
             doc.setTextColor(0, 0, 0);
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.text('CERTIFICATE OF ATTENDANCE', 190, 70, { align: 'center' });
+            
             doc.setFontSize(11);
             doc.setFont('helvetica', 'normal');
-            
-            const mainText = `In recognition of the ${evento} held at Universidad`;
-            doc.text(mainText, 150, 70);
-            
-            doc.setFont('helvetica', 'bold');
-            doc.text('Tecnológica de Tijuana, Richmond', 150, 77);
-            
-            doc.setFont('helvetica', 'normal');
-            doc.text('proudly presents this', 150, 84);
-            doc.text('award to the winners for their outstanding performance.', 150, 91);
+            doc.text('This certifies that', 190, 85, { align: 'center' });
 
             // Nombre del participante
             doc.setTextColor(80, 120, 230);
-            doc.setFontSize(20);
+            doc.setFontSize(22);
             doc.setFont('helvetica', 'bold');
             const nombreCompleto = `${apellido} ${nombre}`;
-            doc.text(nombreCompleto, 150, 110);
+            doc.text(nombreCompleto, 190, 105, { align: 'center' });
 
             // Línea bajo el nombre
             doc.setDrawColor(80, 120, 230);
             doc.setLineWidth(0.5);
-            doc.line(110, 112, 270, 112);
+            doc.line(110, 108, 270, 108);
 
             // Texto "For attending"
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(11);
             doc.setFont('helvetica', 'normal');
-            doc.text(`For attending the ${evento}.`, 150, 125);
+            doc.text('Has successfully attended', 190, 125, { align: 'center' });
+            
+            doc.setFont('helvetica', 'bold');
+            doc.text(evento, 190, 135, { align: 'center' });
 
             // Fecha y horas
+            doc.setFont('helvetica', 'normal');
             const fechaFormateada = new Date(fecha + 'T00:00:00').toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
             });
-            doc.text(`${fechaFormateada} (${horas} hours)`, 150, 132);
+            doc.text(`${fechaFormateada} (${horas} hours)`, 190, 145, { align: 'center' });
 
-            // Licencia (opcional - puedes quitar esto si no aplica)
-            doc.setTextColor(0, 0, 0);
-            doc.setFontSize(10);
-            doc.setFont('helvetica', 'bold');
-            doc.text('This certificate grants one (1) valid license', 150, 147);
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(9);
-            doc.text('for use on the Richmond Pro Learning Platform.', 150, 153);
-
-            // Fecha y firma
+            // Fecha de emisión y firma
             doc.setTextColor(80, 120, 230);
             doc.setFontSize(10);
             doc.setFont('helvetica', 'bold');
-            doc.text('Date', 120, 175);
-            doc.text('Richmond México', 220, 175);
+            doc.text('Date', 130, 170);
+            doc.text('Richmond México', 240, 170);
 
-            doc.setTextColor(128, 48, 128);
+            doc.setTextColor(0, 0, 0);
             doc.setFont('helvetica', 'normal');
             const today = new Date().toLocaleDateString('en-US', {
                 weekday: 'long',
@@ -666,14 +639,14 @@
                 month: 'long',
                 day: 'numeric'
             });
-            doc.text(today, 120, 182);
-            doc.text('Manuel Ramírez', 220, 182);
+            doc.text(today, 130, 177);
+            doc.text('Manuel Ramírez', 240, 177);
 
             // Líneas de firma
             doc.setDrawColor(200, 200, 200);
             doc.setLineWidth(0.3);
-            doc.line(110, 180, 170, 180);
-            doc.line(210, 180, 270, 180);
+            doc.line(110, 174, 170, 174);
+            doc.line(220, 174, 280, 174);
 
             // Guardar PDF
             const fileName = `Certificado_${nombre}_${apellido}.pdf`;
