@@ -654,7 +654,7 @@
             });
 
             // ============== TEXTO DEL EVENTO CON MÚLTIPLES LÍNEAS ==============
-            const eventoSize = 16;
+            const eventoSize = 11.2; // Reducido 30% (16 * 0.7 = 11.2)
             const baseColor = rgb(0.3, 0.3, 0.3);
             const maxEventoWidth = width * 0.8; // 80% del ancho de la página
             
@@ -662,24 +662,63 @@
             const startText = 'For attending the ';
             const endText = ' session.';
             
-            // Función para dividir texto en líneas
-            function wrapText(text, font, fontSize, maxWidth) {
+            // Función para dividir texto en líneas de forma balanceada
+            function wrapTextBalanced(text, font, fontSize, maxWidth) {
                 const words = text.split(' ');
+                
+                // Primero verificar si cabe en una línea
+                const fullWidth = font.widthOfTextAtSize(text, fontSize);
+                if (fullWidth <= maxWidth) {
+                    return [text];
+                }
+                
+                // Si no cabe, dividir balanceado (cerca de la mitad)
                 const lines = [];
                 let currentLine = '';
+                const midPoint = Math.floor(words.length / 2);
                 
-                for (let word of words) {
-                    const testLine = currentLine ? `${currentLine} ${word}` : word;
-                    const testWidth = font.widthOfTextAtSize(testLine, fontSize);
-                    
-                    if (testWidth <= maxWidth) {
-                        currentLine = testLine;
-                    } else {
-                        if (currentLine) lines.push(currentLine);
-                        currentLine = word;
-                    }
+                // Primera mitad
+                for (let i = 0; i < midPoint; i++) {
+                    currentLine = currentLine ? `${currentLine} ${words[i]}` : words[i];
                 }
+                
+                // Verificar si la primera línea cabe, sino ajustar
+                let testWidth = font.widthOfTextAtSize(currentLine, fontSize);
+                while (testWidth > maxWidth && currentLine.includes(' ')) {
+                    const lastSpace = currentLine.lastIndexOf(' ');
+                    currentLine = currentLine.substring(0, lastSpace);
+                    testWidth = font.widthOfTextAtSize(currentLine, fontSize);
+                }
+                
                 if (currentLine) lines.push(currentLine);
+                
+                // Segunda mitad (resto de palabras)
+                const firstLineWords = currentLine.split(' ').length;
+                let secondLine = '';
+                for (let i = firstLineWords; i < words.length; i++) {
+                    secondLine = secondLine ? `${secondLine} ${words[i]}` : words[i];
+                }
+                
+                // Si la segunda línea es muy larga, dividirla también
+                testWidth = font.widthOfTextAtSize(secondLine, fontSize);
+                if (testWidth > maxWidth) {
+                    const secondWords = secondLine.split(' ');
+                    let tempLine = '';
+                    for (let word of secondWords) {
+                        const testLine = tempLine ? `${tempLine} ${word}` : word;
+                        const testW = font.widthOfTextAtSize(testLine, fontSize);
+                        if (testW <= maxWidth) {
+                            tempLine = testLine;
+                        } else {
+                            if (tempLine) lines.push(tempLine);
+                            tempLine = word;
+                        }
+                    }
+                    if (tempLine) lines.push(tempLine);
+                } else {
+                    if (secondLine) lines.push(secondLine);
+                }
+                
                 return lines;
             }
             
@@ -689,8 +728,8 @@
             const endWidth = fontRegular.widthOfTextAtSize(endText, eventoSize);
             const totalWidth = startWidth + eventoWidth + endWidth;
             
-            let yEventoPosition = height - 420;
-            const lineSpacing = 20; // Espaciado entre líneas
+            let yEventoPosition = height - 395; // Subido 25% (420 - 25 = 395)
+            const lineSpacing = 16; // Espaciado entre líneas ajustado
             
             if (totalWidth <= maxEventoWidth) {
                 // TODO CABE EN UNA LÍNEA
@@ -723,8 +762,8 @@
                 });
             } else {
                 // NECESITA MÚLTIPLES LÍNEAS
-                // Dividir el evento en líneas
-                const eventoLines = wrapText(evento, fontBold, eventoSize, maxEventoWidth);
+                // Dividir el evento en líneas balanceadas
+                const eventoLines = wrapTextBalanced(evento, fontBold, eventoSize, maxEventoWidth);
                 
                 // Si el evento es de múltiples líneas, poner texto completo en líneas separadas
                 if (eventoLines.length === 1) {
@@ -774,7 +813,7 @@
                         color: baseColor,
                     });
                     
-                    // Líneas del evento (centradas, en negritas)
+                    // Líneas del evento (centradas, en negritas, balanceadas)
                     eventoLines.forEach((line, index) => {
                         const lineWidth = fontBold.widthOfTextAtSize(line, eventoSize);
                         firstPage.drawText(line, {
