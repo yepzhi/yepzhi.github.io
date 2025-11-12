@@ -342,16 +342,10 @@
                 <div class="form-group">
                     <label for="nombre">Nombre *</label>
                     <input type="text" id="nombre" required placeholder="Ej: Juan">
-                    <span class="character-limit-note">
-                    Se sugiere usar solo el primer nombre.
-                    </span>
-             </div>
+                </div>
                 <div class="form-group">
                     <label for="apellido">Apellido *</label>
                     <input type="text" id="apellido" required placeholder="Ej: Pérez García">
-                    <span class="character-limit-note">
-                    El nombre completo no debe exceder los 17 caracteres totales.
-            </span>
                 </div>
 
                 <div class="form-group">
@@ -379,17 +373,15 @@
                 ✓ Plantilla oficial cargada
             </div>
 
-<div class="info-box">
-    <strong>📋 Formato del archivo Excel:</strong>
-    Columnas requeridas:
-    <br>• **Nombre**: Primer nombre
-    <br>• **Apellido**: Apellidos completos
-    <br>• **Evento**: Nombre del evento
-    <br>• **Fecha**: Formato DD/MM/YYYY (ej: 24/08/2025)
-    <br>• **Horas**: Duración en horas
-    <br><br>
-    <strong style="color: #FFC107;">⚠️ Importante:</strong> El nombre completo (**Nombre + Apellido**) no debe rebasar los **17 caracteres** para asegurar que encaje en el certificado.
-</div>
+            <div class="info-box">
+                <strong>📋 Formato del archivo Excel:</strong>
+                Columnas requeridas:
+                <br>• **Nombre**: Primer nombre
+                <br>• **Apellido**: Apellidos completos
+                <br>• **Evento**: Nombre del evento
+                <br>• **Fecha**: Formato DD/MM/YYYY (ej: 24/08/2025)
+                <br>• **Horas**: Duración en horas
+            </div>
 
             <button type="button" onclick="downloadTemplate()" class="btn-template">
                 📥 Descarga la Plantilla Excel
@@ -637,64 +629,176 @@
             const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
             const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-            // Nombre completo (centrado, grande, negro)
+            // ============== NOMBRE COMPLETO CON AJUSTE AUTOMÁTICO ==============
             const nombreCompleto = `${apellido} ${nombre}`;
-            const nombreSize = 35;
-            const nombreWidth = fontBold.widthOfTextAtSize(nombreCompleto, nombreSize);
+            const nombreYPosition = height - 350;
+            const maxNombreWidth = width * 0.85; // 85% del ancho de la página
+            
+            // Calcular tamaño de fuente óptimo para el nombre
+            let nombreSize = 45; // Tamaño inicial grande
+            let nombreWidth = fontBold.widthOfTextAtSize(nombreCompleto, nombreSize);
+            
+            // Reducir tamaño hasta que quepa en el ancho máximo
+            while (nombreWidth > maxNombreWidth && nombreSize > 20) {
+                nombreSize -= 1;
+                nombreWidth = fontBold.widthOfTextAtSize(nombreCompleto, nombreSize);
+            }
+            
+            // Dibujar nombre centrado
             firstPage.drawText(nombreCompleto, {
                 x: (width - nombreWidth) / 2,
-                y: height - 350,
+                y: nombreYPosition,
                 size: nombreSize,
                 font: fontBold,
                 color: rgb(0, 0, 0),
             });
 
-// Texto del evento (centrado, mediano, gris oscuro)
-const eventoSize = 16;
-const baseColor = rgb(0.3, 0.3, 0.3);
+            // ============== TEXTO DEL EVENTO CON MÚLTIPLES LÍNEAS ==============
+            const eventoSize = 16;
+            const baseColor = rgb(0.3, 0.3, 0.3);
+            const maxEventoWidth = width * 0.8; // 80% del ancho de la página
+            
+            // Textos fijos
+            const startText = 'For attending the ';
+            const endText = ' session.';
+            
+            // Función para dividir texto en líneas
+            function wrapText(text, font, fontSize, maxWidth) {
+                const words = text.split(' ');
+                const lines = [];
+                let currentLine = '';
+                
+                for (let word of words) {
+                    const testLine = currentLine ? `${currentLine} ${word}` : word;
+                    const testWidth = font.widthOfTextAtSize(testLine, fontSize);
+                    
+                    if (testWidth <= maxWidth) {
+                        currentLine = testLine;
+                    } else {
+                        if (currentLine) lines.push(currentLine);
+                        currentLine = word;
+                    }
+                }
+                if (currentLine) lines.push(currentLine);
+                return lines;
+            }
+            
+            // Calcular ancho total para verificar si cabe en una línea
+            const startWidth = fontRegular.widthOfTextAtSize(startText, eventoSize);
+            const eventoWidth = fontBold.widthOfTextAtSize(evento, eventoSize);
+            const endWidth = fontRegular.widthOfTextAtSize(endText, eventoSize);
+            const totalWidth = startWidth + eventoWidth + endWidth;
+            
+            let yEventoPosition = height - 420;
+            const lineSpacing = 20; // Espaciado entre líneas
+            
+            if (totalWidth <= maxEventoWidth) {
+                // TODO CABE EN UNA LÍNEA
+                let currentX = (width - totalWidth) / 2;
+                
+                firstPage.drawText(startText, {
+                    x: currentX,
+                    y: yEventoPosition,
+                    size: eventoSize,
+                    font: fontRegular,
+                    color: baseColor,
+                });
+                currentX += startWidth;
+                
+                firstPage.drawText(evento, {
+                    x: currentX,
+                    y: yEventoPosition,
+                    size: eventoSize,
+                    font: fontBold,
+                    color: baseColor,
+                });
+                currentX += eventoWidth;
+                
+                firstPage.drawText(endText, {
+                    x: currentX,
+                    y: yEventoPosition,
+                    size: eventoSize,
+                    font: fontRegular,
+                    color: baseColor,
+                });
+            } else {
+                // NECESITA MÚLTIPLES LÍNEAS
+                // Dividir el evento en líneas
+                const eventoLines = wrapText(evento, fontBold, eventoSize, maxEventoWidth);
+                
+                // Si el evento es de múltiples líneas, poner texto completo en líneas separadas
+                if (eventoLines.length === 1) {
+                    // El evento cabe solo, pero con start y end no cabe
+                    // Primera línea: "For attending the"
+                    const line1 = startText.trim();
+                    const line1Width = fontRegular.widthOfTextAtSize(line1, eventoSize);
+                    firstPage.drawText(line1, {
+                        x: (width - line1Width) / 2,
+                        y: yEventoPosition,
+                        size: eventoSize,
+                        font: fontRegular,
+                        color: baseColor,
+                    });
+                    
+                    // Segunda línea: "evento session."
+                    const line2StartWidth = fontBold.widthOfTextAtSize(evento, eventoSize);
+                    const line2EndWidth = fontRegular.widthOfTextAtSize(endText, eventoSize);
+                    const line2TotalWidth = line2StartWidth + line2EndWidth;
+                    
+                    let line2X = (width - line2TotalWidth) / 2;
+                    firstPage.drawText(evento, {
+                        x: line2X,
+                        y: yEventoPosition - lineSpacing,
+                        size: eventoSize,
+                        font: fontBold,
+                        color: baseColor,
+                    });
+                    
+                    firstPage.drawText(endText, {
+                        x: line2X + line2StartWidth,
+                        y: yEventoPosition - lineSpacing,
+                        size: eventoSize,
+                        font: fontRegular,
+                        color: baseColor,
+                    });
+                } else {
+                    // El evento necesita múltiples líneas
+                    // Primera línea: "For attending the"
+                    const line1 = startText.trim();
+                    const line1Width = fontRegular.widthOfTextAtSize(line1, eventoSize);
+                    firstPage.drawText(line1, {
+                        x: (width - line1Width) / 2,
+                        y: yEventoPosition,
+                        size: eventoSize,
+                        font: fontRegular,
+                        color: baseColor,
+                    });
+                    
+                    // Líneas del evento (centradas, en negritas)
+                    eventoLines.forEach((line, index) => {
+                        const lineWidth = fontBold.widthOfTextAtSize(line, eventoSize);
+                        firstPage.drawText(line, {
+                            x: (width - lineWidth) / 2,
+                            y: yEventoPosition - (lineSpacing * (index + 1)),
+                            size: eventoSize,
+                            font: fontBold,
+                            color: baseColor,
+                        });
+                    });
+                    
+                    // Última línea: "session."
+                    const lastLine = endText.trim();
+                    const lastLineWidth = fontRegular.widthOfTextAtSize(lastLine, eventoSize);
+                    firstPage.drawText(lastLine, {
+                        x: (width - lastLineWidth) / 2,
+                        y: yEventoPosition - (lineSpacing * (eventoLines.length + 1)),
+                        size: eventoSize,
+                        font: fontRegular,
+                        color: baseColor,
+                    });
+                }
+            }
 
-// 1. Texto fijo inicial
-const startText = 'For attending the ';
-const startWidth = fontRegular.widthOfTextAtSize(startText, eventoSize);
-
-// 2. Nombre del Evento (Negritas)
-const eventoWidth = fontBold.widthOfTextAtSize(evento, eventoSize);
-
-// 3. Texto fijo final
-const endText = ' session.';
-const endWidth = fontRegular.widthOfTextAtSize(endText, eventoSize);
-
-// Calcular posición inicial para centrar todo el bloque
-const totalWidth = startWidth + eventoWidth + endWidth;
-let currentX = (width - totalWidth) / 2;
-const yPosition = height - 420; // Mantener la posición Y original
-
-// DIBUJAR LOS TRES SEGMENTOS
-firstPage.drawText(startText, {
-    x: currentX,
-    y: yPosition,
-    size: eventoSize,
-    font: fontRegular, // Regular
-    color: baseColor,
-});
-currentX += startWidth; // Mover la posición X
-
-firstPage.drawText(evento, {
-    x: currentX,
-    y: yPosition,
-    size: eventoSize,
-    font: fontBold, // <-- ¡Negritas para el evento!
-    color: baseColor,
-});
-currentX += eventoWidth; // Mover la posición X
-
-firstPage.drawText(endText, {
-    x: currentX,
-    y: yPosition,
-    size: eventoSize,
-    font: fontRegular, // Regular
-    color: baseColor,
-});
             // Fecha y horas (centrado, pequeño, gris)
             const textoFecha = `${fechaFormateada} (${horas} hour${horas != 1 ? 's' : ''})`;
             const fechaSize = 14;
