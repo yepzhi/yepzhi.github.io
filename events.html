@@ -1,122 +1,406 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calendario Yepzhi</title>
-
-  <!-- React, ReactDOM y Babel -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style> body { margin: 0; padding: 0; } </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Calendario - YepZhi</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+    </style>
 </head>
 <body>
-  <div id="root"></div>
+    <div id="root"></div>
 
-  <script type="text/babel" data-presets="react">
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-    const GITHUB_USER = "https://github.com/yepzhi/";
-    const REPO = "https://github.com/yepzhi/yepzhi.github.io";
-    const FILE_PATH = "data/events.json";
-    const TOKEN = "ghp_TU_TOKEN"; // ⚠️ usa un archivo local para ocultarlo luego
+        // Iconos SVG simples
+        const ChevronLeft = () => (
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        );
 
-    const { useState, useEffect } = React;
+        const ChevronRight = () => (
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        );
 
-    function App() {
-      const [events, setEvents] = useState([]);
-      const [newEvent, setNewEvent] = useState("");
+        const Plus = () => (
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"/>
+          </svg>
+        );
 
-      // 🔹 Cargar eventos desde GitHub
-      useEffect(() => {
-        async function loadEvents() {
-          const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO}/contents/${FILE_PATH}`, {
-            headers: { Authorization: `token ${TOKEN}` }
+        const X = ({ className }) => (
+          <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        );
+
+        const Calendar = () => (
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+        );
+
+        const Clock = () => (
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        );
+
+        function EventCalendar() {
+          const [currentDate, setCurrentDate] = useState(new Date());
+          const [events, setEvents] = useState([]);
+          const [showModal, setShowModal] = useState(false);
+          const [newEvent, setNewEvent] = useState({
+            title: '',
+            date: '',
+            allDay: true,
+            startTime: '09:00',
+            endTime: '17:00'
           });
-          const data = await res.json();
-          if (data.content) {
-            const content = JSON.parse(atob(data.content));
-            setEvents(content);
+
+          const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+          
+          const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+
+          // Cargar eventos del localStorage
+          useEffect(() => {
+            loadEvents();
+          }, []);
+
+          const loadEvents = () => {
+            try {
+              const saved = localStorage.getItem('yepzhi-events');
+              if (saved) {
+                setEvents(JSON.parse(saved));
+              }
+            } catch (error) {
+              console.log('No hay eventos guardados');
+            }
+          };
+
+          const saveEvents = (updatedEvents) => {
+            try {
+              localStorage.setItem('yepzhi-events', JSON.stringify(updatedEvents));
+              setEvents(updatedEvents);
+            } catch (error) {
+              console.error('Error al guardar:', error);
+            }
+          };
+
+          const getDaysInMonth = (date) => {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
+            
+            return { daysInMonth, startingDayOfWeek };
+          };
+
+          const changeMonth = (direction) => {
+            setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + direction, 1));
+          };
+
+          const getEventsForDate = (day) => {
+            const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            return events.filter(e => e.date === dateStr);
+          };
+
+          const handleAddEvent = () => {
+            if (newEvent.title && newEvent.date) {
+              const updatedEvents = [...events, { ...newEvent, id: Date.now() }];
+              saveEvents(updatedEvents);
+              setNewEvent({ title: '', date: '', allDay: true, startTime: '09:00', endTime: '17:00' });
+              setShowModal(false);
+            }
+          };
+
+          const handleDeleteEvent = (id) => {
+            const updatedEvents = events.filter(e => e.id !== id);
+            saveEvents(updatedEvents);
+          };
+
+          const getUpcomingEvents = () => {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            return events
+              .filter(e => new Date(e.date) >= today)
+              .sort((a, b) => new Date(a.date) - new Date(b.date));
+          };
+
+          const formatDate = (dateStr) => {
+            const date = new Date(dateStr + 'T00:00:00');
+            const day = date.getDate();
+            const month = monthNames[date.getMonth()];
+            return `${day} ${month}`;
+          };
+
+          const { daysInMonth, startingDayOfWeek } = getDaysInMonth(currentDate);
+          const calendarDays = [];
+          
+          for (let i = 0; i < startingDayOfWeek; i++) {
+            calendarDays.push(null);
           }
+          
+          for (let day = 1; day <= daysInMonth; day++) {
+            calendarDays.push(day);
+          }
+
+          const isToday = (day) => {
+            const today = new Date();
+            return day === today.getDate() && 
+                   currentDate.getMonth() === today.getMonth() && 
+                   currentDate.getFullYear() === today.getFullYear();
+          };
+
+          return (
+            <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8">
+              <div className="max-w-7xl mx-auto">
+                <div className="mb-8 text-center">
+                  <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
+                    Mi Calendario
+                  </h1>
+                  <p className="text-purple-300">Gestiona tus eventos y compromisos</p>
+                </div>
+
+                <div className="backdrop-blur-md bg-white/10 rounded-3xl p-6 md:p-8 border border-white/20 shadow-2xl mb-8">
+                  <div className="flex items-center justify-between mb-6">
+                    <button
+                      onClick={() => changeMonth(-1)}
+                      className="p-2 hover:bg-white/10 rounded-full transition-all text-white"
+                    >
+                      <ChevronLeft />
+                    </button>
+                    
+                    <h2 className="text-2xl md:text-3xl font-bold text-white">
+                      {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+                    </h2>
+                    
+                    <button
+                      onClick={() => changeMonth(1)}
+                      className="p-2 hover:bg-white/10 rounded-full transition-all text-white"
+                    >
+                      <ChevronRight />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-7 gap-2 mb-2">
+                    {dayNames.map(day => (
+                      <div key={day} className="text-center text-purple-300 font-semibold text-sm">
+                        {day}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="grid grid-cols-7 gap-2">
+                    {calendarDays.map((day, index) => {
+                      const hasEvents = day && getEventsForDate(day).length > 0;
+                      return (
+                        <div
+                          key={index}
+                          style={{ aspectRatio: '1' }}
+                          className={`rounded-lg p-2 ${
+                            day ? 'hover:bg-white/10 cursor-pointer transition-all' : ''
+                          } ${hasEvents ? 'bg-yellow-400/20' : day ? 'bg-white/5' : ''} ${
+                            isToday(day) ? 'ring-2 ring-purple-400' : ''
+                          }`}
+                        >
+                          {day && (
+                            <>
+                              <div className={`text-sm font-semibold mb-1 ${
+                                isToday(day) ? 'text-purple-400' : 'text-white'
+                              }`}>
+                                {day}
+                              </div>
+                              <div className="space-y-1">
+                                {getEventsForDate(day).slice(0, 2).map(event => (
+                                  <div
+                                    key={event.id}
+                                    className="text-xs bg-purple-500/50 rounded px-1 py-0.5 truncate"
+                                    title={event.title}
+                                  >
+                                    {event.title}
+                                  </div>
+                                ))}
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    onClick={() => setShowModal(true)}
+                    className="mt-6 w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all flex items-center justify-center gap-2"
+                  >
+                    <Plus />
+                    Agregar Evento
+                  </button>
+                </div>
+
+                <div className="backdrop-blur-md bg-white/10 rounded-3xl p-6 md:p-8 border border-white/20 shadow-2xl">
+                  <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                    <Calendar />
+                    Próximos Eventos
+                  </h3>
+                  
+                  {getUpcomingEvents().length === 0 ? (
+                    <p className="text-purple-300 text-center py-8">No hay eventos próximos</p>
+                  ) : (
+                    <div className="space-y-3">
+                      {getUpcomingEvents().map(event => (
+                        <div
+                          key={event.id}
+                          className="bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-all flex items-center justify-between"
+                        >
+                          <div className="flex-1">
+                            <h4 className="text-white font-semibold text-lg">{event.title}</h4>
+                            <div className="flex items-center gap-4 mt-1">
+                              <span className="text-purple-300 text-sm">
+                                📅 {formatDate(event.date)}
+                              </span>
+                              {!event.allDay && (
+                                <span className="text-purple-300 text-sm flex items-center gap-1">
+                                  <Clock />
+                                  {event.startTime} - {event.endTime}
+                                </span>
+                              )}
+                              {event.allDay && (
+                                <span className="text-purple-300 text-sm">Todo el día</span>
+                              )}
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => handleDeleteEvent(event.id)}
+                            className="p-2 hover:bg-red-500/20 rounded-full transition-all"
+                          >
+                            <X className="w-5 h-5 text-red-400" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {showModal && (
+                  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+                    <div className="backdrop-blur-md bg-white/10 rounded-3xl p-6 md:p-8 border border-white/20 max-w-md w-full">
+                      <div className="flex items-center justify-between mb-6">
+                        <h3 className="text-2xl font-bold text-white">Nuevo Evento</h3>
+                        <button
+                          onClick={() => setShowModal(false)}
+                          className="p-2 hover:bg-white/10 rounded-full transition-all"
+                        >
+                          <X className="w-6 h-6 text-white" />
+                        </button>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div>
+                          <label className="text-white text-sm font-semibold mb-2 block">
+                            Evento
+                          </label>
+                          <input
+                            type="text"
+                            value={newEvent.title}
+                            onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                            placeholder="Ej: Renta de equipo de música"
+                            className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-white text-sm font-semibold mb-2 block">
+                            Fecha
+                          </label>
+                          <input
+                            type="date"
+                            value={newEvent.date}
+                            onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
+                            className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          />
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() => setNewEvent({ ...newEvent, allDay: true })}
+                            className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
+                              newEvent.allDay
+                                ? 'bg-purple-500 text-white'
+                                : 'bg-white/10 text-purple-300 border border-white/20'
+                            }`}
+                          >
+                            Todo el día
+                          </button>
+                          <button
+                            onClick={() => setNewEvent({ ...newEvent, allDay: false })}
+                            className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
+                              !newEvent.allDay
+                                ? 'bg-purple-500 text-white'
+                                : 'bg-white/10 text-purple-300 border border-white/20'
+                            }`}
+                          >
+                            Horas específicas
+                          </button>
+                        </div>
+
+                        {!newEvent.allDay && (
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <label className="text-white text-sm font-semibold mb-2 block">
+                                Hora inicio
+                              </label>
+                              <input
+                                type="time"
+                                value={newEvent.startTime}
+                                onChange={(e) => setNewEvent({ ...newEvent, startTime: e.target.value })}
+                                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-white text-sm font-semibold mb-2 block">
+                                Hora fin
+                              </label>
+                              <input
+                                type="time"
+                                value={newEvent.endTime}
+                                onChange={(e) => setNewEvent({ ...newEvent, endTime: e.target.value })}
+                                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                              />
+                            </div>
+                          </div>
+                        )}
+
+                        <button
+                          onClick={handleAddEvent}
+                          className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all"
+                        >
+                          Guardar Evento
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
         }
-        loadEvents();
-      }, []);
 
-      // 🔹 Guardar nuevo evento
-      async function addEvent() {
-        if (!newEvent.trim()) return;
-        const url = `https://api.github.com/repos/${GITHUB_USER}/${REPO}/contents/${FILE_PATH}`;
-        
-        const getFile = await fetch(url, {
-          headers: { Authorization: `token ${TOKEN}` }
-        });
-        const data = await getFile.json();
-        const content = JSON.parse(atob(data.content));
-        
-        const updatedEvents = [...content, { title: newEvent, date: new Date().toISOString() }];
-
-        const update = await fetch(url, {
-          method: "PUT",
-          headers: {
-            Authorization: `token ${TOKEN}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            message: `Add event: ${newEvent}`,
-            content: btoa(JSON.stringify(updatedEvents, null, 2)),
-            sha: data.sha,
-          }),
-        });
-
-        if (update.ok) {
-          alert("Evento guardado en GitHub ✅");
-          setEvents(updatedEvents);
-          setNewEvent("");
-        } else {
-          alert("Error al guardar evento 😢");
-        }
-      }
-
-      return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white flex flex-col items-center p-8">
-          <h1 className="text-4xl font-bold mb-6">📅 Calendario Yepzhi</h1>
-
-          <div className="bg-white/10 p-4 rounded-2xl shadow-md w-full max-w-md">
-            <input
-              type="text"
-              placeholder="Nuevo evento..."
-              className="p-2 w-3/4 rounded-l-lg text-black"
-              value={newEvent}
-              onChange={(e) => setNewEvent(e.target.value)}
-            />
-            <button
-              onClick={addEvent}
-              className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-r-lg"
-            >
-              Guardar
-            </button>
-          </div>
-
-          <div className="mt-6 w-full max-w-md">
-            <h2 className="text-xl font-semibold mb-2">Eventos guardados:</h2>
-            <ul className="space-y-2">
-              {events.map((ev, i) => (
-                <li key={i} className="bg-white/10 p-3 rounded-lg flex justify-between items-center">
-                  <span>{ev.title}</span>
-                  <span className="text-sm opacity-70">{new Date(ev.date).toLocaleDateString()}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      );
-    }
-
-    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-
-  </script>
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<EventCalendar />);
+    </script>
 </body>
 </html>
