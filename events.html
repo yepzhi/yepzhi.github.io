@@ -8,6 +8,11 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
     <style>
         body { margin: 0; padding: 0; }
     </style>
@@ -18,7 +23,23 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // Iconos SVG simples
+        // Configuración Firebase
+        const firebaseConfig = {
+          apiKey: "AIzaSyA83jSnPAzv0WfSzJ3yE49lwfX3U7QpCys",
+          authDomain: "yepzhi-calendar.firebaseapp.com",
+          projectId: "yepzhi-calendar",
+          storageBucket: "yepzhi-calendar.firebasestorage.app",
+          messagingSenderId: "316912093335",
+          appId: "1:316912093335:web:b4f24c6e857c6bad7101d2"
+        };
+
+        // Inicializar Firebase
+        if (!firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
+        // Iconos SVG
         const ChevronLeft = () => (
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
@@ -59,6 +80,7 @@
           const [currentDate, setCurrentDate] = useState(new Date());
           const [events, setEvents] = useState([]);
           const [showModal, setShowModal] = useState(false);
+          const [loading, setLoading] = useState(true);
           const [newEvent, setNewEvent] = useState({
             title: '',
             date: '',
@@ -72,30 +94,22 @@
           
           const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 
-          // Cargar eventos del localStorage
+          // Cargar eventos de Firebase en tiempo real
           useEffect(() => {
-            loadEvents();
+            const unsubscribe = db.collection('events').onSnapshot((snapshot) => {
+              const eventsData = [];
+              snapshot.forEach((doc) => {
+                eventsData.push({ id: doc.id, ...doc.data() });
+              });
+              setEvents(eventsData);
+              setLoading(false);
+            }, (error) => {
+              console.error('Error al cargar eventos:', error);
+              setLoading(false);
+            });
+
+            return () => unsubscribe();
           }, []);
-
-          const loadEvents = () => {
-            try {
-              const saved = localStorage.getItem('yepzhi-events');
-              if (saved) {
-                setEvents(JSON.parse(saved));
-              }
-            } catch (error) {
-              console.log('No hay eventos guardados');
-            }
-          };
-
-          const saveEvents = (updatedEvents) => {
-            try {
-              localStorage.setItem('yepzhi-events', JSON.stringify(updatedEvents));
-              setEvents(updatedEvents);
-            } catch (error) {
-              console.error('Error al guardar:', error);
-            }
-          };
 
           const getDaysInMonth = (date) => {
             const year = date.getFullYear();
@@ -117,18 +131,33 @@
             return events.filter(e => e.date === dateStr);
           };
 
-          const handleAddEvent = () => {
+          const handleAddEvent = async () => {
             if (newEvent.title && newEvent.date) {
-              const updatedEvents = [...events, { ...newEvent, id: Date.now() }];
-              saveEvents(updatedEvents);
-              setNewEvent({ title: '', date: '', allDay: true, startTime: '09:00', endTime: '17:00' });
-              setShowModal(false);
+              try {
+                await db.collection('events').add({
+                  title: newEvent.title,
+                  date: newEvent.date,
+                  allDay: newEvent.allDay,
+                  startTime: newEvent.startTime,
+                  endTime: newEvent.endTime,
+                  createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                setNewEvent({ title: '', date: '', allDay: true, startTime: '09:00', endTime: '17:00' });
+                setShowModal(false);
+              } catch (error) {
+                console.error('Error al agregar evento:', error);
+                alert('Error al guardar el evento. Intenta de nuevo.');
+              }
             }
           };
 
-          const handleDeleteEvent = (id) => {
-            const updatedEvents = events.filter(e => e.id !== id);
-            saveEvents(updatedEvents);
+          const handleDeleteEvent = async (id) => {
+            try {
+              await db.collection('events').doc(id).delete();
+            } catch (error) {
+              console.error('Error al eliminar evento:', error);
+              alert('Error al eliminar el evento. Intenta de nuevo.');
+            }
           };
 
           const getUpcomingEvents = () => {
@@ -165,6 +194,14 @@
                    currentDate.getFullYear() === today.getFullYear();
           };
 
+          if (loading) {
+            return (
+              <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+                <div className="text-white text-2xl">Cargando calendario...</div>
+              </div>
+            );
+          }
+
           return (
             <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8">
               <div className="max-w-7xl mx-auto">
@@ -173,6 +210,7 @@
                     Mi Calendario
                   </h1>
                   <p className="text-purple-300">Gestiona tus eventos y compromisos</p>
+                  <p className="text-purple-400 text-sm mt-2">🔄 Sincronizado en la nube</p>
                 </div>
 
                 <div className="backdrop-blur-md bg-white/10 rounded-3xl p-6 md:p-8 border border-white/20 shadow-2xl mb-8">
@@ -402,5 +440,23 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<EventCalendar />);
     </script>
+        <!-- Default Statcounter code for yepzhiweb
+https://yepzhi.com/ -->
+<script type="text/javascript">
+var sc_project=13182229; 
+var sc_invisible=0; 
+var sc_security="0cd44f01"; 
+var scJsHost = "https://";
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="Web Analytics"
+href="https://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="https://c.statcounter.com/13182229/0/0cd44f01/0/"
+alt="Web Analytics"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+<!-- End of Statcounter Code -->
 </body>
 </html>
