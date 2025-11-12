@@ -67,3 +67,17 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+# Archivos y carpetas temporales de carga
+.tmp.driveupload/
+
+# Exclusiones comunes adicionales (opcional pero recomendado)
+# Directorios de módulos de dependencias
+node_modules/
+
+# Archivos de log
+*.log
+
+# Archivos de caché
+.DS_Store
+*.tmp
