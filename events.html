@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendario Yepzhi</title>
+
+  <!-- React, ReactDOM y Babel -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style> body { margin: 0; padding: 0; } </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="react">
+
+    const GITHUB_USER = "https://github.com/yepzhi/";
+    const REPO = "https://github.com/yepzhi/yepzhi.github.io";
+    const FILE_PATH = "data/events.json";
+    const TOKEN = "ghp_TU_TOKEN"; // ⚠️ usa un archivo local para ocultarlo luego
+
+    const { useState, useEffect } = React;
+
+    function App() {
+      const [events, setEvents] = useState([]);
+      const [newEvent, setNewEvent] = useState("");
+
+      // 🔹 Cargar eventos desde GitHub
+      useEffect(() => {
+        async function loadEvents() {
+          const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO}/contents/${FILE_PATH}`, {
+            headers: { Authorization: `token ${TOKEN}` }
+          });
+          const data = await res.json();
+          if (data.content) {
+            const content = JSON.parse(atob(data.content));
+            setEvents(content);
+          }
+        }
+        loadEvents();
+      }, []);
+
+      // 🔹 Guardar nuevo evento
+      async function addEvent() {
+        if (!newEvent.trim()) return;
+        const url = `https://api.github.com/repos/${GITHUB_USER}/${REPO}/contents/${FILE_PATH}`;
+        
+        const getFile = await fetch(url, {
+          headers: { Authorization: `token ${TOKEN}` }
+        });
+        const data = await getFile.json();
+        const content = JSON.parse(atob(data.content));
+        
+        const updatedEvents = [...content, { title: newEvent, date: new Date().toISOString() }];
+
+        const update = await fetch(url, {
+          method: "PUT",
+          headers: {
+            Authorization: `token ${TOKEN}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            message: `Add event: ${newEvent}`,
+            content: btoa(JSON.stringify(updatedEvents, null, 2)),
+            sha: data.sha,
+          }),
+        });
+
+        if (update.ok) {
+          alert("Evento guardado en GitHub ✅");
+          setEvents(updatedEvents);
+          setNewEvent("");
+        } else {
+          alert("Error al guardar evento 😢");
+        }
+      }
+
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white flex flex-col items-center p-8">
+          <h1 className="text-4xl font-bold mb-6">📅 Calendario Yepzhi</h1>
+
+          <div className="bg-white/10 p-4 rounded-2xl shadow-md w-full max-w-md">
+            <input
+              type="text"
+              placeholder="Nuevo evento..."
+              className="p-2 w-3/4 rounded-l-lg text-black"
+              value={newEvent}
+              onChange={(e) => setNewEvent(e.target.value)}
+            />
+            <button
+              onClick={addEvent}
+              className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-r-lg"
+            >
+              Guardar
+            </button>
+          </div>
+
+          <div className="mt-6 w-full max-w-md">
+            <h2 className="text-xl font-semibold mb-2">Eventos guardados:</h2>
+            <ul className="space-y-2">
+              {events.map((ev, i) => (
+                <li key={i} className="bg-white/10 p-3 rounded-lg flex justify-between items-center">
+                  <span>{ev.title}</span>
+                  <span className="text-sm opacity-70">{new Date(ev.date).toLocaleDateString()}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+  </script>
+</body>
+</html>
