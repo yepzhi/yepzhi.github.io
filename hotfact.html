@@ -295,6 +295,27 @@
         <div id="invoiceForm">
             <div id="errorMessage"></div>
 
+            <!-- PASO 1: Ingresar Folio (si no viene en URL) -->
+            <div class="card" id="folioInputCard">
+                <div class="section-title">
+                    <span>🎫</span>
+                    <span>Ingresa tu Folio</span>
+                </div>
+
+                <div class="info-box">
+                    💡 El vendedor te debe haber compartido un folio de 20 dígitos
+                </div>
+
+                <div class="form-group">
+                    <label>Folio de Facturación <span class="required">*</span></label>
+                    <input type="text" id="folioInput" placeholder="Pega aquí el folio que te compartieron" style="font-family: monospace;">
+                </div>
+
+                <button class="btn btn-success" onclick="loadFolioManual()">Continuar</button>
+            </div>
+
+            <!-- PASO 2: Datos del Receptor (oculto hasta que se cargue el folio) -->
+            <div class="hidden" id="receptorDataCard">
             <!-- Datos del Receptor -->
             <div class="card">
                 <div class="section-title">

@@ -491,17 +491,6 @@
 
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Certificados eFirma</div>
-                <div class="card-icon">📋</div>
-            </div>
-            <p style="color: rgba(255, 255, 255, 0.8); font-size: 14px; margin-bottom: 15px;">
-                Sube tus archivos .cer y .key del SAT
-            </p>
-            <button class="btn btn-primary" onclick="openCertModal()">Configurar Certificados</button>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
                 <div class="card-title">Portal del Cliente</div>
                 <div class="card-icon">🔗</div>
             </div>
@@ -537,89 +526,6 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-    </div>
-
-    <!-- Modal de Certificados -->
-    <div class="modal" id="certModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">Configurar Certificados eFirma</div>
-                <span class="modal-close" onclick="closeCertModal()">×</span>
-            </div>
-            
-            <div class="info-box">
-                📌 <strong>¿Dónde obtengo mis certificados?</strong><br>
-                1. Ingresa al portal del SAT<br>
-                2. Ve a "Trámites" → "Certificado de e.firma"<br>
-                3. Descarga tus archivos .cer y .key<br>
-                4. También necesitarás tu contraseña de e.firma
-            </div>
-
-            <div class="form-group">
-                <label>Archivo .cer (Certificado)</label>
-                <div class="certificate-upload" onclick="document.getElementById('cerFile').click()">
-                    <input type="file" id="cerFile" accept=".cer" onchange="handleCerUpload(event)">
-                    <div class="upload-icon">📄</div>
-                    <div class="upload-text">Click para seleccionar archivo .cer</div>
-                    <div class="upload-hint">Certificado público del SAT</div>
-                </div>
-                <div id="cerInfo"></div>
-            </div>
-
-            <div class="form-group">
-                <label>Archivo .key (Llave Privada)</label>
-                <div class="certificate-upload" onclick="document.getElementById('keyFile').click()">
-                    <input type="file" id="keyFile" accept=".key" onchange="handleKeyUpload(event)">
-                    <div class="upload-icon">🔑</div>
-                    <div class="upload-text">Click para seleccionar archivo .key</div>
-                    <div class="upload-hint">Llave privada del SAT</div>
-                </div>
-                <div id="keyInfo"></div>
-            </div>
-
-            <div class="form-group">
-                <label>Contraseña de e.firma</label>
-                <input type="password" id="efirmaPassword" placeholder="Tu contraseña del SAT">
-            </div>
-
-            <button class="btn btn-success" onclick="saveCertificates()">Guardar Certificados</button>
-        </div>
-    </div>
-
-    <!-- Modal de Nueva Factura -->
-    <div class="modal" id="invoiceModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">Nueva Factura</div>
-                <span class="modal-close" onclick="closeInvoiceModal()">×</span>
-            </div>
-            
-            <div class="info-box">
-                ℹ️ Esta función estará disponible una vez que configures tus certificados eFirma y la API de Finkok
-            </div>
-
-            <div class="form-group">
-                <label>RFC del Cliente</label>
-                <input type="text" id="clientRFC" placeholder="XAXX010101000" maxlength="13">
-            </div>
-
-            <div class="form-group">
-                <label>Nombre/Razón Social</label>
-                <input type="text" id="clientName" placeholder="Nombre del cliente">
-            </div>
-
-            <div class="form-group">
-                <label>Monto</label>
-                <input type="number" id="invoiceAmount" placeholder="0.00" step="0.01">
-            </div>
-
-            <div class="form-group">
-                <label>Concepto</label>
-                <input type="text" id="invoiceConcept" placeholder="Descripción del servicio o producto">
-            </div>
-
-            <button class="btn btn-success" onclick="createInvoice()">Generar Factura</button>
         </div>
     </div>
 
@@ -667,14 +573,16 @@
                 document.getElementById('userName').textContent = userData.businessName;
                 document.getElementById('userRFC').textContent = `RFC: ${userData.rfc}`;
                 
-                updateCertStatus();
+                // Cargar estadísticas
+                loadFoliosCount();
                 
                 // Cargar logo si existe
                 if (userData.logoURL) {
                     document.getElementById('logoPreview').innerHTML = `
-                        <img src="${userData.logoURL}" style="max-width: 100%; max-height: 120px; border-radius: 10px;">
+                        <img src="${userData.logoURL}" style="max-width: 100%; max-height: 100px; border-radius: 8px;">
                     `;
                 }
+                
             } catch (error) {
                 console.error('Error cargando datos:', error);
             }
@@ -903,7 +811,7 @@
             }
         }
 
-        // Guardar certificados
+        // Guardar certificados (sin Storage - guardar info en Firestore)
         async function saveCertificates() {
             const password = document.getElementById('efirmaPassword').value;
             
@@ -912,27 +820,25 @@
                 return;
             }
 
-            if (!isFirebaseConfigured) {
-                alert('Demo: Los certificados se guardarían en Firebase Storage');
-                userData.hasCertificates = true;
-                updateCertStatus();
-                closeCertModal();
-                return;
-            }
-
             try {
-                // Subir archivos a Firebase Storage
-                const cerRef = storage.ref(`certificates/${currentUser.uid}/${cerFile.name}`);
-                const keyRef = storage.ref(`certificates/${currentUser.uid}/${keyFile.name}`);
+                // Leer archivos como base64
+                const cerData = await readFileAsBase64(cerFile);
+                const keyData = await readFileAsBase64(keyFile);
                 
-                await cerRef.put(cerFile);
-                await keyRef.put(keyFile);
-                
-                // Guardar info en Firestore
+                // Guardar en Firestore
                 await db.collection('users').doc(currentUser.uid).update({
                     hasCertificates: true,
-                    certificatePassword: password, // En producción, esto debe estar encriptado
+                    certificatePassword: password, // ⚠️ En producción debe estar encriptado
+                    cerFileName: cerFile.name,
+                    keyFileName: keyFile.name,
                     certificatesUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Guardar archivos en colección separada (más seguro)
+                await db.collection('certificates').doc(currentUser.uid).set({
+                    cerData: cerData,
+                    keyData: keyData,
+                    uploadedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 
                 userData.hasCertificates = true;
@@ -944,6 +850,16 @@
                 console.error('Error guardando certificados:', error);
                 alert('Error al guardar certificados');
             }
+        }
+
+        // Leer archivo como base64
+        function readFileAsBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
         }
 
         // Crear factura
@@ -998,10 +914,8 @@
 
         // Cerrar sesión
         async function handleLogout() {
-            if (isFirebaseConfigured) {
-                await auth.signOut();
-            }
-            window.location.href = 'index.html';
+            await auth.signOut();
+            window.location.href = 'login.html';
         }
     </script>
 </body>
