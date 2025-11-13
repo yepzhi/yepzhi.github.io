@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitar Factura - hotFact</title>
+    <title>Dashboard - hotFact</title>
     <style>
         * {
             margin: 0;
@@ -18,98 +18,211 @@
             padding: 20px;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .header {
+        .navbar {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
+            border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 30px;
-            text-align: center;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
         }
 
-        .header h1 {
+        .navbar-brand {
             color: white;
-            font-size: 36px;
+            font-size: 24px;
             font-weight: 700;
-            margin-bottom: 10px;
         }
 
-        .header p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 16px;
-        }
-
-        .business-info {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-        }
-
-        .business-name {
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
             color: white;
-            font-size: 20px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
             font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .business-rfc {
-            color: rgba(255, 255, 255, 0.8);
             font-size: 14px;
         }
 
-        .amount-display {
-            background: linear-gradient(135deg, #48db97 0%, #2ecc71 100%);
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            margin-top: 15px;
+        .user-rfc {
+            font-size: 12px;
+            opacity: 0.8;
         }
 
-        .amount-label {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .amount-value {
+        .btn-logout {
+            background: rgba(255, 107, 107, 0.3);
+            border: 1px solid rgba(255, 107, 107, 0.5);
             color: white;
-            font-size: 48px;
-            font-weight: 700;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 107, 107, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
         }
 
         .card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
+            border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 30px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            padding: 25px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
         }
 
-        .section-title {
-            color: white;
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 20px;
+        .card-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
+        .card-title {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .card-icon {
+            font-size: 24px;
+        }
+
+        .stat-value {
+            color: white;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 10px;
+            color: white;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #48db97 0%, #2ecc71 100%);
+            border: none;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .status-warning {
+            background: rgba(255, 193, 7, 0.3);
+            border: 1px solid rgba(255, 193, 7, 0.5);
+            color: white;
+        }
+
+        .status-success {
+            background: rgba(72, 219, 151, 0.3);
+            border: 1px solid rgba(72, 219, 151, 0.5);
+            color: white;
+        }
+
+        .certificate-upload {
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .certificate-upload:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .certificate-upload input {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .upload-hint {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+        }
+
+        .file-info {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-name {
+            color: white;
+            font-size: 13px;
+        }
+
+        .file-remove {
+            color: rgba(255, 107, 107, 0.8);
+            cursor: pointer;
+            font-size: 18px;
         }
 
         .form-group {
@@ -124,75 +237,94 @@
             font-weight: 500;
         }
 
-        .form-group label .required {
-            color: #ff6b6b;
-        }
-
-        .form-group input,
-        .form-group select {
+        .form-group input {
             width: 100%;
-            padding: 12px 15px;
+            padding: 10px 15px;
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
+            border-radius: 8px;
             color: white;
             font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input[readonly] {
-            background: rgba(255, 255, 255, 0.1);
-            cursor: not-allowed;
         }
 
         .form-group input::placeholder {
             color: rgba(255, 255, 255, 0.6);
         }
 
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
+        .table-container {
+            overflow-x: auto;
         }
 
-        .form-group select {
-            cursor: pointer;
-        }
-
-        .form-group select option {
-            background: #667eea;
-            color: white;
-        }
-
-        .help-text {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 12px;
-            margin-top: 5px;
-        }
-
-        .btn {
+        table {
             width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #48db97 0%, #2ecc71 100%);
-            border: none;
-            border-radius: 12px;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.15);
             color: white;
-            font-size: 16px;
+            padding: 12px;
+            text-align: left;
+            font-size: 13px;
             font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            color: white;
+            font-size: 24px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-        }
-
-        .btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(72, 219, 151, 0.4);
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
         }
 
         .info-box {
@@ -206,261 +338,202 @@
             margin-bottom: 20px;
         }
 
-        .success-message {
-            background: rgba(72, 219, 151, 0.3);
-            border: 1px solid rgba(72, 219, 151, 0.5);
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            color: white;
+        .help-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            margin-top: 5px;
         }
 
-        .success-icon {
-            font-size: 64px;
-            margin-bottom: 20px;
+        .folio-box {
+            background: rgba(72, 219, 151, 0.2);
+            border: 1px solid rgba(72, 219, 151, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
         }
 
-        .error-message {
-            background: rgba(255, 107, 107, 0.3);
-            border: 1px solid rgba(255, 107, 107, 0.5);
-            color: white;
+        .folio-link {
+            background: rgba(255, 255, 255, 0.2);
             padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .breakdown {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-        }
-
-        .breakdown-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
+            border-radius: 8px;
             color: white;
-            font-size: 14px;
+            font-family: monospace;
+            word-break: break-all;
+            margin: 10px 0;
+            font-size: 13px;
         }
 
-        .breakdown-row.total {
-            border-top: 2px solid rgba(255, 255, 255, 0.3);
-            padding-top: 12px;
-            margin-top: 8px;
-            font-weight: 700;
-            font-size: 18px;
+        .btn-copy {
+            background: rgba(102, 126, 234, 0.3);
+            border: 1px solid rgba(102, 126, 234, 0.5);
+            padding: 8px 15px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+
+        .btn-copy:hover {
+            background: rgba(102, 126, 234, 0.5);
         }
 
         @media (max-width: 768px) {
-            .form-row {
+            .dashboard-grid {
                 grid-template-columns: 1fr;
             }
             
-            .header h1 {
-                font-size: 28px;
-            }
-
-            .amount-value {
-                font-size: 36px;
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>🔥 hotFact</h1>
-            <p>Solicita tu factura electrónica</p>
-            
-            <div class="business-info" id="businessInfo">
-                <div class="business-name" id="businessName">Ingresa tu folio para continuar</div>
-                <div class="business-rfc" id="businessRFC" style="display: none;">RFC: ---</div>
-                
-                <div class="amount-display" id="amountDisplay" style="display: none;">
-                    <div class="amount-label">MONTO A FACTURAR</div>
-                    <div class="amount-value" id="totalAmount">$0.00</div>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-brand">🔥 hotFact</div>
+        <div class="navbar-user">
+            <div class="user-info">
+                <div class="user-name" id="userName">Cargando...</div>
+                <div class="user-rfc" id="userRFC">RFC: ---</div>
+            </div>
+            <button class="btn-logout" onclick="handleLogout()">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <!-- Generar Folio - Primera Sección -->
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+            <div class="card-title">🎫 Generar Folio de Facturación</div>
+        </div>
+        <div class="info-box">
+            💡 <strong>¿Cómo funciona?</strong><br>
+            Genera un folio único con el monto de la factura. Comparte el enlace con tu cliente para que complete sus datos fiscales.
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Monto Total de la Factura (MXN)</label>
+                <input type="number" id="folioAmount" placeholder="0.00" step="0.01" min="0.01" style="font-size: 18px; font-weight: 600;">
+                <div class="help-text">IVA 16% incluido automáticamente</div>
+            </div>
+            <div class="form-group">
+                <label>Descripción (Opcional)</label>
+                <input type="text" id="folioDescription" placeholder="Ej: Mesa 5, Pedido #123">
+            </div>
+        </div>
+        <button class="btn btn-success" onclick="generateFolio()">🔥 Generar Folio</button>
+        <div id="folioResult"></div>
+    </div>
+
+    <!-- Estado Certificados - Segundo -->
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+            <div class="card-title">🔐 Estado Certificados eFirma</div>
+        </div>
+        <div class="stat-value" id="certStatus">⚠️</div>
+        <div class="stat-label">Certificados del SAT</div>
+        <div class="status-badge status-warning" id="certBadge">Pendiente</div>
+        <button class="btn btn-primary" onclick="openCertModal()" style="margin-top: 15px;">Configurar Certificados</button>
+    </div>
+
+    <!-- Dashboard Stats -->
+    <div class="dashboard-grid">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Facturas Emitidas</div>
+                <div class="card-icon">📄</div>
+            </div>
+            <div class="stat-value" id="totalInvoices">0</div>
+            <div class="stat-label">Total este mes</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Monto Total</div>
+                <div class="card-icon">💰</div>
+            </div>
+            <div class="stat-value" id="totalAmount">$0</div>
+            <div class="stat-label">MXN facturado</div>
+        </div>
+
+    <!-- Quick Actions -->
+    <div class="dashboard-grid">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Logo Empresa</div>
+                <div class="card-icon">🖼️</div>
+            </div>
+            <div id="logoPreview" style="text-align: center; margin-bottom: 15px;">
+                <div style="width: 100%; height: 120px; background: rgba(255,255,255,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.6); font-size: 12px;">
+                    Sin logo
                 </div>
+            </div>
+            <div class="certificate-upload" onclick="document.getElementById('logoFile').click()">
+                <input type="file" id="logoFile" accept="image/png,image/jpeg,image/jpg" onchange="handleLogoUpload(event)">
+                <div class="upload-icon">🖼️</div>
+                <div class="upload-text">Click para subir logo</div>
+                <div class="upload-hint">PNG/JPG - Máx 500KB</div>
             </div>
         </div>
 
-        <!-- Formulario -->
-        <div id="invoiceForm">
-            <div id="errorMessage"></div>
-
-            <!-- PASO 1: Ingresar Folio -->
-            <div class="card" id="folioInputCard">
-                <div class="section-title">
-                    <span>🎫</span>
-                    <span>Ingresa tu Folio</span>
-                </div>
-
-                <div class="info-box">
-                    💡 El vendedor te proporcionó un folio de <strong>8 dígitos</strong>
-                </div>
-
-                <div class="form-group">
-                    <label>Folio de Facturación <span class="required">*</span></label>
-                    <input 
-                        type="text" 
-                        id="folioInput" 
-                        placeholder="12345678" 
-                        maxlength="8"
-                        style="font-family: monospace; font-size: 24px; text-align: center; letter-spacing: 2px;"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                    <div class="help-text">Solo números, 8 dígitos</div>
-                </div>
-
-                <button class="btn btn-success" onclick="loadFolioManual()">🔍 Buscar Folio</button>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Generar Factura</div>
+                <div class="card-icon">✨</div>
             </div>
-
-            <!-- PASO 2: Datos del Receptor (oculto hasta que se cargue el folio) -->
-            <div class="hidden" id="receptorDataCard">
-            <!-- Datos del Receptor -->
-            <div class="card">
-                <div class="section-title">
-                    <span>👤</span>
-                    <span>Tus Datos Fiscales</span>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>RFC <span class="required">*</span></label>
-                        <input type="text" id="receptorRFC" placeholder="XAXX010101000" maxlength="13" style="text-transform: uppercase;">
-                        <div class="help-text">12 o 13 caracteres</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Régimen Fiscal <span class="required">*</span></label>
-                        <select id="regimenFiscal">
-                            <option value="">Selecciona...</option>
-                            <option value="601">601 - General de Ley Personas Morales</option>
-                            <option value="605">605 - Sueldos y Salarios</option>
-                            <option value="606">606 - Arrendamiento</option>
-                            <option value="608">608 - Demás ingresos</option>
-                            <option value="612">612 - Personas Físicas con Actividades Empresariales</option>
-                            <option value="616">616 - Sin obligaciones fiscales</option>
-                            <option value="621">621 - Incorporación Fiscal</option>
-                            <option value="625">625 - Régimen de Plataformas Tecnológicas</option>
-                            <option value="626">626 - Régimen Simplificado de Confianza</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Nombre o Razón Social <span class="required">*</span></label>
-                    <input type="text" id="receptorNombre" placeholder="Nombre completo o razón social">
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Código Postal <span class="required">*</span></label>
-                        <input type="text" id="receptorCP" placeholder="00000" maxlength="5">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Correo Electrónico <span class="required">*</span></label>
-                        <input type="email" id="receptorEmail" placeholder="tu@email.com">
-                        <div class="help-text">Aquí recibirás tu factura (XML y PDF)</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Datos de la Factura -->
-            <div class="card">
-                <div class="section-title">
-                    <span>🧾</span>
-                    <span>Detalles de la Factura</span>
-                </div>
-
-                <div class="info-box">
-                    ℹ️ <strong>Importante:</strong> Asegúrate de que toda la información sea correcta. Una vez timbrada, la factura no puede modificarse.
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Uso de CFDI <span class="required">*</span></label>
-                        <select id="usoCFDI">
-                            <option value="">Selecciona...</option>
-                            <option value="G01">G01 - Adquisición de mercancías</option>
-                            <option value="G03" selected>G03 - Gastos en general</option>
-                            <option value="D10">D10 - Pagos por servicios educativos</option>
-                            <option value="S01">S01 - Sin efectos fiscales</option>
-                            <option value="CP01">CP01 - Pagos</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Forma de Pago <span class="required">*</span></label>
-                        <select id="formaPago">
-                            <option value="">Selecciona...</option>
-                            <option value="01">Efectivo</option>
-                            <option value="04">Tarjeta de Crédito</option>
-                            <option value="28">Tarjeta de Débito</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Detalles fijos -->
-                <div class="form-group">
-                    <label>Concepto</label>
-                    <input type="text" value="CONSUMO DE ALIMENTOS" readonly>
-                </div>
-
-                <div class="form-group">
-                    <label>Método de Pago</label>
-                    <input type="text" value="PUE - Pago en una sola exhibición" readonly>
-                </div>
-
-                <div class="form-group">
-                    <label>Moneda</label>
-                    <input type="text" value="MXN - Peso Mexicano" readonly>
-                </div>
-
-                <!-- Desglose de importes -->
-                <div class="breakdown">
-                    <div class="breakdown-row">
-                        <span>Subtotal:</span>
-                        <span id="subtotalDisplay">$0.00</span>
-                    </div>
-                    <div class="breakdown-row">
-                        <span>IVA (16%):</span>
-                        <span id="ivaDisplay">$0.00</span>
-                    </div>
-                    <div class="breakdown-row total">
-                        <span>TOTAL:</span>
-                        <span id="totalDisplay">$0.00</span>
-                    </div>
-                </div>
-            </div>
-
-            <button class="btn" onclick="submitInvoice()" id="submitBtn">
-                🔥 Solicitar Factura
-            </button>
-            </div>
+            <p style="color: rgba(255, 255, 255, 0.8); font-size: 14px; margin-bottom: 15px;">
+                Crea una nueva factura para tus clientes
+            </p>
+            <button class="btn btn-success" onclick="openInvoiceModal()">Nueva Factura</button>
         </div>
 
-        <!-- Mensaje de éxito -->
-        <div id="successMessage" class="card hidden">
-            <div class="success-message">
-                <div class="success-icon">✅</div>
-                <h2 style="margin-bottom: 15px;">¡Factura Solicitada!</h2>
-                <p style="margin-bottom: 10px;">Tu factura ha sido procesada exitosamente.</p>
-                <p style="font-size: 14px; opacity: 0.9;">Recibirás los archivos XML y PDF en tu correo en los próximos minutos.</p>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Portal del Cliente</div>
+                <div class="card-icon">🔗</div>
             </div>
+            <p style="color: rgba(255, 255, 255, 0.8); font-size: 14px; margin-bottom: 15px;">
+                Comparte este enlace con tus clientes
+            </p>
+            <button class="btn btn-primary" onclick="copyClientLink()">Copiar Enlace</button>
+        </div>
+    </div>
+
+    <!-- Recent Invoices -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Facturas Recientes</div>
+            <div class="card-icon">📊</div>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Folio</th>
+                        <th>Cliente</th>
+                        <th>Monto</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="invoicesTable">
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 30px;">
+                            No hay facturas aún. ¡Crea tu primera factura!
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
     <script>
         // 🔥 Configuración de Firebase
@@ -475,232 +548,376 @@
         };
 
         const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
         const db = firebase.firestore();
+        const storage = firebase.storage();
 
-        let folioData = null;
+        let currentUser, userData;
 
-        // Obtener ID del folio de la URL
-        function getFolioId() {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('folio');
-        }
-
-        // Cargar datos del folio automáticamente o manualmente
-        async function loadFolioData() {
-            const folioId = getFolioId();
-            
-            if (folioId) {
-                // Si viene folio en URL, cargar directamente
-                await loadFolioById(folioId);
+        // Verificar autenticación
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                currentUser = user;
+                await loadUserData();
+                await loadInvoices();
             } else {
-                // Si no viene folio, mostrar input para ingresarlo
-                document.getElementById('folioInputCard').classList.remove('hidden');
-                document.getElementById('receptorDataCard').classList.add('hidden');
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Cargar datos del usuario
+        async function loadUserData() {
+            try {
+                const doc = await db.collection('users').doc(currentUser.uid).get();
+                userData = doc.data();
+                
+                document.getElementById('userName').textContent = userData.businessName;
+                document.getElementById('userRFC').textContent = `RFC: ${userData.rfc}`;
+                
+                // Cargar estadísticas
+                loadFoliosCount();
+                
+                // Cargar logo si existe
+                if (userData.logoURL) {
+                    document.getElementById('logoPreview').innerHTML = `
+                        <img src="${userData.logoURL}" style="max-width: 100%; max-height: 100px; border-radius: 8px;">
+                    `;
+                }
+                
+            } catch (error) {
+                console.error('Error cargando datos:', error);
             }
         }
 
-        // Cargar folio manualmente
-        async function loadFolioManual() {
-            const folioInput = document.getElementById('folioInput').value.trim();
+        // Actualizar estado de certificados
+        function updateCertStatus() {
+            const status = userData.hasCertificates ? '✅' : '⚠️';
+            const badge = userData.hasCertificates ? 'status-success' : 'status-warning';
+            const text = userData.hasCertificates ? 'Configurado' : 'Pendiente';
             
-            if (!folioInput) {
-                document.getElementById('errorMessage').innerHTML = '<div class="error-message">Por favor ingresa un folio</div>';
+            document.getElementById('certStatus').textContent = status;
+            document.getElementById('certBadge').className = `status-badge ${badge}`;
+            document.getElementById('certBadge').textContent = text;
+        }
+
+        // 🎫 Generar Folio de Facturación
+        async function generateFolio() {
+            const amount = parseFloat(document.getElementById('folioAmount').value);
+            const description = document.getElementById('folioDescription').value.trim();
+            const resultDiv = document.getElementById('folioResult');
+
+            if (!amount || amount <= 0) {
+                resultDiv.innerHTML = '<div class="error" style="margin-top: 15px;">Ingresa un monto válido</div>';
                 return;
             }
 
-            await loadFolioById(folioInput);
-        }
-
-        // Cargar folio por ID
-        async function loadFolioById(folioId) {
             try {
-                const doc = await db.collection('folios').doc(folioId).get();
-                
-                if (!doc.exists) {
-                    document.getElementById('businessInfo').innerHTML = `
-                        <div style="color: #ff6b6b; padding: 20px;">
-                            ⚠️ Folio no encontrado. Verifica que esté correcto.
+                // Crear folio en Firestore
+                const folioData = {
+                    userId: currentUser.uid,
+                    businessName: userData.businessName,
+                    businessRFC: userData.rfc,
+                    amount: amount,
+                    subtotal: amount / 1.16,
+                    iva: amount - (amount / 1.16),
+                    description: description || 'Sin descripción',
+                    status: 'pending',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 días
+                };
+
+                const docRef = await db.collection('folios').add(folioData);
+                const folioId = docRef.id;
+
+                // Generar enlace
+                const folioLink = `${window.location.origin}/hotfact.html?folio=${folioId}`;
+
+                resultDiv.innerHTML = `
+                    <div class="folio-box">
+                        <div style="color: white; font-weight: 600; margin-bottom: 10px;">
+                            ✅ Folio generado exitosamente
                         </div>
-                    `;
-                    document.getElementById('folioInputCard').classList.remove('hidden');
-                    document.getElementById('receptorDataCard').classList.add('hidden');
-                    return;
-                }
-
-                folioData = doc.data();
-                folioData.id = folioId;
-
-                // Verificar si ya fue usado
-                if (folioData.status === 'used') {
-                    document.getElementById('businessInfo').innerHTML = `
-                        <div style="color: #ff6b6b; padding: 20px;">
-                            ⚠️ Este folio ya fue utilizado.
+                        <div style="color: rgba(255,255,255,0.9); font-size: 13px; margin-bottom: 10px;">
+                            Monto: ${amount.toFixed(2)} MXN (IVA incluido)
                         </div>
-                    `;
-                    document.getElementById('folioInputCard').classList.add('hidden');
-                    document.getElementById('receptorDataCard').classList.add('hidden');
-                    return;
-                }
+                        <div style="color: rgba(255,255,255,0.8); font-size: 12px; margin-bottom: 10px;">
+                            Comparte este enlace con tu cliente:
+                        </div>
+                        <div class="folio-link">${folioLink}</div>
+                        <button class="btn-copy" onclick="copyToClipboard('${folioLink}')">
+                            📋 Copiar Enlace
+                        </button>
+                    </div>
+                `;
 
-                // Mostrar información
-                document.getElementById('businessName').textContent = folioData.businessName;
-                document.getElementById('businessRFC').textContent = `RFC: ${folioData.businessRFC}`;
-                document.getElementById('totalAmount').textContent = `${folioData.amount.toFixed(2)}`;
-                
-                // Ocultar input de folio y mostrar formulario
-                document.getElementById('folioInputCard').classList.add('hidden');
-                document.getElementById('receptorDataCard').classList.remove('hidden');
-                
-                // Actualizar desglose
-                updateBreakdown();
+                // Limpiar campos
+                document.getElementById('folioAmount').value = '';
+                document.getElementById('folioDescription').value = '';
 
             } catch (error) {
-                console.error('Error cargando folio:', error);
-                document.getElementById('businessInfo').innerHTML = `
-                    <div style="color: #ff6b6b; padding: 20px;">
-                        ⚠️ Error al cargar datos. Intenta nuevamente.
+                console.error('Error generando folio:', error);
+                resultDiv.innerHTML = '<div class="error" style="margin-top: 15px;">Error al generar folio</div>';
+            }
+        }
+
+        // Copiar al portapapeles
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Enlace copiado al portapapeles');
+            });
+        }
+
+        // Cargar facturas
+        async function loadInvoices() {
+            try {
+                const snapshot = await db.collection('invoices')
+                    .where('userId', '==', currentUser.uid)
+                    .orderBy('createdAt', 'desc')
+                    .limit(10)
+                    .get();
+                
+                const tbody = document.getElementById('invoicesTable');
+                
+                if (snapshot.empty) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 30px;">
+                                No hay facturas aún. ¡Crea tu primera factura!
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                tbody.innerHTML = '';
+                let total = 0;
+                
+                snapshot.forEach(doc => {
+                    const invoice = doc.data();
+                    total += invoice.amount;
+                    
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${invoice.folio}</td>
+                            <td>${invoice.clientName}</td>
+                            <td>$${invoice.amount.toFixed(2)}</td>
+                            <td>${new Date(invoice.createdAt.toDate()).toLocaleDateString()}</td>
+                            <td><span class="status-badge status-success">Timbrada</span></td>
+                        </tr>
+                    `;
+                });
+                
+                document.getElementById('totalInvoices').textContent = snapshot.size;
+                document.getElementById('totalAmount').textContent = `$${total.toFixed(2)}`;
+            } catch (error) {
+                console.error('Error cargando facturas:', error);
+            }
+        }
+
+        // Modales
+        function openCertModal() {
+            document.getElementById('certModal').classList.add('active');
+        }
+
+        function closeCertModal() {
+            document.getElementById('certModal').classList.remove('active');
+        }
+
+        function openInvoiceModal() {
+            if (!userData.hasCertificates) {
+                alert('Primero debes configurar tus certificados eFirma');
+                openCertModal();
+                return;
+            }
+            document.getElementById('invoiceModal').classList.add('active');
+        }
+
+        function closeInvoiceModal() {
+            document.getElementById('invoiceModal').classList.remove('active');
+        }
+
+        // Manejo de archivos
+        let cerFile = null;
+        let keyFile = null;
+        let logoFile = null;
+
+        function handleCerUpload(event) {
+            cerFile = event.target.files[0];
+            if (cerFile) {
+                document.getElementById('cerInfo').innerHTML = `
+                    <div class="file-info">
+                        <span class="file-name">📄 ${cerFile.name}</span>
+                        <span class="file-remove" onclick="cerFile = null; document.getElementById('cerInfo').innerHTML = ''">×</span>
                     </div>
                 `;
             }
         }
 
-        // Actualizar desglose
-        function updateBreakdown() {
-            if (!folioData) return;
-
-            const subtotal = folioData.subtotal;
-            const iva = folioData.iva;
-            const total = folioData.amount;
-
-            document.getElementById('subtotalDisplay').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('ivaDisplay').textContent = `$${iva.toFixed(2)}`;
-            document.getElementById('totalDisplay').textContent = `$${total.toFixed(2)}`;
+        function handleKeyUpload(event) {
+            keyFile = event.target.files[0];
+            if (keyFile) {
+                document.getElementById('keyInfo').innerHTML = `
+                    <div class="file-info">
+                        <span class="file-name">🔑 ${keyFile.name}</span>
+                        <span class="file-remove" onclick="keyFile = null; document.getElementById('keyInfo').innerHTML = ''">×</span>
+                    </div>
+                `;
+            }
         }
 
-        // Validar RFC
-        function validateRFC(rfc) {
-            const rfcPattern = /^[A-ZÑ&]{3,4}\d{6}[A-Z0-9]{3}$/;
-            return rfcPattern.test(rfc.toUpperCase());
-        }
+        // Manejo de logo
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
 
-        // Validar email
-        function validateEmail(email) {
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailPattern.test(email);
-        }
-
-        // Enviar solicitud de factura
-        async function submitInvoice() {
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.innerHTML = '';
-
-            if (!folioData) {
-                errorDiv.innerHTML = '<div class="error-message">No hay datos de folio disponibles</div>';
+            if (!file.type.match('image/png') && !file.type.match('image/jpeg')) {
+                alert('Solo se permiten archivos PNG o JPG');
                 return;
             }
 
-            // Validar campos requeridos
-            const receptorRFC = document.getElementById('receptorRFC').value.trim().toUpperCase();
-            const regimenFiscal = document.getElementById('regimenFiscal').value;
-            const receptorNombre = document.getElementById('receptorNombre').value.trim();
-            const receptorCP = document.getElementById('receptorCP').value.trim();
-            const receptorEmail = document.getElementById('receptorEmail').value.trim();
-            const usoCFDI = document.getElementById('usoCFDI').value;
-            const formaPago = document.getElementById('formaPago').value;
-
-            // Validaciones
-            if (!receptorRFC || !regimenFiscal || !receptorNombre || !receptorCP || !receptorEmail || !usoCFDI || !formaPago) {
-                errorDiv.innerHTML = '<div class="error-message">Por favor completa todos los campos requeridos (*)</div>';
-                window.scrollTo(0, 0);
+            if (file.size > 500 * 1024) {
+                alert('El archivo es muy grande. Máximo 500KB');
                 return;
             }
 
-            if (!validateRFC(receptorRFC)) {
-                errorDiv.innerHTML = '<div class="error-message">RFC inválido. Verifica el formato.</div>';
-                window.scrollTo(0, 0);
-                return;
-            }
-
-            if (receptorCP.length !== 5 || !/^\d+$/.test(receptorCP)) {
-                errorDiv.innerHTML = '<div class="error-message">Código postal debe tener 5 dígitos.</div>';
-                window.scrollTo(0, 0);
-                return;
-            }
-
-            if (!validateEmail(receptorEmail)) {
-                errorDiv.innerHTML = '<div class="error-message">Correo electrónico inválido.</div>';
-                window.scrollTo(0, 0);
-                return;
-            }
-
-            // Preparar datos de la factura
-            const invoiceData = {
-                folioId: folioData.id,
-                businessId: folioData.userId,
-                emisor: {
-                    rfc: folioData.businessRFC,
-                    nombre: folioData.businessName
-                },
-                receptor: {
-                    rfc: receptorRFC,
-                    nombre: receptorNombre,
-                    cp: receptorCP,
-                    email: receptorEmail,
-                    regimenFiscal: regimenFiscal
-                },
-                cfdi: {
-                    usoCFDI: usoCFDI,
-                    metodoPago: 'PUE',
-                    formaPago: formaPago,
-                    moneda: 'MXN'
-                },
-                conceptos: [{
-                    descripcion: 'CONSUMO DE ALIMENTOS',
-                    cantidad: 1,
-                    precioUnitario: folioData.subtotal,
-                    subtotal: folioData.subtotal
-                }],
-                totales: {
-                    subtotal: folioData.subtotal,
-                    iva: folioData.iva,
-                    total: folioData.amount
-                },
-                status: 'pendiente_timbrado',
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            logoFile = file;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const logoDataURL = e.target.result;
+                document.getElementById('logoPreview').innerHTML = `
+                    <img src="${logoDataURL}" style="max-width: 100%; max-height: 120px; border-radius: 10px;">
+                `;
+                saveLogo(logoDataURL);
             };
+            reader.readAsDataURL(file);
+        }
 
-            // Deshabilitar botón
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.textContent = '⏳ Procesando...';
+        // Guardar logo en Firestore como base64
+        async function saveLogo(logoDataURL) {
+            if (!logoDataURL) return;
 
             try {
-                // Guardar solicitud en Firestore
-                await db.collection('invoiceRequests').add(invoiceData);
-                
-                // Marcar folio como usado
-                await db.collection('folios').doc(folioData.id).update({
-                    status: 'used',
-                    usedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    receptorEmail: receptorEmail
+                await db.collection('users').doc(currentUser.uid).update({
+                    logoURL: logoDataURL,
+                    hasLogo: true,
+                    logoUpdated: firebase.firestore.FieldValue.serverTimestamp()
                 });
-
-                // Mostrar mensaje de éxito
-                document.getElementById('invoiceForm').classList.add('hidden');
-                document.getElementById('successMessage').classList.remove('hidden');
-                window.scrollTo(0, 0);
-
+                
+                userData.logoURL = logoDataURL;
+                alert('✅ Logo guardado exitosamente');
             } catch (error) {
-                console.error('Error enviando factura:', error);
-                errorDiv.innerHTML = '<div class="error-message">Error al procesar la solicitud. Intenta nuevamente.</div>';
-                btn.disabled = false;
-                btn.textContent = '🔥 Solicitar Factura';
-                window.scrollTo(0, 0);
+                console.error('Error guardando logo:', error);
+                alert('Error al guardar logo');
             }
         }
 
-        // Cargar datos al iniciar
-        window.addEventListener('DOMContentLoaded', loadFolioData);
+        // Guardar certificados (sin Storage - guardar info en Firestore)
+        async function saveCertificates() {
+            const password = document.getElementById('efirmaPassword').value;
+            
+            if (!cerFile || !keyFile || !password) {
+                alert('Por favor completa todos los campos');
+                return;
+            }
+
+            try {
+                // Leer archivos como base64
+                const cerData = await readFileAsBase64(cerFile);
+                const keyData = await readFileAsBase64(keyFile);
+                
+                // Guardar en Firestore
+                await db.collection('users').doc(currentUser.uid).update({
+                    hasCertificates: true,
+                    certificatePassword: password, // ⚠️ En producción debe estar encriptado
+                    cerFileName: cerFile.name,
+                    keyFileName: keyFile.name,
+                    certificatesUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Guardar archivos en colección separada (más seguro)
+                await db.collection('certificates').doc(currentUser.uid).set({
+                    cerData: cerData,
+                    keyData: keyData,
+                    uploadedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                userData.hasCertificates = true;
+                updateCertStatus();
+                
+                alert('✅ Certificados guardados exitosamente');
+                closeCertModal();
+            } catch (error) {
+                console.error('Error guardando certificados:', error);
+                alert('Error al guardar certificados');
+            }
+        }
+
+        // Leer archivo como base64
+        function readFileAsBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Crear factura
+        async function createInvoice() {
+            const clientRFC = document.getElementById('clientRFC').value.trim();
+            const clientName = document.getElementById('clientName').value.trim();
+            const amount = parseFloat(document.getElementById('invoiceAmount').value);
+            const concept = document.getElementById('invoiceConcept').value.trim();
+            
+            if (!clientRFC || !clientName || !amount || !concept) {
+                alert('Por favor completa todos los campos');
+                return;
+            }
+
+            if (!isFirebaseConfigured) {
+                alert('Demo: La factura se generaría usando la API de Finkok');
+                closeInvoiceModal();
+                return;
+            }
+
+            try {
+                // Aquí se integrará con Finkok
+                const folio = `F-${Date.now()}`;
+                
+                await db.collection('invoices').add({
+                    userId: currentUser.uid,
+                    folio: folio,
+                    clientRFC: clientRFC,
+                    clientName: clientName,
+                    amount: amount,
+                    concept: concept,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    status: 'timbrada'
+                });
+                
+                alert('✅ Factura generada exitosamente');
+                closeInvoiceModal();
+                await loadInvoices();
+            } catch (error) {
+                console.error('Error creando factura:', error);
+                alert('Error al crear factura');
+            }
+        }
+
+        // Copiar enlace del cliente
+        function copyClientLink() {
+            const link = window.location.origin + '/cliente.html?id=' + (currentUser?.uid || 'demo');
+            navigator.clipboard.writeText(link).then(() => {
+                alert('✅ Enlace copiado al portapapeles');
+            });
+        }
+
+        // Cerrar sesión
+        async function handleLogout() {
+            await auth.signOut();
+            window.location.href = 'login.html';
+        }
     </script>
 </body>
 </html>
