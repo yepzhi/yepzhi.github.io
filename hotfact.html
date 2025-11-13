@@ -281,10 +281,10 @@
             <p>Solicita tu factura electrónica</p>
             
             <div class="business-info" id="businessInfo">
-                <div class="business-name" id="businessName">Cargando...</div>
-                <div class="business-rfc" id="businessRFC">RFC: ---</div>
+                <div class="business-name" id="businessName">Ingresa tu folio para continuar</div>
+                <div class="business-rfc" id="businessRFC" style="display: none;">RFC: ---</div>
                 
-                <div class="amount-display">
+                <div class="amount-display" id="amountDisplay" style="display: none;">
                     <div class="amount-label">MONTO A FACTURAR</div>
                     <div class="amount-value" id="totalAmount">$0.00</div>
                 </div>
@@ -295,7 +295,7 @@
         <div id="invoiceForm">
             <div id="errorMessage"></div>
 
-            <!-- PASO 1: Ingresar Folio (si no viene en URL) -->
+            <!-- PASO 1: Ingresar Folio -->
             <div class="card" id="folioInputCard">
                 <div class="section-title">
                     <span>🎫</span>
@@ -303,15 +303,22 @@
                 </div>
 
                 <div class="info-box">
-                    💡 El vendedor te debe haber compartido un folio de 20 dígitos
+                    💡 El vendedor te proporcionó un folio de <strong>8 dígitos</strong>
                 </div>
 
                 <div class="form-group">
                     <label>Folio de Facturación <span class="required">*</span></label>
-                    <input type="text" id="folioInput" placeholder="Pega aquí el folio que te compartieron" style="font-family: monospace;">
+                    <input 
+                        type="text" 
+                        id="folioInput" 
+                        placeholder="12345678" 
+                        maxlength="8"
+                        style="font-family: monospace; font-size: 24px; text-align: center; letter-spacing: 2px;"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    <div class="help-text">Solo números, 8 dígitos</div>
                 </div>
 
-                <button class="btn btn-success" onclick="loadFolioManual()">Continuar</button>
+                <button class="btn btn-success" onclick="loadFolioManual()">🔍 Buscar Folio</button>
             </div>
 
             <!-- PASO 2: Datos del Receptor (oculto hasta que se cargue el folio) -->
@@ -437,6 +444,7 @@
             <button class="btn" onclick="submitInvoice()" id="submitBtn">
                 🔥 Solicitar Factura
             </button>
+            </div>
         </div>
 
         <!-- Mensaje de éxito -->
@@ -477,30 +485,45 @@
             return urlParams.get('folio');
         }
 
-        // Cargar datos del folio
+        // Cargar datos del folio automáticamente o manualmente
         async function loadFolioData() {
             const folioId = getFolioId();
             
-            if (!folioId) {
-                document.getElementById('businessInfo').innerHTML = `
-                    <div style="color: #ff6b6b; padding: 20px;">
-                        ⚠️ Folio no válido. Solicita un nuevo enlace al vendedor.
-                    </div>
-                `;
-                document.getElementById('invoiceForm').style.display = 'none';
+            if (folioId) {
+                // Si viene folio en URL, cargar directamente
+                await loadFolioById(folioId);
+            } else {
+                // Si no viene folio, mostrar input para ingresarlo
+                document.getElementById('folioInputCard').classList.remove('hidden');
+                document.getElementById('receptorDataCard').classList.add('hidden');
+            }
+        }
+
+        // Cargar folio manualmente
+        async function loadFolioManual() {
+            const folioInput = document.getElementById('folioInput').value.trim();
+            
+            if (!folioInput) {
+                document.getElementById('errorMessage').innerHTML = '<div class="error-message">Por favor ingresa un folio</div>';
                 return;
             }
 
+            await loadFolioById(folioInput);
+        }
+
+        // Cargar folio por ID
+        async function loadFolioById(folioId) {
             try {
                 const doc = await db.collection('folios').doc(folioId).get();
                 
                 if (!doc.exists) {
                     document.getElementById('businessInfo').innerHTML = `
                         <div style="color: #ff6b6b; padding: 20px;">
-                            ⚠️ Folio no encontrado o expirado.
+                            ⚠️ Folio no encontrado. Verifica que esté correcto.
                         </div>
                     `;
-                    document.getElementById('invoiceForm').style.display = 'none';
+                    document.getElementById('folioInputCard').classList.remove('hidden');
+                    document.getElementById('receptorDataCard').classList.add('hidden');
                     return;
                 }
 
@@ -514,14 +537,19 @@
                             ⚠️ Este folio ya fue utilizado.
                         </div>
                     `;
-                    document.getElementById('invoiceForm').style.display = 'none';
+                    document.getElementById('folioInputCard').classList.add('hidden');
+                    document.getElementById('receptorDataCard').classList.add('hidden');
                     return;
                 }
 
                 // Mostrar información
                 document.getElementById('businessName').textContent = folioData.businessName;
                 document.getElementById('businessRFC').textContent = `RFC: ${folioData.businessRFC}`;
-                document.getElementById('totalAmount').textContent = `$${folioData.amount.toFixed(2)}`;
+                document.getElementById('totalAmount').textContent = `${folioData.amount.toFixed(2)}`;
+                
+                // Ocultar input de folio y mostrar formulario
+                document.getElementById('folioInputCard').classList.add('hidden');
+                document.getElementById('receptorDataCard').classList.remove('hidden');
                 
                 // Actualizar desglose
                 updateBreakdown();
