@@ -529,6 +529,111 @@
         </div>
     </div>
 
+    <!-- Modal Factura Directa -->
+    <div class="modal" id="directInvoiceModal">
+        <div class="modal-content" style="max-width: 600px; max-height: 90vh; overflow-y: auto;">
+            <div class="modal-header">
+                <div class="modal-title">⚡ Generar Factura Directa</div>
+                <span class="modal-close" onclick="closeDirectInvoiceModal()">×</span>
+            </div>
+            
+            <div id="directInvoiceMessage"></div>
+
+            <div class="info-box">
+                ⚡ Esta factura se timbrará inmediatamente y se enviará al cliente por email
+            </div>
+
+            <!-- Datos del Receptor -->
+            <div style="margin-bottom: 20px;">
+                <h3 style="color: white; font-size: 16px; margin-bottom: 15px;">📋 Datos del Cliente</h3>
+                
+                <div class="form-group">
+                    <label>RFC <span style="color: #ff6b6b;">*</span></label>
+                    <input type="text" id="directRFC" placeholder="XAXX010101000" maxlength="13" style="text-transform: uppercase;">
+                </div>
+
+                <div class="form-group">
+                    <label>Nombre o Razón Social <span style="color: #ff6b6b;">*</span></label>
+                    <input type="text" id="directNombre" placeholder="Nombre completo o razón social">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Régimen Fiscal <span style="color: #ff6b6b;">*</span></label>
+                        <select id="directRegimen" style="width: 100%; padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
+                            <option value="">Selecciona...</option>
+                            <option value="601">601 - General de Ley Personas Morales</option>
+                            <option value="605">605 - Sueldos y Salarios</option>
+                            <option value="606">606 - Arrendamiento</option>
+                            <option value="608">608 - Demás ingresos</option>
+                            <option value="612">612 - Personas Físicas con Actividades</option>
+                            <option value="616">616 - Sin obligaciones fiscales</option>
+                            <option value="621">621 - Incorporación Fiscal</option>
+                            <option value="626">626 - Régimen Simplificado de Confianza</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Código Postal <span style="color: #ff6b6b;">*</span></label>
+                        <input type="text" id="directCP" placeholder="00000" maxlength="5">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Correo Electrónico <span style="color: #ff6b6b;">*</span></label>
+                    <input type="email" id="directEmail" placeholder="cliente@email.com">
+                    <div class="help-text">Aquí se enviará la factura (XML y PDF)</div>
+                </div>
+            </div>
+
+            <!-- Datos de la Factura -->
+            <div style="margin-bottom: 20px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;">
+                <h3 style="color: white; font-size: 16px; margin-bottom: 15px;">💰 Datos de la Factura</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Uso de CFDI <span style="color: #ff6b6b;">*</span></label>
+                        <select id="directUsoCFDI" style="width: 100%; padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
+                            <option value="">Selecciona...</option>
+                            <option value="G01">G01 - Adquisición de mercancías</option>
+                            <option value="G03" selected>G03 - Gastos en general</option>
+                            <option value="D10">D10 - Servicios educativos</option>
+                            <option value="S01">S01 - Sin efectos fiscales</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Forma de Pago <span style="color: #ff6b6b;">*</span></label>
+                        <select id="directFormaPago" style="width: 100%; padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
+                            <option value="">Selecciona...</option>
+                            <option value="01">Efectivo</option>
+                            <option value="04">Tarjeta de Crédito</option>
+                            <option value="28">Tarjeta de Débito</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Monto Total (MXN) <span style="color: #ff6b6b;">*</span></label>
+                    <input type="number" id="directMonto" placeholder="0.00" step="0.01" min="0.01" style="font-size: 18px; font-weight: 600;">
+                    <div class="help-text">IVA 16% incluido. Concepto: "CONSUMO DE ALIMENTOS"</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-top: 15px;">
+                    <div style="color: rgba(255,255,255,0.8); font-size: 13px; margin-bottom: 5px;">Desglose automático:</div>
+                    <div style="color: white; font-size: 14px;">
+                        <span id="directSubtotalPreview">Subtotal: $0.00</span> |
+                        <span id="directIVAPreview">IVA: $0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-success" onclick="generateDirectInvoice()" id="directInvoiceBtn">
+                ⚡ Timbrar Factura Ahora
+            </button>
+        </div>
+    </div>
+
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -550,6 +655,7 @@
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
+        const storage = firebase.storage();
 
         let currentUser, userData;
 
