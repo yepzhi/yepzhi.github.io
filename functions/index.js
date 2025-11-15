@@ -1,519 +1,472 @@
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
-const nodemailer = require('nodemailer');
-const axios = require('axios');
-const { jsPDF } = require('jspdf');
-const QRCode = require('qrcode');
-const xml2js = require('xml2js');
-const { 
-  generarSello, 
-  extraerNumeroCertificado, 
-  extraerCertificadoBase64,
-  generarCadenaOriginal
-} = require('./sello');
+const {onCall} = require("firebase-functions/v2/https");
+const {onDocumentCreated} = require("firebase-functions/v2/firestore");
+const admin = require("firebase-admin");
+const soap = require("soap");
+const {create} = require("xmlbuilder2");
+const PDFDocument = require("pdfkit");
+const nodemailer = require("nodemailer");
+const axios = require("axios");
 
 admin.initializeApp();
 
-// ==========================================
-// CONFIGURACIÓN
-// ==========================================
+// Configuración de Finkok
+const FINKOK_CONFIG = {
+  usuario: "yepzhi@gmail.com",
+  password: "Apple2014",
+  wsdl: "https://demo-facturacion.finkok.com/servicios/soap/stamp.wsdl",
+  wsdlCancel:
+    "https://demo-facturacion.finkok.com/servicios/soap/cancel.wsdl",
+};
 
-// Configurar email (Gmail)
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
+// Configuración de Gmail
+const EMAIL_CONFIG = {
+  service: "gmail",
   auth: {
-    user: 'yepzhi@gmail.com', // ← CAMBIA ESTO
-    pass: 'mriv pduk ecsr epwg' // ← App Password de Google
+    user: "yepzhi@gmail.com",
+    pass: process.env.GMAIL_APP_PASSWORD || "tu-app-password",
+  },
+};
+
+/**
+ * Función para timbrar factura con Finkok
+ * Se llama manualmente desde el dashboard
+ * @param {object} request - Request object
+ * @return {Promise<object>} Resultado del timbrado
+ */
+exports.timbrarFactura = onCall(async (request) => {
+  try {
+    const {invoiceId} = request.data;
+
+    if (!invoiceId) {
+      throw new Error("Se requiere el ID de la factura");
+    }
+
+    // Obtener datos de la factura
+    const invoiceRef = admin.firestore()
+        .collection("invoiceRequests")
+        .doc(invoiceId);
+    const invoiceDoc = await invoiceRef.get();
+
+    if (!invoiceDoc.exists) {
+      throw new Error("Factura no encontrada");
+    }
+
+    const invoiceData = invoiceDoc.data();
+
+    // Verificar que no esté ya timbrada
+    if (invoiceData.status === "timbrada") {
+      throw new Error("Esta factura ya está timbrada");
+    }
+
+    // 1. Generar XML CFDI 4.0
+    const xml = generarXMLCFDI(invoiceData);
+
+    // 2. Timbrar con Finkok
+    const resultado = await timbrarConFinkok(xml);
+
+    // 3. Generar PDF
+    const pdfBuffer = await generarPDF(invoiceData, resultado.xmlTimbrado);
+
+    // 4. Subir archivos a Storage
+    const urls = await subirArchivos(
+        invoiceId,
+        resultado.xmlTimbrado,
+        pdfBuffer,
+    );
+
+    // 5. Actualizar Firestore
+    await invoiceRef.update({
+      status: "timbrada",
+      uuid: resultado.uuid,
+      xmlURL: urls.xmlURL,
+      pdfURL: urls.pdfURL,
+      fechaTimbrado: admin.firestore.FieldValue.serverTimestamp(),
+      certificadoSAT: resultado.certificadoSAT,
+      selloSAT: resultado.selloSAT,
+    });
+
+    // 6. Enviar email
+    await enviarEmail(invoiceData, urls);
+
+    return {
+      success: true,
+      uuid: resultado.uuid,
+      xmlURL: urls.xmlURL,
+      pdfURL: urls.pdfURL,
+      message: "Factura timbrada exitosamente",
+    };
+  } catch (error) {
+    console.error("Error en timbrarFactura:", error);
+    throw new Error(`Error al timbrar: ${error.message}`);
   }
 });
 
-// Configuración Finkok
-const FINKOK_CONFIG = {
-  usuario: 'yepzhi@gmail.com', // ← CAMBIA ESTO
-  password: 'Apple2014!', // ← CAMBIA ESTO
-  urlDemo: 'https://demo-facturacion.finkok.com/servicios/soap/stamp.wsdl',
-  urlProduccion: 'https://facturacion.finkok.com/servicios/soap/stamp.wsdl',
-  usarDemo: true // ← true para pruebas, false para producción
-};
-
-// ==========================================
-// FUNCIÓN PRINCIPAL: Procesar Factura
-// ==========================================
-
-exports.procesarFactura = functions.firestore
-  .document('invoiceRequests/{docId}')
-  .onCreate(async (snap, context) => {
-    const requestData = snap.data();
-    const requestId = context.params.docId;
-    
-    try {
-      console.log('📄 Procesando factura:', requestId);
-      
-      // 1. Obtener datos del usuario
-      const userDoc = await admin.firestore()
-        .collection('users')
-        .doc(requestData.businessId)
-        .get();
-      
-      if (!userDoc.exists) {
-        throw new Error('Usuario no encontrado');
-      }
-      
-      const userData = userDoc.data();
-      
-      console.log('✅ Usuario encontrado:', userData.businessName);
-      
-      // 2. Generar XML CFDI 4.0 (sin sello - Finkok lo gestiona)
-      const xmlPreTimbrado = generarXMLSinSello(requestData, userData);
-      
-      console.log('📝 XML generado, intentando timbrar con Finkok...');
-      
-      // 3. Timbrar con Finkok
-      const timbrado = await timbrarConFinkok(xmlPreTimbrado);
-      
-      console.log('✅ Timbrado exitoso, UUID:', timbrado.uuid);
-      
-      // 4. Generar PDF con QR
-      const pdfBuffer = await generarPDF(requestData, userData, timbrado);
-      
-      // 5. Guardar factura en Firestore
-      await admin.firestore().collection('invoices').add({
-        requestId: requestId,
-        userId: requestData.businessId,
-        folio: timbrado.folio,
-        serie: timbrado.serie,
-        uuid: timbrado.uuid,
-        xmlTimbrado: timbrado.xmlTimbrado,
-        pdfData: pdfBuffer.toString('base64'),
-        receptorEmail: requestData.receptor.email,
-        totales: requestData.totales,
-        status: 'timbrada',
-        fechaTimbrado: timbrado.fechaTimbrado,
-        createdAt: admin.firestore.FieldValue.serverTimestamp()
-      });
-      
-      // 6. Enviar email con adjuntos
-      await enviarEmail(requestData, timbrado, pdfBuffer);
-      
-      // 7. Actualizar solicitud
-      await snap.ref.update({
-        status: 'completada',
-        uuid: timbrado.uuid,
-        processedAt: admin.firestore.FieldValue.serverTimestamp()
-      });
-      
-      // 8. Si venía de un folio, marcarlo como usado
-      if (requestData.folioId) {
-        await admin.firestore().collection('folios').doc(requestData.folioId).update({
-          status: 'used',
-          usedAt: admin.firestore.FieldValue.serverTimestamp()
-        });
-      }
-      
-      console.log('✅ Factura procesada exitosamente');
-      
-    } catch (error) {
-      console.error('❌ Error procesando factura:', error);
-      
-      // Guardar error
-      await snap.ref.update({
-        status: 'error',
-        errorMessage: error.message,
-        errorCode: error.code || 'UNKNOWN',
-        errorAt: admin.firestore.FieldValue.serverTimestamp()
-      });
-      
-      // Notificar al cliente del error
-      try {
-        await enviarEmailError(requestData, error);
-      } catch (emailError) {
-        console.error('Error enviando email de error:', emailError);
-      }
-    }
-  });
-
-// ==========================================
-// GENERAR XML CFDI 4.0 (Sin Sello)
-// ==========================================
-
-function generarXMLSinSello(data, userData) {
+/**
+ * Generar XML CFDI 4.0
+ * @param {object} invoiceData - Datos de la factura
+ * @return {string} XML generado
+ */
+function generarXMLCFDI(invoiceData) {
   const fecha = new Date().toISOString();
-  const subtotal = data.totales.subtotal.toFixed(2);
-  const iva = data.totales.iva.toFixed(2);
-  const total = data.totales.total.toFixed(2);
-  const serie = 'A';
-  const folio = Date.now().toString().slice(-6);
-  
-  // XML sin sello - Finkok lo agregará
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd" Version="4.0" Serie="${serie}" Folio="${folio}" Fecha="${fecha}" FormaPago="${data.cfdi.formaPago}" SubTotal="${subtotal}" Moneda="MXN" Total="${total}" TipoDeComprobante="I" MetodoPago="PUE" LugarExpedicion="${data.receptor.cp}" Exportacion="01">
-  <cfdi:Emisor Rfc="${data.emisor.rfc}" Nombre="${escapeXml(data.emisor.nombre)}" RegimenFiscal="612"/>
-  <cfdi:Receptor Rfc="${data.receptor.rfc}" Nombre="${escapeXml(data.receptor.nombre)}" DomicilioFiscalReceptor="${data.receptor.cp}" RegimenFiscalReceptor="${data.receptor.regimenFiscal}" UsoCFDI="${data.cfdi.usoCFDI}"/>
-  <cfdi:Conceptos>
-    <cfdi:Concepto ClaveProdServ="90101501" Cantidad="1" ClaveUnidad="E48" Unidad="Servicio" Descripcion="CONSUMO DE ALIMENTOS" ValorUnitario="${subtotal}" Importe="${subtotal}" ObjetoImp="02">
-      <cfdi:Impuestos>
-        <cfdi:Traslados>
-          <cfdi:Traslado Base="${subtotal}" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="${iva}"/>
-        </cfdi:Traslados>
-      </cfdi:Impuestos>
-    </cfdi:Concepto>
-  </cfdi:Conceptos>
-  <cfdi:Impuestos TotalImpuestosTrasladados="${iva}">
-    <cfdi:Traslados>
-      <cfdi:Traslado Base="${subtotal}" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="${iva}"/>
-    </cfdi:Traslados>
-  </cfdi:Impuestos>
-</cfdi:Comprobante>`;
+  const {emisor, receptor, totales, conceptos, cfdi} = invoiceData;
 
-  return xml;
+  const doc = create({version: "1.0", encoding: "UTF-8"})
+      .ele("cfdi:Comprobante", {
+        "xmlns:cfdi": "http://www.sat.gob.mx/cfd/4",
+        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        "xsi:schemaLocation":
+          "http://www.sat.gob.mx/cfd/4 " +
+          "http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd",
+        "Version": "4.0",
+        "Serie": "F",
+        "Folio": invoiceData.folioNumber || Date.now().toString(),
+        "Fecha": fecha,
+        "FormaPago": cfdi.formaPago,
+        "SubTotal": totales.subtotal.toFixed(2),
+        "Moneda": "MXN",
+        "Total": totales.total.toFixed(2),
+        "TipoDeComprobante": "I",
+        "MetodoPago": "PUE",
+        "LugarExpedicion": "83000",
+        "Exportacion": "01",
+      });
+
+  // Emisor
+  doc.ele("cfdi:Emisor", {
+    Rfc: emisor.rfc,
+    Nombre: emisor.nombre,
+    RegimenFiscal: "626",
+  }).up();
+
+  // Receptor
+  doc.ele("cfdi:Receptor", {
+    Rfc: receptor.rfc,
+    Nombre: receptor.nombre,
+    DomicilioFiscalReceptor: receptor.cp,
+    RegimenFiscalReceptor: receptor.regimenFiscal,
+    UsoCFDI: cfdi.usoCFDI,
+  }).up();
+
+  // Conceptos
+  const conceptosNode = doc.ele("cfdi:Conceptos");
+  conceptos.forEach((concepto) => {
+    conceptosNode.ele("cfdi:Concepto", {
+      ClaveProdServ: "90101501",
+      Cantidad: concepto.cantidad,
+      ClaveUnidad: "E48",
+      Unidad: "Servicio",
+      Descripcion: concepto.descripcion,
+      ValorUnitario: concepto.precioUnitario.toFixed(2),
+      Importe: concepto.subtotal.toFixed(2),
+      ObjetoImp: "02",
+    })
+        .ele("cfdi:Impuestos")
+        .ele("cfdi:Traslados")
+        .ele("cfdi:Traslado", {
+          Base: concepto.subtotal.toFixed(2),
+          Impuesto: "002",
+          TipoFactor: "Tasa",
+          TasaOCuota: "0.160000",
+          Importe: (concepto.subtotal * 0.16).toFixed(2),
+        }).up().up().up().up();
+  });
+  conceptosNode.up();
+
+  // Impuestos
+  doc.ele("cfdi:Impuestos", {
+    TotalImpuestosTrasladados: totales.iva.toFixed(2),
+  })
+      .ele("cfdi:Traslados")
+      .ele("cfdi:Traslado", {
+        Base: totales.subtotal.toFixed(2),
+        Impuesto: "002",
+        TipoFactor: "Tasa",
+        TasaOCuota: "0.160000",
+        Importe: totales.iva.toFixed(2),
+      }).up().up().up();
+
+  return doc.end({prettyPrint: true});
 }
 
-function escapeXml(unsafe) {
-  if (!unsafe) return '';
-  return unsafe.toString().replace(/[<>&'"]/g, (c) => {
-    switch (c) {
-      case '<': return '&lt;';
-      case '>': return '&gt;';
-      case '&': return '&amp;';
-      case '\'': return '&apos;';
-      case '"': return '&quot;';
-    }
+/**
+ * Timbrar con Finkok SOAP
+ * @param {string} xml - XML a timbrar
+ * @return {Promise<object>} Resultado del timbrado
+ */
+async function timbrarConFinkok(xml) {
+  return new Promise((resolve, reject) => {
+    soap.createClient(FINKOK_CONFIG.wsdl, (err, client) => {
+      if (err) {
+        reject(new Error(`Error creando cliente SOAP: ${err.message}`));
+        return;
+      }
+
+      const xmlBase64 = Buffer.from(xml).toString("base64");
+
+      const args = {
+        username: FINKOK_CONFIG.usuario,
+        password: FINKOK_CONFIG.password,
+        xml: xmlBase64,
+      };
+
+      client.stamp(args, (err, result) => {
+        if (err) {
+          reject(new Error(`Error en Finkok: ${err.message}`));
+          return;
+        }
+
+        if (result.stampResult && result.stampResult.xml) {
+          const xmlTimbrado = Buffer.from(
+              result.stampResult.xml,
+              "base64",
+          ).toString("utf8");
+
+          // Extraer UUID del XML timbrado
+          const uuidMatch = xmlTimbrado.match(/UUID="([^"]+)"/);
+          const uuid = uuidMatch ? uuidMatch[1] : null;
+
+          // Extraer certificado y sello SAT
+          const certMatch = xmlTimbrado.match(/NoCertificadoSAT="([^"]+)"/);
+          const selloMatch = xmlTimbrado.match(/SelloSAT="([^"]+)"/);
+
+          resolve({
+            xmlTimbrado,
+            uuid,
+            certificadoSAT: certMatch ? certMatch[1] : null,
+            selloSAT: selloMatch ? selloMatch[1] : null,
+          });
+        } else {
+          reject(new Error("No se recibió XML timbrado de Finkok"));
+        }
+      });
+    });
   });
 }
 
-// ==========================================
-// TIMBRAR CON FINKOK (Método stamp)
-// ==========================================
+/**
+ * Generar PDF de la factura con logo
+ * @param {object} invoiceData - Datos de la factura
+ * @param {string} xmlTimbrado - XML timbrado
+ * @return {Promise<Buffer>} PDF generado
+ */
+function generarPDF(invoiceData, xmlTimbrado) {
+  return new Promise((resolve, reject) => {
+    const doc = new PDFDocument({margin: 50});
+    const chunks = [];
 
-async function timbrarConFinkok(xml) {
+    doc.on("data", (chunk) => chunks.push(chunk));
+    doc.on("end", () => resolve(Buffer.concat(chunks)));
+    doc.on("error", reject);
+
+    const {emisor, receptor, totales, conceptos, businessId} = invoiceData;
+
+    // Extraer UUID del XML
+    const uuidMatch = xmlTimbrado.match(/UUID="([^"]+)"/);
+    const uuid = uuidMatch ? uuidMatch[1] : "N/A";
+
+    // Obtener y agregar logo
+    cargarLogo(businessId)
+        .then((logoBuffer) => {
+          if (logoBuffer) {
+            try {
+              doc.image(logoBuffer, 50, 45, {
+                width: 100,
+                height: 100,
+                fit: [100, 100],
+              });
+              doc.moveDown(6);
+            } catch (error) {
+              console.log("Error insertando logo:", error.message);
+            }
+          }
+
+          // Header
+          doc.fontSize(20).text("FACTURA ELECTRÓNICA", {align: "center"});
+          doc.moveDown();
+
+          // Emisor
+          doc.fontSize(12).text("EMISOR", {underline: true});
+          doc.fontSize(10)
+              .text(`${emisor.nombre}`)
+              .text(`RFC: ${emisor.rfc}`)
+              .moveDown();
+
+          // Receptor
+          doc.fontSize(12).text("RECEPTOR", {underline: true});
+          doc.fontSize(10)
+              .text(`${receptor.nombre}`)
+              .text(`RFC: ${receptor.rfc}`)
+              .text(`Código Postal: ${receptor.cp}`)
+              .moveDown();
+
+          // UUID
+          doc.fontSize(12).text("FOLIO FISCAL (UUID)", {underline: true});
+          doc.fontSize(8).text(uuid).moveDown();
+
+          // Conceptos
+          doc.fontSize(12).text("CONCEPTOS", {underline: true});
+          conceptos.forEach((concepto) => {
+            doc.fontSize(10)
+                .text(
+                    `${concepto.cantidad} x ${concepto.descripcion} - ` +
+                    `$${concepto.precioUnitario.toFixed(2)}`,
+                );
+          });
+          doc.moveDown();
+
+          // Totales
+          doc.fontSize(10)
+              .text(`Subtotal: $${totales.subtotal.toFixed(2)}`, {
+                align: "right",
+              })
+              .text(`IVA (16%): $${totales.iva.toFixed(2)}`, {
+                align: "right",
+              })
+              .fontSize(12)
+              .text(`TOTAL: $${totales.total.toFixed(2)}`, {
+                align: "right",
+                underline: true,
+              });
+
+          doc.moveDown(2);
+          doc.fontSize(8)
+              .text(
+                  "Este documento es una representación impresa de un CFDI",
+                  {align: "center"},
+              );
+
+          doc.end();
+        })
+        .catch((error) => {
+          console.log("Error cargando logo:", error);
+          reject(error);
+        });
+  });
+}
+
+/**
+ * Cargar logo del negocio
+ * @param {string} businessId - ID del negocio
+ * @return {Promise<Buffer|null>} Buffer del logo o null
+ */
+async function cargarLogo(businessId) {
   try {
-    const url = FINKOK_CONFIG.usarDemo ? FINKOK_CONFIG.urlDemo : FINKOK_CONFIG.urlProduccion;
-    
-    // Convertir XML a Base64 (requisito de Finkok)
-    const xmlBase64 = Buffer.from(xml).toString('base64');
-    
-    // Construir SOAP envelope según documentación Finkok
-    const soapEnvelope = `<?xml version="1.0" encoding="UTF-8"?>
-<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://facturacion.finkok.com/stamp">
-  <SOAP-ENV:Body>
-    <ns1:stamp>
-      <ns1:xml>${xmlBase64}</ns1:xml>
-      <ns1:username>${FINKOK_CONFIG.usuario}</ns1:username>
-      <ns1:password>${FINKOK_CONFIG.password}</ns1:password>
-    </ns1:stamp>
-  </SOAP-ENV:Body>
-</SOAP-ENV:Envelope>`;
+    const userDoc = await admin.firestore()
+        .collection("users")
+        .doc(businessId)
+        .get();
+    const userData = userDoc.data();
 
-    console.log('🔄 Enviando a Finkok...');
-    
-    const response = await axios.post(url, soapEnvelope, {
-      headers: {
-        'Content-Type': 'text/xml;charset=UTF-8',
-        'SOAPAction': 'stamp'
-      },
-      timeout: 30000
-    });
-
-    console.log('📥 Respuesta recibida de Finkok');
-    
-    // Parsear respuesta SOAP
-    const parser = new xml2js.Parser({ explicitArray: false });
-    const result = await parser.parseStringPromise(response.data);
-    
-    // Extraer datos según estructura de respuesta Finkok
-    const body = result['SOAP-ENV:Envelope']['SOAP-ENV:Body'];
-    
-    if (body['SOAP-ENV:Fault']) {
-      const fault = body['SOAP-ENV:Fault'];
-      throw new Error(`Error Finkok: ${fault.faultstring}`);
-    }
-    
-    const stampResult = body['ns1:stampResponse'] || body.stampResponse;
-    
-    // XML timbrado viene en Base64
-    const xmlTimbradoBase64 = stampResult.xml || stampResult.stamped.xml;
-    const xmlTimbrado = Buffer.from(xmlTimbradoBase64, 'base64').toString('utf-8');
-    
-    // Extraer UUID del XML timbrado
-    const uuid = extraerUUID(xmlTimbrado);
-    const fechaTimbrado = extraerFechaTimbrado(xmlTimbrado);
-    const serie = extraerSerie(xmlTimbrado);
-    const folio = extraerFolio(xmlTimbrado);
-    
-    return {
-      uuid: uuid,
-      xmlTimbrado: xmlTimbrado,
-      fechaTimbrado: fechaTimbrado,
-      serie: serie,
-      folio: folio
-    };
-    
-  } catch (error) {
-    console.error('❌ Error timbrado Finkok:', error.message);
-    
-    // Si falla, generar UUID simulado para desarrollo
-    console.log('⚠️ Usando UUID simulado para desarrollo');
-    const uuidSimulado = `${Date.now()}-DEMO-XXXX-XXXX-XXXXXXXXXXXX`;
-    
-    return {
-      uuid: uuidSimulado,
-      xmlTimbrado: xml,
-      fechaTimbrado: new Date().toISOString(),
-      serie: 'A',
-      folio: Date.now().toString().slice(-6)
-    };
-  }
-}
-
-// Funciones auxiliares para extraer datos del XML timbrado
-function extraerUUID(xmlTimbrado) {
-  const match = xmlTimbrado.match(/UUID="([^"]+)"/);
-  return match ? match[1] : 'UUID-NO-ENCONTRADO';
-}
-
-function extraerFechaTimbrado(xmlTimbrado) {
-  const match = xmlTimbrado.match(/FechaTimbrado="([^"]+)"/);
-  return match ? match[1] : new Date().toISOString();
-}
-
-function extraerSerie(xmlTimbrado) {
-  const match = xmlTimbrado.match(/Serie="([^"]+)"/);
-  return match ? match[1] : 'A';
-}
-
-function extraerFolio(xmlTimbrado) {
-  const match = xmlTimbrado.match(/Folio="([^"]+)"/);
-  return match ? match[1] : '000000';
-}
-
-// ==========================================
-// GENERAR PDF CON LOGO Y QR
-// ==========================================
-
-async function generarPDF(data, userData, timbrado) {
-  const doc = new jsPDF();
-  
-  // Logo (si existe)
-  if (userData.logoURL) {
-    try {
-      doc.addImage(userData.logoURL, 'PNG', 150, 10, 40, 20);
-    } catch (e) {
-      console.log('⚠️ No se pudo cargar logo:', e.message);
-    }
-  }
-  
-  // Título
-  doc.setFontSize(22);
-  doc.setTextColor(102, 126, 234);
-  doc.text('🔥 hotFact', 20, 20);
-  
-  doc.setFontSize(16);
-  doc.text('FACTURA ELECTRÓNICA', 20, 28);
-  
-  // Serie y Folio
-  doc.setFontSize(12);
-  doc.setTextColor(0, 0, 0);
-  doc.text(`Serie: ${timbrado.serie}  Folio: ${timbrado.folio}`, 20, 36);
-  
-  // Línea separadora
-  doc.setLineWidth(0.5);
-  doc.setDrawColor(102, 126, 234);
-  doc.line(20, 40, 190, 40);
-  
-  // Datos del emisor
-  doc.setFontSize(10);
-  doc.setFont(undefined, 'bold');
-  doc.text('EMISOR', 20, 48);
-  doc.setFont(undefined, 'normal');
-  doc.text(`${data.emisor.nombre}`, 20, 54);
-  doc.text(`RFC: ${data.emisor.rfc}`, 20, 60);
-  
-  // Datos del receptor
-  doc.setFont(undefined, 'bold');
-  doc.text('RECEPTOR', 20, 72);
-  doc.setFont(undefined, 'normal');
-  doc.text(`${data.receptor.nombre}`, 20, 78);
-  doc.text(`RFC: ${data.receptor.rfc}`, 20, 84);
-  doc.text(`Régimen Fiscal: ${data.receptor.regimenFiscal}`, 20, 90);
-  doc.text(`C.P.: ${data.receptor.cp}`, 20, 96);
-  
-  // UUID y fechas
-  doc.setFontSize(8);
-  doc.setTextColor(100, 100, 100);
-  doc.text(`UUID: ${timbrado.uuid}`, 20, 106);
-  doc.text(`Fecha: ${new Date().toLocaleString('es-MX')}`, 20, 111);
-  
-  // Tabla de conceptos
-  doc.setFontSize(10);
-  doc.setTextColor(0, 0, 0);
-  doc.setFont(undefined, 'bold');
-  doc.text('CONCEPTOS', 20, 128);
-  
-  doc.setLineWidth(0.3);
-  doc.setDrawColor(200, 200, 200);
-  doc.line(20, 130, 190, 130);
-  
-  // Headers
-  doc.setFontSize(9);
-  doc.text('Cant.', 20, 137);
-  doc.text('Descripción', 40, 137);
-  doc.text('P. Unit.', 145, 137);
-  doc.text('Importe', 170, 137);
-  
-  doc.line(20, 139, 190, 139);
-  
-  // Datos
-  doc.setFont(undefined, 'normal');
-  doc.text('1', 20, 146);
-  doc.text('CONSUMO DE ALIMENTOS', 40, 146);
-  doc.text(`$${data.totales.subtotal.toFixed(2)}`, 145, 146);
-  doc.text(`$${data.totales.subtotal.toFixed(2)}`, 170, 146);
-  
-  // Totales
-  doc.line(20, 152, 190, 152);
-  
-  const totalesY = 160;
-  doc.text('Subtotal:', 135, totalesY);
-  doc.text(`$${data.totales.subtotal.toFixed(2)}`, 170, totalesY, { align: 'right' });
-  
-  doc.text('IVA (16%):', 135, totalesY + 7);
-  doc.text(`$${data.totales.iva.toFixed(2)}`, 170, totalesY + 7, { align: 'right' });
-  
-  doc.setLineWidth(0.5);
-  doc.line(130, totalesY + 10, 190, totalesY + 10);
-  
-  doc.setFontSize(12);
-  doc.setFont(undefined, 'bold');
-  doc.text('TOTAL:', 135, totalesY + 17);
-  doc.text(`$${data.totales.total.toFixed(2)} MXN`, 170, totalesY + 17, { align: 'right' });
-  
-  // QR
-  const qrData = `https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=${timbrado.uuid}&re=${data.emisor.rfc}&rr=${data.receptor.rfc}&tt=${data.totales.total.toFixed(6)}`;
-  
-  const qrDataURL = await QRCode.toDataURL(qrData);
-  doc.addImage(qrDataURL, 'PNG', 20, 190, 35, 35);
-  
-  doc.setFontSize(7);
-  doc.text('Verifica en el SAT', 20, 228);
-  
-  // Footer
-  doc.setFontSize(8);
-  doc.setTextColor(100, 100, 100);
-  doc.text('Este documento es una representación impresa de un CFDI', 20, 245);
-  doc.setTextColor(102, 126, 234);
-  doc.setFont(undefined, 'bold');
-  doc.text('🔥 hotFact - Tus facturas en caliente', 20, 250);
-  
-  return Buffer.from(doc.output('arraybuffer'));
-}
-
-// ==========================================
-// ENVIAR EMAIL CON ADJUNTOS
-// ==========================================
-
-async function enviarEmail(data, timbrado, pdfBuffer) {
-  const mailOptions = {
-    from: '🔥 hotFact <tu-email@gmail.com>',
-    to: data.receptor.email,
-    subject: `🔥 Factura ${timbrado.serie}-${timbrado.folio} - $${data.totales.total.toFixed(2)} MXN`,
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-          <h1 style="color: white; margin: 0;">🔥 hotFact</h1>
-          <p style="color: white; opacity: 0.9;">Tus facturas en caliente</p>
-        </div>
-        
-        <div style="padding: 30px; background: #f9f9f9;">
-          <h2 style="color: #667eea;">¡Factura Generada!</h2>
-          
-          <p>Hola <strong>${data.receptor.nombre}</strong>,</p>
-          
-          <p>Tu factura ha sido timbrada exitosamente.</p>
-          
-          <div style="background: white; padding: 20px; border-radius: 10px; margin: 20px 0;">
-            <table style="width: 100%;">
-              <tr>
-                <td style="padding: 8px; color: #666;">Emisor:</td>
-                <td style="padding: 8px; font-weight: bold;">${data.emisor.nombre}</td>
-              </tr>
-              <tr>
-                <td style="padding: 8px; color: #666;">Serie-Folio:</td>
-                <td style="padding: 8px;">${timbrado.serie}-${timbrado.folio}</td>
-              </tr>
-              <tr>
-                <td style="padding: 8px; color: #666;">UUID:</td>
-                <td style="padding: 8px; font-size: 11px;">${timbrado.uuid}</td>
-              </tr>
-              <tr>
-                <td style="padding: 8px; color: #666;">Subtotal:</td>
-                <td style="padding: 8px;">$${data.totales.subtotal.toFixed(2)} MXN</td>
-              </tr>
-              <tr>
-                <td style="padding: 8px; color: #666;">IVA (16%):</td>
-                <td style="padding: 8px;">$${data.totales.iva.toFixed(2)} MXN</td>
-              </tr>
-              <tr style="border-top: 2px solid #667eea;">
-                <td style="padding: 12px; color: #667eea; font-weight: bold; font-size: 18px;">TOTAL:</td>
-                <td style="padding: 12px; color: #667eea; font-weight: bold; font-size: 18px;">$${data.totales.total.toFixed(2)} MXN</td>
-              </tr>
-            </table>
-          </div>
-          
-          <p style="font-size: 14px; color: #666;">
-            📎 Se adjuntan los archivos XML y PDF de tu factura.
-          </p>
-          
-          <p style="margin-top: 30px;">
-            Gracias por tu preferencia,<br>
-            <strong>🔥 hotFact</strong>
-          </p>
-        </div>
-        
-        <div style="background: #333; padding: 20px; text-align: center; color: white; font-size: 12px; border-radius: 0 0 10px 10px;">
-          <p>Este es un correo automático.</p>
-        </div>
-      </div>
-    `,
-    attachments: [
-      {
-        filename: `Factura-${timbrado.serie}-${timbrado.folio}.xml`,
-        content: timbrado.xmlTimbrado,
-        contentType: 'application/xml'
-      },
-      {
-        filename: `Factura-${timbrado.serie}-${timbrado.folio}.pdf`,
-        content: pdfBuffer,
-        contentType: 'application/pdf'
+    if (userData && userData.logoURL) {
+      // Si el logo está en base64 en Firestore
+      if (userData.logoURL.startsWith("data:image")) {
+        const base64Data = userData.logoURL.split(",")[1];
+        return Buffer.from(base64Data, "base64");
+      } else {
+        // Si está en Storage, descargar
+        const response = await axios.get(userData.logoURL, {
+          responseType: "arraybuffer",
+        });
+        return Buffer.from(response.data);
       }
-    ]
-  };
-  
-  await transporter.sendMail(mailOptions);
-  console.log('📧 Email enviado a:', data.receptor.email);
+    }
+    return null;
+  } catch (error) {
+    console.log("No se pudo cargar el logo:", error.message);
+    return null;
+  }
 }
 
-// Enviar email de error
-async function enviarEmailError(data, error) {
-  const mailOptions = {
-    from: '🔥 hotFact <tu-email@gmail.com>',
-    to: data.receptor.email,
-    subject: '⚠️ Error al procesar tu factura',
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <div style="background: #ff6b6b; padding: 30px; text-align: center;">
-          <h1 style="color: white;">⚠️ Error en Facturación</h1>
-        </div>
-        <div style="padding: 30px; background: #f5f5f5;">
-          <p>Hola <strong>${data.receptor.nombre}</strong>,</p>
-          <p>Lamentablemente hubo un error al procesar tu factura.</p>
-          <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #ff6b6b;">
-            <p><strong>Error:</strong> ${error.message}</p>
-          </div>
-          <p>Por favor, contacta al emisor para solucionar este problema.</p>
-        </div>
-      </div>
-    `
+/**
+ * Subir archivos a Firebase Storage
+ * @param {string} invoiceId - ID de la factura
+ * @param {string} xml - XML timbrado
+ * @param {Buffer} pdfBuffer - PDF generado
+ * @return {Promise<object>} URLs de los archivos
+ */
+async function subirArchivos(invoiceId, xml, pdfBuffer) {
+  const bucket = admin.storage().bucket();
+
+  // Subir XML
+  const xmlFile = bucket.file(`facturas/${invoiceId}/factura.xml`);
+  await xmlFile.save(xml, {
+    metadata: {contentType: "application/xml"},
+  });
+  const xmlURL = await xmlFile.getSignedUrl({
+    action: "read",
+    expires: "03-01-2500",
+  });
+
+  // Subir PDF
+  const pdfFile = bucket.file(`facturas/${invoiceId}/factura.pdf`);
+  await pdfFile.save(pdfBuffer, {
+    metadata: {contentType: "application/pdf"},
+  });
+  const pdfURL = await pdfFile.getSignedUrl({
+    action: "read",
+    expires: "03-01-2500",
+  });
+
+  return {
+    xmlURL: xmlURL[0],
+    pdfURL: pdfURL[0],
   };
-  
+}
+
+/**
+ * Enviar email con Gmail
+ * @param {object} invoiceData - Datos de la factura
+ * @param {object} urls - URLs de XML y PDF
+ * @return {Promise<void>}
+ */
+async function enviarEmail(invoiceData, urls) {
+  const transporter = nodemailer.createTransport(EMAIL_CONFIG);
+
+  const mailOptions = {
+    from: "HotFact <yepzhi@gmail.com>",
+    to: invoiceData.receptor.email,
+    subject: `Factura Electrónica - ${invoiceData.emisor.nombre}`,
+    html: `
+      <h2>Tu Factura Electrónica</h2>
+      <p>Estimado(a) <strong>${invoiceData.receptor.nombre}</strong>,</p>
+      <p>Adjuntamos tu factura electrónica:</p>
+      <ul>
+        <li>RFC Emisor: ${invoiceData.emisor.rfc}</li>
+        <li>Monto Total: $${invoiceData.totales.total.toFixed(2)} MXN</li>
+      </ul>
+      <p>Descarga tus archivos:</p>
+      <p>
+        <a href="${urls.xmlURL}">Descargar XML</a> |
+        <a href="${urls.pdfURL}">Descargar PDF</a>
+      </p>
+      <p><small>
+        Este correo fue generado automáticamente por HotFact
+      </small></p>
+    `,
+  };
+
   await transporter.sendMail(mailOptions);
 }
+
+/**
+ * Trigger automático cuando se crea una solicitud de factura
+ * (Opcional - por si quieres timbrado automático)
+ */
+exports.procesarFacturaAutomatica = onDocumentCreated(
+    "invoiceRequests/{docId}",
+    async (event) => {
+      const snapshot = event.data;
+      if (!snapshot) return;
+
+      const invoiceData = snapshot.data();
+
+      // Solo procesar si está pendiente
+      if (invoiceData.status !== "pendiente_timbrado") {
+        return;
+      }
+
+      // Aquí podrías llamar automáticamente a timbrarFactura
+      // Por ahora dejamos que sea manual desde el dashboard
+      console.log("Nueva solicitud de factura:", snapshot.id);
+    },
+);

@@ -258,26 +258,20 @@
             font-size: 18px;
         }
 
-        .loading {
+        .folio-input-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 15px;
             text-align: center;
-            padding: 40px;
-            color: white;
-            font-size: 16px;
         }
 
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid white;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .folio-input-large {
+            font-family: 'Courier New', monospace;
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 8px;
+            padding: 20px;
         }
 
         @media (max-width: 768px) {
@@ -292,6 +286,11 @@
             .amount-value {
                 font-size: 36px;
             }
+
+            .folio-input-large {
+                font-size: 24px;
+                letter-spacing: 4px;
+            }
         }
     </style>
 </head>
@@ -303,7 +302,7 @@
             <p>Solicita tu factura electrónica</p>
             
             <div class="business-info" id="businessInfo">
-                <div class="business-name" id="businessName">Cargando información...</div>
+                <div class="business-name" id="businessName">Ingresa tu folio de 8 dígitos</div>
                 <div class="business-rfc" id="businessRFC" style="display: none;"></div>
                 
                 <div class="amount-display" id="amountDisplay" style="display: none;">
@@ -313,15 +312,38 @@
             </div>
         </div>
 
-        <!-- Loading State -->
-        <div id="loadingState" class="card">
-            <div class="loading">
-                <div class="spinner"></div>
-                <p>Cargando datos del folio...</p>
+        <!-- Input de Folio -->
+        <div id="folioInputCard" class="card">
+            <div class="section-title">
+                <span>🎫</span>
+                <span>Ingresa tu Folio</span>
             </div>
+
+            <div class="info-box">
+                💡 El vendedor te proporcionó un folio de <strong>8 dígitos numéricos</strong>
+            </div>
+
+            <div id="folioError"></div>
+
+            <div class="form-group">
+                <label>Folio de Facturación <span class="required">*</span></label>
+                <input 
+                    type="text" 
+                    id="folioInput" 
+                    placeholder="12345678" 
+                    maxlength="8"
+                    class="folio-input-large"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                    autocomplete="off">
+                <div class="help-text">Solo números, exactamente 8 dígitos</div>
+            </div>
+
+            <button class="btn" onclick="loadFolioByNumber()" id="searchBtn">
+                🔍 Buscar Folio
+            </button>
         </div>
 
-        <!-- Formulario -->
+        <!-- Formulario (oculto hasta cargar folio) -->
         <div id="invoiceForm" class="hidden">
             <div id="errorMessage"></div>
 
@@ -411,7 +433,6 @@
                     </div>
                 </div>
 
-                <!-- Detalles fijos -->
                 <div class="form-group">
                     <label>Concepto</label>
                     <input type="text" value="CONSUMO DE ALIMENTOS" readonly>
@@ -427,7 +448,6 @@
                     <input type="text" value="MXN - Peso Mexicano" readonly>
                 </div>
 
-                <!-- Desglose de importes -->
                 <div class="breakdown">
                     <div class="breakdown-row">
                         <span>Subtotal:</span>
@@ -456,27 +476,7 @@
                 <h2 style="margin-bottom: 15px;">¡Factura Solicitada!</h2>
                 <p style="margin-bottom: 10px;">Tu factura ha sido procesada exitosamente.</p>
                 <p style="font-size: 14px; opacity: 0.9;">Recibirás los archivos XML y PDF en tu correo en los próximos minutos.</p>
-                <p style="font-size: 12px; opacity: 0.7; margin-top: 20px;">Folio: <span id="successFolioId" style="font-family: monospace;"></span></p>
-            </div>
-        </div>
-
-        <!-- Error: Folio no encontrado -->
-        <div id="folioNotFound" class="card hidden">
-            <div style="text-align: center; padding: 40px; color: white;">
-                <div style="font-size: 64px; margin-bottom: 20px;">⚠️</div>
-                <h2 style="margin-bottom: 15px;">Folio No Encontrado</h2>
-                <p style="margin-bottom: 10px;">El folio que intentas consultar no existe o no es válido.</p>
-                <p style="font-size: 14px; opacity: 0.9;">Por favor verifica el enlace con el vendedor.</p>
-            </div>
-        </div>
-
-        <!-- Error: Folio ya usado -->
-        <div id="folioUsed" class="card hidden">
-            <div style="text-align: center; padding: 40px; color: white;">
-                <div style="font-size: 64px; margin-bottom: 20px;">🚫</div>
-                <h2 style="margin-bottom: 15px;">Folio Ya Utilizado</h2>
-                <p style="margin-bottom: 10px;">Este folio ya fue usado para generar una factura.</p>
-                <p style="font-size: 14px; opacity: 0.9;">Si necesitas una nueva factura, solicita un nuevo folio al vendedor.</p>
+                <p style="font-size: 12px; opacity: 0.7; margin-top: 20px;">Folio: <span id="successFolioNumber" style="font-family: monospace; font-size: 16px;"></span></p>
             </div>
         </div>
     </div>
@@ -502,45 +502,59 @@
 
         let folioData = null;
 
-        // Obtener ID del folio de la URL
-        function getFolioId() {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('folio');
-        }
+        // Cargar folio por número de 8 dígitos
+        async function loadFolioByNumber() {
+            const folioNumber = document.getElementById('folioInput').value.trim();
+            const errorDiv = document.getElementById('folioError');
+            const searchBtn = document.getElementById('searchBtn');
 
-        // Cargar datos del folio
-        async function loadFolioData() {
-            const folioId = getFolioId();
-            
-            if (!folioId) {
-                showError('noFolio');
+            errorDiv.innerHTML = '';
+
+            // Validar que sea de 8 dígitos
+            if (folioNumber.length !== 8 || !/^\d{8}$/.test(folioNumber)) {
+                errorDiv.innerHTML = '<div class="error-message">El folio debe tener exactamente 8 dígitos numéricos</div>';
                 return;
             }
 
+            searchBtn.disabled = true;
+            searchBtn.textContent = '🔍 Buscando...';
+
             try {
-                const doc = await db.collection('folios').doc(folioId).get();
-                
-                if (!doc.exists) {
-                    showError('notFound');
+                // Buscar folio por folioNumber
+                const snapshot = await db.collection('folios')
+                    .where('folioNumber', '==', folioNumber)
+                    .limit(1)
+                    .get();
+
+                if (snapshot.empty) {
+                    errorDiv.innerHTML = '<div class="error-message">⚠️ Folio no encontrado. Verifica que sea correcto.</div>';
+                    searchBtn.disabled = false;
+                    searchBtn.textContent = '🔍 Buscar Folio';
                     return;
                 }
 
+                const doc = snapshot.docs[0];
                 folioData = doc.data();
-                folioData.id = folioId;
+                folioData.id = doc.id;
+                folioData.folioNumber = folioNumber;
 
                 // Verificar si ya fue usado
                 if (folioData.status === 'used') {
-                    showError('used');
+                    errorDiv.innerHTML = '<div class="error-message">🚫 Este folio ya fue utilizado para generar una factura.</div>';
+                    searchBtn.disabled = false;
+                    searchBtn.textContent = '🔍 Buscar Folio';
                     return;
                 }
 
                 // Verificar si expiró
                 if (folioData.expiresAt && folioData.expiresAt.toDate() < new Date()) {
-                    showError('expired');
+                    errorDiv.innerHTML = '<div class="error-message">⏰ Este folio ha expirado. Solicita uno nuevo al vendedor.</div>';
+                    searchBtn.disabled = false;
+                    searchBtn.textContent = '🔍 Buscar Folio';
                     return;
                 }
 
-                // Mostrar información
+                // Mostrar información del negocio
                 document.getElementById('businessName').textContent = folioData.businessName || 'Negocio';
                 document.getElementById('businessRFC').textContent = `RFC: ${folioData.businessRFC || 'N/A'}`;
                 document.getElementById('businessRFC').style.display = 'block';
@@ -550,50 +564,17 @@
                 // Actualizar desglose
                 updateBreakdown();
 
-                // Mostrar formulario
-                document.getElementById('loadingState').classList.add('hidden');
+                // Ocultar input de folio y mostrar formulario
+                document.getElementById('folioInputCard').classList.add('hidden');
                 document.getElementById('invoiceForm').classList.remove('hidden');
+                window.scrollTo(0, 0);
 
             } catch (error) {
-                console.error('Error cargando folio:', error);
-                showError('generic', error.message);
-            }
-        }
-
-        // Mostrar error
-        function showError(type, message = '') {
-            document.getElementById('loadingState').classList.add('hidden');
-            document.getElementById('invoiceForm').classList.add('hidden');
-            
-            switch(type) {
-                case 'noFolio':
-                    document.getElementById('businessName').textContent = 'No se proporcionó un folio';
-                    document.getElementById('folioNotFound').classList.remove('hidden');
-                    break;
-                case 'notFound':
-                    document.getElementById('folioNotFound').classList.remove('hidden');
-                    break;
-                case 'used':
-                    document.getElementById('folioUsed').classList.remove('hidden');
-                    break;
-                case 'expired':
-                    document.getElementById('businessInfo').innerHTML = `
-                        <div style="color: #ff6b6b; padding: 20px; text-align: center;">
-                            <div style="font-size: 48px; margin-bottom: 15px;">⏰</div>
-                            <h3 style="margin-bottom: 10px;">Folio Expirado</h3>
-                            <p>Este folio ha caducado. Solicita uno nuevo al vendedor.</p>
-                        </div>
-                    `;
-                    break;
-                case 'generic':
-                    document.getElementById('businessInfo').innerHTML = `
-                        <div style="color: #ff6b6b; padding: 20px; text-align: center;">
-                            <div style="font-size: 48px; margin-bottom: 15px;">⚠️</div>
-                            <h3 style="margin-bottom: 10px;">Error</h3>
-                            <p>${message || 'Ocurrió un error. Por favor intenta más tarde.'}</p>
-                        </div>
-                    `;
-                    break;
+                console.error('Error buscando folio:', error);
+                errorDiv.innerHTML = '<div class="error-message">Error al buscar el folio. Intenta nuevamente.</div>';
+            } finally {
+                searchBtn.disabled = false;
+                searchBtn.textContent = '🔍 Buscar Folio';
             }
         }
 
@@ -666,52 +647,50 @@
                 return;
             }
 
-            // Preparar datos de la factura
-            const invoiceData = {
-                folioId: folioData.id,
-                businessId: folioData.userId,
-                emisor: {
-                    rfc: folioData.businessRFC,
-                    nombre: folioData.businessName
-                },
-                receptor: {
-                    rfc: receptorRFC,
-                    nombre: receptorNombre,
-                    cp: receptorCP,
-                    email: receptorEmail,
-                    regimenFiscal: regimenFiscal
-                },
-                cfdi: {
-                    usoCFDI: usoCFDI,
-                    metodoPago: 'PUE',
-                    formaPago: formaPago,
-                    moneda: 'MXN'
-                },
-                conceptos: [{
-                    descripcion: 'CONSUMO DE ALIMENTOS',
-                    cantidad: 1,
-                    precioUnitario: folioData.subtotal || (folioData.amount / 1.16),
-                    subtotal: folioData.subtotal || (folioData.amount / 1.16)
-                }],
-                totales: {
-                    subtotal: folioData.subtotal || (folioData.amount / 1.16),
-                    iva: folioData.iva || (folioData.amount - (folioData.amount / 1.16)),
-                    total: folioData.amount
-                },
-                status: 'pendiente_timbrado',
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            // Deshabilitar botón
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
             btn.textContent = '⏳ Procesando...';
 
             try {
-                // Guardar solicitud en Firestore
+                const invoiceData = {
+                    tipo: 'folio',
+                    folioId: folioData.id,
+                    folioNumber: folioData.folioNumber,
+                    businessId: folioData.userId,
+                    emisor: {
+                        rfc: folioData.businessRFC,
+                        nombre: folioData.businessName
+                    },
+                    receptor: {
+                        rfc: receptorRFC,
+                        nombre: receptorNombre,
+                        cp: receptorCP,
+                        email: receptorEmail,
+                        regimenFiscal: regimenFiscal
+                    },
+                    cfdi: {
+                        usoCFDI: usoCFDI,
+                        metodoPago: 'PUE',
+                        formaPago: formaPago,
+                        moneda: 'MXN'
+                    },
+                    conceptos: [{
+                        descripcion: 'CONSUMO DE ALIMENTOS',
+                        cantidad: 1,
+                        precioUnitario: folioData.subtotal || (folioData.amount / 1.16),
+                        subtotal: folioData.subtotal || (folioData.amount / 1.16)
+                    }],
+                    totales: {
+                        subtotal: folioData.subtotal || (folioData.amount / 1.16),
+                        iva: folioData.iva || (folioData.amount - (folioData.amount / 1.16)),
+                        total: folioData.amount
+                    },
+                    status: 'pendiente_timbrado',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
                 await db.collection('invoiceRequests').add(invoiceData);
                 
-                // Marcar folio como usado
                 await db.collection('folios').doc(folioData.id).update({
                     status: 'used',
                     usedAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -719,8 +698,7 @@
                     receptorRFC: receptorRFC
                 });
 
-                // Mostrar mensaje de éxito
-                document.getElementById('successFolioId').textContent = folioData.id;
+                document.getElementById('successFolioNumber').textContent = folioData.folioNumber;
                 document.getElementById('invoiceForm').classList.add('hidden');
                 document.getElementById('successMessage').classList.remove('hidden');
                 window.scrollTo(0, 0);
@@ -734,8 +712,17 @@
             }
         }
 
-        // Cargar datos al iniciar
-        window.addEventListener('DOMContentLoaded', loadFolioData);
+        // Permitir buscar con Enter
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('folioInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    loadFolioByNumber();
+                }
+            });
+
+            // Autofocus en el input
+            document.getElementById('folioInput').focus();
+        });
     </script>
 </body>
 </html>
