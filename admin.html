@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Administración - HotFact</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .tabs {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .tab-buttons {
+            display: flex;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            border: 1px solid #6ee7b7;
+            color: #065f46;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+        }
+
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #93c5fd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-box h3 {
+            color: #1e40af;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-box ul {
+            color: #1e40af;
+            font-size: 14px;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-box li {
+            margin-bottom: 0.25rem;
+        }
+
+        .info-box li::before {
+            content: "• ";
+            font-weight: bold;
+        }
+
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .users-table th {
+            background: #f9fafb;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .users-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .users-table tr:hover {
+            background: #f9fafb;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-disabled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.75rem;
+            font-size: 14px;
+            margin: 0 0.25rem;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #6b7280;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1>🔥 HotFact Admin</h1>
+            <div class="navbar-right">
+                <span id="adminEmail"></span>
+                <button class="btn btn-logout" onclick="handleLogout()">Cerrar Sesión</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="tabs">
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="switchTab('crear')">➕ Crear Usuario</button>
+                <button class="tab-btn" onclick="switchTab('lista')">📋 Lista de Usuarios</button>
+            </div>
+        </div>
+
+        <!-- Tab: Crear Usuario -->
+        <div id="tab-crear" class="tab-content active">
+            <div class="card">
+                <h2 style="margin-bottom: 1.5rem; color: #1f2937;">Registrar Nuevo Usuario</h2>
+                
+                <div id="createAlert" class="alert"></div>
+
+                <form onsubmit="handleCreateUser(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>RFC *</label>
+                            <input type="text" id="rfc" required 
+                                   placeholder="XAXX010101000"
+                                   pattern="[A-ZÑ&]{3,4}[0-9]{6}[A-Z0-9]{3}"
+                                   style="text-transform: uppercase;">
+                        </div>
+                        <div class="form-group">
+                            <label>Razón Social *</label>
+                            <input type="text" id="razonSocial" required 
+                                   placeholder="Mi Empresa S.A. de C.V.">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Correo Electrónico *</label>
+                        <input type="email" id="email" required 
+                               placeholder="[email protected]">
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Contraseña *</label>
+                            <input type="password" id="password" required minlength="6"
+                                   placeholder="Mínimo 6 caracteres">
+                        </div>
+                        <div class="form-group">
+                            <label>Confirmar Contraseña *</label>
+                            <input type="password" id="confirmPassword" required minlength="6"
+                                   placeholder="Repetir contraseña">
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel" id="telefono"
+                                   placeholder="(662) 123-4567">
+                        </div>
+                        <div class="form-group">
+                            <label>Régimen Fiscal</label>
+                            <select id="regimenFiscal">
+                                <option value="">Seleccionar...</option>
+                                <option value="601">601 - General de Ley Personas Morales</option>
+                                <option value="605">605 - Sueldos y Salarios</option>
+                                <option value="606">606 - Arrendamiento</option>
+                                <option value="612">612 - Personas Físicas con Actividades Empresariales</option>
+                                <option value="616">616 - Sin obligaciones fiscales</option>
+                                <option value="621">621 - Incorporación Fiscal</option>
+                                <option value="626">626 - Régimen Simplificado de Confianza</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <textarea id="direccion" rows="2"
+                                  placeholder="Calle, número, colonia, ciudad"></textarea>
+                    </div>
+
+                    <div class="info-box">
+                        <h3>📝 Notas importantes:</h3>
+                        <ul>
+                            <li>La contraseña debe tener al menos 6 caracteres</li>
+                            <li>Deberás compartir estas credenciales con el negocio</li>
+                            <li>El usuario podrá cambiar su contraseña desde el dashboard</li>
+                            <li>Se enviará un correo de verificación automáticamente</li>
+                        </ul>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="btn btn-primary">
+                        Crear Usuario
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tab: Lista de Usuarios -->
+        <div id="tab-lista" class="tab-content">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2 style="color: #1f2937;">Usuarios Registrados</h2>
+                    <button class="btn btn-secondary" onclick="loadUsers()">🔄 Recargar</button>
+                </div>
+
+                <div id="usersLoading" class="loading">
+                    Cargando usuarios...
+                </div>
+
+                <div id="usersContent" style="display: none;">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>RFC</th>
+                                <th>Razón Social</th>
+                                <th>Correo</th>
+                                <th>Fecha Registro</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="usersEmpty" class="empty-state" style="display: none;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <p>No hay usuarios registrados</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // 🔥 Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyB_H-Eu5PVkaWKanA0q7_Fo5LSPgBYhbhQ",
+            authDomain: "hotfact-9902f.firebaseapp.com",
+            projectId: "hotfact-9902f",
+            storageBucket: "hotfact-9902f.firebasestorage.app",
+            messagingSenderId: "33455575295",
+            appId: "1:33455575295:web:77d406be9d4f6a6ec5fcca",
+            measurementId: "G-LREVZ2WQ7L"
+        };
+
+        // Inicializar Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Verificar autenticación
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Verificar si es admin
+            try {
+                const adminDoc = await db.collection('admins').doc(user.uid).get();
+                if (!adminDoc.exists) {
+                    alert('No tienes permisos de administrador');
+                    await auth.signOut();
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                document.getElementById('adminEmail').textContent = user.email;
+                loadUsers();
+            } catch (error) {
+                console.error('Error verificando admin:', error);
+                alert('Error verificando permisos');
+                await auth.signOut();
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Cambiar de tab
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+
+            if (tabName === 'lista') {
+                loadUsers();
+            }
+        }
+
+        // Crear usuario
+        async function handleCreateUser(event) {
+            event.preventDefault();
+            
+            const rfc = document.getElementById('rfc').value.trim().toUpperCase();
+            const razonSocial = document.getElementById('razonSocial').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const telefono = document.getElementById('telefono').value.trim();
+            const regimenFiscal = document.getElementById('regimenFiscal').value;
+            const direccion = document.getElementById('direccion').value.trim();
+            
+            const alertDiv = document.getElementById('createAlert');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (password !== confirmPassword) {
+                showAlert('createAlert', 'Las contraseñas no coinciden', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Creando usuario...';
+
+            try {
+                // Crear usuario en Firebase Auth
+                const secondaryApp = firebase.initializeApp(firebaseConfig, 'Secondary');
+                const secondaryAuth = secondaryApp.auth();
+                
+                const userCredential = await secondaryAuth.createUserWithEmailAndPassword(email, password);
+                const newUser = userCredential.user;
+
+                // Guardar datos del usuario en Firestore
+                await db.collection('users').doc(newUser.uid).set({
+                    rfc: rfc,
+                    businessName: razonSocial,
+                    email: email,
+                    telefono: telefono,
+                    regimenFiscal: regimenFiscal,
+                    direccion: direccion,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    createdBy: auth.currentUser.uid,
+                    hasCertificates: false,
+                    hasLogo: false,
+                    plan: 'free',
+                    isActive: true
+                });
+
+                // Enviar correo de verificación
+                await newUser.sendEmailVerification();
+
+                // Cerrar sesión de la app secundaria
+                await secondaryAuth.signOut();
+                await secondaryApp.delete();
+
+                showAlert('createAlert', `¡Usuario creado exitosamente! Credenciales:\nEmail: ${email}\nContraseña: ${password}`, 'success');
+                
+                // Limpiar formulario
+                document.getElementById('rfc').value = '';
+                document.getElementById('razonSocial').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('password').value = '';
+                document.getElementById('confirmPassword').value = '';
+                document.getElementById('telefono').value = '';
+                document.getElementById('regimenFiscal').value = '';
+                document.getElementById('direccion').value = '';
+
+            } catch (error) {
+                console.error('Error creando usuario:', error);
+                let errorMessage = 'Error al crear usuario';
+                
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'Este correo ya está registrado';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Correo electrónico inválido';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = 'La contraseña es muy débil';
+                }
+                
+                showAlert('createAlert', errorMessage, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Crear Usuario';
+            }
+        }
+
+        // Cargar usuarios
+        async function loadUsers() {
+            const loading = document.getElementById('usersLoading');
+            const content = document.getElementById('usersContent');
+            const empty = document.getElementById('usersEmpty');
+            const tbody = document.getElementById('usersTableBody');
+
+            loading.style.display = 'block';
+            content.style.display = 'none';
+            empty.style.display = 'none';
+
+            try {
+                const snapshot = await db.collection('users').orderBy('createdAt', 'desc').get();
+                
+                if (snapshot.empty) {
+                    loading.style.display = 'none';
+                    empty.style.display = 'block';
+                    return;
+                }
+
+                tbody.innerHTML = '';
+                
+                snapshot.forEach((doc) => {
+                    const user = doc.data();
+                    const row = document.createElement('tr');
+                    
+                    const createdAt = user.createdAt ? 
+                        new Date(user.createdAt.toDate()).toLocaleDateString('es-MX') : 
+                        'N/A';
+                    
+                    row.innerHTML = `
+                        <td><strong>${user.rfc || 'N/A'}</strong></td>
+                        <td>${user.businessName || 'N/A'}</td>
+                        <td>${user.email}</td>
+                        <td>${createdAt}</td>
+                        <td>
+                            <span class="badge ${user.isActive !== false ? 'badge-active' : 'badge-disabled'}">
+                                ${user.isActive !== false ? 'Activo' : 'Deshabilitado'}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary" onclick="viewUser('${doc.id}')">Ver</button>
+                            <button class="btn btn-sm btn-danger" onclick="toggleUserStatus('${doc.id}', ${user.isActive !== false})">
+                                ${user.isActive !== false ? 'Deshabilitar' : 'Habilitar'}
+                            </button>
+                        </td>
+                    `;
+                    
+                    tbody.appendChild(row);
+                });
+
+                loading.style.display = 'none';
+                content.style.display = 'block';
+
+            } catch (error) {
+                console.error('Error cargando usuarios:', error);
+                loading.textContent = 'Error al cargar usuarios';
+            }
+        }
+
+        // Ver detalles de usuario
+        function viewUser(userId) {
+            // Aquí puedes implementar un modal o redirigir a una página de detalles
+            alert('Función de ver detalles en desarrollo');
+        }
+
+        // Cambiar estado de usuario
+        async function toggleUserStatus(userId, currentStatus) {
+            const confirmMsg = currentStatus ? 
+                '¿Deshabilitar este usuario? No podrá acceder a su cuenta.' : 
+                '¿Habilitar este usuario? Podrá acceder nuevamente a su cuenta.';
+            
+            if (!confirm(confirmMsg)) return;
+
+            try {
+                await db.collection('users').doc(userId).update({
+                    isActive: !currentStatus,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                loadUsers();
+                alert(currentStatus ? 'Usuario deshabilitado' : 'Usuario habilitado');
+
+            } catch (error) {
+                console.error('Error actualizando usuario:', error);
+                alert('Error al actualizar el estado del usuario');
+            }
+        }
+
+        // Mostrar alerta
+        function showAlert(elementId, message, type) {
+            const alertDiv = document.getElementById(elementId);
+            alertDiv.className = `alert alert-${type} show`;
+            alertDiv.textContent = message;
+            
+            setTimeout(() => {
+                alertDiv.classList.remove('show');
+            }, 5000);
+        }
+
+        // Cerrar sesión
+        async function handleLogout() {
+            if (confirm('¿Cerrar sesión de administrador?')) {
+                await auth.signOut();
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

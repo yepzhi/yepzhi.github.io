@@ -117,21 +117,39 @@
             background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
         }
 
-        .toggle-form {
+        .forgot-password {
             text-align: center;
-            margin-top: 20px;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
+            margin-top: 15px;
         }
 
-        .toggle-form a {
+        .forgot-password a {
             color: white;
-            font-weight: 600;
+            font-size: 14px;
             text-decoration: none;
             cursor: pointer;
+            opacity: 0.9;
         }
 
-        .toggle-form a:hover {
+        .forgot-password a:hover {
+            text-decoration: underline;
+            opacity: 1;
+        }
+
+        .admin-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .admin-link a {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .admin-link a:hover {
+            color: white;
             text-decoration: underline;
         }
 
@@ -161,20 +179,30 @@
             text-align: center;
         }
 
-        .checkbox-group {
-            display: flex;
-            align-items: center;
+        .back-to-login {
+            text-align: center;
+            margin-top: 15px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+        }
+
+        .back-to-login a {
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .back-to-login a:hover {
+            text-decoration: underline;
+        }
+
+        .info-text {
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
             margin-bottom: 20px;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: auto;
-            margin-right: 10px;
-        }
-
-        .checkbox-group label {
-            margin-bottom: 0;
-            font-size: 13px;
+            font-size: 14px;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -190,48 +218,37 @@
             <div id="loginMessage"></div>
             <div class="form-group">
                 <label for="loginEmail">Correo Electrónico</label>
-                <input type="email" id="loginEmail" placeholder="tu@email.com">
+                <input type="email" id="loginEmail" placeholder="tu@email.com" autocomplete="email">
             </div>
             <div class="form-group">
                 <label for="loginPassword">Contraseña</label>
-                <input type="password" id="loginPassword" placeholder="••••••••">
+                <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
             </div>
             <button class="btn btn-primary" onclick="handleLogin()" id="loginBtn">Iniciar Sesión</button>
-            <div class="toggle-form">
-                ¿No tienes cuenta? <a onclick="toggleForms()">Regístrate aquí</a>
+            
+            <div class="forgot-password">
+                <a onclick="showForgotPassword()">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <div class="admin-link">
+                <a href="admin.html">🔑 Acceso administrador</a>
             </div>
         </div>
 
-        <!-- Register Form -->
-        <div id="registerForm" class="hidden">
-            <div id="registerMessage"></div>
+        <!-- Forgot Password Form -->
+        <div id="forgotPasswordForm" class="hidden">
+            <div id="forgotMessage"></div>
+            <p class="info-text">
+                Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.
+            </p>
             <div class="form-group">
-                <label for="regBusinessName">Nombre del Negocio</label>
-                <input type="text" id="regBusinessName" placeholder="Mi Empresa S.A. de C.V.">
+                <label for="forgotEmail">Correo Electrónico</label>
+                <input type="email" id="forgotEmail" placeholder="tu@email.com" autocomplete="email">
             </div>
-            <div class="form-group">
-                <label for="regRFC">RFC</label>
-                <input type="text" id="regRFC" placeholder="ABC123456XYZ" maxlength="13">
-            </div>
-            <div class="form-group">
-                <label for="regEmail">Correo Electrónico</label>
-                <input type="email" id="regEmail" placeholder="tu@email.com">
-            </div>
-            <div class="form-group">
-                <label for="regPassword">Contraseña</label>
-                <input type="password" id="regPassword" placeholder="Mínimo 6 caracteres">
-            </div>
-            <div class="form-group">
-                <label for="regConfirmPassword">Confirmar Contraseña</label>
-                <input type="password" id="regConfirmPassword" placeholder="••••••••">
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="regTerms">
-                <label for="regTerms">Acepto los términos y condiciones</label>
-            </div>
-            <button class="btn btn-primary" onclick="handleRegister()" id="registerBtn">Crear Cuenta</button>
-            <div class="toggle-form">
-                ¿Ya tienes cuenta? <a onclick="toggleForms()">Inicia sesión</a>
+            <button class="btn btn-primary" onclick="handleForgotPassword()" id="forgotBtn">Enviar Enlace</button>
+            
+            <div class="back-to-login">
+                <a onclick="showLogin()">← Volver al inicio de sesión</a>
             </div>
         </div>
     </div>
@@ -260,115 +277,69 @@
 
         // Verificar estado de autenticación
         auth.onAuthStateChanged((user) => {
-            if (user) {
+            if (user && window.location.pathname.includes('login.html')) {
                 window.location.href = 'dashboard.html';
             }
         });
 
-        // Toggle entre login y registro
-        function toggleForms() {
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            
-            loginForm.classList.toggle('hidden');
-            registerForm.classList.toggle('hidden');
-            
+        // Mostrar formulario de recuperación de contraseña
+        function showForgotPassword() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('forgotPasswordForm').classList.remove('hidden');
+            document.getElementById('forgotMessage').innerHTML = '';
+            document.getElementById('forgotEmail').value = '';
+            document.getElementById('forgotEmail').focus();
+        }
+
+        // Mostrar formulario de login
+        function showLogin() {
+            document.getElementById('forgotPasswordForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
             document.getElementById('loginMessage').innerHTML = '';
-            document.getElementById('registerMessage').innerHTML = '';
+            document.getElementById('loginEmail').focus();
         }
 
-        // Validar RFC
-        function validateRFC(rfc) {
-            const rfcPattern = /^[A-ZÑ&]{3,4}\d{6}[A-Z0-9]{3}$/;
-            return rfcPattern.test(rfc.toUpperCase());
-        }
+        // Manejar recuperación de contraseña
+        async function handleForgotPassword() {
+            const email = document.getElementById('forgotEmail').value.trim();
+            const messageDiv = document.getElementById('forgotMessage');
+            const btn = document.getElementById('forgotBtn');
 
-        // Validar email
-        function validateEmail(email) {
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailPattern.test(email);
-        }
-
-        // Manejar registro
-        async function handleRegister() {
-            const businessName = document.getElementById('regBusinessName').value.trim();
-            const rfc = document.getElementById('regRFC').value.trim().toUpperCase();
-            const email = document.getElementById('regEmail').value.trim();
-            const password = document.getElementById('regPassword').value;
-            const confirmPassword = document.getElementById('regConfirmPassword').value;
-            const termsAccepted = document.getElementById('regTerms').checked;
-            const messageDiv = document.getElementById('registerMessage');
-            const btn = document.getElementById('registerBtn');
-
-            if (!businessName || !rfc || !email || !password || !confirmPassword) {
-                messageDiv.innerHTML = '<div class="error">Por favor completa todos los campos</div>';
-                return;
-            }
-
-            if (!validateRFC(rfc)) {
-                messageDiv.innerHTML = '<div class="error">RFC inválido. Debe tener formato correcto (ej: ABC123456XYZ)</div>';
-                return;
-            }
-
-            if (!validateEmail(email)) {
-                messageDiv.innerHTML = '<div class="error">Correo electrónico inválido</div>';
-                return;
-            }
-
-            if (password.length < 6) {
-                messageDiv.innerHTML = '<div class="error">La contraseña debe tener al menos 6 caracteres</div>';
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                messageDiv.innerHTML = '<div class="error">Las contraseñas no coinciden</div>';
-                return;
-            }
-
-            if (!termsAccepted) {
-                messageDiv.innerHTML = '<div class="error">Debes aceptar los términos y condiciones</div>';
+            if (!email) {
+                messageDiv.innerHTML = '<div class="error">Por favor ingresa tu correo electrónico</div>';
                 return;
             }
 
             btn.disabled = true;
-            btn.textContent = 'Creando cuenta...';
+            btn.textContent = 'Enviando...';
 
             try {
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-
-                await db.collection('users').doc(user.uid).set({
-                    businessName: businessName,
-                    rfc: rfc,
-                    email: email,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    hasCertificates: false,
-                    hasLogo: false,
-                    plan: 'free'
-                });
-
-                messageDiv.innerHTML = '<div class="success">¡Cuenta creada exitosamente! Redirigiendo...</div>';
+                await auth.sendPasswordResetEmail(email);
+                messageDiv.innerHTML = '<div class="success">✅ ¡Correo enviado! Revisa tu bandeja de entrada para restablecer tu contraseña.</div>';
                 
                 setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1500);
+                    showLogin();
+                }, 3000);
 
             } catch (error) {
                 btn.disabled = false;
-                btn.textContent = 'Crear Cuenta';
+                btn.textContent = 'Enviar Enlace';
                 
-                let errorMessage = 'Error al crear la cuenta';
+                let errorMessage = 'Error al enviar el correo';
                 
-                if (error.code === 'auth/email-already-in-use') {
-                    errorMessage = 'Este correo ya está registrado';
-                } else if (error.code === 'auth/weak-password') {
-                    errorMessage = 'La contraseña es muy débil';
+                if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'No existe una cuenta con este correo electrónico';
                 } else if (error.code === 'auth/invalid-email') {
                     errorMessage = 'Correo electrónico inválido';
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = 'Demasiados intentos. Por favor intenta más tarde';
                 }
                 
                 messageDiv.innerHTML = `<div class="error">${errorMessage}</div>`;
-                console.error('Error en registro:', error);
+                console.error('Error en recuperación:', error);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Enviar Enlace';
             }
         }
 
@@ -391,6 +362,8 @@
                 await auth.signInWithEmailAndPassword(email, password);
                 messageDiv.innerHTML = '<div class="success">¡Bienvenido! Redirigiendo...</div>';
                 
+                // La redirección se maneja automáticamente con onAuthStateChanged
+                
             } catch (error) {
                 btn.disabled = false;
                 btn.textContent = 'Iniciar Sesión';
@@ -402,7 +375,11 @@
                 } else if (error.code === 'auth/invalid-email') {
                     errorMessage = 'Correo electrónico inválido';
                 } else if (error.code === 'auth/too-many-requests') {
-                    errorMessage = 'Demasiados intentos. Intenta más tarde';
+                    errorMessage = 'Demasiados intentos fallidos. Intenta más tarde o restablece tu contraseña';
+                } else if (error.code === 'auth/invalid-credential') {
+                    errorMessage = 'Credenciales inválidas. Verifica tu correo y contraseña';
+                } else if (error.message.includes('blocked')) {
+                    errorMessage = 'Servicio temporalmente no disponible. Por favor intenta más tarde';
                 }
                 
                 messageDiv.innerHTML = `<div class="error">${errorMessage}</div>`;
@@ -412,12 +389,25 @@
 
         // Permitir enter para submit
         document.addEventListener('DOMContentLoaded', () => {
+            // Login form
             document.getElementById('loginPassword').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') handleLogin();
             });
             
-            document.getElementById('regConfirmPassword').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') handleRegister();
+            document.getElementById('loginEmail').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const password = document.getElementById('loginPassword');
+                    if (!password.value) {
+                        password.focus();
+                    } else {
+                        handleLogin();
+                    }
+                }
+            });
+
+            // Forgot password form
+            document.getElementById('forgotEmail').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleForgotPassword();
             });
         });
     </script>
