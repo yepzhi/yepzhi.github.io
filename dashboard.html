@@ -74,21 +74,6 @@
             transform: translateY(-2px);
         }
 
-        .btn-change-password {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-change-password:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -146,6 +131,7 @@
             transition: all 0.3s ease;
             width: 100%;
             margin-top: 10px;
+            border: none;
         }
 
         .btn:hover:not(:disabled) {
@@ -160,12 +146,14 @@
 
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
         }
 
         .btn-success {
             background: linear-gradient(135deg, #48db97 0%, #2ecc71 100%);
-            border: none;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
         }
 
         .status-badge {
@@ -186,6 +174,12 @@
         .status-success {
             background: rgba(72, 219, 151, 0.3);
             border: 1px solid rgba(72, 219, 151, 0.5);
+            color: white;
+        }
+
+        .status-used {
+            background: rgba(102, 126, 234, 0.3);
+            border: 1px solid rgba(102, 126, 234, 0.5);
             color: white;
         }
 
@@ -214,8 +208,14 @@
         }
 
         .form-group input::placeholder,
-        .form-group textarea::placeholder {
+        .form-group textarea::placeholder,
+        .form-group select option {
             color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-group select option {
+            background: #667eea;
+            color: white;
         }
 
         .info-box {
@@ -243,15 +243,17 @@
             margin-top: 20px;
         }
 
-        .folio-link {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 12px;
+        .folio-code {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 20px;
             border-radius: 8px;
             color: white;
-            font-family: monospace;
-            word-break: break-all;
-            margin: 10px 0;
-            font-size: 13px;
+            font-family: 'Courier New', monospace;
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 8px;
+            margin: 15px 0;
         }
 
         .btn-copy {
@@ -263,6 +265,7 @@
             cursor: pointer;
             font-size: 13px;
             margin-top: 10px;
+            border: none;
         }
 
         .btn-copy:hover {
@@ -320,7 +323,7 @@
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 30px;
-            max-width: 500px;
+            max-width: 600px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -343,6 +346,8 @@
             color: white;
             font-size: 24px;
             cursor: pointer;
+            background: none;
+            border: none;
         }
 
         .error {
@@ -365,6 +370,13 @@
             font-size: 14px;
         }
 
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
         @media (max-width: 768px) {
             .dashboard-grid {
                 grid-template-columns: 1fr;
@@ -379,6 +391,10 @@
                 flex-direction: column;
                 width: 100%;
             }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -391,7 +407,6 @@
                 <div class="user-name" id="userName">Cargando...</div>
                 <div class="user-rfc" id="userRFC">RFC: ---</div>
             </div>
-            <button class="btn-change-password" onclick="openChangePasswordModal()">🔑 Cambiar Contraseña</button>
             <button class="btn-logout" onclick="handleLogout()">Cerrar Sesión</button>
         </div>
     </div>
@@ -403,7 +418,7 @@
         </div>
         <div class="info-box">
             💡 <strong>¿Cómo funciona?</strong><br>
-            Genera un folio único con el monto de la factura. Comparte el enlace con tu cliente para que complete sus datos fiscales.
+            Genera un folio de 8 dígitos con el monto. Comparte el link <strong>yepzhi.com/hotfact</strong> y el folio con tu cliente.
         </div>
         <div class="form-group">
             <label>Monto Total de la Factura (MXN)</label>
@@ -416,6 +431,17 @@
         </div>
         <button class="btn btn-success" onclick="generateFolio()">🔥 Generar Folio</button>
         <div id="folioResult"></div>
+    </div>
+
+    <!-- Facturación Directa -->
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+            <div class="card-title">⚡ Facturación Directa (Sin Folio)</div>
+        </div>
+        <div class="info-box">
+            ⚡ <strong>Facturación inmediata:</strong> Para clientes que solicitan su factura en el momento. Solo necesitas sus datos fiscales.
+        </div>
+        <button class="btn btn-warning" onclick="openDirectInvoiceModal()">⚡ Facturar Ahora</button>
     </div>
 
     <!-- Dashboard Stats -->
@@ -459,7 +485,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Folio ID</th>
+                        <th>Folio</th>
                         <th>Monto</th>
                         <th>Descripción</th>
                         <th>Fecha</th>
@@ -477,33 +503,108 @@
         </div>
     </div>
 
-    <!-- Modal: Cambiar Contraseña -->
-    <div class="modal" id="changePasswordModal">
+    <!-- Modal: Facturación Directa -->
+    <div class="modal" id="directInvoiceModal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title">🔑 Cambiar Contraseña</div>
-                <span class="modal-close" onclick="closeChangePasswordModal()">×</span>
+                <div class="modal-title">⚡ Facturación Directa</div>
+                <button class="modal-close" onclick="closeDirectInvoiceModal()">×</button>
             </div>
             
-            <div id="passwordMessage"></div>
+            <div id="directInvoiceMessage"></div>
 
-            <div class="form-group">
-                <label>Contraseña Actual</label>
-                <input type="password" id="currentPassword" placeholder="Tu contraseña actual">
+            <div class="info-box">
+                ⚡ Esta factura se guardará inmediatamente y podrá ser timbrada desde el sistema.
             </div>
 
-            <div class="form-group">
-                <label>Nueva Contraseña</label>
-                <input type="password" id="newPassword" placeholder="Mínimo 6 caracteres" minlength="6">
+            <!-- Datos del Receptor -->
+            <div style="margin-bottom: 20px;">
+                <h3 style="color: white; font-size: 16px; margin-bottom: 15px;">📋 Datos del Cliente</h3>
+                
+                <div class="form-group">
+                    <label>RFC <span style="color: #ff6b6b;">*</span></label>
+                    <input type="text" id="directRFC" placeholder="XAXX010101000" maxlength="13" style="text-transform: uppercase;">
+                </div>
+
+                <div class="form-group">
+                    <label>Nombre o Razón Social <span style="color: #ff6b6b;">*</span></label>
+                    <input type="text" id="directNombre" placeholder="Nombre completo o razón social">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Régimen Fiscal <span style="color: #ff6b6b;">*</span></label>
+                        <select id="directRegimen">
+                            <option value="">Selecciona...</option>
+                            <option value="601">601 - General de Ley Personas Morales</option>
+                            <option value="605">605 - Sueldos y Salarios</option>
+                            <option value="606">606 - Arrendamiento</option>
+                            <option value="608">608 - Demás ingresos</option>
+                            <option value="612">612 - Personas Físicas con Actividades</option>
+                            <option value="616">616 - Sin obligaciones fiscales</option>
+                            <option value="621">621 - Incorporación Fiscal</option>
+                            <option value="626">626 - Régimen Simplificado de Confianza</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Código Postal <span style="color: #ff6b6b;">*</span></label>
+                        <input type="text" id="directCP" placeholder="00000" maxlength="5">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Correo Electrónico <span style="color: #ff6b6b;">*</span></label>
+                    <input type="email" id="directEmail" placeholder="cliente@email.com">
+                    <div class="help-text">Aquí se enviará la factura (XML y PDF)</div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Confirmar Nueva Contraseña</label>
-                <input type="password" id="confirmNewPassword" placeholder="Repetir nueva contraseña">
+            <!-- Datos de la Factura -->
+            <div style="margin-bottom: 20px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;">
+                <h3 style="color: white; font-size: 16px; margin-bottom: 15px;">💰 Datos de la Factura</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Uso de CFDI <span style="color: #ff6b6b;">*</span></label>
+                        <select id="directUsoCFDI">
+                            <option value="">Selecciona...</option>
+                            <option value="G01">G01 - Adquisición de mercancías</option>
+                            <option value="G03" selected>G03 - Gastos en general</option>
+                            <option value="D10">D10 - Servicios educativos</option>
+                            <option value="S01">S01 - Sin efectos fiscales</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Forma de Pago <span style="color: #ff6b6b;">*</span></label>
+                        <select id="directFormaPago">
+                            <option value="">Selecciona...</option>
+                            <option value="01">01 - Efectivo</option>
+                            <option value="04">04 - Tarjeta de Crédito</option>
+                            <option value="28">28 - Tarjeta de Débito</option>
+                            <option value="03">03 - Transferencia</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Monto Total (MXN) <span style="color: #ff6b6b;">*</span></label>
+                    <input type="number" id="directMonto" placeholder="0.00" step="0.01" min="0.01" style="font-size: 18px; font-weight: 600;">
+                    <div class="help-text">IVA 16% incluido. Concepto: "CONSUMO DE ALIMENTOS"</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-top: 15px;">
+                    <div style="color: rgba(255,255,255,0.8); font-size: 13px; margin-bottom: 5px;">Desglose automático:</div>
+                    <div style="color: white; font-size: 14px;">
+                        <span id="directSubtotalPreview">Subtotal: $0.00</span> |
+                        <span id="directIVAPreview">IVA: $0.00</span>
+                    </div>
+                </div>
             </div>
 
-            <button class="btn btn-primary" onclick="changePassword()" id="changePasswordBtn">
-                Cambiar Contraseña
+            <button class="btn btn-success" onclick="generateDirectInvoice()" id="directInvoiceBtn">
+                ⚡ Guardar Factura
             </button>
         </div>
     </div>
@@ -550,7 +651,6 @@
                 
                 if (!doc.exists) {
                     console.error('Usuario no encontrado en Firestore');
-                    // Crear documento básico si no existe
                     await db.collection('users').doc(currentUser.uid).set({
                         email: currentUser.email,
                         businessName: 'Mi Negocio',
@@ -560,126 +660,41 @@
                         hasLogo: false,
                         plan: 'free'
                     });
-                    // Recargar datos
                     const newDoc = await db.collection('users').doc(currentUser.uid).get();
                     userData = newDoc.data();
                 } else {
                     userData = doc.data();
                 }
                 
-                // Actualizar UI
                 document.getElementById('userName').textContent = userData.businessName || 'Mi Negocio';
                 document.getElementById('userRFC').textContent = `RFC: ${userData.rfc || 'No configurado'}`;
                 
-                // Actualizar estado de certificados
                 updateCertStatus();
                 
-            } catch (error) {
-                console.error('Error cargando datos:', error);
-                alert('Error al cargar datos del usuario');
-            }
-        }
-
-        // Actualizar estado de certificados
-        function updateCertStatus() {
-            if (!userData) return;
-            
-            const status = userData.hasCertificates ? '✅' : '⚠️';
-            const badge = userData.hasCertificates ? 'status-success' : 'status-warning';
-            const text = userData.hasCertificates ? 'Configurado' : 'Pendiente';
-            
-            document.getElementById('certStatus').textContent = status;
-            document.getElementById('certBadge').className = `status-badge ${badge}`;
-            document.getElementById('certBadge').textContent = text;
-        }
-
-        // 🎫 Generar Folio de Facturación
-        async function generateFolio() {
-            const amount = parseFloat(document.getElementById('folioAmount').value);
-            const description = document.getElementById('folioDescription').value.trim();
-            const resultDiv = document.getElementById('folioResult');
-
-            if (!amount || amount <= 0) {
-                resultDiv.innerHTML = '<div class="error">Ingresa un monto válido</div>';
-                return;
-            }
-
-            if (!userData) {
-                resultDiv.innerHTML = '<div class="error">Error: Datos de usuario no cargados</div>';
-                return;
-            }
-
-            try {
-                // Calcular subtotal e IVA
-                const subtotal = amount / 1.16;
-                const iva = amount - subtotal;
-
-                // Crear folio en Firestore
-                const folioData = {
-                    userId: currentUser.uid,
-                    businessName: userData.businessName || 'Mi Negocio',
-                    businessRFC: userData.rfc || 'XAXX010101000',
-                    amount: parseFloat(amount.toFixed(2)),
-                    subtotal: parseFloat(subtotal.toFixed(2)),
-                    iva: parseFloat(iva.toFixed(2)),
-                    description: description || 'Sin descripción',
-                    status: 'pending',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 días
-                };
-
-                const docRef = await db.collection('folios').add(folioData);
-                const folioId = docRef.id;
-
-                // Generar enlace
-                const folioLink = `${window.location.origin}/hotfact.html?folio=${folioId}`;
-
-                resultDiv.innerHTML = `
-                    <div class="folio-box">
-                        <div style="color: white; font-weight: 600; margin-bottom: 10px;">
-                            ✅ Folio generado exitosamente
-                        </div>
-                        <div style="color: rgba(255,255,255,0.9); font-size: 13px; margin-bottom: 10px;">
-                            Monto: $${amount.toFixed(2)} MXN (IVA incluido)<br>
-                            Subtotal: $${subtotal.toFixed(2)} | IVA: $${iva.toFixed(2)}
-                        </div>
-                        <div style="color: rgba(255,255,255,0.8); font-size: 12px; margin-bottom: 10px;">
-                            Comparte este enlace con tu cliente:
-                        </div>
-                        <div class="folio-link">${folioLink}</div>
-                        <button class="btn-copy" onclick="copyToClipboard('${folioLink}')">
-                            📋 Copiar Enlace
-                        </button>
-                    </div>
-                `;
-
-                // Limpiar campos
-                document.getElementById('folioAmount').value = '';
-                document.getElementById('folioDescription').value = '';
-
-                // Recargar folios
-                await loadFolios();
-
             } catch (error) {
                 console.error('Error generando folio:', error);
                 resultDiv.innerHTML = `<div class="error">Error al generar folio: ${error.message}</div>`;
             }
         }
 
-        // Copiar al portapapeles
-        function copyToClipboard(text) {
+        // Copiar información del folio
+        function copyFolioInfo(folioNumber) {
+            const text = `🔥 hotFact - Solicita tu Factura\n\n` +
+                        `Link: yepzhi.com/hotfact\n` +
+                        `Folio: ${folioNumber}\n\n` +
+                        `Ingresa el folio en la página para completar tus datos fiscales.`;
+            
             navigator.clipboard.writeText(text).then(() => {
-                alert('✅ Enlace copiado al portapapeles');
+                alert('✅ Información copiada al portapapeles');
             }).catch(err => {
                 console.error('Error copiando:', err);
-                // Fallback para navegadores antiguos
                 const textArea = document.createElement('textarea');
                 textArea.value = text;
                 document.body.appendChild(textArea);
                 textArea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textArea);
-                alert('✅ Enlace copiado al portapapeles');
+                alert('✅ Información copiada al portapapeles');
             });
         }
 
@@ -719,13 +734,14 @@
                         'Reciente';
                     
                     const statusText = folio.status === 'pending' ? 'Pendiente' : 
-                                     folio.status === 'completed' ? 'Completado' : folio.status;
-                    const statusClass = folio.status === 'pending' ? 'status-warning' : 'status-success';
+                                     folio.status === 'used' ? 'Usado' : 'Completado';
+                    const statusClass = folio.status === 'pending' ? 'status-warning' : 
+                                      folio.status === 'used' ? 'status-used' : 'status-success';
                     
                     tbody.innerHTML += `
                         <tr>
-                            <td style="font-family: monospace;">${doc.id.substring(0, 8)}...</td>
-                            <td style="font-weight: 600;">$${folio.amount.toFixed(2)}</td>
+                            <td style="font-family: monospace; font-weight: 700;">${folio.folioNumber || doc.id.substring(0, 8)}</td>
+                            <td style="font-weight: 600;">${folio.amount.toFixed(2)}</td>
                             <td>${folio.description}</td>
                             <td>${createdAt}</td>
                             <td><span class="status-badge ${statusClass}">${statusText}</span></td>
@@ -734,12 +750,11 @@
                 });
                 
                 document.getElementById('totalFolios').textContent = snapshot.size;
-                document.getElementById('totalAmount').textContent = `$${total.toFixed(2)}`;
+                document.getElementById('totalAmount').textContent = `${total.toFixed(2)}`;
 
             } catch (error) {
                 console.error('Error cargando folios:', error);
                 
-                // Si el error es por falta de índice, mostrar mensaje informativo
                 if (error.message.includes('index')) {
                     alert('⚠️ Se necesita crear un índice en Firestore. Por favor contacta al administrador.');
                     console.log('Crea el índice aquí:', error.message.match(/https:\/\/[^\s]+/)?.[0]);
@@ -747,79 +762,158 @@
             }
         }
 
-        // Modal cambiar contraseña
-        function openChangePasswordModal() {
-            document.getElementById('changePasswordModal').classList.add('active');
-            document.getElementById('passwordMessage').innerHTML = '';
-            document.getElementById('currentPassword').value = '';
-            document.getElementById('newPassword').value = '';
-            document.getElementById('confirmNewPassword').value = '';
+        // Modal facturación directa
+        function openDirectInvoiceModal() {
+            document.getElementById('directInvoiceModal').classList.add('active');
+            document.getElementById('directInvoiceMessage').innerHTML = '';
+            
+            // Limpiar campos
+            document.getElementById('directRFC').value = '';
+            document.getElementById('directNombre').value = '';
+            document.getElementById('directRegimen').value = '';
+            document.getElementById('directCP').value = '';
+            document.getElementById('directEmail').value = '';
+            document.getElementById('directUsoCFDI').value = 'G03';
+            document.getElementById('directFormaPago').value = '';
+            document.getElementById('directMonto').value = '';
+            document.getElementById('directSubtotalPreview').textContent = 'Subtotal: $0.00';
+            document.getElementById('directIVAPreview').textContent = 'IVA: $0.00';
         }
 
-        function closeChangePasswordModal() {
-            document.getElementById('changePasswordModal').classList.remove('active');
+        function closeDirectInvoiceModal() {
+            document.getElementById('directInvoiceModal').classList.remove('active');
         }
 
-        // Cambiar contraseña
-        async function changePassword() {
-            const currentPassword = document.getElementById('currentPassword').value;
-            const newPassword = document.getElementById('newPassword').value;
-            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
-            const messageDiv = document.getElementById('passwordMessage');
-            const btn = document.getElementById('changePasswordBtn');
+        // Actualizar preview del monto
+        document.addEventListener('DOMContentLoaded', () => {
+            const montoInput = document.getElementById('directMonto');
+            if (montoInput) {
+                montoInput.addEventListener('input', function() {
+                    const monto = parseFloat(this.value) || 0;
+                    const subtotal = monto / 1.16;
+                    const iva = monto - subtotal;
+                    
+                    document.getElementById('directSubtotalPreview').textContent = `Subtotal: ${subtotal.toFixed(2)}`;
+                    document.getElementById('directIVAPreview').textContent = `IVA: ${iva.toFixed(2)}`;
+                });
+            }
+        });
 
-            if (!currentPassword || !newPassword || !confirmNewPassword) {
-                messageDiv.innerHTML = '<div class="error">Completa todos los campos</div>';
+        // Validar RFC
+        function validateRFC(rfc) {
+            const rfcPattern = /^[A-ZÑ&]{3,4}\d{6}[A-Z0-9]{3}$/;
+            return rfcPattern.test(rfc.toUpperCase());
+        }
+
+        // Validar email
+        function validateEmail(email) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+
+        // Generar factura directa
+        async function generateDirectInvoice() {
+            const messageDiv = document.getElementById('directInvoiceMessage');
+            messageDiv.innerHTML = '';
+
+            if (!userData) {
+                messageDiv.innerHTML = '<div class="error">Error: Datos de usuario no cargados</div>';
                 return;
             }
 
-            if (newPassword.length < 6) {
-                messageDiv.innerHTML = '<div class="error">La nueva contraseña debe tener al menos 6 caracteres</div>';
+            // Obtener valores
+            const rfc = document.getElementById('directRFC').value.trim().toUpperCase();
+            const nombre = document.getElementById('directNombre').value.trim();
+            const regimen = document.getElementById('directRegimen').value;
+            const cp = document.getElementById('directCP').value.trim();
+            const email = document.getElementById('directEmail').value.trim();
+            const usoCFDI = document.getElementById('directUsoCFDI').value;
+            const formaPago = document.getElementById('directFormaPago').value;
+            const monto = parseFloat(document.getElementById('directMonto').value);
+
+            // Validaciones
+            if (!rfc || !nombre || !regimen || !cp || !email || !usoCFDI || !formaPago || !monto) {
+                messageDiv.innerHTML = '<div class="error">Por favor completa todos los campos requeridos (*)</div>';
                 return;
             }
 
-            if (newPassword !== confirmNewPassword) {
-                messageDiv.innerHTML = '<div class="error">Las contraseñas nuevas no coinciden</div>';
+            if (!validateRFC(rfc)) {
+                messageDiv.innerHTML = '<div class="error">RFC inválido. Verifica el formato (ej: XAXX010101000)</div>';
                 return;
             }
 
+            if (cp.length !== 5 || !/^\d+$/.test(cp)) {
+                messageDiv.innerHTML = '<div class="error">Código postal debe tener 5 dígitos</div>';
+                return;
+            }
+
+            if (!validateEmail(email)) {
+                messageDiv.innerHTML = '<div class="error">Correo electrónico inválido</div>';
+                return;
+            }
+
+            if (monto <= 0) {
+                messageDiv.innerHTML = '<div class="error">El monto debe ser mayor a 0</div>';
+                return;
+            }
+
+            const btn = document.getElementById('directInvoiceBtn');
             btn.disabled = true;
-            btn.textContent = 'Cambiando...';
+            btn.textContent = '⏳ Guardando...';
 
             try {
-                // Reautenticar usuario
-                const credential = firebase.auth.EmailAuthProvider.credential(
-                    currentUser.email,
-                    currentPassword
-                );
-                
-                await currentUser.reauthenticateWithCredential(credential);
-                
-                // Cambiar contraseña
-                await currentUser.updatePassword(newPassword);
-                
-                messageDiv.innerHTML = '<div class="success">¡Contraseña actualizada exitosamente!</div>';
+                const subtotal = monto / 1.16;
+                const iva = monto - subtotal;
+
+                const invoiceData = {
+                    tipo: 'directa',
+                    userId: currentUser.uid,
+                    emisor: {
+                        rfc: userData.rfc || 'XAXX010101000',
+                        nombre: userData.businessName || 'Mi Negocio'
+                    },
+                    receptor: {
+                        rfc: rfc,
+                        nombre: nombre,
+                        regimenFiscal: regimen,
+                        cp: cp,
+                        email: email
+                    },
+                    cfdi: {
+                        usoCFDI: usoCFDI,
+                        metodoPago: 'PUE',
+                        formaPago: formaPago,
+                        moneda: 'MXN'
+                    },
+                    conceptos: [{
+                        descripcion: 'CONSUMO DE ALIMENTOS',
+                        cantidad: 1,
+                        precioUnitario: parseFloat(subtotal.toFixed(2)),
+                        subtotal: parseFloat(subtotal.toFixed(2))
+                    }],
+                    totales: {
+                        subtotal: parseFloat(subtotal.toFixed(2)),
+                        iva: parseFloat(iva.toFixed(2)),
+                        total: parseFloat(monto.toFixed(2))
+                    },
+                    status: 'pendiente_timbrado',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                await db.collection('invoiceRequests').add(invoiceData);
+
+                messageDiv.innerHTML = '<div class="success">✅ Factura guardada exitosamente. Pendiente de timbrado.</div>';
                 
                 setTimeout(() => {
-                    closeChangePasswordModal();
+                    closeDirectInvoiceModal();
                 }, 2000);
 
             } catch (error) {
-                console.error('Error cambiando contraseña:', error);
-                let errorMessage = 'Error al cambiar contraseña';
-                
-                if (error.code === 'auth/wrong-password') {
-                    errorMessage = 'La contraseña actual es incorrecta';
-                } else if (error.code === 'auth/weak-password') {
-                    errorMessage = 'La nueva contraseña es muy débil';
-                } else if (error.code === 'auth/requires-recent-login') {
-                    errorMessage = 'Por seguridad, cierra sesión y vuelve a iniciar sesión antes de cambiar tu contraseña';
-                }
-                
-                messageDiv.innerHTML = `<div class="error">${errorMessage}</div>`;
+                console.error('Error guardando factura:', error);
+                messageDiv.innerHTML = `<div class="error">Error al guardar: ${error.message}</div>`;
             } finally {
                 btn.disabled = false;
-                btn.textContent = 'Cambiar Contraseña';
+                btn.textContent = '⚡ Guardar Factura';
             }
         }
 
@@ -832,4 +926,94 @@
         }
     </script>
 </body>
-</html>
+</html>error) {
+                console.error('Error cargando datos:', error);
+                alert('Error al cargar datos del usuario');
+            }
+        }
+
+        // Actualizar estado de certificados
+        function updateCertStatus() {
+            if (!userData) return;
+            
+            const status = userData.hasCertificates ? '✅' : '⚠️';
+            const badge = userData.hasCertificates ? 'status-success' : 'status-warning';
+            const text = userData.hasCertificates ? 'Configurado' : 'Pendiente';
+            
+            document.getElementById('certStatus').textContent = status;
+            document.getElementById('certBadge').className = `status-badge ${badge}`;
+            document.getElementById('certBadge').textContent = text;
+        }
+
+        // Generar número de folio de 8 dígitos
+        function generateFolioNumber() {
+            return Math.floor(10000000 + Math.random() * 90000000).toString();
+        }
+
+        // 🎫 Generar Folio de Facturación
+        async function generateFolio() {
+            const amount = parseFloat(document.getElementById('folioAmount').value);
+            const description = document.getElementById('folioDescription').value.trim();
+            const resultDiv = document.getElementById('folioResult');
+
+            if (!amount || amount <= 0) {
+                resultDiv.innerHTML = '<div class="error">Ingresa un monto válido</div>';
+                return;
+            }
+
+            if (!userData) {
+                resultDiv.innerHTML = '<div class="error">Error: Datos de usuario no cargados</div>';
+                return;
+            }
+
+            try {
+                const subtotal = amount / 1.16;
+                const iva = amount - subtotal;
+                const folioNumber = generateFolioNumber();
+
+                const folioData = {
+                    folioNumber: folioNumber,
+                    userId: currentUser.uid,
+                    businessName: userData.businessName || 'Mi Negocio',
+                    businessRFC: userData.rfc || 'XAXX010101000',
+                    amount: parseFloat(amount.toFixed(2)),
+                    subtotal: parseFloat(subtotal.toFixed(2)),
+                    iva: parseFloat(iva.toFixed(2)),
+                    description: description || 'Sin descripción',
+                    status: 'pending',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+                };
+
+                await db.collection('folios').add(folioData);
+
+                resultDiv.innerHTML = `
+                    <div class="folio-box">
+                        <div style="color: white; font-weight: 600; margin-bottom: 10px;">
+                            ✅ Folio generado exitosamente
+                        </div>
+                        <div style="color: rgba(255,255,255,0.9); font-size: 13px; margin-bottom: 10px;">
+                            Monto: $${amount.toFixed(2)} MXN (IVA incluido)<br>
+                            Subtotal: $${subtotal.toFixed(2)} | IVA: $${iva.toFixed(2)}
+                        </div>
+                        <div style="color: rgba(255,255,255,0.8); font-size: 14px; margin-bottom: 10px;">
+                            <strong>Folio de 8 dígitos:</strong>
+                        </div>
+                        <div class="folio-code">${folioNumber}</div>
+                        <div style="color: rgba(255,255,255,0.8); font-size: 13px; margin-top: 15px;">
+                            📱 Comparte con tu cliente:<br>
+                            <strong>Link:</strong> yepzhi.com/hotfact<br>
+                            <strong>Folio:</strong> ${folioNumber}
+                        </div>
+                        <button class="btn-copy" onclick="copyFolioInfo('${folioNumber}')">
+                            📋 Copiar Información
+                        </button>
+                    </div>
+                `;
+
+                document.getElementById('folioAmount').value = '';
+                document.getElementById('folioDescription').value = '';
+
+                await loadFolios();
+
+            } catch (
