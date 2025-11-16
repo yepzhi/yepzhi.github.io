@@ -23,7 +23,7 @@ const EMAIL_CONFIG = {
   service: "gmail",
   auth: {
     user: "yepzhi@gmail.com",
-    pass: process.env.GMAIL_APP_PASSWORD || "tu-app-password",
+    pass: process.env.GMAIL_APP_PASSWORD || "ybtx omrz feiq rqqg",
   },
 };
 
