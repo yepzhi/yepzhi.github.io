@@ -67,6 +67,7 @@
             cursor: pointer;
             font-size: 14px;
             transition: all 0.3s ease;
+            border: none;
         }
 
         .btn-logout:hover {
@@ -208,8 +209,7 @@
         }
 
         .form-group input::placeholder,
-        .form-group textarea::placeholder,
-        .form-group select option {
+        .form-group textarea::placeholder {
             color: rgba(255, 255, 255, 0.6);
         }
 
@@ -549,7 +549,7 @@
 
                     <div class="form-group">
                         <label>Código Postal <span style="color: #ff6b6b;">*</span></label>
-                        <input type="text" id="directCP" placeholder="00000" maxlength="5">
+                        <input type="text" id="directCP" placeholder="00000" maxlength="5" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                     </div>
                 </div>
 
@@ -615,7 +615,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // 🔥 Configuración de Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyB_H-Eu5PVkaWKanA0q7_Fo5LSPgBYhbhQ",
             authDomain: "hotfact-9902f.firebaseapp.com",
@@ -633,7 +632,6 @@
         let currentUser = null;
         let userData = null;
 
-        // Verificar autenticación
         auth.onAuthStateChanged(async (user) => {
             if (user) {
                 currentUser = user;
@@ -644,20 +642,17 @@
             }
         });
 
-        // Cargar datos del usuario
         async function loadUserData() {
             try {
                 const doc = await db.collection('users').doc(currentUser.uid).get();
                 
                 if (!doc.exists) {
-                    console.error('Usuario no encontrado en Firestore');
                     await db.collection('users').doc(currentUser.uid).set({
                         email: currentUser.email,
                         businessName: 'Mi Negocio',
                         rfc: 'XAXX010101000',
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         hasCertificates: false,
-                        hasLogo: false,
                         plan: 'free'
                     });
                     const newDoc = await db.collection('users').doc(currentUser.uid).get();
@@ -668,37 +663,98 @@
                 
                 document.getElementById('userName').textContent = userData.businessName || 'Mi Negocio';
                 document.getElementById('userRFC').textContent = `RFC: ${userData.rfc || 'No configurado'}`;
-                
                 updateCertStatus();
                 
+            } catch (error) {
+                console.error('Error cargando datos:', error);
+            }
+        }
+
+        function updateCertStatus() {
+            if (!userData) return;
+            const status = userData.hasCertificates ? '✅' : '⚠️';
+            const badge = userData.hasCertificates ? 'status-success' : 'status-warning';
+            const text = userData.hasCertificates ? 'Configurado' : 'Pendiente';
+            document.getElementById('certStatus').textContent = status;
+            document.getElementById('certBadge').className = `status-badge ${badge}`;
+            document.getElementById('certBadge').textContent = text;
+        }
+
+        function generateFolioNumber() {
+            return Math.floor(10000000 + Math.random() * 90000000).toString();
+        }
+
+        async function generateFolio() {
+            const amount = parseFloat(document.getElementById('folioAmount').value);
+            const description = document.getElementById('folioDescription').value.trim();
+            const resultDiv = document.getElementById('folioResult');
+
+            if (!amount || amount <= 0) {
+                resultDiv.innerHTML = '<div class="error">Ingresa un monto válido</div>';
+                return;
+            }
+
+            if (!userData) {
+                resultDiv.innerHTML = '<div class="error">Error: Datos de usuario no cargados</div>';
+                return;
+            }
+
+            try {
+                const subtotal = amount / 1.16;
+                const iva = amount - subtotal;
+                const folioNumber = generateFolioNumber();
+
+                const folioData = {
+                    folioNumber: folioNumber,
+                    userId: currentUser.uid,
+                    businessName: userData.businessName,
+                    businessRFC: userData.rfc,
+                    amount: parseFloat(amount.toFixed(2)),
+                    subtotal: parseFloat(subtotal.toFixed(2)),
+                    iva: parseFloat(iva.toFixed(2)),
+                    description: description || 'Sin descripción',
+                    status: 'pending',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+                };
+
+                await db.collection('folios').add(folioData);
+
+                resultDiv.innerHTML = `
+                    <div class="folio-box">
+                        <div style="color: white; font-weight: 600; margin-bottom: 10px;">✅ Folio generado exitosamente</div>
+                        <div style="color: rgba(255,255,255,0.9); font-size: 13px; margin-bottom: 10px;">
+                            Monto: $${amount.toFixed(2)} MXN (IVA incluido)<br>
+                            Subtotal: $${subtotal.toFixed(2)} | IVA: $${iva.toFixed(2)}
+                        </div>
+                        <div style="color: rgba(255,255,255,0.8); font-size: 14px; margin-bottom: 10px;"><strong>Folio de 8 dígitos:</strong></div>
+                        <div class="folio-code">${folioNumber}</div>
+                        <div style="color: rgba(255,255,255,0.8); font-size: 13px; margin-top: 15px;">
+                            📱 Comparte con tu cliente:<br>
+                            <strong>Link:</strong> yepzhi.com/hotfact<br>
+                            <strong>Folio:</strong> ${folioNumber}
+                        </div>
+                        <button class="btn-copy" onclick="copyFolioInfo('${folioNumber}')">📋 Copiar Información</button>
+                    </div>
+                `;
+
+                document.getElementById('folioAmount').value = '';
+                document.getElementById('folioDescription').value = '';
+                await loadFolios();
+
             } catch (error) {
                 console.error('Error generando folio:', error);
                 resultDiv.innerHTML = `<div class="error">Error al generar folio: ${error.message}</div>`;
             }
         }
 
-        // Copiar información del folio
         function copyFolioInfo(folioNumber) {
-            const text = `🔥 hotFact - Solicita tu Factura\n\n` +
-                        `Link: yepzhi.com/hotfact\n` +
-                        `Folio: ${folioNumber}\n\n` +
-                        `Ingresa el folio en la página para completar tus datos fiscales.`;
-            
+            const text = `🔥 HOTFACT - Solicita tu factura\n\nIngresa a: yepzhi.com/hotfact\nFolio: ${folioNumber}`;
             navigator.clipboard.writeText(text).then(() => {
-                alert('✅ Información copiada al portapapeles');
-            }).catch(err => {
-                console.error('Error copiando:', err);
-                const textArea = document.createElement('textarea');
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
                 alert('✅ Información copiada al portapapeles');
             });
         }
 
-        // Cargar folios
         async function loadFolios() {
             try {
                 const snapshot = await db.collection('folios')
@@ -734,13 +790,14 @@
                         'Reciente';
                     
                     const statusText = folio.status === 'pending' ? 'Pendiente' : 
-                                     folio.status === 'used' ? 'Usado' : 'Completado';
+                                     folio.status === 'used' ? 'Usado' : 
+                                     folio.status === 'completed' ? 'Completado' : folio.status;
                     const statusClass = folio.status === 'pending' ? 'status-warning' : 
                                       folio.status === 'used' ? 'status-used' : 'status-success';
                     
                     tbody.innerHTML += `
                         <tr>
-                            <td style="font-family: monospace; font-weight: 700;">${folio.folioNumber || doc.id.substring(0, 8)}</td>
+                            <td style="font-family: 'Courier New', monospace; font-weight: 600;">${folio.folioNumber || doc.id.substring(0, 8)}</td>
                             <td style="font-weight: 600;">${folio.amount.toFixed(2)}</td>
                             <td>${folio.description}</td>
                             <td>${createdAt}</td>
@@ -754,20 +811,24 @@
 
             } catch (error) {
                 console.error('Error cargando folios:', error);
-                
                 if (error.message.includes('index')) {
-                    alert('⚠️ Se necesita crear un índice en Firestore. Por favor contacta al administrador.');
+                    alert('⚠️ Se necesita crear un índice en Firestore.');
                     console.log('Crea el índice aquí:', error.message.match(/https:\/\/[^\s]+/)?.[0]);
                 }
             }
         }
 
-        // Modal facturación directa
         function openDirectInvoiceModal() {
             document.getElementById('directInvoiceModal').classList.add('active');
             document.getElementById('directInvoiceMessage').innerHTML = '';
-            
-            // Limpiar campos
+            clearDirectInvoiceForm();
+        }
+
+        function closeDirectInvoiceModal() {
+            document.getElementById('directInvoiceModal').classList.remove('active');
+        }
+
+        function clearDirectInvoiceForm() {
             document.getElementById('directRFC').value = '';
             document.getElementById('directNombre').value = '';
             document.getElementById('directRegimen').value = '';
@@ -780,11 +841,6 @@
             document.getElementById('directIVAPreview').textContent = 'IVA: $0.00';
         }
 
-        function closeDirectInvoiceModal() {
-            document.getElementById('directInvoiceModal').classList.remove('active');
-        }
-
-        // Actualizar preview del monto
         document.addEventListener('DOMContentLoaded', () => {
             const montoInput = document.getElementById('directMonto');
             if (montoInput) {
@@ -792,28 +848,25 @@
                     const monto = parseFloat(this.value) || 0;
                     const subtotal = monto / 1.16;
                     const iva = monto - subtotal;
-                    
                     document.getElementById('directSubtotalPreview').textContent = `Subtotal: ${subtotal.toFixed(2)}`;
                     document.getElementById('directIVAPreview').textContent = `IVA: ${iva.toFixed(2)}`;
                 });
             }
         });
 
-        // Validar RFC
         function validateRFC(rfc) {
             const rfcPattern = /^[A-ZÑ&]{3,4}\d{6}[A-Z0-9]{3}$/;
             return rfcPattern.test(rfc.toUpperCase());
         }
 
-        // Validar email
         function validateEmail(email) {
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailPattern.test(email);
         }
 
-        // Generar factura directa
         async function generateDirectInvoice() {
             const messageDiv = document.getElementById('directInvoiceMessage');
+            const btn = document.getElementById('directInvoiceBtn');
             messageDiv.innerHTML = '';
 
             if (!userData) {
@@ -821,7 +874,6 @@
                 return;
             }
 
-            // Obtener valores
             const rfc = document.getElementById('directRFC').value.trim().toUpperCase();
             const nombre = document.getElementById('directNombre').value.trim();
             const regimen = document.getElementById('directRegimen').value;
@@ -831,7 +883,6 @@
             const formaPago = document.getElementById('directFormaPago').value;
             const monto = parseFloat(document.getElementById('directMonto').value);
 
-            // Validaciones
             if (!rfc || !nombre || !regimen || !cp || !email || !usoCFDI || !formaPago || !monto) {
                 messageDiv.innerHTML = '<div class="error">Por favor completa todos los campos requeridos (*)</div>';
                 return;
@@ -853,11 +904,10 @@
             }
 
             if (monto <= 0) {
-                messageDiv.innerHTML = '<div class="error">El monto debe ser mayor a 0</div>';
+                messageDiv.innerHTML = '<div class="error">Ingresa un monto válido</div>';
                 return;
             }
 
-            const btn = document.getElementById('directInvoiceBtn');
             btn.disabled = true;
             btn.textContent = '⏳ Guardando...';
 
@@ -866,18 +916,18 @@
                 const iva = monto - subtotal;
 
                 const invoiceData = {
-                    tipo: 'directa',
-                    userId: currentUser.uid,
+                    type: 'direct',
+                    businessId: currentUser.uid,
                     emisor: {
-                        rfc: userData.rfc || 'XAXX010101000',
-                        nombre: userData.businessName || 'Mi Negocio'
+                        rfc: userData.rfc,
+                        nombre: userData.businessName
                     },
                     receptor: {
                         rfc: rfc,
                         nombre: nombre,
-                        regimenFiscal: regimen,
                         cp: cp,
-                        email: email
+                        email: email,
+                        regimenFiscal: regimen
                     },
                     cfdi: {
                         usoCFDI: usoCFDI,
@@ -888,8 +938,8 @@
                     conceptos: [{
                         descripcion: 'CONSUMO DE ALIMENTOS',
                         cantidad: 1,
-                        precioUnitario: parseFloat(subtotal.toFixed(2)),
-                        subtotal: parseFloat(subtotal.toFixed(2))
+                        precioUnitario: subtotal,
+                        subtotal: subtotal
                     }],
                     totales: {
                         subtotal: parseFloat(subtotal.toFixed(2)),
@@ -910,14 +960,13 @@
 
             } catch (error) {
                 console.error('Error guardando factura:', error);
-                messageDiv.innerHTML = `<div class="error">Error al guardar: ${error.message}</div>`;
+                messageDiv.innerHTML = `<div class="error">Error al guardar factura: ${error.message}</div>`;
             } finally {
                 btn.disabled = false;
                 btn.textContent = '⚡ Guardar Factura';
             }
         }
 
-        // Cerrar sesión
         async function handleLogout() {
             if (confirm('¿Cerrar sesión?')) {
                 await auth.signOut();
@@ -926,94 +975,12 @@
         }
     </script>
 </body>
-</html>error) {
-                console.error('Error cargando datos:', error);
-                alert('Error al cargar datos del usuario');
-            }
-        }
-
-        // Actualizar estado de certificados
-        function updateCertStatus() {
-            if (!userData) return;
-            
-            const status = userData.hasCertificates ? '✅' : '⚠️';
-            const badge = userData.hasCertificates ? 'status-success' : 'status-warning';
-            const text = userData.hasCertificates ? 'Configurado' : 'Pendiente';
-            
-            document.getElementById('certStatus').textContent = status;
-            document.getElementById('certBadge').className = `status-badge ${badge}`;
-            document.getElementById('certBadge').textContent = text;
-        }
-
-        // Generar número de folio de 8 dígitos
-        function generateFolioNumber() {
-            return Math.floor(10000000 + Math.random() * 90000000).toString();
-        }
-
-        // 🎫 Generar Folio de Facturación
-        async function generateFolio() {
-            const amount = parseFloat(document.getElementById('folioAmount').value);
-            const description = document.getElementById('folioDescription').value.trim();
-            const resultDiv = document.getElementById('folioResult');
-
-            if (!amount || amount <= 0) {
-                resultDiv.innerHTML = '<div class="error">Ingresa un monto válido</div>';
-                return;
-            }
-
-            if (!userData) {
-                resultDiv.innerHTML = '<div class="error">Error: Datos de usuario no cargados</div>';
-                return;
-            }
-
-            try {
-                const subtotal = amount / 1.16;
-                const iva = amount - subtotal;
-                const folioNumber = generateFolioNumber();
-
-                const folioData = {
-                    folioNumber: folioNumber,
-                    userId: currentUser.uid,
-                    businessName: userData.businessName || 'Mi Negocio',
-                    businessRFC: userData.rfc || 'XAXX010101000',
-                    amount: parseFloat(amount.toFixed(2)),
-                    subtotal: parseFloat(subtotal.toFixed(2)),
-                    iva: parseFloat(iva.toFixed(2)),
-                    description: description || 'Sin descripción',
-                    status: 'pending',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-                };
-
-                await db.collection('folios').add(folioData);
-
-                resultDiv.innerHTML = `
-                    <div class="folio-box">
-                        <div style="color: white; font-weight: 600; margin-bottom: 10px;">
-                            ✅ Folio generado exitosamente
-                        </div>
-                        <div style="color: rgba(255,255,255,0.9); font-size: 13px; margin-bottom: 10px;">
-                            Monto: $${amount.toFixed(2)} MXN (IVA incluido)<br>
-                            Subtotal: $${subtotal.toFixed(2)} | IVA: $${iva.toFixed(2)}
-                        </div>
-                        <div style="color: rgba(255,255,255,0.8); font-size: 14px; margin-bottom: 10px;">
-                            <strong>Folio de 8 dígitos:</strong>
-                        </div>
-                        <div class="folio-code">${folioNumber}</div>
-                        <div style="color: rgba(255,255,255,0.8); font-size: 13px; margin-top: 15px;">
-                            📱 Comparte con tu cliente:<br>
-                            <strong>Link:</strong> yepzhi.com/hotfact<br>
-                            <strong>Folio:</strong> ${folioNumber}
-                        </div>
-                        <button class="btn-copy" onclick="copyFolioInfo('${folioNumber}')">
-                            📋 Copiar Información
-                        </button>
-                    </div>
-                `;
-
-                document.getElementById('folioAmount').value = '';
-                document.getElementById('folioDescription').value = '';
-
-                await loadFolios();
-
-            } catch (
+</html> al portapapeles');
+            }).catch(() => {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('✅ Información copiada
