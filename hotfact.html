@@ -321,11 +321,29 @@
         </div>
 
         <!-- Loading State -->
-        <div id="loadingState" class="card">
+        <div id="loadingState" class="card hidden">
             <div class="loading">
                 <div class="spinner"></div>
                 <p>Cargando datos del folio...</p>
             </div>
+        </div>
+
+        <!-- Input de Folio (si no viene en URL) -->
+        <div id="folioInputCard" class="card hidden">
+            <h2 style="color: white; text-align: center; margin-bottom: 20px;">Ingresa tu Folio</h2>
+            <div class="info-box">
+                💡 El vendedor te proporcionó un <strong>folio de 8 dígitos</strong>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; color: white; font-weight: 600; margin-bottom: 10px;">Folio de Facturación</label>
+                <input type="text" id="folioInput" placeholder="12345678" maxlength="8" 
+                       style="width: 100%; padding: 15px; font-size: 24px; text-align: center; letter-spacing: 5px; font-family: 'Courier New', monospace; border-radius: 10px; border: 2px solid rgba(255,255,255,0.3);"
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            </div>
+            <button onclick="buscarFolio()" class="btn" style="background: linear-gradient(135deg, #48db97 0%, #2ecc71 100%); border: none; padding: 15px; font-size: 16px;">
+                🔍 Buscar Folio
+            </button>
+            <div id="folioInputError" style="color: #ff6b6b; margin-top: 15px; text-align: center; display: none;"></div>
         </div>
 
         <!-- Formulario -->
@@ -460,10 +478,20 @@
         <div id="successMessage" class="card hidden">
             <div class="success-message">
                 <div class="success-icon">✅</div>
-                <h2 style="margin-bottom: 15px;">¡Factura Solicitada!</h2>
-                <p style="margin-bottom: 10px;">Tu factura ha sido procesada exitosamente.</p>
-                <p style="font-size: 14px; opacity: 0.9;">Recibirás los archivos XML y PDF en tu correo en los próximos minutos.</p>
-                <p style="font-size: 12px; opacity: 0.7; margin-top: 20px;">Folio: <span id="successFolioId" style="font-family: monospace;"></span></p>
+                <h2 style="margin-bottom: 15px;">¡Factura Timbrada Exitosamente!</h2>
+                <p style="margin-bottom: 10px;">Tu factura ha sido timbrada por el SAT.</p>
+                <p style="font-size: 14px; opacity: 0.9; margin-bottom: 20px;">UUID: <span id="successUUID" style="font-family: monospace; font-size: 12px;"></span></p>
+                
+                <div style="display: grid; gap: 10px; margin-top: 20px;">
+                    <button onclick="descargarXML()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        📄 Descargar XML
+                    </button>
+                    <button onclick="descargarPDF()" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 12px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        📑 Descargar PDF
+                    </button>
+                </div>
+
+                <p style="font-size: 12px; opacity: 0.7; margin-top: 20px;">También se enviarán a tu correo electrónico</p>
             </div>
         </div>
 
@@ -508,6 +536,7 @@
         const db = firebase.firestore();
 
         let folioData = null;
+        let facturaData = null; // Para guardar XML y PDF
 
         // Obtener ID del folio de la URL
         function getFolioId() {
@@ -525,15 +554,20 @@
             }
 
             try {
-                const doc = await db.collection('folios').doc(folioId).get();
+                // Buscar por folioNumber
+                const snapshot = await db.collection('folios')
+                    .where('folioNumber', '==', folioId)
+                    .limit(1)
+                    .get();
                 
-                if (!doc.exists) {
+                if (snapshot.empty) {
                     showError('notFound');
                     return;
                 }
 
+                const doc = snapshot.docs[0];
                 folioData = doc.data();
-                folioData.id = folioId;
+                folioData.id = doc.id;
 
                 // Verificar si ya fue usado
                 if (folioData.status === 'used') {
@@ -547,11 +581,14 @@
                     return;
                 }
 
-                // Mostrar información
-                document.getElementById('businessName').textContent = folioData.businessName || 'Negocio';
+                // Mostrar información del EMISOR
+                document.getElementById('businessName').innerHTML = `
+                    <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 5px;">Emisor</div>
+                    <div style="font-size: 20px; font-weight: 600;">${folioData.businessName || 'Negocio'}</div>
+                `;
                 document.getElementById('businessRFC').textContent = `RFC: ${folioData.businessRFC || 'N/A'}`;
                 document.getElementById('businessRFC').style.display = 'block';
-                document.getElementById('totalAmount').textContent = `$${folioData.amount.toFixed(2)}`;
+                document.getElementById('totalAmount').textContent = `${folioData.amount.toFixed(2)}`;
                 document.getElementById('amountDisplay').style.display = 'block';
                 
                 // Actualizar desglose
@@ -629,6 +666,25 @@
             return emailPattern.test(email);
         }
 
+        // Validar RFC con SAT/FINKOK
+        async function validarRFCconSAT(rfc) {
+            try {
+                const response = await fetch('https://us-central1-hotfact-9902f.cloudfunctions.net/validarRFC', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ rfc: rfc })
+                });
+
+                const data = await response.json();
+                return data.valid;
+            } catch (error) {
+                console.error('Error validando RFC:', error);
+                return false;
+            }
+        }
+
         // Enviar solicitud de factura
         async function submitInvoice() {
             const errorDiv = document.getElementById('errorMessage');
@@ -673,10 +729,28 @@
                 return;
             }
 
+            // Validar RFC con SAT/FINKOK
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = '⏳ Validando RFC con SAT...';
+
+            const rfcValido = await validarRFCconSAT(receptorRFC);
+            
+            if (!rfcValido) {
+                errorDiv.innerHTML = '<div class="error-message">⚠️ El RFC no pudo ser validado ante el SAT. Verifica que sea correcto.</div>';
+                btn.disabled = false;
+                btn.textContent = '🔥 Solicitar Factura';
+                window.scrollTo(0, 0);
+                return;
+            }
+
+            btn.textContent = '⏳ Timbrando factura...';
+
             // Preparar datos de la factura
             const invoiceData = {
                 folioId: folioData.id,
                 businessId: folioData.userId,
+                type: 'from_folio',
                 emisor: {
                     rfc: folioData.businessRFC,
                     nombre: folioData.businessName
@@ -704,33 +778,53 @@
                     subtotal: folioData.subtotal || (folioData.amount / 1.16),
                     iva: folioData.iva || (folioData.amount - (folioData.amount / 1.16)),
                     total: folioData.amount
-                },
-                status: 'pendiente_timbrado',
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                }
             };
 
-            // Deshabilitar botón
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.textContent = '⏳ Procesando...';
-
             try {
-                // Guardar solicitud en Firestore
-                await db.collection('invoiceRequests').add(invoiceData);
-                
-                // Marcar folio como usado
-                await db.collection('folios').doc(folioData.id).update({
-                    status: 'used',
-                    usedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    receptorEmail: receptorEmail,
-                    receptorRFC: receptorRFC
+                // Llamar a Cloud Function para timbrar
+                const response = await fetch('https://us-central1-hotfact-9902f.cloudfunctions.net/timbrarFactura', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(invoiceData)
                 });
 
-                // Mostrar mensaje de éxito
-                document.getElementById('successFolioId').textContent = folioData.id;
-                document.getElementById('invoiceForm').classList.add('hidden');
-                document.getElementById('successMessage').classList.remove('hidden');
-                window.scrollTo(0, 0);
+                const result = await response.json();
+
+                if (result.success) {
+                    // Guardar datos de la factura
+                    facturaData = {
+                        xml: result.xml,
+                        pdf: result.pdf,
+                        uuid: result.uuid
+                    };
+
+                    // Marcar folio como usado
+                    await db.collection('folios').where('folioNumber', '==', folioData.folioNumber).limit(1).get().then(snapshot => {
+                        if (!snapshot.empty) {
+                            snapshot.docs[0].ref.update({
+                                status: 'used',
+                                usedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                                receptorEmail: receptorEmail,
+                                receptorRFC: receptorRFC,
+                                uuid: result.uuid
+                            });
+                        }
+                    });
+
+                    // Mostrar mensaje de éxito con UUID
+                    document.getElementById('successUUID').textContent = result.uuid;
+                    document.getElementById('invoiceForm').classList.add('hidden');
+                    document.getElementById('successMessage').classList.remove('hidden');
+                    window.scrollTo(0, 0);
+                } else {
+                    errorDiv.innerHTML = `<div class="error-message">Error al timbrar: ${result.error || 'Error desconocido'}</div>`;
+                    btn.disabled = false;
+                    btn.textContent = '🔥 Solicitar Factura';
+                    window.scrollTo(0, 0);
+                }
 
             } catch (error) {
                 console.error('Error enviando factura:', error);
@@ -739,6 +833,44 @@
                 btn.textContent = '🔥 Solicitar Factura';
                 window.scrollTo(0, 0);
             }
+        }
+
+        // Descargar XML
+        function descargarXML() {
+            if (!facturaData || !facturaData.xml) {
+                alert('No hay XML disponible');
+                return;
+            }
+
+            const xmlContent = atob(facturaData.xml);
+            const blob = new Blob([xmlContent], { type: 'text/xml' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `factura_${facturaData.uuid}.xml`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Descargar PDF
+        function descargarPDF() {
+            if (!facturaData || !facturaData.pdf) {
+                alert('No hay PDF disponible');
+                return;
+            }
+
+            const pdfContent = atob(facturaData.pdf);
+            const blob = new Blob([pdfContent], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `factura_${facturaData.uuid}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
         }
 
         // Cargar datos al iniciar

@@ -1,4 +1,63 @@
-<!DOCTYPE html>
+const ADMIN_PASSWORD = "Amex2412";
+        let adminPasswordValidated = false;
+
+        // Mostrar modal de password al cargar
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('adminPasswordModal').style.display = 'flex';
+            
+            // Enter para validar password
+            document.getElementById('adminPasswordInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') validateAdminPassword();
+            });
+        });
+
+        // Validar password de administrador
+        function validateAdminPassword() {
+            const input = document.getElementById('adminPasswordInput').value;
+            const errorDiv = document.getElementById('adminPasswordError');
+            
+            if (input === ADMIN_PASSWORD) {
+                adminPasswordValidated = true;
+                document.getElementById('adminPasswordModal').style.display = 'none';
+                // Ahora sí verificar autenticación Firebase
+                checkFirebaseAuth();
+            } else {
+                errorDiv.textContent = '❌ Contraseña incorrecta';
+                errorDiv.style.display = 'block';
+                document.getElementById('adminPasswordInput').value = '';
+                document.getElementById('adminPasswordInput').focus();
+            }
+        }
+
+        // Verificar autenticación Firebase (solo después de password correcto)
+        function checkFirebaseAuth() {
+            auth.onAuthStateChanged(async (user) => {
+                if (!user) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Verificar si es admin
+                try {
+                    const adminDoc = await db.collection('admins').doc(user.uid).get();
+                    if (!adminDoc.exists) {
+                        alert('No tienes permisos de administrador');
+                        await auth.signOut();
+                        window.location.href = 'login.html';
+                        return;
+                    }
+
+                    document.getElementById('adminEmail').textContent = user.email;
+                    document.getElementById('adminContent').style.display = 'block';
+                    loadUsers();
+                } catch (error) {
+                    console.error('Error verificando admin:', error);
+                    alert('Error verificando permisos');
+                    await auth.signOut();
+                    window.location.href = 'login.html';
+                }
+            });
+        }<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">

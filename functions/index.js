@@ -167,7 +167,7 @@ function generarXMLCFDI(datos) {
 // ==========================================
 // 3. TIMBRAR CON FINKOK
 // ==========================================
-async function timbrarConFinkok(xmlSinTimbrar, rfcEmisor) {
+async function timbrarConFinkok(xmlSinTimbrar) {
   try {
     // Codificar XML en Base64
     const xmlBase64 = Buffer.from(xmlSinTimbrar).toString("base64");
