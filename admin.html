@@ -1,63 +1,4 @@
-const ADMIN_PASSWORD = "Amex2412";
-        let adminPasswordValidated = false;
-
-        // Mostrar modal de password al cargar
-        window.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('adminPasswordModal').style.display = 'flex';
-            
-            // Enter para validar password
-            document.getElementById('adminPasswordInput').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') validateAdminPassword();
-            });
-        });
-
-        // Validar password de administrador
-        function validateAdminPassword() {
-            const input = document.getElementById('adminPasswordInput').value;
-            const errorDiv = document.getElementById('adminPasswordError');
-            
-            if (input === ADMIN_PASSWORD) {
-                adminPasswordValidated = true;
-                document.getElementById('adminPasswordModal').style.display = 'none';
-                // Ahora sí verificar autenticación Firebase
-                checkFirebaseAuth();
-            } else {
-                errorDiv.textContent = '❌ Contraseña incorrecta';
-                errorDiv.style.display = 'block';
-                document.getElementById('adminPasswordInput').value = '';
-                document.getElementById('adminPasswordInput').focus();
-            }
-        }
-
-        // Verificar autenticación Firebase (solo después de password correcto)
-        function checkFirebaseAuth() {
-            auth.onAuthStateChanged(async (user) => {
-                if (!user) {
-                    window.location.href = 'login.html';
-                    return;
-                }
-
-                // Verificar si es admin
-                try {
-                    const adminDoc = await db.collection('admins').doc(user.uid).get();
-                    if (!adminDoc.exists) {
-                        alert('No tienes permisos de administrador');
-                        await auth.signOut();
-                        window.location.href = 'login.html';
-                        return;
-                    }
-
-                    document.getElementById('adminEmail').textContent = user.email;
-                    document.getElementById('adminContent').style.display = 'block';
-                    loadUsers();
-                } catch (error) {
-                    console.error('Error verificando admin:', error);
-                    alert('Error verificando permisos');
-                    await auth.signOut();
-                    window.location.href = 'login.html';
-                }
-            });
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -73,6 +14,97 @@ const ADMIN_PASSWORD = "Amex2412";
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f7fa;
+        }
+
+        /* Modal de Password */
+        .password-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .password-modal.hidden {
+            display: none;
+        }
+
+        .password-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        .password-box h2 {
+            color: white;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .password-box input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            letter-spacing: 3px;
+        }
+
+        .password-box input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: normal;
+        }
+
+        .password-box input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .password-box button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #48db97 0%, #2ecc71 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        .password-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72, 219, 151, 0.4);
+        }
+
+        .password-error {
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            display: none;
+        }
+
+        /* Contenido Admin (oculto por defecto) */
+        #adminContent {
+            display: none;
         }
 
         .navbar {
@@ -362,144 +394,157 @@ const ADMIN_PASSWORD = "Amex2412";
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-content">
-            <h1>🔥 HotFact Admin</h1>
-            <div class="navbar-right">
-                <span id="adminEmail"></span>
-                <button class="btn btn-logout" onclick="handleLogout()">Cerrar Sesión</button>
-            </div>
+    <!-- Modal de Password -->
+    <div class="password-modal" id="adminPasswordModal">
+        <div class="password-box">
+            <h2>🔐 Acceso Administrador</h2>
+            <input type="password" id="adminPasswordInput" placeholder="Ingresa la contraseña" autocomplete="off">
+            <button onclick="validateAdminPassword()">Acceder</button>
+            <div class="password-error" id="adminPasswordError"></div>
         </div>
-    </nav>
+    </div>
 
-    <div class="container">
-        <div class="tabs">
-            <div class="tab-buttons">
-                <button class="tab-btn active" onclick="switchTab('crear')">➕ Crear Usuario</button>
-                <button class="tab-btn" onclick="switchTab('lista')">📋 Lista de Usuarios</button>
+    <!-- Contenido Admin -->
+    <div id="adminContent">
+        <nav class="navbar">
+            <div class="navbar-content">
+                <h1>🔥 HotFact Admin</h1>
+                <div class="navbar-right">
+                    <span id="adminEmail"></span>
+                    <button class="btn btn-logout" onclick="handleLogout()">Cerrar Sesión</button>
+                </div>
             </div>
-        </div>
+        </nav>
 
-        <!-- Tab: Crear Usuario -->
-        <div id="tab-crear" class="tab-content active">
-            <div class="card">
-                <h2 style="margin-bottom: 1.5rem; color: #1f2937;">Registrar Nuevo Usuario</h2>
-                
-                <div id="createAlert" class="alert"></div>
-
-                <form onsubmit="handleCreateUser(event)">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>RFC *</label>
-                            <input type="text" id="rfc" required 
-                                   placeholder="XAXX010101000"
-                                   pattern="[A-ZÑ&]{3,4}[0-9]{6}[A-Z0-9]{3}"
-                                   style="text-transform: uppercase;">
-                        </div>
-                        <div class="form-group">
-                            <label>Razón Social *</label>
-                            <input type="text" id="razonSocial" required 
-                                   placeholder="Mi Empresa S.A. de C.V.">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Correo Electrónico *</label>
-                        <input type="email" id="email" required 
-                               placeholder="[email protected]">
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Contraseña *</label>
-                            <input type="password" id="password" required minlength="6"
-                                   placeholder="Mínimo 6 caracteres">
-                        </div>
-                        <div class="form-group">
-                            <label>Confirmar Contraseña *</label>
-                            <input type="password" id="confirmPassword" required minlength="6"
-                                   placeholder="Repetir contraseña">
-                        </div>
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Teléfono</label>
-                            <input type="tel" id="telefono"
-                                   placeholder="(662) 123-4567">
-                        </div>
-                        <div class="form-group">
-                            <label>Régimen Fiscal</label>
-                            <select id="regimenFiscal">
-                                <option value="">Seleccionar...</option>
-                                <option value="601">601 - General de Ley Personas Morales</option>
-                                <option value="605">605 - Sueldos y Salarios</option>
-                                <option value="606">606 - Arrendamiento</option>
-                                <option value="612">612 - Personas Físicas con Actividades Empresariales</option>
-                                <option value="616">616 - Sin obligaciones fiscales</option>
-                                <option value="621">621 - Incorporación Fiscal</option>
-                                <option value="626">626 - Régimen Simplificado de Confianza</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Dirección</label>
-                        <textarea id="direccion" rows="2"
-                                  placeholder="Calle, número, colonia, ciudad"></textarea>
-                    </div>
-
-                    <div class="info-box">
-                        <h3>📝 Notas importantes:</h3>
-                        <ul>
-                            <li>La contraseña debe tener al menos 6 caracteres</li>
-                            <li>Deberás compartir estas credenciales con el negocio</li>
-                            <li>El usuario podrá cambiar su contraseña desde el dashboard</li>
-                            <li>Se enviará un correo de verificación automáticamente</li>
-                        </ul>
-                    </div>
-
-                    <button type="submit" id="submitBtn" class="btn btn-primary">
-                        Crear Usuario
-                    </button>
-                </form>
+        <div class="container">
+            <div class="tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="switchTab('crear')">➕ Crear Usuario</button>
+                    <button class="tab-btn" onclick="switchTab('lista')">📋 Lista de Usuarios</button>
+                </div>
             </div>
-        </div>
 
-        <!-- Tab: Lista de Usuarios -->
-        <div id="tab-lista" class="tab-content">
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                    <h2 style="color: #1f2937;">Usuarios Registrados</h2>
-                    <button class="btn btn-secondary" onclick="loadUsers()">🔄 Recargar</button>
+            <!-- Tab: Crear Usuario -->
+            <div id="tab-crear" class="tab-content active">
+                <div class="card">
+                    <h2 style="margin-bottom: 1.5rem; color: #1f2937;">Registrar Nuevo Usuario</h2>
+                    
+                    <div id="createAlert" class="alert"></div>
+
+                    <form onsubmit="handleCreateUser(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>RFC *</label>
+                                <input type="text" id="rfc" required 
+                                       placeholder="XAXX010101000"
+                                       pattern="[A-ZÑ&]{3,4}[0-9]{6}[A-Z0-9]{3}"
+                                       style="text-transform: uppercase;">
+                            </div>
+                            <div class="form-group">
+                                <label>Razón Social *</label>
+                                <input type="text" id="razonSocial" required 
+                                       placeholder="Mi Empresa S.A. de C.V.">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Correo Electrónico *</label>
+                            <input type="email" id="email" required 
+                                   placeholder="[email protected]">
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Contraseña *</label>
+                                <input type="password" id="password" required minlength="6"
+                                       placeholder="Mínimo 6 caracteres">
+                            </div>
+                            <div class="form-group">
+                                <label>Confirmar Contraseña *</label>
+                                <input type="password" id="confirmPassword" required minlength="6"
+                                       placeholder="Repetir contraseña">
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Teléfono</label>
+                                <input type="tel" id="telefono"
+                                       placeholder="(662) 123-4567">
+                            </div>
+                            <div class="form-group">
+                                <label>Régimen Fiscal</label>
+                                <select id="regimenFiscal">
+                                    <option value="">Seleccionar...</option>
+                                    <option value="601">601 - General de Ley Personas Morales</option>
+                                    <option value="605">605 - Sueldos y Salarios</option>
+                                    <option value="606">606 - Arrendamiento</option>
+                                    <option value="612">612 - Personas Físicas con Actividades Empresariales</option>
+                                    <option value="616">616 - Sin obligaciones fiscales</option>
+                                    <option value="621">621 - Incorporación Fiscal</option>
+                                    <option value="626">626 - Régimen Simplificado de Confianza</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Dirección</label>
+                            <textarea id="direccion" rows="2"
+                                      placeholder="Calle, número, colonia, ciudad"></textarea>
+                        </div>
+
+                        <div class="info-box">
+                            <h3>📝 Notas importantes:</h3>
+                            <ul>
+                                <li>La contraseña debe tener al menos 6 caracteres</li>
+                                <li>Deberás compartir estas credenciales con el negocio</li>
+                                <li>El usuario podrá cambiar su contraseña desde el dashboard</li>
+                                <li>Se enviará un correo de verificación automáticamente</li>
+                            </ul>
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="btn btn-primary">
+                            Crear Usuario
+                        </button>
+                    </form>
                 </div>
+            </div>
 
-                <div id="usersLoading" class="loading">
-                    Cargando usuarios...
-                </div>
+            <!-- Tab: Lista de Usuarios -->
+            <div id="tab-lista" class="tab-content">
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h2 style="color: #1f2937;">Usuarios Registrados</h2>
+                        <button class="btn btn-secondary" onclick="loadUsers()">🔄 Recargar</button>
+                    </div>
 
-                <div id="usersContent" style="display: none;">
-                    <table class="users-table">
-                        <thead>
-                            <tr>
-                                <th>RFC</th>
-                                <th>Razón Social</th>
-                                <th>Correo</th>
-                                <th>Fecha Registro</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="usersTableBody">
-                        </tbody>
-                    </table>
-                </div>
+                    <div id="usersLoading" class="loading">
+                        Cargando usuarios...
+                    </div>
 
-                <div id="usersEmpty" class="empty-state" style="display: none;">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                    </svg>
-                    <p>No hay usuarios registrados</p>
+                    <div id="usersContent" style="display: none;">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>RFC</th>
+                                    <th>Razón Social</th>
+                                    <th>Correo</th>
+                                    <th>Fecha Registro</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="usersEmpty" class="empty-state" style="display: none;">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <p>No hay usuarios registrados</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -511,6 +556,38 @@ const ADMIN_PASSWORD = "Amex2412";
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <script>
+        const ADMIN_PASSWORD = "Amex2412";
+        let adminPasswordValidated = false;
+
+        // Mostrar modal de password al cargar
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('adminPasswordModal').style.display = 'flex';
+            
+            // Enter para validar password
+            document.getElementById('adminPasswordInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') validateAdminPassword();
+            });
+        });
+
+        // Validar password de administrador
+        function validateAdminPassword() {
+            const input = document.getElementById('adminPasswordInput').value;
+            const errorDiv = document.getElementById('adminPasswordError');
+            
+            if (input === ADMIN_PASSWORD) {
+                adminPasswordValidated = true;
+                document.getElementById('adminPasswordModal').style.display = 'none';
+                document.getElementById('adminPasswordModal').classList.add('hidden');
+                // Ahora sí verificar autenticación Firebase
+                checkFirebaseAuth();
+            } else {
+                errorDiv.textContent = '❌ Contraseña incorrecta';
+                errorDiv.style.display = 'block';
+                document.getElementById('adminPasswordInput').value = '';
+                document.getElementById('adminPasswordInput').focus();
+            }
+        }
+
         // 🔥 Configuración de Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyB_H-Eu5PVkaWKanA0q7_Fo5LSPgBYhbhQ",
@@ -527,32 +604,35 @@ const ADMIN_PASSWORD = "Amex2412";
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Verificar autenticación
-        auth.onAuthStateChanged(async (user) => {
-            if (!user) {
-                window.location.href = 'login.html';
-                return;
-            }
-
-            // Verificar si es admin
-            try {
-                const adminDoc = await db.collection('admins').doc(user.uid).get();
-                if (!adminDoc.exists) {
-                    alert('No tienes permisos de administrador');
-                    await auth.signOut();
+        // Verificar autenticación Firebase (solo después de password correcto)
+        function checkFirebaseAuth() {
+            auth.onAuthStateChanged(async (user) => {
+                if (!user) {
                     window.location.href = 'login.html';
                     return;
                 }
 
-                document.getElementById('adminEmail').textContent = user.email;
-                loadUsers();
-            } catch (error) {
-                console.error('Error verificando admin:', error);
-                alert('Error verificando permisos');
-                await auth.signOut();
-                window.location.href = 'login.html';
-            }
-        });
+                // Verificar si es admin
+                try {
+                    const adminDoc = await db.collection('admins').doc(user.uid).get();
+                    if (!adminDoc.exists) {
+                        alert('No tienes permisos de administrador');
+                        await auth.signOut();
+                        window.location.href = 'login.html';
+                        return;
+                    }
+
+                    document.getElementById('adminEmail').textContent = user.email;
+                    document.getElementById('adminContent').style.display = 'block';
+                    loadUsers();
+                } catch (error) {
+                    console.error('Error verificando admin:', error);
+                    alert('Error verificando permisos');
+                    await auth.signOut();
+                    window.location.href = 'login.html';
+                }
+            });
+        }
 
         // Cambiar de tab
         function switchTab(tabName) {
@@ -715,7 +795,6 @@ const ADMIN_PASSWORD = "Amex2412";
 
         // Ver detalles de usuario
         function viewUser(userId) {
-            // Aquí puedes implementar un modal o redirigir a una página de detalles
             alert('Función de ver detalles en desarrollo');
         }
 

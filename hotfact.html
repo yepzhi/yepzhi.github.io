@@ -337,7 +337,7 @@
             <div style="margin-bottom: 20px;">
                 <label style="display: block; color: white; font-weight: 600; margin-bottom: 10px;">Folio de Facturación</label>
                 <input type="text" id="folioInput" placeholder="12345678" maxlength="8" 
-                       style="width: 100%; padding: 15px; font-size: 24px; text-align: center; letter-spacing: 5px; font-family: 'Courier New', monospace; border-radius: 10px; border: 2px solid rgba(255,255,255,0.3);"
+                       style="width: 100%; padding: 15px; font-size: 24px; text-align: center; letter-spacing: 5px; font-family: 'Courier New', monospace; border-radius: 10px; border: 2px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.2); color: white;"
                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
             </div>
             <button onclick="buscarFolio()" class="btn" style="background: linear-gradient(135deg, #48db97 0%, #2ecc71 100%); border: none; padding: 15px; font-size: 16px;">
@@ -502,6 +502,9 @@
                 <h2 style="margin-bottom: 15px;">Folio No Encontrado</h2>
                 <p style="margin-bottom: 10px;">El folio que intentas consultar no existe o no es válido.</p>
                 <p style="font-size: 14px; opacity: 0.9;">Por favor verifica el enlace con el vendedor.</p>
+                <button onclick="volverABuscar()" style="margin-top: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 24px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                    🔄 Ingresar Otro Folio
+                </button>
             </div>
         </div>
 
@@ -536,7 +539,7 @@
         const db = firebase.firestore();
 
         let folioData = null;
-        let facturaData = null; // Para guardar XML y PDF
+        let facturaData = null;
 
         // Obtener ID del folio de la URL
         function getFolioId() {
@@ -544,17 +547,56 @@
             return urlParams.get('folio');
         }
 
+        // Buscar folio manualmente
+        async function buscarFolio() {
+            const folioInput = document.getElementById('folioInput').value.trim();
+            const errorDiv = document.getElementById('folioInputError');
+            
+            if (folioInput.length !== 8) {
+                errorDiv.textContent = '⚠️ El folio debe tener exactamente 8 dígitos';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            errorDiv.style.display = 'none';
+            
+            // Actualizar URL
+            const newUrl = window.location.pathname + '?folio=' + folioInput;
+            window.history.pushState({}, '', newUrl);
+            
+            // Ocultar input y cargar datos
+            document.getElementById('folioInputCard').classList.add('hidden');
+            document.getElementById('loadingState').classList.remove('hidden');
+            
+            await loadFolioDataWithId(folioInput);
+        }
+
+        // Volver a buscar folio
+        function volverABuscar() {
+            document.getElementById('folioNotFound').classList.add('hidden');
+            document.getElementById('folioInputCard').classList.remove('hidden');
+            document.getElementById('folioInput').value = '';
+            document.getElementById('folioInput').focus();
+        }
+
         // Cargar datos del folio
         async function loadFolioData() {
             const folioId = getFolioId();
             
             if (!folioId) {
-                showError('noFolio');
+                // Mostrar input para ingresar folio
+                document.getElementById('businessName').textContent = 'Ingresa tu Folio de 8 dígitos';
+                document.getElementById('folioInputCard').classList.remove('hidden');
                 return;
             }
 
+            document.getElementById('loadingState').classList.remove('hidden');
+            await loadFolioDataWithId(folioId);
+        }
+
+        // Cargar datos del folio con ID específico
+        async function loadFolioDataWithId(folioId) {
             try {
-                // Buscar por folioNumber
                 const snapshot = await db.collection('folios')
                     .where('folioNumber', '==', folioId)
                     .limit(1)
@@ -569,32 +611,28 @@
                 folioData = doc.data();
                 folioData.id = doc.id;
 
-                // Verificar si ya fue usado
                 if (folioData.status === 'used') {
                     showError('used');
                     return;
                 }
 
-                // Verificar si expiró
                 if (folioData.expiresAt && folioData.expiresAt.toDate() < new Date()) {
                     showError('expired');
                     return;
                 }
 
-                // Mostrar información del EMISOR
+                // Mostrar información
                 document.getElementById('businessName').innerHTML = `
                     <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 5px;">Emisor</div>
                     <div style="font-size: 20px; font-weight: 600;">${folioData.businessName || 'Negocio'}</div>
                 `;
                 document.getElementById('businessRFC').textContent = `RFC: ${folioData.businessRFC || 'N/A'}`;
                 document.getElementById('businessRFC').style.display = 'block';
-                document.getElementById('totalAmount').textContent = `${folioData.amount.toFixed(2)}`;
+                document.getElementById('totalAmount').textContent = `$${folioData.amount.toFixed(2)}`;
                 document.getElementById('amountDisplay').style.display = 'block';
                 
-                // Actualizar desglose
                 updateBreakdown();
-
-                // Mostrar formulario
+                
                 document.getElementById('loadingState').classList.add('hidden');
                 document.getElementById('invoiceForm').classList.remove('hidden');
 
@@ -610,10 +648,6 @@
             document.getElementById('invoiceForm').classList.add('hidden');
             
             switch(type) {
-                case 'noFolio':
-                    document.getElementById('businessName').textContent = 'No se proporcionó un folio';
-                    document.getElementById('folioNotFound').classList.remove('hidden');
-                    break;
                 case 'notFound':
                     document.getElementById('folioNotFound').classList.remove('hidden');
                     break;
@@ -666,25 +700,6 @@
             return emailPattern.test(email);
         }
 
-        // Validar RFC con SAT/FINKOK
-        async function validarRFCconSAT(rfc) {
-            try {
-                const response = await fetch('https://us-central1-hotfact-9902f.cloudfunctions.net/validarRFC', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ rfc: rfc })
-                });
-
-                const data = await response.json();
-                return data.valid;
-            } catch (error) {
-                console.error('Error validando RFC:', error);
-                return false;
-            }
-        }
-
         // Enviar solicitud de factura
         async function submitInvoice() {
             const errorDiv = document.getElementById('errorMessage');
@@ -695,7 +710,6 @@
                 return;
             }
 
-            // Obtener valores
             const receptorRFC = document.getElementById('receptorRFC').value.trim().toUpperCase();
             const regimenFiscal = document.getElementById('regimenFiscal').value;
             const receptorNombre = document.getElementById('receptorNombre').value.trim();
@@ -729,21 +743,8 @@
                 return;
             }
 
-            // Validar RFC con SAT/FINKOK
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
-            btn.textContent = '⏳ Validando RFC con SAT...';
-
-            const rfcValido = await validarRFCconSAT(receptorRFC);
-            
-            if (!rfcValido) {
-                errorDiv.innerHTML = '<div class="error-message">⚠️ El RFC no pudo ser validado ante el SAT. Verifica que sea correcto.</div>';
-                btn.disabled = false;
-                btn.textContent = '🔥 Solicitar Factura';
-                window.scrollTo(0, 0);
-                return;
-            }
-
             btn.textContent = '⏳ Timbrando factura...';
 
             // Preparar datos de la factura
@@ -794,7 +795,6 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    // Guardar datos de la factura
                     facturaData = {
                         xml: result.xml,
                         pdf: result.pdf,
@@ -802,19 +802,15 @@
                     };
 
                     // Marcar folio como usado
-                    await db.collection('folios').where('folioNumber', '==', folioData.folioNumber).limit(1).get().then(snapshot => {
-                        if (!snapshot.empty) {
-                            snapshot.docs[0].ref.update({
-                                status: 'used',
-                                usedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                                receptorEmail: receptorEmail,
-                                receptorRFC: receptorRFC,
-                                uuid: result.uuid
-                            });
-                        }
+                    await db.collection('folios').doc(folioData.id).update({
+                        status: 'used',
+                        usedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        receptorEmail: receptorEmail,
+                        receptorRFC: receptorRFC,
+                        uuid: result.uuid
                     });
 
-                    // Mostrar mensaje de éxito con UUID
+                    // Mostrar mensaje de éxito
                     document.getElementById('successUUID').textContent = result.uuid;
                     document.getElementById('invoiceForm').classList.add('hidden');
                     document.getElementById('successMessage').classList.remove('hidden');
@@ -862,7 +858,11 @@
             }
 
             const pdfContent = atob(facturaData.pdf);
-            const blob = new Blob([pdfContent], { type: 'application/pdf' });
+            const bytes = new Uint8Array(pdfContent.length);
+            for (let i = 0; i < pdfContent.length; i++) {
+                bytes[i] = pdfContent.charCodeAt(i);
+            }
+            const blob = new Blob([bytes], { type: 'application/pdf' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -874,7 +874,17 @@
         }
 
         // Cargar datos al iniciar
-        window.addEventListener('DOMContentLoaded', loadFolioData);
+        window.addEventListener('DOMContentLoaded', () => {
+            loadFolioData();
+            
+            // Permitir Enter en input de folio
+            const folioInput = document.getElementById('folioInput');
+            if (folioInput) {
+                folioInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') buscarFolio();
+                });
+            }
+        });
     </script>
 </body>
 </html>
