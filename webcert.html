@@ -504,19 +504,53 @@
             }
         }
 
-        // Obtener y reservar el siguiente folio disponible
+        // Obtener y reservar el siguiente folio disponible (sin saltos)
         async function getNextFolio() {
-            try {
-                const result = await window.storage.get('global_certificate_folio', true);
-                const folio = result ? parseInt(result.value) : 1001;
-                const nextFolio = folio + 1;
-                await window.storage.set('global_certificate_folio', nextFolio.toString(), true);
-                return folio;
-            } catch (error) {
-                console.error('Error al obtener folio:', error);
-                // Fallback: usar un folio basado en timestamp
-                return 1001 + Math.floor(Date.now() / 1000) % 10000;
+            let intentos = 0;
+            const maxIntentos = 10;
+            
+            while (intentos < maxIntentos) {
+                try {
+                    // Obtener folio actual
+                    let result;
+                    try {
+                        result = await window.storage.get('global_certificate_folio', true);
+                    } catch (e) {
+                        // Si no existe, inicializar
+                        await window.storage.set('global_certificate_folio', '1001', true);
+                        result = { value: '1001' };
+                    }
+                    
+                    const folioActual = parseInt(result.value) || 1001;
+                    const siguienteFolio = folioActual + 1;
+                    
+                    // Intentar actualizar al siguiente folio
+                    await window.storage.set('global_certificate_folio', siguienteFolio.toString(), true);
+                    
+                    // Verificar que se guardó correctamente
+                    const verificacion = await window.storage.get('global_certificate_folio', true);
+                    const folioGuardado = parseInt(verificacion.value);
+                    
+                    // Si el folio guardado es exactamente el siguiente, lo usamos
+                    if (folioGuardado === siguienteFolio) {
+                        console.log(`✓ Folio ${folioActual} asignado correctamente`);
+                        return folioActual;
+                    }
+                    
+                    // Si hay discrepancia, esperar un poco y reintentar
+                    await new Promise(resolve => setTimeout(resolve, 100 * (intentos + 1)));
+                    intentos++;
+                    
+                } catch (error) {
+                    console.error(`Error en intento ${intentos + 1}:`, error);
+                    intentos++;
+                    await new Promise(resolve => setTimeout(resolve, 100 * (intentos + 1)));
+                }
             }
+            
+            // Si fallan todos los intentos, usar timestamp como fallback
+            console.error('No se pudo obtener folio del servidor, usando fallback');
+            return 1001 + Math.floor(Date.now() / 1000) % 100000;
         }
 
         // Cargar plantilla automáticamente al iniciar
@@ -688,14 +722,15 @@
                 
                 foliosGenerados.push(folio);
 
-                await new Promise(resolve => setTimeout(resolve, 200));
+                // Espera más larga entre certificados para evitar conflictos
+                await new Promise(resolve => setTimeout(resolve, 500));
             }
 
             progressDiv.style.display = 'none';
             btn.disabled = false;
             
-            const startFolio = foliosGenerados[0];
-            const endFolio = foliosGenerados[foliosGenerados.length - 1];
+            const startFolio = Math.min(...foliosGenerados);
+            const endFolio = Math.max(...foliosGenerados);
             
             document.getElementById('modalTitle').textContent = '¡Certificados Generados!';
             document.getElementById('modalMessage').textContent = `Se generaron ${data.length} certificados\nFolios: ${startFolio} - ${endFolio}`;
