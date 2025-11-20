@@ -19,9 +19,9 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Alineación cambiada para permitir que el footer fijo funcione */
+            align-items: flex-start;
             padding: 20px;
-            padding-bottom: 70px; /* Espacio para el footer fijo */
+            padding-bottom: 70px;
         }
 
         .container {
@@ -33,7 +33,7 @@
             border: 1px solid rgba(255, 255, 255, 0.18);
             max-width: 700px;
             width: 100%;
-            margin-top: 20px; /* Margen superior para centrar */
+            margin-top: 20px;
             margin-bottom: 20px;
         }
 
@@ -265,6 +265,7 @@
             color: #333;
             margin-bottom: 25px;
             font-size: 16px;
+            white-space: pre-line;
         }
 
         .modal-content button {
@@ -311,25 +312,22 @@
             margin: 25px 0;
         }
 
-        /* ESTILOS DEL FOOTER CORREGIDOS PARA DISEÑO GLASS Y POSICIÓN FIJA */
         .footer {
-            position: fixed; /* Lo fija en la ventana */
-            bottom: 0; /* Lo coloca al final */
+            position: fixed;
+            bottom: 0;
             left: 0;
-            width: 100%; /* Ocupa todo el ancho */
-            display: flex; /* Para alinear el texto y el contador */
-            justify-content: space-between; /* Mueve el contador a la derecha */
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
             padding: 15px 40px;
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.8); /* Texto blanco semitransparente */
-            
-            /* Efecto Glass */
+            color: rgba(255, 255, 255, 0.8);
             background: rgba(255, 255, 255, 0.1); 
             backdrop-filter: blur(5px); 
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); 
             border-top: 1px solid rgba(255, 255, 255, 0.18);
-            z-index: 999; /* Asegura que esté por encima de otros elementos */
+            z-index: 999;
         }
 
         .footer a {
@@ -340,12 +338,10 @@
         }
 
         .footer a:hover {
-            color: #4CAF50; /* Color de acento al pasar el ratón */
+            color: #4CAF50;
         }
         
-        /* Asegura que el contador se muestre sin problemas de layout */
         .visit-counter {
-            /* Permite que el contenido del contador (imagen/script) se muestre correctamente */
             line-height: 0; 
         }
     </style>
@@ -480,6 +476,48 @@
         let templatePdfBytes = null;
         let templatePdfBytesMasivo = null;
         const TEMPLATE_URL = 'https://yepzhi.com/Template.pdf';
+        
+        // Sistema de folios globales (compartido entre todos los usuarios)
+        let currentFolio = 1001;
+
+        // Cargar el folio actual desde el almacenamiento global
+        async function loadCurrentFolio() {
+            try {
+                const result = await window.storage.get('global_certificate_folio', true);
+                if (result && result.value) {
+                    currentFolio = parseInt(result.value);
+                    console.log('✓ Folio actual cargado:', currentFolio);
+                } else {
+                    // Si no existe, inicializar en 1001
+                    await window.storage.set('global_certificate_folio', '1001', true);
+                    currentFolio = 1001;
+                    console.log('✓ Folio inicializado en:', currentFolio);
+                }
+            } catch (error) {
+                console.log('Inicializando folio por primera vez:', error);
+                try {
+                    await window.storage.set('global_certificate_folio', '1001', true);
+                    currentFolio = 1001;
+                } catch (e) {
+                    console.error('Error al inicializar folio:', e);
+                }
+            }
+        }
+
+        // Obtener y reservar el siguiente folio disponible
+        async function getNextFolio() {
+            try {
+                const result = await window.storage.get('global_certificate_folio', true);
+                const folio = result ? parseInt(result.value) : 1001;
+                const nextFolio = folio + 1;
+                await window.storage.set('global_certificate_folio', nextFolio.toString(), true);
+                return folio;
+            } catch (error) {
+                console.error('Error al obtener folio:', error);
+                // Fallback: usar un folio basado en timestamp
+                return 1001 + Math.floor(Date.now() / 1000) % 10000;
+            }
+        }
 
         // Cargar plantilla automáticamente al iniciar
         async function loadDefaultTemplate() {
@@ -496,8 +534,11 @@
             }
         }
 
-        // Cargar plantilla al abrir la página
-        window.addEventListener('DOMContentLoaded', loadDefaultTemplate);
+        // Cargar plantilla y folio al abrir la página
+        window.addEventListener('DOMContentLoaded', async () => {
+            await loadDefaultTemplate();
+            await loadCurrentFolio();
+        });
 
         // Función para convertir fecha DD/MM/YYYY a formato texto
         function convertirFecha(fechaStr) {
@@ -565,10 +606,10 @@
             const horas = document.getElementById('horas').value;
 
             try {
-                await generateCertificate(nombre, apellido, evento, fecha, horas, templatePdfBytes);
+                const folio = await generateCertificate(nombre, apellido, evento, fecha, horas, templatePdfBytes);
                 
                 document.getElementById('modalTitle').textContent = '¡Certificado Generado!';
-                document.getElementById('modalMessage').textContent = 'El certificado se ha descargado correctamente';
+                document.getElementById('modalMessage').textContent = `Certificado descargado correctamente\nFolio: ${folio}`;
                 document.getElementById('successModal').classList.add('active');
             } catch (error) {
                 alert('Error al generar certificado: ' + error.message);
@@ -626,6 +667,8 @@
 
             progressDiv.style.display = 'block';
             btn.disabled = true;
+            
+            const foliosGenerados = [];
 
             for (let i = 0; i < data.length; i++) {
                 const row = data[i];
@@ -634,7 +677,7 @@
                 progressFill.style.width = progress + '%';
                 progressText.textContent = `Generando ${i + 1} de ${data.length}...`;
 
-                await generateCertificate(
+                const folio = await generateCertificate(
                     row.Nombre || row.nombre,
                     row.Apellido || row.apellido,
                     row.Evento || row.evento,
@@ -642,6 +685,8 @@
                     row.Horas || row.horas,
                     templatePdfBytesMasivo
                 );
+                
+                foliosGenerados.push(folio);
 
                 await new Promise(resolve => setTimeout(resolve, 200));
             }
@@ -649,12 +694,18 @@
             progressDiv.style.display = 'none';
             btn.disabled = false;
             
+            const startFolio = foliosGenerados[0];
+            const endFolio = foliosGenerados[foliosGenerados.length - 1];
+            
             document.getElementById('modalTitle').textContent = '¡Certificados Generados!';
-            document.getElementById('modalMessage').textContent = `Se generaron ${data.length} certificados`;
+            document.getElementById('modalMessage').textContent = `Se generaron ${data.length} certificados\nFolios: ${startFolio} - ${endFolio}`;
             document.getElementById('successModal').classList.add('active');
         }
 
         async function generateCertificate(nombre, apellido, evento, fecha, horas, pdfBytes) {
+            // Obtener folio único global
+            const folio = await getNextFolio();
+            
             // Convertir fecha de DD/MM/YYYY a formato texto
             const fechaFormateada = convertirFecha(fecha);
             
@@ -673,19 +724,16 @@
             // ============== NOMBRE COMPLETO CON AJUSTE AUTOMÁTICO ==============
             const nombreCompleto = `${apellido} ${nombre}`;
             const nombreYPosition = height - 350;
-            const maxNombreWidth = width * 0.85; // 85% del ancho de la página
+            const maxNombreWidth = width * 0.85;
             
-            // Calcular tamaño de fuente óptimo para el nombre
-            let nombreSize = 45; // Tamaño inicial grande
+            let nombreSize = 45;
             let nombreWidth = fontBold.widthOfTextAtSize(nombreCompleto, nombreSize);
             
-            // Reducir tamaño hasta que quepa en el ancho máximo
             while (nombreWidth > maxNombreWidth && nombreSize > 20) {
                 nombreSize -= 1;
                 nombreWidth = fontBold.widthOfTextAtSize(nombreCompleto, nombreSize);
             }
             
-            // Dibujar nombre centrado
             firstPage.drawText(nombreCompleto, {
                 x: (width - nombreWidth) / 2,
                 y: nombreYPosition,
@@ -695,35 +743,29 @@
             });
 
             // ============== TEXTO DEL EVENTO CON MÚLTIPLES LÍNEAS ==============
-            const eventoSize = 11.2; // Reducido 30% (16 * 0.7 = 11.2)
+            const eventoSize = 11.2;
             const baseColor = rgb(0.3, 0.3, 0.3);
-            const maxEventoWidth = width * 0.8; // 80% del ancho de la página
+            const maxEventoWidth = width * 0.8;
             
-            // Textos fijos
             const startText = 'For attending the ';
             const endText = ' session.';
             
-            // Función para dividir texto en líneas de forma balanceada
             function wrapTextBalanced(text, font, fontSize, maxWidth) {
                 const words = text.split(' ');
                 
-                // Primero verificar si cabe en una línea
                 const fullWidth = font.widthOfTextAtSize(text, fontSize);
                 if (fullWidth <= maxWidth) {
                     return [text];
                 }
                 
-                // Si no cabe, dividir balanceado (cerca de la mitad)
                 const lines = [];
                 let currentLine = '';
                 const midPoint = Math.floor(words.length / 2);
                 
-                // Primera mitad
                 for (let i = 0; i < midPoint; i++) {
                     currentLine = currentLine ? `${currentLine} ${words[i]}` : words[i];
                 }
                 
-                // Verificar si la primera línea cabe, sino ajustar
                 let testWidth = fontRegular.widthOfTextAtSize(currentLine, fontSize);
                 while (testWidth > maxWidth && currentLine.includes(' ')) {
                     const lastSpace = currentLine.lastIndexOf(' ');
@@ -733,14 +775,12 @@
                 
                 if (currentLine) lines.push(currentLine);
                 
-                // Segunda mitad (resto de palabras)
                 const firstLineWords = currentLine.split(' ').length;
                 let secondLine = '';
                 for (let i = firstLineWords; i < words.length; i++) {
                     secondLine = secondLine ? `${secondLine} ${words[i]}` : words[i];
                 }
                 
-                // Si la segunda línea es muy larga, dividirla también
                 testWidth = fontRegular.widthOfTextAtSize(secondLine, fontSize);
                 if (testWidth > maxWidth) {
                     const secondWords = secondLine.split(' ');
@@ -763,17 +803,15 @@
                 return lines;
             }
             
-            // Calcular ancho total para verificar si cabe en una línea
             const startWidth = fontRegular.widthOfTextAtSize(startText, eventoSize);
             const eventoWidth = fontBold.widthOfTextAtSize(evento, eventoSize);
             const endWidth = fontRegular.widthOfTextAtSize(endText, eventoSize);
             const totalWidth = startWidth + eventoWidth + endWidth;
             
-            let yEventoPosition = height - 395; // Subido 25% (420 - 25 = 395)
-            const lineSpacing = 16; // Espaciado entre líneas ajustado
+            let yEventoPosition = height - 395;
+            const lineSpacing = 16;
             
             if (totalWidth <= maxEventoWidth) {
-                // TODO CABE EN UNA LÍNEA
                 let currentX = (width - totalWidth) / 2;
                 
                 firstPage.drawText(startText, {
@@ -802,14 +840,9 @@
                     color: baseColor,
                 });
             } else {
-                // NECESITA MÚLTIPLES LÍNEAS
-                // Dividir el evento en líneas balanceadas
                 const eventoLines = wrapTextBalanced(evento, fontBold, eventoSize, maxEventoWidth);
                 
-                // Si el evento es de múltiples líneas, poner texto completo en líneas separadas
                 if (eventoLines.length === 1) {
-                    // El evento cabe solo, pero con start y end no cabe
-                    // Primera línea: "For attending the"
                     const line1 = startText.trim();
                     const line1Width = fontRegular.widthOfTextAtSize(line1, eventoSize);
                     firstPage.drawText(line1, {
@@ -820,7 +853,6 @@
                         color: baseColor,
                     });
                     
-                    // Segunda línea: "evento session."
                     const line2StartWidth = fontBold.widthOfTextAtSize(evento, eventoSize);
                     const line2EndWidth = fontRegular.widthOfTextAtSize(endText, eventoSize);
                     const line2TotalWidth = line2StartWidth + line2EndWidth;
@@ -842,8 +874,6 @@
                         color: baseColor,
                     });
                 } else {
-                    // El evento necesita múltiples líneas
-                    // Primera línea: "For attending the"
                     const line1 = startText.trim();
                     const line1Width = fontRegular.widthOfTextAtSize(line1, eventoSize);
                     firstPage.drawText(line1, {
@@ -854,7 +884,6 @@
                         color: baseColor,
                     });
                     
-                    // Líneas del evento (centradas, en negritas, balanceadas)
                     eventoLines.forEach((line, index) => {
                         const lineWidth = fontBold.widthOfTextAtSize(line, eventoSize);
                         firstPage.drawText(line, {
@@ -866,7 +895,6 @@
                         });
                     });
                     
-                    // Última línea: "session."
                     const lastLine = endText.trim();
                     const lastLineWidth = fontRegular.widthOfTextAtSize(lastLine, eventoSize);
                     firstPage.drawText(lastLine, {
@@ -891,6 +919,18 @@
                 color: rgb(0.5, 0.5, 0.5),
             });
 
+            // Folio (esquina inferior derecha, pequeño, gris claro)
+            const textoFolio = `Folio: ${folio}`;
+            const folioSize = 9;
+            const folioWidth = fontRegular.widthOfTextAtSize(textoFolio, folioSize);
+            firstPage.drawText(textoFolio, {
+                x: width - folioWidth - 30,
+                y: 30,
+                size: folioSize,
+                font: fontRegular,
+                color: rgb(0.6, 0.6, 0.6),
+            });
+
             // Guardar y descargar
             const pdfBytesResult = await pdfDoc.save();
             const blob = new Blob([pdfBytesResult], { type: 'application/pdf' });
@@ -898,6 +938,8 @@
             link.href = URL.createObjectURL(blob);
             link.download = `Certificate_${apellido}_${nombre}.pdf`;
             link.click();
+            
+            return folio;
         }
 
         function downloadTemplate() {
@@ -937,14 +979,10 @@
         }
     </script>
     
-
-    <!-- FOOTER: Pie de página de la aplicación (SOLO UNA VEZ, FUERA DEL CONTAINER) -->
     <div class="footer">
-        <!-- CAMBIO: Texto a inglés -->
         <div>Developed by <a href="https://github.com/yepzhi" target="_blank">@yepzhi</a></div>
         
         <div class="visit-counter">
-             <!-- Statcounter code exacto proporcionado por el usuario -->
             <script type="text/javascript">
                 var sc_project=13182229; 
                 var sc_invisible=0; 
@@ -957,12 +995,10 @@
             <noscript>
                 <div class="statcounter">
                     <a title="web stats" href="https://statcounter.com/" target="_blank">
-                        <!-- La imagen del contador generada por Statcounter -->
                         <img class="statcounter" src="https://c.statcounter.com/13182229/0/0cd44f01/0/" alt="web stats" referrerPolicy="no-referrer-when-downgrade">
                     </a>
                 </div>
             </noscript>
-            <!-- End of Statcounter Code -->
         </div>
     </div>
 
