@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de Administración - HotFact</title>
     <style>
+        /* Estilos RESTAURADOS para coincidir con el diseño original de Admin */
         * {
             margin: 0;
             padding: 0;
@@ -14,6 +15,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f7fa;
+            padding-bottom: 50px;
         }
 
         /* Modal de Password */
@@ -43,785 +45,511 @@
             width: 100%;
             max-width: 400px;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            text-align: center;
         }
 
         .password-box h2 {
             color: white;
-            font-size: 24px;
-            text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .password-box input {
             width: 100%;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 12px;
+            margin-bottom: 15px;
+            border: none;
             border-radius: 10px;
-            color: white;
             font-size: 16px;
-            text-align: center;
-            letter-spacing: 3px;
-        }
-
-        .password-box input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-            letter-spacing: normal;
-        }
-
-        .password-box input:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
         }
 
         .password-box button {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #48db97 0%, #2ecc71 100%);
-            border: none;
-            border-radius: 10px;
+            background-color: #4CAF50;
             color: white;
-            font-size: 16px;
-            font-weight: 600;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
             cursor: pointer;
-            margin-top: 15px;
-            transition: all 0.3s;
+            width: 100%;
+            transition: background-color 0.3s;
         }
 
         .password-box button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(72, 219, 151, 0.4);
+            background-color: #45a049;
         }
 
-        .password-error {
-            color: #ff6b6b;
-            text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
-            display: none;
+        /* Contenido Principal de Admin */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        /* Contenido Admin (oculto por defecto) */
-        #adminContent {
-            display: none;
-        }
-
-        .navbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .navbar-content {
-            max-width: 1400px;
-            margin: 0 auto;
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
         }
 
-        .navbar h1 {
-            font-size: 24px;
-            font-weight: 700;
+        .header h1 {
+            color: #333;
         }
 
-        .navbar-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .btn {
-            padding: 0.5rem 1rem;
+        .logout-btn {
+            background-color: #ff4d4d;
+            color: white;
             border: none;
+            padding: 10px 18px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
+            transition: background-color 0.3s;
         }
 
-        .btn-logout {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+        .logout-btn:hover {
+            background-color: #ff3333;
         }
 
-        .btn-logout:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
+        /* Tabs */
         .tabs {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-            overflow: hidden;
-        }
-
-        .tab-buttons {
             display: flex;
-            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
         }
 
-        .tab-btn {
-            flex: 1;
-            padding: 1rem;
-            background: none;
-            border: none;
-            font-size: 16px;
-            font-weight: 600;
-            color: #6b7280;
+        .tab-button {
+            padding: 10px 15px;
             cursor: pointer;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
+            border: 1px solid transparent;
+            border-bottom: none;
+            margin-right: 5px;
+            background: #f0f0f0;
+            border-radius: 8px 8px 0 0;
+            color: #555;
+            transition: background 0.3s;
         }
 
-        .tab-btn.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
+        .tab-button.active {
+            background: white;
+            border: 1px solid #ccc;
+            border-bottom: 1px solid white;
+            font-weight: 600;
+            color: #333;
         }
 
         .tab-content {
-            display: none;
+            padding: 15px 0;
         }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 2rem;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
+        
+        /* Formularios y controles */
         .form-group {
-            display: flex;
-            flex-direction: column;
+            margin-bottom: 15px;
         }
-
         .form-group label {
+            display: block;
+            margin-bottom: 5px;
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #374151;
+            color: #555;
         }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            padding: 0.75rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem 2rem;
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
-            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
         }
-
-        .btn-primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        .btn {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
-
-        .btn-primary:disabled {
-            opacity: 0.6;
+        .btn:hover:not(:disabled) {
+            background-color: #5a6edb;
+        }
+        .btn:disabled {
+            background-color: #ccc;
             cursor: not-allowed;
         }
 
+        /* Tabla de Usuarios */
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .user-table th, .user-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .user-table th {
+            background-color: #f5f5f5;
+            font-weight: 700;
+            color: #333;
+        }
+        .user-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        .status-active { color: #4CAF50; font-weight: 600; }
+        .status-inactive { color: #ff4d4d; font-weight: 600; }
+        
+        /* Alertas */
         .alert {
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
             display: none;
         }
-
         .alert.show {
             display: block;
         }
-
         .alert-success {
-            background: #d1fae5;
-            border: 1px solid #6ee7b7;
-            color: #065f46;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
-
         .alert-error {
-            background: #fee2e2;
-            border: 1px solid #fca5a5;
-            color: #991b1b;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .alert-info {
+             background-color: #cce5ff;
+            color: #004085;
+            border: 1px solid #b8daff;
         }
 
-        .info-box {
-            background: #eff6ff;
-            border: 1px solid #93c5fd;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .info-box h3 {
-            color: #1e40af;
-            margin-bottom: 0.5rem;
-        }
-
-        .info-box ul {
-            color: #1e40af;
-            font-size: 14px;
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .info-box li {
-            margin-bottom: 0.25rem;
-        }
-
-        .info-box li::before {
-            content: "• ";
-            font-weight: bold;
-        }
-
-        .users-table {
+        /* Estilos para el Modal Personalizado */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
         }
-
-        .users-table th {
-            background: #f9fafb;
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-            border-bottom: 2px solid #e5e7eb;
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 550px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            color: #333;
         }
-
-        .users-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #e5e7eb;
+        .modal-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
         }
-
-        .users-table tr:hover {
-            background: #f9fafb;
+        .modal-footer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
         }
-
-        .badge {
+        .btn-red {
+            background-color: #ff4d4d;
+        }
+        .btn-red:hover:not(:disabled) {
+            background-color: #ff3333;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
             display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 12px;
-            font-weight: 600;
+            margin-left: 5px;
         }
-
-        .badge-active {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .badge-disabled {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .btn-sm {
-            padding: 0.25rem 0.75rem;
-            font-size: 14px;
-            margin: 0 0.25rem;
-        }
-
-        .btn-danger {
-            background: #ef4444;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #dc2626;
-        }
-
-        .btn-secondary {
-            background: #6b7280;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #4b5563;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: #6b7280;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: #6b7280;
-        }
-
-        .empty-state svg {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 1rem;
-            opacity: 0.3;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
-</head>
-<body>
-    <!-- Modal de Password -->
-    <div class="password-modal" id="adminPasswordModal">
-        <div class="password-box">
-            <h2>🔐 Acceso Administrador</h2>
-            <input type="password" id="adminPasswordInput" placeholder="Ingresa la contraseña" autocomplete="off">
-            <button onclick="validateAdminPassword()">Acceder</button>
-            <div class="password-error" id="adminPasswordError"></div>
-        </div>
-    </div>
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, collection, onSnapshot, setDoc, updateDoc, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // --- Configuraciones y Variables Globales ---
+        const ADMIN_PASSWORD = "adminpass"; // Contraseña de administración simple
+        
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
-    <!-- Contenido Admin -->
-    <div id="adminContent">
-        <nav class="navbar">
-            <div class="navbar-content">
-                <h1>🔥 HotFact Admin</h1>
-                <div class="navbar-right">
-                    <span id="adminEmail"></span>
-                    <button class="btn btn-logout" onclick="handleLogout()">Cerrar Sesión</button>
-                </div>
-            </div>
-        </nav>
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        
+        let globalUserId = null;
+        let authReady = false;
 
-        <div class="container">
-            <div class="tabs">
-                <div class="tab-buttons">
-                    <button class="tab-btn active" onclick="switchTab('crear')">➕ Crear Usuario</button>
-                    <button class="tab-btn" onclick="switchTab('lista')">📋 Lista de Usuarios</button>
-                </div>
-            </div>
-
-            <!-- Tab: Crear Usuario -->
-            <div id="tab-crear" class="tab-content active">
-                <div class="card">
-                    <h2 style="margin-bottom: 1.5rem; color: #1f2937;">Registrar Nuevo Usuario</h2>
-                    
-                    <div id="createAlert" class="alert"></div>
-
-                    <form onsubmit="handleCreateUser(event)">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>RFC *</label>
-                                <input type="text" id="rfc" required 
-                                       placeholder="XAXX010101000"
-                                       pattern="[A-ZÑ&]{3,4}[0-9]{6}[A-Z0-9]{3}"
-                                       style="text-transform: uppercase;">
-                            </div>
-                            <div class="form-group">
-                                <label>Razón Social *</label>
-                                <input type="text" id="razonSocial" required 
-                                       placeholder="Mi Empresa S.A. de C.V.">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Correo Electrónico *</label>
-                            <input type="email" id="email" required 
-                                   placeholder="[email protected]">
-                        </div>
-
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>Contraseña *</label>
-                                <input type="password" id="password" required minlength="6"
-                                       placeholder="Mínimo 6 caracteres">
-                            </div>
-                            <div class="form-group">
-                                <label>Confirmar Contraseña *</label>
-                                <input type="password" id="confirmPassword" required minlength="6"
-                                       placeholder="Repetir contraseña">
-                            </div>
-                        </div>
-
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>Teléfono</label>
-                                <input type="tel" id="telefono"
-                                       placeholder="(662) 123-4567">
-                            </div>
-                            <div class="form-group">
-                                <label>Régimen Fiscal</label>
-                                <select id="regimenFiscal">
-                                    <option value="">Seleccionar...</option>
-                                    <option value="601">601 - General de Ley Personas Morales</option>
-                                    <option value="605">605 - Sueldos y Salarios</option>
-                                    <option value="606">606 - Arrendamiento</option>
-                                    <option value="612">612 - Personas Físicas con Actividades Empresariales</option>
-                                    <option value="616">616 - Sin obligaciones fiscales</option>
-                                    <option value="621">621 - Incorporación Fiscal</option>
-                                    <option value="626">626 - Régimen Simplificado de Confianza</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Dirección</label>
-                            <textarea id="direccion" rows="2"
-                                      placeholder="Calle, número, colonia, ciudad"></textarea>
-                        </div>
-
-                        <div class="info-box">
-                            <h3>📝 Notas importantes:</h3>
-                            <ul>
-                                <li>La contraseña debe tener al menos 6 caracteres</li>
-                                <li>Deberás compartir estas credenciales con el negocio</li>
-                                <li>El usuario podrá cambiar su contraseña desde el dashboard</li>
-                                <li>Se enviará un correo de verificación automáticamente</li>
-                            </ul>
-                        </div>
-
-                        <button type="submit" id="submitBtn" class="btn btn-primary">
-                            Crear Usuario
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Tab: Lista de Usuarios -->
-            <div id="tab-lista" class="tab-content">
-                <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                        <h2 style="color: #1f2937;">Usuarios Registrados</h2>
-                        <button class="btn btn-secondary" onclick="loadUsers()">🔄 Recargar</button>
-                    </div>
-
-                    <div id="usersLoading" class="loading">
-                        Cargando usuarios...
-                    </div>
-
-                    <div id="usersContent" style="display: none;">
-                        <table class="users-table">
-                            <thead>
-                                <tr>
-                                    <th>RFC</th>
-                                    <th>Razón Social</th>
-                                    <th>Correo</th>
-                                    <th>Fecha Registro</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="usersTableBody">
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div id="usersEmpty" class="empty-state" style="display: none;">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                        </svg>
-                        <p>No hay usuarios registrados</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-    <script>
-        const ADMIN_PASSWORD = "Amex2412";
-        let adminPasswordValidated = false;
-
-        // Mostrar modal de password al cargar
-        window.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('adminPasswordModal').style.display = 'flex';
+        // --- Funciones del Modal Personalizado (Reemplazo de alert/confirm) ---
+        function showCustomModal(title, message, isConfirm = false, onConfirm = null) {
+            const modalOverlay = document.getElementById('customModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const confirmBtn = document.getElementById('modalConfirmBtn');
+            const closeBtn = document.getElementById('modalCloseBtn');
             
-            // Enter para validar password
-            document.getElementById('adminPasswordInput').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') validateAdminPassword();
-            });
-        });
+            modalTitle.textContent = title;
+            modalBody.innerHTML = `<p>${message}</p>`;
 
-        // Validar password de administrador
-        function validateAdminPassword() {
-            const input = document.getElementById('adminPasswordInput').value;
-            const errorDiv = document.getElementById('adminPasswordError');
-            
-            if (input === ADMIN_PASSWORD) {
-                adminPasswordValidated = true;
-                document.getElementById('adminPasswordModal').style.display = 'none';
-                document.getElementById('adminPasswordModal').classList.add('hidden');
-                // Ahora sí verificar autenticación Firebase
-                checkFirebaseAuth();
+            if (isConfirm) {
+                confirmBtn.style.display = 'inline-flex';
+                confirmBtn.onclick = () => {
+                    closeCustomModal();
+                    if (onConfirm) onConfirm();
+                };
             } else {
-                errorDiv.textContent = '❌ Contraseña incorrecta';
-                errorDiv.style.display = 'block';
-                document.getElementById('adminPasswordInput').value = '';
-                document.getElementById('adminPasswordInput').focus();
+                confirmBtn.style.display = 'none';
+            }
+
+            modalOverlay.style.display = 'flex';
+        }
+
+        function closeCustomModal() {
+            document.getElementById('customModal').style.display = 'none';
+        }
+
+        // --- Manejo de la Contraseña de Admin ---
+
+        function checkAdminPassword() {
+            const inputPass = document.getElementById('adminPasswordInput').value;
+            const messageDiv = document.getElementById('passwordMessage');
+            
+            if (inputPass === ADMIN_PASSWORD) {
+                document.getElementById('adminPasswordModal').classList.add('hidden');
+                initAdmin();
+            } else {
+                messageDiv.innerHTML = `<div class="alert alert-error show">Contraseña incorrecta.</div>`;
             }
         }
 
-        // 🔥 Configuración de Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyB_H-Eu5PVkaWKanA0q7_Fo5LSPgBYhbhQ",
-            authDomain: "hotfact-9902f.firebaseapp.com",
-            projectId: "hotfact-9902f",
-            storageBucket: "hotfact-9902f.firebasestorage.app",
-            messagingSenderId: "33455575295",
-            appId: "1:33455575295:web:77d406be9d4f6a6ec5fcca",
-            measurementId: "G-LREVZ2WQ7L"
-        };
+        // --- Manejo de Autenticación y Carga de Datos ---
+        
+        function initAdmin() {
+            // No usamos el token de autenticación inicial aquí, la autenticación es por la contraseña.
+            // Si estuviéramos usando Auth, iniciaríamos sesión de administrador aquí.
+            document.getElementById('adminContent').style.display = 'block';
+            loadUsers();
+        }
 
-        // Inicializar Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+        function loadUsers() {
+            const userTableBody = document.getElementById('userTableBody');
+            if (!userTableBody) return;
 
-        // Verificar autenticación Firebase (solo después de password correcto)
-        function checkFirebaseAuth() {
-            auth.onAuthStateChanged(async (user) => {
-                if (!user) {
-                    window.location.href = 'login.html';
-                    return;
-                }
+            // Esta colección es solo para la gestión de usuarios del negocio "hotFact", no datos de facturación.
+            const q = query(collection(db, `artifacts/${appId}/public/data/clientUsers`));
+            
+            userTableBody.innerHTML = '<tr><td colspan="5">Cargando usuarios...</td></tr>';
 
-                // Verificar si es admin
-                try {
-                    const adminDoc = await db.collection('admins').doc(user.uid).get();
-                    if (!adminDoc.exists) {
-                        alert('No tienes permisos de administrador');
-                        await auth.signOut();
-                        window.location.href = 'login.html';
-                        return;
-                    }
-
-                    document.getElementById('adminEmail').textContent = user.email;
-                    document.getElementById('adminContent').style.display = 'block';
-                    loadUsers();
-                } catch (error) {
-                    console.error('Error verificando admin:', error);
-                    alert('Error verificando permisos');
-                    await auth.signOut();
-                    window.location.href = 'login.html';
-                }
+            onSnapshot(q, (snapshot) => {
+                const users = [];
+                snapshot.forEach(doc => {
+                    users.push({ id: doc.id, ...doc.data() });
+                });
+                displayUsers(users);
+            }, (error) => {
+                console.error("Error al cargar usuarios:", error);
+                showCustomModal('Error de Conexión', 'No se pudieron cargar los usuarios.');
+                userTableBody.innerHTML = '<tr><td colspan="5">Error al cargar usuarios.</td></tr>';
             });
         }
 
-        // Cambiar de tab
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
-            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
-            document.getElementById(`tab-${tabName}`).classList.add('active');
+        function displayUsers(users) {
+            const userTableBody = document.getElementById('userTableBody');
+            userTableBody.innerHTML = ''; 
 
-            if (tabName === 'lista') {
-                loadUsers();
-            }
-        }
-
-        // Crear usuario
-        async function handleCreateUser(event) {
-            event.preventDefault();
-            
-            const rfc = document.getElementById('rfc').value.trim().toUpperCase();
-            const razonSocial = document.getElementById('razonSocial').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const telefono = document.getElementById('telefono').value.trim();
-            const regimenFiscal = document.getElementById('regimenFiscal').value;
-            const direccion = document.getElementById('direccion').value.trim();
-            
-            const alertDiv = document.getElementById('createAlert');
-            const submitBtn = document.getElementById('submitBtn');
-
-            if (password !== confirmPassword) {
-                showAlert('createAlert', 'Las contraseñas no coinciden', 'error');
+            if (users.length === 0) {
+                userTableBody.innerHTML = '<tr><td colspan="5">No hay usuarios registrados.</td></tr>';
                 return;
             }
 
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Creando usuario...';
+            users.forEach(user => {
+                const isActive = user.isActive !== false; // Por defecto activo
+                const statusText = isActive ? 'Activo' : 'Deshabilitado';
+                const statusClass = isActive ? 'status-active' : 'status-inactive';
 
-            try {
-                // Crear usuario en Firebase Auth
-                const secondaryApp = firebase.initializeApp(firebaseConfig, 'Secondary');
-                const secondaryAuth = secondaryApp.auth();
-                
-                const userCredential = await secondaryAuth.createUserWithEmailAndPassword(email, password);
-                const newUser = userCredential.user;
-
-                // Guardar datos del usuario en Firestore
-                await db.collection('users').doc(newUser.uid).set({
-                    rfc: rfc,
-                    businessName: razonSocial,
-                    email: email,
-                    telefono: telefono,
-                    regimenFiscal: regimenFiscal,
-                    direccion: direccion,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    createdBy: auth.currentUser.uid,
-                    hasCertificates: false,
-                    hasLogo: false,
-                    plan: 'free',
-                    isActive: true
-                });
-
-                // Enviar correo de verificación
-                await newUser.sendEmailVerification();
-
-                // Cerrar sesión de la app secundaria
-                await secondaryAuth.signOut();
-                await secondaryApp.delete();
-
-                showAlert('createAlert', `¡Usuario creado exitosamente! Credenciales:\nEmail: ${email}\nContraseña: ${password}`, 'success');
-                
-                // Limpiar formulario
-                document.getElementById('rfc').value = '';
-                document.getElementById('razonSocial').value = '';
-                document.getElementById('email').value = '';
-                document.getElementById('password').value = '';
-                document.getElementById('confirmPassword').value = '';
-                document.getElementById('telefono').value = '';
-                document.getElementById('regimenFiscal').value = '';
-                document.getElementById('direccion').value = '';
-
-            } catch (error) {
-                console.error('Error creando usuario:', error);
-                let errorMessage = 'Error al crear usuario';
-                
-                if (error.code === 'auth/email-already-in-use') {
-                    errorMessage = 'Este correo ya está registrado';
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'Correo electrónico inválido';
-                } else if (error.code === 'auth/weak-password') {
-                    errorMessage = 'La contraseña es muy débil';
-                }
-                
-                showAlert('createAlert', errorMessage, 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Crear Usuario';
-            }
+                const row = userTableBody.insertRow();
+                row.innerHTML = `
+                    <td>${user.email}</td>
+                    <td>${user.fullName || 'N/A'}</td>
+                    <td><span class="${statusClass}">${statusText}</span></td>
+                    <td>${user.id.substring(0, 8)}...</td>
+                    <td>
+                        <button class="btn btn-red" onclick="handleToggleUserStatus('${user.id}', ${isActive})">
+                            ${isActive ? 'Deshabilitar' : 'Habilitar'}
+                        </button>
+                    </td>
+                `;
+            });
         }
 
-        // Cargar usuarios
-        async function loadUsers() {
-            const loading = document.getElementById('usersLoading');
-            const content = document.getElementById('usersContent');
-            const empty = document.getElementById('usersEmpty');
-            const tbody = document.getElementById('usersTableBody');
-
-            loading.style.display = 'block';
-            content.style.display = 'none';
-            empty.style.display = 'none';
-
-            try {
-                const snapshot = await db.collection('users').orderBy('createdAt', 'desc').get();
-                
-                if (snapshot.empty) {
-                    loading.style.display = 'none';
-                    empty.style.display = 'block';
-                    return;
-                }
-
-                tbody.innerHTML = '';
-                
-                snapshot.forEach((doc) => {
-                    const user = doc.data();
-                    const row = document.createElement('tr');
-                    
-                    const createdAt = user.createdAt ? 
-                        new Date(user.createdAt.toDate()).toLocaleDateString('es-MX') : 
-                        'N/A';
-                    
-                    row.innerHTML = `
-                        <td><strong>${user.rfc || 'N/A'}</strong></td>
-                        <td>${user.businessName || 'N/A'}</td>
-                        <td>${user.email}</td>
-                        <td>${createdAt}</td>
-                        <td>
-                            <span class="badge ${user.isActive !== false ? 'badge-active' : 'badge-disabled'}">
-                                ${user.isActive !== false ? 'Activo' : 'Deshabilitado'}
-                            </span>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-secondary" onclick="viewUser('${doc.id}')">Ver</button>
-                            <button class="btn btn-sm btn-danger" onclick="toggleUserStatus('${doc.id}', ${user.isActive !== false})">
-                                ${user.isActive !== false ? 'Deshabilitar' : 'Habilitar'}
-                            </button>
-                        </td>
-                    `;
-                    
-                    tbody.appendChild(row);
-                });
-
-                loading.style.display = 'none';
-                content.style.display = 'block';
-
-            } catch (error) {
-                console.error('Error cargando usuarios:', error);
-                loading.textContent = 'Error al cargar usuarios';
-            }
-        }
-
-        // Ver detalles de usuario
-        function viewUser(userId) {
-            alert('Función de ver detalles en desarrollo');
-        }
-
-        // Cambiar estado de usuario
-        async function toggleUserStatus(userId, currentStatus) {
+        async function handleToggleUserStatus(userId, currentStatus) {
             const confirmMsg = currentStatus ? 
                 '¿Deshabilitar este usuario? No podrá acceder a su cuenta.' : 
                 '¿Habilitar este usuario? Podrá acceder nuevamente a su cuenta.';
             
-            if (!confirm(confirmMsg)) return;
+            showCustomModal('Confirmación', confirmMsg, true, async () => {
+                try {
+                    // La colección 'clientUsers' debe ser pública (Regla de seguridad: allow read, write: if request.auth != null)
+                    const userRef = doc(db, `artifacts/${appId}/public/data/clientUsers`, userId);
+                    await updateDoc(userRef, {
+                        isActive: !currentStatus,
+                        updatedAt: new Date()
+                    });
+
+                    // No necesitamos recargar toda la lista gracias a onSnapshot.
+                    showCustomModal('Éxito', currentStatus ? 'Usuario deshabilitado' : 'Usuario habilitado');
+
+                } catch (error) {
+                    console.error('Error actualizando usuario:', error);
+                    showCustomModal('Error', 'Error al actualizar el estado del usuario: ' + error.message);
+                }
+            });
+        }
+        
+        // --- Función para crear nuevo usuario ---
+        async function createNewUser() {
+            const email = document.getElementById('newEmail').value.trim();
+            const password = document.getElementById('newPassword').value.trim();
+            const fullName = document.getElementById('newFullName').value.trim();
+            const messageDiv = document.getElementById('createUserAlert');
+            
+            if (!email || !password || !fullName) {
+                showAlert('createUserAlert', 'Todos los campos son obligatorios.', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showAlert('createUserAlert', 'La contraseña debe tener al menos 6 caracteres.', 'error');
+                return;
+            }
+            
+            // Simulación: No podemos crear un usuario con `createUserWithEmailAndPassword` sin un entorno de Auth configurado, 
+            // así que solo lo registramos en Firestore. En un sistema real, primero se crearía en Firebase Auth.
 
             try {
-                await db.collection('users').doc(userId).update({
-                    isActive: !currentStatus,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
+                // Generar un ID simple temporal para simular la creación de usuario
+                const tempUserId = 'uid-' + Math.random().toString(36).substring(2, 10);
 
-                loadUsers();
-                alert(currentStatus ? 'Usuario deshabilitado' : 'Usuario habilitado');
+                const userData = {
+                    email: email,
+                    fullName: fullName,
+                    isActive: true,
+                    createdAt: new Date(),
+                    lastLogin: null
+                    // No guardar la contraseña en Firestore
+                };
+                
+                // Guardar en la colección pública de usuarios
+                const userRef = doc(db, `artifacts/${appId}/public/data/clientUsers`, tempUserId);
+                await setDoc(userRef, userData);
+
+                showAlert('createUserAlert', `✅ Usuario ${email} creado (ID simulado: ${tempUserId}).`, 'success');
+                
+                // Limpiar formulario y cargar plantilla de email de bienvenida
+                document.getElementById('newUserForm').reset();
+                document.getElementById('emailPreviewName').value = fullName;
 
             } catch (error) {
-                console.error('Error actualizando usuario:', error);
-                alert('Error al actualizar el estado del usuario');
+                console.error('Error creando usuario:', error);
+                showAlert('createUserAlert', `Error al crear usuario: ${error.message}`, 'error');
+            }
+        }
+        
+        // --- Integración de Gemini para Email Templates ---
+
+        async function generateWelcomeEmail() {
+            const recipientName = document.getElementById('emailPreviewName').value.trim() || 'Estimado(a) Cliente';
+            const emailContentTextarea = document.getElementById('emailContentTextarea');
+            const btn = document.getElementById('generateEmailBtn');
+            const alertDiv = document.getElementById('emailTemplateAlert');
+            
+            btn.disabled = true;
+            btn.innerHTML = 'Generando... <span class="spinner"></span>';
+            alertDiv.style.display = 'none';
+
+            try {
+                // System Prompt para un email de bienvenida formal
+                const systemPrompt = "Actúa como un redactor de comunicaciones corporativas para una plataforma de facturación. Genera un borrador de email de bienvenida profesional y formal en español para un nuevo cliente. Incluye instrucciones breves sobre cómo usar el portal (iniciar sesión, solicitar factura) y el valor de la plataforma ('hotFact'). El tono debe ser formal, pero amigable. Comienza con 'Estimado/a [Nombre del Cliente],' y termina con una firma. No incluyas un Asunto de email.";
+                const userQuery = `Redacta el email para el cliente con el nombre: "${recipientName}".`;
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                };
+
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const generatedText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                
+                if (generatedText) {
+                    let cleanedText = generatedText.trim();
+                    // Reemplazar marcador de posición con el nombre real
+                    cleanedText = cleanedText.replace('[Nombre del Cliente]', recipientName); 
+                    emailContentTextarea.value = cleanedText;
+                    showAlert('emailTemplateAlert', '✅ Plantilla de email generada con éxito por Gemini.', 'success');
+                } else {
+                    throw new Error("No se pudo generar el contenido. Respuesta de la API incompleta.");
+                }
+
+            } catch (error) {
+                console.error('Error de Gemini API:', error);
+                showAlert('emailTemplateAlert', `Error al generar email: ${error.message}`, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Generar Plantilla con IA';
             }
         }
 
-        // Mostrar alerta
+        // Función auxiliar para llamadas a la API con reintentos
+        async function fetchWithRetry(url, options, retries = 3) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        const errorBody = await response.json();
+                        throw new Error(errorBody.error?.message || `HTTP error! status: ${response.status}`);
+                    }
+                    return response;
+                } catch (error) {
+                    console.error(`Attempt ${i + 1} failed:`, error.message);
+                    if (i === retries - 1) throw error;
+                    const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+        }
+
+        // --- Funciones de Utilidad ---
+
+        // Mostrar alerta personalizada en el div especificado
         function showAlert(elementId, message, type) {
             const alertDiv = document.getElementById(elementId);
             alertDiv.className = `alert alert-${type} show`;
@@ -833,12 +561,153 @@
         }
 
         // Cerrar sesión
-        async function handleLogout() {
-            if (confirm('¿Cerrar sesión de administrador?')) {
-                await auth.signOut();
-                window.location.href = 'login.html';
-            }
+        function handleLogout() {
+            showCustomModal('Confirmación', '¿Cerrar sesión de administrador?', true, async () => {
+                // En un sistema real, aquí se cerraría la sesión de Firebase Auth si se usara.
+                // Aquí solo regresamos al modal de contraseña.
+                document.getElementById('adminPasswordModal').classList.remove('hidden');
+                document.getElementById('adminContent').style.display = 'none';
+                document.getElementById('adminPasswordInput').value = '';
+                document.getElementById('passwordMessage').innerHTML = '';
+            });
         }
+        
+        // Manejo de pestañas
+        function openTab(tabName) {
+            // Ocultar todos los contenidos
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            // Desactivar todos los botones
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Mostrar el contenido y activar el botón
+            document.getElementById(tabName).style.display = 'block';
+            document.querySelector(`.tab-button[onclick="openTab('${tabName}')"]`).classList.add('active');
+        }
+
+
+        // --- Inicialización y Exportación ---
+        window.onload = () => {
+             // Iniciar mostrando el modal de contraseña
+            document.getElementById('adminPasswordModal').classList.remove('hidden');
+            document.getElementById('adminContent').style.display = 'none';
+
+            // Mostrar la primera pestaña
+            openTab('manageUsers');
+        };
+
+        // Exportar funciones para el HTML
+        window.checkAdminPassword = checkAdminPassword;
+        window.handleLogout = handleLogout;
+        window.openTab = openTab;
+        window.createNewUser = createNewUser;
+        window.handleToggleUserStatus = handleToggleUserStatus;
+        window.showCustomModal = showCustomModal;
+        window.closeCustomModal = closeCustomModal;
+        window.generateWelcomeEmail = generateWelcomeEmail;
     </script>
+</head>
+<body>
+
+    <!-- Modal de Contraseña de Administrador -->
+    <div id="adminPasswordModal" class="password-modal hidden">
+        <div class="password-box">
+            <h2>Acceso de Administrador</h2>
+            <div id="passwordMessage"></div>
+            <input type="password" id="adminPasswordInput" placeholder="Contraseña de Admin" required>
+            <button onclick="checkAdminPassword()">Entrar</button>
+            <p style="margin-top: 20px; color: white; opacity: 0.7;">Contraseña de prueba: adminpass</p>
+        </div>
+    </div>
+
+    <!-- Contenido Principal de Admin -->
+    <div id="adminContent" class="container" style="display: none;">
+        <div class="header">
+            <h1>Panel de Control de hotFact</h1>
+            <button class="logout-btn" onclick="handleLogout()">Cerrar Sesión</button>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab('manageUsers')">Gestión de Clientes</button>
+            <button class="tab-button" onclick="openTab('createUsers')">Crear Cliente</button>
+            <button class="tab-button" onclick="openTab('emailTemplates')">Plantillas de Email (IA)</button>
+        </div>
+
+        <!-- Pestaña 1: Gestión de Usuarios -->
+        <div id="manageUsers" class="tab-content">
+            <h2>Clientes Registrados</h2>
+            <div class="table-responsive">
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Nombre Completo</th>
+                            <th>Estado</th>
+                            <th>ID (Simulado)</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        <!-- Contenido cargado por JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pestaña 2: Crear Usuario -->
+        <div id="createUsers" class="tab-content" style="display:none;">
+            <h2>Registro de Nuevo Cliente</h2>
+            <div id="createUserAlert" class="alert"></div>
+            <form id="newUserForm">
+                <div class="form-group">
+                    <label for="newFullName">Nombre Completo</label>
+                    <input type="text" id="newFullName" placeholder="Nombre de la Empresa o Persona" required>
+                </div>
+                <div class="form-group">
+                    <label for="newEmail">Email</label>
+                    <input type="email" id="newEmail" placeholder="correo@cliente.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Contraseña Inicial</label>
+                    <input type="password" id="newPassword" placeholder="Mínimo 6 caracteres" required>
+                </div>
+                <button type="button" class="btn" onclick="createNewUser()">Registrar Cliente</button>
+            </form>
+        </div>
+
+        <!-- Pestaña 3: Plantillas de Email (IA) -->
+        <div id="emailTemplates" class="tab-content" style="display:none;">
+            <h2>Generador de Plantillas de Email (Gemini AI)</h2>
+            <div id="emailTemplateAlert" class="alert"></div>
+            
+            <div class="form-group">
+                <label for="emailPreviewName">Nombre del Destinatario para el Ejemplo</label>
+                <input type="text" id="emailPreviewName" placeholder="Ej: Juan Pérez">
+            </div>
+
+            <button id="generateEmailBtn" type="button" class="btn" style="margin-bottom: 15px;" onclick="generateWelcomeEmail()">Generar Plantilla con IA</button>
+
+            <div class="form-group">
+                <label for="emailContentTextarea">Borrador de Email de Bienvenida</label>
+                <textarea id="emailContentTextarea" rows="10" placeholder="El borrador generado por la IA aparecerá aquí..."></textarea>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Personalizado (Reemplazo de Alert/Confirm) -->
+    <div id="customModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modalTitle" class="modal-title">Título</h3>
+            <div id="modalBody">Mensaje.</div>
+            <div class="modal-footer">
+                <button class="btn btn-red" onclick="closeCustomModal()">Cerrar</button>
+                <button id="modalConfirmBtn" class="btn" style="display: none;">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

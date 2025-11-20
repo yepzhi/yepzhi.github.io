@@ -40,375 +40,378 @@
         .logo h1 {
             color: white;
             font-size: 32px;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .logo p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 14px;
-            margin-top: 5px;
+            font-weight: 800;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
         }
 
         .form-group {
             margin-bottom: 20px;
         }
 
-        label {
+        .form-group label {
             display: block;
             color: white;
-            font-size: 14px;
             margin-bottom: 8px;
-            font-weight: 500;
+            font-weight: 600;
         }
 
-        input {
+        .form-group input {
             width: 100%;
             padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
             color: white;
-            font-size: 14px;
-            transition: all 0.3s ease;
+            font-size: 16px;
+            transition: border-color 0.3s, background-color 0.3s;
         }
 
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        input:focus {
+        .form-group input:focus {
             outline: none;
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
+            border-color: white;
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .btn {
             width: 100%;
-            padding: 14px;
-            background: rgba(255, 255, 255, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 12px;
+            border: none;
             border-radius: 10px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 18px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background-color 0.3s, transform 0.1s;
             margin-top: 10px;
         }
 
-        .btn:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.4);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-        }
-
-        .forgot-password {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .forgot-password a {
+            background-color: #5cb85c;
             color: white;
-            font-size: 14px;
-            text-decoration: none;
-            cursor: pointer;
-            opacity: 0.9;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .forgot-password a:hover {
-            text-decoration: underline;
-            opacity: 1;
+        .btn-primary:hover {
+            background-color: #4cae4c;
         }
 
-        .admin-link {
+        .btn-secondary {
+            background: none;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .link-text {
             text-align: center;
             margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .admin-link a {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 12px;
-            text-decoration: none;
-        }
-
-        .admin-link a:hover {
+        .link-text a {
             color: white;
-            text-decoration: underline;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
         }
 
-        .hidden {
-            display: none;
+        .link-text a:hover {
+            color: #d1d5db;
+        }
+
+        /* Mensajes de error/éxito */
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .message.hidden {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
         }
 
         .error {
-            background: rgba(255, 107, 107, 0.3);
-            border: 1px solid rgba(255, 107, 107, 0.5);
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            text-align: center;
+            background-color: #fca5a5;
+            color: #b91c1c;
         }
 
         .success {
-            background: rgba(72, 219, 151, 0.3);
-            border: 1px solid rgba(72, 219, 151, 0.5);
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
+            background-color: #a7f3d0;
+            color: #065f46;
+        }
+
+        /* Modales (Ocultar por defecto) */
+        .modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.hidden {
+            display: none;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content h2 {
+            color: #333;
             margin-bottom: 20px;
-            font-size: 14px;
             text-align: center;
         }
-
-        .back-to-login {
-            text-align: center;
-            margin-top: 15px;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-        }
-
-        .back-to-login a {
-            color: white;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .back-to-login a:hover {
-            text-decoration: underline;
-        }
-
-        .info-text {
-            color: rgba(255, 255, 255, 0.9);
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 14px;
-            line-height: 1.5;
+        
+        .modal-message {
+            margin-bottom: 15px;
+            color: #555;
+            font-size: 15px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Contenedor Principal de Login -->
+    <div class="container" id="loginContainer">
         <div class="logo">
-            <h1>🔥 hotFact</h1>
-            <p>Tus facturas en caliente</p>
+            <h1>hotFact</h1>
         </div>
 
-        <!-- Login Form -->
-        <div id="loginForm">
-            <div id="loginMessage"></div>
-            <div class="form-group">
-                <label for="loginEmail">Correo Electrónico</label>
-                <input type="email" id="loginEmail" placeholder="tu@email.com" autocomplete="email">
-            </div>
-            <div class="form-group">
-                <label for="loginPassword">Contraseña</label>
-                <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
-            </div>
-            <button class="btn btn-primary" onclick="handleLogin()" id="loginBtn">Iniciar Sesión</button>
-            
-            <div class="forgot-password">
-                <a onclick="showForgotPassword()">¿Olvidaste tu contraseña?</a>
-            </div>
-
-            <div class="admin-link">
-                <a href="admin.html">🔑 Acceso administrador</a>
-            </div>
+        <div class="form-group">
+            <label for="loginEmail">Correo Electrónico</label>
+            <input type="email" id="loginEmail" placeholder="tu.correo@dominio.com">
         </div>
 
-        <!-- Forgot Password Form -->
-        <div id="forgotPasswordForm" class="hidden">
-            <div id="forgotMessage"></div>
-            <p class="info-text">
-                Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.
-            </p>
-            <div class="form-group">
-                <label for="forgotEmail">Correo Electrónico</label>
-                <input type="email" id="forgotEmail" placeholder="tu@email.com" autocomplete="email">
-            </div>
-            <button class="btn btn-primary" onclick="handleForgotPassword()" id="forgotBtn">Enviar Enlace</button>
-            
-            <div class="back-to-login">
-                <a onclick="showLogin()">← Volver al inicio de sesión</a>
-            </div>
+        <div class="form-group">
+            <label for="loginPassword">Contraseña</label>
+            <input type="password" id="loginPassword" placeholder="••••••••">
+        </div>
+
+        <button class="btn btn-primary" onclick="handleLogin()">Iniciar Sesión</button>
+        
+        <div id="loginMessage" class="message hidden"></div>
+        
+        <div class="link-text">
+            <a href="#" onclick="showForgotPasswordModal(event)">¿Olvidaste tu contraseña?</a>
         </div>
     </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <!-- Modal de Restablecer Contraseña -->
+    <div class="modal hidden" id="forgotPasswordModal">
+        <div class="modal-content">
+            <h2>Restablecer Contraseña</h2>
+            <div class="modal-message">
+                Ingresa tu correo electrónico y te enviaremos un enlace para que puedas establecer una nueva contraseña.
+            </div>
+            
+            <div class="form-group">
+                <input type="email" id="forgotEmail" placeholder="Correo Electrónico">
+            </div>
 
-    <script>
-        // 🔥 Configuración de Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyB_H-Eu5PVkaWKanA0q7_Fo5LSPgBYhbhQ",
-            authDomain: "hotfact-9902f.firebaseapp.com",
-            projectId: "hotfact-9902f",
-            storageBucket: "hotfact-9902f.firebasestorage.app",
-            messagingSenderId: "33455575295",
-            appId: "1:33455575295:web:77d406be9d4f6a6ec5fcca",
-            measurementId: "G-LREVZ2WQ7L"
-        };
+            <button class="btn btn-primary" onclick="handleForgotPassword()">Enviar Enlace</button>
+            <button class="btn btn-secondary" onclick="hideForgotPasswordModal()">Volver a Iniciar Sesión</button>
+            
+            <div id="forgotMessage" class="message hidden"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Importaciones de Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Configuración global y variables
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
 
         // Inicializar Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        // Verificar estado de autenticación
-        auth.onAuthStateChanged((user) => {
-            if (user && window.location.pathname.includes('login.html')) {
-                window.location.href = 'dashboard.html';
-            }
-        });
+        // Referencias a elementos del DOM
+        const loginMessageDiv = document.getElementById('loginMessage');
+        const forgotPasswordModal = document.getElementById('forgotPasswordModal');
+        const forgotEmailInput = document.getElementById('forgotEmail');
+        const forgotMessageDiv = document.getElementById('forgotMessage');
 
-        // Mostrar formulario de recuperación de contraseña
-        function showForgotPassword() {
-            document.getElementById('loginForm').classList.add('hidden');
-            document.getElementById('forgotPasswordForm').classList.remove('hidden');
-            document.getElementById('forgotMessage').innerHTML = '';
-            document.getElementById('forgotEmail').value = '';
-            document.getElementById('forgotEmail').focus();
+        // --- Funciones de Utilidad ---
+
+        function showMessage(element, message, type) {
+            element.classList.remove('hidden', 'error', 'success');
+            element.classList.add(type);
+            element.innerHTML = message;
+            
+            // Ocultar mensaje después de 5 segundos
+            setTimeout(() => {
+                element.classList.add('hidden');
+            }, 5000);
         }
 
-        // Mostrar formulario de login
-        function showLogin() {
-            document.getElementById('forgotPasswordForm').classList.add('hidden');
-            document.getElementById('loginForm').classList.remove('hidden');
-            document.getElementById('loginMessage').innerHTML = '';
-            document.getElementById('loginEmail').focus();
-        }
-
-        // Manejar recuperación de contraseña
-        async function handleForgotPassword() {
-            const email = document.getElementById('forgotEmail').value.trim();
-            const messageDiv = document.getElementById('forgotMessage');
-            const btn = document.getElementById('forgotBtn');
-
-            if (!email) {
-                messageDiv.innerHTML = '<div class="error">Por favor ingresa tu correo electrónico</div>';
-                return;
-            }
-
-            btn.disabled = true;
-            btn.textContent = 'Enviando...';
-
+        // Función para verificar si el usuario es administrador
+        async function checkUserRole(uid) {
             try {
-                await auth.sendPasswordResetEmail(email);
-                messageDiv.innerHTML = '<div class="success">✅ ¡Correo enviado! Revisa tu bandeja de entrada para restablecer tu contraseña.</div>';
-                
-                setTimeout(() => {
-                    showLogin();
-                }, 3000);
+                // Ruta pública para roles/configuración general
+                const userDocRef = doc(db, `artifacts/${appId}/public/data/users`, uid);
+                const userDoc = await getDoc(userDocRef);
 
-            } catch (error) {
-                btn.disabled = false;
-                btn.textContent = 'Enviar Enlace';
-                
-                let errorMessage = 'Error al enviar el correo';
-                
-                if (error.code === 'auth/user-not-found') {
-                    errorMessage = 'No existe una cuenta con este correo electrónico';
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'Correo electrónico inválido';
-                } else if (error.code === 'auth/too-many-requests') {
-                    errorMessage = 'Demasiados intentos. Por favor intenta más tarde';
+                if (userDoc.exists()) {
+                    return userDoc.data().role || 'user'; // Por defecto 'user'
                 }
-                
-                messageDiv.innerHTML = `<div class="error">${errorMessage}</div>`;
-                console.error('Error en recuperación:', error);
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'Enviar Enlace';
+                return 'user'; // Si no hay documento, es un usuario regular por defecto
+            } catch (error) {
+                console.error("Error al obtener el rol del usuario:", error);
+                // En caso de error, asumir el rol de usuario estándar
+                return 'user';
             }
         }
 
-        // Manejar login
-        async function handleLogin() {
+        // --- Manejo del Login ---
+        window.handleLogin = async function() {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
-            const messageDiv = document.getElementById('loginMessage');
-            const btn = document.getElementById('loginBtn');
+            loginMessageDiv.classList.add('hidden'); // Ocultar mensaje anterior
 
             if (!email || !password) {
-                messageDiv.innerHTML = '<div class="error">Por favor completa todos los campos</div>';
+                showMessage(loginMessageDiv, '<div class="error">Por favor, ingresa correo y contraseña.</div>', 'error');
                 return;
             }
 
-            btn.disabled = true;
-            btn.textContent = 'Iniciando sesión...';
-
             try {
-                await auth.signInWithEmailAndPassword(email, password);
-                messageDiv.innerHTML = '<div class="success">¡Bienvenido! Redirigiendo...</div>';
+                // 1. Establecer persistencia (opcional, pero recomendado)
+                await setPersistence(auth, browserSessionPersistence);
                 
-                // La redirección se maneja automáticamente con onAuthStateChanged
-                
+                // 2. Iniciar Sesión con Firebase
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // 3. Verificar el rol del usuario
+                const role = await checkUserRole(user.uid);
+
+                // 4. Redireccionar según el rol
+                if (role === 'admin') {
+                    window.location.href = 'admin.html';
+                } else {
+                    // Si no es admin, redirigir al dashboard normal
+                    window.location.href = 'dashboard.html';
+                }
+
             } catch (error) {
-                btn.disabled = false;
-                btn.textContent = 'Iniciar Sesión';
+                let errorMessage = 'Error al iniciar sesión. Intenta de nuevo.';
                 
-                let errorMessage = 'Error al iniciar sesión';
-                
-                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-                    errorMessage = 'Correo o contraseña incorrectos';
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+                    errorMessage = 'Credenciales inválidas. Verifica tu correo y contraseña.';
                 } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'Correo electrónico inválido';
+                    errorMessage = 'El formato del correo electrónico es incorrecto.';
                 } else if (error.code === 'auth/too-many-requests') {
-                    errorMessage = 'Demasiados intentos fallidos. Intenta más tarde o restablece tu contraseña';
-                } else if (error.code === 'auth/invalid-credential') {
-                    errorMessage = 'Credenciales inválidas. Verifica tu correo y contraseña';
-                } else if (error.message.includes('blocked')) {
-                    errorMessage = 'Servicio temporalmente no disponible. Por favor intenta más tarde';
+                    errorMessage = 'Acceso bloqueado temporalmente debido a demasiados intentos fallidos. Intenta más tarde.';
                 }
                 
-                messageDiv.innerHTML = `<div class="error">${errorMessage}</div>`;
+                showMessage(loginMessageDiv, `<div class="error">❌ ${errorMessage}</div>`, 'error');
                 console.error('Error en login:', error);
             }
         }
 
-        // Permitir enter para submit
-        document.addEventListener('DOMContentLoaded', () => {
-            // Login form
-            document.getElementById('loginPassword').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') handleLogin();
-            });
-            
-            document.getElementById('loginEmail').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    const password = document.getElementById('loginPassword');
-                    if (!password.value) {
-                        password.focus();
-                    } else {
-                        handleLogin();
-                    }
+        // --- Manejo de Restablecimiento de Contraseña ---
+
+        window.showForgotPasswordModal = function(event) {
+            event.preventDefault();
+            forgotPasswordModal.classList.remove('hidden');
+            forgotEmailInput.value = document.getElementById('loginEmail').value.trim(); // Autocompletar con el email de login
+            forgotMessageDiv.classList.add('hidden'); // Limpiar mensaje
+        }
+
+        window.hideForgotPasswordModal = function() {
+            forgotPasswordModal.classList.add('hidden');
+        }
+
+        window.handleForgotPassword = async function() {
+            const email = forgotEmailInput.value.trim();
+            forgotMessageDiv.classList.add('hidden'); // Ocultar mensaje anterior
+
+            if (!email) {
+                showMessage(forgotMessageDiv, '<div class="error">Por favor, ingresa tu correo electrónico.</div>', 'error');
+                return;
+            }
+
+            try {
+                // Enviar el correo de restablecimiento de contraseña
+                await sendPasswordResetEmail(auth, email);
+
+                showMessage(forgotMessageDiv, 
+                    `<div class="success">✅ Enlace enviado a ${email}. Revisa tu bandeja de entrada para restablecer tu contraseña.</div>`, 
+                    'success');
+                
+            } catch (error) {
+                let errorMessage = 'Error al enviar el enlace. Verifica el correo.';
+
+                if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'No existe un usuario con este correo electrónico.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'El formato del correo electrónico es incorrecto.';
                 }
-            });
+
+                showMessage(forgotMessageDiv, `<div class="error">❌ ${errorMessage}</div>`, 'error');
+                console.error('Error en restablecer contraseña:', error);
+            }
+        }
+
+        // --- Eventos de teclado (Enter) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginPassword = document.getElementById('loginPassword');
+            const loginEmail = document.getElementById('loginEmail');
+
+            // Login form (Enter en contraseña)
+            if (loginPassword) {
+                loginPassword.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') handleLogin();
+                });
+            }
+            
+            // Login form (Enter en email)
+            if (loginEmail) {
+                loginEmail.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        if (loginPassword.value) {
+                            handleLogin();
+                        } else {
+                            loginPassword.focus();
+                        }
+                    }
+                });
+            }
 
             // Forgot password form
-            document.getElementById('forgotEmail').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') handleForgotPassword();
-            });
+            if (forgotEmailInput) {
+                forgotEmailInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') handleForgotPassword();
+                });
+            }
         });
     </script>
 </body>
