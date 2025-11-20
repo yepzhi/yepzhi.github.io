@@ -1,4 +1,4 @@
-// functions/index.js - COMPLETO CON FINKOK
+// functions/index.js - CON LOGGING DETALLADO
 
 const {onRequest} = require("firebase-functions/v2/https");
 const {onDocumentCreated} = require("firebase-functions/v2/firestore");
@@ -14,51 +14,48 @@ admin.initializeApp();
 const FINKOK_CONFIG = {
   username: "yepzhi@gmail.com",
   password: "Apple2014",
-  // URLs de ambiente DEMO
   stampUrl: "http://demo-facturacion.finkok.com/servicios/soap/stamp.wsdl",
   cancelUrl: "http://demo-facturacion.finkok.com/servicios/soap/cancel.wsdl",
-  validationUrl: "http://demo-facturacion.finkok.com/servicios/soap/registration.wsdl",
 };
 
+console.log("🔥 Cloud Functions inicializadas con FINKOK");
+
 // ==========================================
-// 1. VALIDAR RFC CON SAT/FINKOK
+// 1. VALIDAR RFC
 // ==========================================
 exports.validarRFC = onRequest(async (req, res) => {
-  // Habilitar CORS
+  console.log("📞 validarRFC llamado");
+  
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") {
+    console.log("✅ CORS preflight exitoso");
     return res.status(204).send("");
   }
 
   const {rfc} = req.body;
+  console.log("🔍 Validando RFC:", rfc);
 
   if (!rfc) {
+    console.log("❌ RFC no proporcionado");
     return res.status(400).json({error: "RFC es requerido"});
   }
 
   try {
-    // Validación básica de formato RFC
     const rfcPattern = /^[A-ZÑ&]{3,4}\d{6}[A-Z0-9]{3}$/;
-    if (!rfcPattern.test(rfc)) {
-      return res.json({
-        valid: false,
-        message: "Formato de RFC inválido",
-      });
-    }
-
-    // TODO: Integrar con API del SAT o FINKOK para validación real
-    // Por ahora validamos formato solamente
+    const isValid = rfcPattern.test(rfc);
+    
+    console.log(`${isValid ? "✅" : "❌"} RFC ${rfc} - Válido: ${isValid}`);
 
     return res.json({
-      valid: true,
+      valid: isValid,
       rfc: rfc,
-      message: "RFC válido",
+      message: isValid ? "RFC válido" : "Formato de RFC inválido",
     });
   } catch (error) {
-    console.error("Error validando RFC:", error);
+    console.error("💥 Error validando RFC:", error);
     return res.status(500).json({
       valid: false,
       error: "Error al validar RFC",
@@ -67,12 +64,15 @@ exports.validarRFC = onRequest(async (req, res) => {
 });
 
 // ==========================================
-// 2. GENERAR XML DEL CFDI
+// 2. GENERAR XML CFDI 4.0
 // ==========================================
 function generarXMLCFDI(datos) {
-  const {emisor, receptor, conceptos, totales, cfdi} = datos;
+  console.log("📄 Generando XML CFDI 4.0");
+  console.log("Emisor:", datos.emisor.rfc);
+  console.log("Receptor:", datos.receptor.rfc);
+  console.log("Total:", datos.totales.total);
 
-  // Fecha actual en formato ISO
+  const {emisor, receptor, conceptos, totales, cfdi} = datos;
   const fecha = new Date().toISOString();
 
   const cfdiData = {
@@ -161,18 +161,23 @@ function generarXMLCFDI(datos) {
     xmldec: {version: "1.0", encoding: "UTF-8"},
   });
 
-  return builder.buildObject(cfdiData);
+  const xml = builder.buildObject(cfdiData);
+  console.log("✅ XML generado correctamente");
+  console.log("XML preview:", xml.substring(0, 200) + "...");
+  
+  return xml;
 }
 
 // ==========================================
 // 3. TIMBRAR CON FINKOK
 // ==========================================
 async function timbrarConFinkok(xmlSinTimbrar) {
+  console.log("🔥 Iniciando timbrado con FINKOK");
+  
   try {
-    // Codificar XML en Base64
     const xmlBase64 = Buffer.from(xmlSinTimbrar).toString("base64");
+    console.log("✅ XML convertido a Base64");
 
-    // Crear SOAP Request para FINKOK
     const soapRequest = `<?xml version="1.0" encoding="UTF-8"?>
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://facturacion.finkok.com/stamp">
   <SOAP-ENV:Body>
@@ -184,36 +189,83 @@ async function timbrarConFinkok(xmlSinTimbrar) {
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>`;
 
-    // Enviar a FINKOK
+    console.log("📤 Enviando request a FINKOK...");
+    console.log("URL:", FINKOK_CONFIG.stampUrl);
+    console.log("Usuario:", FINKOK_CONFIG.username);
+
     const response = await axios.post(FINKOK_CONFIG.stampUrl, soapRequest, {
       headers: {
         "Content-Type": "text/xml; charset=utf-8",
         "SOAPAction": "stamp",
       },
+      timeout: 30000, // 30 segundos
     });
 
-    // Parsear respuesta SOAP
-    const result = await parseStringPromise(response.data);
-    const stampResult = result["SOAP-ENV:Envelope"]["SOAP-ENV:Body"][0]["ns1:stampResult"][0];
+    console.log("📥 Respuesta recibida de FINKOK");
+    console.log("Status:", response.status);
+    console.log("Response preview:", response.data.substring(0, 500));
 
-    if (stampResult.xml) {
-      // Decodificar XML timbrado
-      const xmlTimbrado = Buffer.from(stampResult.xml[0], "base64").toString("utf-8");
+    const result = await parseStringPromise(response.data);
+    console.log("✅ Respuesta SOAP parseada");
+
+    const envelope = result["SOAP-ENV:Envelope"] || result["soap:Envelope"] || result["s:Envelope"];
+    if (!envelope) {
+      console.error("❌ No se encontró envelope SOAP");
+      console.error("Respuesta completa:", JSON.stringify(result, null, 2));
+      throw new Error("Respuesta SOAP inválida");
+    }
+
+    const body = envelope["SOAP-ENV:Body"] || envelope["soap:Body"] || envelope["s:Body"];
+    if (!body || !body[0]) {
+      console.error("❌ No se encontró body SOAP");
+      throw new Error("Body SOAP inválido");
+    }
+
+    const stampResult = body[0]["ns1:stampResult"] || body[0]["stampResult"];
+    if (!stampResult || !stampResult[0]) {
+      console.error("❌ No se encontró stampResult");
+      console.error("Body:", JSON.stringify(body, null, 2));
+      throw new Error("stampResult no encontrado");
+    }
+
+    const result0 = stampResult[0];
+    console.log("stampResult encontrado:", Object.keys(result0));
+
+    if (result0.xml && result0.xml[0]) {
+      const xmlTimbrado = Buffer.from(result0.xml[0], "base64").toString("utf-8");
+      const uuid = result0.UUID ? result0.UUID[0] : null;
+      const fecha = result0.Fecha ? result0.Fecha[0] : null;
+
+      console.log("🎉 TIMBRADO EXITOSO!");
+      console.log("UUID:", uuid);
+      console.log("Fecha:", fecha);
 
       return {
         success: true,
         xml: xmlTimbrado,
-        uuid: stampResult.UUID ? stampResult.UUID[0] : null,
-        fecha: stampResult.Fecha ? stampResult.Fecha[0] : null,
+        uuid: uuid,
+        fecha: fecha,
       };
     } else {
+      // Error en timbrado
+      const codEstatus = result0.CodEstatus ? result0.CodEstatus[0] : "desconocido";
+      const mensaje = result0.Mensaje ? result0.Mensaje[0] : "Error desconocido";
+      
+      console.error("❌ Error al timbrar");
+      console.error("Código:", codEstatus);
+      console.error("Mensaje:", mensaje);
+
       return {
         success: false,
-        error: stampResult.CodEstatus || "Error desconocido al timbrar",
+        error: `${codEstatus}: ${mensaje}`,
       };
     }
   } catch (error) {
-    console.error("Error en timbrado FINKOK:", error);
+    console.error("💥 Error en timbrado FINKOK:", error.message);
+    if (error.response) {
+      console.error("Response status:", error.response.status);
+      console.error("Response data:", error.response.data);
+    }
     return {
       success: false,
       error: error.message,
@@ -222,63 +274,102 @@ async function timbrarConFinkok(xmlSinTimbrar) {
 }
 
 // ==========================================
-// 4. GENERAR PDF (Simplificado)
+// 4. GENERAR PDF
 // ==========================================
 function generarPDFBase64(datos, uuid) {
-  // Por ahora retornamos un PDF simple en base64
-  // TODO: Implementar generación real de PDF con librería como PDFKit
+  console.log("📑 Generando PDF para UUID:", uuid);
+  
   const pdfContent = `
 FACTURA ELECTRÓNICA
 ==================
 UUID: ${uuid}
-Emisor: ${datos.emisor.nombre}
-RFC Emisor: ${datos.emisor.rfc}
-Receptor: ${datos.receptor.nombre}
-RFC Receptor: ${datos.receptor.rfc}
-Total: $${datos.totales.total.toFixed(2)} MXN
+Fecha: ${new Date().toLocaleString("es-MX")}
+
+EMISOR
+------
+${datos.emisor.nombre}
+RFC: ${datos.emisor.rfc}
+
+RECEPTOR
+--------
+${datos.receptor.nombre}
+RFC: ${datos.receptor.rfc}
+Correo: ${datos.receptor.email}
+
+CONCEPTOS
+---------
+${datos.conceptos.map((c) => `- ${c.descripcion} x${c.cantidad}: $${c.subtotal.toFixed(2)}`).join("\n")}
+
+TOTALES
+-------
+Subtotal: $${datos.totales.subtotal.toFixed(2)}
+IVA 16%:  $${datos.totales.iva.toFixed(2)}
+TOTAL:    $${datos.totales.total.toFixed(2)} MXN
+
+Este es un comprobante fiscal digital por Internet
 `;
 
+  console.log("✅ PDF generado (texto plano)");
   return Buffer.from(pdfContent).toString("base64");
 }
 
 // ==========================================
-// 5. FUNCIÓN PRINCIPAL DE TIMBRADO
+// 5. FUNCIÓN PRINCIPAL HTTP
 // ==========================================
 exports.timbrarFactura = onRequest(async (req, res) => {
+  console.log("🔥 timbrarFactura llamado");
+  console.log("Method:", req.method);
+  console.log("Headers:", JSON.stringify(req.headers));
+  
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") {
+    console.log("✅ CORS preflight");
     return res.status(204).send("");
   }
 
   const datos = req.body;
+  console.log("📦 Datos recibidos:");
+  console.log("- Emisor:", datos.emisor?.rfc);
+  console.log("- Receptor:", datos.receptor?.rfc);
+  console.log("- Total:", datos.totales?.total);
 
   try {
-    // 1. Generar XML sin timbrar
+    // 1. Validar datos
+    if (!datos.emisor || !datos.receptor || !datos.totales) {
+      console.error("❌ Datos incompletos");
+      return res.status(400).json({
+        success: false,
+        error: "Datos incompletos: emisor, receptor y totales son requeridos",
+      });
+    }
+
+    // 2. Generar XML
+    console.log("📄 PASO 1: Generando XML...");
     const xmlSinTimbrar = generarXMLCFDI(datos);
 
-    // 2. Timbrar con FINKOK
-    const resultadoTimbrado = await timbrarConFinkok(
-        xmlSinTimbrar,
-        datos.emisor.rfc,
-    );
+    // 3. Timbrar
+    console.log("🔥 PASO 2: Timbrando con FINKOK...");
+    const resultadoTimbrado = await timbrarConFinkok(xmlSinTimbrar);
 
     if (!resultadoTimbrado.success) {
+      console.error("❌ Timbrado falló:", resultadoTimbrado.error);
       return res.status(400).json({
         success: false,
         error: resultadoTimbrado.error,
       });
     }
 
-    // 3. Generar PDF
+    // 4. Generar PDF
+    console.log("📑 PASO 3: Generando PDF...");
     const pdfBase64 = generarPDFBase64(datos, resultadoTimbrado.uuid);
 
-    // 4. Convertir XML a Base64
+    // 5. Guardar en Firestore
+    console.log("💾 PASO 4: Guardando en Firestore...");
     const xmlBase64 = Buffer.from(resultadoTimbrado.xml).toString("base64");
 
-    // 5. Guardar en Firestore
     await admin.firestore().collection("invoices").add({
       businessId: datos.businessId,
       folioId: datos.folioId || null,
@@ -293,7 +384,10 @@ exports.timbrarFactura = onRequest(async (req, res) => {
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
 
-    // 6. Retornar archivos
+    console.log("🎉 FACTURA TIMBRADA Y GUARDADA EXITOSAMENTE!");
+    console.log("UUID:", resultadoTimbrado.uuid);
+
+    // 6. Retornar resultado
     return res.json({
       success: true,
       uuid: resultadoTimbrado.uuid,
@@ -302,7 +396,8 @@ exports.timbrarFactura = onRequest(async (req, res) => {
       message: "Factura timbrada exitosamente",
     });
   } catch (error) {
-    console.error("Error en timbrarFactura:", error);
+    console.error("💥 ERROR FATAL en timbrarFactura:", error);
+    console.error("Stack:", error.stack);
     return res.status(500).json({
       success: false,
       error: error.message,
@@ -311,43 +406,43 @@ exports.timbrarFactura = onRequest(async (req, res) => {
 });
 
 // ==========================================
-// 6. PROCESAR AUTOMÁTICO AL CREAR INVOICE REQUEST
+// 6. TRIGGER AUTOMÁTICO FIRESTORE
 // ==========================================
-exports.procesarFacturaAutomatica = onDocumentCreated(
+exports.procesarfacturaautomatica = onDocumentCreated(
     "invoiceRequests/{requestId}",
     async (event) => {
       const datos = event.data.data();
       const requestId = event.params.requestId;
 
-      try {
-        console.log("Procesando factura automática:", requestId);
+      console.log("🤖 Nueva solicitud de factura:", requestId);
+      console.log("Datos:", JSON.stringify(datos, null, 2));
 
-        // Generar XML
+      try {
+        console.log("📄 Generando XML...");
         const xmlSinTimbrar = generarXMLCFDI(datos);
 
-        // Timbrar
-        const resultadoTimbrado = await timbrarConFinkok(
-            xmlSinTimbrar,
-            datos.emisor.rfc,
-        );
+        console.log("🔥 Timbrando...");
+        const resultadoTimbrado = await timbrarConFinkok(xmlSinTimbrar);
 
         if (!resultadoTimbrado.success) {
+          console.error("❌ Error al timbrar:", resultadoTimbrado.error);
           await event.data.ref.update({
             status: "error_timbrado",
             error: resultadoTimbrado.error,
+            updatedAt: admin.firestore.FieldValue.serverTimestamp(),
           });
           return;
         }
 
-        // Generar PDF
+        console.log("📑 Generando PDF...");
         const pdfBase64 = generarPDFBase64(datos, resultadoTimbrado.uuid);
         const xmlBase64 = Buffer.from(resultadoTimbrado.xml).toString("base64");
 
-        // Guardar factura timbrada
+        console.log("💾 Guardando factura...");
         await admin.firestore().collection("invoices").add({
           businessId: datos.businessId,
           folioId: datos.folioId || null,
-          type: datos.type || "from_folio",
+          type: datos.type || "direct",
           uuid: resultadoTimbrado.uuid,
           emisor: datos.emisor,
           receptor: datos.receptor,
@@ -358,28 +453,32 @@ exports.procesarFacturaAutomatica = onDocumentCreated(
           createdAt: admin.firestore.FieldValue.serverTimestamp(),
         });
 
-        // Actualizar request
+        console.log("✅ Actualizando request...");
         await event.data.ref.update({
           status: "timbrada",
           uuid: resultadoTimbrado.uuid,
           processedAt: admin.firestore.FieldValue.serverTimestamp(),
         });
 
-        // Marcar folio como completado si existe
         if (datos.folioId) {
+          console.log("✅ Actualizando folio...");
           await admin.firestore().collection("folios").doc(datos.folioId).update({
             status: "completed",
             uuid: resultadoTimbrado.uuid,
           });
         }
 
-        console.log("Factura procesada exitosamente:", resultadoTimbrado.uuid);
+        console.log("🎉 Factura procesada exitosamente:", resultadoTimbrado.uuid);
       } catch (error) {
-        console.error("Error procesando factura:", error);
+        console.error("💥 Error procesando factura:", error);
+        console.error("Stack:", error.stack);
         await event.data.ref.update({
           status: "error",
           error: error.message,
+          updatedAt: admin.firestore.FieldValue.serverTimestamp(),
         });
       }
     },
 );
+
+console.log("✅ Todas las funciones exportadas correctamente");
