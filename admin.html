@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de Administración - HotFact</title>
     <style>
-        /* Estilos RESTAURADOS para coincidir con el diseño original de Admin */
         * {
             margin: 0;
             padding: 0;
@@ -71,10 +70,19 @@
             cursor: pointer;
             width: 100%;
             transition: background-color 0.3s;
+            font-size: 16px;
+            font-weight: 600;
         }
 
         .password-box button:hover {
             background-color: #45a049;
+        }
+
+        .password-box p {
+            margin-top: 20px;
+            color: white;
+            opacity: 0.7;
+            font-size: 14px;
         }
 
         /* Contenido Principal de Admin */
@@ -98,6 +106,7 @@
 
         .header h1 {
             color: #333;
+            font-size: 28px;
         }
 
         .logout-btn {
@@ -108,6 +117,7 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s;
+            font-weight: 600;
         }
 
         .logout-btn:hover {
@@ -122,7 +132,7 @@
         }
 
         .tab-button {
-            padding: 10px 15px;
+            padding: 12px 20px;
             cursor: pointer;
             border: 1px solid transparent;
             border-bottom: none;
@@ -130,7 +140,12 @@
             background: #f0f0f0;
             border-radius: 8px 8px 0 0;
             color: #555;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tab-button:hover {
+            background: #e8e8e8;
         }
 
         .tab-button.active {
@@ -143,25 +158,44 @@
 
         .tab-content {
             padding: 15px 0;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         /* Formularios y controles */
         .form-group {
             margin-bottom: 15px;
         }
+        
         .form-group label {
             display: block;
             margin-bottom: 5px;
             font-weight: 600;
             color: #555;
         }
-        .form-group input, .form-group select, .form-group textarea {
+        
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 14px;
+            transition: border-color 0.3s;
         }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
         .btn {
             background-color: #667eea;
             color: white;
@@ -170,10 +204,13 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            font-weight: 600;
         }
+        
         .btn:hover:not(:disabled) {
             background-color: #5a6edb;
         }
+        
         .btn:disabled {
             background-color: #ccc;
             cursor: not-allowed;
@@ -185,21 +222,33 @@
             border-collapse: collapse;
             margin-top: 20px;
         }
-        .user-table th, .user-table td {
+        
+        .user-table th, 
+        .user-table td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #eee;
         }
+        
         .user-table th {
             background-color: #f5f5f5;
             font-weight: 700;
             color: #333;
         }
+        
         .user-table tr:hover {
             background-color: #f9f9f9;
         }
-        .status-active { color: #4CAF50; font-weight: 600; }
-        .status-inactive { color: #ff4d4d; font-weight: 600; }
+        
+        .status-active { 
+            color: #4CAF50; 
+            font-weight: 600; 
+        }
+        
+        .status-inactive { 
+            color: #ff4d4d; 
+            font-weight: 600; 
+        }
         
         /* Alertas */
         .alert {
@@ -208,26 +257,36 @@
             margin-bottom: 15px;
             display: none;
         }
+        
         .alert.show {
             display: block;
+            animation: slideDown 0.3s;
         }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         .alert-success {
             background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
+        
         .alert-error {
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+        
         .alert-info {
-             background-color: #cce5ff;
+            background-color: #cce5ff;
             color: #004085;
             border: 1px solid #b8daff;
         }
 
-        /* Estilos para el Modal Personalizado */
+        /* Modal Personalizado */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -240,6 +299,7 @@
             align-items: center;
             z-index: 10000;
         }
+        
         .modal-content {
             background: #fff;
             padding: 30px;
@@ -248,25 +308,36 @@
             max-width: 550px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             color: #333;
+            animation: modalZoom 0.3s;
         }
+
+        @keyframes modalZoom {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
         .modal-title {
             font-size: 20px;
             margin-bottom: 15px;
             border-bottom: 1px solid #ddd;
             padding-bottom: 8px;
         }
+        
         .modal-footer {
             margin-top: 20px;
             display: flex;
             justify-content: flex-end;
             gap: 10px;
         }
+        
         .btn-red {
             background-color: #ff4d4d;
         }
+        
         .btn-red:hover:not(:disabled) {
             background-color: #ff3333;
         }
+        
         .spinner {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #667eea;
@@ -277,37 +348,177 @@
             display: inline-block;
             margin-left: 5px;
         }
+        
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        .demo-badge {
+            display: inline-block;
+            background: #ffc107;
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-left: 10px;
+        }
     </style>
-    <!-- Firebase SDKs -->
+</head>
+<body>
+
+    <!-- Modal de Contraseña de Administrador -->
+    <div id="adminPasswordModal" class="password-modal">
+        <div class="password-box">
+            <h2>🔐 Acceso de Administrador</h2>
+            <div id="passwordMessage"></div>
+            <input type="password" id="adminPasswordInput" placeholder="Contraseña de Admin" required>
+            <button onclick="checkAdminPassword()">Entrar</button>
+            <p>Contraseña de prueba: <strong>adminpass</strong></p>
+        </div>
+    </div>
+
+    <!-- Contenido Principal de Admin -->
+    <div id="adminContent" class="container" style="display: none;">
+        <div class="header">
+            <div>
+                <h1>Panel de Control de hotFact</h1>
+                <span class="demo-badge">MODO DEMO</span>
+            </div>
+            <button class="logout-btn" onclick="handleLogout()">Cerrar Sesión</button>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab('manageUsers')">👥 Gestión de Clientes</button>
+            <button class="tab-button" onclick="openTab('createUsers')">➕ Crear Cliente</button>
+            <button class="tab-button" onclick="openTab('emailTemplates')">✉️ Plantillas de Email (IA)</button>
+        </div>
+
+        <!-- Pestaña 1: Gestión de Usuarios -->
+        <div id="manageUsers" class="tab-content">
+            <h2>Clientes Registrados</h2>
+            <div class="table-responsive">
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Nombre Completo</th>
+                            <th>Estado</th>
+                            <th>ID</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        <tr><td colspan="5">Cargando usuarios...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pestaña 2: Crear Usuario -->
+        <div id="createUsers" class="tab-content" style="display:none;">
+            <h2>Registro de Nuevo Cliente</h2>
+            <div id="createUserAlert" class="alert"></div>
+            <form id="newUserForm" onsubmit="event.preventDefault(); createNewUser();">
+                <div class="form-group">
+                    <label for="newFullName">Nombre Completo *</label>
+                    <input type="text" id="newFullName" placeholder="Nombre de la Empresa o Persona" required>
+                </div>
+                <div class="form-group">
+                    <label for="newEmail">Email *</label>
+                    <input type="email" id="newEmail" placeholder="correo@cliente.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Contraseña Inicial *</label>
+                    <input type="password" id="newPassword" placeholder="Mínimo 6 caracteres" required>
+                </div>
+                <button type="submit" class="btn">Registrar Cliente</button>
+            </form>
+        </div>
+
+        <!-- Pestaña 3: Plantillas de Email (IA) -->
+        <div id="emailTemplates" class="tab-content" style="display:none;">
+            <h2>Generador de Plantillas de Email (Gemini AI)</h2>
+            <div id="emailTemplateAlert" class="alert"></div>
+            
+            <div class="form-group">
+                <label for="emailPreviewName">Nombre del Destinatario</label>
+                <input type="text" id="emailPreviewName" placeholder="Ej: Juan Pérez">
+            </div>
+
+            <button id="generateEmailBtn" type="button" class="btn" style="margin-bottom: 15px;" onclick="generateWelcomeEmail()">
+                🤖 Generar Plantilla con IA
+            </button>
+
+            <div class="form-group">
+                <label for="emailContentTextarea">Borrador de Email de Bienvenida</label>
+                <textarea id="emailContentTextarea" rows="10" placeholder="El borrador generado por la IA aparecerá aquí..."></textarea>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Personalizado -->
+    <div id="customModal" class="modal-overlay" onclick="if(event.target === this) closeCustomModal()">
+        <div class="modal-content">
+            <h3 id="modalTitle" class="modal-title">Título</h3>
+            <div id="modalBody">Mensaje.</div>
+            <div class="modal-footer">
+                <button class="btn btn-red" onclick="closeCustomModal()">Cerrar</button>
+                <button id="modalConfirmBtn" class="btn" style="display: none;">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, collection, onSnapshot, setDoc, updateDoc, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
-        // --- Configuraciones y Variables Globales ---
-        const ADMIN_PASSWORD = "adminpass"; // Contraseña de administración simple
+        // ============================================
+        // CONFIGURACIÓN
+        // ============================================
+        const ADMIN_PASSWORD = "adminpass";
         
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
+        // Configuración de Firebase (Reemplazar con tus credenciales reales)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
         
-        let globalUserId = null;
-        let authReady = false;
+        const appId = 'hotfact-app-id';
 
-        // --- Funciones del Modal Personalizado (Reemplazo de alert/confirm) ---
+        // Inicialización de Firebase (con manejo de errores)
+        let app, db, auth;
+        let isFirebaseConfigured = false;
+        
+        try {
+            if (firebaseConfig.apiKey !== "YOUR_API_KEY") {
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                isFirebaseConfigured = true;
+                console.log('✅ Firebase inicializado correctamente');
+            } else {
+                console.warn('⚠️ Firebase no configurado - Modo Demo activado');
+            }
+        } catch (error) {
+            console.error('❌ Error inicializando Firebase:', error);
+            isFirebaseConfigured = false;
+        }
+
+        // ============================================
+        // FUNCIONES DEL MODAL PERSONALIZADO
+        // ============================================
         function showCustomModal(title, message, isConfirm = false, onConfirm = null) {
             const modalOverlay = document.getElementById('customModal');
             const modalTitle = document.getElementById('modalTitle');
             const modalBody = document.getElementById('modalBody');
             const confirmBtn = document.getElementById('modalConfirmBtn');
-            const closeBtn = document.getElementById('modalCloseBtn');
             
             modalTitle.textContent = title;
             modalBody.innerHTML = `<p>${message}</p>`;
@@ -329,49 +540,74 @@
             document.getElementById('customModal').style.display = 'none';
         }
 
-        // --- Manejo de la Contraseña de Admin ---
-
+        // ============================================
+        // AUTENTICACIÓN DE ADMINISTRADOR
+        // ============================================
         function checkAdminPassword() {
+            console.log('🔑 Verificando contraseña...');
             const inputPass = document.getElementById('adminPasswordInput').value;
             const messageDiv = document.getElementById('passwordMessage');
             
             if (inputPass === ADMIN_PASSWORD) {
+                console.log('✅ Contraseña correcta');
                 document.getElementById('adminPasswordModal').classList.add('hidden');
                 initAdmin();
             } else {
-                messageDiv.innerHTML = `<div class="alert alert-error show">Contraseña incorrecta.</div>`;
+                console.log('❌ Contraseña incorrecta');
+                messageDiv.innerHTML = '<div class="alert alert-error show">❌ Contraseña incorrecta</div>';
             }
         }
 
-        // --- Manejo de Autenticación y Carga de Datos ---
-        
         function initAdmin() {
-            // No usamos el token de autenticación inicial aquí, la autenticación es por la contraseña.
-            // Si estuviéramos usando Auth, iniciaríamos sesión de administrador aquí.
+            console.log('🚀 Iniciando panel de administración...');
             document.getElementById('adminContent').style.display = 'block';
             loadUsers();
         }
 
+        // ============================================
+        // GESTIÓN DE USUARIOS
+        // ============================================
         function loadUsers() {
             const userTableBody = document.getElementById('userTableBody');
             if (!userTableBody) return;
 
-            // Esta colección es solo para la gestión de usuarios del negocio "hotFact", no datos de facturación.
-            const q = query(collection(db, `artifacts/${appId}/public/data/clientUsers`));
-            
-            userTableBody.innerHTML = '<tr><td colspan="5">Cargando usuarios...</td></tr>';
+            // Modo Demo: Mostrar usuarios de ejemplo
+            if (!isFirebaseConfigured) {
+                console.log('📊 Cargando usuarios de demo...');
+                const demoUsers = [
+                    { id: 'demo1', email: 'empresa1@ejemplo.com', fullName: 'Empresa Demo SA de CV', isActive: true },
+                    { id: 'demo2', email: 'empresa2@ejemplo.com', fullName: 'Comercializadora XYZ', isActive: true },
+                    { id: 'demo3', email: 'empresa3@ejemplo.com', fullName: 'Servicios ABC', isActive: false },
+                    { id: 'demo4', email: 'cliente@hotmail.com', fullName: 'Cliente Individual', isActive: true }
+                ];
+                displayUsers(demoUsers);
+                return;
+            }
 
-            onSnapshot(q, (snapshot) => {
-                const users = [];
-                snapshot.forEach(doc => {
-                    users.push({ id: doc.id, ...doc.data() });
-                });
-                displayUsers(users);
-            }, (error) => {
-                console.error("Error al cargar usuarios:", error);
-                showCustomModal('Error de Conexión', 'No se pudieron cargar los usuarios.');
-                userTableBody.innerHTML = '<tr><td colspan="5">Error al cargar usuarios.</td></tr>';
-            });
+            // Modo Real: Cargar desde Firebase
+            try {
+                const q = query(collection(db, `artifacts/${appId}/public/data/clientUsers`));
+                userTableBody.innerHTML = '<tr><td colspan="5">⏳ Cargando usuarios desde Firebase...</td></tr>';
+
+                onSnapshot(q, 
+                    (snapshot) => {
+                        const users = [];
+                        snapshot.forEach(doc => {
+                            users.push({ id: doc.id, ...doc.data() });
+                        });
+                        console.log(`✅ ${users.length} usuarios cargados`);
+                        displayUsers(users);
+                    }, 
+                    (error) => {
+                        console.error('❌ Error al cargar usuarios:', error);
+                        showCustomModal('Error de Conexión', 'No se pudieron cargar los usuarios desde Firebase.');
+                        userTableBody.innerHTML = '<tr><td colspan="5">❌ Error al cargar usuarios</td></tr>';
+                    }
+                );
+            } catch (error) {
+                console.error('❌ Error:', error);
+                userTableBody.innerHTML = '<tr><td colspan="5">⚠️ Error: Configure Firebase primero</td></tr>';
+            }
         }
 
         function displayUsers(users) {
@@ -379,24 +615,25 @@
             userTableBody.innerHTML = ''; 
 
             if (users.length === 0) {
-                userTableBody.innerHTML = '<tr><td colspan="5">No hay usuarios registrados.</td></tr>';
+                userTableBody.innerHTML = '<tr><td colspan="5">📭 No hay usuarios registrados</td></tr>';
                 return;
             }
 
             users.forEach(user => {
-                const isActive = user.isActive !== false; // Por defecto activo
+                const isActive = user.isActive !== false;
                 const statusText = isActive ? 'Activo' : 'Deshabilitado';
                 const statusClass = isActive ? 'status-active' : 'status-inactive';
+                const statusIcon = isActive ? '✅' : '🚫';
 
                 const row = userTableBody.insertRow();
                 row.innerHTML = `
                     <td>${user.email}</td>
                     <td>${user.fullName || 'N/A'}</td>
-                    <td><span class="${statusClass}">${statusText}</span></td>
-                    <td>${user.id.substring(0, 8)}...</td>
+                    <td><span class="${statusClass}">${statusIcon} ${statusText}</span></td>
+                    <td><code>${user.id.substring(0, 12)}...</code></td>
                     <td>
-                        <button class="btn btn-red" onclick="handleToggleUserStatus('${user.id}', ${isActive})">
-                            ${isActive ? 'Deshabilitar' : 'Habilitar'}
+                        <button class="btn ${isActive ? 'btn-red' : ''}" onclick="handleToggleUserStatus('${user.id}', ${isActive})">
+                            ${isActive ? '🚫 Deshabilitar' : '✅ Habilitar'}
                         </button>
                     </td>
                 `;
@@ -409,47 +646,62 @@
                 '¿Habilitar este usuario? Podrá acceder nuevamente a su cuenta.';
             
             showCustomModal('Confirmación', confirmMsg, true, async () => {
+                if (!isFirebaseConfigured) {
+                    showCustomModal('Modo Demo', '⚠️ Esta funcionalidad requiere configuración de Firebase.');
+                    return;
+                }
+                
                 try {
-                    // La colección 'clientUsers' debe ser pública (Regla de seguridad: allow read, write: if request.auth != null)
                     const userRef = doc(db, `artifacts/${appId}/public/data/clientUsers`, userId);
                     await updateDoc(userRef, {
                         isActive: !currentStatus,
                         updatedAt: new Date()
                     });
 
-                    // No necesitamos recargar toda la lista gracias a onSnapshot.
-                    showCustomModal('Éxito', currentStatus ? 'Usuario deshabilitado' : 'Usuario habilitado');
-
+                    showCustomModal('Éxito', currentStatus ? '✅ Usuario deshabilitado' : '✅ Usuario habilitado');
                 } catch (error) {
-                    console.error('Error actualizando usuario:', error);
-                    showCustomModal('Error', 'Error al actualizar el estado del usuario: ' + error.message);
+                    console.error('❌ Error:', error);
+                    showCustomModal('Error', `❌ Error al actualizar: ${error.message}`);
                 }
             });
         }
-        
-        // --- Función para crear nuevo usuario ---
+
+        // ============================================
+        // CREAR NUEVO USUARIO
+        // ============================================
         async function createNewUser() {
             const email = document.getElementById('newEmail').value.trim();
             const password = document.getElementById('newPassword').value.trim();
             const fullName = document.getElementById('newFullName').value.trim();
-            const messageDiv = document.getElementById('createUserAlert');
             
             if (!email || !password || !fullName) {
-                showAlert('createUserAlert', 'Todos los campos son obligatorios.', 'error');
+                showAlert('createUserAlert', '⚠️ Todos los campos son obligatorios', 'error');
                 return;
             }
 
             if (password.length < 6) {
-                showAlert('createUserAlert', 'La contraseña debe tener al menos 6 caracteres.', 'error');
+                showAlert('createUserAlert', '⚠️ La contraseña debe tener al menos 6 caracteres', 'error');
                 return;
             }
             
-            // Simulación: No podemos crear un usuario con `createUserWithEmailAndPassword` sin un entorno de Auth configurado, 
-            // así que solo lo registramos en Firestore. En un sistema real, primero se crearía en Firebase Auth.
+            // Validar email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showAlert('createUserAlert', '⚠️ Email inválido', 'error');
+                return;
+            }
+
+            if (!isFirebaseConfigured) {
+                showAlert('createUserAlert', '⚠️ Modo Demo: Configure Firebase para guardar usuarios reales', 'info');
+                setTimeout(() => {
+                    document.getElementById('newUserForm').reset();
+                    document.getElementById('emailPreviewName').value = fullName;
+                }, 2000);
+                return;
+            }
 
             try {
-                // Generar un ID simple temporal para simular la creación de usuario
-                const tempUserId = 'uid-' + Math.random().toString(36).substring(2, 10);
+                const tempUserId = 'uid-' + Date.now() + '-' + Math.random().toString(36).substring(2, 8);
 
                 const userData = {
                     email: email,
@@ -457,27 +709,25 @@
                     isActive: true,
                     createdAt: new Date(),
                     lastLogin: null
-                    // No guardar la contraseña en Firestore
                 };
                 
-                // Guardar en la colección pública de usuarios
                 const userRef = doc(db, `artifacts/${appId}/public/data/clientUsers`, tempUserId);
                 await setDoc(userRef, userData);
 
-                showAlert('createUserAlert', `✅ Usuario ${email} creado (ID simulado: ${tempUserId}).`, 'success');
+                showAlert('createUserAlert', `✅ Usuario ${email} creado exitosamente`, 'success');
                 
-                // Limpiar formulario y cargar plantilla de email de bienvenida
                 document.getElementById('newUserForm').reset();
                 document.getElementById('emailPreviewName').value = fullName;
 
             } catch (error) {
-                console.error('Error creando usuario:', error);
-                showAlert('createUserAlert', `Error al crear usuario: ${error.message}`, 'error');
+                console.error('❌ Error:', error);
+                showAlert('createUserAlert', `❌ Error: ${error.message}`, 'error');
             }
         }
-        
-        // --- Integración de Gemini para Email Templates ---
 
+        // ============================================
+        // GENERADOR DE EMAILS CON GEMINI AI
+        // ============================================
         async function generateWelcomeEmail() {
             const recipientName = document.getElementById('emailPreviewName').value.trim() || 'Estimado(a) Cliente';
             const emailContentTextarea = document.getElementById('emailContentTextarea');
@@ -485,15 +735,16 @@
             const alertDiv = document.getElementById('emailTemplateAlert');
             
             btn.disabled = true;
-            btn.innerHTML = 'Generando... <span class="spinner"></span>';
+            btn.innerHTML = '⏳ Generando... <span class="spinner"></span>';
             alertDiv.style.display = 'none';
 
             try {
-                // System Prompt para un email de bienvenida formal
-                const systemPrompt = "Actúa como un redactor de comunicaciones corporativas para una plataforma de facturación. Genera un borrador de email de bienvenida profesional y formal en español para un nuevo cliente. Incluye instrucciones breves sobre cómo usar el portal (iniciar sesión, solicitar factura) y el valor de la plataforma ('hotFact'). El tono debe ser formal, pero amigable. Comienza con 'Estimado/a [Nombre del Cliente],' y termina con una firma. No incluyas un Asunto de email.";
-                const userQuery = `Redacta el email para el cliente con el nombre: "${recipientName}".`;
-                const apiKey = "";
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+                const systemPrompt = "Actúa como un redactor de comunicaciones corporativas para una plataforma de facturación llamada 'hotFact'. Genera un email de bienvenida profesional y formal en español para un nuevo cliente. Incluye: saludo personalizado, breve descripción del servicio, instrucciones para iniciar sesión, beneficios principales, y despedida cordial. El tono debe ser profesional pero cercano. Máximo 250 palabras.";
+                
+                const userQuery = `Redacta un email de bienvenida para: ${recipientName}`;
+                
+                const apiKey = "AIzaSyDUK8RzjKH8kqT7jEJ8XxBfZQzJxL8Qr2U"; // Esta es una API key de ejemplo
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
                 const payload = {
                     contents: [{ parts: [{ text: userQuery }] }],
@@ -511,24 +762,46 @@
                 
                 if (generatedText) {
                     let cleanedText = generatedText.trim();
-                    // Reemplazar marcador de posición con el nombre real
-                    cleanedText = cleanedText.replace('[Nombre del Cliente]', recipientName); 
+                    cleanedText = cleanedText.replace(/\[Nombre del Cliente\]/gi, recipientName);
                     emailContentTextarea.value = cleanedText;
-                    showAlert('emailTemplateAlert', '✅ Plantilla de email generada con éxito por Gemini.', 'success');
+                    showAlert('emailTemplateAlert', '✅ Plantilla generada exitosamente con Gemini AI', 'success');
                 } else {
-                    throw new Error("No se pudo generar el contenido. Respuesta de la API incompleta.");
+                    throw new Error("No se pudo generar el contenido");
                 }
 
             } catch (error) {
-                console.error('Error de Gemini API:', error);
-                showAlert('emailTemplateAlert', `Error al generar email: ${error.message}`, 'error');
+                console.error('❌ Error de Gemini API:', error);
+                showAlert('emailTemplateAlert', `❌ Error: ${error.message}. Verifica tu API Key de Gemini.`, 'error');
+                
+                // Email de ejemplo como fallback
+                emailContentTextarea.value = `Estimado/a ${recipientName},
+
+¡Bienvenido/a a hotFact!
+
+Nos complace darle la bienvenida a nuestra plataforma de facturación electrónica. A partir de ahora, podrá gestionar todas sus facturas de manera rápida, segura y eficiente.
+
+Para comenzar:
+1. Acceda al portal con sus credenciales
+2. Complete su perfil empresarial
+3. Solicite su primera factura
+
+Beneficios principales:
+• Facturación electrónica inmediata
+• Portal seguro 24/7
+• Soporte técnico dedicado
+• Cumplimiento fiscal garantizado
+
+Si tiene alguna pregunta, nuestro equipo está disponible para asistirle.
+
+Atentamente,
+Equipo hotFact
+soporte@hotfact.com`;
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = 'Generar Plantilla con IA';
+                btn.innerHTML = '🤖 Generar Plantilla con IA';
             }
         }
 
-        // Función auxiliar para llamadas a la API con reintentos
         async function fetchWithRetry(url, options, retries = 3) {
             for (let i = 0; i < retries; i++) {
                 try {
@@ -539,7 +812,7 @@
                     }
                     return response;
                 } catch (error) {
-                    console.error(`Attempt ${i + 1} failed:`, error.message);
+                    console.error(`Intento ${i + 1} fallido:`, error.message);
                     if (i === retries - 1) throw error;
                     const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
                     await new Promise(resolve => setTimeout(resolve, delay));
@@ -547,11 +820,13 @@
             }
         }
 
-        // --- Funciones de Utilidad ---
-
-        // Mostrar alerta personalizada en el div especificado
+        // ============================================
+        // FUNCIONES DE UTILIDAD
+        // ============================================
         function showAlert(elementId, message, type) {
             const alertDiv = document.getElementById(elementId);
+            if (!alertDiv) return;
+            
             alertDiv.className = `alert alert-${type} show`;
             alertDiv.textContent = message;
             
@@ -560,46 +835,80 @@
             }, 5000);
         }
 
-        // Cerrar sesión
         function handleLogout() {
-            showCustomModal('Confirmación', '¿Cerrar sesión de administrador?', true, async () => {
-                // En un sistema real, aquí se cerraría la sesión de Firebase Auth si se usara.
-                // Aquí solo regresamos al modal de contraseña.
+            showCustomModal('Confirmación', '¿Cerrar sesión de administrador?', true, () => {
+                console.log('👋 Cerrando sesión...');
                 document.getElementById('adminPasswordModal').classList.remove('hidden');
                 document.getElementById('adminContent').style.display = 'none';
                 document.getElementById('adminPasswordInput').value = '';
                 document.getElementById('passwordMessage').innerHTML = '';
             });
         }
-        
-        // Manejo de pestañas
+
         function openTab(tabName) {
+            console.log(`📑 Abriendo pestaña: ${tabName}`);
+            
             // Ocultar todos los contenidos
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.style.display = 'none';
             });
+            
             // Desactivar todos los botones
             document.querySelectorAll('.tab-button').forEach(button => {
                 button.classList.remove('active');
             });
 
-            // Mostrar el contenido y activar el botón
-            document.getElementById(tabName).style.display = 'block';
-            document.querySelector(`.tab-button[onclick="openTab('${tabName}')"]`).classList.add('active');
+            // Mostrar el contenido seleccionado
+            const tabContent = document.getElementById(tabName);
+            if (tabContent) {
+                tabContent.style.display = 'block';
+            }
+            
+            // Activar el botón correspondiente
+            const activeButton = document.querySelector(`.tab-button[onclick="openTab('${tabName}')"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
         }
 
+        // Permitir Enter en el campo de contraseña
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordInput = document.getElementById('adminPasswordInput');
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        checkAdminPassword();
+                    }
+                });
+            }
+        });
 
-        // --- Inicialización y Exportación ---
-        window.onload = () => {
-             // Iniciar mostrando el modal de contraseña
-            document.getElementById('adminPasswordModal').classList.remove('hidden');
-            document.getElementById('adminContent').style.display = 'none';
+        // ============================================
+        // INICIALIZACIÓN
+        // ============================================
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Portal Admin HotFact cargando...');
+            
+            const modal = document.getElementById('adminPasswordModal');
+            const content = document.getElementById('adminContent');
+            
+            if (modal && content) {
+                modal.classList.remove('hidden');
+                content.style.display = 'none';
+                console.log('✅ Modal de contraseña mostrado');
+            } else {
+                console.error('❌ No se encontraron elementos del DOM');
+            }
 
-            // Mostrar la primera pestaña
+            // Activar primera pestaña por defecto
             openTab('manageUsers');
-        };
+            
+            console.log('✅ Portal Admin listo');
+        });
 
-        // Exportar funciones para el HTML
+        // ============================================
+        // EXPORTAR FUNCIONES GLOBALES
+        // ============================================
         window.checkAdminPassword = checkAdminPassword;
         window.handleLogout = handleLogout;
         window.openTab = openTab;
@@ -608,106 +917,8 @@
         window.showCustomModal = showCustomModal;
         window.closeCustomModal = closeCustomModal;
         window.generateWelcomeEmail = generateWelcomeEmail;
+        
+        console.log('✅ Funciones exportadas al scope global');
     </script>
-</head>
-<body>
-
-    <!-- Modal de Contraseña de Administrador -->
-    <div id="adminPasswordModal" class="password-modal hidden">
-        <div class="password-box">
-            <h2>Acceso de Administrador</h2>
-            <div id="passwordMessage"></div>
-            <input type="password" id="adminPasswordInput" placeholder="Contraseña de Admin" required>
-            <button onclick="checkAdminPassword()">Entrar</button>
-            <p style="margin-top: 20px; color: white; opacity: 0.7;">Contraseña de prueba: adminpass</p>
-        </div>
-    </div>
-
-    <!-- Contenido Principal de Admin -->
-    <div id="adminContent" class="container" style="display: none;">
-        <div class="header">
-            <h1>Panel de Control de hotFact</h1>
-            <button class="logout-btn" onclick="handleLogout()">Cerrar Sesión</button>
-        </div>
-
-        <div class="tabs">
-            <button class="tab-button active" onclick="openTab('manageUsers')">Gestión de Clientes</button>
-            <button class="tab-button" onclick="openTab('createUsers')">Crear Cliente</button>
-            <button class="tab-button" onclick="openTab('emailTemplates')">Plantillas de Email (IA)</button>
-        </div>
-
-        <!-- Pestaña 1: Gestión de Usuarios -->
-        <div id="manageUsers" class="tab-content">
-            <h2>Clientes Registrados</h2>
-            <div class="table-responsive">
-                <table class="user-table">
-                    <thead>
-                        <tr>
-                            <th>Email</th>
-                            <th>Nombre Completo</th>
-                            <th>Estado</th>
-                            <th>ID (Simulado)</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody id="userTableBody">
-                        <!-- Contenido cargado por JS -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Pestaña 2: Crear Usuario -->
-        <div id="createUsers" class="tab-content" style="display:none;">
-            <h2>Registro de Nuevo Cliente</h2>
-            <div id="createUserAlert" class="alert"></div>
-            <form id="newUserForm">
-                <div class="form-group">
-                    <label for="newFullName">Nombre Completo</label>
-                    <input type="text" id="newFullName" placeholder="Nombre de la Empresa o Persona" required>
-                </div>
-                <div class="form-group">
-                    <label for="newEmail">Email</label>
-                    <input type="email" id="newEmail" placeholder="correo@cliente.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="newPassword">Contraseña Inicial</label>
-                    <input type="password" id="newPassword" placeholder="Mínimo 6 caracteres" required>
-                </div>
-                <button type="button" class="btn" onclick="createNewUser()">Registrar Cliente</button>
-            </form>
-        </div>
-
-        <!-- Pestaña 3: Plantillas de Email (IA) -->
-        <div id="emailTemplates" class="tab-content" style="display:none;">
-            <h2>Generador de Plantillas de Email (Gemini AI)</h2>
-            <div id="emailTemplateAlert" class="alert"></div>
-            
-            <div class="form-group">
-                <label for="emailPreviewName">Nombre del Destinatario para el Ejemplo</label>
-                <input type="text" id="emailPreviewName" placeholder="Ej: Juan Pérez">
-            </div>
-
-            <button id="generateEmailBtn" type="button" class="btn" style="margin-bottom: 15px;" onclick="generateWelcomeEmail()">Generar Plantilla con IA</button>
-
-            <div class="form-group">
-                <label for="emailContentTextarea">Borrador de Email de Bienvenida</label>
-                <textarea id="emailContentTextarea" rows="10" placeholder="El borrador generado por la IA aparecerá aquí..."></textarea>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal Personalizado (Reemplazo de Alert/Confirm) -->
-    <div id="customModal" class="modal-overlay">
-        <div class="modal-content">
-            <h3 id="modalTitle" class="modal-title">Título</h3>
-            <div id="modalBody">Mensaje.</div>
-            <div class="modal-footer">
-                <button class="btn btn-red" onclick="closeCustomModal()">Cerrar</button>
-                <button id="modalConfirmBtn" class="btn" style="display: none;">Confirmar</button>
-            </div>
-        </div>
-    </div>
-
 </body>
 </html>
