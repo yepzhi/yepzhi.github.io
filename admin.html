@@ -384,7 +384,7 @@
         <div class="header">
             <div>
                 <h1>Panel de Control de hotFact</h1>
-                <span class="demo-badge">MODO DEMO</span>
+                <span class="demo-badge" id="modeBadge">CONECTANDO...</span>
             </div>
             <button class="logout-btn" onclick="handleLogout()">Cerrar Sesión</button>
         </div>
@@ -480,14 +480,14 @@
         // ============================================
         const ADMIN_PASSWORD = "adminpass";
         
-        // Configuración de Firebase (Reemplazar con tus credenciales reales)
+        // Configuración de Firebase
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyB_H-Eu5PVkaWKanA0q7_Fo5LSPgBYhbhQ",
+            authDomain: "hotfact-9902f.firebaseapp.com",
+            projectId: "hotfact-9902f",
+            storageBucket: "hotfact-9902f.firebasestorage.app",
+            messagingSenderId: "33455575295",
+            appId: "1:33455575295:web:77d406be9d4f6a6ec5fcca"
         };
         
         const appId = 'hotfact-app-id';
@@ -497,12 +497,12 @@
         let isFirebaseConfigured = false;
         
         try {
-            if (firebaseConfig.apiKey !== "YOUR_API_KEY") {
+            if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY") {
                 app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
                 isFirebaseConfigured = true;
-                console.log('✅ Firebase inicializado correctamente');
+                console.log('✅ Firebase inicializado correctamente con proyecto: hotfact-9902f');
             } else {
                 console.warn('⚠️ Firebase no configurado - Modo Demo activado');
             }
@@ -561,6 +561,21 @@
         function initAdmin() {
             console.log('🚀 Iniciando panel de administración...');
             document.getElementById('adminContent').style.display = 'block';
+            
+            // Actualizar badge de modo
+            const modeBadge = document.getElementById('modeBadge');
+            if (modeBadge) {
+                if (isFirebaseConfigured) {
+                    modeBadge.textContent = '🟢 CONECTADO';
+                    modeBadge.style.background = '#4CAF50';
+                    modeBadge.style.color = 'white';
+                } else {
+                    modeBadge.textContent = '🔴 MODO DEMO';
+                    modeBadge.style.background = '#ffc107';
+                    modeBadge.style.color = '#000';
+                }
+            }
+            
             loadUsers();
         }
 
@@ -586,7 +601,7 @@
 
             // Modo Real: Cargar desde Firebase
             try {
-                const q = query(collection(db, `artifacts/${appId}/public/data/clientUsers`));
+                const q = query(collection(db, `clientUsers`));
                 userTableBody.innerHTML = '<tr><td colspan="5">⏳ Cargando usuarios desde Firebase...</td></tr>';
 
                 onSnapshot(q, 
@@ -600,13 +615,13 @@
                     }, 
                     (error) => {
                         console.error('❌ Error al cargar usuarios:', error);
-                        showCustomModal('Error de Conexión', 'No se pudieron cargar los usuarios desde Firebase.');
-                        userTableBody.innerHTML = '<tr><td colspan="5">❌ Error al cargar usuarios</td></tr>';
+                        showCustomModal('Error de Conexión', `No se pudieron cargar los usuarios: ${error.message}`);
+                        userTableBody.innerHTML = '<tr><td colspan="5">❌ Error al cargar usuarios. Verifica los permisos de Firestore.</td></tr>';
                     }
                 );
             } catch (error) {
                 console.error('❌ Error:', error);
-                userTableBody.innerHTML = '<tr><td colspan="5">⚠️ Error: Configure Firebase primero</td></tr>';
+                userTableBody.innerHTML = '<tr><td colspan="5">⚠️ Error: ' + error.message + '</td></tr>';
             }
         }
 
@@ -652,7 +667,7 @@
                 }
                 
                 try {
-                    const userRef = doc(db, `artifacts/${appId}/public/data/clientUsers`, userId);
+                    const userRef = doc(db, `clientUsers`, userId);
                     await updateDoc(userRef, {
                         isActive: !currentStatus,
                         updatedAt: new Date()
@@ -708,10 +723,11 @@
                     fullName: fullName,
                     isActive: true,
                     createdAt: new Date(),
-                    lastLogin: null
+                    lastLogin: null,
+                    role: 'client'
                 };
                 
-                const userRef = doc(db, `artifacts/${appId}/public/data/clientUsers`, tempUserId);
+                const userRef = doc(db, `clientUsers`, tempUserId);
                 await setDoc(userRef, userData);
 
                 showAlert('createUserAlert', `✅ Usuario ${email} creado exitosamente`, 'success');

@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - hotFact</title>
     <style>
-        /* ==================================== */
-        /* CSS COMPLETO INTEGRADO (DISEÑO DASHBOARD) */
-        /* ==================================== */
         * {
             margin: 0;
             padding: 0;
@@ -163,11 +160,11 @@
             transition: border-color 0.3s;
         }
 
-        input[type="number"]:focus, 
-        input[type="text"]:focus, 
-        input[type="email"]:focus, 
-        input[type="file"]:focus,
-        select:focus {
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        input:focus, select:focus {
             border-color: #48db97;
             outline: none;
             box-shadow: 0 0 0 3px rgba(72, 219, 151, 0.5);
@@ -261,11 +258,6 @@
             margin-top: 10px;
         }
 
-        /* Tabla */
-        .table-container {
-            overflow-x: auto;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -290,8 +282,8 @@
         
         .status-pendiente { color: #f39c12; font-weight: 600; }
         .status-facturado { color: #48db97; font-weight: 600; }
+        .status-timbrado { color: #48db97; font-weight: 600; }
         .status-error { color: #e74c3c; font-weight: 600; }
-        .status-pendiente_timbrado { color: #3498db; font-weight: 600; }
 
         /* Modal */
         .modal {
@@ -321,6 +313,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             position: relative;
+            color: white;
         }
         
         .modal-header {
@@ -365,12 +358,6 @@
                 flex-direction: column;
             }
         }
-        
-        /* Ocultar temporalmente al inicio */
-        .hidden {
-            display: none;
-        }
-
     </style>
 </head>
 <body>
@@ -387,7 +374,7 @@
     </div>
     
     <div class="container">
-        <!-- Sección: Configuración de Empresa (Logo) -->
+        <!-- Configuración de Empresa -->
         <div class="card" style="margin-bottom: 20px;">
             <div class="card-header">
                 <div class="card-title">⚙️ Configuración de Empresa</div>
@@ -396,19 +383,18 @@
                 <div class="form-group" style="flex: 2;">
                     <label>Página Pública de Facturación</label>
                     <div class="info-box" style="padding: 10px; border-left-color: #3498db;">
-                        🔗 **URL:** <a href="hotfact.html" target="_blank" style="color: #48db97; word-break: break-all;">hotfact.html</a>
+                        🔗 <strong>URL:</strong> <a href="hotfact.html" target="_blank" style="color: #48db97;">hotfact.html</a>
                         <div class="help-text">Comparta esta URL con sus clientes.</div>
                     </div>
                 </div>
                 <div class="form-group" style="flex: 1;">
                     <label>Subir Logo (.png o .jpg)</label>
                     <input type="file" id="logoFile" accept="image/png, image/jpeg">
-                    <button class="btn btn-primary" onclick="uploadLogo()" id="uploadLogoBtn" style="width: 100%; margin-top: 10px;">💾 Guardar y Subir Logo</button>
+                    <button class="btn btn-primary" onclick="uploadLogo()" id="uploadLogoBtn" style="width: 100%; margin-top: 10px;">💾 Guardar Logo</button>
                     <div id="logoResult" style="margin-top: 5px;"></div>
                 </div>
             </div>
         </div>
-
 
         <!-- Generar Folio -->
         <div class="card" style="margin-bottom: 20px;">
@@ -431,18 +417,18 @@
             <div id="folioResult"></div>
         </div>
 
-        <!-- Facturación Directa -->
+        <!-- Facturación Inmediata -->
         <div class="card" style="margin-bottom: 20px;">
             <div class="card-header">
-                <div class="card-title">⚡ Facturación Directa (Sin Folio)</div>
+                <div class="card-title">⚡ Facturación Inmediata</div>
             </div>
-            <div class="info-box" style="border-left-color: #f39c12;">
-                ⚡ Para facturas inmediatas. Se crea una solicitud de timbrado directo.
+            <div class="info-box" style="border-left-color: #48db97;">
+                ⚡ <strong>Timbrado Instantáneo:</strong> La factura se timbra inmediatamente con Finkok y se generan archivos PDF y XML reales.
             </div>
             <button class="btn btn-warning" onclick="openDirectInvoiceModal()">⚡ Facturar Ahora</button>
         </div>
 
-        <!-- Dashboard Stats (DINÁMICOS) -->
+        <!-- Dashboard Stats -->
         <div class="dashboard-grid">
             <div class="card">
                 <div class="card-header">
@@ -474,11 +460,11 @@
                     <div class="card-icon">⚠️</div>
                 </div>
                 <div class="stat-value" id="pendingFolios">0</div>
-                <div class="stat-label">Esperando solicitud del cliente</div>
+                <div class="stat-label">Esperando solicitud</div>
             </div>
         </div>
 
-        <!-- Tabla de Folios (DINÁMICA) -->
+        <!-- Tabla de Folios -->
         <div class="card">
             <div class="card-header">
                 <div class="card-title">Lista de Folios y Solicitudes</div>
@@ -504,21 +490,20 @@
         </div>
     </div>
 
-    <!-- Modal de Facturación Directa -->
+    <!-- Modal de Facturación Inmediata -->
     <div id="directInvoiceModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title">Facturación Inmediata</div>
+                <div class="modal-title">⚡ Facturación Inmediata</div>
                 <button class="modal-close" onclick="closeDirectInvoiceModal()">×</button>
             </div>
             
             <form id="directInvoiceForm">
-                <div class="info-box" style="border-left-color: #f39c12;">
-                    <strong>Importante:</strong> Esto creará un documento en Firestore con estado **pendiente\_timbrado** que debe ser procesado por tu Cloud Function.
+                <div class="info-box" style="border-left-color: #48db97;">
+                    <strong>Timbrado Instantáneo:</strong> El CFDI se procesará inmediatamente con Finkok y recibirás archivos PDF y XML reales.
                 </div>
 
-                <!-- Receptor -->
-                <div class="card-title" style="margin-top: 10px; margin-bottom: 10px; color: white;">Datos del Receptor</div>
+                <div class="card-title" style="margin-top: 10px; margin-bottom: 10px;">Datos del Receptor</div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>RFC</label>
@@ -534,12 +519,12 @@
                         <label>Régimen Fiscal</label>
                         <select id="directRegimenFiscal" required>
                             <option value="">Selecciona...</option>
-                            <option value="601">601 - General de Ley Personas Morales</option>
+                            <option value="601">601 - General de Ley PM</option>
                             <option value="605">605 - Sueldos y Salarios</option>
                             <option value="606">606 - Arrendamiento</option>
-                            <option value="612">612 - P.F. con Act. Empresariales</option>
-                            <option value="616" selected>616 - Sin obligaciones fiscales (Público General)</option>
-                            <option value="626">626 - Régimen Simplificado de Confianza</option>
+                            <option value="612">612 - PF con Act. Empresariales</option>
+                            <option value="616" selected>616 - Sin obligaciones fiscales</option>
+                            <option value="626">626 - Régimen Simplificado</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -555,8 +540,7 @@
                     <input type="email" id="directReceptorEmail" placeholder="cliente@correo.com" required>
                 </div>
 
-                <!-- Monto y Concepto -->
-                <div class="card-title" style="margin-top: 20px; margin-bottom: 10px; color: white;">Detalle de Factura</div>
+                <div class="card-title" style="margin-top: 20px; margin-bottom: 10px;">Detalle de Factura</div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>Monto Total (MXN)</label>
@@ -570,21 +554,19 @@
                 
                 <div id="directInvoiceMessage"></div>
 
-                <button type="button" class="btn btn-warning" id="saveDirectInvoiceBtn" onclick="saveDirectInvoice()" style="width: 100%;">⚡ Guardar Solicitud de Timbrado</button>
+                <button type="button" class="btn btn-warning" id="saveDirectInvoiceBtn" onclick="timbrarFacturaInmediata()" style="width: 100%;">⚡ Timbrar Factura Ahora</button>
             </form>
         </div>
     </div>
 
-
-    <!-- Firebase y Scripts (Versión 8) -->
+    <!-- Firebase SDK v8 -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-functions.js"></script>
     <script>
-        // =========================================================
-        // 🚨 1. CONFIGURACIÓN (CON TUS VALORES ACTUALIZADOS) 🚨
-        // =========================================================
+        // CONFIGURACIÓN DE FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyB_H-Eu5PVkaWKanA0q7_Fo5LSPgBYhbhQ", 
             authDomain: "hotfact-9902f.firebaseapp.com",
@@ -594,17 +576,15 @@
             appId: "1:33455575295:web:77d406be9d4f6a6ec5fcca"
         };
 
-        // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
         const storage = firebase.storage();
+        const functions = firebase.functions();
 
         let userData = {}; 
 
-        // ====================================
         // FUNCIONES DE UTILIDAD
-        // ====================================
         function formatCurrency(amount) {
             return new Intl.NumberFormat('es-MX', {
                 style: 'currency',
@@ -621,35 +601,15 @@
                     element.textContent = originalText;
                 }, 1500);
             }).catch(err => {
-                console.error('Error al copiar: ', err);
-                // Usar el método antiguo como fallback en caso de error
-                try {
-                    const textArea = document.createElement('textarea');
-                    textArea.value = text;
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textArea);
-                    const element = document.getElementById(elementId);
-                    const originalText = element.textContent;
-                    element.textContent = '✅ ¡Copiado!';
-                    setTimeout(() => {
-                        element.textContent = originalText;
-                    }, 1500);
-                } catch(e) {
-                     // NO USAR alert() como es regla en este ambiente
-                     console.error('Falló el copiar al portapapeles en el fallback');
-                }
+                console.error('Error al copiar:', err);
             });
         }
         
         async function handleLogout() {
-            // Reemplazo de confirm() por console.log, ya que confirm() está prohibido. 
-            // En un entorno real, usarías un modal custom.
-            console.log('Cerrando sesión. (Si estuviera activo, un modal custom lo confirmaría)');
+            console.log('Cerrando sesión...');
             try {
                 await auth.signOut();
-                window.location.href = 'login.html'; // Asegúrate de tener un login.html
+                window.location.href = 'login.html';
             } catch (error) {
                 console.error("Error al cerrar sesión:", error);
             }
@@ -663,15 +623,13 @@
             switch(status) {
                 case 'pendiente': return 'status-pendiente';
                 case 'facturado': return 'status-facturado';
+                case 'timbrado': return 'status-timbrado';
                 case 'error': return 'status-error';
-                case 'pendiente_timbrado': return 'status-pendiente_timbrado';
                 default: return '';
             }
         }
 
-        // ===================================================================================
-        // FUNCIÓN LOGO UPLOAD
-        // ===================================================================================
+        // SUBIR LOGO
         async function uploadLogo() {
             const logoInput = document.getElementById('logoFile');
             const resultDiv = document.getElementById('logoResult');
@@ -679,7 +637,7 @@
             const file = logoInput.files[0];
 
             if (!file) {
-                resultDiv.innerHTML = '<div class="error">Selecciona un archivo de imagen (PNG o JPG).</div>';
+                resultDiv.innerHTML = '<div class="error">Selecciona un archivo de imagen.</div>';
                 return;
             }
 
@@ -688,35 +646,28 @@
             resultDiv.innerHTML = '';
             
             try {
-                // Ruta: logos/USER_ID/logo.png
                 const logoRef = storage.ref(`logos/${userData.uid}/logo.png`);
-                
                 const snapshot = await logoRef.put(file);
-                
-                // Obtener la URL pública
                 const logoUrl = await snapshot.ref.getDownloadURL();
 
-                // Actualizar el documento del usuario en Firestore
                 await db.collection('users').doc(userData.uid).update({
                     logoUrl: logoUrl,
                     logoUpdatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 
-                resultDiv.innerHTML = '<div class="success">✅ Logo subido y guardado con éxito.</div>';
+                resultDiv.innerHTML = '<div class="success">✅ Logo subido exitosamente</div>';
                 userData.logoUrl = logoUrl;
 
             } catch (error) {
-                console.error("Error al subir el logo:", error);
-                resultDiv.innerHTML = `<div class="error">Error al subir el logo: ${error.message}</div>`;
+                console.error("Error:", error);
+                resultDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
             } finally {
                 btn.disabled = false;
-                btn.textContent = '💾 Guardar y Subir Logo';
+                btn.textContent = '💾 Guardar Logo';
             }
         }
         
-        // ===================================================================================
-        // FUNCIÓN GENERAR FOLIO
-        // ===================================================================================
+        // GENERAR FOLIO
         async function generateFolio() {
             const amountInput = document.getElementById('folioAmount');
             const descriptionInput = document.getElementById('folioDescription');
@@ -730,12 +681,17 @@
                 return;
             }
 
+            // Validar que userData tenga los campos necesarios
+            if (!userData.rfc || !userData.nombre || !userData.cp || !userData.regimenFiscal) {
+                resultDiv.innerHTML = '<div class="error">⚠️ Faltan datos fiscales. Completa tu perfil primero.</div>';
+                return;
+            }
+
             const subtotal = monto / 1.16;
             const iva = monto - subtotal;
             const folioCode = generateSimpleFolio();
 
             const folioData = {
-                // Usamos el folioCode como ID del documento
                 businessId: userData.uid,
                 emisor: {
                     rfc: userData.rfc,
@@ -748,9 +704,8 @@
                     {
                         cantidad: 1,
                         descripcion: description,
-                        // Asumimos ClaveProdServ y ClaveUnidad deben ser agregados por el usuario/sistema
-                        claveProdServ: '84111506', // Servicios de facturación (ejemplo)
-                        claveUnidad: 'ACT', // Actividad
+                        claveProdServ: '84111506',
+                        claveUnidad: 'ACT',
                         precioUnitario: parseFloat(subtotal.toFixed(2)),
                         subtotal: parseFloat(subtotal.toFixed(2))
                     }
@@ -767,14 +722,13 @@
             try {
                 await db.collection('folios').doc(folioCode).set(folioData);
                 
-                // La URL de facturación debe ser hotfact.html, ya que es el archivo local
                 const genericLink = "hotfact.html"; 
                 
                 resultDiv.innerHTML = `
                     <div class="folio-box">
-                        <p style="color: white; text-align: center;">Folio generado. Pídele a tu cliente que ingrese a **${genericLink}** y que use el código:</p>
+                        <p style="color: white;">Folio generado. El cliente debe ingresar a <strong>${genericLink}</strong> y usar:</p>
                         <div class="folio-code" id="folioCodeDisplay" onclick="copyToClipboard('${folioCode}', 'folioCodeDisplay')">${folioCode}</div>
-                        <button class="btn-copy" onclick="copyToClipboard('${folioCode}', 'folioCodeDisplay')">📋 Copiar CÓDIGO</button>
+                        <button class="btn-copy" onclick="copyToClipboard('${folioCode}', 'folioCodeDisplay')">📋 Copiar Código</button>
                     </div>
                 `;
 
@@ -782,14 +736,12 @@
                 descriptionInput.value = '';
                 
             } catch (error) {
-                console.error("Error al generar folio:", error);
-                resultDiv.innerHTML = `<div class="error">Error al guardar el folio: ${error.message}</div>`;
+                console.error("Error:", error);
+                resultDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
             }
         }
         
-        // ===================================================================================
-        // MODAL FACTURACIÓN DIRECTA
-        // ===================================================================================
+        // MODAL FACTURACIÓN INMEDIATA
         function openDirectInvoiceModal() {
             document.getElementById('directInvoiceModal').classList.add('active');
             document.getElementById('directInvoiceMessage').innerHTML = '';
@@ -799,11 +751,12 @@
             document.getElementById('directInvoiceModal').classList.remove('active');
         }
 
-        async function saveDirectInvoice() {
+        // TIMBRAR FACTURA INMEDIATA
+        async function timbrarFacturaInmediata() {
             const messageDiv = document.getElementById('directInvoiceMessage');
             const btn = document.getElementById('saveDirectInvoiceBtn');
             btn.disabled = true;
-            btn.textContent = 'Guardando...';
+            btn.textContent = '⏳ Timbrando con Finkok...';
             messageDiv.innerHTML = '';
             
             const rfc = document.getElementById('directReceptorRFC').value.toUpperCase();
@@ -815,96 +768,159 @@
             const description = document.getElementById('directConcepto').value.trim();
 
             if (!rfc || !nombre || !email || !usoCFDI || !regimenFiscal || isNaN(monto) || monto <= 0 || !description) {
-                messageDiv.innerHTML = '<div class="error">Por favor, completa todos los campos requeridos y asegúrate de que el monto es válido.</div>';
+                messageDiv.innerHTML = '<div class="error">⚠️ Por favor, completa todos los campos.</div>';
                 btn.disabled = false;
-                btn.textContent = '⚡ Guardar Solicitud de Timbrado';
+                btn.textContent = '⚡ Timbrar Factura Ahora';
+                return;
+            }
+            
+            // Verificar datos del emisor
+            if (!userData.rfc || !userData.nombre || !userData.cp || !userData.regimenFiscal) {
+                messageDiv.innerHTML = '<div class="error">⚠️ Faltan datos fiscales del emisor. Completa tu perfil.</div>';
+                btn.disabled = false;
+                btn.textContent = '⚡ Timbrar Factura Ahora';
+                return;
+            }
+
+            // Verificar que tenga certificados
+            try {
+                const certDoc = await db.collection('certificates').doc(userData.uid).get();
+                if (!certDoc.exists) {
+                    messageDiv.innerHTML = '<div class="error">⚠️ No tienes certificados .CER y .KEY cargados. Configúralos primero.</div>';
+                    btn.disabled = false;
+                    btn.textContent = '⚡ Timbrar Factura Ahora';
+                    return;
+                }
+            } catch (error) {
+                console.error('Error verificando certificados:', error);
+                messageDiv.innerHTML = '<div class="error">❌ Error al verificar certificados.</div>';
+                btn.disabled = false;
+                btn.textContent = '⚡ Timbrar Factura Ahora';
                 return;
             }
             
             const subtotal = monto / 1.16;
             const iva = monto - subtotal;
 
-            const invoiceData = {
+            // Preparar datos completos para el timbrado
+            const cfdiData = {
                 businessId: userData.uid,
                 emisor: {
                     rfc: userData.rfc,
                     nombre: userData.nombre,
-                    cp: userData.cp,
                     regimenFiscal: userData.regimenFiscal
                 },
                 receptor: {
                     rfc: rfc,
                     nombre: nombre,
                     email: email,
-                    cp: userData.cp, // Usamos el CP del emisor por simplicidad
-                    regimenFiscal: regimenFiscal
-                },
-                cfdi: {
-                    formaPago: "03", 
-                    metodoPago: "PUE", 
-                    moneda: "MXN",
-                    usoCFDI: usoCFDI
+                    usoCFDI: usoCFDI,
+                    regimenFiscal: regimenFiscal,
+                    domicilioFiscalReceptor: "00000"
                 },
                 conceptos: [
                     {
+                        claveProdServ: '84111506',
+                        claveUnidad: 'ACT',
                         cantidad: 1,
                         descripcion: description,
-                        claveProdServ: '84111506', // Ejemplo
-                        claveUnidad: 'ACT', // Actividad
-                        precioUnitario: parseFloat(subtotal.toFixed(2)),
-                        subtotal: parseFloat(subtotal.toFixed(2))
+                        valorUnitario: parseFloat(subtotal.toFixed(2)),
+                        importe: parseFloat(subtotal.toFixed(2)),
+                        objetoImp: '02'
                     }
                 ],
+                impuestos: {
+                    totalImpuestosTrasladados: parseFloat(iva.toFixed(2)),
+                    traslados: [
+                        {
+                            base: parseFloat(subtotal.toFixed(2)),
+                            impuesto: '002',
+                            tipoFactor: 'Tasa',
+                            tasaOCuota: '0.160000',
+                            importe: parseFloat(iva.toFixed(2))
+                        }
+                    ]
+                },
                 totales: {
-                    subtotal: parseFloat(subtotal.toFixed(2)),
-                    iva: parseFloat(iva.toFixed(2)),
+                    subTotal: parseFloat(subtotal.toFixed(2)),
                     total: parseFloat(monto.toFixed(2))
                 },
-                // La Cloud Function de timbrado directo debe escuchar este estado
-                status: 'pendiente_timbrado', 
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                formaPago: '03',
+                metodoPago: 'PUE',
+                tipoDeComprobante: 'I',
+                exportacion: '01',
+                lugarExpedicion: userData.cp,
+                moneda: 'MXN'
             };
 
             try {
-                // Usamos otra colección para no mezclar con los folios de cliente
-                await db.collection('directInvoiceRequests').add(invoiceData);
-
-                messageDiv.innerHTML = '<div class="success">✅ Solicitud de factura guardada. Pendiente de timbrado.</div>';
+                messageDiv.innerHTML = '<div class="info-box">📡 Conectando con Finkok para timbrar...</div>';
                 
-                // Cerrar modal después de éxito
-                setTimeout(() => {
-                    closeDirectInvoiceModal();
-                    // Limpiar formulario si es necesario
-                    document.getElementById('directInvoiceForm').reset();
-                }, 2000);
+                // Llamar a Cloud Function para timbrar
+                const timbrarFunction = functions.httpsCallable('timbrarFacturaInmediata');
+                const result = await timbrarFunction({
+                    cfdiData: cfdiData
+                });
+
+                if (result.data.success) {
+                    const { uuid, xmlUrl, pdfUrl } = result.data;
+                    
+                    messageDiv.innerHTML = `
+                        <div class="success">
+                            ✅ <strong>¡Factura timbrada exitosamente!</strong><br><br>
+                            <strong>UUID:</strong> ${uuid}<br><br>
+                            <a href="${xmlUrl}" target="_blank" style="color: #48db97; text-decoration: underline;">📄 Descargar XML</a> | 
+                            <a href="${pdfUrl}" target="_blank" style="color: #48db97; text-decoration: underline;">📄 Descargar PDF</a>
+                        </div>
+                    `;
+                    
+                    // Guardar en Firestore para referencia
+                    await db.collection('invoices').add({
+                        businessId: userData.uid,
+                        uuid: uuid,
+                        xmlUrl: xmlUrl,
+                        pdfUrl: pdfUrl,
+                        receptor: {
+                            rfc: rfc,
+                            nombre: nombre,
+                            email: email
+                        },
+                        total: monto,
+                        status: 'timbrado',
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    // Enviar email
+                    console.log('Enviando email a:', email);
+                    
+                    setTimeout(() => {
+                        closeDirectInvoiceModal();
+                        document.getElementById('directInvoiceForm').reset();
+                    }, 5000);
+                    
+                } else {
+                    throw new Error(result.data.error || 'Error desconocido en el timbrado');
+                }
 
             } catch (error) {
-                console.error('Error guardando factura:', error);
-                messageDiv.innerHTML = `<div class="error">Error al guardar solicitud: ${error.message}</div>`;
+                console.error('Error al timbrar:', error);
+                messageDiv.innerHTML = `<div class="error">❌ Error al timbrar: ${error.message}</div>`;
             } finally {
                 btn.disabled = false;
-                btn.textContent = '⚡ Guardar Solicitud de Timbrado';
+                btn.textContent = '⚡ Timbrar Factura Ahora';
             }
         }
 
-
-        // ===================================================================================
-        // CARGA DE DATOS DEL DASHBOARD EN TIEMPO REAL (onSnapshot)
-        // ===================================================================================
-
+        // DASHBOARD EN TIEMPO REAL
         function setupRealtimeDashboard() {
-            // Consulta combinada para folios y solicitudes directas
             const foliosRef = db.collection('folios').where('businessId', '==', userData.uid);
-            const directRef = db.collection('directInvoiceRequests').where('businessId', '==', userData.uid);
+            const invoicesRef = db.collection('invoices').where('businessId', '==', userData.uid);
 
-            // Listener para folios de clientes (Colección 'folios')
             foliosRef.onSnapshot(snapshot => updateDashboard(snapshot, 'folio'));
-
-            // Listener para solicitudes directas (Colección 'directInvoiceRequests')
-            directRef.onSnapshot(snapshot => updateDashboard(snapshot, 'direct'));
+            invoicesRef.onSnapshot(snapshot => updateDashboard(snapshot, 'invoice'));
         }
 
-        let allInvoices = {}; // Objeto para mantener un registro único de todas las facturas
+        let allInvoices = {};
         
         function updateDashboard(snapshot, type) {
             let totalFolios = 0;
@@ -912,10 +928,9 @@
             let invoicedFolios = 0;
             let pendingFolios = 0;
             
-            // 1. Procesar nuevos datos y actualizar el registro único
             snapshot.docChanges().forEach(change => {
                 const docData = change.doc.data();
-                const docId = `${type}_${change.doc.id}`; // Prefijo para asegurar IDs únicos
+                const docId = `${type}_${change.doc.id}`;
                 
                 if (change.type === "added" || change.type === "modified") {
                     allInvoices[docId] = { id: change.doc.id, type: type, ...docData };
@@ -927,9 +942,7 @@
             const foliosTableBody = document.getElementById('foliosTableBody');
             foliosTableBody.innerHTML = '';
             
-            // 2. Calcular estadísticas y re-renderizar la tabla
             const sortedInvoices = Object.values(allInvoices).sort((a, b) => {
-                 // Asegurar que exista el timestamp antes de comparar
                 const aTime = a.createdAt && a.createdAt.seconds ? a.createdAt.seconds : 0;
                 const bTime = b.createdAt && b.createdAt.seconds ? b.createdAt.seconds : 0;
                 return bTime - aTime;
@@ -937,92 +950,85 @@
 
             sortedInvoices.forEach(docData => {
                 totalFolios++;
-                const montoTotal = docData.totales.total;
+                const montoTotal = docData.totales ? docData.totales.total : (docData.total || 0);
                 
                 if (docData.status === 'pendiente') {
                     pendingFolios++;
                     totalAmount += montoTotal;
-                } else if (docData.status === 'facturado') {
+                } else if (docData.status === 'facturado' || docData.status === 'timbrado') {
                     invoicedFolios++;
-                } else if (docData.status === 'pendiente_timbrado') {
-                    // Cuentan como pendientes a nivel de monto
-                    pendingFolios++;
-                    totalAmount += montoTotal;
                 }
 
-                // Renderizar Fila
                 const row = foliosTableBody.insertRow();
-                const folioId = docData.type === 'folio' ? docData.id : `DIRECT-${docData.id.substring(0, 4)}...`;
+                const folioId = docData.type === 'folio' ? docData.id : `INV-${docData.id.substring(0, 6)}`;
                 const description = docData.description || (docData.conceptos && docData.conceptos.length > 0 ? docData.conceptos[0].descripcion : 'Sin descripción');
+                
+                const downloadBtn = docData.uuid ? 
+                    `<a href="${docData.xmlUrl}" target="_blank" class="btn" style="background-color: #34495e; padding: 5px 10px; font-size: 12px; text-decoration: none;">📥 Descargar</a>` :
+                    '<span style="color: rgba(255,255,255,0.5); font-size: 12px;">N/A</span>';
                 
                 row.innerHTML = `
                     <td>${folioId}</td>
                     <td>${formatCurrency(montoTotal)}</td>
                     <td>${description}</td>
-                    <td class="${getStatusClass(docData.status)}">${docData.status.toUpperCase().replace('_', ' ')}</td>
-                    <td>
-                        <button class="btn" style="background-color: #34495e; padding: 5px 10px; font-size: 12px;" onclick="descargarCFDI('${docData.uuid}', 'xml')">Descargar</button>
-                    </td>
+                    <td class="${getStatusClass(docData.status)}">${docData.status.toUpperCase()}</td>
+                    <td>${downloadBtn}</td>
                 `;
             });
 
-            // 3. Actualizar la UI
             document.getElementById('totalFolios').textContent = totalFolios;
             document.getElementById('totalAmount').textContent = formatCurrency(totalAmount);
             document.getElementById('invoicedFolios').textContent = invoicedFolios;
             document.getElementById('pendingFolios').textContent = pendingFolios;
 
             if (totalFolios === 0) {
-                 foliosTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay folios o solicitudes registrados.</td></tr>';
+                foliosTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay folios o solicitudes registrados.</td></tr>';
             }
         }
-        
-        // Función placeholder de descarga (Debe ser implementada)
-        function descargarCFDI(uuid, type) {
-             if (uuid) {
-                 // Aquí deberías llamar a tu Cloud Function para obtener el XML/PDF en base64
-                 // Ya que no lo guardamos en Firestore por defecto para ahorrar espacio
-                 console.log(`Descargar CFDI con UUID ${uuid} y tipo ${type}`);
-                 // Usar un modal custom para mostrar el mensaje
-                 alert('La factura está timbrada. Se necesita un endpoint de Cloud Function para descargar el archivo.'); 
-             } else {
-                 alert('Aún no hay archivos de factura para descargar (UUID no disponible).');
-             }
-        }
 
-        // ===================================================================================
         // AUTENTICACIÓN Y CARGA INICIAL
-        // ===================================================================================
         auth.onAuthStateChanged(user => {
             if (user) {
-                // El usuario está logueado, cargar sus datos
                 db.collection('users').doc(user.uid).get().then(doc => {
                     if (doc.exists) {
-                        // CRUCIAL: Cargar datos fiscales de la empresa desde 'users'
-                        userData = { uid: user.uid, ...doc.data() };
+                        const data = doc.data();
+                        userData = { 
+                            uid: user.uid,
+                            email: data.email || '',
+                            nombre: data.businessName || data.nombre || data.razonSocial || '',
+                            rfc: data.rfc || '',
+                            cp: data.codigoPostal || data.cp || '',
+                            regimenFiscal: data.regimenFiscal || '601',
+                            logoUrl: data.logoUrl || null
+                        };
+                        
+                        console.log('Usuario cargado:', userData);
+                        
                         document.getElementById('userName').textContent = userData.nombre || 'Administrador';
                         document.getElementById('userRFC').textContent = `RFC: ${userData.rfc || 'N/A'}`;
                         
+                        if (!userData.rfc || !userData.nombre || !userData.cp) {
+                            console.warn('⚠️ Faltan datos fiscales. Complete su perfil.');
+                        }
+                        
                         setupRealtimeDashboard(); 
                     } else {
-                        console.error("No se encontraron datos de la empresa. Asegúrate de usar admin.html para registrar la información fiscal.");
+                        console.error("No se encontraron datos de la empresa.");
                         handleLogout(); 
                     }
                 }).catch(err => {
-                    console.error("Error al obtener datos del usuario:", err);
+                    console.error("Error:", err);
                     handleLogout(); 
                 });
             } else {
-                // No logueado, redirigir
                 window.location.href = 'login.html'; 
             }
         });
 
-        // Inicializar listeners del modal
         window.addEventListener('DOMContentLoaded', () => {
-            const directInvoiceForm = document.getElementById('directInvoiceForm');
-            if (directInvoiceForm) {
-                directInvoiceForm.addEventListener('submit', (e) => e.preventDefault());
+            const form = document.getElementById('directInvoiceForm');
+            if (form) {
+                form.addEventListener('submit', (e) => e.preventDefault());
             }
         });
     </script>
