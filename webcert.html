@@ -477,80 +477,15 @@
         let templatePdfBytesMasivo = null;
         const TEMPLATE_URL = 'https://yepzhi.com/Template.pdf';
         
-        // Sistema de folios globales (compartido entre todos los usuarios)
-        let currentFolio = 1001;
+        // Sistema de folios SIMPLE - Sin storage, solo consecutivo aleatorio
+        let currentFolio = 1001 + Math.floor(Math.random() * 9000);
 
-        // Cargar el folio actual desde el almacenamiento global
-        async function loadCurrentFolio() {
-            try {
-                const result = await window.storage.get('global_certificate_folio', true);
-                if (result && result.value) {
-                    currentFolio = parseInt(result.value);
-                    console.log('✓ Folio actual cargado:', currentFolio);
-                } else {
-                    // Si no existe, inicializar en 1001
-                    await window.storage.set('global_certificate_folio', '1001', true);
-                    currentFolio = 1001;
-                    console.log('✓ Folio inicializado en:', currentFolio);
-                }
-            } catch (error) {
-                console.log('Inicializando folio por primera vez:', error);
-                try {
-                    await window.storage.set('global_certificate_folio', '1001', true);
-                    currentFolio = 1001;
-                } catch (e) {
-                    console.error('Error al inicializar folio:', e);
-                }
-            }
-        }
-
-        // Obtener y reservar el siguiente folio disponible (sin saltos)
-        async function getNextFolio() {
-            let intentos = 0;
-            const maxIntentos = 10;
-            
-            while (intentos < maxIntentos) {
-                try {
-                    // Obtener folio actual
-                    let result;
-                    try {
-                        result = await window.storage.get('global_certificate_folio', true);
-                    } catch (e) {
-                        // Si no existe, inicializar
-                        await window.storage.set('global_certificate_folio', '1001', true);
-                        result = { value: '1001' };
-                    }
-                    
-                    const folioActual = parseInt(result.value) || 1001;
-                    const siguienteFolio = folioActual + 1;
-                    
-                    // Intentar actualizar al siguiente folio
-                    await window.storage.set('global_certificate_folio', siguienteFolio.toString(), true);
-                    
-                    // Verificar que se guardó correctamente
-                    const verificacion = await window.storage.get('global_certificate_folio', true);
-                    const folioGuardado = parseInt(verificacion.value);
-                    
-                    // Si el folio guardado es exactamente el siguiente, lo usamos
-                    if (folioGuardado === siguienteFolio) {
-                        console.log(`✓ Folio ${folioActual} asignado correctamente`);
-                        return folioActual;
-                    }
-                    
-                    // Si hay discrepancia, esperar un poco y reintentar
-                    await new Promise(resolve => setTimeout(resolve, 100 * (intentos + 1)));
-                    intentos++;
-                    
-                } catch (error) {
-                    console.error(`Error en intento ${intentos + 1}:`, error);
-                    intentos++;
-                    await new Promise(resolve => setTimeout(resolve, 100 * (intentos + 1)));
-                }
-            }
-            
-            // Si fallan todos los intentos, usar timestamp como fallback
-            console.error('No se pudo obtener folio del servidor, usando fallback');
-            return 1001 + Math.floor(Date.now() / 1000) % 100000;
+        // Obtener siguiente folio (simple, sin storage)
+        function getNextFolio() {
+            const folio = currentFolio;
+            currentFolio++;
+            console.log(`✓ Folio asignado: ${folio}`);
+            return folio;
         }
 
         // Cargar plantilla automáticamente al iniciar
@@ -568,10 +503,9 @@
             }
         }
 
-        // Cargar plantilla y folio al abrir la página
+        // Cargar plantilla al abrir la página
         window.addEventListener('DOMContentLoaded', async () => {
             await loadDefaultTemplate();
-            await loadCurrentFolio();
         });
 
         // Función para convertir fecha DD/MM/YYYY a formato texto
@@ -640,7 +574,7 @@
             const horas = document.getElementById('horas').value;
 
             try {
-                const folio = await generateCertificate(nombre, apellido, evento, fecha, horas, templatePdfBytes);
+                const folio = generateCertificate(nombre, apellido, evento, fecha, horas, templatePdfBytes);
                 
                 document.getElementById('modalTitle').textContent = '¡Certificado Generado!';
                 document.getElementById('modalMessage').textContent = `Certificado descargado correctamente\nFolio: ${folio}`;
@@ -711,7 +645,7 @@
                 progressFill.style.width = progress + '%';
                 progressText.textContent = `Generando ${i + 1} de ${data.length}...`;
 
-                const folio = await generateCertificate(
+                const folio = generateCertificate(
                     row.Nombre || row.nombre,
                     row.Apellido || row.apellido,
                     row.Evento || row.evento,
@@ -722,8 +656,8 @@
                 
                 foliosGenerados.push(folio);
 
-                // Espera más larga entre certificados para evitar conflictos
-                await new Promise(resolve => setTimeout(resolve, 500));
+                // Pequeña pausa entre certificados
+                await new Promise(resolve => setTimeout(resolve, 100));
             }
 
             progressDiv.style.display = 'none';
@@ -737,147 +671,89 @@
             document.getElementById('successModal').classList.add('active');
         }
 
-        async function generateCertificate(nombre, apellido, evento, fecha, horas, pdfBytes) {
-            // Obtener folio único global
-            const folio = await getNextFolio();
+        function generateCertificate(nombre, apellido, evento, fecha, horas, pdfBytes) {
+            // Obtener folio simple (sin await)
+            const folio = getNextFolio();
             
             // Convertir fecha de DD/MM/YYYY a formato texto
             const fechaFormateada = convertirFecha(fecha);
             
-            // Cargar el PDF plantilla
-            const pdfDoc = await PDFDocument.load(pdfBytes);
-            const pages = pdfDoc.getPages();
-            const firstPage = pages[0];
-            
-            // Obtener dimensiones de la página
-            const { width, height } = firstPage.getSize();
+            // Generar PDF de forma síncrona
+            PDFDocument.load(pdfBytes).then(async (pdfDoc) => {
+                const pages = pdfDoc.getPages();
+                const firstPage = pages[0];
+                
+                const { width, height } = firstPage.getSize();
 
-            // Cargar fuentes
-            const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-            const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
+                const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+                const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-            // ============== NOMBRE COMPLETO CON AJUSTE AUTOMÁTICO ==============
-            const nombreCompleto = `${apellido} ${nombre}`;
-            const nombreYPosition = height - 350;
-            const maxNombreWidth = width * 0.85;
-            
-            let nombreSize = 45;
-            let nombreWidth = fontBold.widthOfTextAtSize(nombreCompleto, nombreSize);
-            
-            while (nombreWidth > maxNombreWidth && nombreSize > 20) {
-                nombreSize -= 1;
-                nombreWidth = fontBold.widthOfTextAtSize(nombreCompleto, nombreSize);
-            }
-            
-            firstPage.drawText(nombreCompleto, {
-                x: (width - nombreWidth) / 2,
-                y: nombreYPosition,
-                size: nombreSize,
-                font: fontBold,
-                color: rgb(0, 0, 0),
-            });
-
-            // ============== TEXTO DEL EVENTO CON MÚLTIPLES LÍNEAS ==============
-            const eventoSize = 11.2;
-            const baseColor = rgb(0.3, 0.3, 0.3);
-            const maxEventoWidth = width * 0.8;
-            
-            const startText = 'For attending the ';
-            const endText = ' session.';
-            
-            function wrapTextBalanced(text, font, fontSize, maxWidth) {
-                const words = text.split(' ');
+                // NOMBRE COMPLETO
+                const nombreCompleto = `${apellido} ${nombre}`;
+                const nombreYPosition = height - 350;
+                const maxNombreWidth = width * 0.85;
                 
-                const fullWidth = font.widthOfTextAtSize(text, fontSize);
-                if (fullWidth <= maxWidth) {
-                    return [text];
+                let nombreSize = 45;
+                let nombreWidth = fontBold.widthOfTextAtSize(nombreCompleto, nombreSize);
+                
+                while (nombreWidth > maxNombreWidth && nombreSize > 20) {
+                    nombreSize -= 1;
+                    nombreWidth = fontBold.widthOfTextAtSize(nombreCompleto, nombreSize);
                 }
                 
-                const lines = [];
-                let currentLine = '';
-                const midPoint = Math.floor(words.length / 2);
-                
-                for (let i = 0; i < midPoint; i++) {
-                    currentLine = currentLine ? `${currentLine} ${words[i]}` : words[i];
-                }
-                
-                let testWidth = fontRegular.widthOfTextAtSize(currentLine, fontSize);
-                while (testWidth > maxWidth && currentLine.includes(' ')) {
-                    const lastSpace = currentLine.lastIndexOf(' ');
-                    currentLine = currentLine.substring(0, lastSpace);
-                    testWidth = fontRegular.widthOfTextAtSize(currentLine, fontSize);
-                }
-                
-                if (currentLine) lines.push(currentLine);
-                
-                const firstLineWords = currentLine.split(' ').length;
-                let secondLine = '';
-                for (let i = firstLineWords; i < words.length; i++) {
-                    secondLine = secondLine ? `${secondLine} ${words[i]}` : words[i];
-                }
-                
-                testWidth = fontRegular.widthOfTextAtSize(secondLine, fontSize);
-                if (testWidth > maxWidth) {
-                    const secondWords = secondLine.split(' ');
-                    let tempLine = '';
-                    for (let word of secondWords) {
-                        const testLine = tempLine ? `${tempLine} ${word}` : word;
-                        const testW = fontRegular.widthOfTextAtSize(testLine, fontSize);
-                        if (testW <= maxWidth) {
-                            tempLine = testLine;
-                        } else {
-                            if (tempLine) lines.push(tempLine);
-                            tempLine = word;
-                        }
-                    }
-                    if (tempLine) lines.push(tempLine);
-                } else {
-                    if (secondLine) lines.push(secondLine);
-                }
-                
-                return lines;
-            }
-            
-            const startWidth = fontRegular.widthOfTextAtSize(startText, eventoSize);
-            const eventoWidth = fontBold.widthOfTextAtSize(evento, eventoSize);
-            const endWidth = fontRegular.widthOfTextAtSize(endText, eventoSize);
-            const totalWidth = startWidth + eventoWidth + endWidth;
-            
-            let yEventoPosition = height - 395;
-            const lineSpacing = 16;
-            
-            if (totalWidth <= maxEventoWidth) {
-                let currentX = (width - totalWidth) / 2;
-                
-                firstPage.drawText(startText, {
-                    x: currentX,
-                    y: yEventoPosition,
-                    size: eventoSize,
-                    font: fontRegular,
-                    color: baseColor,
-                });
-                currentX += startWidth;
-                
-                firstPage.drawText(evento, {
-                    x: currentX,
-                    y: yEventoPosition,
-                    size: eventoSize,
+                firstPage.drawText(nombreCompleto, {
+                    x: (width - nombreWidth) / 2,
+                    y: nombreYPosition,
+                    size: nombreSize,
                     font: fontBold,
-                    color: baseColor,
+                    color: rgb(0, 0, 0),
                 });
-                currentX += eventoWidth;
+
+                // EVENTO
+                const eventoSize = 11.2;
+                const baseColor = rgb(0.3, 0.3, 0.3);
+                const maxEventoWidth = width * 0.8;
                 
-                firstPage.drawText(endText, {
-                    x: currentX,
-                    y: yEventoPosition,
-                    size: eventoSize,
-                    font: fontRegular,
-                    color: baseColor,
-                });
-            } else {
-                const eventoLines = wrapTextBalanced(evento, fontBold, eventoSize, maxEventoWidth);
+                const startText = 'For attending the ';
+                const endText = ' session.';
                 
-                if (eventoLines.length === 1) {
+                const startWidth = fontRegular.widthOfTextAtSize(startText, eventoSize);
+                const eventoWidth = fontBold.widthOfTextAtSize(evento, eventoSize);
+                const endWidth = fontRegular.widthOfTextAtSize(endText, eventoSize);
+                const totalWidth = startWidth + eventoWidth + endWidth;
+                
+                let yEventoPosition = height - 395;
+                
+                if (totalWidth <= maxEventoWidth) {
+                    let currentX = (width - totalWidth) / 2;
+                    
+                    firstPage.drawText(startText, {
+                        x: currentX,
+                        y: yEventoPosition,
+                        size: eventoSize,
+                        font: fontRegular,
+                        color: baseColor,
+                    });
+                    currentX += startWidth;
+                    
+                    firstPage.drawText(evento, {
+                        x: currentX,
+                        y: yEventoPosition,
+                        size: eventoSize,
+                        font: fontBold,
+                        color: baseColor,
+                    });
+                    currentX += eventoWidth;
+                    
+                    firstPage.drawText(endText, {
+                        x: currentX,
+                        y: yEventoPosition,
+                        size: eventoSize,
+                        font: fontRegular,
+                        color: baseColor,
+                    });
+                } else {
+                    // Evento largo - 2 líneas
                     const line1 = startText.trim();
                     const line1Width = fontRegular.widthOfTextAtSize(line1, eventoSize);
                     firstPage.drawText(line1, {
@@ -895,7 +771,7 @@
                     let line2X = (width - line2TotalWidth) / 2;
                     firstPage.drawText(evento, {
                         x: line2X,
-                        y: yEventoPosition - lineSpacing,
+                        y: yEventoPosition - 16,
                         size: eventoSize,
                         font: fontBold,
                         color: baseColor,
@@ -903,76 +779,45 @@
                     
                     firstPage.drawText(endText, {
                         x: line2X + line2StartWidth,
-                        y: yEventoPosition - lineSpacing,
-                        size: eventoSize,
-                        font: fontRegular,
-                        color: baseColor,
-                    });
-                } else {
-                    const line1 = startText.trim();
-                    const line1Width = fontRegular.widthOfTextAtSize(line1, eventoSize);
-                    firstPage.drawText(line1, {
-                        x: (width - line1Width) / 2,
-                        y: yEventoPosition,
-                        size: eventoSize,
-                        font: fontRegular,
-                        color: baseColor,
-                    });
-                    
-                    eventoLines.forEach((line, index) => {
-                        const lineWidth = fontBold.widthOfTextAtSize(line, eventoSize);
-                        firstPage.drawText(line, {
-                            x: (width - lineWidth) / 2,
-                            y: yEventoPosition - (lineSpacing * (index + 1)),
-                            size: eventoSize,
-                            font: fontBold,
-                            color: baseColor,
-                        });
-                    });
-                    
-                    const lastLine = endText.trim();
-                    const lastLineWidth = fontRegular.widthOfTextAtSize(lastLine, eventoSize);
-                    firstPage.drawText(lastLine, {
-                        x: (width - lastLineWidth) / 2,
-                        y: yEventoPosition - (lineSpacing * (eventoLines.length + 1)),
+                        y: yEventoPosition - 16,
                         size: eventoSize,
                         font: fontRegular,
                         color: baseColor,
                     });
                 }
-            }
 
-            // Fecha y horas (centrado, pequeño, gris)
-            const textoFecha = `${fechaFormateada} (${horas} hour${horas != 1 ? 's' : ''})`;
-            const fechaSize = 14;
-            const fechaWidth = fontRegular.widthOfTextAtSize(textoFecha, fechaSize);
-            firstPage.drawText(textoFecha, {
-                x: (width - fechaWidth) / 2,
-                y: height - 470,
-                size: fechaSize,
-                font: fontRegular,
-                color: rgb(0.5, 0.5, 0.5),
+                // FECHA Y HORAS
+                const textoFecha = `${fechaFormateada} (${horas} hour${horas != 1 ? 's' : ''})`;
+                const fechaSize = 14;
+                const fechaWidth = fontRegular.widthOfTextAtSize(textoFecha, fechaSize);
+                firstPage.drawText(textoFecha, {
+                    x: (width - fechaWidth) / 2,
+                    y: height - 470,
+                    size: fechaSize,
+                    font: fontRegular,
+                    color: rgb(0.5, 0.5, 0.5),
+                });
+
+                // FOLIO
+                const textoFolio = `Folio: ${folio}`;
+                const folioSize = 9;
+                const folioWidth = fontRegular.widthOfTextAtSize(textoFolio, folioSize);
+                firstPage.drawText(textoFolio, {
+                    x: width - folioWidth - 30,
+                    y: 30,
+                    size: folioSize,
+                    font: fontRegular,
+                    color: rgb(0.6, 0.6, 0.6),
+                });
+
+                // GUARDAR Y DESCARGAR
+                const pdfBytesResult = await pdfDoc.save();
+                const blob = new Blob([pdfBytesResult], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `Certificate_${apellido}_${nombre}.pdf`;
+                link.click();
             });
-
-            // Folio (esquina inferior derecha, pequeño, gris claro)
-            const textoFolio = `Folio: ${folio}`;
-            const folioSize = 9;
-            const folioWidth = fontRegular.widthOfTextAtSize(textoFolio, folioSize);
-            firstPage.drawText(textoFolio, {
-                x: width - folioWidth - 30,
-                y: 30,
-                size: folioSize,
-                font: fontRegular,
-                color: rgb(0.6, 0.6, 0.6),
-            });
-
-            // Guardar y descargar
-            const pdfBytesResult = await pdfDoc.save();
-            const blob = new Blob([pdfBytesResult], { type: 'application/pdf' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `Certificate_${apellido}_${nombre}.pdf`;
-            link.click();
             
             return folio;
         }

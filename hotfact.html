@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitar Factura - hotFact</title>
     <style>
-        /* CSS se mantiene sin cambios para la estética original */
         * {
             margin: 0;
             padding: 0;
@@ -119,8 +118,13 @@
             background-size: 16px;
         }
         
-        input::placeholder, select option {
+        input::placeholder {
             color: rgba(255, 255, 255, 0.5);
+        }
+
+        select option {
+            background: #667eea;
+            color: white;
         }
         
         input:focus, select:focus {
@@ -152,13 +156,20 @@
             box-shadow: 0 4px 10px rgba(46, 204, 113, 0.4);
         }
 
-        .btn-primary:hover { background: #2980b9; transform: translateY(-1px); }
-        .btn-success:hover { background: #2ecc71; transform: translateY(-1px); }
+        .btn-primary:hover:not(:disabled) { 
+            background: #2980b9; 
+            transform: translateY(-1px); 
+        }
+        .btn-success:hover:not(:disabled) { 
+            background: #2ecc71; 
+            transform: translateY(-1px); 
+        }
         
         .btn:disabled {
             background: #aaa;
             cursor: not-allowed;
             box-shadow: none;
+            opacity: 0.6;
         }
         
         .result-message {
@@ -182,6 +193,10 @@
             background: rgba(52, 152, 219, 0.2);
             color: #3498db;
             border: 1px solid #3498db;
+        }
+
+        .hidden {
+            display: none !important;
         }
 
         .folio-data {
@@ -229,7 +244,6 @@
                 width: 100%;
             }
         }
-
     </style>
 </head>
 <body>
@@ -240,7 +254,7 @@
                 🔥
             </div>
             <h1 id="businessName">hotFact - Solicitud de Factura</h1>
-            <p id="businessRFC">RFC: XAXX010101000</p>
+            <p id="businessRFC">Ingresa tu folio para comenzar</p>
         </div>
 
         <!-- PASO 1: Ingresar Folio -->
@@ -248,34 +262,44 @@
             <div class="card-title">1. Ingresa tu Folio de Compra</div>
             
             <div class="form-group">
-                <label for="folioInput">Folio o Código</label>
-                <input type="text" id="folioInput" placeholder="Ej: 12345678" maxlength="15">
+                <label for="folioInput">Folio de 8 dígitos</label>
+                <input type="text" id="folioInput" placeholder="12345678" maxlength="8" 
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '')">
             </div>
             
-            <button class="btn btn-primary" onclick="buscarFolio()" id="searchBtn">🔍 Buscar Folio</button>
+            <button class="btn btn-primary" onclick="buscarFolio()" id="searchBtn">
+                🔍 Buscar Folio
+            </button>
             <div id="searchResult" class="result-message hidden"></div>
         </div>
 
-        <!-- PASO 2: Datos del Folio y del Receptor (Inicialmente oculto) -->
+        <!-- PASO 2: Datos del Folio y del Receptor -->
         <div class="card hidden" id="step2">
             <div class="card-title">2. Detalles y Datos Fiscales</div>
             
             <div class="folio-data">
-                <p>Folio encontrado: <strong id="folioCodeDisplay"></strong></p>
+                <p>Folio: <strong id="folioCodeDisplay"></strong></p>
                 <p>Monto Total: <strong id="folioAmountDisplay"></strong></p>
                 <p>Concepto: <strong id="folioDescriptionDisplay"></strong></p>
+                <p>Subtotal: <strong id="folioSubtotalDisplay"></strong></p>
+                <p>IVA (16%): <strong id="folioIVADisplay"></strong></p>
             </div>
             
             <form id="facturaForm">
-                <!-- Datos del Receptor -->
-                <div class="card-title" style="font-size: 18px; margin-top: 10px; margin-bottom: 10px; padding-bottom: 5px;">Datos del Receptor (Tu información)</div>
+                <div class="card-title" style="font-size: 18px; margin-top: 10px; margin-bottom: 10px; padding-bottom: 5px;">
+                    Tus Datos Fiscales (Receptor)
+                </div>
+                
                 <div class="form-group">
                     <label>RFC</label>
-                    <input type="text" id="receptorRFC" placeholder="XAXX010101000" maxlength="13" required>
+                    <input type="text" id="receptorRFC" placeholder="XAXX010101000" 
+                           maxlength="13" style="text-transform: uppercase;" required>
                 </div>
+                
                 <div class="form-group">
-                    <label>Razón Social / Nombre</label>
-                    <input type="text" id="receptorNombre" placeholder="Razón Social o Nombre Completo" required>
+                    <label>Razón Social / Nombre Completo</label>
+                    <input type="text" id="receptorNombre" 
+                           placeholder="Razón Social o Nombre Completo" required>
                 </div>
                 
                 <div class="form-row">
@@ -283,70 +307,106 @@
                         <label>Régimen Fiscal</label>
                         <select id="regimenFiscal" required>
                             <option value="">Selecciona...</option>
-                            <option value="601">601 - General de Ley Personas Morales</option>
+                            <option value="601">601 - General de Ley PM</option>
                             <option value="605">605 - Sueldos y Salarios</option>
                             <option value="606">606 - Arrendamiento</option>
-                            <option value="612">612 - P.F. con Act. Empresariales</option>
-                            <option value="616">616 - Sin obligaciones fiscales</option>
-                            <option value="626">626 - Régimen Simplificado de Confianza</option>
+                            <option value="608">608 - Demás ingresos</option>
+                            <option value="612">612 - PF con Actividades</option>
+                            <option value="616">616 - Sin obligaciones</option>
+                            <option value="621">621 - Incorporación Fiscal</option>
+                            <option value="626">626 - Simplificado Confianza</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Uso de CFDI</label>
                         <select id="usoCFDI" required>
-                            <option value="G03">G03 - Gastos en general</option>
+                            <option value="G01">G01 - Adquisición mercancías</option>
+                            <option value="G03" selected>G03 - Gastos en general</option>
+                            <option value="D10">D10 - Servicios educativos</option>
                             <option value="S01">S01 - Sin efectos fiscales</option>
                             <option value="P01">P01 - Por definir</option>
                         </select>
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label>Código Postal (Domicilio Fiscal)</label>
-                    <input type="text" id="receptorCP" placeholder="52000" maxlength="5" required>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Código Postal</label>
+                        <input type="text" id="receptorCP" placeholder="83000" 
+                               maxlength="5" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Forma de Pago</label>
+                        <select id="formaPago" required>
+                            <option value="01">01 - Efectivo</option>
+                            <option value="03" selected>03 - Transferencia</option>
+                            <option value="04">04 - Tarjeta Crédito</option>
+                            <option value="28">28 - Tarjeta Débito</option>
+                        </select>
+                    </div>
                 </div>
                 
                 <div class="form-group">
-                    <label>Correo Electrónico para recibir el CFDI</label>
-                    <input type="email" id="receptorEmail" placeholder="tu_correo@ejemplo.com" required>
+                    <label>Correo Electrónico (para recibir factura)</label>
+                    <input type="email" id="receptorEmail" 
+                           placeholder="[email protected]" required>
                 </div>
                 
-                <button type="submit" class="btn btn-success" id="submitBtn">⚡ Solicitar Factura y Timbrar</button>
+                <button type="submit" class="btn btn-success" id="submitBtn">
+                    ⚡ Solicitar Factura y Timbrar
+                </button>
                 <div id="submitResult" class="result-message hidden"></div>
             </form>
         </div>
         
-        <!-- PASO 3: Factura Lista (Inicialmente oculto) -->
+        <!-- PASO 3: Factura Lista -->
         <div class="card hidden" id="step3">
-            <div class="card-title">3. ¡Factura Timbrada!</div>
-            <p style="color: #48db97; margin-bottom: 15px;">Tu factura ha sido generada con éxito.</p>
-            <p>UUID: <strong id="uuidDisplay"></strong></p>
+            <div class="card-title">3. ¡Factura Timbrada Exitosamente!</div>
+            <p style="color: #48db97; margin-bottom: 15px;">
+                ✅ Tu factura ha sido generada y timbrada ante el SAT.
+            </p>
+            <p style="margin-bottom: 10px;">
+                <strong>UUID:</strong> <span id="uuidDisplay" style="font-family: monospace; font-size: 14px;"></span>
+            </p>
             
             <div class="download-buttons">
-                <button class="btn btn-success" onclick="descargarXML()">XML <small>(Descargar)</small></button>
-                <button class="btn btn-primary" onclick="descargarPDF()">PDF <small>(Descargar)</small></button>
+                <button class="btn btn-success" onclick="descargarXML()">
+                    📄 XML <small>(Descargar)</small>
+                </button>
+                <button class="btn btn-primary" onclick="descargarPDF()">
+                    📑 PDF <small>(Descargar)</small>
+                </button>
             </div>
             
-            <button class="btn btn-primary" style="margin-top: 20px; background: #34495e;" onclick="window.location.reload();">Hacer otra solicitud</button>
+            <button class="btn btn-primary" 
+                    style="margin-top: 20px; background: #34495e;" 
+                    onclick="window.location.reload();">
+                🔄 Solicitar Otra Factura
+            </button>
         </div>
         
-        <!-- Estado de Facturación (Inicialmente oculto) -->
+        <!-- Estado de Error o Ya Facturado -->
         <div class="card hidden" id="statusCard">
              <div class="card-title">Estado del Folio</div>
              <div id="statusMessage" class="result-message message-info"></div>
+             <button class="btn btn-primary" 
+                     style="margin-top: 15px; background: #34495e;" 
+                     onclick="window.location.reload();">
+                 🔄 Ingresar Otro Folio
+             </button>
         </div>
         
     </div>
 
-    <!-- Firebase SDK (Versión 8 - Compatible con scripts) -->
+    <!-- Firebase SDK v8 -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
     
     <script>
-        // =========================================================
-        // 🚨 1. CONFIGURACIÓN (TUS VALORES REALES) 🚨
-        // =========================================================
+        // ==========================================
+        // CONFIGURACIÓN FIREBASE
+        // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyB_H-Eu5PVkaWKanA0q7_Fo5LSPgBYhbhQ",
             authDomain: "hotfact-9902f.firebaseapp.com",
@@ -354,25 +414,21 @@
             storageBucket: "hotfact-9902f.firebasestorage.app",
             messagingSenderId: "33455575295",
             appId: "1:33455575295:web:77d406be9d4f6a6ec5fcca"
-            // measurementId, databaseURL no son necesarios para este script
         };
         
-        // 🚨 URL DE TU CLOUD FUNCTION 🚨
-        const TIMBRAR_FACTURA_URL = "https://us-central1-hotfact-9902f.cloudfunctions.net/timbrarFactura"; // <--- REEMPLAZAR CON TU URL REAL
+        const TIMBRAR_FACTURA_URL = "https://us-central1-hotfact-9902f.cloudfunctions.net/timbrarFactura";
 
-        // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         const storage = firebase.storage();
 
-        let currentFolioId = null;
-        let folioData = null; // Datos del folio de Firestore
-        let emisorData = null; // Datos del emisor (tu empresa)
-        let facturaData = null; // Respuesta final del timbrado (XML/PDF)
+        let folioData = null;
+        let emisorData = null;
+        let facturaData = null;
 
-        // ====================================
-        // FUNCIÓN DE UTILIDAD
-        // ====================================
+        // ==========================================
+        // UTILIDADES
+        // ==========================================
         function formatCurrency(amount) {
             return new Intl.NumberFormat('es-MX', {
                 style: 'currency',
@@ -394,153 +450,180 @@
             document.getElementById('statusCard').classList.add('hidden');
         }
 
-        // ====================================
-        // LÓGICA DE BUSQUEDA
-        // ====================================
+        // ==========================================
+        // BUSCAR FOLIO (Estructura nueva con folioNumber)
+        // ==========================================
         async function buscarFolio() {
             const folioInput = document.getElementById('folioInput');
-            const searchResult = document.getElementById('searchResult');
             const searchBtn = document.getElementById('searchBtn');
-            const folioCode = folioInput.value.trim();
+            const folioNumber = folioInput.value.trim();
 
-            if (!folioCode) {
-                showMessage('searchResult', 'Ingresa un folio válido, por favor.', 'error');
+            if (!folioNumber || folioNumber.length !== 8) {
+                showMessage('searchResult', '⚠️ Ingresa un folio válido de 8 dígitos', 'error');
                 return;
             }
 
             searchBtn.disabled = true;
-            searchBtn.textContent = 'Buscando...';
+            searchBtn.textContent = '🔍 Buscando...';
             showMessage('searchResult', 'Buscando folio en el sistema...', 'info');
 
             try {
-                // 1. Buscar Folio en Firestore
-                const folioDoc = await db.collection('folios').doc(folioCode).get();
+                // Buscar folio por folioNumber (estructura nueva)
+                const snapshot = await db.collection('folios')
+                    .where('folioNumber', '==', folioNumber)
+                    .limit(1)
+                    .get();
                 
-                if (!folioDoc.exists) {
-                    throw new Error('Folio no encontrado. Verifica el código.');
+                if (snapshot.empty) {
+                    throw new Error('Folio no encontrado. Verifica el código con el vendedor.');
                 }
                 
+                const folioDoc = snapshot.docs[0];
                 folioData = folioDoc.data();
-                currentFolioId = folioDoc.id;
+                folioData.id = folioDoc.id;
                 
-                // 2. Buscar datos del Emisor
-                const emisorDoc = await db.collection('users').doc(folioData.businessId).get();
+                console.log('✅ Folio encontrado:', folioData);
+
+                // Buscar datos del emisor (usar userId, no businessId)
+                const emisorDoc = await db.collection('users').doc(folioData.userId).get();
                 if (!emisorDoc.exists) {
-                     throw new Error('Datos de la empresa emisora no disponibles.');
+                    throw new Error('Datos del emisor no disponibles.');
                 }
+                
                 emisorData = emisorDoc.data();
-                
-                // 3. Actualizar Header y Logo
-                document.getElementById('businessName').textContent = emisorData.nombre || 'hotFact - Solicitud de Factura';
-                document.getElementById('businessRFC').textContent = `RFC: ${emisorData.rfc || 'N/A'}`;
-                
+                console.log('✅ Emisor encontrado:', emisorData);
+
+                // Actualizar header
+                document.getElementById('businessName').textContent = 
+                    emisorData.businessName || 'hotFact - Facturación';
+                document.getElementById('businessRFC').textContent = 
+                    `RFC: ${emisorData.rfc || 'N/A'}`;
+
+                // Cargar logo si existe
                 const logoDisplay = document.getElementById('logoDisplay');
                 if (emisorData.logoUrl) {
-                    logoDisplay.innerHTML = `<img src="${emisorData.logoUrl}" alt="Logo de la Empresa" onerror="this.parentElement.innerHTML='🔥';">`;
-                } else {
-                    logoDisplay.innerHTML = '🔥';
+                    logoDisplay.innerHTML = `<img src="${emisorData.logoUrl}" alt="Logo" onerror="this.parentElement.innerHTML='🔥';">`;
                 }
 
-                // 4. Mostrar estado o formulario
-                if (folioData.status === 'facturado') {
-                    handleFacturadoStatus(folioData);
-                } else if (folioData.status === 'pendiente') {
+                // Verificar estado del folio
+                if (folioData.status === 'used' || folioData.status === 'completed' || folioData.status === 'facturado') {
+                    if (folioData.uuid) {
+                        handleYaFacturado(folioData);
+                    } else {
+                        throw new Error('Este folio ya fue usado pero no tiene factura asociada.');
+                    }
+                } else if (folioData.status === 'pending' || folioData.status === 'pendiente') {
                     showFacturaForm();
                 } else if (folioData.status === 'error') {
                     handleErrorStatus(folioData);
                 } else {
-                    showMessage('statusMessage', `Estado del folio: ${folioData.status.toUpperCase()}. No se puede facturar en este momento.`, 'info');
+                    showMessage('statusMessage', 
+                        `Estado del folio: "${folioData.status}". No se puede facturar.`, 
+                        'info');
                     hideAllSteps();
                     document.getElementById('statusCard').classList.remove('hidden');
                 }
 
             } catch (error) {
-                console.error("Error al buscar folio:", error);
-                showMessage('searchResult', `Error: ${error.message}`, 'error');
+                console.error("❌ Error buscando folio:", error);
+                showMessage('searchResult', `❌ ${error.message}`, 'error');
             } finally {
                 searchBtn.disabled = false;
                 searchBtn.textContent = '🔍 Buscar Folio';
             }
         }
-        
-        // ====================================
-        // ESTADOS DEL FOLIO
-        // ====================================
-        
-        function handleFacturadoStatus(data) {
-             facturaData = data;
-             document.getElementById('uuidDisplay').textContent = data.uuid || 'N/A';
-             hideAllSteps();
-             document.getElementById('step3').classList.remove('hidden');
-        }
-        
-        function handleErrorStatus(data) {
-            showMessage('statusMessage', `❌ Error anterior al timbrar: ${data.errorMessage || 'Contacta a la empresa para más detalles.'}`, 'error');
+
+        // ==========================================
+        // ESTADOS
+        // ==========================================
+        function handleYaFacturado(data) {
+            showMessage('statusMessage', 
+                `✅ Este folio ya fue facturado anteriormente.<br><strong>UUID:</strong> ${data.uuid || 'N/A'}`, 
+                'success');
             hideAllSteps();
             document.getElementById('statusCard').classList.remove('hidden');
-            // Opcional: Reabrir el formulario si se permite reintentar
+        }
+
+        function handleErrorStatus(data) {
+            showMessage('statusMessage', 
+                `❌ Error al timbrar: ${data.errorMessage || 'Contacta al negocio'}`, 
+                'error');
+            hideAllSteps();
+            document.getElementById('statusCard').classList.remove('hidden');
         }
 
         function showFacturaForm() {
-            // Actualiza datos del folio en el paso 2
-            document.getElementById('folioCodeDisplay').textContent = currentFolioId;
-            document.getElementById('folioAmountDisplay').textContent = formatCurrency(folioData.totales.total);
-            document.getElementById('folioDescriptionDisplay').textContent = folioData.description || (folioData.conceptos && folioData.conceptos.length > 0 ? folioData.conceptos[0].descripcion : 'N/A');
+            // Mostrar datos del folio
+            document.getElementById('folioCodeDisplay').textContent = folioData.folioNumber;
+            document.getElementById('folioAmountDisplay').textContent = formatCurrency(folioData.amount);
+            document.getElementById('folioSubtotalDisplay').textContent = formatCurrency(folioData.subtotal || folioData.amount / 1.16);
+            document.getElementById('folioIVADisplay').textContent = formatCurrency(folioData.iva || (folioData.amount - folioData.amount / 1.16));
+            document.getElementById('folioDescriptionDisplay').textContent = folioData.description || 'CONSUMO DE ALIMENTOS';
 
-            // Muestra el paso 2
             hideAllSteps();
             document.getElementById('step2').classList.remove('hidden');
         }
 
-        // ====================================
-        // LÓGICA DE TIMBRADO (Cloud Function)
-        // ====================================
+        // ==========================================
+        // TIMBRAR
+        // ==========================================
         async function solicitarTimbrado(e) {
             e.preventDefault();
             
             const form = document.getElementById('facturaForm');
             const submitBtn = document.getElementById('submitBtn');
-            const submitResult = document.getElementById('submitResult');
             
             if (!form.checkValidity()) {
-                 showMessage('submitResult', 'Por favor, completa todos los campos requeridos.', 'error');
-                 return;
+                showMessage('submitResult', '⚠️ Completa todos los campos requeridos.', 'error');
+                return;
             }
 
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Timbrando... (puede tardar unos segundos)';
-            showMessage('submitResult', 'Preparando la factura y enviando a timbrado...', 'info');
+            submitBtn.textContent = '⏳ Timbrando con FINKOK...';
+            showMessage('submitResult', 'Generando XML y enviando a timbrado...', 'info');
 
-            // Construir payload para la Cloud Function
+            // Construir payload (compatible con index.js)
+            const subtotal = folioData.subtotal || (folioData.amount / 1.16);
+            const iva = folioData.iva || (folioData.amount - subtotal);
+
             const payload = {
-                // ID del folio que se usará para actualizar el documento en Firestore
-                folioId: currentFolioId, 
-                // Datos del Emisor (tu empresa)
-                emisor: emisorData,
-                // Datos del Receptor (el cliente)
+                businessId: folioData.userId,
+                folioId: folioData.id,
+                type: 'from_folio',
+                emisor: {
+                    rfc: emisorData.rfc,
+                    nombre: emisorData.businessName,
+                    cp: emisorData.cp || "83000",
+                    regimenFiscal: emisorData.regimenFiscal || "626"
+                },
                 receptor: {
-                    rfc: document.getElementById('receptorRFC').value.toUpperCase(),
+                    rfc: document.getElementById('receptorRFC').value.trim().toUpperCase(),
                     nombre: document.getElementById('receptorNombre').value.trim(),
                     regimenFiscal: document.getElementById('regimenFiscal').value,
                     cp: document.getElementById('receptorCP').value.trim(),
                     email: document.getElementById('receptorEmail').value.trim()
                 },
-                // Datos de la Operación (tomados del folio)
-                totales: folioData.totales,
-                conceptos: folioData.conceptos,
-                // Datos de CFDI (puedes añadir más si tu PAC lo requiere)
                 cfdi: {
-                    // Estos son valores fijos, se pueden hacer dinámicos si es necesario
-                    formaPago: "03", // Transferencia electrónica
-                    metodoPago: "PUE", // Pago en una sola exhibición
+                    formaPago: document.getElementById('formaPago').value,
+                    metodoPago: "PUE",
                     moneda: "MXN",
                     usoCFDI: document.getElementById('usoCFDI').value
+                },
+                conceptos: [{
+                    descripcion: folioData.description || "CONSUMO DE ALIMENTOS",
+                    cantidad: 1,
+                    precioUnitario: subtotal,
+                    subtotal: subtotal
+                }],
+                totales: {
+                    subtotal: parseFloat(subtotal.toFixed(2)),
+                    iva: parseFloat(iva.toFixed(2)),
+                    total: parseFloat(folioData.amount.toFixed(2))
                 }
             };
-            
-            // ----------------------------------------------------
-            // ⚠️ Llamada a la Cloud Function ⚠️
-            // ----------------------------------------------------
+
+            console.log('📤 Payload enviado:', payload);
+
             try {
                 const response = await fetch(TIMBRAR_FACTURA_URL, {
                     method: 'POST',
@@ -549,62 +632,64 @@
                 });
                 
                 const result = await response.json();
+                console.log('📥 Respuesta de Cloud Function:', result);
                 
-                if (!response.ok || result.status !== 'success') {
-                    // Si el timbrado falla (error del PAC)
+                if (!response.ok || !result.success) {
                     const errorMessage = result.error || 'Error desconocido al timbrar.';
                     
-                    // Actualizar Firestore con el error (para que el dashboard lo vea)
-                    await db.collection('folios').doc(currentFolioId).update({
+                    // Actualizar folio con error
+                    await db.collection('folios').doc(folioData.id).update({
                         status: 'error',
                         errorMessage: errorMessage,
                         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
                     
-                    showMessage('submitResult', `❌ Error de Timbrado: ${errorMessage}`, 'error');
+                    showMessage('submitResult', `❌ Error: ${errorMessage}`, 'error');
                     submitBtn.disabled = false;
-                    submitBtn.textContent = '⚡ Reintentar Solicitud';
+                    submitBtn.textContent = '⚡ Reintentar';
                     return;
                 }
                 
-                // ÉXITO DEL TIMBRADO
-                facturaData = result.data; // Contiene uuid, xml, pdf
+                // ÉXITO
+                facturaData = {
+                    uuid: result.uuid,
+                    xml: result.xml,
+                    pdf: result.pdf
+                };
 
-                // Actualizar Firestore con éxito
-                await db.collection('folios').doc(currentFolioId).update({
-                    status: 'facturado',
-                    uuid: facturaData.uuid,
-                    xml: facturaData.xml, // Guardar archivos en base64 (o URL de Storage)
-                    pdf: facturaData.pdf,
-                    receptor: payload.receptor,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                // Actualizar folio como usado
+                await db.collection('folios').doc(folioData.id).update({
+                    status: 'used',
+                    uuid: result.uuid,
+                    receptorEmail: payload.receptor.email,
+                    receptorRFC: payload.receptor.rfc,
+                    usedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 
                 // Mostrar paso 3
-                handleFacturadoStatus(facturaData);
+                document.getElementById('uuidDisplay').textContent = result.uuid;
+                hideAllSteps();
+                document.getElementById('step3').classList.remove('hidden');
+                window.scrollTo(0, 0);
                 
             } catch (error) {
-                console.error("Error de red/función:", error);
-                
-                // Error de red, no necesariamente error del PAC
-                showMessage('submitResult', `🔴 Error de conexión o servidor. Intenta de nuevo.`, 'error');
+                console.error("💥 Error de red:", error);
+                showMessage('submitResult', '🔴 Error de conexión. Intenta de nuevo.', 'error');
                 submitBtn.disabled = false;
-                submitBtn.textContent = '⚡ Reintentar Solicitud';
+                submitBtn.textContent = '⚡ Reintentar';
             }
         }
 
-        // ====================================
-        // DESCARGAS (XML y PDF)
-        // ====================================
-        
-        // Descargar XML
+        // ==========================================
+        // DESCARGAS
+        // ==========================================
         function descargarXML() {
             if (!facturaData || !facturaData.xml) {
                 alert('No hay XML disponible');
                 return;
             }
 
-            const xmlContent = atob(facturaData.xml); // Descodificar de Base64
+            const xmlContent = atob(facturaData.xml);
             const blob = new Blob([xmlContent], { type: 'application/xml' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -616,7 +701,6 @@
             window.URL.revokeObjectURL(url);
         }
 
-        // Descargar PDF
         function descargarPDF() {
             if (!facturaData || !facturaData.pdf) {
                 alert('No hay PDF disponible');
@@ -639,26 +723,28 @@
             window.URL.revokeObjectURL(url);
         }
 
-        // Cargar datos al iniciar
+        // ==========================================
+        // INICIALIZACIÓN
+        // ==========================================
         window.addEventListener('DOMContentLoaded', () => {
-            // Se debe establecer el listener del formulario después de que el DOM esté cargado
+            // Listener del formulario
             const facturaForm = document.getElementById('facturaForm');
             if (facturaForm) {
                 facturaForm.addEventListener('submit', solicitarTimbrado);
             }
             
-            // Permitir Enter en input de folio para buscar
+            // Enter en input de folio
             const folioInput = document.getElementById('folioInput');
             if (folioInput) {
                 folioInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
-                        e.preventDefault(); // Evita que se recargue la página si es un formulario
+                        e.preventDefault();
                         buscarFolio();
                     }
                 });
             }
             
-            // Comprobar si hay un folio en la URL (ej. ?folio=12345678)
+            // Folio desde URL ?folio=12345678
             const urlParams = new URLSearchParams(window.location.search);
             const folioFromUrl = urlParams.get('folio');
             
