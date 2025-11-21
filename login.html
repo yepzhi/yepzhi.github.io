@@ -44,6 +44,12 @@
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
         }
 
+        .logo p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -63,7 +69,7 @@
             background: rgba(255, 255, 255, 0.2);
             color: white;
             font-size: 16px;
-            transition: border-color 0.3s, background-color 0.3s;
+            transition: all 0.3s;
         }
 
         .form-group input::placeholder {
@@ -84,7 +90,7 @@
             font-size: 18px;
             font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.1s;
+            transition: all 0.3s;
             margin-top: 10px;
         }
 
@@ -94,8 +100,14 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             background-color: #4cae4c;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         .btn-secondary {
@@ -118,45 +130,40 @@
             color: white;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
+            cursor: pointer;
         }
 
         .link-text a:hover {
-            color: #d1d5db;
+            text-decoration: underline;
         }
 
-        /* Mensajes de error/éxito */
         .message {
             margin-top: 20px;
-            padding: 10px;
+            padding: 12px;
             border-radius: 10px;
             text-align: center;
             font-weight: 600;
-            font-size: 15px;
-            transition: all 0.3s ease;
+            font-size: 14px;
         }
         
         .message.hidden {
-            opacity: 0;
-            height: 0;
-            padding: 0;
-            margin: 0;
-            overflow: hidden;
+            display: none;
         }
 
         .error {
-            background-color: #fca5a5;
-            color: #b91c1c;
+            background-color: rgba(252, 165, 165, 0.3);
+            color: #fca5a5;
+            border: 1px solid #fca5a5;
         }
 
         .success {
-            background-color: #a7f3d0;
-            color: #065f46;
+            background-color: rgba(167, 243, 208, 0.3);
+            color: #a7f3d0;
+            border: 1px solid #a7f3d0;
         }
 
-        /* Modales (Ocultar por defecto) */
         .modal {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -192,31 +199,56 @@
             color: #555;
             font-size: 15px;
         }
+
+        .admin-access {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .admin-access a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .admin-access a:hover {
+            color: white;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <!-- Contenedor Principal de Login -->
     <div class="container" id="loginContainer">
         <div class="logo">
-            <h1>hotFact</h1>
+            <h1>🔥 hotFact</h1>
+            <p>Facturación Electrónica</p>
         </div>
 
         <div class="form-group">
             <label for="loginEmail">Correo Electrónico</label>
-            <input type="email" id="loginEmail" placeholder="tu.correo@dominio.com">
+            <input type="email" id="loginEmail" placeholder="tu@email.com" autocomplete="email">
         </div>
 
         <div class="form-group">
             <label for="loginPassword">Contraseña</label>
-            <input type="password" id="loginPassword" placeholder="••••••••">
+            <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
         </div>
 
-        <button class="btn btn-primary" onclick="handleLogin()">Iniciar Sesión</button>
+        <button class="btn btn-primary" onclick="handleLogin()" id="loginBtn">
+            Iniciar Sesión
+        </button>
         
         <div id="loginMessage" class="message hidden"></div>
         
         <div class="link-text">
-            <a href="#" onclick="showForgotPasswordModal(event)">¿Olvidaste tu contraseña?</a>
+            <a onclick="showForgotPasswordModal()">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <div class="admin-access">
+            <a href="admin.html">🔑 Acceso de Administrador</a>
         </div>
     </div>
 
@@ -225,175 +257,203 @@
         <div class="modal-content">
             <h2>Restablecer Contraseña</h2>
             <div class="modal-message">
-                Ingresa tu correo electrónico y te enviaremos un enlace para que puedas establecer una nueva contraseña.
+                Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.
             </div>
             
             <div class="form-group">
-                <input type="email" id="forgotEmail" placeholder="Correo Electrónico">
+                <input type="email" id="forgotEmail" placeholder="tu@email.com">
             </div>
 
-            <button class="btn btn-primary" onclick="handleForgotPassword()">Enviar Enlace</button>
-            <button class="btn btn-secondary" onclick="hideForgotPasswordModal()">Volver a Iniciar Sesión</button>
+            <button class="btn btn-primary" onclick="handleForgotPassword()" id="forgotBtn">
+                Enviar Enlace
+            </button>
+            <button class="btn btn-secondary" onclick="hideForgotPasswordModal()">
+                Volver
+            </button>
             
             <div id="forgotMessage" class="message hidden"></div>
         </div>
     </div>
 
-    <script type="module">
-        // Importaciones de Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <!-- Firebase SDK v8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    
+    <script>
+        // ==========================================
+        // CONFIGURACIÓN FIREBASE
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyB_H-Eu5PVkaWKanA0q7_Fo5LSPgBYhbhQ",
+            authDomain: "hotfact-9902f.firebaseapp.com",
+            projectId: "hotfact-9902f",
+            storageBucket: "hotfact-9902f.firebasestorage.app",
+            messagingSenderId: "33455575295",
+            appId: "1:33455575295:web:77d406be9d4f6a6ec5fcca"
+        };
 
-        // Configuración global y variables
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
 
-        // Inicializar Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        // ==========================================
+        // VERIFICAR SI YA ESTÁ LOGUEADO
+        // ==========================================
+        auth.onAuthStateChanged((user) => {
+            if (user && window.location.pathname.includes('login.html')) {
+                // Ya está logueado, redirigir a dashboard
+                window.location.href = 'dashboard.html';
+            }
+        });
 
-        // Referencias a elementos del DOM
-        const loginMessageDiv = document.getElementById('loginMessage');
-        const forgotPasswordModal = document.getElementById('forgotPasswordModal');
-        const forgotEmailInput = document.getElementById('forgotEmail');
-        const forgotMessageDiv = document.getElementById('forgotMessage');
-
-        // --- Funciones de Utilidad ---
-
+        // ==========================================
+        // UTILIDADES
+        // ==========================================
         function showMessage(element, message, type) {
             element.classList.remove('hidden', 'error', 'success');
             element.classList.add(type);
             element.innerHTML = message;
             
-            // Ocultar mensaje después de 5 segundos
             setTimeout(() => {
                 element.classList.add('hidden');
             }, 5000);
         }
 
-        // Función para verificar si el usuario es administrador
-        async function checkUserRole(uid) {
-            try {
-                // Ruta pública para roles/configuración general
-                const userDocRef = doc(db, `artifacts/${appId}/public/data/users`, uid);
-                const userDoc = await getDoc(userDocRef);
-
-                if (userDoc.exists()) {
-                    return userDoc.data().role || 'user'; // Por defecto 'user'
-                }
-                return 'user'; // Si no hay documento, es un usuario regular por defecto
-            } catch (error) {
-                console.error("Error al obtener el rol del usuario:", error);
-                // En caso de error, asumir el rol de usuario estándar
-                return 'user';
-            }
-        }
-
-        // --- Manejo del Login ---
-        window.handleLogin = async function() {
+        // ==========================================
+        // MANEJO DEL LOGIN
+        // ==========================================
+        async function handleLogin() {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
-            loginMessageDiv.classList.add('hidden'); // Ocultar mensaje anterior
+            const loginBtn = document.getElementById('loginBtn');
+            const loginMessage = document.getElementById('loginMessage');
 
             if (!email || !password) {
-                showMessage(loginMessageDiv, '<div class="error">Por favor, ingresa correo y contraseña.</div>', 'error');
+                showMessage(loginMessage, '❌ Por favor ingresa correo y contraseña', 'error');
                 return;
             }
 
+            loginBtn.disabled = true;
+            loginBtn.textContent = '⏳ Iniciando sesión...';
+            loginMessage.classList.add('hidden');
+
             try {
-                // 1. Establecer persistencia (opcional, pero recomendado)
-                await setPersistence(auth, browserSessionPersistence);
+                await auth.signInWithEmailAndPassword(email, password);
                 
-                // 2. Iniciar Sesión con Firebase
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-
-                // 3. Verificar el rol del usuario
-                const role = await checkUserRole(user.uid);
-
-                // 4. Redireccionar según el rol
-                if (role === 'admin') {
-                    window.location.href = 'admin.html';
-                } else {
-                    // Si no es admin, redirigir al dashboard normal
+                showMessage(loginMessage, '✅ ¡Bienvenido! Redirigiendo...', 'success');
+                
+                // Redirigir a dashboard (automático con onAuthStateChanged)
+                setTimeout(() => {
                     window.location.href = 'dashboard.html';
-                }
+                }, 1000);
 
             } catch (error) {
-                let errorMessage = 'Error al iniciar sesión. Intenta de nuevo.';
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Iniciar Sesión';
                 
-                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
-                    errorMessage = 'Credenciales inválidas. Verifica tu correo y contraseña.';
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'El formato del correo electrónico es incorrecto.';
-                } else if (error.code === 'auth/too-many-requests') {
-                    errorMessage = 'Acceso bloqueado temporalmente debido a demasiados intentos fallidos. Intenta más tarde.';
+                let errorMessage = 'Error al iniciar sesión';
+                
+                switch(error.code) {
+                    case 'auth/user-not-found':
+                    case 'auth/wrong-password':
+                    case 'auth/invalid-credential':
+                        errorMessage = 'Correo o contraseña incorrectos';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Correo electrónico inválido';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'Demasiados intentos. Intenta más tarde o restablece tu contraseña';
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMessage = 'Error de conexión. Verifica tu internet';
+                        break;
                 }
                 
-                showMessage(loginMessageDiv, `<div class="error">❌ ${errorMessage}</div>`, 'error');
+                showMessage(loginMessage, `❌ ${errorMessage}`, 'error');
                 console.error('Error en login:', error);
             }
         }
 
-        // --- Manejo de Restablecimiento de Contraseña ---
-
-        window.showForgotPasswordModal = function(event) {
-            event.preventDefault();
-            forgotPasswordModal.classList.remove('hidden');
-            forgotEmailInput.value = document.getElementById('loginEmail').value.trim(); // Autocompletar con el email de login
-            forgotMessageDiv.classList.add('hidden'); // Limpiar mensaje
+        // ==========================================
+        // MODAL DE RESTABLECER CONTRASEÑA
+        // ==========================================
+        function showForgotPasswordModal() {
+            const modal = document.getElementById('forgotPasswordModal');
+            const forgotEmail = document.getElementById('forgotEmail');
+            const forgotMessage = document.getElementById('forgotMessage');
+            
+            modal.classList.remove('hidden');
+            forgotEmail.value = document.getElementById('loginEmail').value.trim();
+            forgotMessage.classList.add('hidden');
         }
 
-        window.hideForgotPasswordModal = function() {
-            forgotPasswordModal.classList.add('hidden');
+        function hideForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').classList.add('hidden');
         }
 
-        window.handleForgotPassword = async function() {
-            const email = forgotEmailInput.value.trim();
-            forgotMessageDiv.classList.add('hidden'); // Ocultar mensaje anterior
+        async function handleForgotPassword() {
+            const email = document.getElementById('forgotEmail').value.trim();
+            const forgotBtn = document.getElementById('forgotBtn');
+            const forgotMessage = document.getElementById('forgotMessage');
 
             if (!email) {
-                showMessage(forgotMessageDiv, '<div class="error">Por favor, ingresa tu correo electrónico.</div>', 'error');
+                showMessage(forgotMessage, '❌ Por favor ingresa tu correo', 'error');
                 return;
             }
 
-            try {
-                // Enviar el correo de restablecimiento de contraseña
-                await sendPasswordResetEmail(auth, email);
+            forgotBtn.disabled = true;
+            forgotBtn.textContent = '⏳ Enviando...';
 
-                showMessage(forgotMessageDiv, 
-                    `<div class="success">✅ Enlace enviado a ${email}. Revisa tu bandeja de entrada para restablecer tu contraseña.</div>`, 
+            try {
+                await auth.sendPasswordResetEmail(email);
+                
+                showMessage(forgotMessage, 
+                    `✅ Enlace enviado a ${email}. Revisa tu bandeja de entrada.`, 
                     'success');
                 
+                setTimeout(() => {
+                    hideForgotPasswordModal();
+                }, 3000);
+
             } catch (error) {
-                let errorMessage = 'Error al enviar el enlace. Verifica el correo.';
-
-                if (error.code === 'auth/user-not-found') {
-                    errorMessage = 'No existe un usuario con este correo electrónico.';
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'El formato del correo electrónico es incorrecto.';
+                let errorMessage = 'Error al enviar enlace';
+                
+                switch(error.code) {
+                    case 'auth/user-not-found':
+                        errorMessage = 'No existe una cuenta con este correo';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Correo electrónico inválido';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'Demasiados intentos. Intenta más tarde';
+                        break;
                 }
-
-                showMessage(forgotMessageDiv, `<div class="error">❌ ${errorMessage}</div>`, 'error');
+                
+                showMessage(forgotMessage, `❌ ${errorMessage}`, 'error');
                 console.error('Error en restablecer contraseña:', error);
+            } finally {
+                forgotBtn.disabled = false;
+                forgotBtn.textContent = 'Enviar Enlace';
             }
         }
 
-        // --- Eventos de teclado (Enter) ---
+        // ==========================================
+        // EVENTOS DE TECLADO (ENTER)
+        // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
             const loginPassword = document.getElementById('loginPassword');
             const loginEmail = document.getElementById('loginEmail');
+            const forgotEmail = document.getElementById('forgotEmail');
 
-            // Login form (Enter en contraseña)
+            // Enter en password de login
             if (loginPassword) {
                 loginPassword.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') handleLogin();
                 });
             }
             
-            // Login form (Enter en email)
+            // Enter en email de login
             if (loginEmail) {
                 loginEmail.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
@@ -406,9 +466,9 @@
                 });
             }
 
-            // Forgot password form
-            if (forgotEmailInput) {
-                forgotEmailInput.addEventListener('keypress', (e) => {
+            // Enter en email de restablecer
+            if (forgotEmail) {
+                forgotEmail.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') handleForgotPassword();
                 });
             }
