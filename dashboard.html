@@ -512,7 +512,8 @@
             
             <form id="directInvoiceForm">
                 <div class="info-box" style="border-left-color: #48db97;">
-                    <strong>Timbrado Instantáneo:</strong> El CFDI se procesará inmediatamente con Finkok y recibirás archivos PDF y XML reales.
+                    <strong>⚡ Timbrado Instantáneo:</strong> El CFDI se procesará inmediatamente con Finkok.<br>
+                    <small style="opacity: 0.8;">📝 Nota: Los certificados CSD ya deben estar registrados en tu cuenta de Finkok.</small>
                 </div>
 
                 <div class="card-title" style="margin-top: 10px; margin-bottom: 10px;">Datos del Receptor</div>
@@ -788,7 +789,12 @@
             const folioCode = generateSimpleFolio();
 
             const folioData = {
-                businessId: userData.uid,
+                folioNumber: folioCode, // ⬅️ AGREGADO: Campo que busca hotfact.html
+                userId: userData.uid, // ⬅️ AGREGADO: Campo que usa hotfact.html
+                businessId: userData.uid, // Mantener por compatibilidad
+                amount: parseFloat(monto.toFixed(2)), // ⬅️ AGREGADO: Campo directo
+                subtotal: parseFloat(subtotal.toFixed(2)), // ⬅️ AGREGADO
+                iva: parseFloat(iva.toFixed(2)), // ⬅️ AGREGADO
                 emisor: {
                     rfc: userData.rfc,
                     nombre: userData.nombre,
@@ -811,7 +817,7 @@
                     iva: parseFloat(iva.toFixed(2)),
                     total: parseFloat(monto.toFixed(2))
                 },
-                status: 'pendiente', 
+                status: 'pending', // ⬅️ CAMBIADO: hotfact.html busca 'pending'
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             };
 
@@ -1000,22 +1006,8 @@
                 userData.regimenFiscal = '601';
             }
 
-            // Verificar que tenga certificados
-            try {
-                const certDoc = await db.collection('certificates').doc(userData.uid).get();
-                if (!certDoc.exists) {
-                    messageDiv.innerHTML = '<div class="error">⚠️ No tienes certificados .CER y .KEY cargados. Configúralos primero.</div>';
-                    btn.disabled = false;
-                    btn.textContent = '⚡ Timbrar Factura Ahora';
-                    return;
-                }
-            } catch (error) {
-                console.error('Error verificando certificados:', error);
-                messageDiv.innerHTML = '<div class="error">❌ Error al verificar certificados.</div>';
-                btn.disabled = false;
-                btn.textContent = '⚡ Timbrar Factura Ahora';
-                return;
-            }
+            // Verificar que el RFC esté registrado en Finkok
+            // Los certificados CSD ya están en Finkok, no se cargan aquí
             
             const subtotal = monto / 1.16;
             const iva = monto - subtotal;
