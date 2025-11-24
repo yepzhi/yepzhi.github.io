@@ -1,7 +1,6 @@
 {
   "name": "functions",
   "description": "Cloud Functions para HotFact",
- {
   "scripts": {
     "lint": "exit 0",
     "serve": "firebase emulators:start --only functions",
@@ -9,11 +8,9 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
-  }
-}
   },
   "engines": {
-    "node": "18"
+    "node": "20"
   },
   "main": "index.js",
   "dependencies": {
