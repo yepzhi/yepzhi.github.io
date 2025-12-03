@@ -120,9 +120,12 @@
             top: 20px;
             right: 20px;
             text-align: right;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .news-button {
+        .news-button, .tools-button {
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
@@ -134,10 +137,9 @@
             text-decoration: none;
             transition: all 0.3s ease;
             display: inline-block;
-            margin-bottom: 4px;
         }
 
-        .news-button:hover {
+        .news-button:hover, .tools-button:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
         }
@@ -571,24 +573,35 @@
 
         /* FOOTER */
         .footer {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
             text-align: center;
-            padding: 5px;
-            color: rgba(255, 255, 255, 0.7);
+            color: white;
             font-size: 12px;
-            animation: fadeInUp 0.5s ease-out 1.0s forwards;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 0.5s ease-out 1.7s forwards;
             opacity: 0;
+            margin-bottom: 20px;
+        }
+
+        .footer > div {
+            margin: 8px 0;
         }
 
         .footer a {
             color: white;
             text-decoration: none;
-            font-weight: 600;
-            transition: all 0.5s ease;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            padding: 2px 8px;
+            border-radius: 5px;
         }
 
         .footer a:hover {
-            color: #3b82f6;
-            text-decoration: underline;
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .visit-counter {
@@ -596,18 +609,38 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50px;
             padding: 6px 14px;
-            margin-top: 10px;
+            margin: 10px 0;
             font-size: 11px;
             border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-copyright {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            margin-top: 8px;
         }
 
         audio {
             display: none;
         }
 
-        @media (max-width: 600px) {
+                    @media (max-width: 600px) {
             .profile-section {
                 padding: 20px;
+            }
+
+            .news-button-wrapper {
+                position: static;
+                margin-bottom: 20px;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .news-hint {
+                display: none;
             }
 
             .profile-name {
@@ -623,245 +656,243 @@
                 font-size: 12px;
             }
         }
-        /* ============================================ */
-/* ESTILOS DEL CHATBOT */
-/* ============================================ */
 
-.chatbot-button {
-    position: fixed;
-    top: 130px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50px;
-    padding: 10px 20px;
-    color: white;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    transition: all 0.3s ease;
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    animation: fadeInDown 0.6s ease-out 1.7s forwards;
-    opacity: 0;
-}
+        /* ESTILOS DEL CHATBOT */
+        .chatbot-button {
+            position: fixed;
+            top: 130px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            padding: 10px 20px;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: fadeInDown 0.6s ease-out 1.7s forwards;
+            opacity: 0;
+        }
 
-.chatbot-button:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
-}
+        .chatbot-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
 
-.chatbot-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    padding: 20px;
-}
+        .chatbot-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+        }
 
-.chatbot-overlay.active {
-    display: flex;
-}
+        .chatbot-overlay.active {
+            display: flex;
+        }
 
-.chatbot-modal {
-    background: linear-gradient(135deg, #003d99 0%, #0052cc 50%, #3b82f6 100%);
-    border-radius: 20px;
-    width: 100%;
-    max-width: 500px;
-    height: 600px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    animation: slideUp 0.4s ease-out;
-    overflow: hidden;
-}
+        .chatbot-modal {
+            background: linear-gradient(135deg, #003d99 0%, #0052cc 50%, #3b82f6 100%);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.4s ease-out;
+            overflow: hidden;
+        }
 
-@keyframes slideUp {
-    from { 
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to { 
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-.chatbot-header {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        .chatbot-header {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-.chatbot-header h3 {
-    margin: 0;
-    color: white;
-    font-size: 18px;
-    font-weight: 700;
-}
+        .chatbot-header h3 {
+            margin: 0;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+        }
 
-.chatbot-header p {
-    margin: 4px 0 0 0;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 12px;
-}
+        .chatbot-header p {
+            margin: 4px 0 0 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+        }
 
-.chatbot-close {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: white;
-    font-size: 20px;
-    transition: all 0.2s ease;
-}
+        .chatbot-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 20px;
+            transition: all 0.2s ease;
+        }
 
-.chatbot-close:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
+        .chatbot-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
 
-.chatbot-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+        .chatbot-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-.chatbot-message {
-    display: flex;
-    animation: slideUp 0.3s ease-out;
-}
+        .chatbot-message {
+            display: flex;
+            animation: slideUp 0.3s ease-out;
+        }
 
-.chatbot-message.user {
-    justify-content: flex-end;
-}
+        .chatbot-message.user {
+            justify-content: flex-end;
+        }
 
-.chatbot-message.bot {
-    justify-content: flex-start;
-}
+        .chatbot-message.bot {
+            justify-content: flex-start;
+        }
 
-.chatbot-message-content {
-    max-width: 75%;
-    padding: 12px 16px;
-    border-radius: 16px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
+        .chatbot-message-content {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
 
-.chatbot-message.user .chatbot-message-content {
-    background: rgba(255, 255, 255, 0.25);
-}
+        .chatbot-message.user .chatbot-message-content {
+            background: rgba(255, 255, 255, 0.25);
+        }
 
-.chatbot-message.bot .chatbot-message-content {
-    background: rgba(255, 255, 255, 0.15);
-}
+        .chatbot-message.bot .chatbot-message-content {
+            background: rgba(255, 255, 255, 0.15);
+        }
 
-.chatbot-message-text {
-    margin: 0;
-    color: white;
-    font-size: 14px;
-    line-height: 1.5;
-    white-space: pre-line;
-}
+        .chatbot-message-text {
+            margin: 0;
+            color: white;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-line;
+        }
 
-.chatbot-message-time {
-    margin: 6px 0 0 0;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 11px;
-}
+        .chatbot-message-time {
+            margin: 6px 0 0 0;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 11px;
+        }
 
-.chatbot-message.user .chatbot-message-time {
-    text-align: right;
-}
+        .chatbot-message.user .chatbot-message-time {
+            text-align: right;
+        }
 
-.chatbot-typing {
-    padding: 12px 16px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    font-size: 14px;
-}
+        .chatbot-typing {
+            padding: 12px 16px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 14px;
+        }
 
-.chatbot-input-area {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(255, 255, 255, 0.25);
-    padding: 16px;
-    display: flex;
-    gap: 10px;
-}
+        .chatbot-input-area {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 16px;
+            display: flex;
+            gap: 10px;
+        }
 
-.chatbot-input {
-    flex: 1;
-    padding: 12px 16px;
-    border-radius: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    font-size: 14px;
-    outline: none;
-}
+        .chatbot-input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
 
-.chatbot-input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
+        .chatbot-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
 
-.chatbot-send {
-    background: rgba(255, 255, 255, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: white;
-    font-size: 18px;
-    transition: all 0.2s ease;
-}
+        .chatbot-send {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 18px;
+            transition: all 0.2s ease;
+        }
 
-.chatbot-send:hover {
-    background: rgba(255, 255, 255, 0.4);
-}
+        .chatbot-send:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
 
-.chatbot-send:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
+        .chatbot-send:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
-@media (max-width: 600px) {
-    .chatbot-button {
-        top: 110px;
-        right: 15px;
-        padding: 8px 16px;
-        font-size: 12px;
-    }
-}
+        @media (max-width: 600px) {
+            .chatbot-button {
+                top: 110px;
+                right: 15px;
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -876,6 +907,7 @@
         <div class="profile-section">
             <div class="news-button-wrapper">
                 <a href="news/index.html" class="news-button">yepzhiNews</a>
+                <a href="tools/index.html" class="tools-button">Tools&lt;&gt;</a>
                 <div class="news-hint">
                     <strong>Últimas noticias</strong>
                     Click Aquí ↑
@@ -883,14 +915,14 @@
             </div>
             <img src="perfil2.png" alt="Alberto Yépiz" class="profile-pic">
             <div class="profile-name">Alberto Yépiz</div>
-<div class="profile-bio">
-  🚀 Visionario STEM con +15 años de experiencia en <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>.<br><br>
-  💼 MBA con Background financiero, Full Cycle CX/UX, desarrollo web aplicado a innovación, estrategia y producto digital.
-  📊 Certificado en <strong>Data Science & Agile Systems for Product Management</strong> University of Maryland✨ <strong>+ English CEFR B2 🇺🇸</strong> by ETS.<br><br>
-  💻 <strong>Fundador de 
-  <a href="https://www.instagram.com/jovenesstem/" target="_blank" style="color:#007BFF; text-decoration:none;">
-  JóvenesSTEM 🚀</strong></a> — conectando ciencia y tecnología con las nuevas generaciones.
-</div>
+            <div class="profile-bio">
+                🚀 Visionario STEM con +15 años de experiencia en <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>.<br><br>
+                💼 MBA con Background financiero, Full Cycle CX/UX, desarrollo web aplicado a innovación, estrategia y producto digital.
+                📊 Certificado en <strong>Data Science & Agile Systems for Product Management</strong> University of Maryland✨ <strong>+ English CEFR B2 🇺🇸</strong> by ETS.<br><br>
+                💻 <strong>Fundador de 
+                <a href="https://www.instagram.com/jovenesstem/" target="_blank" style="color:#007BFF; text-decoration:none;">
+                JóvenesSTEM 🚀</strong></a> — conectando ciencia y tecnología con las nuevas generaciones.
+            </div>
 
             <div class="social-icons">
                 <a href="https://linkedin.com/in/yepzhi" target="_blank" class="social-icon linkedin" title="LinkedIn">
@@ -978,14 +1010,34 @@
         <!-- FOOTER -->
         <div class="footer">
             <div>Developed by <a href="https://github.com/yepzhi" target="_blank">@yepzhi</a></div>
-            <div class="visit-counter">👀 Visit Counter </div>
+            <div class="visit-counter">
+                <script type="text/javascript">
+                var sc_project=13182229; 
+                var sc_invisible=0; 
+                var sc_security="0cd44f01"; 
+                var scJsHost = "https://";
+                document.write("<sc"+"ript type='text/javascript' src='" +
+                scJsHost +
+                "statcounter.com/counter/counter.js'></"+"script>");
+                </script>
+                <noscript>
+                <div class="statcounter">
+                <a title="web stats" href="https://statcounter.com/" target="_blank">
+                <img class="statcounter" src="https://c.statcounter.com/13182229/0/0cd44f01/0/" alt="web stats" referrerPolicy="no-referrer-when-downgrade">
+                </a>
+                </div>
+                </noscript>
+            </div>
+            <div class="footer-copyright">
+                © 2025 Alberto Yépiz • All Rights Reserved
+            </div>
         </div>
     </div>
 
     <audio id="audioPlayer"></audio>
 
     <script>
-const songs = [
+        const songs = [
             { title: "Holy Blindfold", url: "musica/HolyBlindfold.mp3" },
             { title: "SZA - 30For30", url: "musica/30For30.mp3" },
             { title: "GloRilla Typa", url: "musica/GloRillaTypa.mp3" },
@@ -1011,7 +1063,6 @@ const songs = [
         const volumeControl = document.getElementById('volumeControl');
         const playlistContainer = document.getElementById('playlistContainer');
 
-        // ECUALIZADOR ROCK CON 90% TREBLE - Inicializar al reproducir
         let audioContext;
         let equalizerActive = false;
 
@@ -1020,7 +1071,7 @@ const songs = [
             
             try {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const source = audioContext.createMediaElementAudioSource(audio);
+                const source = audioContext.createMediaElementSource(audio);
 
                 const lowBass = audioContext.createBiquadFilter();
                 const midBass = audioContext.createBiquadFilter();
@@ -1063,7 +1114,8 @@ const songs = [
                 console.log('Ecualizador no disponible en este navegador');
             }
         }
-  function loadPlaylist() {
+
+        function loadPlaylist() {
             playlistContainer.innerHTML = '';
             if (songs.length === 0) {
                 playlistContainer.innerHTML = '<div>Load songs in /musica/ folder</div>';
@@ -1153,59 +1205,45 @@ const songs = [
         audio.volume = 0.7;
         loadPlaylist();
         loadSong();
-        initVisitCounter();
     </script>
 
-<!-- Default Statcounter code for yepzhiweb
-https://yepzhi.com/ -->
-<script type="text/javascript">
-var sc_project=13182229; 
-var sc_invisible=0; 
-var sc_security="0cd44f01"; 
-var scJsHost = "https://";
-document.write("<sc"+"ript type='text/javascript' src='" +
-scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
-</script>
-<noscript><div class="statcounter"><a title="Web Analytics"
-href="https://statcounter.com/" target="_blank"><img
-class="statcounter"
-src="https://c.statcounter.com/13182229/0/0cd44f01/0/"
-alt="Web Analytics"
-referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
-<!-- End of Statcounter Code -->
-<!-- ============================================ -->
-<!-- CHATBOT BILINGÜE -->
-<!-- ============================================ -->
+    <!-- Statcounter Code -->
+    <script type="text/javascript">
+    var sc_project=13182229; 
+    var sc_invisible=0; 
+    var sc_security="0cd44f01"; 
+    var scJsHost = "https://";
+    document.write("<sc"+"ript type='text/javascript' src='" + scJsHost + "statcounter.com/counter/counter.js'></"+"script>");
+    </script>
+    <noscript><div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img class="statcounter" src="https://c.statcounter.com/13182229/0/0cd44f01/0/" alt="Web Analytics" referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
 
-<!-- Botón flotante -->
-<button class="chatbot-button" id="chatbotBtn">
-    💬 Chat🤖 <span style="font-size: 10px;"></span>
-</button>
+    <!-- CHATBOT BILINGÜE -->
+    <button class="chatbot-button" id="chatbotBtn">
+        💬 Chat🤖 <span style="font-size: 10px;"></span>
+    </button>
 
-<!-- Modal del chatbot -->
-<div class="chatbot-overlay" id="chatbotOverlay">
-    <div class="chatbot-modal">
-        <div class="chatbot-header">
-            <div>
-                <h3>💬 yepzhi Assistant 🌎</h3>
-                <p>Español / English • JóvenesSTEM & more</p>
+    <div class="chatbot-overlay" id="chatbotOverlay">
+        <div class="chatbot-modal">
+            <div class="chatbot-header">
+                <div>
+                    <h3>💬 yepzhi Assistant 🌎</h3>
+                    <p>Español / English • JóvenesSTEM & more</p>
+                </div>
+                <button class="chatbot-close" id="chatbotClose">×</button>
             </div>
-            <button class="chatbot-close" id="chatbotClose">×</button>
-        </div>
-        <div class="chatbot-messages" id="chatbotMessages"></div>
-        <div class="chatbot-input-area">
-            <input 
-                type="text" 
-                class="chatbot-input" 
-                id="chatbotInput"
-                placeholder="Escribe tu pregunta... / Type your question..."
-            >
-            <button class="chatbot-send" id="chatbotSend">➤</button>
+            <div class="chatbot-messages" id="chatbotMessages"></div>
+            <div class="chatbot-input-area">
+                <input 
+                    type="text" 
+                    class="chatbot-input" 
+                    id="chatbotInput"
+                    placeholder="Escribe tu pregunta... / Type your question..."
+                >
+                <button class="chatbot-send" id="chatbotSend">➤</button>
+            </div>
         </div>
     </div>
-</div>
 
-<script src="chatbot-faq.js"></script>
+    <script src="chatbot-faq.js"></script>
 </body>
 </html>
