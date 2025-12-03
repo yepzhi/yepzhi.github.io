@@ -605,13 +605,20 @@
         }
 
         .visit-counter {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50px;
             padding: 6px 14px;
             margin: 10px 0;
             font-size: 11px;
             border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .visitor-label {
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .footer-copyright {
@@ -907,9 +914,9 @@
         <div class="profile-section">
             <div class="news-button-wrapper">
                 <a href="news/index.html" class="news-button">yepzhiNews</a>
-                <a href="tools/index.html" class="tools-button">Tools&lt;&gt;</a>
+                <a href="tools/index.html" class="tools-button">🔨 Tools&lt;&gt;</a>
                 <div class="news-hint">
-                    <strong>Últimas noticias/Tools </strong>
+                    <strong>Últimas noticias/Tools</strong>
                     Click Aquí ↑
                 </div>
             </div>
@@ -1011,6 +1018,7 @@
         <div class="footer">
             <div>Developed by <a href="https://github.com/yepzhi" target="_blank">@yepzhi</a></div>
             <div class="visit-counter">
+                <span class="visitor-label">Visitors 👀</span>
                 <script type="text/javascript">
                 var sc_project=13182229; 
                 var sc_invisible=0; 
