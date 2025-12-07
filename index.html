@@ -13,14 +13,19 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #003d99 0%, #0052cc 50%, #3b82f6 100%);
+            background: #0a0a0a;
+            background-image: 
+                radial-gradient(at 27% 37%, hsla(215, 98%, 61%, 0.15) 0px, transparent 50%),
+                radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 52% 99%, hsla(354, 98%, 61%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 10% 29%, hsla(256, 96%, 67%, 0.15) 0px, transparent 50%);
             min-height: 100vh;
             padding: 20px;
-            color: #1a1a1a;
+            color: #fff;
         }
 
         .container {
-            max-width: 500px;
+            max-width: 920px;
             margin: 0 auto;
         }
 
@@ -66,10 +71,6 @@
             }
         }
 
-        .loader-icon {
-            display: none;
-        }
-
         .loader-text {
             color: white;
             font-size: 16px;
@@ -100,106 +101,140 @@
             }
         }
 
+        /* GLASS CONTAINER BASE */
+        .glass-container {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            padding: 40px;
+            margin-bottom: 24px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .glass-container:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.5);
+        }
+
         /* SECCIÓN DE PERFIL */
         .profile-section {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px 20px;
-            text-align: center;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.25);
             animation: fadeInDown 0.6s ease-out 0.9s forwards;
             opacity: 0;
-            position: relative;
+            text-align: center;
         }
 
         .news-button-wrapper {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 30px;
+            right: 30px;
             text-align: right;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .news-button, .tools-button {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.3);
             color: white;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 10px;
+            padding: 10px 20px;
+            border-radius: 28px;
+            font-size: 11px;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.3s ease;
             display: inline-block;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
         }
 
         .news-button:hover, .tools-button:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
             transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(102, 126, 234, 0.4);
         }
 
         .news-hint {
             text-align: right;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 10px;
             line-height: 1.4;
+            margin-top: 4px;
         }
 
         .news-hint strong {
             display: block;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
-            color: white;
+            color: rgba(255, 255, 255, 0.7);
             margin-bottom: 2px;
         }
 
         .profile-pic {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            margin: 0 auto 20px;
-            border: 4px solid white;
+            margin: 0 auto 24px;
+            border: 4px solid rgba(102, 126, 234, 0.5);
             object-fit: cover;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
             display: block;
         }
 
         .profile-name {
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 3em;
+            font-weight: 800;
             color: white;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             text-align: center;
             display: block;
+            letter-spacing: -0.5px;
         }
 
         .profile-bio {
-            font-size: 13px;
+            font-size: 14px;
             color: rgba(255, 255, 255, 0.9);
-            line-height: 1.5;
-            margin-bottom: 20px;
+            line-height: 1.8;
+            margin-bottom: 24px;
             text-align: center;
             display: block;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .profile-bio strong {
+            color: #a8daff;
+            font-weight: 700;
+        }
+
+        .profile-bio a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .profile-bio a:hover {
+            color: #764ba2;
         }
 
         .social-icons {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
+            gap: 16px;
+            margin-top: 24px;
         }
 
         .social-icon {
-            width: 50px;
-            height: 50px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -208,6 +243,7 @@
             text-decoration: none;
             color: white;
             font-weight: bold;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .social-icon img {
@@ -217,44 +253,44 @@
         }
 
         .social-icon:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            background: rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 28px rgba(102, 126, 234, 0.4);
         }
 
         .social-icon.linkedin {
-            background: rgba(0, 119, 181, 0.5);
+            background: rgba(0, 119, 181, 0.15);
+            border-color: rgba(0, 119, 181, 0.3);
         }
 
         .social-icon.linkedin:hover {
-            background: rgba(0, 119, 181, 0.7);
+            background: rgba(0, 119, 181, 0.3);
+            box-shadow: 0 8px 28px rgba(0, 119, 181, 0.4);
         }
 
         .social-icon.instagram {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(225, 48, 108, 0.15);
+            border-color: rgba(225, 48, 108, 0.3);
         }
 
         .social-icon.instagram:hover {
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(225, 48, 108, 0.3);
+            box-shadow: 0 8px 28px rgba(225, 48, 108, 0.4);
         }
 
         .social-icon.github {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(88, 96, 105, 0.15);
+            border-color: rgba(88, 96, 105, 0.3);
         }
 
         .social-icon.github:hover {
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(88, 96, 105, 0.3);
+            box-shadow: 0 8px 28px rgba(88, 96, 105, 0.4);
         }
 
         /* SECCIÓN DE ENLACES */
         .links-section {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.25);
             animation: fadeInDown 0.6s ease-out 1.1s forwards;
             opacity: 0;
         }
@@ -262,28 +298,28 @@
         .links-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 10px;
+            gap: 12px;
         }
 
         .link-btn {
-            padding: 14px 16px;
-            border: none;
-            border-radius: 50px;
-            font-size: 13px;
+            padding: 18px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             transition: all 0.3s ease;
             color: white;
             text-align: center;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         .link-btn::before {
@@ -294,15 +330,15 @@
             width: 0;
             height: 0;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
             transform: translate(-50%, -50%);
             transition: width 0.6s, height 0.6s;
             z-index: 0;
         }
 
         .link-btn:hover::before {
-            width: 300px;
-            height: 300px;
+            width: 400px;
+            height: 400px;
         }
 
         .link-btn > * {
@@ -312,101 +348,98 @@
 
         .link-btn:hover {
             transform: translateY(-4px);
-            background: rgba(255, 255, 255, 0.35);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
         }
 
         /* REPRODUCTOR DE MÚSICA */
         .player-section {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.25);
             animation: fadeInUp 0.6s ease-out 1.3s forwards;
             opacity: 0;
-            margin-bottom: 20px;
         }
 
         .player-title {
             text-align: center;
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
-            color: white;
-            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 24px;
         }
 
         .now-playing {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .track-label {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.5);
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .track-name {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             color: white;
-            min-height: 24px;
-            margin-bottom: 15px;
+            min-height: 28px;
+            margin-bottom: 20px;
         }
 
         .progress-bar {
             width: 100%;
             height: 6px;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 3px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             overflow: hidden;
             cursor: pointer;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.7));
+            background: linear-gradient(90deg, #667eea, #764ba2);
             width: 0%;
             transition: width 0.1s linear;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.6);
         }
 
         .time-display {
             display: flex;
             justify-content: space-between;
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 24px;
             font-weight: 600;
         }
 
         .controls {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 14px;
+            margin-bottom: 24px;
         }
 
         .control-btn {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 50px;
+            padding: 14px 24px;
+            border-radius: 28px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         .control-btn:hover {
             transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+            border-color: rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 28px rgba(102, 126, 234, 0.4);
         }
 
         .control-btn:active {
@@ -414,34 +447,42 @@
         }
 
         .play-btn {
-            padding: 14px 28px;
+            padding: 16px 32px;
             font-size: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            box-shadow: 0 4px 24px rgba(102, 126, 234, 0.4);
+        }
+
+        .play-btn:hover {
+            background: linear-gradient(135deg, #7c8dff 0%, #8a5cb8 100%);
+            box-shadow: 0 6px 32px rgba(102, 126, 234, 0.6);
         }
 
         .prev-next-btn {
-            padding: 10px 16px;
-            font-size: 12px;
+            padding: 12px 20px;
+            font-size: 13px;
         }
 
         .volume-control {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 16px;
+            margin-bottom: 24px;
         }
 
         .volume-label {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.7);
-            min-width: 60px;
+            color: rgba(255, 255, 255, 0.6);
+            min-width: 70px;
         }
 
         input[type="range"] {
             flex: 1;
             height: 6px;
             border-radius: 3px;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
             outline: none;
             -webkit-appearance: none;
             appearance: none;
@@ -451,137 +492,135 @@
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
-            background: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 2px 12px rgba(102, 126, 234, 0.6);
         }
 
         input[type="range"]::-moz-range-thumb {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
-            background: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             cursor: pointer;
             border: none;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 2px 12px rgba(102, 126, 234, 0.6);
         }
 
         .playlist {
-            max-height: 200px;
+            max-height: 220px;
             overflow-y: auto;
-            border-top: 2px solid rgba(255, 255, 255, 0.2);
-            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 20px;
         }
 
         .playlist-title {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
             color: white;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .playlist-item {
-            padding: 10px 12px;
-            background: rgba(255, 255, 255, 0.1);
-            margin-bottom: 8px;
-            border-radius: 8px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            margin-bottom: 10px;
+            border-radius: 16px;
             cursor: pointer;
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.6);
             transition: all 0.2s ease;
-            border-left: 4px solid transparent;
+            border-left: 3px solid transparent;
         }
 
         .playlist-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-left-color: white;
+            background: rgba(255, 255, 255, 0.08);
+            border-left-color: #667eea;
             transform: translateX(4px);
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .playlist-item.active {
-            background: rgba(255, 255, 255, 0.25);
-            border-left-color: white;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-left-color: #667eea;
             color: white;
             font-weight: 600;
         }
 
         /* MÓDULO JÓVENESSTEM */
         .jovenes-stem-section {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.25);
             animation: fadeInUp 0.6s ease-out 1.5s forwards;
             opacity: 0;
             text-align: center;
-            margin-bottom: 20px;
         }
 
         .jovenes-stem-title {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
-            color: white;
-            margin-bottom: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
         }
 
         .jovenes-stem-text {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
             margin-bottom: 16px;
         }
 
         .jovenes-stem-small {
             font-size: 11px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 5px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
             font-style: italic;
         }
 
         .test-link-btn {
-            padding: 14px 28px;
-            background: rgba(255, 255, 255, 0.3);
+            padding: 16px 36px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 50px;
-            font-size: 14px;
+            border-radius: 28px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            margin-bottom: 14px;
+            box-shadow: 0 4px 24px rgba(102, 126, 234, 0.4);
+            margin-bottom: 16px;
         }
 
         .test-link-btn:hover {
-            background: rgba(255, 255, 255, 0.4);
+            background: linear-gradient(135deg, #7c8dff 0%, #8a5cb8 100%);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 32px rgba(102, 126, 234, 0.6);
         }
 
         .badge-text {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.7);
             font-weight: 600;
         }
 
         /* FOOTER */
         .footer {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
+            background: rgba(20, 20, 20, 0.4);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 24px;
             text-align: center;
-            color: white;
+            color: rgba(255, 255, 255, 0.6);
             font-size: 12px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             animation: fadeInUp 0.5s ease-out 1.7s forwards;
             opacity: 0;
             margin-bottom: 20px;
@@ -592,49 +631,50 @@
         }
 
         .footer a {
-            color: white;
+            color: #667eea;
             text-decoration: none;
             font-weight: 700;
             transition: all 0.3s ease;
             padding: 2px 8px;
-            border-radius: 5px;
+            border-radius: 8px;
         }
 
         .footer a:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(102, 126, 234, 0.2);
+            color: #764ba2;
         }
 
         .visit-counter {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            padding: 6px 14px;
-            margin: 10px 0;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            padding: 8px 16px;
+            margin: 12px 0;
             font-size: 11px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .visitor-label {
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .footer-copyright {
             font-size: 11px;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.4);
             font-weight: 500;
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         audio {
             display: none;
         }
 
-                    @media (max-width: 600px) {
-            .profile-section {
-                padding: 20px;
+        @media (max-width: 600px) {
+            .glass-container {
+                padding: 24px 20px;
             }
 
             .news-button-wrapper {
@@ -651,16 +691,16 @@
             }
 
             .profile-name {
-                font-size: 24px;
+                font-size: 2em;
             }
 
-            .player-section {
-                padding: 20px;
+            .profile-bio {
+                font-size: 13px;
             }
 
             .control-btn {
-                padding: 10px 16px;
-                font-size: 12px;
+                padding: 12px 20px;
+                font-size: 13px;
             }
         }
 
@@ -669,28 +709,29 @@
             position: fixed;
             top: 130px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50px;
-            padding: 10px 20px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 28px;
+            padding: 12px 24px;
             color: white;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            box-shadow: 0 4px 24px rgba(102, 126, 234, 0.3);
             transition: all 0.3s ease;
             z-index: 999;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             animation: fadeInDown 0.6s ease-out 1.7s forwards;
             opacity: 0;
         }
 
         .chatbot-button:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
             transform: translateY(-2px);
+            box-shadow: 0 6px 32px rgba(102, 126, 234, 0.5);
         }
 
         .chatbot-overlay {
@@ -699,7 +740,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             display: none;
             justify-content: center;
             align-items: center;
@@ -712,14 +753,18 @@
         }
 
         .chatbot-modal {
-            background: linear-gradient(135deg, #003d99 0%, #0052cc 50%, #3b82f6 100%);
-            border-radius: 20px;
+            background: #0a0a0a;
+            background-image: 
+                radial-gradient(at 27% 37%, hsla(215, 98%, 61%, 0.15) 0px, transparent 50%),
+                radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 0.1) 0px, transparent 50%);
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             width: 100%;
             max-width: 500px;
             height: 600px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
             animation: slideUp 0.4s ease-out;
             overflow: hidden;
         }
@@ -736,10 +781,10 @@
         }
 
         .chatbot-header {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-            padding: 20px;
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -754,16 +799,16 @@
 
         .chatbot-header p {
             margin: 4px 0 0 0;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.5);
             font-size: 12px;
         }
 
         .chatbot-close {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 50%;
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -774,16 +819,17 @@
         }
 
         .chatbot-close:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(102, 126, 234, 0.3);
         }
 
         .chatbot-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
         .chatbot-message {
@@ -801,32 +847,33 @@
 
         .chatbot-message-content {
             max-width: 75%;
-            padding: 12px 16px;
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            padding: 14px 18px;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .chatbot-message.user .chatbot-message-content {
-            background: rgba(255, 255, 255, 0.25);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+            border-color: rgba(102, 126, 234, 0.3);
         }
 
         .chatbot-message.bot .chatbot-message-content {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(20, 20, 20, 0.6);
         }
 
         .chatbot-message-text {
             margin: 0;
             color: white;
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.6;
             white-space: pre-line;
         }
 
         .chatbot-message-time {
             margin: 6px 0 0 0;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.4);
             font-size: 11px;
         }
 
@@ -835,45 +882,45 @@
         }
 
         .chatbot-typing {
-            padding: 12px 16px;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 14px 18px;
+            border-radius: 20px;
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: white;
             font-size: 14px;
         }
 
         .chatbot-input-area {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.25);
-            padding: 16px;
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 20px;
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
         .chatbot-input {
             flex: 1;
-            padding: 12px 16px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.2);
+            padding: 14px 20px;
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
             color: white;
             font-size: 14px;
             outline: none;
         }
 
         .chatbot-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.4);
         }
 
         .chatbot-send {
-            background: rgba(255, 255, 255, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
             border-radius: 50%;
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -881,10 +928,13 @@
             color: white;
             font-size: 18px;
             transition: all 0.2s ease;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
         }
 
         .chatbot-send:hover {
-            background: rgba(255, 255, 255, 0.4);
+            background: linear-gradient(135deg, #7c8dff 0%, #8a5cb8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(102, 126, 234, 0.6);
         }
 
         .chatbot-send:disabled {
@@ -896,7 +946,7 @@
             .chatbot-button {
                 top: 110px;
                 right: 15px;
-                padding: 8px 16px;
+                padding: 10px 20px;
                 font-size: 12px;
             }
         }
@@ -911,10 +961,10 @@
 
     <div class="container">
         <!-- SECCIÓN DE PERFIL -->
-        <div class="profile-section">
+        <div class="glass-container profile-section">
             <div class="news-button-wrapper">
                 <a href="news/index.html" class="news-button">yepzhiNews</a>
-                <a href="tools/index.html" class="tools-button"> 🔨 Tools&lt;&gt;</a>
+                <a href="tools/index.html" class="tools-button">🔨 Tools&lt;&gt;</a>
                 <div class="news-hint">
                     <strong>Últimas noticias/Tools</strong>
                     Click Aquí ↑
@@ -927,7 +977,7 @@
                 💼 MBA con Background financiero, Full Cycle CX/UX, desarrollo web aplicado a innovación, estrategia y producto digital.
                 📊 Certificado en <strong>Data Science & Agile Systems for Product Management</strong> University of Maryland✨ <strong>+ English CEFR B2 🇺🇸</strong> by ETS.<br><br>
                 💻 <strong>Fundador de 
-                <a href="https://www.instagram.com/jovenesstem/" target="_blank" style="color:#007BFF; text-decoration:none;">
+                <a href="https://www.instagram.com/jovenesstem/" target="_blank">
                 JóvenesSTEM 🚀</strong></a> — conectando ciencia y tecnología con las nuevas generaciones.
             </div>
 
@@ -945,7 +995,7 @@
         </div>
 
         <!-- SECCIÓN DE ENLACES -->
-        <div class="links-section">
+        <div class="glass-container links-section">
             <div class="links-grid">
                 <a href="https://wa.me/qr/MESCGUHS7SYSF1" target="_blank" class="link-btn">
                     👋 WhatsApp - Click Aqui!
@@ -966,7 +1016,7 @@
         </div>
 
         <!-- REPRODUCTOR DE MÚSICA -->
-        <div class="player-section">
+        <div class="glass-container player-section">
             <div class="player-title">🎵 @yepzhi Radio</div>
 
             <div class="now-playing">
@@ -1000,7 +1050,7 @@
         </div>
 
         <!-- MÓDULO JÓVENESSTEM -->
-        <div class="jovenes-stem-section">
+        <div class="glass-container jovenes-stem-section">
             <div class="jovenes-stem-title">🚀 ¿Conoces JóvenesSTEM?</div>
             <div class="jovenes-stem-text">
                 Estás listo para conocer más de JóvenesSTEM, toma el test y descubre que tanto sabes de Ciencia, a su ves conocerás los contenidos del capítulo 1.
@@ -1215,18 +1265,7 @@
         loadPlaylist();
         loadSong();
         
-        // Autoplay cuando la página carga
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                initEqualizer();
-                audio.play().then(() => {
-                    updatePlayBtn();
-                }).catch(error => {
-                    console.log('Autoplay bloqueado por el navegador:', error);
-                    // Si el autoplay es bloqueado, el usuario deberá hacer clic manualmente
-                });
-            }, 1000); // Espera 1 segundo después de cargar para mejor experiencia
-        });
+        // AUTOPLAY REMOVIDO - El usuario debe hacer clic manualmente en Play
     </script>
 
     <!-- Statcounter Code -->
@@ -1241,7 +1280,7 @@
 
     <!-- CHATBOT BILINGÜE -->
     <button class="chatbot-button" id="chatbotBtn">
-        💬 Chat🤖 <span style="font-size: 10px;"></span>
+        💬 Chat🤖
     </button>
 
     <div class="chatbot-overlay" id="chatbotOverlay">
