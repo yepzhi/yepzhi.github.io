@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ricardo Access Code Checker | Yepzhi Tools</title>
+    <!-- Use Yepzhi.com standard styles if available, or a clean modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Dark Theme matching Yepzhi aesthetic */
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-color: #e6edf3;
+            --accent: #238636;
+            --border: #30363d;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        h1 {
+            font-weight: 600;
+            background: linear-gradient(90deg, #58a6ff, #d2a8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: #0d1117;
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: none;
+            background: var(--accent);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            filter: brightness(1.1);
+        }
+
+        button:disabled {
+            background: var(--border);
+            cursor: not-allowed;
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #21262d;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .status-ready {
+            color: #3fb950;
+            border-color: #3fb950;
+        }
+
+        .status-warm {
+            color: #d29922;
+            border-color: #d29922;
+        }
+
+        #results {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .success-box {
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid #3fb950;
+            color: #3fb950;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .error-box {
+            background: rgba(248, 81, 73, 0.1);
+            border: 1px solid #f85149;
+            color: #f85149;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .info-box {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid #58a6ff;
+            color: #58a6ff;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            color: #8b949e;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Status Indicator -->
+        <div id="status-pill" class="status-pill status-warm">Connecting to Secure Server... 📡</div>
+
+        <h1>Richmond Token Checker</h1>
+
+        <div class="card">
+            <input type="text" id="accessCode" placeholder="Enter Access Code (e.g. 784512...)" autocomplete="off">
+            <button id="checkBtn" onclick="checkCode()">Check Code</button>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        // POINT THIS TO YOUR HUGGING FACE SPACE URL
+        // Example: https://yepzhi-richmond-token-check.hf.space
+        // You will need to get the exact URL from your Space after it builds
+        const API_BASE = 'https://yepzhi-richmond-token-check.hf.space';
+
+        const statusPill = document.getElementById('status-pill');
+        const checkBtn = document.getElementById('checkBtn');
+        const input = document.getElementById('accessCode');
+        const results = document.getElementById('results');
+
+        // Check Backend Status
+        async function pollStatus() {
+            try {
+                const res = await fetch(`${API_BASE}/api/status`);
+                const data = await res.json();
+
+                if (data.ready) {
+                    statusPill.textContent = '● System Online & Ready';
+                    statusPill.className = 'status-pill status-ready';
+                } else {
+                    statusPill.textContent = '● System Warming Up...';
+                    statusPill.className = 'status-pill status-warm';
+                }
+            } catch (e) {
+                statusPill.textContent = '● System Offline / Sleeping';
+                statusPill.className = 'status-pill';
+            }
+        }
+
+        // Poll every 5s
+        setInterval(pollStatus, 5000);
+        pollStatus();
+
+        async function checkCode() {
+            const code = input.value.trim();
+            if (!code) return;
+
+            checkBtn.disabled = true;
+            checkBtn.innerText = 'Searching...';
+            results.innerHTML = '<div class="info-box">Searching secure database... <br><small>If others are searching, you are in queue.</small></div>';
+
+            try {
+                const res = await fetch(`${API_BASE}/api/check-access-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ accessCode: code })
+                });
+
+                const data = await res.json();
+
+                if (data.valid) {
+                    let html = `<div class="success-box">✅ Found! Access Code Valid.</div>`;
+
+                    if (data.data.results && data.data.results.length > 0) {
+                        html += '<table><thead><tr>';
+                        data.data.headers.forEach(h => html += `<th>${h}</th>`);
+                        html += '</tr></thead><tbody>';
+                        data.data.results.forEach(r => {
+                            html += '<tr>';
+                            data.data.headers.forEach(h => html += `<td>${r[h]}</td>`);
+                            html += '</tr>';
+                        });
+                        html += '</tbody></table>';
+                    }
+                    results.innerHTML = html;
+                } else {
+                    results.innerHTML = `<div class="error-box">❌ ${data.message}</div>`;
+                }
+
+            } catch (e) {
+                results.innerHTML = `<div class="error-box">⚠️ Error: Could not connect to analysis engine.</div>`;
+            } finally {
+                checkBtn.disabled = false;
+                checkBtn.innerText = 'Check Code';
+            }
+        }
+    </script>
+</body>
+
+</html>
