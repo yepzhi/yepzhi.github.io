@@ -449,7 +449,14 @@
                 }
 
             } catch (e) {
-                results.innerHTML = '<div class="result-box error">⚠️ Connection error. The server may be waking up. Try again in 30 seconds.</div>';
+                console.error('Check code error:', e);
+                let errorMsg = '⚠️ Connection error.';
+                if (e.message.includes('HTTP')) {
+                    errorMsg = `⚠️ Server Error: ${e.message}`;
+                } else if (e.name === 'TypeError' && e.message.includes('fetch')) {
+                    errorMsg = '⚠️ Network Error: CORS or connection blocked. check console.';
+                }
+                results.innerHTML = `<div class="result-box error">${errorMsg}<br><small>${e.message}</small></div>`;
             } finally {
                 checkBtn.disabled = false;
                 checkBtn.textContent = 'Check Code';
