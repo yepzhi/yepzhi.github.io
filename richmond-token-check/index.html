@@ -494,13 +494,16 @@
             if (!isLogsOpen) return;
             try {
                 const res = await fetch(`${API_BASE}/api/logs`);
+                if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+
                 const data = await res.json();
                 if (data.logs && data.logs.length > 0) {
                     logsBody.innerHTML = data.logs.map(l => `<div>${l}</div>`).join('');
                     logsBody.scrollTop = logsBody.scrollHeight; // Auto scroll
                 }
             } catch (e) {
-                logsBody.innerHTML += `<div style="color: var(--error);">Error fetching logs</div>`;
+                logsBody.innerHTML += `<div style="color: var(--error);">Error: ${e.message}</div>`;
+                console.error('Log fetch error:', e);
             }
         }
 
@@ -508,3 +511,4 @@
 </body>
 
 </html>
+```
