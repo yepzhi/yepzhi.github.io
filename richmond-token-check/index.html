@@ -379,13 +379,24 @@
                     isReady = false;
                     statusCard.className = 'status-card offline';
                     statusIcon.textContent = '😴';
-                    statusTitle.textContent = 'Server Sleeping / Offline';
-                    statusDetail.textContent = 'Click "Check Code" to wake up the server.';
+                    statusTitle.textContent = 'Server Sleeping';
+                    statusDetail.innerHTML = 'Hugging Face Space is paused.<br><button onclick="wakeUp()" style="margin-top:10px; padding:8px 16px; background:#d29922; border:none; border-radius:6px; color:white; cursor:pointer;">⚡ Wake Up Server</button>';
                     step1.className = 'step active';
                     step2.className = 'step';
                     step3.className = 'step';
-                    checkBtn.disabled = false; // User can still try
+                    checkBtn.disabled = false;
                 }
+            }
+        }
+
+        async function wakeUp() {
+            try {
+                statusDetail.innerHTML = 'Sending Wake-Up Signal... 📡<br><small>Please wait ~60 seconds...</small>';
+                // Use no-cors to force the request through even if CORS headers are missing during boot
+                await fetch(API_BASE, { mode: 'no-cors' });
+                pollFails = 0; // Reset fails to trigger loading state on next poll
+            } catch (e) {
+                console.log('Wake up signal sent (blind)');
             }
         }
 
