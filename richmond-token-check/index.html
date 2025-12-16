@@ -1,68 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Meta Refresh Fallback -->
     <meta http-equiv="refresh" content="0;url=https://huggingface.co/spaces/yepzhi/richmond-token-check">
-    <title>Redirecting to Token Checker...</title>
-    <style>
-        body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            font-family: system-ui, -apple-system, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
+    <script type="text/javascript">
+        // 1. Unregister any Service Workers (fixes aggressive caching of old PWAs)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function (registrations) {
+                for (let registration of registrations) {
+                    registration.unregister();
+                }
+            });
         }
 
-        .btn {
-            background-color: #238636;
-            color: white;
-            padding: 16px 32px;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            margin-top: 20px;
-            font-size: 18px;
-            transition: background 0.2s;
-        }
-
-        .btn:hover {
-            background-color: #2ea043;
-        }
-    </style>
-    <script>
-        // Aggressive Redirect
-        const target = "https://huggingface.co/spaces/yepzhi/richmond-token-check";
-
-        // Method 1
-        window.location.href = target;
-
-        // Method 2 (Fallback after 500ms)
-        setTimeout(() => {
-            window.location.replace(target);
-        }, 500);
-
-        // Method 3 (Click simulation)
-        window.onload = function () {
-            document.getElementById('link').click();
-        }
+        // 2. Hard Redirect
+        window.location.href = "https://huggingface.co/spaces/yepzhi/richmond-token-check";
     </script>
+    <title>Redirecting...</title>
 </head>
 
 <body>
-    <h1>🚀 Moving to Hugging Face...</h1>
-    <p>We have moved the Token Checker to a faster server.</p>
-
-    <a id="link" href="https://huggingface.co/spaces/yepzhi/richmond-token-check" class="btn">
-        Click here if not redirected
-    </a>
+    <p>Redirecting to <a
+            href="https://huggingface.co/spaces/yepzhi/richmond-token-check">https://huggingface.co/spaces/yepzhi/richmond-token-check</a>...
+    </p>
 </body>
 
 </html>
