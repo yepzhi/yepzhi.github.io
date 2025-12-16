@@ -2,28 +2,16 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0;url=https://huggingface.co/spaces/yepzhi/richmond-token-check">
-    <script type="text/javascript">
-        // 1. Unregister any Service Workers (fixes aggressive caching of old PWAs)
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(function (registrations) {
-                for (let registration of registrations) {
-                    registration.unregister();
-                }
-            });
-        }
-
-        // 2. Hard Redirect
-        window.location.href = "https://huggingface.co/spaces/yepzhi/richmond-token-check";
-    </script>
+    <meta charset="utf-8">
     <title>Redirecting...</title>
+    <meta http-equiv="refresh" content="0;url=https://huggingface.co/spaces/yepzhi/richmond-token-check">
+    <script>
+        window.location.replace("https://huggingface.co/spaces/yepzhi/richmond-token-check");
+    </script>
 </head>
 
 <body>
-    <p>Redirecting to <a
-            href="https://huggingface.co/spaces/yepzhi/richmond-token-check">https://huggingface.co/spaces/yepzhi/richmond-token-check</a>...
-    </p>
+    <p>Redirecting to <a href="https://huggingface.co/spaces/yepzhi/richmond-token-check">Token Checker</a>...</p>
 </body>
 
 </html>
