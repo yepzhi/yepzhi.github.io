@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Richmond Support AI</title>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(20, 20, 20, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.6);
+            --bot-bg: rgba(255, 255, 255, 0.05);
+            --user-bg: #667eea;
+            --chip-bg: rgba(255, 255, 255, 0.08);
+            --chip-hover: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #0a0a0a;
+            background-image:
+                radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+                radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .chat-header {
+            padding: 12px 16px;
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bot-avatar-small {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .bot-avatar-small img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-text h1 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Main Chat Container */
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #chat-container {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            position: relative;
+        }
+
+        /* Messages Area */
+        #messages-list {
+            padding: 20px;
+            padding-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Welcome View - FIXED SCROLL & CENTERING */
+        .welcome-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: auto;
+            /* Prevent infinite scroll */
+            padding: 40px 20px 100px 20px;
+            /* Padding for bottom bounce */
+            margin: auto 0;
+            /* Center vertically if space allows */
+            width: 100%;
+        }
+
+        .welcome-container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            transition: all 0.5s ease;
+        }
+
+        .welcome-container.hidden {
+            display: none;
+        }
+
+        /* Logo */
+        .bot-logo-large {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 24px auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bot-logo-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transform: scale(1.35);
+            /* Increased size by 35% as requested */
+        }
+
+        .welcome-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            padding: 0 10px;
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: var(--text-dim);
+            margin-bottom: 32px;
+        }
+
+        /* Chips Grid */
+        .chips-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .chip-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 12px;
+            border-radius: 14px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-main);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chip-btn:active {
+            background: rgba(255, 255, 255, 0.08);
+            transform: scale(0.98);
+        }
+
+        .chip-icon {
+            font-size: 18px;
+            background: rgba(102, 126, 234, 0.2);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Messages */
+        .message {
+            display: flex;
+            gap: 10px;
+            animation: fadeIn 0.3s ease;
+            max-width: 800px;
+            margin: 0 auto 16px auto;
+            width: 100%;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            color: #fff;
+        }
+
+        .message-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .message-content {
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            border-top-left-radius: 4px;
+            line-height: 1.5;
+            font-size: 14px;
+            color: #fff;
+            word-wrap: break-word;
+            max-width: calc(100% - 50px);
+        }
+
+        .message.user .message-content {
+            background: var(--user-bg);
+            border: none;
+            border-radius: 16px;
+            border-top-right-radius: 4px;
+            color: white;
+        }
+
+        /* Input Area - FIXED */
+        .input-area {
+            padding: 12px 16px;
+            padding-bottom: calc(12px + env(safe-area-inset-bottom));
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+            flex-shrink: 0;
+            z-index: 100;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper:focus-within {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 12px 16px;
+            font-size: 15px;
+            font-family: inherit;
+            resize: none;
+            max-height: 100px;
+            min-height: 42px;
+            outline: none;
+            display: block;
+        }
+
+        #send-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: none;
+            background: var(--primary-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        #send-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 4px 0;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        /* Links */
+        .resource-link {
+            display: inline-block;
+            margin-top: 8px;
+            margin-right: 6px;
+            padding: 6px 12px;
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 10px;
+            color: #a8daff;
+            text-decoration: none;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+
+        .resource-link:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        /* Bilingual Note */
+        .bilingual-note {
+            text-align: center;
+            padding: 10px 16px;
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 10px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 20px;
+        }
+
+        /* Restart Button */
+        .restart-button {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+
+        .restart-button:active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(0.95);
+        }
+
+        /* Developer Credit */
+        .developer-credit {
+            position: fixed;
+            bottom: 70px;
+            right: 16px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.4);
+            z-index: 50;
+        }
+
+        .developer-credit a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .developer-credit a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .welcome-title {
+                font-size: 26px;
+            }
+
+            .welcome-subtitle {
+                font-size: 14px;
+            }
+
+            .bot-logo-large {
+                width: 80px;
+                height: 80px;
+            }
+
+            .chips-grid {
+                gap: 8px;
+            }
+
+            .chip-btn {
+                font-size: 12px;
+                padding: 12px 10px;
+            }
+
+            .chip-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 16px;
+            }
+
+            #messages-list {
+                padding: 16px;
+            }
+
+            .message-content {
+                font-size: 14px;
+                padding: 10px 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-wrapper {
+                padding: 20px 16px;
+            }
+
+            .welcome-title {
+                font-size: 24px;
+            }
+
+            .bot-logo-large {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 20px;
+            }
+
+            .chips-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chip-btn {
+                padding: 14px 12px;
+            }
+        }
+
+        /* iOS specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                height: -webkit-fill-available;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="chat-header" id="header">
+        <div class="header-info">
+            <div class="bot-avatar-small">
+                <div style="font-size: 24px;">🚀</div>
+            </div>
+            <div class="header-text">
+                <h1>Richmond Bot</h1>
+                <p>Support Assistant</p>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Restart Button -->
+    <button id="restart-btn" class="restart-button" onclick="restartChat()">
+        🏠 Restart Chat
+    </button>
+
+    <!-- Developer Credit -->
+    <div class="developer-credit">
+        developed by <a href="https://github.com/yepzhi" target="_blank">@yepzhi</a>
+    </div>
+
+    <!-- Main Chat -->
+    <div class="chat-main">
+        <div id="chat-container">
+            <!-- Welcome View -->
+            <div class="welcome-wrapper">
+                <div class="welcome-container" id="welcome-view">
+
+                    <!-- New Styled Title Section -->
+                    <div style="text-align: center; margin-bottom: 40px;">
+                        <h1 style="
+                            font-family: 'Outfit', sans-serif;
+                            font-weight: 800;
+                            font-size: 2.8rem;
+                            margin: 0;
+                            background: linear-gradient(135deg, #c084fc, #a855f7, #6366f1);
+                            -webkit-background-clip: text;
+                            background-clip: text;
+                            color: transparent;
+                            line-height: 1.1;
+                            letter-spacing: -0.02em;
+                            padding-bottom: 15px;
+                        ">Richmond Chatbot<br>University Support 🚀</h1>
+                        <p style="
+                            color: #94a3b8;
+                            font-size: 1.2rem;
+                            margin-top: 10px;
+                            font-weight: 500;
+                        ">¿Cómo puedo ayudarte hoy?</p>
+                    </div>
+
+                    <div class="chips-grid">
+                        <button class="chip-btn" onclick="sendOfflineResponse('code_error')">
+                            <span class="chip-icon">🚫</span>
+                            Mi código ya está utilizado, no es válido
+                        </button>
+                        <button class="chip-btn" onclick="sendOfflineResponse('login_error')">
+                            <span class="chip-icon">🔐</span>
+                            No puedo entrar a la plataforma
+                        </button>
+                        <button class="chip-btn" onclick="sendOfflineResponse('task_error')">
+                            <span class="chip-icon">📝</span>
+                            No puedo hacer una tarea
+                        </button>
+                        <button class="chip-btn" onclick="sendOfflineResponse('material_missing')">
+                            <span class="chip-icon">📚</span>
+                            Mi material ya no está
+                        </button>
+                        <button class="chip-btn" onclick="sendOfflineResponse('buy_book')">
+                            <span class="chip-icon">📖</span>
+                            ¿No me aparece la tarea en mi plataforma?
+                        </button>
+                        <button class="chip-btn" onclick="sendOfflineResponse('buy_license')">
+                            <span class="chip-icon">💳</span>
+                            ¿Dónde compro mi libro ó licencia?
+                        </button>
+                        <button class="chip-btn" onclick="askForToken()">
+                            <span class="chip-icon">🕵️</span>
+                            Check Token / Validar Código
+                        </button>
+                    </div>
+
+                    <div class="bilingual-note">
+                        🌐 Este chatbot es bilingüe (Español/English)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Area -->
+            <div id="messages-list"></div>
+        </div>
+
+        <!-- Input -->
+        <div class="input-area">
+            <div class="input-wrapper">
+                <textarea id="user-input" placeholder="Escribe tu mensaje..." rows="1"></textarea>
+            </div>
+            <button id="send-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const API_ENDPOINT = 'https://yepzhi-richmondbot.hf.space/api/chat';
+
+        let hasStarted = false;
+        let isProcessing = false;
+        const conversationHistory = [];
+
+        // UI Refs
+        const welcomeView = document.getElementById('welcome-view');
+        const header = document.getElementById('header');
+        const messagesList = document.getElementById('messages-list');
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const restartBtn = document.getElementById('restart-btn');
+
+        const offlineAnswers = {
+            'code_error': {
+                text: "Si tu código dice **'Already Used' (Ya utilizado)**:\n\n1. Utiliza la herramienta **Check Token** (link debajo), para que puedas ver que datos fueron los que se utilizaron el registro original, ten en cuenta que los códigos son de **un solo uso**. Si ya creaste tu cuenta, no necesitas volver a ingresarlo.\n2. Solo inicia sesión con tu usuario y contraseña.\n3. Si es la primera vez que lo usas y falla, contacta a tu profesor o a soporte.\n\n📌 **IMPORTANTE:** Al contactar a soporte, envía FOTO DEL CÓDIGO DE TU LIBRO, nombre, correo y captura del problema.\n\n⚠️ **NOTA:** Este WhatsApp atiende solo Universidades en el **Noroeste**. Resto del país: contacte a su asesor local o a **help@richmondelt.com**.",
+                links: ['check_token', 'login', 'soporte']
+            },
+            'login_error': {
+                text: "Si no puedes entrar:\n\n1. Verifica que estés en el sitio correcto (richmondlp.com).\n2. Si olvidaste tu contraseña, usa la opción **'Forgotten password'**.\n3. Si no recuerdas tu usuario/correo utiliza la herramienta **Check Token** para que veas que correo se ultilizó en el registro y/o si tu suscripción sigue vigente.\n4. Si todo falla contacta a soporte.\n\n📌 **IMPORTANTE:** Al contactar a soporte, envía FOTO DEL CÓDIGO DE TU LIBRO, nombre, correo y captura del problema.\n\n⚠️ **NOTA:** Este WhatsApp atiende solo Universidades en el **Noroeste**. Resto del país: contacte a su asesor local o a **help@richmondelt.com**.",
+                links: ['check_token', 'login', 'soporte']
+            },
+            'task_error': {
+                text: "Si el sistema te dice 'access denied' y no te permite contestar una tarea:\n\n1. Revisa que estés dentro de la sesión con el mismo correo donde activaste tu material.\n2. Revisa que tengas vigente tu material y que sea el mismo de la tarea asignada.\n3. Si tienes problemas técnicos: Intenta con otro navegador (Chrome/Firefox).\n4. Si aun así no te permite contestar, toma captura de pantalla y envíala a soporte.\n\n📌 **IMPORTANTE:** Al contactar a soporte, envía FOTO DEL CÓDIGO DE TU LIBRO, nombre, correo y captura del problema.\n\n⚠️ **NOTA:** Este WhatsApp atiende solo Universidades en el **Noroeste**. Resto del país: contacte a su asesor local o a **help@richmondelt.com**.",
+                links: ['soporte']
+            },
+            'material_missing': {
+                text: "Si no ves tus materiales:\n\n1. Ve a **'My Products'**.\n2. Si no están disponibles, es probable que ya caducaron. Verifica la fecha de expiración.\n3. Si el material del curso caducó, necesitarás una nueva licencia:\n* Libros/licencias de 5-6 unidades: 6 meses de vigencia.\n* Libros/licencias de 10-12 unidades: 1 año de vigencia.\n\n📌 **IMPORTANTE:** Al contactar a soporte, envía FOTO DEL CÓDIGO DE TU LIBRO, nombre, correo y captura del problema.\n\n⚠️ **NOTA:** Este WhatsApp atiende solo Universidades en el **Noroeste**. Resto del país: contacte a su asesor local o a **help@richmondelt.com**.",
+                links: ['productos', 'soporte']
+            },
+            'buy_book': {
+                text: "Si no te aparece una tarea esperada:\n\n1. Es probable que no te hayas inscrito al grupo **después** de que asignaran la tarea. Pide a tu profesor que te agregue **en su panel de tareas activas**.\n2. Revisa la **fecha de inicio y fin** (Start/End Date).\n3. Si la fecha ya pasó, la tarea desaparecerá de 'To Do'.\n4. Revisa en la pestaña 'Done' si ya la entregaste.\n\n📌 **IMPORTANTE:** Al contactar a soporte, envía FOTO DEL CÓDIGO DE TU LIBRO, nombre, correo y captura del problema.\n\n⚠️ **NOTA:** Este WhatsApp atiende solo Universidades en el **Noroeste**. Resto del país: contacte a su asesor local o a **help@richmondelt.com**.",
+                links: ['soporte']
+            },
+            'buy_license': {
+                text: "Para adquirir libros o licencias:\n\n* Sigue las indicaciones de tu profesor o coordinación de Idiomas sobre donde ó como obtener tu material/licencias.\n* **Importante** ⚠️ Los libros y licencias tienen precios especiales para tí en tu Universidad, adquiérelos donde te indiquen ya que por fuera se venden a precios públicos más altos.\n\n⚠️ **NOTA:** Este WhatsApp atiende solo Universidades en el **Noroeste**. Resto del país: contacte a su asesor local o a **help@richmondelt.com**.",
+                links: ['soporte']
+            }
+        };
+
+        const resources = {
+            check_token: { title: "Ir a Check Token", url: "https://huggingface.co/spaces/yepzhi/richmond-token-check" },
+            registro: { title: "Ir a Registro", url: "https://www.richmondlp.com/register" },
+            login: { title: "Ir a Login", url: "https://www.richmondlp.com" },
+            ayuda: { title: "Ayuda/Help", url: "https://rlp-ug.knowledgeowl.com/help" },
+            soporte: { title: "Contactar Soporte (WhatsApp)", url: "https://wa.me/message/6O4USI5SGF3IA1" },
+            contacto: { title: "Contacto Ventas", url: "https://richmond.com.mx/contacto/" },
+            app: { title: "Descargar App", url: "https://richmondlp.com" },
+            productos: { title: "Mis Productos", url: "https://richmondlp.com" }
+        };
+
+        function transitionToChat() {
+            if (hasStarted) return;
+            hasStarted = true;
+            welcomeView.parentElement.style.display = 'none';
+            header.style.opacity = '1';
+            restartBtn.style.display = 'block';
+        }
+
+        function restartChat() {
+            conversationHistory.length = 0;
+            messagesList.innerHTML = '';
+            hasStarted = false;
+            isProcessing = false;
+            header.style.opacity = '0';
+            restartBtn.style.display = 'none';
+            welcomeView.parentElement.style.display = 'flex';
+            userInput.value = '';
+            autoResize();
+            chatContainer.scrollTop = 0;
+        }
+
+        function autoResize() {
+            userInput.style.height = 'auto';
+            userInput.style.height = Math.min(userInput.scrollHeight, 100) + 'px';
+        }
+
+        function scrollToBottom() {
+            setTimeout(() => {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 100);
+        }
+
+        function addMessage(text, isUser, links = []) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            if (isUser) {
+                avatar.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
+            } else {
+                avatar.innerHTML = '<div style="font-size: 24px;">🚀</div>';
+            }
+
+            const content = document.createElement('div');
+            content.className = 'message-content';
+
+            let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            formattedText = formattedText.replace(/\n/g, '<br>');
+
+            if (links.length === 0) {
+                const extracted = extractLinks(text);
+                if (extracted.links.length > 0) {
+                    content.innerHTML = extracted.cleanText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+                    links = extracted.links;
+                } else {
+                    content.innerHTML = formattedText;
+                }
+            } else {
+                content.innerHTML = formattedText;
+            }
+
+            if (links.length > 0) {
+                const linkContainer = document.createElement('div');
+                linkContainer.style.marginTop = '8px';
+                links.forEach(l => {
+                    const lObj = typeof l === 'string' ? resources[l] : l;
+                    if (lObj) {
+                        const a = document.createElement('a');
+                        a.href = lObj.url;
+                        a.className = 'resource-link';
+                        a.target = '_blank';
+                        a.textContent = lObj.title + ' →';
+                        linkContainer.appendChild(a);
+                    }
+                });
+                content.appendChild(linkContainer);
+            }
+
+            if (isUser) {
+                msgDiv.appendChild(content);
+                msgDiv.appendChild(avatar);
+            } else {
+                msgDiv.appendChild(avatar);
+                msgDiv.appendChild(content);
+            }
+
+            messagesList.appendChild(msgDiv);
+            scrollToBottom();
+        }
+
+        function sendOfflineResponse(key) {
+            transitionToChat();
+            const data = offlineAnswers[key];
+
+            let userQuestion = "Ayuda";
+            const questions = {
+                'code_error': "Mi código no funciona",
+                'login_error': "No puedo entrar a la plataforma",
+                'task_error': "No puedo hacer una tarea",
+                'material_missing': "Mi material ya no está",
+                'buy_book': "¿Dónde compro mi libro?",
+                'buy_license': "¿Dónde compro mi licencia?"
+            };
+            userQuestion = questions[key] || userQuestion;
+
+            addMessage(userQuestion, true);
+            isProcessing = true;
+
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot';
+            typingDiv.innerHTML = `
+                <div class="message-avatar">
+                    <div style="font-size: 24px;">🚀</div>
+                </div>
+                <div class="message-content">
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            messagesList.appendChild(typingDiv);
+            scrollToBottom();
+
+            setTimeout(() => {
+                typingDiv.remove();
+
+                if (data) {
+                    const linkObjects = data.links ? data.links.map(k => resources[k]) : [];
+                    addMessage(data.text, false, linkObjects);
+                } else {
+                    addMessage("Opción no disponible.", false);
+                }
+                isProcessing = false;
+            }, 600);
+        }
+
+        function openTokenChecker() {
+            // Open external tool
+            window.open("https://huggingface.co/spaces/yepzhi/richmond-token-check", "_blank");
+        }
+
+        async function handleSend(manualText = null) {
+            transitionToChat();
+            const text = manualText || userInput.value.trim();
+            if (!text || isProcessing) return;
+
+            isProcessing = true;
+            addMessage(text, true);
+            userInput.value = '';
+            autoResize();
+
+            // Loading indicator
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot typing-placeholder';
+            typingDiv.innerHTML = `
+                <div class="message-avatar"><div style="font-size: 24px;">🚀</div></div>
+                <div class="message-content">
+                    <div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
+                </div>`;
+            messagesList.appendChild(typingDiv);
+            scrollToBottom();
+
+
+            try {
+                const aiResponse = await getAIResponse(text); // Keep original call
+
+                // Remove progress/typing divs
+                const loadingDivs = document.querySelectorAll('.typing-placeholder');
+                loadingDivs.forEach(el => {
+                    el.remove();
+                });
+
+                const extracted = extractLinks(aiResponse);
+                addMessage(extracted.cleanText, false, extracted.links);
+            } catch (e) {
+                // if (progressInterval) clearInterval(progressInterval); // Removed undefined var
+                const loadingDivs = document.querySelectorAll('.typing-placeholder');
+                loadingDivs.forEach(el => {
+                    el.remove();
+                });
+                addMessage("⚠️ Error: " + e.message, false);
+            } finally {
+                isProcessing = false;
+            }
+        }
+
+        async function getAIResponse(question) {
+            conversationHistory.push({ role: "user", content: question });
+            const messagesToSend = conversationHistory.slice(-10);
+
+            const response = await fetch(API_ENDPOINT, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ messages: messagesToSend })
+            });
+
+            if (!response.ok) {
+                if (response.status === 429) {
+                    throw new Error("⏳ Estoy recibiendo muchos mensajes. Espera 1 minuto.");
+                }
+                if (response.status === 503) {
+                    throw new Error("🔧 El servicio está ocupado. Intenta de nuevo.");
+                }
+                throw new Error("No puedo conectar. (Status: " + response.status + ")");
+            }
+
+            const data = await response.json();
+            const text = data.content?.[0]?.text || "No response.";
+            conversationHistory.push({ role: "assistant", content: text });
+            return text;
+        }
+
+        function extractLinks(text) {
+            const linkMatches = text.match(/\[LINK:(\w+)\]/g) || [];
+            const links = [];
+            linkMatches.forEach(match => {
+                const key = match.match(/\[LINK:(\w+)\]/)[1];
+                if (resources[key]) links.push(resources[key]);
+            });
+            const cleanText = text.replace(/\[LINK:\w+\]/g, '');
+            return { cleanText, links };
+        }
+
+        sendBtn.addEventListener('click', () => handleSend());
+        userInput.addEventListener('input', autoResize);
+        userInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+            }
+        });
+    </script>
+</body>
+
+</html>
