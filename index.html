@@ -955,6 +955,73 @@
                 font-size: 12px;
             }
         }
+
+        /* LANGUAGE TOGGLE */
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .lang-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .hopradio-btn {
+            margin-bottom: 0;
+            padding: 12px 24px;
+            font-size: 13px;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hopradio-btn::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ef4444;
+            animation: pulse-red 1.5s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
     </style>
 </head>
 
@@ -965,19 +1032,33 @@
         </div>
     </div>
 
+    <!-- LANG TOGGLE -->
+    <a href="#" class="lang-toggle" id="langToggle">
+        <span class="lang-flag">🇺🇸</span><span class="lang-text">ENG</span>
+    </a>
+
     <div class="container">
         <!-- SECCIÓN DE PERFIL -->
         <div class="glass-container profile-section">
             <div class="header-left-buttons">
                 <a href="https://yepzhi.github.io/jovenesstem/" target="_blank" class="test-link-btn"
-                    style="margin-bottom: 0; padding: 12px 24px; font-size: 13px; background: linear-gradient(135deg, #D14030 0%, #54364D 100%);">
+                    style="margin-bottom: 0; padding: 12px 24px; font-size: 13px; background: linear-gradient(135deg, #D14030 0%, #54364D 100%);"
+                    data-i18n="nav.jovenes">
                     Conoce más de JóvenesSTEM aquí 🚀
                 </a>
-                <a href="https://yepzhi.github.io/tools/hub.html" class="tools-button">🔨 Tools Hub</a>
+
+                <!-- HOPRADIO BTN -->
+                <a href="https://yepzhi.github.io/hopRadio/" target="_blank" class="test-link-btn hopradio-btn"
+                    data-i18n="radio.live_btn">
+                    hopRadio en vivo 🔴
+                </a>
+
+                <a href="https://yepzhi.github.io/tools/hub.html" class="tools-button" data-i18n="nav.tools">🔨 Tools
+                    Hub</a>
             </div>
             <img src="author.JPEG" alt="Alberto Yépiz" class="profile-pic">
             <div class="profile-name">Alberto Yépiz</div>
-            <div class="profile-bio">
+            <div class="profile-bio" data-i18n="profile.bio">
                 🚀 Visionario STEM con +15 años de experiencia en <strong>Apple</strong>, <strong>PepsiCo</strong>,
                 <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>.<br><br>
                 💼 MBA con Background financiero, Full Cycle CX/UX, desarrollo web aplicado a innovación, estrategia y
@@ -1005,21 +1086,24 @@
         <!-- SECCIÓN DE ENLACES -->
         <div class="glass-container links-section">
             <div class="links-grid">
-                <a href="https://wa.me/message/6O4USI5SGF3IA1" target="_blank" class="link-btn">
+                <a href="https://wa.me/message/6O4USI5SGF3IA1" target="_blank" class="link-btn"
+                    data-i18n="links.whatsapp">
                     👋 WhatsApp - Click Aqui!
                 </a>
                 <a href="https://drive.google.com/file/d/1f7eSHWHFn-dZraXkoewz6hweGjqLGY-t/view?usp=drivesdk"
-                    target="_blank" class="link-btn">
+                    target="_blank" class="link-btn" data-i18n="links.proposal">
                     📄 Propuesta JóvenesSTEM FastTrack^
                 </a>
-                <a href="https://heyzine.com/flip-book/b3d2f0a53e.html" target="_blank" class="link-btn">
+                <a href="https://heyzine.com/flip-book/b3d2f0a53e.html" target="_blank" class="link-btn"
+                    data-i18n="links.book">
                     📚 Mi libro BlueBook v1 gratis!
                 </a>
                 <a href="https://open.spotify.com/show/3wLCHgay5RrtgEWSH2XoTu?si=i5wQe0DKROS9U2IAbDh1eA" target="_blank"
-                    class="link-btn">
+                    class="link-btn" data-i18n="links.podcast">
                     🎙️ Escucha mis Podcasts
                 </a>
-                <a href="https://www.instagram.com/hidefparties" target="_blank" class="link-btn">
+                <a href="https://www.instagram.com/hidefparties" target="_blank" class="link-btn"
+                    data-i18n="links.bose">
                     🔊 Renta equipo Bose aquí!
                 </a>
             </div>
@@ -1027,11 +1111,11 @@
 
         <!-- REPRODUCTOR DE MÚSICA -->
         <div class="glass-container player-section">
-            <div class="player-title">🎵 @yepzhi Radio</div>
+            <div class="player-title" data-i18n="radio.title">🎵 @yepzhi Radio</div>
 
             <div class="now-playing">
-                <div class="track-label">Now Playing</div>
-                <div class="track-name" id="trackName">Select a jam</div>
+                <div class="track-label" data-i18n="radio.now_playing">Now Playing</div>
+                <div class="track-name" id="trackName" data-i18n="radio.select">Select a jam</div>
             </div>
 
             <div class="progress-bar" id="progressBar">
@@ -1049,44 +1133,45 @@
             </div>
 
             <div class="volume-control">
-                <label class="volume-label">🔊 Turn it up!</label>
+                <label class="volume-label" data-i18n="radio.turn_up">🔊 Turn it up!</label>
                 <input type="range" id="volumeControl" min="0" max="100" value="60">
             </div>
 
             <div class="playlist">
-                <div class="playlist-title">📋 Playlist</div>
+                <div class="playlist-title" data-i18n="radio.playlist">📋 Playlist</div>
                 <div id="playlistContainer"></div>
             </div>
         </div>
 
         <!-- MÓDULO JÓVENESSTEM -->
         <div class="glass-container jovenes-stem-section">
-            <div class="jovenes-stem-title">🚀 ¿Conoces JóvenesSTEM?</div>
-            <div class="jovenes-stem-text">
+            <div class="jovenes-stem-title" data-i18n="jovenes.title">🚀 ¿Conoces JóvenesSTEM?</div>
+            <div class="jovenes-stem-text" data-i18n="jovenes.text">
                 Estás listo para conocer más de JóvenesSTEM, toma el test y descubre que tanto sabes de Ciencia, a su
                 ves conocerás los contenidos del capítulo 1.
             </div>
-            <div class="jovenes-stem-small">
+            <div class="jovenes-stem-small" data-i18n="jovenes.note">
                 *Test basado solo en el capítulo 1 del libro BlueBookv1.
             </div>
             <div class="jovenes-buttons" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
                 <a href="https://yepzhi.github.io/jovenesstem/" target="_blank" class="test-link-btn"
-                    style="background: linear-gradient(135deg, #D14030 0%, #54364D 100%);">
+                    style="background: linear-gradient(135deg, #D14030 0%, #54364D 100%);" data-i18n="jovenes.btn_more">
                     Conoce más de JóvenesSTEM aquí 🚀
                 </a>
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSct8lcx9hj2Vy-7sY4hSJCTeqzhvm4qx468RbXqLg1hvzhDXA/viewform?usp=sf_link"
-                    class="test-link-btn">Tomar Test Ahora</a>
+                    class="test-link-btn" data-i18n="jovenes.btn_test">Tomar Test Ahora</a>
             </div>
-            <div class="badge-text">
+            <div class="badge-text" data-i18n="jovenes.badge">
                 Si sacas más de 80% serás candidato a recibir tu primer badge L1 de JóvenesSTEM 🏅
             </div>
         </div>
 
         <!-- FOOTER -->
         <div class="footer">
-            <div>Developed by <a href="https://github.com/yepzhi" target="_blank">@yepzhi</a></div>
+            <div data-i18n="footer.developed">Developed by <a href="https://github.com/yepzhi"
+                    target="_blank">@yepzhi</a></div>
             <div class="visit-counter">
-                <span class="visitor-label">Visitors 👀</span>
+                <span class="visitor-label" data-i18n="footer.visitors">Visitors 👀</span>
                 <script type="text/javascript">
                     var sc_project = 13182229;
                     var sc_invisible = 0;
@@ -1105,14 +1190,14 @@
                     </div>
                 </noscript>
             </div>
-            <div class="footer-copyright">
+            <div class="footer-copyright" data-i18n="footer.rights">
                 © 2025 Alberto Yépiz • All Rights Reserved
             </div>
         </div>
     </div>
 
     <audio id="audioPlayer"></audio>
-
+    <script src="translations.js"></script>
     <script>
         const songs = [
             { title: "Holy Blindfold", url: "musica/HolyBlindfold.mp3" },
