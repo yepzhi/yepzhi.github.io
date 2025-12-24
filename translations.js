@@ -20,7 +20,7 @@ const translations = {
             select: "Selecciona una pista",
             turn_up: "🔊 Turn it up!",
             playlist: "📋 Playlist",
-            live_btn: "hopRadio en vivo 🔴"
+            live_btn: "hopRadio en vivo"
         },
         jovenes: {
             title: "🚀 ¿Conoces JóvenesSTEM?",
@@ -57,7 +57,7 @@ const translations = {
             select: "Select a jam",
             turn_up: "🔊 Turn it up!",
             playlist: "📋 Playlist",
-            live_btn: "hopRadio Live 🔴"
+            live_btn: "hopRadio Live"
         },
         jovenes: {
             title: "🚀 Do you know JóvenesSTEM?",
