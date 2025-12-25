@@ -2,7 +2,8 @@ const translations = {
     es: {
         nav: {
             jovenes: "Conoce más de JóvenesSTEM aquí 🚀",
-            tools: "🔨 Tools Hub"
+            tools: "🔨 Tools Hub",
+            tools_big: "🛠️ Conoce más de mis herramientas"
         },
         profile: {
             bio: "🚀 Visionario STEM con +15 años de experiencia en <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>.<br><br>💼 MBA con Background financiero, Full Cycle CX/UX, desarrollo web aplicado a innovación, estrategia y producto digital. 📊 Certificado en <strong>Data Science & Agile Systems for Product Management</strong> University of Maryland✨ <strong>+ English CEFR B2 🇺🇸</strong> by ETS.<br><br>💻 <strong>Fundador de <a href=\"https://www.instagram.com/jovenesstem/\" target=\"_blank\">JóvenesSTEM 🚀</strong></a> — conectando ciencia y tecnología con las nuevas generaciones."
@@ -39,7 +40,8 @@ const translations = {
     en: {
         nav: {
             jovenes: "Learn more about JóvenesSTEM here 🚀",
-            tools: "🔨 Tools Hub"
+            tools: "🔨 Tools Hub",
+            tools_big: "🛠️ Get to know more of my tools"
         },
         profile: {
             bio: "🚀 STEM Visionary with +15 years of experience at <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> and <strong>Santillana/Richmond</strong>.<br><br>💼 MBA with Financial Background, Full Cycle CX/UX, web development applied to innovation, strategy and digital product. 📊 Certified in <strong>Data Science & Agile Systems for Product Management</strong> University of Maryland✨ <strong>+ English CEFR B2 🇺🇸</strong> by ETS.<br><br>💻 <strong>Founder of <a href=\"https://www.instagram.com/jovenesstem/\" target=\"_blank\">JóvenesSTEM 🚀</strong></a> — connecting science and technology with new generations."
