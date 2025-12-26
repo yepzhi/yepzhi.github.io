@@ -1099,12 +1099,18 @@
 
         /* --- SOCIAL ICONS (Brand Colors - 50% More Visible) --- */
         .social-icon {
-            display: inline-block;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
         }
 
         .social-icon img {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             transition: all 0.3s ease;
             filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
         }
@@ -1128,8 +1134,8 @@
 
         /* --- TOOLS BUTTON (Restored Blue Color + EXTRA GLASSY) --- */
         .tools-btn-style {
-            /* Glassy Blue Gradient (More transparent + Highlight) */
-            background: linear-gradient(135deg, rgba(0, 96, 223, 0.5) 0%, rgba(0, 212, 255, 0.5) 100%) !important;
+            /* New Vibrant Gradient (Purple -> Pink -> Gold) "Más lindo y novedoso" */
+            background: linear-gradient(135deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%) !important;
             /* Brighter white border for Glass edge */
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
             border-top: 1px solid rgba(255, 255, 255, 0.5) !important;
