@@ -1142,12 +1142,22 @@
 
         /* --- TOOLS BUTTON (Restored Blue Color + EXTRA GLASSY) --- */
         /* --- TOOLS BUTTON (Darker Golden Style) --- */
+        /* --- TOOLS BUTTON (Black & Gold Text Style) --- */
         .tools-btn-style {
-            /* "Mismo tono amarillo pero mas dorado, poco mas oscuro" (Dark GoldenRod -> Gold) */
-            background: linear-gradient(135deg, #B8860B 0%, #FFD700 100%) !important;
-            /* Brighter white border for Glass edge */
-            border: 1px solid rgba(255, 255, 255, 0.4) !important;
-            border-top: 1px solid rgba(255, 255, 255, 0.6) !important;
+            /* Black Background */
+            background: rgba(0, 0, 0, 0.8) !important;
+
+            /* Gold Border */
+            border: 1px solid rgba(255, 215, 0, 0.4) !important;
+            border-top: 1px solid rgba(255, 215, 0, 0.6) !important;
+
+            /* Gradient TEXT */
+            background-image: linear-gradient(90deg, #FFD700 0%, #FFA500 100%) !important;
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            color: transparent !important;
+            /* Fallback */
 
             font-weight: 700 !important;
             /* Negritas */
