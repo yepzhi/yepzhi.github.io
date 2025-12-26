@@ -3,7 +3,7 @@ const translations = {
         nav: {
             jovenes: "Conoce más de JóvenesSTEM aquí 🚀",
             tools: "🔨 Tools Hub",
-            tools_big: "🛠️ Conoce más de mis herramientas"
+            tools_big: "🛠️ Conoce mis otros desarrollos"
         },
         profile: {
             bio: "🚀 Visionario STEM con +15 años de experiencia en <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>.<br><br>💼 MBA con Background financiero, Full Cycle CX/UX, desarrollo web aplicado a innovación, estrategia y producto digital. 📊 Certificado en <strong>Data Science & Agile Systems for Product Management</strong> University of Maryland✨ <strong>+ English CEFR B2 🇺🇸</strong> by ETS.<br><br>💻 <strong>Fundador de <a href=\"https://www.instagram.com/jovenesstem/\" target=\"_blank\">JóvenesSTEM 🚀</strong></a> — conectando ciencia y tecnología con las nuevas generaciones."
