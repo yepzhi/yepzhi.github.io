@@ -1145,11 +1145,11 @@
         /* --- TOOLS BUTTON (Black & Gold Text Style) --- */
         .tools-btn-style {
             /* Black Background */
-            background: rgba(0, 0, 0, 0.8) !important;
+            background: #000000 !important;
 
             /* Gold Border */
-            border: 1px solid rgba(255, 215, 0, 0.4) !important;
-            border-top: 1px solid rgba(255, 215, 0, 0.6) !important;
+            border: 1px solid rgba(255, 215, 0, 0.5) !important;
+            border-top: 1px solid rgba(255, 215, 0, 0.8) !important;
 
             /* Gradient TEXT */
             background-image: linear-gradient(90deg, #FFD700 0%, #FFA500 100%) !important;
@@ -1157,21 +1157,15 @@
             background-clip: text !important;
             -webkit-text-fill-color: transparent !important;
             color: transparent !important;
-            /* Fallback */
 
             font-weight: 700 !important;
-            /* Negritas */
-            border-top: 1px solid rgba(255, 255, 255, 0.5) !important;
-            /* Top Highlight */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 
-            backdrop-filter: blur(16px) !important;
-            /* Stronger Blur */
-            -webkit-backdrop-filter: blur(16px) !important;
+            /* No Blur (Glass removed) */
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
 
-            /* Sizing - "Más justo con el texto" */
+            /* Sizing */
             width: auto !important;
-            /* Fit content */
             max-width: none;
             display: inline-flex !important;
             justify-content: center;
@@ -1179,25 +1173,26 @@
             gap: 8px;
             font-size: 14px;
 
-            /* Glass Glow Shadow */
-            box-shadow:
-                0 4px 20px rgba(0, 96, 223, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+            /* Modern Outline Glow */
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.15) !important;
 
             border-radius: 9999px;
-            color: white !important;
             padding: 10px 24px;
-            /* Tighter vertical */
             margin: 0 auto;
-            /* Center it */
         }
 
         .tools-btn-style:hover {
-            /* Brighter/Opaque on hover */
-            background: linear-gradient(135deg, rgba(0, 96, 223, 0.7) 0%, rgba(0, 212, 255, 0.7) 100%) !important;
-            box-shadow: 0 8px 25px rgba(0, 119, 181, 0.4) !important;
+            /* Keep Black BG */
+            background: #000000 !important;
+            /* Intensify Gold Glow */
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5), inset 0 0 10px rgba(255, 215, 0, 0.2) !important;
             transform: translateY(-2px);
-            border-color: rgba(255, 255, 255, 0.6) !important;
+            border-color: #FFD700 !important;
+
+            /* Ensure text stays visible */
+            -webkit-text-fill-color: transparent !important;
+        }
+
         }
 
         .hopradio-btn::after {
