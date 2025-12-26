@@ -1032,6 +1032,60 @@
             letter-spacing: 0px;
         }
 
+        /* --- JOVENES STEM LOGO STYLE --- */
+        .jovenes-btn {
+            margin-bottom: 0;
+            padding: 8px 16px;
+            font-size: 24px;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: transparent !important;
+            /* Force transparent override */
+            border: none !important;
+            display: flex;
+            align-items: center;
+            /* Align based on baseline nicely */
+            gap: 2px;
+            /* Tight gap */
+            text-decoration: none;
+            transition: transform 0.3s ease;
+            box-shadow: none !important;
+        }
+
+        .jovenes-btn:hover {
+            transform: scale(1.05);
+            /* Gentle zoom */
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        /* "jóvenes" - Red Gradient */
+        .jovenes-text {
+            font-weight: 700;
+            /* Gradient from Image: Red to Dark */
+            background: linear-gradient(90deg, #c62828 0%, #3e2723 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        /* "STEM" - Dark Blue */
+        .stem-text {
+            font-weight: 900;
+            color: #0d47a1;
+            /* Dark Blue */
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+        }
+
+        .reg-mark {
+            font-size: 10px;
+            color: #0d47a1;
+            font-weight: 700;
+            vertical-align: super;
+            margin-left: 2px;
+        }
+
         .hopradio-btn::after {
             content: '';
             width: 8px;
@@ -1073,10 +1127,10 @@
         <!-- SECCIÓN DE PERFIL -->
         <div class="glass-container profile-section">
             <div class="header-left-buttons">
-                <a href="https://yepzhi.github.io/jovenesstem/" target="_blank" class="test-link-btn"
-                    style="margin-bottom: 0; padding: 12px 24px; font-size: 13px; background: linear-gradient(135deg, #D14030 0%, #54364D 100%);"
-                    data-i18n="nav.jovenes">
-                    Conoce más de JóvenesSTEM aquí 🚀
+                <!-- JOVENES STEM LOGO BTN -->
+                <a href="https://yepzhi.github.io/jovenesstem/" target="_blank" class="test-link-btn jovenes-btn">
+                    <span class="jovenes-text">jóvenes</span><span class="stem-text">STEM</span><sup
+                        class="reg-mark">®</sup>
                 </a>
 
                 <!-- HOPRADIO BTN (Logo Style) -->
@@ -1180,9 +1234,9 @@
                 *Test basado solo en el capítulo 1 del libro BlueBookv1.
             </div>
             <div class="jovenes-buttons" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-                <a href="https://yepzhi.github.io/jovenesstem/" target="_blank" class="test-link-btn"
-                    style="background: linear-gradient(135deg, #D14030 0%, #54364D 100%);" data-i18n="jovenes.btn_more">
-                    Conoce más de JóvenesSTEM aquí 🚀
+                <a href="https://yepzhi.github.io/jovenesstem/" target="_blank" class="test-link-btn jovenes-btn">
+                    <span class="jovenes-text">jóvenes</span><span class="stem-text">STEM</span><sup
+                        class="reg-mark">®</sup>
                 </a>
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSct8lcx9hj2Vy-7sY4hSJCTeqzhvm4qx468RbXqLg1hvzhDXA/viewform?usp=sf_link"
                     class="test-link-btn" data-i18n="jovenes.btn_test">Tomar Test Ahora</a>
