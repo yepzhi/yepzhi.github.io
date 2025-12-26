@@ -77,6 +77,45 @@ const translations = {
             rights: "© 2025 Alberto Yépiz • All Rights Reserved • v4.1.4"
         }
     }
+    cn: {
+        nav: {
+            jovenes: "在此了解更多关于 JóvenesSTEM 的信息 🚀",
+            tools: "🔨 工具中心",
+            tools_big: "🛠️ 了解我的其他开发项目"
+        },
+        profile: {
+            bio: "🚀 STEM 远见者，拥有超过 15 年在 <strong>Apple</strong>、<strong>PepsiCo</strong>、<strong>AVIS</strong> 和 <strong>Santillana/Richmond</strong> 的经验。<br><br>💼 MBA，具备金融背景，全周期 CX/UX，应用于创新、战略和数字产品的 Web 开发。📊 获得马里兰大学 <strong>数据科学与敏捷系统产品管理</strong> 认证 ✨ <strong>+ ETS 英语 CEFR B2 🇺🇸</strong>。<br><br>💻 <strong><a href=\"https://www.instagram.com/jovenesstem/\" target=\"_blank\">JóvenesSTEM 🚀</strong></a> 创始人 — 连接科学技术与新一代。"
+        },
+        links: {
+            whatsapp: "👋 WhatsApp - 点击这里!",
+            proposal: "📄 JóvenesSTEM FastTrack 提案^",
+            book: "📚 免费获取我的 BlueBook v1！",
+            podcast: "🎙️ 收听我的播客",
+            bose: "🔊 在此租用 Bose 设备！"
+        },
+        radio: {
+            title: "🎵 @yepzhi 电台",
+            now_playing: "正在播放",
+            select: "选择曲目",
+            turn_up: "🔊 大声点！",
+            playlist: "📋 播放列表",
+            live_btn: "hopRadio 直播"
+        },
+        jovenes: {
+            title: "🚀 你知道 JóvenesSTEM 吗？",
+            text: "准备好了解更多关于 JóvenesSTEM 的信息了吗？参加测试，发现你对科学了解多少，同时探索第一章的内容。",
+            note: "*测试仅基于 BlueBook v1 第一章。",
+            btn_more: "在此了解更多关于 JóvenesSTEM 的信息 🚀",
+            btn_test: "立即参加测试",
+            badge: "得分超过 80% 即可获得你的第一个 JóvenesSTEM L1 徽章 🏅",
+            conoce_plus: "了解"
+        },
+        footer: {
+            developed: "由 <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a> 开发",
+            visitors: "访客 👀",
+            rights: "© 2025 Alberto Yépiz • 版权所有 • v4.1.4"
+        }
+    }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -98,12 +137,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Update Button - show opposite language option
+        // Update Button - show NEXT language option
+        // Cycle: ES -> EN -> CN -> ES
         if (langBtn) {
             if (lang === 'es') {
+                // Next is EN
                 langBtn.innerHTML = '<span class="lang-flag">🇺🇸</span><span class="lang-text" style="font-weight:700; font-size:12px; margin-left:4px;">ENG</span>';
                 langBtn.title = "Switch to English";
+            } else if (lang === 'en') {
+                // Next is CN
+                langBtn.innerHTML = '<span class="lang-flag">🇨🇳</span><span class="lang-text" style="font-weight:700; font-size:12px; margin-left:4px;">CN</span>';
+                langBtn.title = "切换到中文";
             } else {
+                // Next is ES
                 langBtn.innerHTML = '<span class="lang-flag">🇲🇽</span><span class="lang-text" style="font-weight:700; font-size:12px; margin-left:4px;">ESP</span>';
                 langBtn.title = "Cambiar a Español";
             }
@@ -118,7 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (langBtn) {
         langBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            const newLang = currentLang === 'es' ? 'en' : 'es';
+            let newLang;
+            if (currentLang === 'es') newLang = 'en';
+            else if (currentLang === 'en') newLang = 'cn';
+            else newLang = 'es';
+
             updateLanguage(newLang);
         });
     }
