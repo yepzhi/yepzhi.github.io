@@ -29,7 +29,8 @@ const translations = {
             note: "*Test basado solo en el capítulo 1 del libro BlueBookv1.",
             btn_more: "Conoce más de JóvenesSTEM aquí 🚀",
             btn_test: "Tomar Test Ahora",
-            badge: "Si sacas más de 80% serás candidato a recibir tu primer badge L1 de JóvenesSTEM 🏅"
+            badge: "Si sacas más de 80% serás candidato a recibir tu primer badge L1 de JóvenesSTEM 🏅",
+            conoce_plus: "Conoce+"
         },
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
@@ -67,7 +68,8 @@ const translations = {
             note: "*Test based only on Chapter 1 of the BlueBook v1.",
             btn_more: "Learn more about JóvenesSTEM here 🚀",
             btn_test: "Take Test Now",
-            badge: "Score over 80% to be eligible for your first JóvenesSTEM L1 Badge 🏅"
+            badge: "Score over 80% to be eligible for your first JóvenesSTEM L1 Badge 🏅",
+            conoce_plus: "Get to know"
         },
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
