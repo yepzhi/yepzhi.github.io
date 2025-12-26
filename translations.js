@@ -35,7 +35,7 @@ const translations = {
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
-            rights: "© 2025 Alberto Yépiz • All Rights Reserved • v4.1.1"
+            rights: "© 2025 Alberto Yépiz • All Rights Reserved • v4.1.2"
         }
     },
     en: {
@@ -74,7 +74,7 @@ const translations = {
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
-            rights: "© 2025 Alberto Yépiz • All Rights Reserved • v4.1.1"
+            rights: "© 2025 Alberto Yépiz • All Rights Reserved • v4.1.2"
         }
     }
 };
