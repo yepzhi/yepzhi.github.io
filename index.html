@@ -987,31 +987,30 @@
 
         .hopradio-btn {
             margin-bottom: 0;
-            padding: 12px 24px;
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            /* hopRadio Red Gradient Style */
-            background: linear-gradient(135deg, rgba(220, 38, 38, 0.6) 0%, rgba(127, 29, 29, 0.8) 100%);
-            border: 1px solid rgba(239, 68, 68, 0.4);
+            padding: 10px 24px;
+            font-size: 13px;
+            font-weight: 700;
+            /* Exact match from hopRadio Install Button */
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.4) 0%, rgba(153, 27, 27, 0.4) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            border-radius: 9999px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(220, 20, 60, 0.2);
+            box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
             color: white !important;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-transform: none;
+            letter-spacing: normal;
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
 
         .hopradio-btn:hover {
             transform: translateY(-2px);
-            background: linear-gradient(135deg, rgba(220, 38, 38, 0.8) 0%, rgba(127, 29, 29, 1) 100%);
-            box-shadow: 0 8px 20px rgba(220, 20, 60, 0.4);
-            border-color: #ef4444;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.6) 0%, rgba(153, 27, 27, 0.6) 100%);
         }
 
         .hopradio-btn::after {
