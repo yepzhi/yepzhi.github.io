@@ -76,7 +76,7 @@ const translations = {
             visitors: "Visitors 👀",
             rights: "© 2025 Alberto Yépiz • All Rights Reserved • v4.1.5"
         }
-    }
+    },
     cn: {
         nav: {
             jovenes: "在此了解更多关于 JóvenesSTEM 的信息 🚀",
