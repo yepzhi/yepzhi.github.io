@@ -1035,33 +1035,41 @@
         /* --- JOVENES STEM LOGO STYLE --- */
         .jovenes-btn {
             margin-bottom: 0;
-            padding: 8px 16px;
-            font-size: 24px;
+            padding: 10px 20px;
+            font-size: 20px;
+            /* Reduced slightly to fit "Conoce+" */
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: transparent !important;
-            /* Force transparent override */
-            border: none !important;
+
+            /* ADDED: Button Outline/Background for clickability */
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 12px;
+
             display: flex;
             align-items: center;
-            /* Align based on baseline nicely */
-            gap: 2px;
-            /* Tight gap */
+            gap: 6px;
             text-decoration: none;
-            transition: transform 0.3s ease;
-            box-shadow: none !important;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
         }
 
         .jovenes-btn:hover {
-            transform: scale(1.05);
-            /* Gentle zoom */
-            background: transparent !important;
-            box-shadow: none !important;
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(200, 50, 50, 0.5) !important;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .conoce-text {
+            font-size: 14px;
+            color: #ddd;
+            font-weight: 500;
+            margin-right: 4px;
         }
 
         /* "jóvenes" - Red Gradient */
         .jovenes-text {
             font-weight: 700;
-            /* Gradient from Image: Red to Dark */
             background: linear-gradient(90deg, #c62828 0%, #3e2723 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -1073,7 +1081,6 @@
         .stem-text {
             font-weight: 900;
             color: #0d47a1;
-            /* Dark Blue */
             letter-spacing: -0.5px;
             text-transform: uppercase;
         }
@@ -1084,6 +1091,67 @@
             font-weight: 700;
             vertical-align: super;
             margin-left: 2px;
+        }
+
+        /* --- SOCIAL ICONS (Brand Colors - 50% More Visible) --- */
+        .social-icon {
+            display: inline-block;
+        }
+
+        .social-icon img {
+            width: 32px;
+            /* Ensure size */
+            height: 32px;
+            transition: all 0.3s ease;
+            /* Default slight glow */
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+        }
+
+        /* Specific Brand Colors with Glow - Applied to IMG for PNGs */
+        .social-icon.linkedin img {
+            filter: drop-shadow(0 0 8px #0077b5) brightness(1.3);
+        }
+
+        .social-icon.instagram img {
+            filter: drop-shadow(0 0 8px #e1306c) brightness(1.3);
+        }
+
+        .social-icon.github img {
+            filter: drop-shadow(0 0 8px #ffffff) brightness(1.3);
+        }
+
+        .social-icon:hover img {
+            transform: scale(1.15);
+            /* Intensify on hover */
+            filter: drop-shadow(0 0 12px currentColor) brightness(1.5);
+        }
+
+        /* --- TOOLS BUTTON (Blue - Toned Down) --- */
+        .tools-btn-style {
+            /* User requested 33% more transparent or 50% less bright */
+            background: linear-gradient(90deg, rgba(0, 119, 181, 0.4) 0%, rgba(0, 70, 100, 0.4) 100%) !important;
+            border: 1px solid rgba(0, 119, 181, 0.3) !important;
+            backdrop-filter: blur(10px);
+            opacity: 0.95;
+
+            /* Layout Layout Properties (replacing inline) */
+            width: 100%;
+            max-width: 400px;
+            display: inline-flex !important;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0, 119, 181, 0.1) !important;
+            border-radius: 12px;
+            color: white !important;
+            padding: 12px 24px;
+        }
+
+        .tools-btn-style:hover {
+            background: linear-gradient(90deg, rgba(0, 119, 181, 0.6) 0%, rgba(0, 70, 100, 0.6) 100%) !important;
+            box-shadow: 0 6px 16px rgba(0, 119, 181, 0.2) !important;
+            transform: translateY(-2px);
         }
 
         .hopradio-btn::after {
@@ -1129,8 +1197,8 @@
             <div class="header-left-buttons">
                 <!-- JOVENES STEM LOGO BTN -->
                 <a href="https://yepzhi.github.io/jovenesstem/" target="_blank" class="test-link-btn jovenes-btn">
-                    <span class="jovenes-text">jóvenes</span><span class="stem-text">STEM</span><sup
-                        class="reg-mark">®</sup>
+                    <span class="conoce-text">Conoce+</span><span class="jovenes-text">jóvenes</span><span
+                        class="stem-text">STEM</span>
                 </a>
 
                 <!-- HOPRADIO BTN (Logo Style) -->
@@ -1172,9 +1240,8 @@
 
             <!-- New Tools Button -->
             <div style="margin-top: 24px; text-align: center;">
-                <a href="https://yepzhi.github.io/tools/hub.html" target="_blank" class="test-link-btn"
-                    data-i18n="nav.tools_big"
-                    style="background: linear-gradient(135deg, #0060df 0%, #00d4ff 100%); width: 100%; max-width: 400px; display: inline-flex; justify-content: center; align-items: center; gap: 8px; font-size: 14px; box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); border: 1px solid rgba(0, 212, 255, 0.3);">
+                <a href="https://yepzhi.github.io/tools/hub.html" target="_blank" class="test-link-btn tools-btn-style"
+                    data-i18n="nav.tools_big">
                     🛠️ Get to know more of my tools
                 </a>
             </div>
@@ -1235,8 +1302,8 @@
             </div>
             <div class="jovenes-buttons" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
                 <a href="https://yepzhi.github.io/jovenesstem/" target="_blank" class="test-link-btn jovenes-btn">
-                    <span class="jovenes-text">jóvenes</span><span class="stem-text">STEM</span><sup
-                        class="reg-mark">®</sup>
+                    <span class="conoce-text">Conoce+</span><span class="jovenes-text">jóvenes</span><span
+                        class="stem-text">STEM</span>
                 </a>
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSct8lcx9hj2Vy-7sY4hSJCTeqzhvm4qx468RbXqLg1hvzhDXA/viewform?usp=sf_link"
                     class="test-link-btn" data-i18n="jovenes.btn_test">Tomar Test Ahora</a>
