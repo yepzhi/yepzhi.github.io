@@ -30,7 +30,7 @@ const translations = {
             btn_more: "Conoce más de JóvenesSTEM aquí 🚀",
             btn_test: "Tomar Test Ahora",
             badge: "Si sacas más de 80% serás candidato a recibir tu primer badge L1 de JóvenesSTEM 🏅",
-            conoce_plus: "Conoce+"
+            conoce_plus: "Conoce"
         },
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
