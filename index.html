@@ -957,13 +957,21 @@
                 padding: 10px 20px;
                 font-size: 12px;
             }
+
+            .lang-toggle {
+                top: 65px !important;
+                /* Mobile spacing above chatbot (110px) */
+                right: 15px !important;
+            }
         }
 
-        /* LANGUAGE TOGGLE */
         .lang-toggle {
-            position: absolute;
-            top: 30px;
-            right: 30px;
+            position: fixed;
+            /* Fixed to float relative to screen */
+            top: 85px;
+            /* Above chatbot (130px) - Gap ~15px + height */
+            right: 20px;
+            /* Aligned with chatbot */
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
