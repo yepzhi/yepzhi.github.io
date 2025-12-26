@@ -1125,33 +1125,49 @@
             filter: drop-shadow(0 0 12px currentColor) brightness(1.5);
         }
 
-        /* --- TOOLS BUTTON (Restored Blue Color + Glassy) --- */
+        /* --- TOOLS BUTTON (Restored Blue Color + EXTRA GLASSY) --- */
         .tools-btn-style {
-            /* Restored #0060df -> #00d4ff but with 0.7 opacity for "30% mas transparente" */
-            background: linear-gradient(135deg, rgba(0, 96, 223, 0.7) 0%, rgba(0, 212, 255, 0.7) 100%) !important;
-            border: 1px solid rgba(0, 212, 255, 0.3) !important;
-            backdrop-filter: blur(10px);
-            opacity: 1;
-            /* Background handles transparency */
+            /* Glassy Blue Gradient (More transparent + Highlight) */
+            background: linear-gradient(135deg, rgba(0, 96, 223, 0.5) 0%, rgba(0, 212, 255, 0.5) 100%) !important;
+            /* Brighter white border for Glass edge */
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.5) !important;
+            /* Top Highlight */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 
-            /* Layout Layout Properties (replacing inline) */
-            width: 100%;
-            max-width: 400px;
+            backdrop-filter: blur(16px) !important;
+            /* Stronger Blur */
+            -webkit-backdrop-filter: blur(16px) !important;
+
+            /* Sizing - "Más justo con el texto" */
+            width: auto !important;
+            /* Fit content */
+            max-width: none;
             display: inline-flex !important;
             justify-content: center;
             align-items: center;
             gap: 8px;
             font-size: 14px;
-            box-shadow: 0 4px 12px rgba(0, 96, 223, 0.3) !important;
-            border-radius: 12px;
+
+            /* Glass Glow Shadow */
+            box-shadow:
+                0 4px 20px rgba(0, 96, 223, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+
+            border-radius: 9999px;
             color: white !important;
-            padding: 12px 24px;
+            padding: 10px 24px;
+            /* Tighter vertical */
+            margin: 0 auto;
+            /* Center it */
         }
 
         .tools-btn-style:hover {
-            background: linear-gradient(135deg, rgba(0, 96, 223, 0.9) 0%, rgba(0, 212, 255, 0.9) 100%) !important;
-            box-shadow: 0 6px 16px rgba(0, 96, 223, 0.5) !important;
+            /* Brighter/Opaque on hover */
+            background: linear-gradient(135deg, rgba(0, 96, 223, 0.7) 0%, rgba(0, 212, 255, 0.7) 100%) !important;
+            box-shadow: 0 8px 25px rgba(0, 119, 181, 0.4) !important;
             transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.6) !important;
         }
 
         .hopradio-btn::after {
