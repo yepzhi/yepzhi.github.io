@@ -113,7 +113,7 @@ const translations = {
         footer: {
             developed: "由 <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a> 开发",
             visitors: "访客 👀",
-            rights: "© 2025 Alberto Yépiz • 版权所有 • v4.1.4"
+            rights: "© 2025 Alberto Yépiz • 版权所有 • v4.1.5"
         }
     }
 };
