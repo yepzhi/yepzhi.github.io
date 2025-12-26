@@ -987,30 +987,49 @@
 
         .hopradio-btn {
             margin-bottom: 0;
-            padding: 10px 24px;
-            font-size: 13px;
-            font-weight: 700;
-            /* Exact match from hopRadio Install Button */
-            background: linear-gradient(135deg, rgba(220, 38, 38, 0.4) 0%, rgba(153, 27, 27, 0.4) 100%);
-            border: 1px solid rgba(239, 68, 68, 0.5);
-            border-radius: 9999px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
-            color: white !important;
+            padding: 8px 16px;
+            /* Slightly tighter padding */
+            font-size: 24px;
+            /* Much larger like a logo */
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-weight: 900;
+            /* Extra Bold */
+            background: transparent;
+            /* Text only focus */
+            border: none;
             display: flex;
             align-items: center;
             gap: 8px;
             text-decoration: none;
-            transition: all 0.3s ease;
-            text-transform: none;
-            letter-spacing: normal;
-            position: relative;
-            overflow: hidden;
+            transition: transform 0.3s ease;
         }
 
         .hopradio-btn:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(135deg, rgba(220, 38, 38, 0.6) 0%, rgba(153, 27, 27, 0.6) 100%);
+            transform: scale(1.05);
+            /* Gentle zoom */
+            background: transparent;
+            box-shadow: none;
+        }
+
+        /* "hopRadio" - Red to Gold Gradient */
+        .hop-text {
+            background: linear-gradient(90deg, #7f1d1d 0%, #ef4444 40%, #eab308 100%);
+            /* Red-900 -> Red-500 -> Yellow-500 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            /* Tight tracking */
+        }
+
+        /* "Live" - Red Neon Glow */
+        .live-text {
+            color: #ff0000;
+            text-shadow:
+                0 0 10px rgba(255, 0, 0, 0.8),
+                0 0 20px rgba(255, 0, 0, 0.4);
+            font-weight: 800;
+            letter-spacing: 0px;
         }
 
         .hopradio-btn::after {
@@ -1060,10 +1079,9 @@
                     Conoce más de JóvenesSTEM aquí 🚀
                 </a>
 
-                <!-- HOPRADIO BTN -->
-                <a href="https://yepzhi.github.io/hopRadio/" target="_blank" class="test-link-btn hopradio-btn"
-                    data-i18n="radio.live_btn">
-                    hopRadio en vivo
+                <!-- HOPRADIO BTN (Logo Style) -->
+                <a href="https://yepzhi.github.io/hopRadio/" target="_blank" class="test-link-btn hopradio-btn">
+                    <span class="hop-text">hopRadio</span> <span class="live-text">Live</span>
                 </a>
 
             </div>
