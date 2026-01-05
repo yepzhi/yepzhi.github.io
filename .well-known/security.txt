@@ -1,0 +1,3 @@
+Contact: mailto:security@yepzhi.com
+Expires: 2026-12-31
+Preferred-Languages: en, es
