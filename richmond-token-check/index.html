@@ -1,17 +1,318 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
-    <meta charset="utf-8">
-    <title>Redirecting...</title>
-    <meta http-equiv="refresh" content="0;url=https://huggingface.co/spaces/yepzhi/richmond-token-check">
-    <script>
-        window.location.replace("https://huggingface.co/spaces/yepzhi/richmond-token-check");
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richmond Token Check | Yepzhi Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --error: #ef4444;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.15) 0%, transparent 40%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        input {
+            flex: 1;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        button:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Loading State */
+        .loading {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Results */
+        .result-area {
+            display: none;
+            margin-top: 24px;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .status-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 13px;
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            color: var(--text-secondary);
+        }
+
+        .value {
+            color: white;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        .info-msg {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 16px;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 480px) {
+            .input-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <p>Redirecting to <a href="https://huggingface.co/spaces/yepzhi/richmond-token-check">Token Checker</a>...</p>
+
+    <div class="container">
+        <div class="card">
+            <h1>Richmond Token Check</h1>
+            <p class="subtitle">Ingresa tu Access Code (12-20 caracteres) para validar su estado.</p>
+
+            <div class="input-group">
+                <input type="text" id="tokenInput" placeholder="Ej: P51-12345678-ABC" autocomplete="off">
+                <button id="checkBtn" onclick="checkToken()">Verificar Código</button>
+            </div>
+
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p style="font-size: 13px; color: #94a3b8;">Consultando base de datos... (Puede tomar 10-20s)</p>
+            </div>
+
+            <div id="result" class="result-area">
+                <!-- Results will act here -->
+            </div>
+
+            <p class="info-msg">
+                Esta herramienta consulta directamente la base de datos de Richmond para verificar el uso del código.
+                <br>Desarrollado para soporte por <a href="https://yepzhi.com" target="_blank"
+                    style="color: var(--accent); text-decoration: none;">@yepzhi</a>.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://yepzhi-richmond-token-check.hf.space/api/check-access-code';
+
+        async function checkToken() {
+            const input = document.getElementById('tokenInput');
+            const btn = document.getElementById('checkBtn');
+            const loading = document.getElementById('loading');
+            const resultDiv = document.getElementById('result');
+
+            const token = input.value.trim();
+            if (!token) return alert('Por favor ingresa un código.');
+
+            // Reset UI
+            btn.disabled = true;
+            loading.style.display = 'flex';
+            resultDiv.style.display = 'none';
+            resultDiv.innerHTML = '';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ accessCode: token })
+                });
+
+                const data = await response.json();
+
+                // Render result
+                loading.style.display = 'none';
+                resultDiv.style.display = 'block';
+
+                if (data.valid && data.data.results && data.data.results.length > 0) {
+                    // Success - Code Found
+                    let html = '<div class="status-badge status-success">Código Encontrado</div>';
+
+                    // Display first result usually
+                    const info = data.data.results[0];
+                    for (const [key, value] of Object.entries(info)) {
+                        html += `
+                            <div class="data-row">
+                                <span class="label">${key}</span>
+                                <span class="value">${value}</span>
+                            </div>
+                        `;
+                    }
+                    resultDiv.innerHTML = html;
+                } else {
+                    // Not Found / Error
+                    resultDiv.innerHTML = `
+                        <div class="status-badge status-error">No Encontrado</div>
+                        <p style="font-size: 13px; color: #cbd5e1;">${data.message || 'El código no aparece en los registros de usados.'}</p>
+                        <p style="font-size: 12px; color: #94a3b8; margin-top:8px;">Si el código es nuevo y nunca se ha usado, es normal que no aparezca aquí.</p>
+                    `;
+                }
+
+            } catch (error) {
+                loading.style.display = 'none';
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = `
+                    <div class="status-badge status-error">Error de Conexión</div>
+                    <p style="font-size: 13px; color: #cbd5e1;">No se pudo conectar con el servidor.</p>
+                    <p style="font-size: 12px; color: #94a3b8; margin-top:8px;">El servidor puede estar inactivo o despertando. Intenta de nuevo en 30 segundos.</p>
+                `;
+                console.error(error);
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // Allow Enter key
+        document.getElementById('tokenInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') checkToken();
+        });
+    </script>
 </body>
 
 </html>
