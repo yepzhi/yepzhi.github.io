@@ -1,317 +1,550 @@
 <!DOCTYPE html>
-<html lang="es"> <!-- Updated v2 -->
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Richmond Token Check | Yepzhi Tools</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Richmond Token Checker | Yepzhi Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Modern Dark Theme - Responsive */
         :root {
-            --bg-color: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --text-main: #f8fafc;
-            --text-secondary: #94a3b8;
-            --accent: #6366f1;
-            --accent-hover: #4f46e5;
-            --error: #ef4444;
-            --success: #10b981;
+            --bg: #0d1117;
+            --card: #161b22;
+            --text: #e6edf3;
+            --text-dim: #8b949e;
+            --accent: #238636;
+            --accent-glow: rgba(35, 134, 54, 0.3);
+            --border: #30363d;
+            --warning: #d29922;
+            --error: #f85149;
+            --info: #58a6ff;
+            --success: #3fb950;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            background-image:
-                radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.15) 0%, transparent 40%);
+            padding: 20px;
         }
 
+        /* === RESPONSIVE CONTAINER === */
         .container {
             width: 100%;
-            max-width: 600px;
-            padding: 24px;
+            max-width: 640px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
 
-        .card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 32px;
+        /* === HEADER === */
+        header {
             text-align: center;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding-top: 20px;
         }
 
         h1 {
-            font-size: 24px;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
             font-weight: 700;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            background: linear-gradient(135deg, #58a6ff, #a371f7, #d2a8ff);
             -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             background-clip: text;
-            color: transparent;
         }
 
-        p.subtitle {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 24px;
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        /* === STATUS CARD (THE BIG VISIBLE ONE) === */
+        .status-card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .status-card.ready {
+            border-color: var(--success);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .status-card.warming {
+            border-color: var(--warning);
+            animation: pulse 2s infinite;
+        }
+
+        .status-card.offline {
+            border-color: var(--error);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .status-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .status-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .status-detail {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        /* === STEPS PROGRESS === */
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+            gap: 8px;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 10px 4px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            border: 1px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .step.active {
+            background: rgba(88, 166, 255, 0.1);
+            border-color: var(--info);
+            color: var(--info);
+        }
+
+        .step.done {
+            background: rgba(63, 185, 80, 0.1);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .step-icon {
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* === SEARCH CARD === */
+        .search-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
         }
 
         .input-group {
             display: flex;
+            flex-direction: column;
             gap: 12px;
-            margin-bottom: 24px;
         }
 
-        input {
+        @media (min-width: 480px) {
+            .input-group {
+                flex-direction: row;
+            }
+        }
+
+        input[type="text"] {
             flex: 1;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 12px 16px;
-            color: white;
-            font-size: 16px;
-            transition: all 0.2s;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
             outline: none;
+            transition: border 0.2s;
         }
 
-        input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        input[type="text"]:focus {
+            border-color: var(--info);
         }
 
         button {
+            padding: 14px 24px;
+            border-radius: 10px;
+            border: none;
             background: var(--accent);
             color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 12px 24px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             white-space: nowrap;
         }
 
-        button:hover {
-            background: var(--accent-hover);
+        button:hover:not(:disabled) {
+            filter: brightness(1.15);
             transform: translateY(-1px);
         }
 
         button:disabled {
-            opacity: 0.7;
+            background: var(--border);
             cursor: not-allowed;
-            transform: none;
+            opacity: 0.7;
         }
 
-        /* Loading State */
-        .loading {
-            display: none;
+        /* === RESULTS === */
+        #results {
+            margin-top: 16px;
+            display: flex;
             flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
+            gap: 16px;
         }
 
-        .spinner {
-            width: 32px;
-            height: 32px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            border-top-color: var(--accent);
-            animation: spin 1s linear infinite;
-            margin-bottom: 12px;
+        .result-box {
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 0.95rem;
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        .result-box.success {
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
         }
 
-        /* Results */
-        .result-area {
-            display: none;
-            margin-top: 24px;
-            text-align: left;
-            background: rgba(0, 0, 0, 0.2);
+        .result-box.error {
+            background: rgba(248, 81, 73, 0.1);
+            border: 1px solid var(--error);
+            color: var(--error);
+        }
+
+        .result-box.info {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid var(--info);
+            color: var(--info);
+        }
+
+        /* === VERTICAL CARD RESULTS === */
+        .result-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all 0.2s;
         }
 
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            text-transform: uppercase;
+        .result-card:hover {
+            border-color: var(--info);
+            background: rgba(88, 166, 255, 0.05);
         }
 
-        .status-success {
-            background: rgba(16, 185, 129, 0.2);
-            color: #34d399;
-        }
-
-        .status-error {
-            background: rgba(239, 68, 68, 0.2);
-            color: #f87171;
-        }
-
-        .data-row {
+        .result-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            align-items: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 13px;
+            padding-bottom: 8px;
         }
 
-        .data-row:last-child {
+        .result-row:last-child {
             border-bottom: none;
+            padding-bottom: 0;
         }
 
-        .label {
-            color: var(--text-secondary);
+        .result-label {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            font-weight: 600;
         }
 
-        .value {
-            color: white;
+        .result-value {
+            font-size: 0.95rem;
+            color: var(--text);
             font-weight: 500;
             text-align: right;
+            max-width: 60%;
+            word-break: break-word;
         }
 
-        .info-msg {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 16px;
-            line-height: 1.4;
+        /* === FOOTER === */
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-dim);
         }
 
-        @media (max-width: 480px) {
-            .input-group {
-                flex-direction: column;
-            }
-
-            button {
-                width: 100%;
-            }
+        footer a {
+            color: var(--info);
+            text-decoration: none;
         }
     </style>
 </head>
 
 <body>
-
     <div class="container">
-        <div class="card">
-            <h1>Richmond Token Check</h1>
-            <p class="subtitle">Ingresa tu Access Code (12-20 caracteres) para validar su estado.</p>
+        <header>
+            <h1>🎓 Richmond Token Checker</h1>
+            <p class="subtitle">Verify access codes securely</p>
+        </header>
 
+        <!-- Status Notice -->
+        <div
+            style="background: rgba(210, 153, 34, 0.1); border: 1px solid var(--warning); padding: 12px; border-radius: 12px; font-size: 0.85rem; color: var(--warning); line-height: 1.4;">
+            <strong>Nota:</strong> Si este sitio dice <em>Server Sleeping</em> favor de presionar <strong>Wake
+                Server</strong>.<br>
+            Si el sitio dice <em>Waking Up</em> favor de esperar 1 minuto hasta que diga <em>Online and Ready!</em>
+            entonces ya podrá revisar tokens.<br><br>
+            Si tarda más de un minuto y no se pone ready favor de visualizar los <strong>LOGS</strong>. Si hay un error,
+            reintente revisar su token en un aproximado de 3 horas o consulte vía WhatsApp con su asesor Richmond.
+        </div>
+
+        <!-- Big Status Card -->
+        <div id="statusCard" class="status-card warming">
+            <div class="status-icon">🚀</div>
+            <div class="status-title">Initializing Connection...</div>
+            <div class="status-detail">Connecting to secure backend server</div>
+
+            <div class="steps">
+                <div class="step active" id="step1"><span class="step-icon">🔌</span> Connect</div>
+                <div class="step" id="step2"><span class="step-icon">🔐</span> Login</div>
+                <div class="step" id="step3"><span class="step-icon">✅</span> Ready</div>
+            </div>
+        </div>
+
+        <!-- Search Card -->
+        <div class="search-card">
             <div class="input-group">
-                <input type="text" id="tokenInput" placeholder="Ej: P51-12345678-ABC" autocomplete="off">
-                <button id="checkBtn" onclick="checkToken()">Verificar Código</button>
+                <input type="text" id="accessCode" placeholder="Enter Access Code (e.g. 784512...)" autocomplete="off">
+                <button id="checkBtn">Check Code</button>
             </div>
-
-            <div id="loading" class="loading">
-                <div class="spinner"></div>
-                <p style="font-size: 13px; color: #94a3b8;">Consultando base de datos... (Puede tomar 10-20s)</p>
-            </div>
-
-            <div id="result" class="result-area">
-                <!-- Results will act here -->
-            </div>
-
-            <p class="info-msg">
-                Esta herramienta consulta directamente la base de datos de Richmond para verificar el uso del código.
-                <br>Desarrollado para soporte por <a href="https://yepzhi.com" target="_blank"
-                    style="color: var(--accent); text-decoration: none;">@yepzhi</a>.
-            </p>
+            <div id="results"></div>
         </div>
     </div>
 
+    <footer>
+        <a href="https://yepzhi.com">← Back to Yepzhi.com</a> | Powered by Hugging Face Spaces
+    </footer>
+
     <script>
-        const API_URL = 'https://yepzhi-richmond-token-check.hf.space/api/check-access-code';
+        // ============ CONFIGURATION ============
+        // Relative path because this is hosted on the server itself
+        const API_BASE = 'https://yepzhi-richmond-token-check.hf.space';
 
-        async function checkToken() {
-            const input = document.getElementById('tokenInput');
-            const btn = document.getElementById('checkBtn');
-            const loading = document.getElementById('loading');
-            const resultDiv = document.getElementById('result');
+        // ============ DOM ELEMENTS ============
+        const statusCard = document.getElementById('statusCard');
+        const statusIcon = statusCard.querySelector('.status-icon');
+        const statusTitle = statusCard.querySelector('.status-title');
+        const statusDetail = statusCard.querySelector('.status-detail');
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const step3 = document.getElementById('step3');
+        const checkBtn = document.getElementById('checkBtn');
+        const input = document.getElementById('accessCode');
+        const results = document.getElementById('results');
 
-            const token = input.value.trim();
-            if (!token) return alert('Por favor ingresa un código.');
+        let isReady = false;
+        let pollFails = 0;
 
-            // Reset UI
-            btn.disabled = true;
-            loading.style.display = 'flex';
-            resultDiv.style.display = 'none';
-            resultDiv.innerHTML = '';
-
+        // ============ STATUS POLLING ============
+        async function pollStatus() {
             try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ accessCode: token })
-                });
+                const res = await fetch(`${API_BASE}/api/status`, { signal: AbortSignal.timeout(8000) });
+                const data = await res.json();
+                pollFails = 0; // Reset fail counter
 
-                const data = await response.json();
-
-                // Render result
-                loading.style.display = 'none';
-                resultDiv.style.display = 'block';
-
-                if (data.valid && data.data.results && data.data.results.length > 0) {
-                    // Success - Code Found
-                    let html = '<div class="status-badge status-success">Código Encontrado</div>';
-
-                    // Display first result usually
-                    const info = data.data.results[0];
-                    for (const [key, value] of Object.entries(info)) {
-                        html += `
-                            <div class="data-row">
-                                <span class="label">${key}</span>
-                                <span class="value">${value}</span>
-                            </div>
-                        `;
-                    }
-                    resultDiv.innerHTML = html;
+                if (data.ready) {
+                    // READY STATE
+                    isReady = true;
+                    statusCard.className = 'status-card ready';
+                    statusIcon.textContent = '✅';
+                    statusTitle.textContent = 'System Online & Ready';
+                    statusDetail.textContent = data.queue > 0 ? `${data.queue} request(s) in queue` : 'No queue, instant results!';
+                    step1.className = 'step done';
+                    step2.className = 'step done';
+                    step3.className = 'step done';
+                    checkBtn.disabled = false;
                 } else {
-                    // Not Found / Error
-                    resultDiv.innerHTML = `
-                        <div class="status-badge status-error">No Encontrado</div>
-                        <p style="font-size: 13px; color: #cbd5e1;">${data.message || 'El código no aparece en los registros de usados.'}</p>
-                        <p style="font-size: 12px; color: #94a3b8; margin-top:8px;">Si el código es nuevo y nunca se ha usado, es normal que no aparezca aquí.</p>
-                    `;
+                    // WARMING STATE
+                    isReady = false;
+                    statusCard.className = 'status-card warming';
+                    statusIcon.textContent = '🔄';
+                    statusTitle.textContent = 'System Warming Up...';
+                    statusDetail.textContent = 'Browser is logging in. Please wait ~30s.';
+                    step1.className = 'step done';
+                    step2.className = 'step active';
+                    step3.className = 'step';
+                    // Keep button enabled so user can queue request
+                    checkBtn.disabled = false;
                 }
-
-            } catch (error) {
-                loading.style.display = 'none';
-                resultDiv.style.display = 'block';
-                resultDiv.innerHTML = `
-                    <div class="status-badge status-error">Error de Conexión</div>
-                    <p style="font-size: 13px; color: #cbd5e1;">No se pudo conectar con el servidor.</p>
-                    <p style="font-size: 12px; color: #94a3b8; margin-top:8px;">El servidor puede estar inactivo o despertando. Intenta de nuevo en 30 segundos.</p>
-                `;
-                console.error(error);
-            } finally {
-                btn.disabled = false;
+            } catch (e) {
+                pollFails++;
+                if (pollFails >= 3) {
+                    // OFFLINE STATE
+                    isReady = false;
+                    statusCard.className = 'status-card offline';
+                    statusIcon.textContent = '😴';
+                    statusTitle.textContent = 'Server Sleeping';
+                    statusDetail.innerHTML = 'Hugging Face Space is paused.<br><button onclick="wakeUp()" style="margin-top:10px; padding:8px 16px; background:#d29922; border:none; border-radius:6px; color:white; cursor:pointer;">⚡ Wake Up Server</button>';
+                    step1.className = 'step active';
+                    step2.className = 'step';
+                    step3.className = 'step';
+                    checkBtn.disabled = false;
+                }
             }
         }
 
-        // Allow Enter key
-        document.getElementById('tokenInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') checkToken();
+        async function wakeUp() {
+            try {
+                statusDetail.innerHTML = 'Sending Wake-Up Signal... 📡<br><small>Please wait ~60 seconds...</small>';
+                // Use no-cors to force the request through even if CORS headers are missing during boot
+                await fetch(API_BASE, { mode: 'no-cors' });
+                pollFails = 0; // Reset fails to trigger loading state on next poll
+            } catch (e) {
+                console.log('Wake up signal sent (blind)');
+            }
+        }
+
+        // Poll every 4s
+        setInterval(pollStatus, 4000);
+        pollStatus();
+
+        // ============ CHECK CODE ============
+        checkBtn.addEventListener('click', checkCode);
+        input.addEventListener('keypress', (e) => { if (e.key === 'Enter') checkCode(); });
+
+        async function checkCode() {
+            const code = input.value.trim();
+            if (!code) {
+                results.innerHTML = '<div class="result-box error">⚠️ Please enter an access code.</div>';
+                return;
+            }
+
+            // UI Loading State
+            checkBtn.disabled = true;
+            checkBtn.textContent = 'Searching...';
+            results.innerHTML = '<div class="result-box info">🔎 Searching secure database...<br><small>You may be in queue if others are searching.</small></div>';
+
+            try {
+                const res = await fetch(`${API_BASE}/api/check-access-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ accessCode: code })
+                });
+
+                const data = await res.json();
+
+                if (data.valid) {
+                    let html = '<div class="result-box success">✅ Access Code Found!</div>';
+
+                    if (data.data.results && data.data.results.length > 0) {
+                        // VERTICAL LAYOUT GENERATION
+                        data.data.results.forEach(r => {
+                            html += '<div class="result-card">';
+                            data.data.headers.forEach(h => {
+                                const val = r[h] || '-';
+                                html += `
+                                    <div class="result-row">
+                                        <div class="result-label">${h}</div>
+                                        <div class="result-value">${val}</div>
+                                    </div>
+                                `;
+                            });
+                            html += '</div>';
+                        });
+                    }
+                    results.innerHTML = html;
+                } else {
+                    results.innerHTML = `<div class="result-box error">❌ ${data.message}</div>`;
+                }
+
+            } catch (e) {
+                results.innerHTML = '<div class="result-box error">⚠️ Connection error. The server may be waking up. Try again in 30 seconds.</div>';
+            } finally {
+                checkBtn.disabled = false;
+                checkBtn.textContent = 'Check Code';
+            }
+        }
+
+        // ============ LIVE LOGS ============
+        const logsContainer = document.createElement('div');
+        logsContainer.innerHTML = `
+            <div style="margin-top: 20px; width: 100%; max-width: 640px; border: 1px solid var(--border); border-radius: 12px; background: var(--card); overflow: hidden;">
+                <div id="logsHeader" style="padding: 10px 15px; background: #21262d; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 600; color: var(--text-dim);">
+                    <span>📡 Live Process Tail</span>
+                    <span id="logToggle">▼</span>
+                </div>
+                <div id="logsBody" style="display: none; padding: 10px; background: #0d1117; font-family: monospace; font-size: 0.75rem; color: #8b949e; height: 200px; overflow-y: auto;">
+                    <div style="color: var(--info);">Connecting to log stream...</div>
+                </div>
+            </div>
+        `;
+        document.querySelector('.container').appendChild(logsContainer);
+
+        const logsHeader = logsContainer.querySelector('#logsHeader');
+        const logsBody = logsContainer.querySelector('#logsBody');
+        const logToggle = logsContainer.querySelector('#logToggle');
+        let isLogsOpen = false;
+        let logInterval = null;
+
+        logsHeader.addEventListener('click', () => {
+            isLogsOpen = !isLogsOpen;
+            logsBody.style.display = isLogsOpen ? 'block' : 'none';
+            logToggle.textContent = isLogsOpen ? '▲' : '▼';
+
+            if (isLogsOpen) {
+                pollLogs();
+                logInterval = setInterval(pollLogs, 2000); // Fast poll when open
+            } else {
+                clearInterval(logInterval);
+            }
         });
+
+        async function pollLogs() {
+            if (!isLogsOpen) return;
+            try {
+                const res = await fetch(`${API_BASE}/api/logs`);
+                const data = await res.json();
+                if (data.logs && data.logs.length > 0) {
+                    logsBody.innerHTML = data.logs.map(l => `<div>${l}</div>`).join('');
+                    logsBody.scrollTop = logsBody.scrollHeight; // Auto scroll
+                }
+            } catch (e) {
+                logsBody.innerHTML += `<div style="color: var(--error);">Error fetching logs</div>`;
+            }
+        }
     </script>
 </body>
 
