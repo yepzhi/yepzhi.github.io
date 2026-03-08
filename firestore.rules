@@ -1,0 +1,21 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Events collection (existing - calendar app)
+    match /events/{eventId} {
+      allow read, write: if true;
+    }
+
+    // Salon appointments - anyone can read/create, only admin deletes
+    match /salon_appointments/{appointmentId} {
+      allow read, write: if true;
+    }
+
+    // Salon settings - anyone can read (to check availability), write for admin
+    match /salon_settings/{settingId} {
+      allow read, write: if true;
+    }
+  }
+}

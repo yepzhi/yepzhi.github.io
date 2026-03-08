@@ -1,9 +1,9 @@
-const {onRequest} = require("firebase-functions/v2/https");
-const {onCall} = require("firebase-functions/v2/https");
-const {defineSecret} = require("firebase-functions/params");
+const { onRequest } = require("firebase-functions/v2/https");
+const { onCall } = require("firebase-functions/v2/https");
+const { defineSecret } = require("firebase-functions/params");
 const admin = require("firebase-admin");
 const axios = require("axios");
-const {parseStringPromise, Builder} = require("xml2js");
+const { parseStringPromise, Builder } = require("xml2js");
 const PDFDocument = require("pdfkit");
 
 admin.initializeApp();
@@ -39,7 +39,7 @@ async function generarPDFReal(datos, uuid) {
   console.log("📑 Generando PDF REAL para UUID:", uuid);
 
   return new Promise((resolve, reject) => {
-    const doc = new PDFDocument({margin: 50});
+    const doc = new PDFDocument({ margin: 50 });
     const buffers = [];
 
     doc.on("data", buffers.push.bind(buffers));
@@ -53,11 +53,11 @@ async function generarPDFReal(datos, uuid) {
     try {
       // Encabezado
       doc.fontSize(24).fillColor("#667eea")
-        .text("FACTURA ELECTRÓNICA", {align: "center"});
+        .text("FACTURA ELECTRÓNICA", { align: "center" });
       doc.moveDown(0.5);
       doc.fontSize(10).fillColor("#666")
         .text("Comprobante Fiscal Digital por Internet (CFDI 4.0)",
-          {align: "center"});
+          { align: "center" });
       doc.moveDown();
 
       // Línea divisoria
@@ -66,16 +66,16 @@ async function generarPDFReal(datos, uuid) {
 
       // UUID
       doc.fontSize(9).fillColor("#333")
-        .text("UUID:", {continued: true, bold: true});
+        .text("UUID:", { continued: true, bold: true });
       doc.fontSize(8).fillColor("#666").text(` ${uuid}`);
       doc.fontSize(9).fillColor("#333")
-        .text("Fecha de emisión:", {continued: true});
+        .text("Fecha de emisión:", { continued: true });
       doc.fontSize(8).fillColor("#666")
         .text(` ${new Date().toLocaleString("es-MX")}`);
       doc.moveDown(1.5);
 
       // EMISOR
-      doc.fontSize(12).fillColor("#667eea").text("EMISOR", {underline: true});
+      doc.fontSize(12).fillColor("#667eea").text("EMISOR", { underline: true });
       doc.moveDown(0.3);
       doc.fontSize(10).fillColor("#333").text(datos.emisor.nombre);
       doc.fontSize(9).fillColor("#666").text(`RFC: ${datos.emisor.rfc}`);
@@ -84,7 +84,7 @@ async function generarPDFReal(datos, uuid) {
 
       // RECEPTOR
       doc.fontSize(12).fillColor("#667eea")
-        .text("RECEPTOR", {underline: true});
+        .text("RECEPTOR", { underline: true });
       doc.moveDown(0.3);
       doc.fontSize(10).fillColor("#333").text(datos.receptor.nombre);
       doc.fontSize(9).fillColor("#666").text(`RFC: ${datos.receptor.rfc}`);
@@ -94,16 +94,16 @@ async function generarPDFReal(datos, uuid) {
 
       // CONCEPTOS
       doc.fontSize(12).fillColor("#667eea")
-        .text("CONCEPTOS", {underline: true});
+        .text("CONCEPTOS", { underline: true });
       doc.moveDown(0.5);
 
       // Tabla de conceptos
       const tableTop = doc.y;
       doc.fontSize(9).fillColor("#333");
-      doc.text("Cant.", 50, tableTop, {width: 40});
-      doc.text("Descripción", 100, tableTop, {width: 250});
-      doc.text("P. Unit.", 360, tableTop, {width: 80, align: "right"});
-      doc.text("Importe", 450, tableTop, {width: 90, align: "right"});
+      doc.text("Cant.", 50, tableTop, { width: 40 });
+      doc.text("Descripción", 100, tableTop, { width: 250 });
+      doc.text("P. Unit.", 360, tableTop, { width: 80, align: "right" });
+      doc.text("Importe", 450, tableTop, { width: 90, align: "right" });
 
       doc.moveDown(0.3);
       doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke("#ddd");
@@ -112,12 +112,12 @@ async function generarPDFReal(datos, uuid) {
       datos.conceptos.forEach((concepto) => {
         const y = doc.y;
         doc.fontSize(9).fillColor("#666");
-        doc.text(concepto.cantidad, 50, y, {width: 40});
-        doc.text(concepto.descripcion, 100, y, {width: 250});
+        doc.text(concepto.cantidad, 50, y, { width: 40 });
+        doc.text(concepto.descripcion, 100, y, { width: 250 });
         doc.text(`$${concepto.precioUnitario.toFixed(2)}`,
-          360, y, {width: 80, align: "right"});
+          360, y, { width: 80, align: "right" });
         doc.text(`$${concepto.subtotal.toFixed(2)}`,
-          450, y, {width: 90, align: "right"});
+          450, y, { width: 90, align: "right" });
         doc.moveDown(0.8);
       });
 
@@ -128,28 +128,28 @@ async function generarPDFReal(datos, uuid) {
       // TOTALES
       doc.fontSize(10).fillColor("#333");
       const totalsX = 400;
-      doc.text("Subtotal:", totalsX, doc.y, {width: 100, align: "left"});
+      doc.text("Subtotal:", totalsX, doc.y, { width: 100, align: "left" });
       doc.text(`$${datos.totales.subtotal.toFixed(2)}`,
-        totalsX + 100, doc.y, {width: 90, align: "right"});
+        totalsX + 100, doc.y, { width: 90, align: "right" });
       doc.moveDown(0.5);
 
-      doc.text("IVA (16%):", totalsX, doc.y, {width: 100, align: "left"});
+      doc.text("IVA (16%):", totalsX, doc.y, { width: 100, align: "left" });
       doc.text(`$${datos.totales.iva.toFixed(2)}`,
-        totalsX + 100, doc.y, {width: 90, align: "right"});
+        totalsX + 100, doc.y, { width: 90, align: "right" });
       doc.moveDown(0.8);
 
       doc.fontSize(14).fillColor("#667eea");
-      doc.text("TOTAL:", totalsX, doc.y, {width: 100, align: "left"});
+      doc.text("TOTAL:", totalsX, doc.y, { width: 100, align: "left" });
       doc.text(
         `$${datos.totales.total.toFixed(2)} ${datos.cfdi.moneda}`,
-        totalsX + 100, doc.y, {width: 90, align: "right"},
+        totalsX + 100, doc.y, { width: 90, align: "right" },
       );
 
       // Pie de página
       doc.moveDown(3);
       doc.fontSize(8).fillColor("#999").text(
         "Este documento es una representación impresa de un CFDI",
-        {align: "center"},
+        { align: "center" },
       );
 
       doc.end();
@@ -204,7 +204,7 @@ async function guardarEnStorage(xmlContent, pdfBuffer, uuid, businessId) {
   console.log("XML URL:", xmlUrl);
   console.log("PDF URL:", pdfUrl);
 
-  return {xmlUrl, pdfUrl};
+  return { xmlUrl, pdfUrl };
 }
 
 // ==========================================
@@ -221,7 +221,7 @@ function generarXMLCFDI(datos) {
   console.log("Receptor:", datos.receptor.rfc);
   console.log("Total:", datos.totales.total);
 
-  const {emisor, receptor, conceptos, totales, cfdi} = datos;
+  const { emisor, receptor, conceptos, totales, cfdi } = datos;
   const fecha = new Date().toISOString().split(".")[0];
 
   if (!emisor.cp) {
@@ -319,7 +319,7 @@ function generarXMLCFDI(datos) {
   };
 
   const builder = new Builder({
-    xmldec: {version: "1.0", encoding: "UTF-8"},
+    xmldec: { version: "1.0", encoding: "UTF-8" },
   });
 
   const xml = builder.buildObject(cfdiData);
@@ -435,11 +435,11 @@ async function timbrarConFinkok(xmlSinTimbrar, username, password) {
 // FUNCIÓN: timbrarFacturaInmediata
 // ==========================================
 exports.timbrarFacturaInmediata = onCall(
-  {secrets: [finkokUsername, finkokPassword]},
+  { secrets: [finkokUsername, finkokPassword] },
   async (request) => {
     console.log("🔥 timbrarFacturaInmediata llamado");
 
-    const {cfdiData} = request.data;
+    const { cfdiData } = request.data;
 
     if (!cfdiData || !cfdiData.emisor || !cfdiData.receptor) {
       throw new Error("Datos incompletos");
@@ -468,7 +468,7 @@ exports.timbrarFacturaInmediata = onCall(
       const pdfBuffer = await generarPDFReal(cfdiData, resultado.uuid);
 
       console.log("💾 Guardando en Storage...");
-      const {xmlUrl, pdfUrl} = await guardarEnStorage(
+      const { xmlUrl, pdfUrl } = await guardarEnStorage(
         resultado.xml,
         pdfBuffer,
         resultado.uuid,
@@ -516,10 +516,10 @@ exports.validarRFC = onRequest(async (req, res) => {
     return res.status(204).send("");
   }
 
-  const {rfc} = req.body;
+  const { rfc } = req.body;
 
   if (!rfc) {
-    return res.status(400).json({error: "RFC es requerido"});
+    return res.status(400).json({ error: "RFC es requerido" });
   }
 
   try {
@@ -535,8 +535,155 @@ exports.validarRFC = onRequest(async (req, res) => {
     });
   } catch (error) {
     console.error("💥 Error:", error);
-    return res.status(500).json({valid: false, error: "Error interno"});
+    return res.status(500).json({ valid: false, error: "Error interno" });
   }
 });
+
+// ==========================================
+// SALON: EMAIL NOTIFICATION ON NEW APPOINTMENT
+// ==========================================
+const { onDocumentCreated } = require("firebase-functions/v2/firestore");
+const nodemailer = require("nodemailer");
+
+const salonEmailUser = defineSecret("SALON_EMAIL_USER");
+const salonEmailPass = defineSecret("SALON_EMAIL_PASS");
+
+exports.notificarCitaSalon = onDocumentCreated(
+  {
+    document: "salon_appointments/{appointmentId}",
+    secrets: [salonEmailUser, salonEmailPass],
+  },
+  async (event) => {
+    const data = event.data.data();
+    console.log("💅 Nueva cita de salón:", data);
+
+    const MONTH_NAMES = [
+      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+    ];
+
+    const DAY_NAMES = [
+      "Domingo", "Lunes", "Martes", "Miércoles",
+      "Jueves", "Viernes", "Sábado",
+    ];
+
+    const d = new Date(data.date + "T00:00:00");
+    const dayName = DAY_NAMES[d.getDay()];
+    const monthName = MONTH_NAMES[d.getMonth()];
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: salonEmailUser.value(),
+        pass: salonEmailPass.value(),
+      },
+    });
+
+    const htmlEmail = `
+      <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 500px;
+        margin: 0 auto; background: #0a0a0a; color: white; border-radius: 24px;
+        overflow: hidden;">
+        <div style="background: linear-gradient(135deg, #ec4899, #be185d);
+          padding: 30px; text-align: center;">
+          <h1 style="margin:0; font-size: 24px;">
+            ✨ Nueva Cita Agendada ✨
+          </h1>
+          <p style="margin: 8px 0 0; opacity: 0.9;">Carmen Burruel Salón</p>
+        </div>
+        <div style="padding: 30px;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 12px 0; color: #9ca3af; font-size: 12px;
+                text-transform: uppercase; letter-spacing: 1px;">
+                Servicio
+              </td>
+              <td style="padding: 12px 0; text-align: right; font-weight: 700;">
+                ${data.serviceEmoji || ""} ${data.service}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="border-bottom: 1px solid #222;"></td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 0; color: #9ca3af; font-size: 12px;
+                text-transform: uppercase; letter-spacing: 1px;">
+                Precio
+              </td>
+              <td style="padding: 12px 0; text-align: right; font-weight: 700;
+                color: #f472b6;">
+                ${data.price || "N/A"}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="border-bottom: 1px solid #222;"></td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 0; color: #9ca3af; font-size: 12px;
+                text-transform: uppercase; letter-spacing: 1px;">
+                Fecha
+              </td>
+              <td style="padding: 12px 0; text-align: right; font-weight: 700;">
+                ${dayName} ${d.getDate()} de ${monthName}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="border-bottom: 1px solid #222;"></td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 0; color: #9ca3af; font-size: 12px;
+                text-transform: uppercase; letter-spacing: 1px;">
+                Hora
+              </td>
+              <td style="padding: 12px 0; text-align: right; font-weight: 700;">
+                ${data.time}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="border-bottom: 1px solid #222;"></td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 0; color: #9ca3af; font-size: 12px;
+                text-transform: uppercase; letter-spacing: 1px;">
+                Cliente
+              </td>
+              <td style="padding: 12px 0; text-align: right; font-weight: 700;">
+                ${data.clientName}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="border-bottom: 1px solid #222;"></td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 0; color: #9ca3af; font-size: 12px;
+                text-transform: uppercase; letter-spacing: 1px;">
+                Teléfono
+              </td>
+              <td style="padding: 12px 0; text-align: right; font-weight: 700;
+                color: #4ade80;">
+                ${data.clientPhone}
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div style="padding: 16px 30px; background: #111; text-align: center;
+          color: #4b5563; font-size: 11px;">
+          Carmen Burruel Salón ✨ · Notificación automática
+        </div>
+      </div>
+    `;
+
+    try {
+      await transporter.sendMail({
+        from: `"Carmen Burruel Salón ✨" <${salonEmailUser.value()}>`,
+        to: "carjmen_69@hotmail.com",
+        subject: `💅 Nueva Cita: ${data.service} — ${dayName} ${d.getDate()} de ${monthName} a las ${data.time}`,
+        html: htmlEmail,
+      });
+      console.log("✅ Email de notificación enviado");
+    } catch (error) {
+      console.error("❌ Error enviando email:", error);
+    }
+  },
+);
 
 console.log("✅ Todas las funciones exportadas correctamente");
