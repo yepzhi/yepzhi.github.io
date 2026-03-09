@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JóvenesSTEM — Resultados del Estudio | Hermosillo, Sonora</title>
+    <meta name="description"
+        content="Diagnóstico de competencias STEM basado en PISA 2022, MEJOREDU/PLANEA y Hermosillo ¿Cómo Vamos? Datos que justifican el programa JóvenesSTEM en Hermosillo, Sonora.">
+    <link rel="icon" type="image/png" href="logo_small.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Sora:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --pink: #FF3CAC;
+            --blue: #2B86C5;
+            --cyan: #00F5D4;
+            --purple: #784BA0;
+            --green: #00C853;
+            --orange: #FF6D00;
+            --red: #FF1744;
+            --dark: #0B0D17;
+            --dark2: #12152B;
+            --glass: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-hover: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--dark);
+            color: #e8e8f0;
+            overflow-x: hidden;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            z-index: 1000;
+            background: linear-gradient(90deg, var(--pink), var(--cyan), var(--green));
+            transition: width 0.5s ease;
+            border-radius: 0 2px 2px 0;
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(20px);
+            background: rgba(11, 13, 23, 0.8);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav-brand {
+            font-family: 'Sora', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, var(--cyan), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .nav-dot.active {
+            background: var(--cyan);
+            box-shadow: 0 0 12px var(--cyan);
+            transform: scale(1.3);
+        }
+
+        .nav-dot:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .slide-counter {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 500;
+            min-width: 50px;
+            text-align: right;
+        }
+
+        /* ===== SLIDES ===== */
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 60px 60px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .slide.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-inner {
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* ===== HERO SLIDE ===== */
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .hero-bg .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .hero-bg .blob:nth-child(1) {
+            width: 600px;
+            height: 600px;
+            background: var(--pink);
+            top: -200px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .hero-bg .blob:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            background: var(--blue);
+            bottom: -200px;
+            left: -100px;
+            animation-delay: 2s;
+        }
+
+        .hero-bg .blob:nth-child(3) {
+            width: 400px;
+            height: 400px;
+            background: var(--cyan);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -30px) scale(1.05);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) scale(0.95);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 30px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 30px;
+        }
+
+        .hero-title {
+            font-family: 'Sora', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero-title .gradient-text {
+            background: linear-gradient(135deg, var(--cyan) 0%, var(--pink) 50%, var(--orange) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-sub {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.65);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-num {
+            font-family: 'Sora', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--cyan), var(--green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-stat-label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.8rem;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        .scroll-hint svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(8px);
+            }
+        }
+
+        /* ===== GLASS CARDS ===== */
+        .glass-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            transition: all 0.4s;
+        }
+
+        .glass-card:hover {
+            background: var(--glass-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ===== SECTION HEADERS ===== */
+        .section-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .tag-pink {
+            background: rgba(255, 60, 172, 0.15);
+            color: var(--pink);
+        }
+
+        .tag-blue {
+            background: rgba(43, 134, 197, 0.15);
+            color: var(--blue);
+        }
+
+        .tag-green {
+            background: rgba(0, 200, 83, 0.15);
+            color: var(--green);
+        }
+
+        .tag-cyan {
+            background: rgba(0, 245, 212, 0.15);
+            color: var(--cyan);
+        }
+
+        .tag-orange {
+            background: rgba(255, 109, 0, 0.15);
+            color: var(--orange);
+        }
+
+        .tag-purple {
+            background: rgba(120, 75, 160, 0.15);
+            color: var(--purple);
+        }
+
+        .section-title {
+            font-family: 'Sora', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .section-desc {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.8;
+            max-width: 700px;
+        }
+
+        /* ===== BIG STAT DISPLAY ===== */
+        .big-stat {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .big-stat-number {
+            font-family: 'Sora', sans-serif;
+            font-size: clamp(5rem, 12vw, 10rem);
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .big-stat-context {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        /* ===== COMPARISON BARS ===== */
+        .compare-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .compare-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .compare-label {
+            min-width: 140px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        .compare-bar-track {
+            flex: 1;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .compare-bar-fill {
+            height: 100%;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            width: 0;
+            transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .compare-bar-fill.animated {
+            width: var(--target-width);
+        }
+
+        .bar-pink {
+            background: linear-gradient(90deg, var(--pink), #ff6ec7);
+        }
+
+        .bar-blue {
+            background: linear-gradient(90deg, var(--blue), #5cb8ff);
+        }
+
+        .bar-green {
+            background: linear-gradient(90deg, var(--green), #69f0ae);
+        }
+
+        .bar-cyan {
+            background: linear-gradient(90deg, #00897b, var(--cyan));
+        }
+
+        .bar-orange {
+            background: linear-gradient(90deg, var(--orange), #ffab40);
+        }
+
+        .bar-purple {
+            background: linear-gradient(90deg, var(--purple), #b388ff);
+        }
+
+        /* ===== METRIC CARDS GRID ===== */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .metric-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(16px);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+        }
+
+        .metric-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .metric-value {
+            font-family: 'Sora', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.4;
+        }
+
+        .color-pink {
+            color: var(--pink);
+        }
+
+        .color-blue {
+            color: var(--blue);
+        }
+
+        .color-cyan {
+            color: var(--cyan);
+        }
+
+        .color-green {
+            color: var(--green);
+        }
+
+        .color-orange {
+            color: var(--orange);
+        }
+
+        .color-red {
+            color: var(--red);
+        }
+
+        .color-purple {
+            color: var(--purple);
+        }
+
+        /* ===== SPLIT LAYOUT ===== */
+        .split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        /* ===== DONUT CHART ===== */
+        .donut-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 0 auto;
+        }
+
+        .donut-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .donut-ring {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.08);
+            stroke-width: 18;
+        }
+
+        .donut-segment {
+            fill: none;
+            stroke-width: 18;
+            stroke-dasharray: 0 879.6;
+            transition: stroke-dasharray 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            stroke-linecap: round;
+        }
+
+        .donut-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .donut-center-value {
+            font-family: 'Sora', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+        }
+
+        .donut-center-label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ===== QUOTE / CALLOUT ===== */
+        .callout {
+            background: linear-gradient(135deg, rgba(255, 60, 172, 0.08), rgba(0, 245, 212, 0.08));
+            border: 1px solid rgba(255, 60, 172, 0.15);
+            border-radius: 20px;
+            padding: 40px 48px;
+            font-size: 1.3rem;
+            line-height: 1.7;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.85);
+            position: relative;
+            margin-top: 40px;
+        }
+
+        .callout::before {
+            content: '"';
+            font-size: 5rem;
+            font-family: Georgia, serif;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: linear-gradient(135deg, var(--pink), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0.5;
+        }
+
+        /* ===== CTA BUTTON ===== */
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            border-radius: 50px;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 32px rgba(255, 60, 172, 0.3);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(255, 60, 172, 0.5);
+        }
+
+        .cta-btn-alt {
+            background: linear-gradient(135deg, var(--cyan), var(--green));
+            box-shadow: 0 8px 32px rgba(0, 245, 212, 0.3);
+        }
+
+        .cta-btn-alt:hover {
+            box-shadow: 0 12px 40px rgba(0, 245, 212, 0.5);
+        }
+
+        /* ===== SLIDE BACKGROUNDS ===== */
+        .slide:nth-child(even) {
+            background: var(--dark2);
+        }
+
+        .slide-accent {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* ===== TABLE ===== */
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 30px;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 600;
+        }
+
+        .data-table th:first-child {
+            border-radius: 12px 0 0 0;
+        }
+
+        .data-table th:last-child {
+            border-radius: 0 12px 0 0;
+        }
+
+        .data-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.95rem;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 60px;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        /* ===== NAV ARROWS ===== */
+        .nav-arrows {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 998;
+        }
+
+        .nav-arrow {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .nav-arrow:hover {
+            background: var(--glass-hover);
+            transform: scale(1.1);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 100px 24px 40px;
+            }
+
+            .split {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .big-stat {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .compare-label {
+                min-width: 80px;
+                font-size: 0.75rem;
+            }
+
+            nav {
+                padding: 14px 20px;
+            }
+
+            .nav-arrows {
+                right: 10px;
+            }
+
+            .nav-arrow {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+
+            .hero-stats {
+                gap: 20px;
+            }
+
+            .callout {
+                padding: 30px;
+                font-size: 1.1rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* ===== COUNTER ANIMATION ===== */
+        .count-up {
+            display: inline-block;
+        }
+
+        /* ===== ANIMATED LIST ===== */
+        .reveal-list li {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s ease;
+            margin-bottom: 12px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border-left: 3px solid var(--cyan);
+            list-style: none;
+        }
+
+        .reveal-list li.revealed {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ===== LANGUAGE SWITCHER ===== */
+        .lang-switcher {
+            display: flex;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+
+        .lang-btn {
+            padding: 5px 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.4);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .lang-btn.active {
+            background: var(--glass-hover);
+            color: var(--cyan);
+        }
+
+        .lang-btn:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-bar" id="progressBar" style="width:0%"></div>
+
+    <nav>
+        <div class="nav-brand"><span data-i18n="nav_title">Reporte de Investigación Educación Superior</span></div>
+        <div class="nav-dots" id="navDots"></div>
+        <div style="display:flex;align-items:center;gap:12px;">
+            <div class="lang-switcher" id="langSwitcher">
+                <button class="lang-btn active" data-lang="es" onclick="setLang('es')">🇲🇽 ES</button>
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">🇺🇸 EN</button>
+            </div>
+            <div class="slide-counter" id="slideCounter">1 / 10</div>
+        </div>
+    </nav>
+
+    <!-- NAV ARROWS -->
+    <div class="nav-arrows">
+        <div class="nav-arrow" onclick="prevSlide()">↑</div>
+        <div class="nav-arrow" onclick="nextSlide()">↓</div>
+    </div>
+
+    <!-- ===== SLIDE 1: HERO ===== -->
+    <section class="slide visible" data-slide="0">
+        <div class="hero-bg">
+            <div class="blob"></div>
+            <div class="blob"></div>
+            <div class="blob"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-tag" data-i18n="hero_tag">Investigación Documental · Hermosillo, Sonora · 2025</div>
+            <h1 class="hero-title">
+                <span data-i18n="hero_title1">El futuro STEM de</span><br><span class="gradient-text"
+                    data-i18n="hero_title2">Sonora en números</span>
+            </h1>
+            <p class="hero-sub" data-i18n="hero_sub">Diagnóstico de competencias STEM basado en el análisis de PISA 2022
+                (OCDE), MEJOREDU/PLANEA y Hermosillo ¿Cómo Vamos? Los datos que justifican la necesidad de programas de
+                intervención STEM como JóvenesSTEM.</p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-num count-up" data-target="3">0</div>
+                    <div class="hero-stat-label" data-i18n="stat_students">Estudios Institucionales</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-num count-up" data-target="81">0</div>
+                    <div class="hero-stat-label" data-i18n="stat_institutions">Países en PISA</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-num count-up" data-target="6000" data-suffix="+">0</div>
+                    <div class="hero-stat-label" data-i18n="stat_items">Estudiantes MX evaluados</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-num count-up" data-target="4">0</div>
+                    <div class="hero-stat-label" data-i18n="stat_dimensions">Hipótesis confirmadas</div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-hint" onclick="nextSlide()">
+            <span data-i18n="scroll_hint">Desliza para explorar</span>
+            <svg viewBox="0 0 24 24">
+                <path d="M12 16l-6-6h12z" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- ===== SLIDE 2: EL PROBLEMA GLOBAL ===== -->
+    <section class="slide" data-slide="1">
+        <div class="slide-accent" style="background:var(--pink);top:-100px;left:-100px;"></div>
+        <div class="slide-inner">
+            <span class="section-tag tag-pink" data-i18n="s2_tag">El Problema Global</span>
+            <h2 class="section-title" data-i18n="s2_title">La crisis STEM no es<br>solo de México</h2>
+            <p class="section-desc" data-i18n="s2_desc">Incluso Estados Unidos — la economía más grande del mundo —
+                enfrenta un déficit
+                masivo de talento STEM.</p>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--red);">▲</div>
+                    <div class="metric-value color-red count-up" data-target="2" data-suffix="M">0</div>
+                    <div class="metric-label" data-i18n="s2_m1">Posiciones STEM vacantes proyectadas para 2025 en EUA
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--orange);">◆</div>
+                    <div class="metric-value color-orange count-up" data-target="411" data-suffix="K">0</div>
+                    <div class="metric-label" data-i18n="s2_m2">Posiciones docentes STEM vacantes en EUA</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--pink);">●</div>
+                    <div class="metric-value color-pink count-up" data-target="20" data-suffix="%">0</div>
+                    <div class="metric-label" data-i18n="s2_m3">Egresados de High School listos para carreras STEM</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--green);">◈</div>
+                    <div class="metric-value color-green">2.2×</div>
+                    <div class="metric-label" data-i18n="s2_m4">Diferencia salarial STEM vs no-STEM ($101K vs $46K USD)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SLIDE 3: MÉXICO EN PISA ===== -->
+    <section class="slide" data-slide="2">
+        <div class="slide-accent" style="background:var(--blue);bottom:-100px;right:-100px;"></div>
+        <div class="slide-inner">
+            <span class="section-tag tag-blue" data-i18n="s3_tag">PISA 2022</span>
+            <h2 class="section-title" data-i18n="s3_title">México por debajo del mínimo</h2>
+            <p class="section-desc" data-i18n="s3_desc">Los resultados PISA 2022 revelan brechas de más de 70 puntos con
+                el promedio OCDE.
+            </p>
+            <div class="compare-bars">
+                <div class="compare-item">
+                    <div class="compare-label" data-i18n="s3_mx_math">México<br>Matemáticas</div>
+                    <div class="compare-bar-track">
+                        <div class="compare-bar-fill bar-pink" style="--target-width:56%">395 pts</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <div class="compare-label" data-i18n="s3_us_math">EUA<br>Matemáticas</div>
+                    <div class="compare-bar-track">
+                        <div class="compare-bar-fill bar-blue" style="--target-width:66%">465 pts</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <div class="compare-label" data-i18n="s3_oecd_math">OCDE<br>Matemáticas</div>
+                    <div class="compare-bar-track">
+                        <div class="compare-bar-fill bar-cyan" style="--target-width:67%">472 pts</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <div class="compare-label" data-i18n="s3_mx_sci">México<br>Ciencias</div>
+                    <div class="compare-bar-track">
+                        <div class="compare-bar-fill bar-orange" style="--target-width:59%">415 pts</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <div class="compare-label" data-i18n="s3_us_sci">EUA<br>Ciencias</div>
+                    <div class="compare-bar-track">
+                        <div class="compare-bar-fill bar-purple" style="--target-width:71%">499 pts</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <div class="compare-label" data-i18n="s3_oecd_sci">OCDE<br>Ciencias</div>
+                    <div class="compare-bar-track">
+                        <div class="compare-bar-fill bar-green" style="--target-width:69%">485 pts</div>
+                    </div>
+                </div>
+            </div>
+            <div class="callout" style="margin-top:40px;" data-i18n="s3_callout">
+                El <strong>66%</strong> de los estudiantes mexicanos no alcanza el Nivel 2 en matemáticas — el mínimo
+                para participar productivamente en la sociedad moderna. En ciencias, el 51% tampoco lo logra.
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SLIDE 4: DIAGNÓSTICO CONVERGENTE ===== -->
+    <section class="slide" data-slide="3">
+        <div class="slide-accent" style="background:var(--cyan);top:50%;left:-200px;"></div>
+        <div class="slide-inner">
+            <span class="section-tag tag-cyan" data-i18n="s4_tag">Diagnóstico Convergente</span>
+            <h2 class="section-title" data-i18n="s4_title">Tres fuentes, un mismo<br><span
+                    style="color:var(--pink)">diagnóstico
+                    alarmante</span>
+            </h2>
+            <div class="split">
+                <div>
+                    <div class="donut-container">
+                        <svg class="donut-svg" viewBox="0 0 300 300">
+                            <circle class="donut-ring" cx="150" cy="150" r="140" />
+                            <circle class="donut-segment" cx="150" cy="150" r="140" stroke="url(#grad1)"
+                                data-percent="66" id="donut1" />
+                        </svg>
+                        <defs>
+                            <linearGradient id="grad1">
+                                <stop offset="0%" stop-color="var(--pink)" />
+                                <stop offset="100%" stop-color="var(--orange)" />
+                            </linearGradient>
+                        </defs>
+                        <div class="donut-center">
+                            <div class="donut-center-value color-pink count-up" data-target="66" data-decimals="0"
+                                data-suffix="%">0</div>
+                            <div class="donut-center-label" data-i18n="s4_donut_label">Bajo nivel mínimo (Mat)</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 style="font-size:1.5rem;margin-bottom:16px;" data-i18n="s4_subtitle">Triangulación de 3 estudios
+                    </h3>
+                    <p style="color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:20px;" data-i18n="s4_desc">
+                        El 66% de estudiantes mexicanos <strong>no alcanza el nivel mínimo en matemáticas</strong>
+                        según PISA 2022. PLANEA confirma que el 68% de sonorenses está en nivel insuficiente.
+                        Hermosillo ¿Cómo Vamos? documenta las brechas locales.
+                    </p>
+                    <div style="display:flex;flex-direction:column;gap:12px;">
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <span style="width:12px;height:12px;border-radius:50%;background:var(--pink);"></span>
+                            <span data-i18n="s4_b1">PISA 2022: México 395 pts vs OCDE 472 pts (−77)</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <span style="width:12px;height:12px;border-radius:50%;background:var(--cyan);"></span>
+                            <span data-i18n="s4_b2">PLANEA Sonora: 68% en nivel insuficiente (Mat)</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <span style="width:12px;height:12px;border-radius:50%;background:var(--green);"></span>
+                            <span data-i18n="s4_b3">HCV: Brechas en infraestructura, docentes y TIC</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SLIDE 5: PÚBLICO VS PRIVADO ===== -->
+    <section class="slide" data-slide="4">
+        <div class="slide-accent" style="background:var(--purple);top:-100px;right:-100px;"></div>
+        <div class="slide-inner">
+            <span class="section-tag tag-purple" data-i18n="s5_tag">Público vs. Privado</span>
+            <h2 class="section-title" data-i18n="s5_title">La brecha que divide</h2>
+            <p class="section-desc" style="margin-bottom:10px;" data-i18n="s5_desc">PISA 2022 documenta una de las
+                brechas más amplias
+                entre países OCDE. PLANEA y HCV lo confirman a nivel local.</p>
+            <div class="compare-bars">
+                <div class="compare-item">
+                    <div class="compare-label" data-i18n="s5_pub">Público<br>PISA Matemáticas</div>
+                    <div class="compare-bar-track">
+                        <div class="compare-bar-fill bar-pink" style="--target-width:50%">~370 pts</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <div class="compare-label" data-i18n="s5_priv">Privado<br>PISA Matemáticas</div>
+                    <div class="compare-bar-track">
+                        <div class="compare-bar-fill bar-cyan" style="--target-width:62%">~413 pts</div>
+                    </div>
+                </div>
+            </div>
+            <div class="metrics-grid" style="margin-top:40px;">
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--pink);">◉</div>
+                    <div class="metric-value color-pink">43 pts</div>
+                    <div class="metric-label" data-i18n="s5_m1l">Brecha documentada por PISA entre sectores en México
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--cyan);">▲</div>
+                    <div class="metric-value color-cyan">80%</div>
+                    <div class="metric-label" data-i18n="s5_m2l">De la matrícula sonorense está en el sector público
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--orange);">◆</div>
+                    <div class="metric-value color-orange">88%</div>
+                    <div class="metric-label" data-i18n="s5_m3l">De estudiantes Sonora en PLANEA nivel insuficiente o
+                        básico (Mat)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SLIDE 6: NIVELES PLANEA ===== -->
+    <section class="slide" data-slide="5">
+        <div class="slide-accent" style="background:var(--green);bottom:-100px;left:-100px;"></div>
+        <div class="slide-inner">
+            <span class="section-tag tag-green" data-i18n="s6_tag">PLANEA Sonora</span>
+            <h2 class="section-title" data-i18n="s6_title">9 de 10 sin dominio funcional</h2>
+            <p class="section-desc" data-i18n="s6_desc">Distribución por nivel de desempeño en matemáticas — Sonora
+                (PLANEA EMS).</p>
+            <div class="compare-bars" style="margin-top:30px;">
+                <div class="compare-item">
+                    <div class="compare-label" data-i18n="s6_l1">Nivel I<br><small>Insuficiente</small></div>
+                    <div class="compare-bar-track">
+                        <div class="compare-bar-fill bar-pink" style="--target-width:68%">68.1%</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <div class="compare-label" data-i18n="s6_l2">Nivel II<br><small>Básico</small></div>
+                    <div class="compare-bar-track">
+                        <div class="compare-bar-fill bar-orange" style="--target-width:20%">20.3%</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <div class="compare-label" data-i18n="s6_l3">Nivel III<br><small>Satisfactorio</small></div>
+                    <div class="compare-bar-track">
+                        <div class="compare-bar-fill bar-blue" style="--target-width:9%">9.2%</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <div class="compare-label" data-i18n="s6_l4">Nivel IV<br><small>Sobresaliente</small></div>
+                    <div class="compare-bar-track">
+                        <div class="compare-bar-fill bar-cyan" style="--target-width:3%">2.4%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="callout" data-i18n="s6_callout">
+                El <strong>88.4%</strong> de los estudiantes sonorenses se ubica en niveles I y II — sin dominio
+                funcional
+                de las competencias matemáticas base para STEM. Solo el <strong>2.4%</strong> alcanza el nivel
+                sobresaliente.
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SLIDE 7: FACTORES DOCUMENTADOS ===== -->
+    <section class="slide" data-slide="6">
+        <div class="slide-accent" style="background:var(--orange);top:50%;right:-200px;"></div>
+        <div class="slide-inner">
+            <span class="section-tag tag-orange" data-i18n="s7_tag">Factores Clave</span>
+            <h2 class="section-title" data-i18n="s7_title">¿Qué predice el desempeño STEM?</h2>
+            <p class="section-desc" data-i18n="s7_desc">Factores contextuales documentados por PISA 2022 y Hermosillo
+                ¿Cómo Vamos?</p>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--cyan);">◇</div>
+                    <div class="metric-value color-cyan">25-40 pts</div>
+                    <div class="metric-label" data-i18n="s7_m1l">Diferencia PISA por acceso a computadora e internet
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--blue);">○</div>
+                    <div class="metric-value color-blue">80 pts</div>
+                    <div class="metric-label" data-i18n="s7_m2l">Brecha PISA entre cuartil socioeconómico alto y bajo
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--green);">◎</div>
+                    <div class="metric-value color-green">~55%</div>
+                    <div class="metric-label" data-i18n="s7_m3l">Docentes Sonora con perfil idóneo en ciencias
+                        (MEJOREDU)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--pink);">□</div>
+                    <div class="metric-value color-pink">~35%</div>
+                    <div class="metric-label" data-i18n="s7_m4l">Escuelas Sonora con laboratorio de ciencias funcional
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:40px;">
+                <h3 style="margin-bottom:16px;" data-i18n="s7_trend">Tendencia histórica PISA — Matemáticas</h3>
+                <div class="compare-bars">
+                    <div class="compare-item">
+                        <div class="compare-label" data-i18n="s7_f">2003</div>
+                        <div class="compare-bar-track">
+                            <div class="compare-bar-fill bar-pink" style="--target-width:56%">385 pts</div>
+                        </div>
+                    </div>
+                    <div class="compare-item">
+                        <div class="compare-label" data-i18n="s7_m">2022</div>
+                        <div class="compare-bar-track">
+                            <div class="compare-bar-fill bar-orange" style="--target-width:56%">395 pts</div>
+                        </div>
+                    </div>
+                </div>
+                <p style="color:rgba(255,255,255,0.5);font-size:0.85rem;margin-top:8px;" data-i18n="s7_trend_note">+10
+                    puntos en 20 años —
+                    estancamiento total.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SLIDE 8: HIPÓTESIS CONFIRMADAS ===== -->
+    <section class="slide" data-slide="7">
+        <div class="slide-accent" style="background:var(--cyan);top:-100px;left:50%;"></div>
+        <div class="slide-inner">
+            <span class="section-tag tag-cyan" data-i18n="s8_tag">Verificación</span>
+            <h2 class="section-title" data-i18n="s8_title">4 hipótesis. <span style="color:var(--green);">4
+                    confirmadas.</span></h2>
+            <div style="display:flex;flex-direction:column;gap:20px;margin-top:40px;">
+                <div class="glass-card" style="display:flex;align-items:center;gap:20px;">
+                    <span style="font-size:2rem;color:var(--green);font-weight:800;">✓</span>
+                    <div>
+                        <h4 style="margin-bottom:6px;color:var(--green);" data-i18n="s8_h1t">H1 — Los jóvenes no están
+                            preparados</h4>
+                        <p style="color:rgba(255,255,255,0.65);" data-i18n="s8_h1d">México está 77 puntos por debajo del
+                            promedio mundial
+                            en matemáticas. En Sonora, 7 de cada 10 estudiantes reprueban.</p>
+                    </div>
+                </div>
+                <div class="glass-card" style="display:flex;align-items:center;gap:20px;">
+                    <span style="font-size:2rem;color:var(--green);font-weight:800;">✓</span>
+                    <div>
+                        <h4 style="margin-bottom:6px;color:var(--green);" data-i18n="s8_h2t">H2 — La escuela privada le
+                            gana a la pública
+                        </h4>
+                        <p style="color:rgba(255,255,255,0.65);" data-i18n="s8_h2d">43 puntos de diferencia entre
+                            escuelas públicas y
+                            privadas. El 80% de los estudiantes de Sonora van a escuelas públicas.</p>
+                    </div>
+                </div>
+                <div class="glass-card" style="display:flex;align-items:center;gap:20px;">
+                    <span style="font-size:2rem;color:var(--green);font-weight:800;">✓</span>
+                    <div>
+                        <h4 style="margin-bottom:6px;color:var(--green);" data-i18n="s8_h3t">H3 — Sin tecnología, sin
+                            oportunidad</h4>
+                        <p style="color:rgba(255,255,255,0.65);" data-i18n="s8_h3d">Los estudiantes con computadora e
+                            internet sacan hasta
+                            40 puntos más. La brecha digital es brecha educativa.</p>
+                    </div>
+                </div>
+                <div class="glass-card" style="display:flex;align-items:center;gap:20px;">
+                    <span style="font-size:2rem;color:var(--green);font-weight:800;">✓</span>
+                    <div>
+                        <h4 style="margin-bottom:6px;color:var(--green);" data-i18n="s8_h4t">H4 — No eligen STEM porque
+                            no lo conocen</h4>
+                        <p style="color:rgba(255,255,255,0.65);" data-i18n="s8_h4d">Los jóvenes que sí se interesan en
+                            ciencias sacan
+                            mejores resultados. Pero en Hermosillo falta orientación vocacional STEM.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SLIDE 9: LA SOLUCIÓN - JÓVENES STEM ===== -->
+    <section class="slide" data-slide="8">
+        <div class="slide-accent" style="background:var(--pink);top:20%;right:-100px;width:500px;height:500px;"></div>
+        <div class="slide-accent" style="background:var(--cyan);bottom:10%;left:-100px;width:400px;height:400px;"></div>
+        <div class="slide-inner" style="text-align:center;">
+            <span class="section-tag tag-pink" data-i18n="s9_tag">La Solución</span>
+            <h2 class="section-title" style="max-width:800px;margin:0 auto 24px;" data-i18n="s9_title">
+                JóvenesSTEM:<br><span class="gradient-text"
+                    style="background:linear-gradient(135deg,var(--cyan),var(--green),var(--pink));-webkit-background-clip:text;">El
+                    programa que Sonora necesita</span>
+            </h2>
+            <p class="section-desc" style="margin:0 auto 40px;text-align:center;" data-i18n="s9_desc">
+                Certificación STEM alineada al estándar EC0049 · CONOCER · SEP<br>
+                Basada en el modelo didáctico SIIP NextGEN
+            </p>
+            <div class="metrics-grid" style="max-width:900px;margin:0 auto;">
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--cyan);">◆</div>
+                    <div class="metric-value color-cyan">3</div>
+                    <div class="metric-label" data-i18n="s9_m1">Pilares metodológicos<br>ABC · ABP · Cooperativo</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--orange);">◆</div>
+                    <div class="metric-value color-pink">20h</div>
+                    <div class="metric-label" data-i18n="s9_m2">Modalidad FastTrack<br>5 sesiones × 4 horas</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--green);">◇</div>
+                    <div class="metric-value color-green">90h+</div>
+                    <div class="metric-label" data-i18n="s9_m3">Modalidad Curricular<br>Integración semestral</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--orange);">◈</div>
+                    <div class="metric-value color-orange" style="font-size:1.6rem;">EC0049</div>
+                    <div class="metric-label" data-i18n="s9_m4a">Estándar de Competencia CONOCER</div>
+                    <div class="metric-label" style="margin-top:4px;font-size:0.7rem;opacity:0.6;" data-i18n="s9_m4b">
+                        Alineación con el estándar nacional mexicano de diseño de cursos de capacitación</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon" style="color:var(--blue);">◎</div>
+                    <div class="metric-value color-blue" style="font-size:1.6rem;">NGSS</div>
+                    <div class="metric-label" data-i18n="s9_m5a">Next Generation Science Standards</div>
+                    <div class="metric-label" style="margin-top:4px;font-size:0.7rem;opacity:0.6;" data-i18n="s9_m5b">
+                        Alineación con el estándar estadounidense para la enseñanza de ciencias K-12</div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SLIDE 10: CTA ===== -->
+    <section class="slide" data-slide="9">
+        <div class="hero-bg">
+            <div class="blob" style="background:var(--cyan);"></div>
+            <div class="blob" style="background:var(--pink);"></div>
+            <div class="blob" style="background:var(--green);"></div>
+        </div>
+        <div class="slide-inner" style="text-align:center;position:relative;z-index:2;">
+            <h2 class="section-title" style="font-size:clamp(2rem,5vw,3.5rem);margin-bottom:24px;"
+                data-i18n="s10_title">
+                Los datos son claros.<br>
+                <span class="gradient-text">Es momento de actuar.</span>
+            </h2>
+            <p class="section-desc" style="margin:0 auto 40px;text-align:center;" data-i18n="s10_desc">
+                Sonora está invirtiendo miles de millones en tecnología e industria avanzada.
+                Pero sin capital humano STEM, esa inversión no alcanzará su potencial.
+                JóvenesSTEM es la respuesta.
+            </p>
+            <div style="margin-bottom:30px;">
+                <img src="portada.png" alt="BlueBook v1"
+                    style="height:200px;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+            </div>
+            <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+                <a href="https://yepzhi.com/jovenesstem" class="cta-btn" target="_blank" data-i18n="s10_cta1">
+                    Conoce JóvenesSTEM →
+                </a>
+                <a href="https://yepzhi.com" class="cta-btn cta-btn-alt" target="_blank" data-i18n="s10_cta_author">
+                    Conoce al Autor →
+                </a>
+                <a href="estudio-stem-hermosillo-2025.pdf" class="cta-btn"
+                    style="background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 8px 32px rgba(43,134,197,0.3);"
+                    download data-i18n="s10_cta_download">
+                    Descarga esta Investigación →
+                </a>
+            </div>
+            <div style="margin-top:40px;display:flex;align-items:center;justify-content:center;gap:16px;">
+                <img src="author.jpg" alt="Alberto Yépiz"
+                    style="width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid var(--glass-border);">
+                <p style="color:rgba(255,255,255,0.45);font-size:0.85rem;text-align:left;" data-i18n="s10_author">
+                    Investigación realizada por
+                    <strong>Alberto Yépiz</strong><br>Universidad de Sonora · Maestría en Administración y Experto
+                    edTech · 2025
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p data-i18n="footer">JóvenesSTEM © 2025 · Diseñado por <a href="https://yepzhi.com" target="_blank">yepzhi</a>
+            · Datos del estudio de tesis, Universidad de Sonora</p>
+    </footer>
+
+    <script>
+        // ===== SLIDE NAVIGATION =====
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+
+        // Create nav dots
+        const navDots = document.getElementById('navDots');
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goToSlide(i);
+            navDots.appendChild(dot);
+        }
+
+        function updateSlideCounter() {
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
+            document.getElementById('progressBar').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+        }
+
+        function goToSlide(index) {
+            currentSlide = Math.max(0, Math.min(totalSlides - 1, index));
+            slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            updateSlideCounter();
+        }
+
+        function nextSlide() { goToSlide(currentSlide + 1); }
+        function prevSlide() { goToSlide(currentSlide - 1); }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); nextSlide(); }
+            if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+        });
+
+        // ===== INTERSECTION OBSERVER =====
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    const slideIndex = parseInt(entry.target.dataset.slide);
+                    if (!isNaN(slideIndex)) {
+                        currentSlide = slideIndex;
+                        updateSlideCounter();
+                    }
+                    // Animate bars
+                    entry.target.querySelectorAll('.compare-bar-fill').forEach(bar => {
+                        setTimeout(() => bar.classList.add('animated'), 300);
+                    });
+                    // Animate counters
+                    entry.target.querySelectorAll('.count-up').forEach(el => animateCounter(el));
+                    // Animate donut
+                    entry.target.querySelectorAll('.donut-segment').forEach(seg => {
+                        const percent = parseFloat(seg.dataset.percent);
+                        const circumference = 2 * Math.PI * 140;
+                        const dashArray = (percent / 100) * circumference;
+                        setTimeout(() => {
+                            seg.style.strokeDasharray = `${dashArray} ${circumference}`;
+                        }, 500);
+                    });
+                    // Reveal list items
+                    entry.target.querySelectorAll('.reveal-list li').forEach((li, i) => {
+                        setTimeout(() => li.classList.add('revealed'), 200 + i * 150);
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+
+        slides.forEach(s => observer.observe(s));
+
+        // ===== COUNTER ANIMATION =====
+        function animateCounter(el) {
+            if (el.dataset.animated) return;
+            el.dataset.animated = 'true';
+            const target = parseFloat(el.dataset.target);
+            const suffix = el.dataset.suffix || '';
+            const decimals = parseInt(el.dataset.decimals) || 0;
+            const duration = 2000;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 4);
+                const current = eased * target;
+                el.textContent = current.toFixed(decimals) + suffix;
+                if (progress < 1) requestAnimationFrame(update);
+                else el.textContent = target.toFixed(decimals) + suffix;
+            }
+            requestAnimationFrame(update);
+        }
+
+        // Initial state
+        updateSlideCounter();
+
+        // ===== i18n TRANSLATIONS =====
+        const translations = {
+            es: {
+                nav_title: 'Reporte de Investigación Educación Superior',
+                hero_tag: 'Investigación Documental · Hermosillo, Sonora · 2025',
+                hero_title1: 'El futuro STEM de',
+                hero_title2: 'Sonora en números',
+                hero_sub: 'Diagnóstico de competencias STEM basado en el análisis de PISA 2022 (OCDE), MEJOREDU/PLANEA y Hermosillo ¿Cómo Vamos? Los datos que justifican la necesidad de programas de intervención STEM como JóvenesSTEM.',
+                stat_students: 'Estudios Institucionales',
+                stat_institutions: 'Países en PISA',
+                stat_items: 'Estudiantes MX evaluados',
+                stat_dimensions: 'Hipótesis confirmadas',
+                scroll_hint: 'Desliza para explorar',
+                s2_desc: 'Incluso Estados Unidos — la economía más grande del mundo — enfrenta un déficit masivo de talento STEM.',
+                s2_tag: 'El Problema Global',
+                s2_title: 'La crisis STEM no es<br>solo de México',
+                s2_m1: 'Posiciones STEM vacantes proyectadas para 2025 en EUA',
+                s2_m2: 'Posiciones docentes STEM vacantes en EUA',
+                s2_m3: 'Egresados de High School listos para carreras STEM',
+                s2_m4: 'Diferencia salarial STEM vs no-STEM ($101K vs $46K USD)',
+                s3_tag: 'PISA 2022',
+                s3_title: 'México por debajo del mínimo',
+                s3_desc: 'Los resultados PISA 2022 revelan brechas de más de 70 puntos con el promedio OCDE.',
+                s3_callout: 'El <strong>66%</strong> de los estudiantes mexicanos no alcanza el Nivel 2 en matemáticas — el mínimo para participar productivamente en la sociedad moderna. En ciencias, el 51% tampoco lo logra.',
+                s3_mx_math: 'México<br>Matemáticas',
+                s3_us_math: 'EUA<br>Matemáticas',
+                s3_oecd_math: 'OCDE<br>Matemáticas',
+                s3_mx_sci: 'México<br>Ciencias',
+                s3_us_sci: 'EUA<br>Ciencias',
+                s3_oecd_sci: 'OCDE<br>Ciencias',
+                s4_tag: 'Diagnóstico Convergente',
+                s4_title: 'Tres fuentes, un mismo<br><span style="color:var(--pink)">diagnóstico alarmante</span>',
+                s4_subtitle: 'Triangulación de 3 estudios',
+                s4_desc: 'El 66% de estudiantes mexicanos <strong>no alcanza el nivel mínimo en matemáticas</strong> según PISA 2022. PLANEA confirma que el 68% de sonorenses está en nivel insuficiente. Hermosillo ¿Cómo Vamos? documenta las brechas locales.',
+                s4_b1: 'PISA 2022: México 395 pts vs OCDE 472 pts (−77)',
+                s4_b2: 'PLANEA Sonora: 68% en nivel insuficiente (Mat)',
+                s4_b3: 'HCV: Brechas en infraestructura, docentes y TIC',
+                s4_donut_label: 'Bajo nivel mínimo (Mat)',
+                s5_tag: 'Público vs. Privado',
+                s5_title: 'La brecha que divide',
+                s5_desc: 'PISA 2022 documenta una de las brechas más amplias entre países OCDE. PLANEA y HCV lo confirman a nivel local.',
+                s5_pub: 'Público<br>PISA Matemáticas',
+                s5_priv: 'Privado<br>PISA Matemáticas',
+                s5_m1l: 'Brecha documentada por PISA entre sectores en México',
+                s5_m2l: 'De la matrícula sonorense está en el sector público',
+                s5_m3l: 'De estudiantes Sonora en PLANEA nivel insuficiente o básico (Mat)',
+                s6_tag: 'PLANEA Sonora',
+                s6_title: '9 de 10 sin dominio funcional',
+                s6_desc: 'Distribución por nivel de desempeño en matemáticas — Sonora (PLANEA EMS).',
+                s6_l1: 'Nivel I<br><small>Insuficiente</small>',
+                s6_l2: 'Nivel II<br><small>Básico</small>',
+                s6_l3: 'Nivel III<br><small>Satisfactorio</small>',
+                s6_l4: 'Nivel IV<br><small>Sobresaliente</small>',
+                s6_callout: 'El <strong>88.4%</strong> de los estudiantes sonorenses se ubica en niveles I y II — sin dominio funcional de las competencias matemáticas base para STEM. Solo el <strong>2.4%</strong> alcanza el nivel sobresaliente.',
+                s7_tag: 'Factores Clave',
+                s7_title: '¿Qué predice el desempeño STEM?',
+                s7_desc: 'Factores contextuales documentados por PISA 2022 y Hermosillo ¿Cómo Vamos?',
+                s7_m1l: 'Diferencia PISA por acceso a computadora e internet',
+                s7_m2l: 'Brecha PISA entre cuartil socioeconómico alto y bajo',
+                s7_m3l: 'Docentes Sonora con perfil idóneo en ciencias (MEJOREDU)',
+                s7_m4l: 'Escuelas Sonora con laboratorio de ciencias funcional',
+                s7_trend: 'Tendencia histórica PISA — Matemáticas',
+                s7_trend_note: '+10 puntos en 20 años — estancamiento total.',
+                s7_f: '2003',
+                s7_m: '2022',
+                s8_tag: 'Verificación',
+                s8_title: '4 hipótesis. <span style="color:var(--green);">4 confirmadas.</span>',
+                s8_h1t: 'H1 — Los jóvenes no están preparados',
+                s8_h1d: 'México está 77 puntos por debajo del promedio mundial en matemáticas. En Sonora, 7 de cada 10 estudiantes reprueban.',
+                s8_h2t: 'H2 — La escuela privada le gana a la pública',
+                s8_h2d: '43 puntos de diferencia entre escuelas públicas y privadas. El 80% de los estudiantes de Sonora van a escuelas públicas.',
+                s8_h3t: 'H3 — Sin tecnología, sin oportunidad',
+                s8_h3d: 'Los estudiantes con computadora e internet sacan hasta 40 puntos más. La brecha digital es brecha educativa.',
+                s8_h4t: 'H4 — No eligen STEM porque no lo conocen',
+                s8_h4d: 'Los jóvenes que sí se interesan en ciencias sacan mejores resultados. Pero en Hermosillo falta orientación vocacional STEM.',
+                s9_tag: 'La Solución',
+                s9_title: 'JóvenesSTEM:<br><span class="gradient-text" style="background:linear-gradient(135deg,var(--cyan),var(--green),var(--pink));-webkit-background-clip:text;">El programa que Sonora necesita</span>',
+                s9_desc: 'Certificación STEM alineada al estándar EC0049 · CONOCER · SEP<br>Basada en el modelo didáctico SIIP NextGEN',
+                s9_m1: 'Pilares metodológicos<br>ABC · ABP · Cooperativo',
+                s9_m2: 'Modalidad FastTrack<br>5 sesiones × 4 horas',
+                s9_m3: 'Modalidad Curricular<br>Integración semestral',
+                s9_m4a: 'Estándar de Competencia CONOCER',
+                s9_m4b: 'Alineación con el estándar nacional mexicano de diseño de cursos de capacitación',
+                s9_m5a: 'Next Generation Science Standards',
+                s9_m5b: 'Alineación con el estándar estadounidense para la enseñanza de ciencias K-12',
+                s9_m6a: 'Comité Interinstitucional de Innovación Tecnológica',
+                s9_m6b: 'Avalado por el comité de vinculación educación-industria de Sonora',
+                s10_cta1: 'Conoce JóvenesSTEM →',
+                s10_cta_author: 'Conoce al Autor →',
+                s10_cta_download: 'Descarga esta Investigación →',
+                s10_title: 'Los datos son claros.<br><span class="gradient-text">Es momento de actuar.</span>',
+                s10_desc: 'Sonora está invirtiendo miles de millones en tecnología e industria avanzada. Pero sin capital humano STEM, esa inversión no alcanzará su potencial. JóvenesSTEM es la respuesta.',
+                s10_author: 'Investigación realizada por <strong>Alberto Yépiz</strong><br>Universidad de Sonora · Maestría en Administración y Experto edTech · 2025',
+                footer: 'JóvenesSTEM © 2025 · Diseñado por <a href="https://yepzhi.com" target="_blank">yepzhi</a> · Datos del estudio de tesis, Universidad de Sonora'
+            },
+            en: {
+                nav_title: 'Higher Ed Research Report',
+                hero_tag: 'Documentary Research · Hermosillo, Sonora · 2025',
+                hero_title1: "Sonora's STEM future",
+                hero_title2: 'in numbers',
+                hero_sub: 'STEM competency diagnosis based on PISA 2022 (OECD), MEJOREDU/PLANEA, and Hermosillo ¿Cómo Vamos? The data that justifies the need for STEM intervention programs like JóvenesSTEM.',
+                stat_students: 'Institutional Studies',
+                stat_institutions: 'Countries in PISA',
+                stat_items: 'MX Students Evaluated',
+                stat_dimensions: 'Hypotheses Confirmed',
+                scroll_hint: 'Scroll to explore',
+                s2_desc: 'Even the United States — the world\'s largest economy — faces a massive STEM talent shortage.',
+                s2_tag: 'The Global Problem',
+                s2_title: "The STEM crisis isn't<br>just Mexico's problem",
+                s2_m1: 'Projected unfilled STEM positions by 2025 in the US',
+                s2_m2: 'Unfilled STEM teaching positions in the US',
+                s2_m3: 'High school graduates ready for STEM careers',
+                s2_m4: 'STEM vs non-STEM salary gap ($101K vs $46K USD)',
+                s3_tag: 'PISA 2022',
+                s3_title: 'Mexico below the threshold',
+                s3_desc: 'PISA 2022 results reveal gaps of more than 70 points with the OECD average.',
+                s3_callout: '<strong>66%</strong> of Mexican students do not reach Level 2 in mathematics — the minimum to participate productively in modern society. In science, 51% also fall short.',
+                s3_mx_math: 'Mexico<br>Mathematics',
+                s3_us_math: 'USA<br>Mathematics',
+                s3_oecd_math: 'OECD<br>Mathematics',
+                s3_mx_sci: 'Mexico<br>Sciences',
+                s3_us_sci: 'USA<br>Sciences',
+                s3_oecd_sci: 'OECD<br>Sciences',
+                s4_tag: 'Convergent Diagnosis',
+                s4_title: 'Three sources, one<br><span style="color:var(--pink)">alarming diagnosis</span>',
+                s4_subtitle: 'Triangulation of 3 studies',
+                s4_desc: '66% of Mexican students <strong>do not reach the minimum level in mathematics</strong> according to PISA 2022. PLANEA confirms that 68% of Sonora students are at insufficient level. Hermosillo ¿Cómo Vamos? documents local gaps.',
+                s4_b1: 'PISA 2022: Mexico 395 pts vs OECD 472 pts (−77)',
+                s4_b2: 'PLANEA Sonora: 68% at insufficient level (Math)',
+                s4_b3: 'HCV: Gaps in infrastructure, teachers and ICT',
+                s4_donut_label: 'Below min. level (Math)',
+                s5_tag: 'Public vs. Private',
+                s5_title: 'The dividing gap',
+                s5_desc: 'PISA 2022 documents one of the widest gaps among OECD countries. PLANEA and HCV confirm it locally.',
+                s5_pub: 'Public<br>PISA Mathematics',
+                s5_priv: 'Private<br>PISA Mathematics',
+                s5_m1l: 'PISA-documented gap between sectors in Mexico',
+                s5_m2l: 'Of Sonora\'s enrollment is in the public sector',
+                s5_m3l: 'Of Sonora students at PLANEA insufficient or basic level (Math)',
+                s6_tag: 'PLANEA Sonora',
+                s6_title: '9 out of 10 lack functional mastery',
+                s6_desc: 'Performance level distribution in mathematics — Sonora (PLANEA EMS).',
+                s6_l1: 'Level I<br><small>Insufficient</small>',
+                s6_l2: 'Level II<br><small>Basic</small>',
+                s6_l3: 'Level III<br><small>Satisfactory</small>',
+                s6_l4: 'Level IV<br><small>Outstanding</small>',
+                s6_callout: '<strong>88.4%</strong> of Sonora students are at levels I and II — without functional mastery of the basic math skills needed for STEM. Only <strong>2.4%</strong> reach the outstanding level.',
+                s7_tag: 'Key Factors',
+                s7_title: 'What predicts STEM performance?',
+                s7_desc: 'Contextual factors documented by PISA 2022 and Hermosillo ¿Cómo Vamos?',
+                s7_m1l: 'PISA score gap based on computer and internet access',
+                s7_m2l: 'PISA gap between highest and lowest socioeconomic quartile',
+                s7_m3l: 'Sonora teachers with suitable science profile (MEJOREDU)',
+                s7_m4l: 'Sonora schools with functional science laboratory',
+                s7_trend: 'PISA Historical Trend — Mathematics',
+                s7_trend_note: '+10 points in 20 years — complete stagnation.',
+                s7_f: '2003',
+                s7_m: '2022',
+                s8_tag: 'Verification',
+                s8_title: '4 hypotheses. <span style="color:var(--green);">4 confirmed.</span>',
+                s8_h1t: 'H1 — Students are not prepared',
+                s8_h1d: 'Mexico is 77 points below the global average in math. In Sonora, 7 out of 10 students fail.',
+                s8_h2t: 'H2 — Private schools outperform public ones',
+                s8_h2d: '43-point gap between public and private schools. 80% of Sonora students attend public schools.',
+                s8_h3t: 'H3 — No technology, no opportunity',
+                s8_h3d: 'Students with a computer and internet score up to 40 points higher. The digital divide is an education divide.',
+                s8_h4t: "H4 — They don't choose STEM because they don't know it",
+                s8_h4d: 'Students interested in science score higher. But in Hermosillo, STEM career guidance is lacking.',
+                s9_tag: 'The Solution',
+                s9_title: 'JóvenesSTEM:<br><span class="gradient-text" style="background:linear-gradient(135deg,var(--cyan),var(--green),var(--pink));-webkit-background-clip:text;">The program Sonora needs</span>',
+                s9_desc: 'STEM certification aligned with EC0049 standard · CONOCER · SEP<br>Based on the SIIP NextGEN teaching model',
+                s9_m1: 'Methodological pillars<br>PBL · CBL · Cooperative',
+                s9_m2: 'FastTrack mode<br>5 sessions × 4 hours',
+                s9_m3: 'Curricular mode<br>Semester integration',
+                s9_m4a: 'CONOCER Competency Standard',
+                s9_m4b: 'Aligned with the Mexican national standard for training course design',
+                s9_m5a: 'Next Generation Science Standards',
+                s9_m5b: 'Aligned with the US K-12 science education standard',
+                s9_m6a: 'Interinstitutional Committee for Technological Innovation',
+                s9_m6b: 'Endorsed by the education-industry liaison committee of Sonora',
+                s10_cta1: 'Discover JóvenesSTEM →',
+                s10_cta_author: 'Meet the Author →',
+                s10_cta_download: 'Download this Research →',
+                s10_title: 'The data is clear.<br><span class="gradient-text">It\'s time to act.</span>',
+                s10_desc: 'Sonora is investing billions in technology and advanced industry. But without STEM human capital, that investment won\'t reach its potential. JóvenesSTEM is the answer.',
+                s10_author: 'Research conducted by <strong>Alberto Yépiz</strong><br>Universidad de Sonora · Master in Administration & edTech Expert · 2025',
+                footer: 'JóvenesSTEM © 2025 · Designed by <a href="https://yepzhi.com" target="_blank">yepzhi</a> · Thesis research data, Universidad de Sonora'
+            }
+        };
+
+        let currentLang = 'es';
+
+        window.setLang = function (lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang] && translations[lang][key] !== undefined) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+            localStorage.setItem('jovenesstem-lang', lang);
+        };
+
+        // Restore saved language preference
+        (function () {
+            const saved = localStorage.getItem('jovenesstem-lang');
+            if (saved && saved !== 'es') window.setLang(saved);
+        })();
+    </script>
+</body>
+
+</html>
