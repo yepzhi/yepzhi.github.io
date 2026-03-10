@@ -25,7 +25,7 @@ const translations = {
         },
         jovenes: {
             title: "🚀 ¿Conoces JóvenesSTEM?",
-            text: "¿Estás listo para conocer más de JóvenesSTEM? Ve a nuestro sitio y deslúmbrate con el futuro de la educación STEM.",
+            text: "¿Estás listo para conocer más de JóvenesSTEM? Ve a nuestro sitio y conoce el futuro de la educación STEM.",
             btn_more: "Conoce más de JóvenesSTEM aquí 🚀",
             conoce_plus: "Conoce"
         },
@@ -61,7 +61,7 @@ const translations = {
         },
         jovenes: {
             title: "🚀 Do you know JóvenesSTEM?",
-            text: "Ready to learn more about JóvenesSTEM? Go to our site and prepare to be dazzled by the future of STEM education.",
+            text: "Ready to learn more about JóvenesSTEM? Go to our site and discover the future of STEM education.",
             btn_more: "Learn more about JóvenesSTEM here 🚀",
             conoce_plus: "Get to know"
         },
@@ -97,7 +97,7 @@ const translations = {
         },
         jovenes: {
             title: "🚀 你知道 JóvenesSTEM 吗？",
-            text: "准备好了解更多关于 JóvenesSTEM 的信息了吗？访问我们的网站，为 STEM 教育的未来感到惊叹。",
+            text: "准备好了解更多关于 JóvenesSTEM 的信息了吗？访问我们的网站，探索 STEM 教育的未来。",
             btn_more: "在此了解更多关于 JóvenesSTEM 的信息 🚀",
             conoce_plus: "了解"
         },
