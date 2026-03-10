@@ -25,11 +25,8 @@ const translations = {
         },
         jovenes: {
             title: "🚀 ¿Conoces JóvenesSTEM?",
-            text: "Estás listo para conocer más de JóvenesSTEM, toma el test y descubre que tanto sabes de Ciencia, a su ves conocerás los contenidos del capítulo 1.",
-            note: "*Test basado solo en el capítulo 1 del libro BlueBookv1.",
+            text: "¿Estás listo para conocer más de JóvenesSTEM? Ve a nuestro sitio y deslúmbrate con el futuro de la educación STEM.",
             btn_more: "Conoce más de JóvenesSTEM aquí 🚀",
-            btn_test: "Tomar Test Ahora",
-            badge: "Si sacas más de 80% serás candidato a recibir tu primer badge L1 de JóvenesSTEM 🏅",
             conoce_plus: "Conoce"
         },
         footer: {
@@ -64,11 +61,8 @@ const translations = {
         },
         jovenes: {
             title: "🚀 Do you know JóvenesSTEM?",
-            text: "Ready to learn more about JóvenesSTEM? Take the test and discover how much you know about Science, while exploring the contents of Chapter 1.",
-            note: "*Test based only on Chapter 1 of the BlueBook v1.",
+            text: "Ready to learn more about JóvenesSTEM? Go to our site and prepare to be dazzled by the future of STEM education.",
             btn_more: "Learn more about JóvenesSTEM here 🚀",
-            btn_test: "Take Test Now",
-            badge: "Score over 80% to be eligible for your first JóvenesSTEM L1 Badge 🏅",
             conoce_plus: "Get to know"
         },
         footer: {
@@ -103,11 +97,8 @@ const translations = {
         },
         jovenes: {
             title: "🚀 你知道 JóvenesSTEM 吗？",
-            text: "准备好了解更多关于 JóvenesSTEM 的信息了吗？参加测试，发现你对科学了解多少，同时探索第一章的内容。",
-            note: "*测试仅基于 BlueBook v1 第一章。",
+            text: "准备好了解更多关于 JóvenesSTEM 的信息了吗？访问我们的网站，为 STEM 教育的未来感到惊叹。",
             btn_more: "在此了解更多关于 JóvenesSTEM 的信息 🚀",
-            btn_test: "立即参加测试",
-            badge: "得分超过 80% 即可获得你的第一个 JóvenesSTEM L1 徽章 🏅",
             conoce_plus: "了解"
         },
         footer: {
