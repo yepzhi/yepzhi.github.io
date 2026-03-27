@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://yepzhi.com/sitemap.xml
