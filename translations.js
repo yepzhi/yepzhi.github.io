@@ -29,6 +29,12 @@ const translations = {
             btn_more: "Conoce más de JóvenesSTEM aquí 🚀",
             conoce_plus: "Conoce"
         },
+        neosys: {
+            title: "✨ ¿Conoces Neosys Aeon?",
+            text: "Sin ciencia no hay claridad. Sin validación no hay progreso. Un marco abierto para entender la realidad.",
+            btn_join: "Unete Neosys Aeon ✨",
+            conoce_plus: "Únete"
+        },
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
@@ -65,6 +71,12 @@ const translations = {
             btn_more: "Learn more about JóvenesSTEM here 🚀",
             conoce_plus: "Get to know"
         },
+        neosys: {
+            title: "✨ Do you know Neosys Aeon?",
+            text: "Without science there is no clarity. Without validation there is no progress. An open framework to understand reality.",
+            btn_join: "Join Neosys Aeon ✨",
+            conoce_plus: "Join"
+        },
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
@@ -100,6 +112,12 @@ const translations = {
             text: "准备好了解更多关于 JóvenesSTEM 的信息了吗？访问我们的网站，探索 STEM 教育的未来。",
             btn_more: "在此了解更多关于 JóvenesSTEM 的信息 🚀",
             conoce_plus: "了解"
+        },
+        neosys: {
+            title: "✨ 你知道 Neosys Aeon 吗？",
+            text: "没有科学就没有清晰，没有验证就没有进步。一个理解现实的开放框架。",
+            btn_join: "加入 Neosys Aeon ✨",
+            conoce_plus: "加入"
         },
         footer: {
             developed: "由 <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a> 开发",

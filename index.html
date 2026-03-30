@@ -1096,9 +1096,9 @@
         .hop-text {
             background: linear-gradient(90deg, #7f1d1d 0%, #ef4444 40%, #eab308 100%);
             /* Red-900 -> Red-500 -> Yellow-500 */
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
             letter-spacing: -1px;
             /* Tight tracking */
         }
@@ -1155,9 +1155,9 @@
         .jovenes-text {
             font-weight: 700;
             background: linear-gradient(90deg, #c62828 0%, #3e2723 100%);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
             letter-spacing: -1px;
         }
 
@@ -1175,6 +1175,38 @@
             font-weight: 700;
             vertical-align: super;
             margin-left: 2px;
+        }
+
+        /* --- NEOSYS AEON LOGO STYLE --- */
+        .neosys-btn {
+            background: rgba(167, 139, 250, 0.1) !important;
+            border: 1px solid rgba(167, 139, 250, 0.3) !important;
+            box-shadow: 0 0 20px rgba(167, 139, 250, 0.4) !important;
+        }
+
+        .neosys-btn:hover {
+            border-color: rgba(167, 139, 250, 0.6) !important;
+            transform: translateY(-2px);
+        }
+
+        .neosys-text {
+            font-weight: 800;
+            background: linear-gradient(90deg, #a78bfa 0%, #ffffff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .neosys-section {
+            border-color: rgba(167, 139, 250, 0.3) !important;
+        }
+
+        .neosys-title {
+            background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #ffffff 100%) !important;
+            background-clip: text !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
         }
 
         /* --- SOCIAL ICONS (Brand Colors - 50% More Visible) --- */
@@ -1304,6 +1336,13 @@
         <!-- SECCIÓN DE PERFIL -->
         <div class="glass-container profile-section">
             <div class="header-left-buttons">
+                <!-- NEOSYS AEON LOGO BTN -->
+                <a href="https://yepzhi.com/neosys/" target="_blank" rel="noopener noreferrer"
+                    class="test-link-btn neosys-btn">
+                    <span class="conoce-text" data-i18n="neosys.conoce_plus">Únete</span><span
+                        class="neosys-text">Neosys Aeon</span><span class="reg-mark">✨</span>
+                </a>
+
                 <!-- JOVENES STEM LOGO BTN -->
                 <a href="https://yepzhi.com/jovenesstem/" target="_blank" rel="noopener noreferrer"
                     class="test-link-btn jovenes-btn">
@@ -1403,6 +1442,22 @@
             </a>
         </div>
 
+        <!-- MÓDULO NEOSYS AEON (Cosmic Style) -->
+        <div class="glass-container neosys-section">
+            <div class="jovenes-stem-title neosys-title" data-i18n="neosys.title">✨ ¿Conoces Neosys Aeon?</div>
+            <div class="jovenes-stem-text" data-i18n="neosys.text">
+                Sin ciencia no hay claridad. Sin validación no hay progreso. 
+                Un marco abierto para entender la realidad a través de evidencia verificable.
+            </div>
+            <div class="jovenes-buttons">
+                <a href="https://yepzhi.com/neosys/" target="_blank" rel="noopener noreferrer"
+                    class="test-link-btn neosys-btn" style="padding: 10px 24px; font-size: 16px;">
+                    <span class="conoce-text" data-i18n="neosys.conoce_plus">Únete</span><span
+                        class="neosys-text">Neosys Aeon</span><span class="reg-mark">✨</span>
+                </a>
+            </div>
+        </div>
+
         <!-- MÓDULO JÓVENESSTEM -->
         <div class="glass-container jovenes-stem-section">
             <div class="jovenes-stem-title" data-i18n="jovenes.title">🚀 ¿Conoces JóvenesSTEM?</div>
@@ -1413,7 +1468,7 @@
             <div class="jovenes-buttons"
                 style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px;">
                 <a href="https://yepzhi.com/jovenesstem/" target="_blank" rel="noopener noreferrer"
-                    class="test-link-btn jovenes-btn" style="padding: 8px 16px; font-size: 16px;">
+                    class="test-link-btn jovenes-btn" style="padding: 10px 24px; font-size: 16px;">
                     <span class="conoce-text" data-i18n="jovenes.conoce_plus">Conoce</span><span
                         class="jovenes-text">jóvenes</span><span class="stem-text">STEM</span>
                 </a>
