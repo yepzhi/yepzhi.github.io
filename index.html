@@ -238,6 +238,27 @@
             box-shadow: 0 6px 24px rgba(102, 126, 234, 0.4);
         }
 
+        .lot-mini-button {
+            background: linear-gradient(135deg, rgba(125, 249, 255, 0.2) 0%, rgba(255, 107, 248, 0.2) 100%);
+            border: 1px solid rgba(125, 249, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 28px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 4px 20px rgba(125, 249, 255, 0.2);
+        }
+
+        .lot-mini-button:hover {
+            background: linear-gradient(135deg, rgba(125, 249, 255, 0.3) 0%, rgba(255, 107, 248, 0.3) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(125, 249, 255, 0.4);
+        }
+
         .news-hint {
             text-align: right;
             color: rgba(255, 255, 255, 0.5);
@@ -1127,24 +1148,57 @@
 
             /* Pill Shape like requested */
             background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 9999px;
-            /* Rounded Full */
-
+            border-radius: 50px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
             display: flex;
             align-items: center;
-            gap: 0;
-            /* PEGADAS (No Gap) for young+STEM. Conoce+ will need margin */
+            gap: 10px;
             text-decoration: none;
             transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(41, 121, 255, 0.4) !important;
         }
 
         .jovenes-btn:hover {
-            transform: translateY(-2px);
             background: rgba(255, 255, 255, 0.1) !important;
-            border-color: rgba(200, 50, 50, 0.5) !important;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3) !important;
+            border-color: rgba(65, 105, 225, 0.5) !important;
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(65, 105, 225, 0.2);
+        }
+
+        /* --- LOT LOGO STYLE --- */
+        .lot-btn {
+            margin-bottom: 0;
+            padding: 8px 16px;
+            font-size: 26px;
+            font-family: 'Syne', 'Inter', system-ui, sans-serif;
+            font-weight: 800;
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .lot-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .lot-btn-text {
+            background: linear-gradient(90deg, #7DF9FF, #FF6BF8);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+            font-weight: 800;
+        }
+
+        .lot-btn-tag {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .conoce-text {
@@ -1364,6 +1418,12 @@
                     <span class="hop-text">hopRadio</span> <span class="live-text">Live</span>
                 </a>
 
+                <!-- LOT BTN (Logo Style) -->
+                <a href="https://yepzhi.com/lot/" target="_blank" rel="noopener noreferrer"
+                    class="lot-btn">
+                    <span class="lot-btn-text">LOT</span> <span class="lot-btn-tag">Market</span>
+                </a>
+
             </div>
 
             <!-- TOGGLE REMOVED - MOVED TO GLOBAL -->
@@ -1399,7 +1459,7 @@
 
             <!-- New Tools Button -->
             <div style="margin-top: 24px; text-align: center;">
-                <a href="https://yepzhi.com/tools/hub.html" class="test-link-btn tools-btn-style"
+                <a href="https://yepzhi.com/tools/hub" class="test-link-btn tools-btn-style"
                     data-i18n="nav.tools_big">
                     🛠️ Get to know more of my tools
                 </a>
