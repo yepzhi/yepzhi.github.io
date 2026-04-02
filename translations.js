@@ -35,6 +35,12 @@ const translations = {
             btn_join: "Unete Neosys Aeon ✨",
             conoce_plus: "Únete"
         },
+        entrytest: {
+            title: "📝 EntryTest JóvenesSTEM",
+            text: "Evaluación de habilidades y conocimientos tecnológicos. Mide tu nivel y comienza tu camino en la innovación.",
+            btn_prefix: "Realiza el",
+            btn_text: "EntryTest 🚀"
+        },
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
@@ -77,6 +83,12 @@ const translations = {
             btn_join: "Join Neosys Aeon ✨",
             conoce_plus: "Join"
         },
+        entrytest: {
+            title: "📝 JóvenesSTEM EntryTest",
+            text: "Science and technology skill assessment. Measure your level and start your journey in innovation.",
+            btn_prefix: "Take the",
+            btn_text: "EntryTest 🚀"
+        },
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
@@ -118,6 +130,12 @@ const translations = {
             text: "没有科学就没有清晰，没有验证就没有进步。一个理解现实的开放框架。",
             btn_join: "加入 Neosys Aeon ✨",
             conoce_plus: "加入"
+        },
+        entrytest: {
+            title: "📝 JóvenesSTEM 入学测试",
+            text: "科技技能评估。衡量您的水平并开始您的创新之旅。",
+            btn_prefix: "参加",
+            btn_text: "入学测试 🚀"
         },
         footer: {
             developed: "由 <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a> 开发",

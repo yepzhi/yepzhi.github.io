@@ -614,6 +614,21 @@
             box-shadow: 0 2px 12px rgba(102, 126, 234, 0.6);
         }
 
+        /* --- JOVENES STEM GRID (Side-by-side) --- */
+        .jovenes-grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .jovenes-grid-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
         .playlist {
             max-height: 220px;
             overflow-y: auto;
@@ -1540,20 +1555,38 @@
             </div>
         </div>
 
-        <!-- MÓDULO JÓVENESSTEM -->
-        <div class="glass-container jovenes-stem-section">
-            <div class="jovenes-stem-title" data-i18n="jovenes.title">🚀 ¿Conoces JóvenesSTEM?</div>
-            <div class="jovenes-stem-text" data-i18n="jovenes.text">
-                ¿Estás listo para conocer más de JóvenesSTEM? Ve a nuestro sitio y conoce el futuro de la
-                educación STEM.
+        <!-- SECCIÓN JOVENES STEM (Grid) -->
+        <div class="jovenes-grid-container">
+            <!-- MÓDULO JÓVENESSTEM -->
+            <div class="glass-container jovenes-stem-section" style="margin-bottom: 0;">
+                <div class="jovenes-stem-title" data-i18n="jovenes.title">🚀 ¿Conoces JóvenesSTEM?</div>
+                <div class="jovenes-stem-text" data-i18n="jovenes.text">
+                    ¿Estás listo para conocer más de JóvenesSTEM? Ve a nuestro sitio y conoce el futuro de la
+                    educación STEM.
+                </div>
+                <div class="jovenes-buttons"
+                    style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;">
+                    <a href="https://yepzhi.com/jovenesstem/" target="_blank" rel="noopener noreferrer"
+                        class="test-link-btn jovenes-btn" style="padding: 10px 24px; font-size: 16px;">
+                        <span class="conoce-text" data-i18n="jovenes.conoce_plus">Conoce</span><span
+                            class="jovenes-text">jóvenes</span><span class="stem-text">STEM</span>
+                    </a>
+                </div>
             </div>
-            <div class="jovenes-buttons"
-                style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px;">
-                <a href="https://yepzhi.com/jovenesstem/" target="_blank" rel="noopener noreferrer"
-                    class="test-link-btn jovenes-btn" style="padding: 10px 24px; font-size: 16px;">
-                    <span class="conoce-text" data-i18n="jovenes.conoce_plus">Conoce</span><span
-                        class="jovenes-text">jóvenes</span><span class="stem-text">STEM</span>
-                </a>
+
+            <!-- MÓDULO ENTRYTEST -->
+            <div class="glass-container entrytest-section" style="margin-bottom: 0; border-color: rgba(48, 209, 88, 0.3);">
+                <div class="jovenes-stem-title" style="background: linear-gradient(90deg, #30d158 0%, #0a84ff 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;" data-i18n="entrytest.title">📝 EntryTest JóvenesSTEM</div>
+                <div class="jovenes-stem-text" data-i18n="entrytest.text">
+                    Evaluación de habilidades y conocimientos tecnológicos. Mide tu nivel y comienza tu camino en la innovación.
+                </div>
+                <div class="jovenes-buttons"
+                    style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;">
+                    <a href="https://yepzhi.com/entrytest/" target="_blank" rel="noopener noreferrer"
+                        class="test-link-btn" style="background: rgba(48, 209, 88, 0.1); border: 1px solid rgba(48, 209, 88, 0.3); border-radius: 9999px; padding: 10px 24px; font-size: 16px; color: #30d158; font-weight: 800; text-decoration: none;">
+                        <span style="font-size: 14px; color: #ddd; font-weight: 500; margin-right: 4px;" data-i18n="entrytest.btn_prefix">Realiza el</span> <span data-i18n="entrytest.btn_text">EntryTest 🚀</span>
+                    </a>
+                </div>
             </div>
         </div>
 
