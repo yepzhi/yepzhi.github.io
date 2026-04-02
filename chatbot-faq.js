@@ -152,6 +152,38 @@ const faqData = {
             answer: 'LOT es el marketplace de clasificados diseñado por Alberto Yépiz. Permite comprar, vender y conectar en Hermosillo y México, abarcando categorías como autos, casas, tecnología, servicios y más. Visítalo en [yepzhi.com/lot](https://yepzhi.com/lot).'
         },
         {
+            keywords: ['jovenesstem data', 'analítica stem', 'research report', 'investigación educativa'],
+            answer: 'JovenesSTEM Data Analytics es un reporte de investigación y análisis de datos sobre educación superior y STEM. Puedes consultarlo en [yepzhi.com/jovenesstemData](https://yepzhi.com/jovenesstemData).'
+        },
+        {
+            keywords: ['webcert', 'certificados', 'diplomas', 'generador', 'certificate generator'],
+            answer: 'WebCert es una herramienta para generar certificados digitales de forma masiva y profesional. Accécelo en el [Hub de Herramientas](https://yepzhi.com/hub).'
+        },
+        {
+            keywords: ['richmond token', 'check token', 'validador', 'código de acceso', 'access code'],
+            answer: 'Herramienta diseñada para validar códigos de acceso y tokens de la plataforma Richmond. Disponible en [yepzhi.com/richmond-token-check](https://yepzhi.com/richmond-token-check).'
+        },
+        {
+            keywords: ['richmond bot', 'asistente richmond', 'soporte ai', 'ai helper'],
+            answer: 'Un asistente inteligente de soporte diseñado específicamente para usuarios de Richmond. Visítalo en [yepzhi.com/richmondbot](https://yepzhi.com/richmondbot).'
+        },
+        {
+            keywords: ['sensor monitor', 'sensores', 'giroscopio', 'acelerómetro', 'device sensors'],
+            answer: 'Visualiza en tiempo real los datos de los sensores de tu dispositivo (acelerómetro, giroscopio). Pruébalo en [yepzhi.github.io/sensor-monitor](https://yepzhi.github.io/sensor-monitor).'
+        },
+        {
+            keywords: ['eventseeker', 'eventos', 'conciertos', 'boletos', 'arizona', 'sonora', 'bc'],
+            answer: 'Plataforma curada de eventos para la región de Arizona, Sonora y Baja California. Encuentra qué hacer en [yepzhi.com/eventseeker](https://yepzhi.com/eventseeker).'
+        },
+        {
+            keywords: ['ytdownloader', 'descargar youtube', 'mp3', 'video downloader', 'bajar musica'],
+            answer: 'Herramienta de alta calidad para descargar audio y video. Accédelo en [yepzhi.github.io/ytDownloader](https://yepzhi.github.io/ytDownloader).'
+        },
+        {
+            keywords: ['osint', 'analyzer', 'perfiles', 'investigación profunda', 'deep search'],
+            answer: 'Motor de búsqueda y análisis de perfiles para investigación de fuentes abiertas (OSINT). Disponible en el [Hub](https://yepzhi.com/hub).'
+        },
+        {
             keywords: ['saas', 'inteligencia artificial', 'ai', 'automatizacion', 'product leader'],
             answer: 'Alberto se especializa actualmente como SaaS Product Leader & Builder, con un fuerte enfoque en Implementación de AI, Automatización y creación de Plataformas Digitales escalables.'
         },
@@ -319,6 +351,38 @@ const faqData = {
         {
             keywords: ['lot', 'sell on lot', 'classifieds', 'marketplace', 'buy', 'sell'],
             answer: 'LOT is a classifieds marketplace designed by Alberto Yépiz. It allows users to buy, sell, and connect in Hermosillo and throughout Mexico, covering categories such as cars, real estate, technology, services, and more. Visit it at [yepzhi.com/lot](https://yepzhi.com/lot).'
+        },
+        {
+            keywords: ['jovenesstem data', 'stem analytics', 'research report', 'educational research'],
+            answer: 'JovenesSTEM Data Analytics is a research and data analysis report on higher education and STEM. You can find it at [yepzhi.com/jovenesstemData](https://yepzhi.com/jovenesstemData).'
+        },
+        {
+            keywords: ['webcert', 'certificates', 'diplomas', 'generator', 'certificate generator'],
+            answer: 'WebCert is a tool for professional mass digital certificate generation. Access it in the [Tools Hub](https://yepzhi.com/hub).'
+        },
+        {
+            keywords: ['richmond token', 'check token', 'validator', 'access code'],
+            answer: 'A tool designed to validate access codes and tokens for the Richmond platform. Available at [yepzhi.com/richmond-token-check](https://yepzhi.com/richmond-token-check).'
+        },
+        {
+            keywords: ['richmond bot', 'richmond assistant', 'ai support', 'ai helper'],
+            answer: 'An intelligent support assistant designed specifically for Richmond users. Visit it at [yepzhi.com/richmondbot](https://yepzhi.com/richmondbot).'
+        },
+        {
+            keywords: ['sensor monitor', 'sensors', 'gyroscope', 'accelerometer', 'device sensors'],
+            answer: 'Visualize real-time data from your device sensors (accelerometer, gyroscope). Try it at [yepzhi.github.io/sensor-monitor](https://yepzhi.github.io/sensor-monitor).'
+        },
+        {
+            keywords: ['eventseeker', 'events', 'concerts', 'tickets', 'arizona', 'sonora', 'bc'],
+            answer: 'Curated events platform for the Arizona, Sonora, and Baja California regions. Find things to do at [yepzhi.com/eventseeker](https://yepzhi.com/eventseeker).'
+        },
+        {
+            keywords: ['ytdownloader', 'download youtube', 'mp3', 'video downloader', 'download music'],
+            answer: 'High-quality tool to download audio and video. Access it at [yepzhi.github.io/ytDownloader](https://yepzhi.github.io/ytDownloader).'
+        },
+        {
+            keywords: ['osint', 'analyzer', 'profiles', 'deep research', 'deep search'],
+            answer: 'Search and analysis engine for open-source intelligence (OSINT). Available in the [Hub](https://yepzhi.com/hub).'
         },
         {
             keywords: ['saas', 'artificial intelligence', 'ai', 'automation', 'product leader'],
