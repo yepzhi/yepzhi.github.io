@@ -1434,6 +1434,37 @@
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
         }
+
+        /* --- VISITORS MONITORING LOGO STYLE --- */
+        .visitors-btn {
+            padding: 10px 24px !important;
+            font-size: 16px !important;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+            border-radius: 9999px !important;
+            background: rgba(0, 243, 255, 0.1) !important;
+            border: 1px solid rgba(0, 243, 255, 0.3) !important;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2) !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .visitors-btn:hover {
+            border-color: rgba(0, 243, 255, 0.6) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.4) !important;
+        }
+
+        .visitors-text {
+            font-weight: 800;
+            background: linear-gradient(90deg, #00f3ff 0%, #0078ff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
     </style>
 </head>
 
@@ -1473,6 +1504,12 @@
                 <a href="https://yepzhi.github.io/RProDash/" target="_blank" rel="noopener noreferrer"
                     class="test-link-btn rprodash-btn">
                     <span class="rprodash-text">RProDash CRM</span> 📊
+                </a>
+
+                <!-- VISITORS MONITORING BTN -->
+                <a href="https://yepzhi.com/visitors/" target="_blank" rel="noopener noreferrer"
+                    class="test-link-btn visitors-btn">
+                    <span class="visitors-text">Visitors Monitoring</span> 🌐
                 </a>
 
             </div>
@@ -1559,6 +1596,24 @@
             <a href="https://yepzhi.github.io/RProDash/" target="_blank" rel="noopener noreferrer" class="test-link-btn"
                 style="background: linear-gradient(135deg, #ff9500 0%, #ffcc00 100%); color: #050810; box-shadow: 0 4px 24px rgba(255, 149, 0, 0.4); display: inline-flex; align-items: center; gap: 10px; padding: 14px 40px; font-size: 16px; font-weight: 800;">
                 <span style="font-size: 20px;">📊</span> Ver Dashboard
+            </a>
+        </div>
+
+        <!-- VISITORS MONITORING PROMO -->
+        <div class="glass-container visitors-promo-section"
+            style="text-align: center; border-color: rgba(0, 243, 255, 0.3);">
+            <div style="font-size: 48px; font-weight: 900; letter-spacing: -2px; margin-bottom: 20px;">
+                <span
+                    style="background: linear-gradient(90deg, #00f3ff 0%, #00d2ff 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.3));">Visitors</span>
+                <span
+                    style="color: #00f3ff; text-shadow: 0 0 15px rgba(0, 243, 255, 0.6), 0 0 30px rgba(0, 120, 255, 0.4); margin-left: 10px;">Monitoring</span>
+            </div>
+            <p style="color: rgba(255,255,255,0.8); font-size: 18px; margin-bottom: 24px; font-weight: 500;">
+                Global Data Analytics & Audience Monitoring at all Sites.
+            </p>
+            <a href="https://yepzhi.com/visitors/" target="_blank" rel="noopener noreferrer" class="test-link-btn"
+                style="background: linear-gradient(135deg, #00f3ff 0%, #0078ff 100%); color: #050810; box-shadow: 0 4px 24px rgba(0, 243, 255, 0.4); display: inline-flex; align-items: center; gap: 10px; padding: 14px 40px; font-size: 16px; font-weight: 800;">
+                <span style="font-size: 20px;">🌐</span> Live Stats
             </a>
         </div>
 
