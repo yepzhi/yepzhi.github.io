@@ -148,6 +148,10 @@ const faqData = {
             answer: 'El EntryTest de JóvenesSTEM es nuestra plataforma de evaluación de habilidades tecnológicas. Permite a los nuevos talentos medir sus conocimientos en ciencia y tecnología para iniciar su camino de innovación.'
         },
         {
+            keywords: ['lot', 'vende en lot', 'clasificados', 'marketplace', 'ventas', 'compra'],
+            answer: 'LOT es el marketplace de clasificados diseñado por Alberto Yépiz. Permite comprar, vender y conectar en Hermosillo y México, abarcando categorías como autos, casas, tecnología, servicios y más. Visítalo en [yepzhi.com/lot](https://yepzhi.com/lot).'
+        },
+        {
             keywords: ['saas', 'inteligencia artificial', 'ai', 'automatizacion', 'product leader'],
             answer: 'Alberto se especializa actualmente como SaaS Product Leader & Builder, con un fuerte enfoque en Implementación de AI, Automatización y creación de Plataformas Digitales escalables.'
         },
@@ -311,6 +315,10 @@ const faqData = {
         {
             keywords: ['entrytest', 'evaluation', 'stem test', 'level test'],
             answer: 'The JóvenesSTEM EntryTest is our technological skill assessment platform. It allows new talents to measure their knowledge in science and technology to start their innovation journey.'
+        },
+        {
+            keywords: ['lot', 'sell on lot', 'classifieds', 'marketplace', 'buy', 'sell'],
+            answer: 'LOT is a classifieds marketplace designed by Alberto Yépiz. It allows users to buy, sell, and connect in Hermosillo and throughout Mexico, covering categories such as cars, real estate, technology, services, and more. Visit it at [yepzhi.com/lot](https://yepzhi.com/lot).'
         },
         {
             keywords: ['saas', 'artificial intelligence', 'ai', 'automation', 'product leader'],
