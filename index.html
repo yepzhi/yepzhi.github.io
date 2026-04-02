@@ -614,21 +614,6 @@
             box-shadow: 0 2px 12px rgba(102, 126, 234, 0.6);
         }
 
-        /* --- JOVENES STEM GRID (Side-by-side) --- */
-        .jovenes-grid-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            width: 100%;
-            margin-bottom: 24px;
-        }
-
-        @media (min-width: 768px) {
-            .jovenes-grid-container {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
         .playlist {
             max-height: 220px;
             overflow-y: auto;
@@ -1403,7 +1388,6 @@
                 box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
             }
         }
-
     </style>
 </head>
 
@@ -1414,7 +1398,32 @@
     <div class="container">
         <!-- SECCIÓN DE PERFIL -->
         <div class="glass-container profile-section">
-</div>
+            <div class="header-left-buttons">
+                <!-- NEOSYS AEON LOGO BTN -->
+                <a href="https://yepzhi.com/neosys/" target="_blank" rel="noopener noreferrer"
+                    class="test-link-btn neosys-btn">
+                    <span class="conoce-text" data-i18n="neosys.conoce_plus">Únete</span><span class="neosys-text">Neosys Aeon</span><span class="reg-mark">✨</span>
+                </a>
+
+                <a href="https://yepzhi.com/jovenesstem/" target="_blank" rel="noopener noreferrer"
+                    class="test-link-btn jovenes-btn">
+                    <span class="conoce-text" data-i18n="jovenes.conoce_plus">Conoce</span><span
+                        class="jovenes-text">jóvenes</span><span class="stem-text">STEM</span>
+                </a>
+
+                <!-- LOT BTN (Encapsulated Style) -->
+                <a href="https://yepzhi.com/lot/" target="_blank" rel="noopener noreferrer"
+                    class="lot-pill-btn">
+                    <span class="lot-pill-icon">✦</span> <span class="conoce-text">Vende en</span> <span class="lot-pill-text">LOT</span>
+                </a>
+
+                <!-- HOPRADIO BTN (Logo Style) -->
+                <a href="https://yepzhi.com/hopRadio/" target="_blank" rel="noopener noreferrer"
+                    class="test-link-btn hopradio-btn">
+                    <span class="hop-text">hopRadio</span> <span class="live-text">Live</span>
+                </a>
+
+            </div>
 
             <!-- TOGGLE REMOVED - MOVED TO GLOBAL -->
             <img src="author.JPEG" alt="Alberto Yépiz, fundador de JóvenesSTEM y EdTech innovator" class="profile-pic" width="140" height="140" fetchpriority="high">
@@ -1483,42 +1492,6 @@
             </div>
         </div>
 
-        <!-- RPRODASH CRM PROMO -->
-        <div class="glass-container rprodash-promo-section"
-            style="text-align: center; border-color: rgba(255, 149, 0, 0.3);">
-            <div style="font-size: 48px; font-weight: 900; letter-spacing: -2px; margin-bottom: 20px;">
-                <span
-                    style="background: linear-gradient(90deg, #ff9500 0%, #ffcc00 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(255, 149, 0, 0.3));">RProDash</span>
-                <span
-                    style="color: #ff9500; text-shadow: 0 0 15px rgba(255, 149, 0, 0.6); margin-left: 10px;">CRM</span>
-            </div>
-            <p style="color: rgba(255,255,255,0.8); font-size: 18px; margin-bottom: 24px; font-weight: 500;">
-                Analytics & Seguimiento Comercial Richmond Pro.
-            </p>
-            <a href="https://yepzhi.github.io/RProDash/" target="_blank" rel="noopener noreferrer" class="test-link-btn"
-                style="background: linear-gradient(135deg, #ff9500 0%, #ffcc00 100%); color: #050810; box-shadow: 0 4px 24px rgba(255, 149, 0, 0.4); display: inline-flex; align-items: center; gap: 10px; padding: 14px 40px; font-size: 16px; font-weight: 800;">
-                <span style="font-size: 20px;">📊</span> Ver Dashboard
-            </a>
-        </div>
-
-        <!-- VISITORS MONITORING PROMO -->
-        <div class="glass-container visitors-promo-section"
-            style="text-align: center; border-color: rgba(0, 243, 255, 0.3);">
-            <div style="font-size: 48px; font-weight: 900; letter-spacing: -2px; margin-bottom: 20px;">
-                <span
-                    style="background: linear-gradient(90deg, #00f3ff 0%, #00d2ff 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.3));">Visitors</span>
-                <span
-                    style="color: #00f3ff; text-shadow: 0 0 15px rgba(0, 243, 255, 0.6), 0 0 30px rgba(0, 120, 255, 0.4); margin-left: 10px;">Monitoring</span>
-            </div>
-            <p style="color: rgba(255,255,255,0.8); font-size: 18px; margin-bottom: 24px; font-weight: 500;">
-                Global Data Analytics & Audience Monitoring at all Sites.
-            </p>
-            <a href="https://yepzhi.com/visitors/" target="_blank" rel="noopener noreferrer" class="test-link-btn"
-                style="background: linear-gradient(135deg, #00f3ff 0%, #0078ff 100%); color: #050810; box-shadow: 0 4px 24px rgba(0, 243, 255, 0.4); display: inline-flex; align-items: center; gap: 10px; padding: 14px 40px; font-size: 16px; font-weight: 800;">
-                <span style="font-size: 20px;">🌐</span> Live Stats
-            </a>
-        </div>
-
         <!-- HOPRADIO LIVE MODULE -->
         <div class="glass-container hopradio-promo-section"
             style="text-align: center; border-color: rgba(239, 68, 68, 0.3);">
@@ -1567,38 +1540,20 @@
             </div>
         </div>
 
-        <!-- SECCIÓN JOVENES STEM (Grid) -->
-        <div class="jovenes-grid-container">
-            <!-- MÓDULO JÓVENESSTEM -->
-            <div class="glass-container jovenes-stem-section" style="margin-bottom: 0;">
-                <div class="jovenes-stem-title" data-i18n="jovenes.title">🚀 ¿Conoces JóvenesSTEM?</div>
-                <div class="jovenes-stem-text" data-i18n="jovenes.text">
-                    ¿Estás listo para conocer más de JóvenesSTEM? Ve a nuestro sitio y conoce el futuro de la
-                    educación STEM.
-                </div>
-                <div class="jovenes-buttons"
-                    style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;">
-                    <a href="https://yepzhi.com/jovenesstem/" target="_blank" rel="noopener noreferrer"
-                        class="test-link-btn jovenes-btn" style="padding: 10px 24px; font-size: 16px;">
-                        <span class="conoce-text" data-i18n="jovenes.conoce_plus">Conoce</span><span
-                            class="jovenes-text">jóvenes</span><span class="stem-text">STEM</span>
-                    </a>
-                </div>
+        <!-- MÓDULO JÓVENESSTEM -->
+        <div class="glass-container jovenes-stem-section">
+            <div class="jovenes-stem-title" data-i18n="jovenes.title">🚀 ¿Conoces JóvenesSTEM?</div>
+            <div class="jovenes-stem-text" data-i18n="jovenes.text">
+                ¿Estás listo para conocer más de JóvenesSTEM? Ve a nuestro sitio y conoce el futuro de la
+                educación STEM.
             </div>
-
-            <!-- MÓDULO ENTRYTEST -->
-            <div class="glass-container entrytest-section" style="margin-bottom: 0; border-color: rgba(48, 209, 88, 0.3);">
-                <div class="jovenes-stem-title" style="background: linear-gradient(90deg, #30d158 0%, #0a84ff 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">📝 EntryTest JóvenesSTEM</div>
-                <div class="jovenes-stem-text">
-                    Evaluación de habilidades y conocimientos tecnológicos. Mide tu nivel y comienza tu camino en la innovación.
-                </div>
-                <div class="jovenes-buttons"
-                    style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;">
-                    <a href="https://yepzhi.com/entrytest/" target="_blank" rel="noopener noreferrer"
-                        class="test-link-btn" style="background: rgba(48, 209, 88, 0.1); border: 1px solid rgba(48, 209, 88, 0.3); border-radius: 9999px; padding: 10px 24px; font-size: 16px; color: #30d158; font-weight: 800; text-decoration: none;">
-                        <span style="font-size: 14px; color: #ddd; font-weight: 500; margin-right: 4px;">Realiza el</span> EntryTest 🚀
-                    </a>
-                </div>
+            <div class="jovenes-buttons"
+                style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px;">
+                <a href="https://yepzhi.com/jovenesstem/" target="_blank" rel="noopener noreferrer"
+                    class="test-link-btn jovenes-btn" style="padding: 10px 24px; font-size: 16px;">
+                    <span class="conoce-text" data-i18n="jovenes.conoce_plus">Conoce</span><span
+                        class="jovenes-text">jóvenes</span><span class="stem-text">STEM</span>
+                </a>
             </div>
         </div>
 
