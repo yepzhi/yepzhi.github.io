@@ -125,7 +125,7 @@ const faqData = {
         },
         {
             keywords: ['hub', 'tools', 'desarrollos', 'proyectos', 'donde ver', 'plataforma'],
-            answer: 'Puedes explorar todos los desarrollos y herramientas en el **Tools Hub**: [yepzhi.com/tools/hub](https://yepzhi.com/tools/hub). ¡Ahí encontrarás RProDash, Visitors y más!'
+            answer: 'Puedes explorar todos los desarrollos y herramientas en el **Tools Hub**: [yepzhi.com/hub](https://yepzhi.com/hub). ¡Ahí encontrarás RProDash, Visitors y más!'
         },
         {
             keywords: ['podcast', 'audio', 'escuchar', 'spotify'],
@@ -290,7 +290,7 @@ const faqData = {
         },
         {
             keywords: ['hub', 'tools', 'projects', 'where to see', 'platform'],
-            answer: 'You can explore all tools and developments in the **Tools Hub**: [yepzhi.com/tools/hub](https://yepzhi.com/tools/hub). You\'ll find RProDash, Visitors, and more!'
+            answer: 'You can explore all tools and developments in the **Tools Hub**: [yepzhi.com/hub](https://yepzhi.com/hub). You\'ll find RProDash, Visitors, and more!'
         },
         {
             keywords: ['podcast', 'audio', 'listen', 'spotify'],
