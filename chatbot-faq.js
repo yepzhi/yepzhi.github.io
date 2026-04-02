@@ -120,8 +120,12 @@ const faqData = {
 
         // --- Preguntas sobre los otros negocios (Preservadas y Mejoradas) ---
         {
-            keywords: ['contacto', 'whatsapp', 'comunicar', 'hablar', 'mensaje', 'escribir', 'telefono'],
-            answer: 'Claro, puedes contactar a Alberto Yépiz directamente por WhatsApp. Solo haz click en el botón "👋 WhatsApp - Click Aqui!" en la página principal. También está disponible en LinkedIn, Instagram y GitHub.'
+            keywords: ['contacto', 'whatsapp', 'comunicar', 'hablar', 'mensaje', 'escribir', 'telefono', 'redes', 'linkedin', 'social'],
+            answer: 'Puedes contactar a Alberto Yépiz directamente por **WhatsApp** ([haciendo click aquí](https://wa.me/message/6O4USI5SGF3IA1)) o seguir su perfil profesional en **LinkedIn** ([linkedin.com/in/yepzhi](https://linkedin.com/in/yepzhi)). También está disponible en Instagram y GitHub.'
+        },
+        {
+            keywords: ['hub', 'tools', 'desarrollos', 'proyectos', 'donde ver', 'plataforma'],
+            answer: 'Puedes explorar todos los desarrollos y herramientas en el **Tools Hub**: [yepzhi.com/tools/hub](https://yepzhi.com/tools/hub). ¡Ahí encontrarás RProDash, Visitors y más!'
         },
         {
             keywords: ['podcast', 'audio', 'escuchar', 'spotify'],
@@ -281,8 +285,12 @@ const faqData = {
 
         // --- Other Business Questions (Preserved & Enhanced) ---
         {
-            keywords: ['contact', 'whatsapp', 'reach', 'talk', 'message', 'write', 'phone'],
-            answer: 'Of course, you can contact Alberto Yépiz directly via WhatsApp. Just click the "👋 WhatsApp - Click Aqui!" button on the main page. He\'s also available on LinkedIn, Instagram, and GitHub.'
+            keywords: ['contact', 'whatsapp', 'reach', 'talk', 'message', 'write', 'phone', 'social', 'linkedin'],
+            answer: 'You can contact Alberto Yépiz directly via **WhatsApp** ([click here](https://wa.me/message/6O4USI5SGF3IA1)) or follow his professional profile on **LinkedIn** ([linkedin.com/in/yepzhi](https://linkedin.com/in/yepzhi)). He\'s also available on Instagram and GitHub.'
+        },
+        {
+            keywords: ['hub', 'tools', 'projects', 'where to see', 'platform'],
+            answer: 'You can explore all tools and developments in the **Tools Hub**: [yepzhi.com/tools/hub](https://yepzhi.com/tools/hub). You\'ll find RProDash, Visitors, and more!'
         },
         {
             keywords: ['podcast', 'audio', 'listen', 'spotify'],
