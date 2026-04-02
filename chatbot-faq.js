@@ -132,8 +132,24 @@ const faqData = {
             answer: 'HiDef Parties es el servicio de renta de equipo de audio Bose profesional de Alberto. Es perfecto para eventos, fiestas y presentaciones que requieran sonido de alta fidelidad. Visita @hidefparties en Instagram o usa el enlace "🔊 Renta equipo Bose aquí!"'
         },
         {
+            keywords: ['rprodash', 'crm', 'ventas', 'analytics', 'richmond', 'demo'],
+            answer: 'RProDash es un CRM y Dashboard de Analítica de Ventas diseñado para Richmond Pro. Incluye seguimiento comercial, proyecciones de ingresos de aproximadamente $81M MXN y gestión de asesores. Actualmente puedes ver un demo funcional con datos de universidades de México.'
+        },
+        {
+            keywords: ['visitors', 'monitoreo', 'trafico', 'audiencia', 'analitica', 'sitios'],
+            answer: 'Visitors Monitoring es la plataforma de analítica global de yepzhi.com. Permite rastrear el tráfico y comportamiento de la audiencia en tiempo real en múltiples sitios de forma unificada.'
+        },
+        {
+            keywords: ['entrytest', 'evaluacion', 'test stem', 'prueba de nivel'],
+            answer: 'El EntryTest de JóvenesSTEM es nuestra plataforma de evaluación de habilidades tecnológicas. Permite a los nuevos talentos medir sus conocimientos en ciencia y tecnología para iniciar su camino de innovación.'
+        },
+        {
+            keywords: ['saas', 'inteligencia artificial', 'ai', 'automatizacion', 'product leader'],
+            answer: 'Alberto se especializa actualmente como SaaS Product Leader & Builder, con un fuerte enfoque en Implementación de AI, Automatización y creación de Plataformas Digitales escalables.'
+        },
+        {
             keywords: ['experiencia', 'trabajo', 'apple', 'carrera', 'profesional', 'cv', 'background'],
-            answer: 'Alberto tiene una amplia carrera en tecnología. Cuenta con más de 15 años de experiencia en Apple, además de haber trabajado con empresas de talla mundial como PepsiCo, Avis y Santillana-Richmond. Es MBA y experto en UX/Agile, EdTech y Customer Experience.'
+            answer: 'Alberto es un SaaS Product Leader & Builder con amplia carrera en tecnología. Cuenta con más de 15 años de experiencia en Apple, además de haber colaborado con empresas de talla mundial como PepsiCo, Avis y Santillana-Richmond. Es MBA y experto en AI Implementation, UX/Agile, EdTech y Customer Experience.'
         },
         {
             keywords: ['radio', 'musica', 'playlist', 'canciones', 'música', 'reproductor'],
@@ -277,8 +293,24 @@ const faqData = {
             answer: 'HiDef Parties is Alberto\'s professional Bose audio equipment rental service. It\'s perfect for events, parties, and presentations that require high-fidelity sound. Visit @hidefparties on Instagram or use the link "🔊 Renta equipo Bose aquí!"'
         },
         {
+            keywords: ['rprodash', 'crm', 'sales', 'analytics', 'richmond', 'demo'],
+            answer: 'RProDash is a CRM and Sales Analytics Dashboard designed for Richmond Pro. It features commercial tracking, revenue projections (approx. $81M MXN), and advisor management. You can check a functional demo with Mexican university data.'
+        },
+        {
+            keywords: ['visitors', 'monitoring', 'traffic', 'audience', 'analytics', 'sites'],
+            answer: 'Visitors Monitoring is the global analytics platform for yepzhi.com. It allows real-time tracking of audience traffic and behavior across multiple sites in a unified dashboard.'
+        },
+        {
+            keywords: ['entrytest', 'evaluation', 'stem test', 'level test'],
+            answer: 'The JóvenesSTEM EntryTest is our technological skill assessment platform. It allows new talents to measure their knowledge in science and technology to start their innovation journey.'
+        },
+        {
+            keywords: ['saas', 'artificial intelligence', 'ai', 'automation', 'product leader'],
+            answer: 'Alberto currently specializes as a SaaS Product Leader & Builder, with a strong focus on AI Implementation, Automation, and building scalable Digital Platforms.'
+        },
+        {
             keywords: ['experience', 'work', 'apple', 'career', 'professional', 'resume', 'cv', 'background'],
-            answer: 'Alberto has an extensive career in technology. He has over 15 years of experience at Apple, in addition to working with world-class companies like PepsiCo, Avis, and Santillana-Richmond. He is an MBA and an expert in UX/Agile, EdTech, and Customer Experience.'
+            answer: 'Alberto is a SaaS Product Leader & Builder with an extensive career in technology. He has over 15 years of experience at Apple, in addition to working with world-class companies like PepsiCo, Avis, and Santillana-Richmond. He is an MBA and an expert in AI Implementation, UX/Agile, EdTech, and Customer Experience.'
         },
         {
             keywords: ['radio', 'music', 'playlist', 'songs', 'player'],
