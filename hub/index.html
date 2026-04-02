@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yepzhi Tools Hub | Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* SERG Radio Dynamic Background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(0, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 0, 0, 0.1) 0%, transparent 50%);
+            animation: bg-pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes bg-pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Yellow Foggy Title */
+        .header h1 {
+            background: linear-gradient(135deg, #fefce8 0%, #facc15 50%, #ca8a04 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 3.5em;
+            /* Slightly larger */
+            margin-bottom: 12px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            /* Yellow Fog Glow */
+            filter: drop-shadow(0 0 15px rgba(250, 204, 21, 0.6)) drop-shadow(0 0 40px rgba(250, 204, 21, 0.3));
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1em;
+        }
+
+        .modules-grid {
+            width: 100%;
+            max-width: 920px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .module-card {
+            text-decoration: none;
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px 20px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .module-icon {
+            font-size: 2.5em;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+        }
+
+        .module-title {
+            margin: 0;
+            margin-bottom: 6px;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .module-desc {
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: auto;
+            padding-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Footer Button Style */
+        .footer-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            /* full */
+            background: linear-gradient(135deg, #111827, #000);
+            /* gray-900 to black */
+            border: 1px solid #1f2937;
+            /* gray-800 */
+            color: #3b82f6;
+            /* blue-500 */
+            text-decoration: none;
+            font-size: 0.75rem;
+            /* ~12px/10px */
+            font-weight: 700;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+
+        .footer-btn:hover {
+            color: #60a5fa;
+            /* blue-400 */
+            border-color: #1e3a8a;
+            /* blue-900 */
+            transform: scale(1.05);
+        }
+
+        .footer-text-prefix {
+            color: #6b7280;
+            /* gray-500 */
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.025em;
+            margin-right: 4px;
+        }
+
+        /* --- LOGO STYLES (Ported from Main Site) --- */
+        /* "hopRadio" - Red to Gold Gradient */
+        .hop-text {
+            background: linear-gradient(90deg, #7f1d1d 0%, #ef4444 40%, #eab308 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            font-size: 1.5em;
+            /* +50% Size */
+        }
+
+        /* "Live" - Red Neon Glow */
+        .live-text {
+            color: #ff0000;
+            text-shadow:
+                0 0 10px rgba(255, 0, 0, 0.8),
+                0 0 20px rgba(255, 0, 0, 0.4);
+            font-weight: 800;
+            letter-spacing: 0px;
+            font-size: 1.5em;
+            /* +50% Size */
+        }
+
+        /* "jóvenes" - Red Gradient */
+        .jovenes-text {
+            font-weight: 700;
+            background: linear-gradient(90deg, #c62828 0%, #3e2723 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            font-size: 1.5em;
+            /* +50% Size */
+        }
+
+        /* "STEM" - Dark Blue */
+        .stem-text {
+            font-weight: 900;
+            color: #0d47a1;
+            /* Dark Blue */
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+            font-size: 1.5em;
+            /* +50% Size */
+        }
+
+        /* --- SERGRadio Styles --- */
+        .serg-blue-text {
+            color: #1d4ed8;
+            /* Blue-700 equivalent */
+            text-shadow:
+                0 0 10px rgba(0, 0, 255, 0.9),
+                0 0 20px rgba(0, 0, 255, 0.6);
+            font-weight: 900;
+            letter-spacing: -2px;
+        }
+
+        .serg-radio-text {
+            background: linear-gradient(135deg, #ff4444 0%, #cc0000 60%, #8b0000 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        /* EventSeeker Gold */
+        .es-text {
+            background: linear-gradient(135deg, #fefce8 0%, #facc15 50%, #ca8a04 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            letter-spacing: -1px;
+            filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.4));
+            font-size: 1.3em;
+        }
+
+        /* Neosys Aeon Cosmic */
+        .neosys-text {
+            background: linear-gradient(135deg, #a78bfa 0%, #ffffff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            letter-spacing: -1px;
+            filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.4));
+            font-size: 1.4em;
+        }
+        /* LOT Marketplace - Cyan to Pink */
+        .lot-text {
+            background: linear-gradient(90deg, #7DF9FF, #FF6BF8);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            letter-spacing: -1px;
+            filter: drop-shadow(0 0 10px rgba(125, 249, 255, 0.4));
+            font-size: 1.4em;
+        }
+        /* RProDash CRM - Gold */
+        .rprodash-text {
+            background: linear-gradient(90deg, #ff9500, #ffcc00);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            letter-spacing: -1px;
+            filter: drop-shadow(0 0 10px rgba(255, 149, 0, 0.4));
+            font-size: 1.4em;
+        }
+        /* Visitors Monitoring - Cyan/Blue */
+        .visitors-text {
+            background: linear-gradient(90deg, #00f3ff, #0078ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            letter-spacing: -1px;
+            filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.4));
+            font-size: 1.4em;
+        }
+        /* EntryTest - Green/Blue */
+        .entrytest-text {
+            background: linear-gradient(90deg, #30d158, #0a84ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            letter-spacing: -1px;
+            filter: drop-shadow(0 0 10px rgba(48, 209, 88, 0.4));
+            font-size: 1.4em;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <div
+        style="width: 100%; max-width: 920px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; padding: 0 10px;">
+        <a href="https://yepzhi.com"
+            style="color: rgba(255,255,255,0.7); text-decoration: none; display: flex; align-items: center; gap: 8px; font-weight: 500; transition: color 0.2s;">
+            <span>‹</span> Back to Home
+        </a>
+        <div style="font-weight: 700; font-size: 1.2em; color: rgba(255,255,255,0.9);">@yepzhi Tools✨</div>
+    </div>
+
+    <div class="header">
+        <h1>Developer Hub</h1>
+        <p>Access all tools and platforms from one place</p>
+    </div>
+
+    <!-- Modules Navigation -->
+    <div class="modules-grid">
+        <!-- RProDash CRM -->
+        <a href="https://yepzhi.github.io/RProDash/" class="module-card"
+            style="border-color: rgba(255, 149, 0, 0.3); background: linear-gradient(135deg, rgba(255,149,0,0.05), rgba(255,204,0,0.05));">
+            <div class="module-icon">📊</div>
+            <h3 class="module-title"><span class="rprodash-text">RProDash CRM</span></h3>
+            <p class="module-desc">Sales Analytics & CRM Dashboard</p>
+        </a>
+
+        <!-- Visitors Monitoring -->
+        <a href="https://yepzhi.com/visitors/" class="module-card"
+            style="border-color: rgba(0, 243, 255, 0.3); background: linear-gradient(135deg, rgba(0,243,255,0.05), rgba(0,120,255,0.05));">
+            <div class="module-icon">🌐</div>
+            <h3 class="module-title"><span class="visitors-text">Visitors Monitoring</span></h3>
+            <p class="module-desc">Global Traffic & Site Analytics</p>
+        </a>
+
+        <!-- EntryTest STEM -->
+        <a href="https://yepzhi.com/entrytest/" class="module-card"
+            style="border-color: rgba(48, 209, 88, 0.3); background: linear-gradient(135deg, rgba(48,209,88,0.05), rgba(10,132,255,0.05));">
+            <div class="module-icon">📝</div>
+            <h3 class="module-title"><span class="entrytest-text">EntryTest STEM</span></h3>
+            <p class="module-desc">Skill Assessment Platform</p>
+        </a>
+
+        <!-- Neosys Aeon -->
+        <a href="https://yepzhi.com/neosys" class="module-card">
+            <div class="module-icon">✨</div>
+            <h3 class="module-title"><span class="neosys-text">Neosys Aeon</span></h3>
+            <p class="module-desc">Applied Scientific Framework</p>
+        </a>
+
+        <!-- JovenesSTEM -->
+        <a href="https://yepzhi.github.io/jovenesstem/" class="module-card">
+            <div class="module-icon" style="margin-bottom: 2px;">🚀</div>
+            <h3 class="module-title">
+                <span class="jovenes-text">jóvenes</span><span class="stem-text">STEM</span>
+            </h3>
+            <p class="module-desc">Science & Tech Education</p>
+        </a>
+
+        <!-- JovenesSTEM Data Analytics -->
+        <a href="https://yepzhi.com/jovenesstemData/" class="module-card">
+            <div class="module-icon">📊</div>
+            <h3 class="module-title">JovenesSTEM Data Analytics</h3>
+            <p class="module-desc">Higher Ed Research Report</p>
+        </a>
+
+        <!-- LOT Marketplace -->
+        <a href="https://yepzhi.com/lot" class="module-card" 
+            style="border-color: rgba(125, 249, 255, 0.3); background: linear-gradient(135deg, rgba(125,249,255,0.05), rgba(255,107,248,0.05));">
+            <div class="module-icon">🏷️</div>
+            <h3 class="module-title"><span class="lot-text">Vende en LOT</span></h3>
+            <p class="module-desc">Compra, Vende, y Conecta.</p>
+        </a>
+
+        <!-- WebCert -->
+        <a href="webcert" class="module-card">
+            <div class="module-icon">📜</div>
+            <h3 class="module-title">WebCert Generator</h3>
+            <p class="module-desc">Create digital certificates</p>
+        </a>
+
+        <!-- Richmond Token -->
+        <a href="https://yepzhi.com/richmond-token-check/" class="module-card">
+            <div class="module-icon">🎓</div>
+            <h3 class="module-title">Richmond Token</h3>
+            <p class="module-desc">Access Code Validator</p>
+        </a>
+
+        <!-- Richmond Bot -->
+        <a href="https://yepzhi.com/richmondbot/" class="module-card">
+            <div class="module-icon">🤖</div>
+            <h3 class="module-title">Richmond Bot</h3>
+            <p class="module-desc">AI Support Assistant</p>
+        </a>
+
+        <!-- hopRadio -->
+        <a href="https://yepzhi.github.io/hopRadio/" class="module-card" style="justify-content: center; padding-top: 30px;">
+            <div class="module-icon">&#128266;</div>
+            <h3 class="module-title">
+                <span class="hop-text" style="font-size: 1.3em;">hopRadio</span> <span class="live-text" style="font-size: 1.3em;">Live</span>
+            </h3>
+            <p class="module-desc">Live Music Station</p>
+        </a>
+
+        <!-- SERGRadio -->
+        <a href="https://yepzhi.com/SERGRadio/" class="module-card" style="justify-content: center; padding-top: 30px;">
+            <div class="module-icon">&#129705;</div>
+            <h3 class="module-title">
+                <span class="serg-blue-text" style="font-size: 1.3em;">SERG</span><span class="serg-radio-text" style="font-size: 1.3em;">Radio</span>
+            </h3>
+            <p class="module-desc">Live Music Station</p>
+        </a>
+
+        <!-- Sensor Monitor -->
+        <a href="https://yepzhi.github.io/sensor-monitor/" class="module-card">
+            <div class="module-icon">🧭</div>
+            <h3 class="module-title">Sensor Monitor</h3>
+            <p class="module-desc">Real-time Device Sensors</p>
+        </a>
+
+        <!-- EventSeeker -->
+        <a href="https://yepzhi.com/eventseeker" class="module-card">
+            <div class="module-icon">🎉</div>
+            <h3 class="module-title"><span class="es-text">EventSeeker</span></h3>
+            <p class="module-desc">Curated Events (AZ/SON/BC)</p>
+        </a>
+
+        <!-- ytDownloader -->
+        <a href="https://yepzhi.github.io/ytDownloader/" class="module-card">
+            <div class="module-icon">⬇️</div>
+            <h3 class="module-title">ytDownloader</h3>
+            <p class="module-desc">HQ Audio/Video Downloader</p>
+        </a>
+
+        <!-- OSINT -->
+        <a href="osint" class="module-card">
+            <div class="module-icon">🔍</div>
+            <h3 class="module-title">OSINT Analyzer</h3>
+            <p class="module-desc">Deep profile search engine</p>
+        </a>
+    </div>
+
+    <div class="footer">
+        <div>
+            <span class="footer-text-prefix">Developed by</span>
+            <a href="https://yepzhi.com" target="_blank" class="footer-btn">
+                @yepzhi
+            </a>
+        </div>
+    </div>
+    <!-- Default Statcounter code for yepzhi.com -->
+    <script type="text/javascript">
+        var sc_project = 13182229;
+        var sc_invisible = 1;
+        var sc_security = "0cd44f01";
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter" style="display:none;">
+            <a title="web stats" href="https://statcounter.com/" target="_blank" rel="noopener noreferrer">
+                <img class="statcounter" src="https://c.statcounter.com/13182229/0/0cd44f01/1/" alt="web stats"
+                    referrerPolicy="no-referrer-when-downgrade">
+            </a>
+        </div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+
+</html>
