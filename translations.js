@@ -41,6 +41,14 @@ const translations = {
             btn_prefix: "Realiza el",
             btn_text: "EntryTest 🚀"
         },
+        lot: {
+            title: "Vende en LOT",
+            text: "Compra, Vende, y Conecta.",
+            btn: "Acceder a LOT"
+        },
+        hopradio: {
+            btn: "Escuchar ahora"
+        },
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
@@ -89,6 +97,14 @@ const translations = {
             btn_prefix: "Take the",
             btn_text: "EntryTest 🚀"
         },
+        lot: {
+            title: "Sell on LOT",
+            text: "Buy, Sell, and Connect.",
+            btn: "Access LOT"
+        },
+        hopradio: {
+            btn: "Listen Now"
+        },
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
@@ -136,6 +152,14 @@ const translations = {
             text: "科技技能评估。衡量您的水平并开始您的创新之旅。",
             btn_prefix: "参加",
             btn_text: "入学测试 🚀"
+        },
+        lot: {
+            title: "在 LOT 上销售",
+            text: "购买、销售和连接。",
+            btn: "访问 LOT"
+        },
+        hopradio: {
+            btn: "立即收听"
         },
         footer: {
             developed: "由 <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a> 开发",
