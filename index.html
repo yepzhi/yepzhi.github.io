@@ -823,14 +823,16 @@
         /* --- CHATBOT FLOATING PILOT --- */
         .chatbot-button {
             position: fixed;
-            top: 75px; /* Stacked below lang toggle (30px) */
+            top: 78px; /* Stacked below lang toggle (30px) */
             right: 30px;
+            min-width: 105px; /* Forced same size as lang-toggle */
+            height: 38px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            padding: 8px 16px;
+            padding: 0 16px;
             color: white;
             font-size: 12px;
             font-weight: 700;
@@ -839,6 +841,7 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
             transition: all 0.3s ease;
             white-space: nowrap;
@@ -1094,11 +1097,15 @@
             .chatbot-button {
                 top: 60px !important; /* Stacked below lang toggle in mobile */
                 right: 15px !important;
+                min-width: 105px !important;
+                height: 38px !important;
                 z-index: 10003;
                 animation: none !important;
                 opacity: 1 !important;
-                padding: 8px 16px;
-                font-size: 12px;
+                padding: 0 16px !important;
+                font-size: 12px !important;
+                display: flex !important;
+                justify-content: center !important;
             }
         }
 
@@ -1106,12 +1113,13 @@
             position: fixed;
             top: 30px;
             right: 30px;
-            /* Aligned with chatbot */
+            min-width: 105px; /* Fixed size to match chatbot */
+            height: 38px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            padding: 8px 16px;
+            padding: 0 16px;
             color: white;
             font-size: 12px;
             font-weight: 700;
@@ -1119,6 +1127,7 @@
             z-index: 1000;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
             transition: all 0.3s ease;
             text-decoration: none;
