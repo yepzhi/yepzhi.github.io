@@ -45,7 +45,7 @@ const translations = {
             title: "Vende en LOT",
             text: "Compra, Vende, y Conecta.",
             btn: "Acceder a LOT",
-            sell_on: "Vende en"
+            sell_on: "🛒 Vende en"
         },
         hopradio: {
             btn: "Escuchar ahora",
@@ -54,7 +54,7 @@ const translations = {
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
-            rights: "© 2025 Alberto Yépiz • All Rights Reserved • v4.1.7"
+            rights: "© 2025 Alberto Yépiz • All Rights Reserved • v4.1.8"
         }
     },
     en: {
@@ -103,7 +103,7 @@ const translations = {
             title: "Sell on LOT",
             text: "Buy, Sell, and Connect.",
             btn: "Access LOT",
-            sell_on: "Sell on"
+            sell_on: "🛒 Sell on"
         },
         hopradio: {
             btn: "Listen Now",
@@ -112,7 +112,7 @@ const translations = {
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
-            rights: "© 2025 Alberto Yépiz • All Rights Reserved • v4.1.7"
+            rights: "© 2025 Alberto Yépiz • All Rights Reserved • v4.1.8"
         }
     },
     cn: {
@@ -161,7 +161,7 @@ const translations = {
             title: "在 LOT 上销售",
             text: "购买、销售和连接。",
             btn: "访问 LOT",
-            sell_on: "在"
+            sell_on: "🛒 在"
         },
         hopradio: {
             btn: "立即收听",
@@ -170,7 +170,7 @@ const translations = {
         footer: {
             developed: "由 <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a> 开发",
             visitors: "访客 👀",
-            rights: "© 2025 Alberto Yépiz • 版权所有 • v4.1.7"
+            rights: "© 2025 Alberto Yépiz • 版权所有 • v4.1.8"
         }
     }
 };
