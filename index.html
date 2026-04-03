@@ -49,13 +49,13 @@
         }
 
         body.light-mode {
-            --bg-color: #f0f7ff; /* Light Blue Base */
-            --text-color: #1e1b4b; /* Deep Indigo */
-            --text-secondary: #4338ca; /* Medium Indigo */
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(99, 102, 241, 0.2);
-            --accent-glow: rgba(167, 139, 250, 0.3);
-            --shadow: rgba(99, 102, 241, 0.1);
+            --bg-color: #fafafa;
+            --text-color: #000000;
+            --text-secondary: #222222;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.15);
+            --accent-glow: rgba(139, 92, 246, 0.25);
+            --shadow: rgba(0, 0, 0, 0.12);
         }
 
         * {
@@ -92,9 +92,25 @@
 
         body.light-mode::before {
             background: 
-                radial-gradient(circle at 20% 40%, rgba(167, 139, 250, 0.2) 0%, transparent 40%),
-                radial-gradient(circle at 80% 60%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
-                linear-gradient(135deg, #f0f7ff 0%, #e0e7ff 100%);
+                linear-gradient(180deg, 
+                    rgba(88, 28, 135, 0.15) 0%, 
+                    rgba(147, 51, 234, 0.1) 40%, 
+                    transparent 100%),
+                linear-gradient(180deg, #f5f3ff 0%, #fdfcff 100%);
+            /* Extra vibrant purple top overlay */
+        }
+        
+        body.light-mode::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(180deg, #5b21b6 0%, rgba(91, 33, 182, 0.4) 60%, transparent 100%);
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: -1;
         }
 
         @keyframes bg-pulse {
@@ -870,9 +886,10 @@
         }
 
         body.light-mode .chatbot-button {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            border-color: rgba(102, 126, 234, 0.25);
-            color: #1e1b4b;
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(0, 0, 0, 0.15);
+            color: #000000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .chatbot-button:hover {
@@ -945,12 +962,12 @@
         }
 
         body.light-mode .chatbot-header {
-            background: rgba(255, 255, 255, 0.8);
-            border-bottom-color: rgba(99, 102, 241, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom-color: rgba(0, 0, 0, 0.1);
         }
 
         body.light-mode .chatbot-header h3 {
-            color: #1e1b4b;
+            color: #000000;
         }
 
         .chatbot-header h3 {
@@ -1022,8 +1039,8 @@
         }
 
         body.light-mode .chatbot-message.bot .chatbot-message-content {
-            background: rgba(241, 245, 249, 0.8);
-            border-color: rgba(99, 102, 241, 0.15);
+            background: rgba(248, 250, 252, 0.9);
+            border-color: rgba(0, 0, 0, 0.1);
         }
 
         .chatbot-message-text {
@@ -1035,7 +1052,7 @@
         }
 
         body.light-mode .chatbot-message-text {
-            color: #1e1b4b;
+            color: #000000;
         }
 
         body.light-mode .chatbot-message.user .chatbot-message-text {
@@ -1084,13 +1101,13 @@
 
         body.light-mode .chatbot-input {
             background: #ffffff;
-            color: #1e1b4b;
-            border-color: rgba(99, 102, 241, 0.2);
+            color: #000000;
+            border-color: rgba(0, 0, 0, 0.2);
         }
 
         body.light-mode .chatbot-input-area {
-            background: rgba(255, 255, 255, 0.8);
-            border-top-color: rgba(99, 102, 241, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+            border-top-color: rgba(0, 0, 0, 0.1);
         }
 
         .chatbot-input::placeholder {
@@ -1206,9 +1223,9 @@
         }
 
         body.light-mode .lang-toggle {
-            background: rgba(99, 102, 241, 0.1);
-            border-color: rgba(99, 102, 241, 0.2);
-            color: #1e1b4b;
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(0, 0, 0, 0.15);
+            color: #000000;
         }
 
         .lang-toggle:hover {
@@ -1563,7 +1580,10 @@
 
             <!-- THEME TOGGLE UI -->
             <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
-                <span class="icon">🌙</span>
+                <span class="icon" id="themeIcon">
+                    <!-- Default Dark (Moon) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                </span>
             </button>
 
             <!-- TOGGLE REMOVED - MOVED TO GLOBAL -->
@@ -1747,25 +1767,28 @@
         // Main Theme Logic
         document.addEventListener('DOMContentLoaded', () => {
             const themeToggle = document.getElementById('themeToggle');
-            const themeIcon = themeToggle.querySelector('.icon');
+            const themeIconContainer = document.getElementById('themeIcon');
             const body = document.body;
+
+            const sunSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`;
+            const moonSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
 
             // Check for saved theme
             const savedTheme = localStorage.getItem('theme') || 'dark';
             if (savedTheme === 'light') {
                 body.classList.add('light-mode');
-                themeIcon.textContent = '☀️';
+                themeIconContainer.innerHTML = sunSVG;
             }
 
             themeToggle.addEventListener('click', () => {
                 body.classList.toggle('light-mode');
                 const isLight = body.classList.contains('light-mode');
 
-                themeIcon.textContent = isLight ? '☀️' : '🌙';
+                themeIconContainer.innerHTML = isLight ? sunSVG : moonSVG;
                 localStorage.setItem('theme', isLight ? 'light' : 'dark');
 
                 // Visual Feedback Animation
-                themeToggle.style.transform = 'scale(0.8)';
+                themeToggle.style.transform = 'scale(0.8) rotate(-15deg)';
                 setTimeout(() => {
                     themeToggle.style.transform = '';
                 }, 200);
