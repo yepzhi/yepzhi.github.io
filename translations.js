@@ -44,10 +44,12 @@ const translations = {
         lot: {
             title: "Vende en LOT",
             text: "Compra, Vende, y Conecta.",
-            btn: "Acceder a LOT"
+            btn: "Acceder a LOT",
+            sell_on: "Vende en"
         },
         hopradio: {
-            btn: "Escuchar ahora"
+            btn: "Escuchar ahora",
+            live_text: "en vivo"
         },
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
@@ -100,10 +102,12 @@ const translations = {
         lot: {
             title: "Sell on LOT",
             text: "Buy, Sell, and Connect.",
-            btn: "Access LOT"
+            btn: "Access LOT",
+            sell_on: "Sell on"
         },
         hopradio: {
-            btn: "Listen Now"
+            btn: "Listen Now",
+            live_text: "Live"
         },
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
@@ -156,10 +160,12 @@ const translations = {
         lot: {
             title: "在 LOT 上销售",
             text: "购买、销售和连接。",
-            btn: "访问 LOT"
+            btn: "访问 LOT",
+            sell_on: "在...销售"
         },
         hopradio: {
-            btn: "立即收听"
+            btn: "立即收听",
+            live_text: "直播中"
         },
         footer: {
             developed: "由 <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a> 开发",
