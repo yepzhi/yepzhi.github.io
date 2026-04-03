@@ -38,6 +38,26 @@
     <link rel="alternate icon" href="favicon.svg">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #000;
+            --text-color: #fff;
+            --text-secondary: rgba(255, 255, 255, 0.9);
+            --glass-bg: rgba(20, 20, 20, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent-glow: rgba(41, 121, 255, 0.5);
+            --shadow: rgba(0, 0, 0, 0.37);
+        }
+
+        body.light-mode {
+            --bg-color: #f0f7ff; /* Light Blue Base */
+            --text-color: #1e1b4b; /* Deep Indigo */
+            --text-secondary: #4338ca; /* Medium Indigo */
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(99, 102, 241, 0.2);
+            --accent-glow: rgba(167, 139, 250, 0.3);
+            --shadow: rgba(99, 102, 241, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -46,8 +66,9 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #000;
-            color: #fff;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             min-height: 100vh;
             padding: 20px;
             position: relative;
@@ -67,6 +88,13 @@
                 radial-gradient(circle at 20% 50%, rgba(0, 0, 255, 0.15) 0%, transparent 50%),
                 radial-gradient(circle at 80% 80%, rgba(255, 0, 0, 0.1) 0%, transparent 50%);
             animation: bg-pulse 8s ease-in-out infinite;
+        }
+
+        body.light-mode::before {
+            background: 
+                radial-gradient(circle at 20% 40%, rgba(167, 139, 250, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 80% 60%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+                linear-gradient(135deg, #f0f7ff 0%, #e0e7ff 100%);
         }
 
         @keyframes bg-pulse {
@@ -181,15 +209,16 @@
 
         /* GLASS CONTAINER BASE */
         .glass-container {
-            background: rgba(20, 20, 20, 0.6);
+            background: var(--glass-bg);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 var(--shadow);
             padding: 40px;
             margin-bottom: 24px;
             position: relative;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease, background 0.5s ease-out;
         }
 
         .glass-container:hover {
@@ -289,16 +318,17 @@
         .profile-name {
             font-size: 3em;
             font-weight: 800;
-            color: white;
+            color: var(--text-color);
             margin-bottom: 16px;
             text-align: center;
             display: block;
             letter-spacing: -0.5px;
+            transition: color 0.5s ease;
         }
 
         .profile-bio {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--text-secondary);
             line-height: 1.8;
             margin-bottom: 24px;
             text-align: center;
@@ -306,6 +336,7 @@
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+            transition: color 0.5s ease;
         }
 
         .profile-bio strong {
@@ -356,40 +387,54 @@
         }
 
         .social-icon:hover {
-            background: rgba(102, 126, 234, 0.2);
-            border-color: rgba(102, 126, 234, 0.4);
             transform: translateY(-4px);
-            box-shadow: 0 8px 28px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 28px var(--accent-glow);
         }
 
         .social-icon.linkedin {
-            background: rgba(0, 119, 181, 0.15);
-            border-color: rgba(0, 119, 181, 0.3);
+            background: rgba(0, 119, 181, 0.25);
+            /* Increased */
+            border-color: rgba(0, 119, 181, 0.4);
+            box-shadow: 0 4px 20px rgba(0, 119, 181, 0.2);
         }
 
         .social-icon.linkedin:hover {
-            background: rgba(0, 119, 181, 0.3);
-            box-shadow: 0 8px 28px rgba(0, 119, 181, 0.4);
+            background: rgba(0, 119, 181, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 119, 181, 0.6);
         }
 
         .social-icon.instagram {
-            background: rgba(225, 48, 108, 0.15);
-            border-color: rgba(225, 48, 108, 0.3);
+            background: rgba(225, 48, 108, 0.25);
+            /* Increased */
+            border-color: rgba(225, 48, 108, 0.4);
+            box-shadow: 0 4px 20px rgba(225, 48, 108, 0.2);
         }
 
         .social-icon.instagram:hover {
-            background: rgba(225, 48, 108, 0.3);
-            box-shadow: 0 8px 28px rgba(225, 48, 108, 0.4);
+            background: rgba(225, 48, 108, 0.5);
+            box-shadow: 0 8px 32px rgba(225, 48, 108, 0.6);
         }
 
         .social-icon.github {
-            background: rgba(88, 96, 105, 0.15);
-            border-color: rgba(88, 96, 105, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            /* Brighter Github */
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .social-icon.github {
+            background: rgba(15, 23, 42, 0.1);
+            border-color: rgba(15, 23, 42, 0.2);
         }
 
         .social-icon.github:hover {
-            background: rgba(88, 96, 105, 0.3);
-            box-shadow: 0 8px 28px rgba(88, 96, 105, 0.4);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.3);
+        }
+
+        body.light-mode .social-icon.github:hover {
+            background: rgba(15, 23, 42, 0.25);
+            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.3);
         }
 
         /* SECCIÓN DE ENLACES */
@@ -406,7 +451,7 @@
 
         .link-btn {
             padding: 18px 24px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
             border-radius: 28px;
             font-size: 14px;
             font-weight: 600;
@@ -417,12 +462,12 @@
             justify-content: center;
             gap: 10px;
             transition: all 0.3s ease;
-            color: white;
+            color: var(--text-color);
             text-align: center;
             position: relative;
             overflow: hidden;
-            background: rgba(255, 255, 255, 0.04);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            background: var(--glass-bg);
+            box-shadow: 0 4px 20px var(--shadow);
         }
 
         .link-btn::before {
@@ -821,13 +866,13 @@
             font-weight: 600;
             cursor: pointer;
             box-shadow: 0 4px 24px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: fadeInDown 0.6s ease-out 1.7s forwards;
             opacity: 0;
+        }
+
+        body.light-mode .chatbot-button {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-color: rgba(102, 126, 234, 0.25);
+            color: #1e1b4b;
         }
 
         .chatbot-button:hover {
@@ -871,6 +916,12 @@
             overflow: hidden;
         }
 
+        body.light-mode .chatbot-modal {
+            background: #ffffff;
+            border-color: rgba(99, 102, 241, 0.2);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15);
+        }
+
         @keyframes slideUp {
             from {
                 opacity: 0;
@@ -891,6 +942,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        body.light-mode .chatbot-header {
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom-color: rgba(99, 102, 241, 0.1);
+        }
+
+        body.light-mode .chatbot-header h3 {
+            color: #1e1b4b;
         }
 
         .chatbot-header h3 {
@@ -957,13 +1017,13 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .chatbot-message.user .chatbot-message-content {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
-            border-color: rgba(102, 126, 234, 0.3);
-        }
-
         .chatbot-message.bot .chatbot-message-content {
             background: rgba(20, 20, 20, 0.6);
+        }
+
+        body.light-mode .chatbot-message.bot .chatbot-message-content {
+            background: rgba(241, 245, 249, 0.8);
+            border-color: rgba(99, 102, 241, 0.15);
         }
 
         .chatbot-message-text {
@@ -972,6 +1032,14 @@
             font-size: 14px;
             line-height: 1.6;
             white-space: pre-line;
+        }
+
+        body.light-mode .chatbot-message-text {
+            color: #1e1b4b;
+        }
+
+        body.light-mode .chatbot-message.user .chatbot-message-text {
+            color: white;
         }
 
         .chatbot-message-time {
@@ -1014,6 +1082,17 @@
             outline: none;
         }
 
+        body.light-mode .chatbot-input {
+            background: #ffffff;
+            color: #1e1b4b;
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        body.light-mode .chatbot-input-area {
+            background: rgba(255, 255, 255, 0.8);
+            border-top-color: rgba(99, 102, 241, 0.1);
+        }
+
         .chatbot-input::placeholder {
             color: rgba(255, 255, 255, 0.4);
         }
@@ -1045,7 +1124,49 @@
             cursor: not-allowed;
         }
 
+        /* --- THEME TOGGLE (Top Right) --- */
+        .theme-toggle {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10001;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 32px var(--shadow);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(12deg);
+            border-color: #667eea;
+        }
+
+        .theme-toggle .icon {
+            font-size: 20px;
+            transition: all 0.4s ease;
+        }
+
+        body.light-mode .theme-toggle .icon {
+            transform: rotate(360deg);
+        }
+
         @media (max-width: 600px) {
+            .theme-toggle {
+                top: 15px;
+                right: 15px;
+                width: 40px;
+                height: 40px;
+            }
+
             .chatbot-button {
                 top: 110px;
                 right: 15px;
@@ -1082,6 +1203,12 @@
             gap: 6px;
             transition: all 0.3s ease;
             text-decoration: none;
+        }
+
+        body.light-mode .lang-toggle {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: rgba(99, 102, 241, 0.2);
+            color: #1e1b4b;
         }
 
         .lang-toggle:hover {
@@ -1297,12 +1424,23 @@
         }
 
         .social-icon.github img {
-            filter: drop-shadow(0 0 8px #ffffff) brightness(1.3);
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5)) brightness(1.5);
+        }
+
+        body.light-mode .social-icon.github img {
+            filter: drop-shadow(0 0 8px rgba(15, 23, 42, 0.3)) brightness(0.2);
         }
 
         .social-icon:hover img {
-            transform: scale(1.15);
-            filter: drop-shadow(0 0 12px currentColor) brightness(1.5);
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 15px currentColor) brightness(1.6);
+        }
+
+        /* --- THEME TOGGLE ICON --- */
+        body.light-mode .theme-toggle {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.2);
         }
 
         /* --- TOOLS BUTTON (Restored Blue Color + EXTRA GLASSY) --- */
@@ -1422,6 +1560,11 @@
                 </a>
 
             </div>
+
+            <!-- THEME TOGGLE UI -->
+            <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                <span class="icon">🌙</span>
+            </button>
 
             <!-- TOGGLE REMOVED - MOVED TO GLOBAL -->
             <img src="author.JPEG" alt="Alberto Yépiz, fundador de JóvenesSTEM y EdTech innovator" class="profile-pic" width="140" height="140" fetchpriority="high">
@@ -1599,6 +1742,36 @@
     <button class="chatbot-button" id="chatbotBtn" onclick="initChatLazy()">
         💬 Chat🤖
     </button>
+
+    <script>
+        // Main Theme Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('.icon');
+            const body = document.body;
+
+            // Check for saved theme
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+                themeIcon.textContent = '☀️';
+            }
+
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('light-mode');
+                const isLight = body.classList.contains('light-mode');
+
+                themeIcon.textContent = isLight ? '☀️' : '🌙';
+                localStorage.setItem('theme', isLight ? 'light' : 'dark');
+
+                // Visual Feedback Animation
+                themeToggle.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    themeToggle.style.transform = '';
+                }, 200);
+            });
+        });
+    </script>
 
     <div class="chatbot-overlay" id="chatbotOverlay">
         <div class="chatbot-modal">
