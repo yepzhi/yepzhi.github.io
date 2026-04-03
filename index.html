@@ -48,16 +48,6 @@
             --shadow: rgba(0, 0, 0, 0.37);
         }
 
-        body.light-mode {
-            --bg-color: #f1f5f9;
-            --text-color: #000000;
-            --text-secondary: #000000;
-            --glass-bg: rgba(220, 225, 230, 0.85); /* Slightly Greyish Glass per request */
-            --glass-border: rgba(30, 32, 140, 0.25);
-            --accent-glow: rgba(30, 32, 140, 0.2);
-            --shadow: rgba(30, 32, 140, 0.15);
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -68,14 +58,13 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: var(--bg-color);
             color: var(--text-color);
-            transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             min-height: 100vh;
             padding: 20px;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* Dynamic Background (Linktree Indigo to Blue) */
+        /* Dynamic Background (Single Theme: Linktree Indigo to Blue) */
         body::before {
             content: '';
             position: fixed;
@@ -88,14 +77,7 @@
             animation: bg-pulse 10s ease-in-out infinite;
         }
 
-        body.light-mode::before {
-            background: linear-gradient(180deg, #1e208c 0%, #4e8bbc 100%);
-        }
 
-        body.light-mode::after {
-            display: none;
-            content: none;
-        }
 
         @keyframes bg-pulse {
 
@@ -419,19 +401,9 @@
             box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
         }
 
-        body.light-mode .social-icon.github {
-            background: rgba(15, 23, 42, 0.1);
-            border-color: rgba(15, 23, 42, 0.2);
-        }
-
         .social-icon.github:hover {
             background: rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 32px rgba(255, 255, 255, 0.3);
-        }
-
-        body.light-mode .social-icon.github:hover {
-            background: rgba(15, 23, 42, 0.25);
-            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.3);
         }
 
         /* SECCIÓN DE ENLACES */
@@ -851,30 +823,29 @@
         /* ESTILOS DEL CHATBOT */
         .chatbot-button {
             position: fixed;
-            top: 130px;
-            right: 20px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.45) 0%, rgba(118, 75, 162, 0.45) 100%);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(102, 126, 234, 0.3);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 28px;
             padding: 12px 24px;
             color: white;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 24px rgba(102, 126, 234, 0.3);
-            opacity: 0;
-        }
-
-        body.light-mode .chatbot-button {
-            background: #ffffff;
-            border-color: rgba(30, 32, 140, 0.3);
-            color: #000000;
-            box-shadow: 0 8px 32px rgba(30, 32, 140, 0.2);
+            z-index: 10000;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            opacity: 1; /* Fully restored */
         }
 
         .chatbot-button:hover {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.6) 0%, rgba(118, 75, 162, 0.6) 100%);
             transform: translateY(-2px);
             box-shadow: 0 6px 32px rgba(102, 126, 234, 0.5);
         }
@@ -1032,13 +1003,9 @@
             white-space: pre-line;
         }
 
-        body.light-mode .chatbot-message-text {
-            color: #000000;
-        }
 
-        body.light-mode .chatbot-message.user .chatbot-message-text {
-            color: white;
-        }
+
+
 
         .chatbot-message-time {
             margin: 6px 0 0 0;
@@ -1080,16 +1047,7 @@
             outline: none;
         }
 
-        body.light-mode .chatbot-input {
-            background: #ffffff;
-            color: #000000;
-            border-color: rgba(0, 0, 0, 0.2);
-        }
 
-        body.light-mode .chatbot-input-area {
-            background: rgba(255, 255, 255, 0.9);
-            border-top-color: rgba(0, 0, 0, 0.1);
-        }
 
         .chatbot-input::placeholder {
             color: rgba(255, 255, 255, 0.4);
@@ -1122,72 +1080,26 @@
             cursor: not-allowed;
         }
 
-        /* --- THEME TOGGLE (Top Right) --- */
-        .theme-toggle {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.25); /* More visible in dark */
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10001;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 32px var(--shadow);
-            color: #ffffff;
-        }
 
-        body.light-mode .theme-toggle {
-            background: rgba(255, 255, 255, 0.95); /* Clarito in Light Mode */
-            border-color: rgba(30, 32, 140, 0.3);
-            color: #000000;
-            box-shadow: 0 5px 20px rgba(30, 32, 140, 0.1);
-        }
 
-        .theme-toggle:hover {
-            transform: scale(1.1) rotate(12deg);
-            border-color: #667eea;
-        }
 
-        .theme-toggle .icon {
-            font-size: 20px;
-            transition: all 0.4s ease;
-        }
-
-        body.light-mode .theme-toggle .icon {
-            transform: rotate(360deg);
-        }
 
         @media (max-width: 600px) {
-            .theme-toggle {
-                top: 15px;
-                right: 15px;
-                width: 40px;
-                height: 40px;
-            }
-
-            .lang-toggle {
-                top: 95px !important; /* Spaced to avoid theme toggle overlap */
-                right: 15px !important;
-                z-index: 10002;
-            }
-
             .chatbot-button {
-                top: 155px;
-                right: 15px;
+                bottom: 20px !important;
+                right: 15px !important;
                 padding: 10px 20px;
                 font-size: 12px;
                 display: flex !important;
                 opacity: 1 !important;
                 z-index: 10003;
                 animation: none !important;
+            }
+
+            .lang-toggle {
+                top: 20px !important;
+                right: 15px !important;
+                z-index: 10002;
             }
         }
 
@@ -1215,12 +1127,7 @@
             text-decoration: none;
         }
 
-        body.light-mode .lang-toggle {
-            background: #ffffff;
-            border-color: rgba(30, 32, 140, 0.3);
-            color: #000000;
-            box-shadow: 0 4px 20px rgba(30, 32, 140, 0.1);
-        }
+
 
         .lang-toggle:hover {
             background: rgba(255, 255, 255, 0.2);
@@ -1438,22 +1345,14 @@
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5)) brightness(1.5);
         }
 
-        body.light-mode .social-icon.github img {
-            filter: drop-shadow(0 0 8px rgba(30, 32, 140, 0.4)) brightness(0);
-        }
+
 
         .social-icon:hover img {
             transform: scale(1.2);
             filter: drop-shadow(0 0 15px currentColor) brightness(1.6);
         }
 
-        /* --- THEME TOGGLE ICON --- */
-        body.light-mode .theme-toggle {
-            background: rgba(255, 255, 255, 0.95);
-            border-color: rgba(30, 32, 140, 0.4);
-            box-shadow: 0 10px 40px rgba(30, 32, 140, 0.2);
-            color: #000000;
-        }
+
 
         /* --- TOOLS BUTTON (Restored Blue Color + EXTRA GLASSY) --- */
         /* --- TOOLS BUTTON (Darker Golden Style) --- */
@@ -1573,13 +1472,7 @@
 
             </div>
 
-            <!-- THEME TOGGLE UI -->
-            <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
-                <span class="icon" id="themeIcon">
-                    <!-- Default Dark (Show Sun) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-                </span>
-            </button>
+
 
             <!-- TOGGLE REMOVED - MOVED TO GLOBAL -->
             <img src="author.JPEG" alt="Alberto Yépiz, fundador de JóvenesSTEM y EdTech innovator" class="profile-pic" width="140" height="140" fetchpriority="high">
@@ -1604,7 +1497,7 @@
                 </a>
                 <a href="https://instagram.com/yepzhi" target="_blank" rel="noopener noreferrer"
                     class="social-icon instagram" title="Instagram">
-                    <svg fill="currentColor" width="28" height="28" viewBox="0 0 24 24"><path d="M12 2C9.2912 2 8.94131 2 7.86907 2.05643C7.03985 2.07241 6.21934 2.22888 5.44244 2.51919C4.78781 2.77878 4.23476 3.11738 3.67043 3.68172C3.11738 4.23476 2.76749 4.78781 2.51919 5.45372C2.27088 6.08578 2.10158 6.80813 2.05643 7.88036C2.01129 8.94131 2 9.27991 2 12C2 14.7088 2 15.0474 2.05643 16.1196C2.10158 17.1919 2.28217 17.9255 2.51919 18.5576C2.77878 19.2122 3.11738 19.7652 3.67043 20.3296C4.23476 20.8826 4.78781 21.2325 5.44244 21.4808C6.08578 21.7291 6.80813 21.8984 7.86907 21.9436C8.94131 21.9887 9.27991 22 12 22C14.7088 22 15.0474 22 16.1196 21.9436C17.1806 21.8984 17.9142 21.7178 18.5463 21.4808C19.2137 21.2306 19.8184 20.8377 20.3183 20.3296C20.8826 19.7652 21.2212 19.2009 21.4695 18.5576C21.7178 17.9142 21.8871 17.1919 21.9436 16.1196C21.9887 15.0587 22 14.7201 22 12C22 9.2912 21.9887 8.9526 21.9436 7.88036C21.9225 7.05065 21.7622 6.23037 21.4695 5.45372C21.2189 4.78649 20.8261 4.18182 20.3183 3.68172C19.754 3.11738 19.2122 2.77878 18.5463 2.51919C17.7686 2.23315 16.9482 2.08051 16.1196 2.06772C15.0474 2.01129 14.7088 2 12 2Z"></path></svg>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
                 </a>
                 <a href="https://github.com/yepzhi" target="_blank" rel="noopener noreferrer" class="social-icon github"
                     title="GitHub">
@@ -1758,40 +1651,7 @@
         💬 Chat🤖
     </button>
 
-    <script>
-        // Main Theme Logic
-        document.addEventListener('DOMContentLoaded', () => {
-            const themeToggle = document.getElementById('themeToggle');
-            const themeIconContainer = document.getElementById('themeIcon');
-            const body = document.body;
 
-            const sunSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`;
-            const moonSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
-
-            // Check for saved theme
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            if (savedTheme === 'light') {
-                body.classList.add('light-mode');
-                themeIconContainer.innerHTML = moonSVG; // Show Moon when Light
-            } else {
-                themeIconContainer.innerHTML = sunSVG; // Show Sun when Black
-            }
-
-            themeToggle.addEventListener('click', () => {
-                body.classList.toggle('light-mode');
-                const isLight = body.classList.contains('light-mode');
-
-                themeIconContainer.innerHTML = isLight ? moonSVG : sunSVG;
-                localStorage.setItem('theme', isLight ? 'light' : 'dark');
-
-                // Visual Feedback Animation
-                themeToggle.style.transform = 'scale(0.8) rotate(-15deg)';
-                setTimeout(() => {
-                    themeToggle.style.transform = '';
-                }, 200);
-            });
-        });
-    </script>
 
     <div class="chatbot-overlay" id="chatbotOverlay">
         <div class="chatbot-modal">
