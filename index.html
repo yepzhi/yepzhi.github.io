@@ -49,14 +49,13 @@
         }
 
         body.light-mode {
-            --bg-color: #f8fbff;
+            --bg-color: #f1f5f9;
             --text-color: #000000;
-            --text-secondary: #0a0a0a;
-            --glass-bg: rgba(255, 255, 255, 0.88);
+            --text-secondary: #000000;
+            --glass-bg: rgba(220, 225, 230, 0.85); /* Slightly Greyish Glass per request */
             --glass-border: rgba(30, 32, 140, 0.25);
-            /* Indigo Border */
             --accent-glow: rgba(30, 32, 140, 0.2);
-            --shadow: rgba(31, 31, 100, 0.15);
+            --shadow: rgba(30, 32, 140, 0.15);
         }
 
         * {
@@ -76,7 +75,7 @@
             overflow-x: hidden;
         }
 
-        /* Dynamic Background (SERGRadio Theme) */
+        /* Dynamic Background (Linktree Indigo to Blue) */
         body::before {
             content: '';
             position: fixed;
@@ -85,33 +84,17 @@
             height: 100%;
             pointer-events: none;
             z-index: -1;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(0, 0, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 0, 0, 0.1) 0%, transparent 50%);
-            animation: bg-pulse 8s ease-in-out infinite;
+            background: linear-gradient(180deg, #1e208c 0%, #4e8bbc 100%);
+            animation: bg-pulse 10s ease-in-out infinite;
         }
 
         body.light-mode::before {
-            background: 
-                linear-gradient(180deg, 
-                    #1e208c 0%, 
-                    #4e8bbc 15%, 
-                    #a855f7 60%, 
-                    #fdfcff 100%);
-            /* Extra vibrant Linktree Indigo to Purple Transition */
+            background: linear-gradient(180deg, #1e208c 0%, #4e8bbc 100%);
         }
-        
+
         body.light-mode::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 400px;
-            background: linear-gradient(180deg, #1e208c 0%, rgba(30, 32, 140, 0.4) 70%, transparent 100%);
-            opacity: 0.15;
-            pointer-events: none;
-            z-index: -1;
+            display: none;
+            content: none;
         }
 
         @keyframes bg-pulse {
@@ -138,13 +121,10 @@
         }
 
         .container {
-            position: relative;
-            z-index: 1;
-        }
-
-        .container {
             max-width: 920px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         /* MODERN BLACK REVEAL */
@@ -1150,10 +1130,10 @@
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: var(--glass-bg);
+            background: rgba(255, 255, 255, 0.25); /* More visible in dark */
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1161,6 +1141,14 @@
             z-index: 10001;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 8px 32px var(--shadow);
+            color: #ffffff;
+        }
+
+        body.light-mode .theme-toggle {
+            background: rgba(255, 255, 255, 0.95); /* Clarito in Light Mode */
+            border-color: rgba(30, 32, 140, 0.3);
+            color: #000000;
+            box-shadow: 0 5px 20px rgba(30, 32, 140, 0.1);
         }
 
         .theme-toggle:hover {
@@ -1185,17 +1173,21 @@
                 height: 40px;
             }
 
+            .lang-toggle {
+                top: 95px !important; /* Spaced to avoid theme toggle overlap */
+                right: 15px !important;
+                z-index: 10002;
+            }
+
             .chatbot-button {
-                top: 110px;
+                top: 155px;
                 right: 15px;
                 padding: 10px 20px;
                 font-size: 12px;
-            }
-
-            .lang-toggle {
-                top: 65px !important;
-                /* Mobile spacing above chatbot (110px) */
-                right: 15px !important;
+                display: flex !important;
+                opacity: 1 !important;
+                z-index: 10003;
+                animation: none !important;
             }
         }
 
@@ -1584,8 +1576,8 @@
             <!-- THEME TOGGLE UI -->
             <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
                 <span class="icon" id="themeIcon">
-                    <!-- Default Dark (Moon) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    <!-- Default Dark (Show Sun) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
                 </span>
             </button>
 
@@ -1608,15 +1600,15 @@
             <div class="social-icons">
                 <a href="https://linkedin.com/in/yepzhi" target="_blank" rel="noopener noreferrer"
                     class="social-icon linkedin" title="LinkedIn">
-                    <img src="icons/linkedin.png?v=1" alt="LinkedIn Profile" width="28" height="28" loading="lazy">
+                    <svg fill="currentColor" width="28" height="28" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.29192 9.29151H12.6018V10.9786H12.6381C13.1427 10.0689 14.6331 9.14516 16.476 9.14516C20.013 9.14516 21 11.0231 21 14.5016V20.9996H17.4876V15.142C17.4876 13.5849 16.8659 12.2185 15.4117 12.2185C13.6462 12.2185 12.8043 13.4139 12.8043 15.3762V20.9996H9.29192V9.29151ZM3.43788 20.9996H6.95031V9.29151H3.43788V20.9996ZM7.38936 5.19368C7.38949 5.48192 7.33284 5.76737 7.22264 6.03372C7.11244 6.30007 6.95085 6.5421 6.74711 6.74599C6.54336 6.94988 6.30145 7.11165 6.03518 7.22203C5.76892 7.33243 5.48351 7.38928 5.19526 7.38936C4.90702 7.38944 4.62158 7.33273 4.35526 7.22248C4.08893 7.11224 3.84693 6.9506 3.64307 6.74682C3.43922 6.54304 3.2775 6.30109 3.16716 6.0348C3.05682 5.76851 3.00002 5.4831 3 5.19485C2.99995 4.61286 3.23108 4.05468 3.64254 3.64307C4.054 3.23147 4.6121 3.00016 5.19409 3C5.77609 2.99984 6.33431 3.23086 6.74599 3.64225C7.15767 4.05363 7.38909 4.61169 7.38936 5.19368Z"></path></svg>
                 </a>
                 <a href="https://instagram.com/yepzhi" target="_blank" rel="noopener noreferrer"
                     class="social-icon instagram" title="Instagram">
-                    <img src="icons/instagram.png?v=1" alt="Instagram Profile" width="28" height="28" loading="lazy">
+                    <svg fill="currentColor" width="28" height="28" viewBox="0 0 24 24"><path d="M12 2C9.2912 2 8.94131 2 7.86907 2.05643C7.03985 2.07241 6.21934 2.22888 5.44244 2.51919C4.78781 2.77878 4.23476 3.11738 3.67043 3.68172C3.11738 4.23476 2.76749 4.78781 2.51919 5.45372C2.27088 6.08578 2.10158 6.80813 2.05643 7.88036C2.01129 8.94131 2 9.27991 2 12C2 14.7088 2 15.0474 2.05643 16.1196C2.10158 17.1919 2.28217 17.9255 2.51919 18.5576C2.77878 19.2122 3.11738 19.7652 3.67043 20.3296C4.23476 20.8826 4.78781 21.2325 5.44244 21.4808C6.08578 21.7291 6.80813 21.8984 7.86907 21.9436C8.94131 21.9887 9.27991 22 12 22C14.7088 22 15.0474 22 16.1196 21.9436C17.1806 21.8984 17.9142 21.7178 18.5463 21.4808C19.2137 21.2306 19.8184 20.8377 20.3183 20.3296C20.8826 19.7652 21.2212 19.2009 21.4695 18.5576C21.7178 17.9142 21.8871 17.1919 21.9436 16.1196C21.9887 15.0587 22 14.7201 22 12C22 9.2912 21.9887 8.9526 21.9436 7.88036C21.9225 7.05065 21.7622 6.23037 21.4695 5.45372C21.2189 4.78649 20.8261 4.18182 20.3183 3.68172C19.754 3.11738 19.2122 2.77878 18.5463 2.51919C17.7686 2.23315 16.9482 2.08051 16.1196 2.06772C15.0474 2.01129 14.7088 2 12 2Z"></path></svg>
                 </a>
                 <a href="https://github.com/yepzhi" target="_blank" rel="noopener noreferrer" class="social-icon github"
                     title="GitHub">
-                    <img src="icons/github.png?v=1" alt="GitHub Profile" width="28" height="28" loading="lazy">
+                    <svg fill="currentColor" width="28" height="28" viewBox="0 0 24 24"><path d="M12.0091 1C5.92135 1 1 5.95763 1 12.0909C1 16.9936 4.15328 21.1435 8.52772 22.6124C9.07463 22.7228 9.27497 22.3737 9.27497 22.0801C9.27497 21.823 9.25694 20.9416 9.25694 20.0233C6.19447 20.6845 5.55674 18.7012 5.55674 18.7012C5.06458 17.4159 4.33536 17.0855 4.33536 17.0855C3.33302 16.4061 4.40837 16.4061 4.40837 16.4061C5.52024 16.4795 6.10366 17.5445 6.10366 17.5445C7.08775 19.2337 8.67352 18.7564 9.31147 18.4626C9.40251 17.7464 9.69434 17.2507 10.0042 16.9753C7.56165 16.7182 4.9918 11.5032 4.9918 11.5032C4.9918 10.2913 5.42897 9.29976 6.12169 8.52862C6.01239 8.25324 5.62953 7.11456 6.2312 5.59054C6.2312 5.59054 7.16076 5.29669 9.25671 6.729C10.1541 6.48622 11.0795 6.36272 12.0091 6.36168C12.9387 6.36168 13.8862 6.49035 14.7613 6.729C16.8574 5.29669 17.787 5.59054 17.787 5.59054C18.3887 7.11456 18.0056 8.25324 17.8963 8.52862C18.6073 9.29976 19.0264 10.2913 19.0264 11.5032C19.0264 15.7634 16.4565 16.6997 13.9958 16.9753C14.3969 17.3241 14.743 17.9851 14.743 19.0318C14.743 20.5191 14.725 21.7128 14.725 22.0799C14.725 22.3737 14.9255 22.7228 15.4722 22.6126C19.8467 21.1433 23 16.9936 23 12.0909C23.018 5.95763 18.0786 1 12.0091 1Z"></path></svg>
                 </a>
             </div>
 
@@ -1780,14 +1772,16 @@
             const savedTheme = localStorage.getItem('theme') || 'dark';
             if (savedTheme === 'light') {
                 body.classList.add('light-mode');
-                themeIconContainer.innerHTML = sunSVG;
+                themeIconContainer.innerHTML = moonSVG; // Show Moon when Light
+            } else {
+                themeIconContainer.innerHTML = sunSVG; // Show Sun when Black
             }
 
             themeToggle.addEventListener('click', () => {
                 body.classList.toggle('light-mode');
                 const isLight = body.classList.contains('light-mode');
 
-                themeIconContainer.innerHTML = isLight ? sunSVG : moonSVG;
+                themeIconContainer.innerHTML = isLight ? moonSVG : sunSVG;
                 localStorage.setItem('theme', isLight ? 'light' : 'dark');
 
                 // Visual Feedback Animation
