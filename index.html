@@ -825,7 +825,10 @@
             position: fixed;
             top: 78px; /* Stacked below lang toggle (30px) */
             right: 30px;
-            min-width: 105px; /* Forced same size as lang-toggle */
+            /* Default for mobile/small screens */
+            right: clamp(20px, calc(50% - 460px + 20px), 100%); 
+            /* Pins to the edge of the 920px container on wide screens */
+            min-width: 105px;
             height: 38px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
@@ -1090,14 +1093,15 @@
         @media (max-width: 600px) {
             .lang-toggle {
                 top: 15px !important;
-                right: 15px !important;
+                right: 10px !important;
+                min-width: 90px !important;
                 z-index: 10002;
             }
 
             .chatbot-button {
-                top: 60px !important; /* Stacked below lang toggle in mobile */
-                right: 15px !important;
-                min-width: 105px !important;
+                top: 58px !important; /* Stacked below lang toggle in mobile */
+                right: 10px !important;
+                min-width: 90px !important;
                 height: 38px !important;
                 z-index: 10003;
                 animation: none !important;
@@ -1113,6 +1117,9 @@
             position: fixed;
             top: 30px;
             right: 30px;
+            /* Default for mobile/small screens */
+            right: clamp(20px, calc(50% - 460px + 20px), 100%); 
+            /* Pins to the edge of the 920px container on wide screens */
             min-width: 105px; /* Fixed size to match chatbot */
             height: 38px;
             background: rgba(255, 255, 255, 0.1);
