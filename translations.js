@@ -161,7 +161,7 @@ const translations = {
             title: "在 LOT 上销售",
             text: "购买、销售和连接。",
             btn: "访问 LOT",
-            sell_on: "在...销售"
+            sell_on: "在"
         },
         hopradio: {
             btn: "立即收听",
