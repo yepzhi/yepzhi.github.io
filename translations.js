@@ -6,7 +6,7 @@ const translations = {
             tools_big: "🛠️ Conoce mis otros desarrollos"
         },
         profile: {
-            bio: "<strong>SaaS Product Leader | EdTech——Digital Platforms / STEM Education, ⚡GenAI Implementation.</strong> con +15 años de experiencia en <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>. 🤖 Especialista en <strong>AI Implementation, Automatización y Plataformas Digitales</strong> — construyendo productos que escalan.<br><br>💼 MBA con background financiero, <strong>Full-Cycle CX/UX</strong> y <strong>Data Analytics</strong>. 📊 Certificado en <strong>Data Science & Agile Systems for Product Management</strong> — University of Maryland ✨ <strong>+ English CEFR B2 🇺🇸</strong> by ETS.<br><br>💻 <strong>Fundador de <a href=\"https://www.instagram.com/jovenesstem/\" target=\"_blank\">JóvenesSTEM 🌎</strong></a> — conectando ciencia y tecnología con las nuevas generaciones."
+            bio: "<strong>SaaS Product Leader | EdTech—Digital Platforms / STEM Education, ⚡GenAI Implementation.</strong> con +15 años de experiencia en <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>. 🤖 Especialista en <strong>AI Implementation, Automatización y Plataformas Digitales</strong> — construyendo productos que escalan.<br><br>💼 MBA con background financiero, <strong>Full-Cycle CX/UX</strong> y <strong>Data Analytics</strong>. 📊 Certificado en <strong>Data Science & Agile Systems for Product Management</strong> — University of Maryland ✨ <strong>+ English CEFR B2 🇺🇸</strong> by ETS.<br><br>💻 <strong>Fundador de <a href=\"https://www.instagram.com/jovenesstem/\" target=\"_blank\">JóvenesSTEM 🌎</strong></a> — conectando ciencia y tecnología con las nuevas generaciones."
         },
         links: {
             whatsapp: "👋 WhatsApp - Click Aqui!",
@@ -64,7 +64,7 @@ const translations = {
             tools_big: "🛠️ Get to know more of my tools"
         },
         profile: {
-            bio: "<strong>SaaS Product Leader | EdTech——Digital Platforms / STEM Education, ⚡GenAI Implementation.</strong> with +15 years of experience at <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> and <strong>Santillana/Richmond</strong>. 🤖 <strong>AI Implementation Specialist, Automation & Digital Platforms</strong> — building products that scale.<br><br>💼 MBA with financial background, <strong>Full-Cycle CX/UX</strong> and <strong>Data Analytics</strong>. 📊 Certified in <strong>Data Science & Agile Systems for Product Management</strong> — University of Maryland ✨ <strong>+ English CEFR B2 🇺🇸</strong> by ETS.<br><br>💻 <strong>Founder of <a href=\"https://www.instagram.com/jovenesstem/\" target=\"_blank\">JóvenesSTEM 🌎</strong></a> — connecting science and technology with new generations."
+            bio: "<strong>SaaS Product Leader | EdTech—Digital Platforms / STEM Education, ⚡GenAI Implementation.</strong> with +15 years of experience at <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> and <strong>Santillana/Richmond</strong>. 🤖 <strong>AI Implementation Specialist, Automation & Digital Platforms</strong> — building products that scale.<br><br>💼 MBA with financial background, <strong>Full-Cycle CX/UX</strong> and <strong>Data Analytics</strong>. 📊 Certified in <strong>Data Science & Agile Systems for Product Management</strong> — University of Maryland ✨ <strong>+ English CEFR B2 🇺🇸</strong> by ETS.<br><br>💻 <strong>Founder of <a href=\"https://www.instagram.com/jovenesstem/\" target=\"_blank\">JóvenesSTEM 🌎</strong></a> — connecting science and technology with new generations."
         },
         links: {
             whatsapp: "👋 WhatsApp - Click Here!",
@@ -122,7 +122,7 @@ const translations = {
             tools_big: "🛠️ 了解我的其他开发项目"
         },
         profile: {
-            bio: "<strong>SaaS 产品负责人 | EdTech——数字平台 / STEM 教育，⚡ GenAI 实施。</strong>在 <strong>Apple</strong>、<strong>PepsiCo</strong>、<strong>AVIS</strong> 和 <strong>Santillana/Richmond</strong> 拥有 15 年以上经验。🤖 <strong>AI 实施专家、自动化和数字平台</strong> — 构建可扩展的产品。<br><br>💼 MBA，具备金融背景，<strong>全周期 CX/UX</strong> 和 <strong>数据分析</strong>。📊 获得马里兰大学 <strong>数据科学与敏捷系统产品管理</strong> 认证 ✨ <strong>+ ETS 英语 CEFR B2 🇺🇸</strong>。<br><br>💻 <strong><a href=\"https://www.instagram.com/jovenesstem/\" target=\"_blank\">JóvenesSTEM 🌎</strong></a> 创始人 — 连接科学技术与新一代。"
+            bio: "<strong>SaaS 产品负责人 | EdTech—数字平台 / STEM 教育，⚡ GenAI 实施。</strong>在 <strong>Apple</strong>、<strong>PepsiCo</strong>、<strong>AVIS</strong> 和 <strong>Santillana/Richmond</strong> 拥有 15 年以上经验。🤖 <strong>AI 实施专家、自动化和数字平台</strong> — 构建可扩展的产品。<br><br>💼 MBA，具备金融背景，<strong>全周期 CX/UX</strong> 和 <strong>数据分析</strong>。📊 获得马里兰大学 <strong>数据科学与敏捷系统产品管理</strong> 认证 ✨ <strong>+ ETS 英语 CEFR B2 🇺🇸</strong>。<br><br>💻 <strong><a href=\"https://www.instagram.com/jovenesstem/\" target=\"_blank\">JóvenesSTEM 🌎</strong></a> 创始人 — 连接科学技术与新一代。"
         },
         links: {
             whatsapp: "👋 WhatsApp - 点击这里!",
