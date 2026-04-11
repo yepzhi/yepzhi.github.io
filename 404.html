@@ -36,8 +36,9 @@
             'jovenesstemdata': '/jovenesstemData'
         };
 
-        // Extract the root-level path (e.g., /propass)
-        const pathSegments = window.location.pathname.split('/');
+        // Extract and normalize the path (strip .html)
+        const path = window.location.pathname.replace(/\.html$/, '');
+        const pathSegments = path.split('/');
         const rootPath = pathSegments[1] ? pathSegments[1].toLowerCase() : '';
 
         // If it's a known project, redirect to the correct casing
