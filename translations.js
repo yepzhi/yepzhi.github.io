@@ -24,8 +24,8 @@ const translations = {
             live_btn: "hopRadio en vivo"
         },
         jovenes: {
-            title: "🚀 ¿Conoces JóvenesSTEM?",
-            text: "¿Estás listo para conocer más de JóvenesSTEM? Ve a nuestro sitio y conoce el futuro de la educación STEM.",
+            title: "🚀 Conoce JóvenesSTEM.",
+            text: "Ve a nuestro sitio y conoce el futuro de la educación STEM.",
             btn_more: "Conoce más de JóvenesSTEM aquí 🚀",
             conoce_plus: "Conoce"
         },
@@ -85,8 +85,8 @@ const translations = {
             live_btn: "hopRadio Live"
         },
         jovenes: {
-            title: "🚀 Do you know JóvenesSTEM?",
-            text: "Ready to learn more about JóvenesSTEM? Go to our site and discover the future of STEM education.",
+            title: "🚀 Discover JóvenesSTEM.",
+            text: "Visit our site and discover the future of STEM education.",
             btn_more: "Learn more about JóvenesSTEM here 🚀",
             conoce_plus: "Get to know"
         },
@@ -146,8 +146,8 @@ const translations = {
             live_btn: "hopRadio 直播"
         },
         jovenes: {
-            title: "🚀 你知道 JóvenesSTEM 吗？",
-            text: "准备好了解更多关于 JóvenesSTEM 的信息了吗？访问我们的网站，探索 STEM 教育的未来。",
+            title: "🚀 了解 JóvenesSTEM。",
+            text: "访问我们的网站，探索 STEM 教育的未来。",
             btn_more: "在此了解更多关于 JóvenesSTEM 的信息 🚀",
             conoce_plus: "了解"
         },
