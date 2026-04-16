@@ -37,7 +37,7 @@
     <meta name="twitter:image" content="https://yepzhi.com/author.JPEG">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="alternate icon" href="favicon.svg">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@800;900&family=Inter:wght@400;500;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #000;
@@ -1491,6 +1491,91 @@
             filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.6));
         }
 
+        /* --- NEOSYS HERO STYLE (REPLICA) --- */
+        .neosys-hero-section {
+            border-color: rgba(167, 139, 250, 0.3) !important;
+            text-align: center;
+            padding: 60px 40px !important;
+        }
+
+        .hero-sparkle-center {
+            position: relative;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .hero-sparkle-center span {
+            position: absolute;
+            animation: sparkle-pulse-hero 3s ease-in-out infinite;
+        }
+
+        .sparkle-1 { font-size: 3.5rem; opacity: 1; }
+        .sparkle-2 { 
+            font-size: 1.5rem; 
+            margin-left: -60px; 
+            margin-top: -20px; 
+            animation-delay: 0.5s !important; 
+            opacity: 0.7;
+        }
+        .sparkle-3 { 
+            font-size: 1.8rem; 
+            margin-left: 60px; 
+            margin-top: 20px; 
+            animation-delay: 1.2s !important; 
+            opacity: 0.8;
+        }
+
+        @keyframes sparkle-pulse-hero {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.4)); }
+            50% { transform: scale(1.1) rotate(10deg); opacity: 0.7; filter: drop-shadow(0 0 25px rgba(167, 139, 250, 0.7)); }
+        }
+
+        .neosys-hero-title {
+            font-family: 'Outfit', sans-serif !important;
+            font-size: clamp(2.5rem, 8vw, 4.5rem) !important;
+            font-weight: 900 !important;
+            letter-spacing: -0.04em !important;
+            line-height: 1 !important;
+            margin-bottom: 20px !important;
+            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.7) 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+            text-transform: uppercase;
+        }
+
+        .neosys-hero-tagline {
+            font-family: 'Inter', sans-serif !important;
+            font-size: clamp(1.1rem, 3vw, 1.4rem) !important;
+            font-weight: 600 !important;
+            color: #a78bfa !important;
+            margin-bottom: 12px !important;
+            letter-spacing: -0.01em !important;
+        }
+
+        .neosys-hero-subtitle {
+            font-family: 'Inter', sans-serif !important;
+            font-size: clamp(0.9rem, 2vw, 1.05rem) !important;
+            color: rgba(255, 255, 255, 0.6) !important;
+            margin-bottom: 30px !important;
+            font-weight: 400 !important;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .neosys-hero-hashtags {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: rgba(167, 139, 250, 0.8);
+            letter-spacing: 0.05em;
+            margin-bottom: 32px;
+        }
+
     </style>
 </head>
 
@@ -1529,9 +1614,8 @@
                 width="140" height="140" fetchpriority="high">
             <div class="profile-name">Alberto Yépiz</div>
             <div class="profile-bio" data-i18n="profile.bio">
-                <strong>SaaS Product Leader | EdTech—Digital Platforms, ⚡GenAI Implementation.</strong> con +15 años de experiencia en <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>. — Construyo y desarrollo productos que escalan.<br><br>
+                <strong>SaaS Product Leader | EdTech—Digital Platforms, ⚡GenAI Implementation.</strong> con +15 años de experiencia en <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>.<br><br>
                 💼 MBA con background financiero, Full-Cycle CX/UX y Data Analytics. 📊 Certificado en Data Science & Agile Systems for Product Management — University of Maryland ✨ + English CEFR B2 🇺🇸 by ETS.<br><br>
-
                 💻 Fundador de <a href="https://www.instagram.com/jovenesstem/" target="_blank">JóvenesSTEM 🌎</a> — STEM for Education, conectando ciencia y tecnología con las nuevas generaciones.
             </div>
 
@@ -1632,24 +1716,31 @@
             </a>
         </div>
 
-        <!-- MÓDULO NEOSYS AEON (Cosmic Style) -->
-        <div class="glass-container neosys-section">
-            <!-- Hero title styled like neosys.com hero -->
-            <div style="font-family: 'Outfit', 'Inter', sans-serif; font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 16px;">
-                <span style="background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #ffffff 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Neosys Aeon</span><span style="font-size: 0.55em; vertical-align: super; margin-left: 4px; -webkit-text-fill-color: #a78bfa; color: #a78bfa;">&#x2728;</span>
+        <!-- MÓDULO NEOSYS AEON (Original Hero Style) -->
+        <div class="glass-container neosys-hero-section">
+            <div class="hero-sparkle-center">
+                <span class="sparkle-1">✨</span>
+                <span class="sparkle-2">✨</span>
+                <span class="sparkle-3">✨</span>
             </div>
-            <div class="jovenes-stem-text" data-i18n="neosys.text" style="font-size: 1rem; line-height: 1.7; max-width: 480px; margin: 0 auto 16px;">
-                Sin ciencia no hay claridad. Sin validación no hay progreso.<br>
+            
+            <h1 class="neosys-hero-title">NEOSYS AEON</h1>
+            
+            <p class="neosys-hero-tagline">
+                Sin ciencia no hay claridad. Sin validación no hay progreso.
+            </p>
+            
+            <p class="neosys-hero-subtitle">
                 Un marco abierto para entender la realidad a través de evidencia verificable.
+            </p>
+
+            <div class="neosys-hero-hashtags">
+                #ThinkWithEvidence #NeosysAeon
             </div>
-            <!-- Hashtags -->
-            <div style="margin-bottom: 24px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; opacity: 0.75;">
-                <span style="color: #a78bfa;">#ThinkWithEvidence</span>&nbsp;&nbsp;
-                <span style="color: #a78bfa;">#NeosysAeon</span>
-            </div>
+
             <div class="jovenes-buttons">
                 <a href="https://yepzhi.com/neosys/" target="_blank" rel="noopener noreferrer"
-                    class="test-link-btn neosys-btn" style="padding: 10px 24px; font-size: 16px;">
+                    class="test-link-btn neosys-btn">
                     <span class="conoce-text" data-i18n="neosys.conoce_plus">Únete</span><span
                         class="neosys-text">Neosys Aeon</span><span class="reg-mark">✨</span>
                 </a>
@@ -1704,7 +1795,7 @@
                     target="_blank">@yepzhi</a></div>
 
             <div class="footer-copyright" data-i18n="footer.rights">
-                © 2025 Alberto Yépiz • All Rights Reserved • v4.2.0
+                © 2025 Alberto Yépiz • All Rights Reserved • v4.2.1
             </div>
         </div>
     </div>
@@ -1745,7 +1836,7 @@
         </div>
     </div>
 
-    <script src="translations.js?v=4.2.0" defer></script>
+    <script src="translations.js?v=4.2.1" defer></script>
     <script src="chatbot-faq.js" defer></script>
     <script>
         function initChatLazy() {
