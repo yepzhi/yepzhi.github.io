@@ -1452,6 +1452,45 @@
                 box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
             }
         }
+
+        /* --- HUB / CONOCE MIS DESARROLLOS BTN (Golden Style) --- */
+        .hub-btn {
+            padding: 10px 24px !important;
+            font-size: 20px !important;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+            border-radius: 9999px !important;
+            background: rgba(212, 175, 55, 0.08) !important;
+            border: 1px solid rgba(212, 175, 55, 0.4) !important;
+            box-shadow: 0 0 18px rgba(212, 175, 55, 0.25) !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .hub-btn:hover {
+            background: rgba(212, 175, 55, 0.15) !important;
+            border-color: rgba(212, 175, 55, 0.7) !important;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.45) !important;
+            transform: translateY(-2px);
+        }
+
+        .hub-text {
+            font-weight: 800;
+            background: linear-gradient(90deg, #d4af37 0%, #ffe57a 50%, #d4af37 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .hub-icon {
+            color: #d4af37;
+            font-size: 14px;
+            filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.6));
+        }
+
     </style>
 </head>
 
@@ -1463,12 +1502,6 @@
         <!-- SECCIÓN DE PERFIL -->
         <div class="glass-container profile-section">
             <div class="header-left-buttons">
-                <!-- NEOSYS AEON LOGO BTN -->
-                <a href="https://yepzhi.com/neosys/" target="_blank" rel="noopener noreferrer"
-                    class="test-link-btn neosys-btn">
-                    <span class="conoce-text" data-i18n="neosys.conoce_plus">Únete</span><span
-                        class="neosys-text">Neosys Aeon</span><span class="reg-mark">✨</span>
-                </a>
 
                 <a href="https://yepzhi.com/jovenesstem/" target="_blank" rel="noopener noreferrer"
                     class="test-link-btn jovenes-btn">
@@ -1476,16 +1509,17 @@
                         class="jovenes-text">jóvenes</span><span class="stem-text">STEM</span>
                 </a>
 
-                <!-- LOT BTN (Encapsulated Style) -->
-                <a href="https://yepzhi.com/lot/" target="_blank" rel="noopener noreferrer" class="lot-pill-btn">
-                    <span class="lot-pill-icon">✦</span> <span class="conoce-text" data-i18n="lot.sell_on">Vende
-                        en</span> <span class="lot-pill-text">LOT</span>
-                </a>
-
                 <!-- HOPRADIO BTN (Logo Style) -->
                 <a href="https://yepzhi.com/hopRadio/" target="_blank" rel="noopener noreferrer"
                     class="test-link-btn hopradio-btn">
                     <span class="hop-text">hopRadio</span> <span class="live-text">Live</span>
+                </a>
+
+                <!-- MIS DESARROLLOS BTN (Golden Hub Link) -->
+                <a href="https://yepzhi.com/hub/" target="_blank" rel="noopener noreferrer"
+                    class="test-link-btn hub-btn">
+                    <span class="hub-icon">✦</span>
+                    <span class="hub-text">Conoce mis desarrollos</span>
                 </a>
 
             </div>
