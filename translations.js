@@ -109,7 +109,7 @@ const translations = {
             sell_on: "Sell on"
         },
         hub: {
-            btn: "✦ Get to know my projects"
+            btn: "✦ Explore my projects"
         },
         hopradio: {
             btn: "Listen Now",
