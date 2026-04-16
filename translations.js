@@ -36,7 +36,7 @@ const translations = {
             conoce_plus: "Únete"
         },
         entrytest: {
-            title: "📝 EntryTest JóvenesSTEM",
+            title: "EntryTest JóvenesSTEM",
             text: "Evaluación de habilidades y conocimientos tecnológicos. Mide tu nivel y comienza tu camino en la innovación.",
             btn_prefix: "Realiza el",
             btn_text: "EntryTest 🚀"
@@ -47,6 +47,9 @@ const translations = {
             btn: "Acceder a LOT",
             sell_on: "Vende en"
         },
+        hub: {
+            btn: "✦ Conoce mis desarrollos"
+        },
         hopradio: {
             btn: "Escuchar ahora",
             live_text: "en vivo"
@@ -54,7 +57,7 @@ const translations = {
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
-            rights: "© 2025 Alberto Yépiz • All Rights Reserved • v4.1.9"
+            rights: "© 2025 Alberto Yépiz • All Rights Reserved • v4.2.1"
         }
     },
     en: {
@@ -94,7 +97,7 @@ const translations = {
             conoce_plus: "Join"
         },
         entrytest: {
-            title: "📝 JóvenesSTEM EntryTest",
+            title: "JóvenesSTEM EntryTest",
             text: "Science and technology skill assessment. Measure your level and start your journey in innovation.",
             btn_prefix: "Take the",
             btn_text: "EntryTest 🚀"
@@ -105,6 +108,9 @@ const translations = {
             btn: "Access LOT",
             sell_on: "Sell on"
         },
+        hub: {
+            btn: "✦ Get to know my projects"
+        },
         hopradio: {
             btn: "Listen Now",
             live_text: "Live"
@@ -112,7 +118,7 @@ const translations = {
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
-            rights: "© 2025 Alberto Yépiz • All Rights Reserved • v4.1.9"
+            rights: "© 2025 Alberto Yépiz • All Rights Reserved • v4.2.1"
         }
     },
     cn: {
@@ -152,7 +158,7 @@ const translations = {
             conoce_plus: "加入"
         },
         entrytest: {
-            title: "📝 JóvenesSTEM 入学测试",
+            title: "JóvenesSTEM 入学测试",
             text: "科技技能评估。衡量您的水平并开始您的创新之旅。",
             btn_prefix: "参加",
             btn_text: "入学测试 🚀"
@@ -163,6 +169,9 @@ const translations = {
             btn: "访问 LOT",
             sell_on: "🛒 在"
         },
+        hub: {
+            btn: "✦ 了解我的开发项目"
+        },
         hopradio: {
             btn: "立即收听",
             live_text: "直播中"
@@ -170,7 +179,7 @@ const translations = {
         footer: {
             developed: "由 <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a> 开发",
             visitors: "访客 👀",
-            rights: "© 2025 Alberto Yépiz • 版权所有 • v4.1.9"
+            rights: "© 2025 Alberto Yépiz • 版权所有 • v4.2.1"
         }
     }
 };
