@@ -233,6 +233,7 @@ async function submitLead() {
     }
 
     buildSummary(payload);
+    renderThankYouContacts();
     goStep(4);
   } catch (err) {
     console.error('[RichmondPro] Firestore error:', err);
@@ -253,19 +254,16 @@ function buildSummary(payload) {
     ['Subsistema',  payload.subsistema + (payload.subsistemaOtro ? ` – ${payload.subsistemaOtro}` : '')],
     ['Institución', payload.instType === 'gobierno' ? 'Pública / Gobierno' : 'Privada'],
     ['Estado',      payload.state],
-    ['Puesto',      payload.role + (payload.roleComment ? ` – ${payload.roleComment}` : '')],
+    ['Puesto',      payload.role + (payload.roleComment ? ` (${payload.roleComment})` : '')],
     ['Interés',     payload.intention === 'contact' ? 'Contacto directo' : 'Open Webinars'],
   ];
   if (payload.whatsapp) rows.splice(2, 0, ['WhatsApp', `+52 ${payload.whatsapp}`]);
-  summary.innerHTML = rows.map(([k, v]) => `
+  
+  summary.innerHTML = rows.map(([l, v]) => `
     <div class="summary-row">
-      <span class="summary-key">${k}</span>
+      <span class="summary-key">${l}</span>
       <span class="summary-val">${v}</span>
     </div>`).join('');
-
-  document.getElementById('thanksMessage').textContent = payload.intention === 'contact'
-    ? 'Te contactaremos muy pronto con información personalizada. ¡Gracias por tu interés en Richmond Pro!'
-    : '¡Recibirás los próximos Open Webinars gratuitos en tu correo!';
 
   const wa = document.getElementById('whatsappShare');
   const text = encodeURIComponent(
@@ -274,6 +272,73 @@ function buildSummary(payload) {
   wa.href   = `https://api.whatsapp.com/send?text=${text}`;
   wa.target = '_blank';
   wa.rel    = 'noopener noreferrer';
+}
+
+function renderThankYouContacts() {
+  const container = document.getElementById('contactDirectory');
+  if (!container) return;
+
+  const msg = document.getElementById('thanksMessage');
+  if (msg) msg.textContent = 'Contacta ahora a un asesor especializado Richmond Pro!';
+
+  // Hide the global team section (the one with the map)
+  const globalTeam = document.getElementById('team-section');
+  if (globalTeam) globalTeam.style.display = 'none';
+
+  // We use TEAM and MANAGERS from window (team.js)
+  const team = window.TEAM || [];
+  const managers = [
+    { nombre: 'Michelle Gutiérrez', rol: 'Gerente México Sur', wa: '5215532239128', foto: 'assets/michelle Gutierrez.jpg' },
+    { nombre: 'Marco Guerrero', rol: 'Gerente México Norte', wa: '5215666689044' },
+    { nombre: 'Manuel Ramírez', rol: 'Gerente Nacional', wa: '5215539000043', highlight: true, foto: 'assets/Manuel Ramirez.png' }
+  ];
+
+  let html = `
+    <div class="team-grid" style="margin-top: 1rem; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.75rem; display: grid;">
+  `;
+
+  team.forEach(m => {
+    const waText = encodeURIComponent(`Hola ${m.nombre}, te contacto desde el portal Richmond Pro 👋`);
+    const initials = m.nombre.split(' ').filter(w => w.length > 0).map(n => n[0]).join('').toUpperCase().slice(0,2);
+    html += `
+      <div class="team-card" style="padding: 0.75rem; display: flex; flex-direction: column; align-items: center; text-align: center; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background:${m.color}"></div>
+        <div style="width: 44px; height: 44px; border-radius: 50%; border: 2px solid ${m.color}30; margin-bottom: 0.5rem; overflow: hidden; display: flex; align-items: center; justify-content: center; background: ${m.color}15;">
+          ${m.foto ? `<img src="${m.foto}" alt="${m.nombre}" style="width:100%;height:100%;object-fit:cover;"/>` : `<span style="font-size:0.9rem; font-weight:700; color:${m.color}">${initials}</span>`}
+        </div>
+        <div style="color:${m.color}; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.1rem;">${m.zonaShort}</div>
+        <div style="font-size: 0.75rem; font-weight: 600; line-height: 1.2; color: #fff; margin-bottom: 0.5rem;">${m.nombre}</div>
+        <a href="https://wa.me/${m.wa}?text=${waText}" target="_blank" style="width: 100%; padding: 5px 0; background: rgba(255,255,255,0.05); border-radius: 6px; color: #fff; font-size: 0.65rem; font-weight: 600; text-decoration: none; border: 1px solid rgba(255,255,255,0.1); transition: background 0.2s;">
+          WhatsApp
+        </a>
+      </div>
+    `;
+  });
+
+  html += `</div><div class="managers-section" style="margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.25rem;">
+    <div class="managers-label" style="font-size: 0.7rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; text-align: center;">Gerencia Richmond Pro México</div>
+    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+  `;
+
+  managers.forEach(m => {
+    const waText = encodeURIComponent(`Hola ${m.nombre}, te contacto desde el portal Richmond Pro 👋`);
+    const initials = m.nombre.split(' ').filter(w => w.length > 0).map(n => n[0]).join('').toUpperCase().slice(0,2);
+    html += `
+      <a href="https://wa.me/${m.wa}?text=${waText}" target="_blank" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: ${m.highlight ? 'rgba(79,142,247,0.1)' : 'rgba(255,255,255,0.03)'}; border-radius: 12px; border: 1px solid ${m.highlight ? 'rgba(79,142,247,0.3)' : 'rgba(255,255,255,0.1)'}; text-decoration: none; transition: transform 0.2s;">
+        <div style="width: 38px; height: 38px; border-radius: 50%; overflow: hidden; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.2);">
+          ${m.foto ? `<img src="${m.foto}" alt="${m.nombre}" style="width:100%;height:100%;object-fit:cover;"/>` : `<span style="font-size:0.8rem; font-weight:700; color:#fff;">${initials}</span>`}
+        </div>
+        <div style="flex: 1;">
+          <div style="font-size: 0.85rem; font-weight: 600; color: #fff;">${m.nombre}</div>
+          <div style="font-size: 0.65rem; opacity: 0.6; color: #fff;">${m.rol}</div>
+        </div>
+        <div style="font-size: 0.7rem; font-weight: 600; color: #4f8ef7; border: 1px solid rgba(79,142,247,0.3); padding: 4px 10px; border-radius: 6px; background: rgba(79,142,247,0.05);">WhatsApp</div>
+      </a>
+    `;
+  });
+
+  html += `</div></div>`;
+  container.innerHTML = html;
 }
 
 // ─── Restart ─────────────────────────────────────
@@ -304,6 +369,8 @@ function restartForm() {
   // Reset submit button
   const btn = document.querySelector('#step-3 .btn-primary');
   if (btn) { btn.disabled = false; btn.innerHTML = 'Enviar <svg class="btn-svg" viewBox="0 0 20 20" fill="none"><path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+  const globalTeam = document.getElementById('team-section');
+  if (globalTeam) globalTeam.style.display = 'block';
   goStep(0);
 }
 
