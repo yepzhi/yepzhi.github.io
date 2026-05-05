@@ -181,11 +181,16 @@ function validateStep2() {
   else     { clearError('err-lastName'); markInput('lastName', false); }
   if (!em || !re.test(em)) { setError('err-email', 'Ingresa un correo válido.'); markInput('email', true); ok = false; }
   else                     { clearError('err-email'); markInput('email', false); }
+  
+  const wa = document.getElementById('whatsapp').value.trim();
+  if (wa && wa.length !== 10) { setError('err-whatsapp', 'El número debe ser de 10 dígitos.'); markInput('whatsapp', true); ok = false; }
+  else                        { clearError('err-whatsapp'); markInput('whatsapp', false); }
+
   if (ok) {
     STATE.data.firstName = fn;
     STATE.data.lastName  = ln;
     STATE.data.email     = em;
-    STATE.data.whatsapp  = document.getElementById('whatsapp').value.trim();
+    STATE.data.whatsapp  = wa;
     goStep(3);
   }
 }
