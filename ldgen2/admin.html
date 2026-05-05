@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Richmond Pro · Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#03050e;--surface:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.09);
+      --border-hi:rgba(255,255,255,0.18);--accent:#1e7aff;--accent2:#38b6ff;
+      --gold:#f4c94e;--text:#eef0fb;--muted:rgba(220,226,255,0.45);
+      --success:#34d399;--error:#ff5f5f;--blur:40px;
+      --btn:linear-gradient(145deg,#2d8fff 0%,#0e5fd8 60%,#0a47b8 100%);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Outfit',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden}
+
+    /* ORBS */
+    .orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+    .orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.2;animation:drift 18s ease-in-out infinite}
+    .orb-1{width:500px;height:500px;background:radial-gradient(circle,#1e7aff,transparent 70%);top:-150px;left:-100px}
+    .orb-2{width:400px;height:400px;background:radial-gradient(circle,#38b6ff,transparent 70%);bottom:-100px;right:-80px;animation-delay:-8s}
+    @keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-15px)}}
+
+    /* ── LOGIN GATE ── */
+    #loginGate{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+    .login-card{
+      background:rgba(255,255,255,0.05);backdrop-filter:blur(var(--blur));
+      border:1px solid var(--border-hi);border-radius:28px;
+      box-shadow:0 40px 80px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.07) inset;
+      padding:3rem 2.5rem;width:100%;max-width:400px;text-align:center;
+      position:relative;overflow:hidden;
+    }
+    .login-card::before{content:'';position:absolute;top:0;left:0;right:0;height:45%;
+      background:linear-gradient(180deg,rgba(255,255,255,.06),transparent);pointer-events:none}
+    .login-logo{font-size:2rem;font-weight:800;margin-bottom:.25rem}
+    .login-logo strong{color:var(--accent2)}
+    .login-sub{color:var(--muted);font-size:.85rem;margin-bottom:2rem;text-transform:uppercase;letter-spacing:.06em}
+    .login-input{
+      width:100%;padding:.9rem 1rem;
+      background:rgba(255,255,255,0.05);backdrop-filter:blur(16px);
+      border:1px solid var(--border);border-top-color:var(--border-hi);
+      border-radius:14px;color:var(--text);font-family:inherit;font-size:1rem;
+      outline:none;margin-bottom:1rem;transition:all .3s
+    }
+    .login-input:focus{border-color:rgba(30,122,255,.5);box-shadow:0 0 0 3px rgba(30,122,255,.12)}
+    .login-btn{
+      width:100%;padding:.9rem;background:var(--btn);border:1px solid rgba(100,180,255,.35);
+      border-top-color:rgba(180,220,255,.4);border-radius:14px;
+      color:#fff;font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;
+      box-shadow:0 4px 24px rgba(30,122,255,.4),0 1px 0 rgba(255,255,255,.2) inset;
+      position:relative;overflow:hidden;transition:all .3s
+    }
+    .login-btn::before{content:'';position:absolute;inset:0;
+      background:linear-gradient(160deg,rgba(255,255,255,.25),transparent 45%);pointer-events:none}
+    .login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(30,122,255,.5)}
+    .login-err{color:var(--error);font-size:.82rem;margin-top:.5rem;min-height:1.2rem}
+
+    /* ── MAIN APP ── */
+    #app{display:none;position:relative;z-index:1;min-height:100dvh;padding:1.5rem}
+
+    /* Header */
+    .admin-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem}
+    .admin-logo{font-size:1.5rem;font-weight:800}
+    .admin-logo strong{color:var(--accent2)}
+    .admin-logo span{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:block;margin-top:-.15rem}
+    .header-btns{display:flex;gap:.6rem;align-items:center}
+    .btn-csv{
+      display:flex;align-items:center;gap:.4rem;padding:.55rem 1.1rem;
+      background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);
+      border-radius:100px;color:var(--success);font-family:inherit;font-size:.83rem;font-weight:600;
+      cursor:pointer;transition:all .3s
+    }
+    .btn-csv:hover{background:rgba(52,211,153,.18);transform:translateY(-1px)}
+    .btn-logout{
+      display:flex;align-items:center;gap:.4rem;padding:.55rem 1rem;
+      background:rgba(255,255,255,.04);border:1px solid var(--border);
+      border-radius:100px;color:var(--muted);font-family:inherit;font-size:.83rem;
+      cursor:pointer;transition:all .3s
+    }
+    .btn-logout:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+
+    /* Stats */
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:.75rem;margin-bottom:1.5rem}
+    .stat-card{
+      background:var(--surface);backdrop-filter:blur(var(--blur));
+      border:1px solid var(--border);border-top-color:var(--border-hi);
+      border-radius:18px;padding:1.1rem 1.25rem;
+    }
+    .stat-val{font-size:2rem;font-weight:800;line-height:1;color:var(--text)}
+    .stat-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:.3rem}
+    .stat-card.accent .stat-val{color:var(--accent2)}
+    .stat-card.gold .stat-val{color:var(--gold)}
+    .stat-card.green .stat-val{color:var(--success)}
+
+    /* Filters */
+    .filters{
+      background:var(--surface);backdrop-filter:blur(var(--blur));
+      border:1px solid var(--border);border-radius:16px;
+      padding:1rem 1.25rem;display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem;align-items:center
+    }
+    .filter-input,.filter-select{
+      padding:.5rem .85rem;background:rgba(255,255,255,.04);
+      border:1px solid var(--border);border-radius:10px;
+      color:var(--text);font-family:inherit;font-size:.85rem;outline:none;transition:all .3s;
+      backdrop-filter:blur(12px)
+    }
+    .filter-input{flex:1;min-width:180px}
+    .filter-input::placeholder{color:var(--muted)}
+    .filter-input:focus,.filter-select:focus{border-color:rgba(30,122,255,.4);box-shadow:0 0 0 2px rgba(30,122,255,.1)}
+    .filter-select option{background:#0a0d1e}
+    .filter-count{margin-left:auto;font-size:.8rem;color:var(--muted)}
+
+    /* Table */
+    .table-wrap{
+      background:var(--surface);backdrop-filter:blur(var(--blur));
+      border:1px solid var(--border);border-radius:18px;overflow:hidden
+    }
+    .leads-table{width:100%;border-collapse:collapse;font-size:.85rem}
+    .leads-table th{
+      padding:.85rem 1rem;text-align:left;font-size:.72rem;text-transform:uppercase;
+      letter-spacing:.07em;color:var(--muted);font-weight:600;
+      border-bottom:1px solid var(--border);white-space:nowrap;background:rgba(255,255,255,.02)
+    }
+    .leads-table td{padding:.8rem 1rem;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:middle}
+    .leads-table tr:last-child td{border-bottom:none}
+    .leads-table tbody tr:hover td{background:rgba(255,255,255,.03)}
+
+    .badge{display:inline-flex;align-items:center;padding:.2rem .65rem;border-radius:100px;font-size:.72rem;font-weight:600}
+    .badge-contact{background:rgba(30,122,255,.15);color:#60a5fa;border:1px solid rgba(30,122,255,.3)}
+    .badge-webinar{background:rgba(167,139,250,.15);color:#c4b5fd;border:1px solid rgba(167,139,250,.3)}
+    .badge-si{background:rgba(52,211,153,.12);color:var(--success);border:1px solid rgba(52,211,153,.3)}
+    .badge-no{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--border)}
+
+    .wa-link{
+      display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .7rem;
+      background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);
+      border-radius:8px;color:#34d399;text-decoration:none;font-size:.78rem;font-weight:600;transition:all .3s
+    }
+    .wa-link:hover{background:rgba(37,211,102,.2);transform:translateY(-1px)}
+
+    .empty-state{text-align:center;padding:3rem;color:var(--muted)}
+    .loading-state{text-align:center;padding:3rem;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:.75rem}
+    .spinner{width:32px;height:32px;border:3px solid rgba(255,255,255,.1);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .date-cell{white-space:nowrap;color:var(--muted);font-size:.78rem}
+    .name-cell{font-weight:600}
+    .uni-cell{color:var(--muted)}
+
+    /* Mobile */
+    @media(max-width:700px){
+      #app{padding:1rem}
+      .leads-table th:nth-child(n+5),.leads-table td:nth-child(n+5){display:none}
+      .admin-logo span{display:none}
+    }
+  </style>
+</head>
+<body>
+
+<div class="orbs" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+</div>
+
+<!-- LOGIN GATE -->
+<div id="loginGate">
+  <div class="login-card">
+    <div class="login-logo">Richmond <strong>Pro</strong></div>
+    <div class="login-sub">Panel Admin · Leads</div>
+    <input type="password" class="login-input" id="pwInput" placeholder="Contraseña de acceso"
+      onkeydown="if(event.key==='Enter')checkLogin()"/>
+    <button class="login-btn" onclick="checkLogin()">Entrar</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div id="app">
+  <header class="admin-header">
+    <div class="admin-logo">
+      Richmond <strong>Pro</strong>
+      <span>Panel de Leads</span>
+    </div>
+    <div class="header-btns">
+      <button class="btn-csv" onclick="exportCSV()">
+        <svg viewBox="0 0 20 20" fill="none" width="14" height="14">
+          <path d="M10 3v10M6 9l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 15h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        Exportar CSV
+      </button>
+      <button class="btn-logout" onclick="logout()">
+        <svg viewBox="0 0 20 20" fill="none" width="14" height="14">
+          <path d="M13 3h3a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-3M9 14l4-4-4-4M2 10h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Salir
+      </button>
+    </div>
+  </header>
+
+  <!-- Stats -->
+  <div class="stats-grid" id="statsGrid">
+    <div class="stat-card accent"><div class="stat-val" id="sTotal">–</div><div class="stat-label">Total Leads</div></div>
+    <div class="stat-card"><div class="stat-val" id="sContact">–</div><div class="stat-label">Quieren Contacto</div></div>
+    <div class="stat-card"><div class="stat-val" id="sWebinar">–</div><div class="stat-label">Webinars</div></div>
+    <div class="stat-card green"><div class="stat-val" id="sPublic">–</div><div class="stat-label">Inst. Pública</div></div>
+    <div class="stat-card gold"><div class="stat-val" id="sPrivate">–</div><div class="stat-label">Inst. Privada</div></div>
+    <div class="stat-card"><div class="stat-val" id="sProvider">–</div><div class="stat-label">Con Proveedor</div></div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters">
+    <input type="text" class="filter-input" id="search" placeholder="Buscar por nombre, email, universidad…" oninput="applyFilters()"/>
+    <select class="filter-select" id="fIntention" onchange="applyFilters()">
+      <option value="">Todo</option>
+      <option value="contact">Contacto</option>
+      <option value="webinar">Webinar</option>
+    </select>
+    <select class="filter-select" id="fInstType" onchange="applyFilters()">
+      <option value="">Tipo</option>
+      <option value="gobierno">Pública</option>
+      <option value="privada">Privada</option>
+    </select>
+    <select class="filter-select" id="fRole" onchange="applyFilters()">
+      <option value="">Puesto</option>
+      <option value="Profesor">Profesor</option>
+      <option value="Coordinador">Coordinador</option>
+      <option value="Director">Director</option>
+      <option value="Otro">Otro</option>
+    </select>
+    <span class="filter-count" id="filterCount"></span>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap">
+    <div id="tableContainer">
+      <div class="loading-state">
+        <div class="spinner"></div>
+        Cargando leads…
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, orderBy, query }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const ADMIN_PASS = 'RPro26';
+
+  const firebaseConfig = {
+    apiKey:            "AIzaSyCdszta7w3yg1zLeHDrPlo4Kln63K2Ftks",
+    authDomain:        "leadgen-ca3c9.firebaseapp.com",
+    projectId:         "leadgen-ca3c9",
+    storageBucket:     "leadgen-ca3c9.firebasestorage.app",
+    messagingSenderId: "436445053383",
+    appId:             "1:436445053383:web:e7c99ece8753f6a56d59e2",
+    measurementId:     "G-VGRW18M26G"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
+
+  let allLeads = [];
+  let filtered = [];
+
+  // ── Auth ──
+  window.checkLogin = function() {
+    const pw = document.getElementById('pwInput').value;
+    if (pw === ADMIN_PASS) {
+      document.getElementById('loginGate').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      sessionStorage.setItem('rp_admin', '1');
+      loadLeads();
+    } else {
+      document.getElementById('loginErr').textContent = 'Contraseña incorrecta';
+      document.getElementById('pwInput').classList.add('error');
+    }
+  };
+
+  window.logout = function() {
+    sessionStorage.removeItem('rp_admin');
+    location.reload();
+  };
+
+  // Auto-login if session active
+  if (sessionStorage.getItem('rp_admin')) {
+    document.getElementById('loginGate').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    loadLeads();
+  }
+
+  // ── Load ──
+  async function loadLeads() {
+    try {
+      const q    = query(collection(db, 'leads'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      allLeads   = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      updateStats(allLeads);
+      applyFilters();
+    } catch (e) {
+      document.getElementById('tableContainer').innerHTML =
+        `<div class="empty-state">Error al cargar: ${e.message}<br><small>Asegúrate de que las Firestore Rules permitan lectura.</small></div>`;
+    }
+  }
+
+  // ── Stats ──
+  function updateStats(leads) {
+    document.getElementById('sTotal').textContent   = leads.length;
+    document.getElementById('sContact').textContent = leads.filter(l=>l.intention==='contact').length;
+    document.getElementById('sWebinar').textContent = leads.filter(l=>l.intention==='webinar').length;
+    document.getElementById('sPublic').textContent  = leads.filter(l=>l.instType==='gobierno').length;
+    document.getElementById('sPrivate').textContent = leads.filter(l=>l.instType==='privada').length;
+    document.getElementById('sProvider').textContent= leads.filter(l=>l.hasProvider==='si').length;
+  }
+
+  // ── Filters ──
+  window.applyFilters = function() {
+    const s  = document.getElementById('search').value.toLowerCase();
+    const fi = document.getElementById('fIntention').value;
+    const ft = document.getElementById('fInstType').value;
+    const fr = document.getElementById('fRole').value;
+
+    filtered = allLeads.filter(l => {
+      const text = `${l.firstName} ${l.lastName} ${l.email} ${l.university}`.toLowerCase();
+      return (!s || text.includes(s))
+          && (!fi || l.intention === fi)
+          && (!ft || l.instType  === ft)
+          && (!fr || l.role      === fr);
+    });
+    document.getElementById('filterCount').textContent = `${filtered.length} de ${allLeads.length} leads`;
+    renderTable(filtered);
+  };
+
+  // ── Render ──
+  function renderTable(leads) {
+    if (!leads.length) {
+      document.getElementById('tableContainer').innerHTML = '<div class="empty-state">Sin resultados</div>';
+      return;
+    }
+
+    const rows = leads.map(l => {
+      const fecha = l.createdAt?.toDate
+        ? l.createdAt.toDate().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'2-digit',hour:'2-digit',minute:'2-digit'})
+        : '–';
+      const intBadge = l.intention === 'contact'
+        ? `<span class="badge badge-contact">Contacto</span>`
+        : `<span class="badge badge-webinar">Webinar</span>`;
+      const provBadge = l.hasProvider === 'si'
+        ? `<span class="badge badge-si">Sí${l.providerName?' · '+l.providerName:''}</span>`
+        : `<span class="badge badge-no">No</span>`;
+      const waBtn = l.whatsapp
+        ? `<a class="wa-link" href="https://wa.me/52${l.whatsapp}" target="_blank" rel="noopener">
+            <svg viewBox="0 0 20 20" fill="none" width="12" height="12"><path d="M14 12.5c-.5-.25-2-.98-2.3-1.08-.3-.1-.52-.15-.74.15-.22.3-.85 1.08-1.04 1.3-.19.22-.38.25-.7.08-.32-.17-1.35-.5-2.57-1.58-.95-.84-1.59-1.88-1.77-2.2-.19-.32-.02-.49.14-.65.14-.14.32-.38.48-.57.16-.19.21-.32.32-.54.1-.22.05-.41-.02-.57C5.68 7.16 5.05 5.5 4.8 4.92c-.25-.57-.5-.5-.7-.5-.18 0-.4-.02-.61-.02-.22 0-.57.08-.87.41C2.32 5.14 1.5 5.9 1.5 7.5s1.06 3.18 1.21 3.4c.15.22 2.1 3.2 5.08 4.49 4.5 1.94 4.5 1.29 5.31 1.21.81-.08 2.61-1.07 2.98-2.1.37-1.03.37-1.92.26-2.1-.11-.18-.3-.27-.81-.52z" fill="currentColor"/></svg>
+            WA
+           </a>`
+        : '–';
+
+      return `<tr>
+        <td class="date-cell">${fecha}</td>
+        <td class="name-cell">${l.firstName||''} ${l.lastName||''}</td>
+        <td class="uni-cell">${l.university||'–'}</td>
+        <td>${l.subsistema || '–'}${l.subsistemaOtro ? ' ('+l.subsistemaOtro+')' : ''}</td>
+        <td>${l.state||'–'}</td>
+        <td>${l.role||'–'}</td>
+        <td>${intBadge}</td>
+        <td>${provBadge}</td>
+        <td>${l.email||'–'}</td>
+        <td>${waBtn}</td>
+      </tr>`;
+    }).join('');
+
+    document.getElementById('tableContainer').innerHTML = `
+      <table class="leads-table">
+        <thead>
+          <tr>
+            <th>Fecha</th><th>Nombre</th><th>Universidad</th><th>Subsistema</th><th>Estado</th>
+            <th>Puesto</th><th>Interés</th><th>Proveedor</th><th>Email</th><th>WA</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }
+
+  // ── Export CSV ──
+  window.exportCSV = function() {
+    const data = filtered.length ? filtered : allLeads;
+    const headers = ['Fecha','Nombre','Apellido','Email','WhatsApp','Universidad','Subsistema','Detalle Subsistema','Tipo','Estado','Proveedor','Nombre Proveedor','Puesto','Comentario','Interés'];
+    const rows = data.map(l => {
+      const fecha = l.createdAt?.toDate ? l.createdAt.toDate().toLocaleDateString('es-MX') : '';
+      return [
+        fecha, l.firstName, l.lastName, l.email,
+        l.whatsapp ? `+52${l.whatsapp}` : '',
+        l.university,
+        l.subsistema || '',
+        l.subsistemaOtro || '',
+        l.instType === 'gobierno' ? 'Pública' : 'Privada',
+        l.state,
+        l.hasProvider === 'si' ? 'Sí' : 'No',
+        l.providerName || '',
+        l.role, l.roleComment || '',
+        l.intention === 'contact' ? 'Contacto' : 'Webinar'
+      ].map(v => `"${String(v||'').replace(/"/g,'""')}"`).join(',');
+    });
+    const csv  = [headers.join(','), ...rows].join('\n');
+    const blob = new Blob(['\uFEFF'+csv], { type: 'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = Object.assign(document.createElement('a'), { href: url, download: `richmond-leads-${new Date().toISOString().slice(0,10)}.csv` });
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+</script>
+</body>
+</html>
