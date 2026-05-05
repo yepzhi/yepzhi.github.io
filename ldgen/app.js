@@ -97,6 +97,11 @@ function selectProvider(val, el) {
   }
 }
 
+// ─── Privacy Checkbox ─────────────────────────────
+function togglePrivacy(el) {
+  if (el.checked) clearError('err-privacy');
+}
+
 // ─── Role Select ─────────────────────────────────
 function selectRole(el) {
   document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
@@ -188,6 +193,9 @@ function validateStep2() {
 function validateStep3() {
   if (!STATE.role) { setError('err-role', 'Por favor selecciona tu puesto.'); return; }
   clearError('err-role');
+  const privacy = document.getElementById('privacyCheck');
+  if (!privacy.checked) { setError('err-privacy', 'Debes aceptar el Aviso de Privacidad para continuar.'); return; }
+  clearError('err-privacy');
   STATE.data.role = STATE.role;
   if (STATE.role === 'Otro') STATE.data.roleComment = document.getElementById('otroComment').value.trim();
   submitLead();
@@ -287,6 +295,9 @@ function restartForm() {
   document.querySelectorAll('.chip').forEach((c, i) => c.classList.toggle('active', i === 0));
   document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
   document.getElementById('otroWrap').style.display = 'none';
+  const privacyCheck = document.getElementById('privacyCheck');
+  if (privacyCheck) privacyCheck.checked = false;
+  clearError('err-privacy');
   selectIntention('contact');
   document.querySelectorAll('.field-error').forEach(e => e.textContent = '');
   document.querySelectorAll('.form-input').forEach(e => e.classList.remove('error'));
@@ -308,6 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.handleSubsistema  = handleSubsistema;
+window.togglePrivacy     = togglePrivacy;
 window.goStep          = goStep;
 window.selectIntention = selectIntention;
 window.selectChip      = selectChip;

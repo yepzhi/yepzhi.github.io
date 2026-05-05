@@ -342,6 +342,37 @@ body {
 
 .field-error { font-size: 0.78rem; color: var(--c-error); min-height: 1rem; display: block; }
 
+/* ── PRIVACY CHECKBOX ────────────────────── */
+.privacy-check {
+  display: flex; align-items: center; gap: 0.75rem;
+  cursor: pointer; margin-top: 1rem; user-select: none;
+}
+.privacy-check input[type="checkbox"] { display: none; }
+.privacy-box {
+  width: 20px; height: 20px; flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.18);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+  color: transparent;
+}
+.privacy-check input:checked + .privacy-box {
+  background: rgba(30,122,255,0.2);
+  border-color: rgba(30,122,255,0.6);
+  color: var(--c-accent2);
+  box-shadow: 0 0 12px rgba(30,122,255,0.25);
+}
+.privacy-text {
+  font-size: 0.84rem; color: var(--c-muted); line-height: 1.4;
+}
+.privacy-link {
+  color: var(--c-accent2); text-decoration: none;
+  font-weight: 600; transition: opacity 0.2s;
+}
+.privacy-link:hover { opacity: 0.75; text-decoration: underline; }
+
 /* ── BUTTONS ──────────────────────────────── */
 .btn-primary {
   display: flex; align-items: center; justify-content: center; gap: 0.5rem;

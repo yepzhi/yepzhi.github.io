@@ -290,6 +290,20 @@
           <input id="otroComment" type="text" class="form-input" placeholder="Describe tu rol…"/>
         </div>
 
+        <label class="privacy-check" for="privacyCheck">
+          <input type="checkbox" id="privacyCheck" onchange="togglePrivacy(this)"/>
+          <span class="privacy-box">
+            <svg viewBox="0 0 12 12" fill="none" width="10" height="10">
+              <path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="privacy-text">
+            He leído y acepto el
+            <a href="https://richmond.com.mx/aviso-de-privacidad/" target="_blank" rel="noopener noreferrer" class="privacy-link">Aviso de Privacidad</a>
+          </span>
+        </label>
+        <span class="field-error" id="err-privacy"></span>
+
         <div class="btn-row">
           <button class="btn-ghost" onclick="goStep(2, true)">
             <svg viewBox="0 0 20 20" fill="none" width="16" height="16"><path d="M16 10H4M8 14l-4-4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
