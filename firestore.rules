@@ -17,5 +17,10 @@ service cloud.firestore {
     match /salon_settings/{settingId} {
       allow read, write: if true;
     }
+
+    // Richmond Pro Leads
+    match /leads/{leadId} {
+      allow read, write: if true;
+    }
   }
 }
