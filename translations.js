@@ -27,7 +27,13 @@ const translations = {
             title: "🚀 Conoce JóvenesSTEM.",
             text: "Ve a nuestro sitio y conoce el futuro de la educación STEM.",
             btn_more: "Conoce más de JóvenesSTEM aquí 🚀",
-            conoce_plus: "Conoce"
+            conoce_plus: "Conoce",
+            now_web: "ahora Web"
+        },
+        jsweb_promo: {
+            tagline: "La Evolución Digital",
+            text: "227 módulos interactivos · STEMBot evaluación socrática con IA · Medallero de Poder · módulos 100% gratuitos, 557 estándares y conceptos, 50+ horas de aprendizaje profundo. Alineado a NGSS y Competencias RENAC SEP EC009.",
+            btn: "Acceder a JóvenesSTEM Web"
         },
         neosys: {
             title: "¿Conoces Neosys Aeon? ✨",
@@ -88,7 +94,13 @@ const translations = {
             title: "🚀 Discover JóvenesSTEM.",
             text: "Visit our site and discover the future of STEM education.",
             btn_more: "Learn more about JóvenesSTEM here 🚀",
-            conoce_plus: "Get to know"
+            conoce_plus: "Get to know",
+            now_web: "now Web"
+        },
+        jsweb_promo: {
+            tagline: "The Digital Evolution",
+            text: "227 interactive modules · STEMBot AI socratic evaluation · Power Badges · 100% free modules, 557 standards and concepts, 50+ hours of deep learning. Aligned with NGSS and RENAC SEP EC009 Competencies.",
+            btn: "Access JóvenesSTEM Web"
         },
         neosys: {
             title: "Do you know Neosys Aeon? ✨",
@@ -149,7 +161,13 @@ const translations = {
             title: "🚀 了解 JóvenesSTEM。",
             text: "访问我们的网站，探索 STEM 教育的未来。",
             btn_more: "在此了解更多关于 JóvenesSTEM 的信息 🚀",
-            conoce_plus: "了解"
+            conoce_plus: "了解",
+            now_web: "现在有网页版"
+        },
+        jsweb_promo: {
+            tagline: "数字进化",
+            text: "227个互动模块 · STEMBot AI苏格拉底式评估 · 能力徽章 · 100%免费模块，557个标准和概念，50+小时深度学习。与NGSS和RENAC SEP EC009能力对齐。",
+            btn: "访问 JóvenesSTEM Web"
         },
         neosys: {
             title: "你知道 Neosys Aeon 吗？ ✨",

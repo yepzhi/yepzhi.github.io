@@ -1573,6 +1573,78 @@
             margin-bottom: 32px;
         }
 
+        /* --- JSWEB HERO STYLE --- */
+        .jsweb-hero-section {
+            border-color: rgba(39, 126, 255, 0.3) !important;
+            text-align: center;
+            padding: 60px 40px !important;
+            background: rgba(39, 126, 255, 0.02) !important;
+        }
+
+        .jsweb-hero-title {
+            font-family: 'Outfit', sans-serif !important;
+            font-size: clamp(2.5rem, 8vw, 4.5rem) !important;
+            font-weight: 900 !important;
+            letter-spacing: -0.04em !important;
+            line-height: 0.9 !important;
+            margin-bottom: 15px !important;
+            background: linear-gradient(180deg, #fff 0%, #277eff 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+        }
+        
+        .jsweb-hero-tagline {
+            font-family: 'Inter', sans-serif !important;
+            font-size: clamp(1.1rem, 3vw, 1.4rem) !important;
+            font-weight: 600 !important;
+            color: #277eff !important;
+            margin-bottom: 8px !important;
+            letter-spacing: -0.01em !important;
+        }
+
+        .jsweb-hero-subtitle {
+            font-family: 'Inter', sans-serif !important;
+            font-size: clamp(0.9rem, 2vw, 1.05rem) !important;
+            color: rgba(255, 255, 255, 0.6) !important;
+            margin-bottom: 25px !important;
+            font-weight: 400 !important;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5 !important;
+        }
+
+        .jsweb-hero-hashtags {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: rgba(39, 126, 255, 0.8);
+            letter-spacing: 0.05em;
+            margin-bottom: 32px;
+        }
+
+        .floating-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: linear-gradient(135deg, #277eff, #00d2ff);
+            color: white;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 2px 8px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(39, 126, 255, 0.5);
+            animation: float-badge 2s infinite ease-in-out;
+            text-transform: uppercase;
+        }
+
+        @keyframes float-badge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+
     </style>
 </head>
 
@@ -1586,8 +1658,9 @@
             <div class="header-left-buttons">
 
                 <a href="https://yepzhi.com/jovenesstem/" target="_blank" rel="noopener noreferrer"
-                    class="test-link-btn jovenes-btn">
+                    class="test-link-btn jovenes-btn" style="position: relative;">
                     <span class="conoce-text" data-i18n="jovenes.conoce_plus">Conoce</span><span class="jovenes-word"><span class="jovenes-text">jóvenes</span><span class="stem-text">STEM</span></span>
+                    <span class="floating-badge" data-i18n="jovenes.now_web">ahora Web</span>
                 </a>
 
                 <!-- HOPRADIO BTN (Logo Style) -->
@@ -1680,21 +1753,28 @@
         </div>
 
         <!-- JSWEB PLATFORM (Most Important Project) -->
-        <div class="glass-container" id="jsweb-promo"
-            style="text-align: center; border-color: rgba(39, 126, 255, 0.4); background: rgba(39, 126, 255, 0.04); position: relative; overflow: hidden;">
-            <!-- Glow effect -->
-            <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(ellipse at center, rgba(39, 126, 255, 0.08) 0%, transparent 60%); pointer-events: none;"></div>
-            <div style="position: relative; z-index: 1;">
-                <div style="font-size: 14px; font-weight: 700; color: rgba(39, 126, 255, 0.8); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;">🚀 La Evolución Digital</div>
-                <div style="font-size: 48px; font-weight: 900; letter-spacing: -2px; margin-bottom: 10px; font-family: 'Inter', sans-serif;">
-                    <span style="background: linear-gradient(90deg, #277eff 0%, #00d2ff 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 15px rgba(39, 126, 255, 0.4));">JóvenesSTEM</span>
-                    <span style="background: linear-gradient(135deg, #277eff, #00d2ff); color: #fff; padding: 4px 16px; border-radius: 12px; font-size: 24px; vertical-align: middle; margin-left: 8px; text-shadow: none; -webkit-text-fill-color: #fff;">Web</span>
-                </div>
-                <p style="color: rgba(255,255,255,0.7); font-size: 16px; margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.5;" data-i18n="jsweb_promo.text">
-                    227 módulos interactivos · STEMBot evaluador con IA · Medallero de Poder · 100% gratuito.
-                </p>
+        <div class="glass-container jsweb-hero-section" id="jsweb-promo">
+            <div class="hero-sparkle-center">
+                <span class="sparkle-1" style="color: #277eff; text-shadow: 0 0 20px #277eff;">🚀</span>
+            </div>
+            
+            <h1 class="jsweb-hero-title">JóvenesSTEM <span style="font-size: 0.5em; vertical-align: super; background: linear-gradient(135deg, #277eff, #00d2ff); -webkit-text-fill-color: white; border-radius: 8px; padding: 2px 8px;">Web</span></h1>
+            
+            <p class="jsweb-hero-tagline" data-i18n="jsweb_promo.tagline">
+                La Evolución Digital
+            </p>
+            
+            <p class="jsweb-hero-subtitle" data-i18n="jsweb_promo.text">
+                227 módulos interactivos · STEMBot evaluación socrática con IA · Medallero de Poder · módulos 100% gratuitos, 557 estándares y conceptos, 50+ horas de aprendizaje profundo. Alineado a NGSS y Competencias RENAC SEP EC009.
+            </p>
+
+            <div class="jsweb-hero-hashtags">
+                #STEMforEducation #JóvenesSTEMWeb
+            </div>
+
+            <div class="jovenes-buttons">
                 <a href="https://yepzhi.com/jsweb/" target="_blank" rel="noopener noreferrer" class="test-link-btn"
-                    style="background: linear-gradient(135deg, #277eff 0%, #00d2ff 100%); box-shadow: 0 4px 24px rgba(39, 126, 255, 0.4); display: inline-flex; align-items: center; gap: 10px; padding: 14px 40px; font-size: 16px; font-weight: 700;">
+                    style="background: linear-gradient(135deg, #277eff 0%, #00d2ff 100%); box-shadow: 0 4px 24px rgba(39, 126, 255, 0.4); display: inline-flex; align-items: center; gap: 10px; padding: 14px 40px; font-size: 16px; font-weight: 700; border-radius: 9999px;">
                     <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     <span data-i18n="jsweb_promo.btn">Acceder a JóvenesSTEM Web</span>
                 </a>
