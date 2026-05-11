@@ -1,7 +1,7 @@
 const translations = {
     es: {
         nav: {
-            jovenes: "Conoce más de JóvenesSTEM aquí 🚀",
+            jovenes: "Conoce más de JóvenesSTEM aquí ✨",
             tools: "🔨 Tools Hub",
             tools_big: "🛠️ Conoce mis otros desarrollos"
         },
@@ -24,9 +24,9 @@ const translations = {
             live_btn: "hopRadio en vivo"
         },
         jovenes: {
-            title: "🚀 Conoce JóvenesSTEM.",
+            title: "✨ Conoce JóvenesSTEM.",
             text: "Ve a nuestro sitio y conoce el futuro de la educación STEM.",
-            btn_more: "Conoce más de JóvenesSTEM aquí 🚀",
+            btn_more: "Conoce más de JóvenesSTEM aquí ✨",
             conoce_plus: "Conoce",
             now_web: "ahora Web"
         },
@@ -45,7 +45,7 @@ const translations = {
             title: "EntryTest JóvenesSTEM",
             text: "Evaluación de habilidades y conocimientos tecnológicos. Mide tu nivel y comienza tu camino en la innovación.",
             btn_prefix: "Realiza el",
-            btn_text: "EntryTest 🚀"
+            btn_text: "EntryTest ✨"
         },
         lot: {
             title: "Vende en LOT",
@@ -68,7 +68,7 @@ const translations = {
     },
     en: {
         nav: {
-            jovenes: "Learn more about JóvenesSTEM here 🚀",
+            jovenes: "Learn more about JóvenesSTEM here ✨",
             tools: "🔨 Tools Hub",
             tools_big: "🛠️ Get to know more of my tools"
         },
@@ -91,9 +91,9 @@ const translations = {
             live_btn: "hopRadio Live"
         },
         jovenes: {
-            title: "🚀 Discover JóvenesSTEM.",
+            title: "✨ Discover JóvenesSTEM.",
             text: "Visit our site and discover the future of STEM education.",
-            btn_more: "Learn more about JóvenesSTEM here 🚀",
+            btn_more: "Learn more about JóvenesSTEM here ✨",
             conoce_plus: "Get to know",
             now_web: "now Web"
         },
@@ -112,7 +112,7 @@ const translations = {
             title: "JóvenesSTEM EntryTest",
             text: "Science and technology skill assessment. Measure your level and start your journey in innovation.",
             btn_prefix: "Take the",
-            btn_text: "EntryTest 🚀"
+            btn_text: "EntryTest ✨"
         },
         lot: {
             title: "Sell on LOT",
@@ -135,7 +135,7 @@ const translations = {
     },
     cn: {
         nav: {
-            jovenes: "在此了解更多关于 JóvenesSTEM 的信息 🚀",
+            jovenes: "在此了解更多关于 JóvenesSTEM 的信息 ✨",
             tools: "🔨 工具中心",
             tools_big: "🛠️ 了解我的其他开发项目"
         },
@@ -158,9 +158,9 @@ const translations = {
             live_btn: "hopRadio 直播"
         },
         jovenes: {
-            title: "🚀 了解 JóvenesSTEM。",
+            title: "✨ 了解 JóvenesSTEM。",
             text: "访问我们的网站，探索 STEM 教育的未来。",
-            btn_more: "在此了解更多关于 JóvenesSTEM 的信息 🚀",
+            btn_more: "在此了解更多关于 JóvenesSTEM 的信息 ✨",
             conoce_plus: "了解",
             now_web: "现在有网页版"
         },
@@ -179,7 +179,7 @@ const translations = {
             title: "JóvenesSTEM 入学测试",
             text: "科技技能评估。衡量您的水平并开始您的创新之旅。",
             btn_prefix: "参加",
-            btn_text: "入学测试 🚀"
+            btn_text: "入学测试 ✨"
         },
         lot: {
             title: "在 LOT 上销售",
