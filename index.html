@@ -1224,6 +1224,31 @@
             box-shadow: 0 0 20px rgba(65, 105, 225, 0.2);
         }
 
+        /* --- JOVENES STEM WEB BRAND BUTTON STYLE --- */
+        .jovenes-btn-web {
+            margin-bottom: 0;
+            padding: 10px 24px !important;
+            font-size: 14px !important;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+            background: linear-gradient(135deg, #277eff 0%, #00d2ff 100%) !important;
+            border-radius: 9999px !important;
+            border: none !important;
+            display: inline-flex !important;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 24px rgba(39, 126, 255, 0.4) !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+        }
+
+        .jovenes-btn-web:hover {
+            box-shadow: 0 8px 32px rgba(39, 126, 255, 0.6) !important;
+            transform: translateY(-2px) scale(1.02);
+            color: #ffffff !important;
+        }
+
         /* --- LOT ENCAPSULATED STYLE --- */
         .lot-pill-btn {
             margin-bottom: 0;
@@ -1660,10 +1685,10 @@
         <div class="glass-container profile-section">
             <div class="header-left-buttons">
 
-                <a href="https://yepzhi.com/jovenesstem/" target="_blank" rel="noopener noreferrer"
-                    class="test-link-btn jovenes-btn" style="position: relative;">
-                    <span class="conoce-text" data-i18n="jovenes.conoce_plus">Conoce</span><span class="jovenes-word"><span class="jovenes-text">jóvenes</span><span class="stem-text">STEM</span></span>
-                    <span class="floating-badge" data-i18n="jovenes.now_web">ahora Web</span>
+                <a href="https://yepzhi.com/jsweb/" target="_blank" rel="noopener noreferrer"
+                    class="jovenes-btn-web">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" style="color: #ffffff; flex-shrink: 0;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    <span>JóvenesSTEM <span style="font-size: 0.75em; vertical-align: super; background: rgba(255, 255, 255, 0.25); border-radius: 4px; padding: 2px 6px; font-weight: 900; text-transform: uppercase; margin-left: 2px;">Web</span></span>
                 </a>
 
                 <!-- HOPRADIO BTN (Logo Style) -->
@@ -1826,11 +1851,11 @@
             
             <h2 class="neosys-hero-title">NEOSYS AEON</h2>
             
-            <p class="neosys-hero-tagline">
+            <p class="neosys-hero-tagline" data-i18n="neosys.tagline">
                 Sin ciencia no hay claridad. Sin validación no hay progreso.
             </p>
             
-            <p class="neosys-hero-subtitle">
+            <p class="neosys-hero-subtitle" data-i18n="neosys.subtitle">
                 Un marco abierto para entender la realidad a través de evidencia verificable.
             </p>
 

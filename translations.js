@@ -38,6 +38,8 @@ const translations = {
         neosys: {
             title: "¿Conoces Neosys Aeon? ✨",
             text: "Sin ciencia no hay claridad. Sin validación no hay progreso. Un marco abierto para entender la realidad.",
+            tagline: "Sin ciencia no hay claridad. Sin validación no hay progreso.",
+            subtitle: "Un marco abierto para entender la realidad a través de evidencia verificable.",
             btn_join: "Unete Neosys Aeon ✨",
             conoce_plus: "Únete"
         },
@@ -105,6 +107,8 @@ const translations = {
         neosys: {
             title: "Do you know Neosys Aeon? ✨",
             text: "Without science there is no clarity. Without validation there is no progress. An open framework to understand reality.",
+            tagline: "Without science there is no clarity. Without validation there is no progress.",
+            subtitle: "An open framework to understand reality through verifiable evidence.",
             btn_join: "Join Neosys Aeon ✨",
             conoce_plus: "Join"
         },
@@ -172,6 +176,8 @@ const translations = {
         neosys: {
             title: "你知道 Neosys Aeon 吗？ ✨",
             text: "没有科学就没有清晰，没有验证就没有进步。一个理解现实的开放框架。",
+            tagline: "没有科学就没有清晰，没有验证就没有进步。",
+            subtitle: "通过可验证的证据理解现实的开放框架。",
             btn_join: "加入 Neosys Aeon ✨",
             conoce_plus: "加入"
         },
