@@ -169,7 +169,7 @@ const faqData = {
         },
         {
             keywords: ['sensor monitor', 'sensores', 'giroscopio', 'acelerómetro', 'device sensors'],
-            answer: 'Visualiza en tiempo real los datos de los sensores de tu dispositivo (acelerómetro, giroscopio). Pruébalo en [yepzhi.github.io/sensor-monitor](https://yepzhi.github.io/sensor-monitor).'
+            answer: 'Visualiza en tiempo real los datos de los sensores de tu dispositivo (acelerómetro, giroscopio). Pruébalo en [yepzhi.com/sensor-monitor](https://yepzhi.com/sensor-monitor).'
         },
         {
             keywords: ['eventseeker', 'eventos', 'conciertos', 'boletos', 'arizona', 'sonora', 'bc'],
@@ -177,7 +177,7 @@ const faqData = {
         },
         {
             keywords: ['ytdownloader', 'descargar youtube', 'mp3', 'video downloader', 'bajar musica'],
-            answer: 'Herramienta de alta calidad para descargar audio y video. Accédelo en [yepzhi.github.io/ytDownloader](https://yepzhi.github.io/ytDownloader).'
+            answer: 'Herramienta de alta calidad para descargar audio y video. Accédelo en [yepzhi.com/ytDownloader](https://yepzhi.com/ytDownloader).'
         },
         {
             keywords: ['osint', 'analyzer', 'perfiles', 'investigación profunda', 'deep search'],
@@ -370,7 +370,7 @@ const faqData = {
         },
         {
             keywords: ['sensor monitor', 'sensors', 'gyroscope', 'accelerometer', 'device sensors'],
-            answer: 'Visualize real-time data from your device sensors (accelerometer, gyroscope). Try it at [yepzhi.github.io/sensor-monitor](https://yepzhi.github.io/sensor-monitor).'
+            answer: 'Visualize real-time data from your device sensors (accelerometer, gyroscope). Try it at [yepzhi.com/sensor-monitor](https://yepzhi.com/sensor-monitor).'
         },
         {
             keywords: ['eventseeker', 'events', 'concerts', 'tickets', 'arizona', 'sonora', 'bc'],
@@ -378,7 +378,7 @@ const faqData = {
         },
         {
             keywords: ['ytdownloader', 'download youtube', 'mp3', 'video downloader', 'download music'],
-            answer: 'High-quality tool to download audio and video. Access it at [yepzhi.github.io/ytDownloader](https://yepzhi.github.io/ytDownloader).'
+            answer: 'High-quality tool to download audio and video. Access it at [yepzhi.com/ytDownloader](https://yepzhi.com/ytDownloader).'
         },
         {
             keywords: ['osint', 'analyzer', 'profiles', 'deep research', 'deep search'],
@@ -521,6 +521,7 @@ function sendMessage() {
 // Event Listeners
 chatbotBtn.addEventListener('click', () => {
     chatbotOverlay.classList.add('active');
+    chatbotBtn.setAttribute('aria-expanded', 'true');
     if (messages.length === 0) {
         addMessage('¡Hola! 👋 / Hello! 👋\n\nSoy el asistente virtual de yepzhi.com.\nI\'m yepzhi.com\'s virtual assistant.\n\n¿En qué puedo ayudarte? / How can I help you?', 'bot');
     }
@@ -528,11 +529,13 @@ chatbotBtn.addEventListener('click', () => {
 
 chatbotClose.addEventListener('click', () => {
     chatbotOverlay.classList.remove('active');
+    chatbotBtn.setAttribute('aria-expanded', 'false');
 });
 
 chatbotOverlay.addEventListener('click', (e) => {
     if (e.target === chatbotOverlay) {
         chatbotOverlay.classList.remove('active');
+        chatbotBtn.setAttribute('aria-expanded', 'false');
     }
 });
 
@@ -543,3 +546,33 @@ chatbotInput.addEventListener('keypress', (e) => {
         sendMessage();
     }
 });
+
+// --- WebMCP Tool Exposure (Google Chrome AI Agents Support) ---
+if (navigator.modelContext && navigator.modelContext.registerTool) {
+    try {
+        navigator.modelContext.registerTool({
+            name: 'buscar_pregunta_frecuente_yepzhi',
+            description: 'Busca respuestas a preguntas sobre JóvenesSTEM, el libro BlueBook, la biografía de Alberto Yépiz, contacto por WhatsApp y otros desarrollos en yepzhi.com (Soporta español e inglés).',
+            inputSchema: {
+                type: 'object',
+                properties: {
+                    pregunta: {
+                        type: 'string',
+                        description: 'La pregunta del usuario sobre Alberto Yépiz, su portafolio o proyectos.'
+                    }
+                },
+                required: ['pregunta']
+            },
+            execute: async ({ pregunta }) => {
+                const lang = detectLanguage(pregunta);
+                const answer = findAnswer(pregunta, lang);
+                return {
+                    content: [{ type: 'text', text: answer }]
+                };
+            }
+        });
+        console.log('🚀 WebMCP: Herramienta "buscar_pregunta_frecuente_yepzhi" registrada.');
+    } catch (webmcpErr) {
+        console.error('Error registrando WebMCP tool:', webmcpErr);
+    }
+}

@@ -1684,8 +1684,8 @@
 
             <!-- TOGGLE REMOVED - MOVED TO GLOBAL -->
             <img src="author.JPEG" alt="Alberto Yépiz, fundador de JóvenesSTEM y EdTech innovator" class="profile-pic"
-                width="140" height="140" fetchpriority="high">
-            <div class="profile-name">Alberto Yépiz</div>
+                width="140" height="140" fetchpriority="high" decoding="async">
+            <h1 class="profile-name">Alberto Yépiz</h1>
             <div class="profile-bio" data-i18n="profile.bio">
                 <strong>SaaS Product Leader | EdTech—Digital Platforms, ⚡GenAI Implementation.</strong> con +15 años de experiencia en <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>.<br><br>
                 💼 MBA con background financiero, Full-Cycle CX/UX y Data Analytics. 📊 Certificado en Data Science & Agile Systems for Product Management — University of Maryland ✨ + English CEFR B2 🇺🇸 by ETS.<br><br>
@@ -1761,7 +1761,7 @@
                 <span class="sparkle-1" style="filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));">✨</span>
             </div>
             
-            <h1 class="jsweb-hero-title">JóvenesSTEM <span style="font-size: 0.5em; vertical-align: super; background: linear-gradient(135deg, #277eff, #00d2ff); -webkit-text-fill-color: white; border-radius: 8px; padding: 2px 8px;">Web</span></h1>
+            <h2 class="jsweb-hero-title">JóvenesSTEM <span style="font-size: 0.5em; vertical-align: super; background: linear-gradient(135deg, #277eff, #00d2ff); -webkit-text-fill-color: white; border-radius: 8px; padding: 2px 8px;">Web</span></h2>
             
             <p class="jsweb-hero-tagline" data-i18n="jsweb_promo.tagline">
                 La Evolución Digital
@@ -1824,7 +1824,7 @@
                 <span class="sparkle-1">✨</span>
             </div>
             
-            <h1 class="neosys-hero-title">NEOSYS AEON</h1>
+            <h2 class="neosys-hero-title">NEOSYS AEON</h2>
             
             <p class="neosys-hero-tagline">
                 Sin ciencia no hay claridad. Sin validación no hay progreso.
@@ -1910,26 +1910,26 @@
     </a>
 
     <!-- CHATBOT BILINGÜE -->
-    <button class="chatbot-button" id="chatbotBtn" onclick="initChatLazy()">
+    <button class="chatbot-button" id="chatbotBtn" onclick="initChatLazy()" aria-label="Abrir Asistente Chatbot" aria-haspopup="dialog" aria-expanded="false">
         💬 Chat🤖
     </button>
 
 
 
-    <div class="chatbot-overlay" id="chatbotOverlay">
+    <div class="chatbot-overlay" id="chatbotOverlay" role="dialog" aria-modal="true" aria-labelledby="chat-title">
         <div class="chatbot-modal">
             <div class="chatbot-header">
                 <div>
-                    <h3>💬 yepzhi Assistant 🌎</h3>
+                    <h3 id="chat-title">💬 yepzhi Assistant 🌎</h3>
                     <p>Español / English • JóvenesSTEM & more</p>
                 </div>
-                <button class="chatbot-close" id="chatbotClose">×</button>
+                <button class="chatbot-close" id="chatbotClose" aria-label="Cerrar Asistente Chatbot">×</button>
             </div>
             <div class="chatbot-messages" id="chatbotMessages"></div>
             <div class="chatbot-input-area">
                 <input type="text" class="chatbot-input" id="chatbotInput"
-                    placeholder="Escribe tu pregunta... / Type your question...">
-                <button class="chatbot-send" id="chatbotSend">➤</button>
+                    placeholder="Escribe tu pregunta... / Type your question..." aria-label="Pregunta al Asistente">
+                <button class="chatbot-send" id="chatbotSend" aria-label="Enviar mensaje">➤</button>
             </div>
         </div>
     </div>
@@ -2031,7 +2031,7 @@
         })();
     </script>
     <script>window.NEOSYS_SITE_ID = "yepzhiweb";</script>
-    <script src="https://yepzhi.com/visitors/tracker.js"></script>
+    <script src="https://yepzhi.com/visitors/tracker.js" defer></script>
 </body>
 
 </html>
