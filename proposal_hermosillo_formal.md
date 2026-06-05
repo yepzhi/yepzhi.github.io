@@ -1,170 +1,95 @@
-PROPUESTA DE AULA PILOTO JÓVENESSTEM
-Un Laboratorio de Innovación Educativa Basado en Evidencia y Tutoría Socrática de Inteligencia Artificial
-Propuesta de Vinculación Institucional · Hermosillo, Sonora · 2026 · yepzhi.com/jsweb
+PROPUESTA DE PILOTO ESCOLAR: LABORATORIO DE INNOVACIÓN JÓVENESSTEM®
+Una Plataforma Digital Gratuita para el Fortalecimiento de la Educación Científica y Tecnológica en Secundaria/Preparatoria
+Propuesta de Vinculación y Demo de Aula · Hermosillo, Sonora · 2026
 
-RESUMEN
-El programa JóvenesSTEM es un marco de aprendizaje interactivo diseñado para introducir las disciplinas de Ciencia, Tecnología y Programación en la educación media superior sin requerir costos de infraestructura de software o hardware avanzado. Esta propuesta plantea la ejecución de un plan piloto de una sesión de clase (50 minutos) en un grupo escolar de Hermosillo, Sonora, con el objetivo de evaluar de forma empírica la adopción de la plataforma y medir el nivel de comprensión lectora y pensamiento lógico-científico en los estudiantes mediante el evaluador socrático automatizado StemBot.
-
-Problema. Las limitaciones en infraestructura computacional y la inestabilidad de la conexión a internet en escuelas públicas de América Latina impiden la adopción de herramientas EdTech modernas. A nivel de aprendizaje, las evaluaciones estandarizadas PISA revelan brechas críticas en razonamiento científico y resolución de problemas (OCDE, 2023).
-
-Propuesta. Implementar la metodología SIIP NextGen mediante un entorno web ligero que optimice los recursos existentes del estudiante (teléfonos inteligentes o tabletas) e integre una tutoría socrática impulsada por inteligencia artificial local, provista de un sistema redundante de revisión offline para asegurar la continuidad pedagógica sin conexión estable a la red.
-
-⸻
-
-PRINCIPIOS DE OPERACIÓN
-Los 10 Principios Pedagógicos
-Bases del modelo JóvenesSTEM para guiar la intervención en el aula, orientadas a detonar la curiosidad científica, el rigor analítico y la resiliencia tecnológica.
-
-I
-DEMOCRATIZACIÓN DEL ACCESO.
-El conocimiento científico y técnico debe ser gratuito y accesible para cualquier estudiante con un dispositivo básico.
-
-II
-RIGOR ACADÉMICO INTERNACIONAL.
-Alineación total a los estándares científicos globales NGSS y las competencias nacionales RENAC SEP.
-
-III
-APRENDIZAJE SOCRÁTICO ACTIVO.
-La inteligencia artificial actúa como guía mediante preguntas dirigidas; no proporciona respuestas directas.
-
-IV
-RESILIENCIA TECNOLÓGICA.
-El software debe operar en condiciones de conectividad inestable mediante arquitecturas de fallback local.
-
-V
-PENSAMIENTO COMPUTACIONAL.
-Descomposición de problemas complejos en pasos estructurados para el desarrollo de algoritmos prácticos.
-
-VI
-MEDICIÓN BASADA EN EVIDENCIA.
-El avance de la sesión se registra de manera cuantitativa y transparente para el profesorado.
-
-VII
-SISTEMA MÓVIL DUAL.
-Optimización visual e interactiva para smartphones, la pantalla más disponible para estudiantes latinoamericanos.
-
-VIII
-APRENDIZAJE LIFELONG.
-Fomento de habilidades de adaptación autodidacta frente a un entorno laboral en constante evolución.
-
-IX
-ÉTICA APLICADA A LA TECNOLOGÍA.
-Compromiso con el uso responsable, verificable y seguro de la inteligencia artificial.
-
-X
-TRANSFERENCIA SOCIAL DE LOGROS.
-El progreso académico se traduce en credenciales digitales verificables que validan el esfuerzo del estudiante.
-
-⸻
-
-CONTEXTO Y DIAGNÓSTICO
-
-1. Introducción y Justificación
-
-La educación científica y tecnológica en el nivel medio superior en México enfrenta retos estructurales significativos en la transición hacia la economía digital. Según reportes del Programa para la Evaluación Internacional de Alumnos (PISA), cerca del 50 % de los estudiantes mexicanos no logran el nivel mínimo de competencia en matemáticas y ciencias (OCDE, 2023). Este rezago no se debe únicamente a la falta de contenidos, sino a la prevalencia de esquemas tradicionales de memorización pasiva frente a la necesidad de desarrollar habilidades analíticas activas: el pensamiento crítico y el método científico aplicado.
-
-Por otro lado, la inversión estatal en salas de cómputo y conectividad escolar en América Latina ha mostrado resultados inconsistentes debido a los costos de mantenimiento y licencias propietarias (Flores-Crespo, 2021). JóvenesSTEM propone una ruta alternativa: la utilización de la infraestructura móvil que los estudiantes ya poseen (el smartphone personal) y el uso de software de código abierto ligero que no requiera instalaciones locales de software ni consuma el ancho de banda del plantel.
-
-2. Diagnóstico del Aula Local en Hermosillo
-
-Para validar el modelo pedagógico en el contexto de Sonora, se propone una sesión piloto presencial. Hermosillo, como polo tecnológico regional en desarrollo, requiere la formación acelerada de perfiles listos para insertarse en cadenas de valor internacionales (semiconductores, energías limpias y desarrollo de sistemas). Sin embargo, el primer contacto de los jóvenes con la programación suele percibirse como complejo o inaccesible. La sesión piloto busca disipar este sesgo introduciendo dinámicas lúdicas pero rigurosas, donde el estudiante descubra que el desarrollo técnico está al alcance de sus capacidades lógicas inmediatas.
-
-⸻
-
-ARQUITECTURA PEDAGÓGICA Y TECNOLÓGICA
-
-3. La Metodología SIIP NextGen
-
-El marco pedagógico del proyecto se estructura en la metodología SIIP NextGen, integrada por cuatro fases de intervención en el aula:
-
-- STEM (Ciencia, Tecnología, Ingeniería y Matemáticas): Integración curricular y conceptual unificada basada en el BlueBook v1.
-- Intervention (Intervención): Acción docente estructurada mediante dinámicas de aula de corta duración (50 minutos) y alto impacto.
-- Innovation (Innovación): Enfoque en la resolución de problemas reales a través de proyectos técnicos estructurados.
-- Pedagogy (Pedagogía): El uso de la IA Socrática para la evaluación individualizada y continua en tiempo real.
-
-4. Optimización de Recursos e IA Socrática (StemBot)
-
-Para garantizar la viabilidad técnica en entornos de red limitados, el motor de inteligencia artificial StemBot opera bajo estrictas restricciones de arquitectura. La Tabla 1 detalla la optimización del flujo de tokens:
-
-Parámetro Técnico      | Límite Operativo                      | Impacto en Infraestructura
------------------------|---------------------------------------|-------------------------------
-Historial de Contexto  | Últimos 12 mensajes (sliding window)  | Reduce la carga del servidor y optimiza el consumo de datos móviles en un 70 %.
-Longitud de Respuesta  | 3 a 4 oraciones cortas por mensaje    | Garantiza respuestas rápidas y asimilación directa por parte del estudiante.
-Bidding en Generación  | Temperatura fija a 0.7; maxTokens: 800 | Evita respuestas extensas, alucinaciones del modelo y costos de cómputo redundantes.
-
-Tabla 1. Parámetros de optimización técnica del evaluador StemBot.
-
-5. Sistema de Resiliencia Escolar (Offline Socratic Fallback)
-
-Uno de los principales problemas de los sistemas EdTech basados en la nube es la interrupción del servicio ante fallas de red. JóvenesSTEM resuelve esta limitante mediante un sistema de contingencia de tres niveles:
-
-- Nivel 1: Procesamiento en la nube (API segura mediante Cloudflare Worker).
-- Nivel 2 (Offline parcial): Activación de modelos locales en el navegador (Chrome API: Gemini Nano en el dispositivo del estudiante).
-- Nivel 3 (Offline total): Script de respaldo basado en los estándares conceptuales (keyPoints) integrados en el archivo HTML local. El sistema realiza una evaluación guiada por plantilla secuencial.
-
-Este diseño asegura que el alumno complete su sesión de aprendizaje aun cuando la escuela no disponga de conexión estable a internet.
-
-⸻
-
-MÉTODO DE IMPLEMENTACIÓN Y EVALUACIÓN
-
-6. Estructura de la Sesión de Aula Piloto (50 Minutos)
-
-El piloto práctico de una sesión se organiza en cinco etapas consecutivas diseñadas para encajar en el horario académico escolar estándar:
-
-- Minutos 00 - 05: Encuadre conceptual. Explicación de la importancia de la educación STEM y la lógica de sistemas.
-- Minutos 05 - 10: Onboarding digital. Registro de los alumnos en yepzhi.com/jsweb/ mediante Google Sign-In (1 clic).
-- Minutos 10 - 20: Lectura dirigida. Estudio individual del módulo asignado (ej. Introducción a la Ciencia de Datos o Lógica de Algoritmos).
-- Minutos 20 - 45: Interacción socrática. Debate escrito y guiado con StemBot para la validación y evaluación de conceptos clave del módulo.
-- Minutos 45 - 50: Cierre y visualización. Proyección del tablero del profesor, demostrando las métricas de rendimiento grupal.
-
-7. Portal de Monitoreo del Profesor (Teach Portal)
-
-El profesorado dispone de un acceso centralizado para evaluar el desempeño grupal sin necesidad de revisar exámenes escritos tradicionales. El sistema registra de manera automática:
-
-- Módulos completados por cada alumno.
-- Puntos de experiencia (XP) acumulados.
-- Conceptos clave dominados según la evaluación socrática.
-- Alertas tempranas de estudiantes que requieren repaso conceptual adicional.
-
-8. Viabilidad y Licenciamiento Gratuito
-
-El uso del currículum de 228 módulos, el evaluador socrático StemBot y el portal del profesorado se ofrece bajo un modelo de licenciamiento abierto y gratuito para las instituciones escolares de Hermosillo. El único requisito es la disposición de los espacios y la autorización para llevar a cabo la sesión de prueba de 50 minutos.
-
-⸻
-
-FUENTES Y REFERENCIAS
-
-Referencias Bibliográficas
-
-Arum, R., & Roksa, J. (2011). Academically adrift: Limited learning on college campuses. University of Chicago Press.
-
-Budapest Open Access Initiative. (2002). Read the Budapest Open Access Initiative. budapestopenaccessinitiative.org
-
-Dewey, J. (1910). How we think. D.C. Heath & Co.
-
-Flores-Crespo, P. (2021). Políticas de educación tecnológica en México: Análisis de resultados y limitaciones. Revista Mexicana de Investigación Educativa, 26(89), 415–439.
-
-Kahneman, D. (2011). Thinking, fast and slow. Farrar, Straus and Giroux.
-
-Kunda, Z. (1990). The case for motivated reasoning. Psychological Bulletin, 108(3), 480–498.
-
-Lewandowsky, S., Ecker, U. K. H., & Cook, J. (2017). Beyond misinformation. Journal of Applied Research in Memory and Cognition, 6(4), 353–369.
-
-Mercier, H., & Sperber, D. (2017). The enigma of reason. Harvard University Press.
-
-Mokyr, J. (2016). A culture of growth. Princeton University Press.
-
-Nosek, B. A., et al. (2015). Promoting an open research culture. Science, 348(6242), 1422–1425.
-
-OCDE. (2023). PISA 2022 Results: Factsheets - Mexico. OECD Publishing.
-
-Paul, R., & Elder, L. (2006). Critical thinking (2nd ed.). Pearson.
-
-Popper, K. R. (1959). The logic of scientific discovery. Hutchinson.
+🌐 **Plataforma oficial:** [https://yepzhi.com/jsweb/](https://yepzhi.com/jsweb/)
+📚 **Catálogo completo de módulos:** [https://yepzhi.com/jsweb/wos](https://yepzhi.com/jsweb/wos)
 
 ────────────────────────────────────────────────────────────
-JóvenesSTEM® es un proyecto abierto de educación tecnológica y científica alineado a estándares internacionales.
-Sin costos de adquisición de software · Optimizado para smartphones · Sistema resiliente offline
-Propuesta piloto Hermosillo · Contacto: yepzhi@gmail.com · yepzhi.com/jsweb
+
+1. PRESENTACIÓN DEL PROYECTO
+
+JóvenesSTEM® es una iniciativa digital diseñada para democratizar el acceso al conocimiento en Ciencia, Tecnología y Programación en la educación básica y media. El programa busca incentivar el interés vocacional hacia carreras tecnológicas y de ingeniería desde la secundaria, implementando un modelo educativo interactivo donde el alumno es el protagonista de su aprendizaje.
+
+El proyecto nace en Sonora como respuesta a una necesidad clara: acercar las disciplinas STEM a estudiantes de secundaria y preparatoria de forma gratuita, accesible y resiliente, sin depender de infraestructura costosa ni de condiciones de conectividad ideales.
+
+────────────────────────────────────────────────────────────
+
+2. EL DESAFÍO TECNOLÓGICO EN LAS ESCUELAS
+
+Las instituciones educativas de secundaria en México y LATAM enfrentan retos constantes de infraestructura. La adquisición de licencias de software, el equipamiento de laboratorios físicos de cómputo y la inestabilidad de las conexiones a internet del plantel suelen limitar o impedir el uso de herramientas educativas en la nube.
+
+JóvenesSTEM® fue desarrollado desde Sonora específicamente bajo estos lineamientos, resolviendo la barrera de infraestructura técnica mediante un entorno web ligero que aprovecha los dispositivos que los estudiantes ya tienen a la mano.
+
+El programa no requiere:
+  · Computadoras de escritorio ni laptops especializadas.
+  · Instalación de software o aplicaciones nativas.
+  · Conexión a internet estable de alta velocidad.
+  · Licencias de software pagadas.
+
+────────────────────────────────────────────────────────────
+
+3. VENTAJAS CLAVE DE JÓVENESSTEM® WEB
+
+A. Tutoría Socrática con Inteligencia Artificial (StemBot®)
+
+Al finalizar cada módulo de lectura, el alumno interactúa en chat con un evaluador automatizado. El bot no regala las respuestas ni realiza preguntas tradicionales de opción múltiple; en su lugar, guía al estudiante mediante cuestionamientos socráticos breves, solicitándole explicar conceptos clave con sus propias palabras para verificar la asimilación del tema.
+
+Los módulos son lecturas interesantes en modelo divulgativo, diseñadas para despertar la curiosidad del estudiante. Consulta el temario completo en el catálogo de módulos: [https://yepzhi.com/jsweb/wos](https://yepzhi.com/jsweb/wos)
+
+B. Cero Costo de Infraestructura ($0.00 Pesos)
+
+El sistema no requiere instalaciones de software ni equipos de cómputo de última generación. Funciona perfectamente en:
+
+  · Teléfonos inteligentes (smartphones) de los estudiantes.
+  · Tabletas escolares o personales.
+  · Cualquier computadora básica con un navegador de internet (Chrome, Safari, Edge).
+
+C. Programa Bilingüe e Inglés A2/B1
+
+La plataforma está diseñada bajo un esquema completamente bilingüe (Español e Inglés). Las lecturas y actividades en inglés están redactadas bajo estándares de comprensión A2 y B1, permitiendo a los estudiantes de secundaria y preparatoria practicar el idioma técnico global de manera natural, facilitando la implementación de un modelo STEM bilingüe en el aula sin la necesidad de adquirir materiales ni licencias adicionales.
+
+D. Monitoreo Docente (Teach Portal)
+
+El docente cuenta con un portal personalizado en tiempo real para visualizar el desempeño de su grupo. Puede observar qué alumnos han completado módulos, quiénes han aprobado la evaluación socrática y los puntos de experiencia (XP) obtenidos por el grupo.
+
+E. Monitoreo de la Dirección/Coordinación a Nivel Escuela
+
+La plataforma incluye un panel de administración (General Manager View) donde la dirección o coordinación académica de la escuela puede supervisar el rendimiento global de todos los grupos y profesores de la institución. El panel muestra métricas consolidadas: total de alumnos activos, porcentaje de módulos completados por grupo, profesores con mayor participación y alertas de grupos con bajo rendimiento. Esto permite a la institución tener visibilidad completa sin necesidad de pedir reportes individuales a cada docente.
+
+────────────────────────────────────────────────────────────
+
+4. PROPUESTA DE PILOTO EN EL AULA
+
+Para evaluar la efectividad pedagógica y técnica del sistema, proponemos llevar a cabo una sesión piloto en un grupo seleccionado de su escuela (secundaria o preparatoria).
+
+Se requiere únicamente:
+  · Un salón de clases con grupo de alumnos disponible.
+  · Que cada alumno cuente con un teléfono celular o tableta con navegador web.
+  · Una sesión de clase de 50 minutos aproximadamente.
+  · Conexión a internet (mínima para cargar la página e interactuar con la plataforma y el chat de IA).
+
+Durante la sesión:
+  · Los alumnos se registran en la plataforma con un solo clic (Google Sign-In).
+  · Seleccionan un módulo de lectura interactiva y lo estudian de forma individual.
+  · Al terminar la lectura, debaten en chat con StemBot® para acreditar su comprensión.
+  · El profesor visualiza el avance del grupo en tiempo real desde el Teach Portal.
+
+No se requiere preparación previa por parte de los alumnos ni del docente. El sistema guía toda la experiencia.
+
+────────────────────────────────────────────────────────────
+
+5. CURRÍCULUM Y GRATUIDAD
+
+El programa completo cuenta con 228 módulos de estudio estructurados y alineados a estándares internacionales de educación científica (Next Generation Science Standards — NGSS).
+
+Todo el acceso al portal de estudiantes, la interacción de tutoría inteligente de StemBot® y las herramientas de administración docente se proporcionan con licenciamiento abierto y gratuito para las escuelas secundarias y preparatorias públicas y privadas.
+
+El proyecto no tiene fines lucrativos comerciales y busca crear una comunidad de aprendizaje digital colaborativa. Solamente y en el caso opcional que el alumno desee obtener su certificado "JóvenesSTEM®" tendrá un costo de $49 MXN pesos para mantenimiento de servidores de IA, pero el conocimiento tecnológico y científico es democratizado y aseguramos el acceso universal de forma gratuita con esta iniciativa.
+
+────────────────────────────────────────────────────────────
+JóvenesSTEM® Web · Vinculación Escolar e Innovación EdTech
+Contacto y Agenda de Pruebas: Alberto Yépiz (Fundador) · Correo: yepzhi@gmail.com
+Plataforma oficial: [https://yepzhi.com/jsweb/](https://yepzhi.com/jsweb/)
+Catálogo de módulos: [https://yepzhi.com/jsweb/wos](https://yepzhi.com/jsweb/wos)
 ────────────────────────────────────────────────────────────
