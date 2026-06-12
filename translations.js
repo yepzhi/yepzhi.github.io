@@ -35,6 +35,16 @@ const translations = {
             text: "227 módulos interactivos · STEMBot evaluación socrática con IA · Medallero de Poder · módulos 100% gratuitos, 557 estándares y conceptos, 50+ horas de aprendizaje profundo. Alineado a NGSS y Competencias RENAC SEP EC009.",
             btn: "Acceder a JóvenesSTEM Web"
         },
+        stemos_promo: {
+            tagline: "Plataforma LXP",
+            text: "La evolución del LMS hacia un entorno de experiencia de aprendizaje (LXP) nativo para LATAM. Basado en un grafo de habilidades y micro-credenciales verificables alineadas con la industria de nearshoring.",
+            btn: "Acceder a stemOS LXP"
+        },
+        lovelace_promo: {
+            tagline: "Lovelace Feynman Technologies",
+            text: "Construyendo la infraestructura del futuro del aprendizaje y el desarrollo de competencias en América Latina a través de la física, la computación cuántica y la pedagogía socrática guiada por Inteligencia Artificial.",
+            btn: "Conoce Lovelace Feynman"
+        },
         neosys: {
             title: "¿Conoces Neosys Aeon? ✨",
             text: "Sin ciencia no hay claridad. Sin validación no hay progreso. Un marco abierto para entender la realidad.",
@@ -104,6 +114,16 @@ const translations = {
             text: "227 interactive modules · STEMBot AI socratic evaluation · Power Badges · 100% free modules, 557 standards and concepts, 50+ hours of deep learning. Aligned with NGSS and RENAC SEP EC009 Competencies.",
             btn: "Access JóvenesSTEM Web"
         },
+        stemos_promo: {
+            tagline: "LXP Platform",
+            text: "The evolution of LMS into a native Learning Experience Platform (LXP) for LATAM. Built upon a skills graph and verifiable micro-credentials aligned with the nearshoring industry.",
+            btn: "Access stemOS LXP"
+        },
+        lovelace_promo: {
+            tagline: "Lovelace Feynman Technologies",
+            text: "Building the infrastructure for the future of learning and competence development in Latin America through physics, quantum computing, and AI-guided Socratic pedagogy.",
+            btn: "Explore Lovelace Feynman"
+        },
         neosys: {
             title: "Do you know Neosys Aeon? ✨",
             text: "Without science there is no clarity. Without validation there is no progress. An open framework to understand reality.",
@@ -170,8 +190,18 @@ const translations = {
         },
         jsweb_promo: {
             tagline: "数字进化",
-            text: "227个互动模块 · STEMBot AI苏格拉底式评估 · 能力徽章 · 100%免费模块，557个标准和概念，50+小时深度学习。与NGSS和RENAC SEP EC009能力对齐。",
+            text: "227个互动模块 · STEMBot AI苏格拉底式评估 · 能力徽章 · 100%免费模块，557个标准 and 概念，50+小时深度学习。与NGSS和RENAC SEP EC009能力对齐。",
             btn: "访问 JóvenesSTEM Web"
+        },
+        stemos_promo: {
+            tagline: "LXP 平台",
+            text: "LMS 向适用于拉美地区的原生学习体验平台 (LXP) 的演进。基于技能图谱和与近岸外包行业对接的可验证微凭证。",
+            btn: "访问 stemOS LXP"
+        },
+        lovelace_promo: {
+            tagline: "Lovelace Feynman Technologies",
+            text: "通过物理、量子计算和人工智能引导的苏格拉底式教学法，构建拉丁美洲未来学习和技能发展的技术基础设施。",
+            btn: "探索 Lovelace Feynman"
         },
         neosys: {
             title: "你知道 Neosys Aeon 吗？ ✨",

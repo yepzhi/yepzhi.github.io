@@ -1705,6 +1705,117 @@
             50% { transform: translateY(-3px); }
         }
 
+        /* --- STEMOS HERO STYLE --- */
+        .stemos-hero-section {
+            border-color: rgba(139, 92, 246, 0.3) !important;
+            text-align: center;
+            padding: 60px 40px !important;
+        }
+
+        .stemos-hero-title {
+            font-family: 'Outfit', sans-serif !important;
+            font-size: clamp(2.5rem, 8vw, 4.5rem) !important;
+            font-weight: 900 !important;
+            letter-spacing: -0.04em !important;
+            line-height: 0.9 !important;
+            margin-bottom: 15px !important;
+            background: linear-gradient(135deg, #a78bfa 0%, #c084fc 50%, #ffffff 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+            text-transform: uppercase;
+        }
+
+        .stemos-hero-tagline {
+            font-family: 'Inter', sans-serif !important;
+            font-size: clamp(1.1rem, 3vw, 1.4rem) !important;
+            font-weight: 600 !important;
+            color: #a78bfa !important;
+            margin-bottom: 8px !important;
+            letter-spacing: -0.01em !important;
+        }
+
+        .stemos-hero-subtitle {
+            font-family: 'Inter', sans-serif !important;
+            font-size: clamp(0.9rem, 2vw, 1.05rem) !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+            margin-bottom: 25px !important;
+            font-weight: 400 !important;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.4 !important;
+        }
+
+        .stemos-hero-hashtags {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: rgba(167, 139, 250, 0.8);
+            letter-spacing: 0.05em;
+            margin-bottom: 32px;
+        }
+
+        @keyframes sparkle-pulse-hero-stemos {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.5)); }
+            50% { transform: scale(1.1) rotate(180deg); opacity: 0.8; filter: drop-shadow(0 0 25px rgba(139, 92, 246, 0.8)); }
+        }
+
+        /* --- LOVELACE HERO STYLE --- */
+        .lovelace-hero-section {
+            border-color: rgba(236, 72, 153, 0.3) !important;
+            text-align: center;
+            padding: 60px 40px !important;
+        }
+
+        .lovelace-hero-title {
+            font-family: 'Outfit', sans-serif !important;
+            font-size: clamp(2.5rem, 8vw, 4.5rem) !important;
+            font-weight: 900 !important;
+            letter-spacing: -0.04em !important;
+            line-height: 0.9 !important;
+            margin-bottom: 15px !important;
+            background: linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #ffffff 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+            text-transform: uppercase;
+        }
+
+        .lovelace-hero-tagline {
+            font-family: 'Inter', sans-serif !important;
+            font-size: clamp(1.1rem, 3vw, 1.4rem) !important;
+            font-weight: 600 !important;
+            color: #ec4899 !important;
+            margin-bottom: 8px !important;
+            letter-spacing: -0.01em !important;
+        }
+
+        .lovelace-hero-subtitle {
+            font-family: 'Inter', sans-serif !important;
+            font-size: clamp(0.9rem, 2vw, 1.05rem) !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+            margin-bottom: 25px !important;
+            font-weight: 400 !important;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.4 !important;
+        }
+
+        .lovelace-hero-hashtags {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: rgba(244, 114, 182, 0.8);
+            letter-spacing: 0.05em;
+            margin-bottom: 32px;
+        }
+
+        @keyframes sparkle-pulse-hero-lovelace {
+            0%, 100% { transform: scale(1) translate(0, 0); opacity: 1; filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.5)); }
+            50% { transform: scale(1.1) translate(0, -5px); opacity: 0.8; filter: drop-shadow(0 0 25px rgba(236, 72, 153, 0.8)); }
+        }
 
     </style>
 </head>
@@ -1809,6 +1920,64 @@
                     🔊 Renta equipo Bose aquí!
                 </a>
 
+            </div>
+        </div>
+
+        <!-- STEMOS LXP PLATFORM -->
+        <div class="glass-container stemos-hero-section" id="stemos-promo">
+            <div class="hero-sparkle-center">
+                <span class="sparkle-1" style="animation: sparkle-pulse-hero-stemos 3s ease-in-out infinite; font-size: 4.5rem;">⚛️</span>
+            </div>
+            
+            <h2 class="stemos-hero-title">stemOS LXP</h2>
+            
+            <p class="stemos-hero-tagline" data-i18n="stemos_promo.tagline">
+                Plataforma LXP
+            </p>
+            
+            <p class="stemos-hero-subtitle" data-i18n="stemos_promo.text">
+                La evolución del LMS hacia un entorno de experiencia de aprendizaje (LXP) nativo para LATAM. Basado en un grafo de habilidades y micro-credenciales verificables alineadas con la industria de nearshoring.
+            </p>
+
+            <div class="stemos-hero-hashtags">
+                #LXPPlatform #SkillsGraph #Nearshoring
+            </div>
+
+            <div class="stemos-buttons">
+                <a href="https://yepzhi.com/stemos/" target="_blank" rel="noopener noreferrer" class="test-link-btn"
+                    style="background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%); box-shadow: 0 4px 24px rgba(139, 92, 246, 0.4); display: inline-flex; align-items: center; gap: 10px; padding: 14px 40px; font-size: 16px; font-weight: 700; border-radius: 9999px;">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    <span data-i18n="stemos_promo.btn">Acceder a stemOS LXP</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- LOVELACE FEYNMAN PLATFORM -->
+        <div class="glass-container lovelace-hero-section" id="lovelace-promo">
+            <div class="hero-sparkle-center">
+                <span class="sparkle-1" style="animation: sparkle-pulse-hero-lovelace 3s ease-in-out infinite; font-size: 4.5rem;">🌌</span>
+            </div>
+            
+            <h2 class="lovelace-hero-title">Lovelace Feynman</h2>
+            
+            <p class="lovelace-hero-tagline" data-i18n="lovelace_promo.tagline">
+                Lovelace Feynman Technologies
+            </p>
+            
+            <p class="lovelace-hero-subtitle" data-i18n="lovelace_promo.text">
+                Construyendo la infraestructura del futuro del aprendizaje y el desarrollo de competencias en América Latina a través de la física, la computación cuántica y la pedagogía socrática guiada por Inteligencia Artificial.
+            </p>
+
+            <div class="lovelace-hero-hashtags">
+                #SocraticAI #QuantumComputing #FeynmanSandbox
+            </div>
+
+            <div class="lovelace-buttons">
+                <a href="https://yepzhi.com/lovelace/" target="_blank" rel="noopener noreferrer" class="test-link-btn"
+                    style="background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%); box-shadow: 0 4px 24px rgba(236, 72, 153, 0.4); display: inline-flex; align-items: center; gap: 10px; padding: 14px 40px; font-size: 16px; font-weight: 700; border-radius: 9999px;">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    <span data-i18n="lovelace_promo.btn">Conoce Lovelace Feynman</span>
+                </a>
             </div>
         </div>
 
