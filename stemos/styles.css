@@ -1297,9 +1297,16 @@ h1, h2, h3, h4, .brand-name, .node-text, .stat-num, .generating-title, .badge-ti
    RESPONSIVE LAYOUT MEDIA QUERIES
    ========================================================================== */
 @media (max-width: 1024px) {
+    body {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
     .dashboard-container {
         flex-direction: column;
-        overflow-y: auto;
+        overflow-y: visible;
         height: auto;
     }
     
