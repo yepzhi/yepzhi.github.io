@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "nav.about": "About Us",
             "nav.explore_stemos": "Explore stemOS",
             "hero.title": "Expanding the boundary between the <span class=\"gradient-text\">known</span> and the <span class=\"gradient-text-alt\">unknown</span>.",
-            "hero.desc": "Building the infrastructure for the future of learning and competence development in Latin America through physics, quantum computing, and AI-guided Socratic pedagogy.",
+            "hero.desc": "Building the infrastructure for the future of learning and competence development in Latin America & US through physics, quantum computing, and AI-guided Socratic pedagogy.",
             "hero.btn_eco": "Explore Ecosystem",
             "hero.btn_waves": "Interact with Waves",
             "hero.scroll_down_lbl": "Physics & Learning",

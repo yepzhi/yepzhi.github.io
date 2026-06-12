@@ -121,7 +121,7 @@ const translations = {
         },
         lovelace_promo: {
             tagline: "Lovelace Feynman Technologies SAPI SA de CV",
-            text: "Building the infrastructure for the future of learning and competence development in LATAM through physics, computing, and AI-guided Socratic pedagogy.",
+            text: "Building the infrastructure for the future of learning and competence development in LATAM & US through physics, computing, and AI-guided Socratic pedagogy.",
             btn: "Explore Lovelace Feynman"
         },
         neosys: {
