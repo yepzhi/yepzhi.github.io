@@ -116,6 +116,14 @@ h1, h2, h3, h4, .brand-name, .node-text, .stat-num, .generating-title, .badge-ti
     color: var(--accent-cyan);
 }
 
+.preview-badge {
+    color: var(--accent-amber);
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
 .brand-version {
     display: block;
     font-size: 0.7rem;
