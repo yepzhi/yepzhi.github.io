@@ -10,7 +10,7 @@ const translations = {
         },
         links: {
             whatsapp: "👋 WhatsApp - Click Aqui!",
-            proposal: "📄 Propuesta JóvenesSTEM FastTrack^",
+            proposal: "📄 Propuesta JSWeb PDF",
             book: "📚 Mi libro BlueBook v1 gratis!",
             podcast: "🎙️ Escucha mis Podcasts",
             bose: "🔊 Renta equipo Bose aquí!"
@@ -89,7 +89,7 @@ const translations = {
         },
         links: {
             whatsapp: "👋 WhatsApp - Click Here!",
-            proposal: "📄 JóvenesSTEM FastTrack Proposal^",
+            proposal: "📄 JSWeb Proposal PDF",
             book: "📚 My BlueBook v1 for free!",
             podcast: "🎙️ Listen to my Podcasts",
             bose: "🔊 Rent Bose equipment here!"
@@ -168,7 +168,7 @@ const translations = {
         },
         links: {
             whatsapp: "👋 WhatsApp - 点击这里!",
-            proposal: "📄 JóvenesSTEM FastTrack 提案^",
+            proposal: "📄 JSWeb 提案 PDF",
             book: "📚 免费获取我的 BlueBook v1！",
             podcast: "🎙️ 收听我的播客",
             bose: "🔊 在此租用 Bose 设备！"
