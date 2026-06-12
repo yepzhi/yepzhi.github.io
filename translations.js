@@ -10,7 +10,7 @@ const translations = {
         },
         links: {
             whatsapp: "👋 WhatsApp - Click Aqui!",
-            proposal: "📄 Propuesta JSWeb PDF",
+            proposal: "📄 Conoce la propuesta de JóvenesSTEM Web",
             book: "📚 Mi libro BlueBook v1 gratis!",
             podcast: "🎙️ Escucha mis Podcasts",
             bose: "🔊 Renta equipo Bose aquí!"
