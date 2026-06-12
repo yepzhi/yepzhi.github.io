@@ -32,7 +32,7 @@ const translations = {
         },
         jsweb_promo: {
             tagline: "La Evolución Digital",
-            text: "227 módulos interactivos · STEMBot evaluación socrática con IA · Medallero de Poder · módulos 100% gratuitos, 557 estándares y conceptos, 50+ horas de aprendizaje profundo. Alineado a NGSS y Competencias RENAC SEP EC009.",
+            text: "230 módulos interactivos · STEMBot evaluación socrática con IA · Medallero de Poder · módulos 100% gratuitos, 557 estándares y conceptos, 50+ horas de aprendizaje profundo. Alineado a NGSS y Competencias RENAC SEP EC009.",
             btn: "Acceder a JóvenesSTEM Web"
         },
         stemos_promo: {
@@ -111,7 +111,7 @@ const translations = {
         },
         jsweb_promo: {
             tagline: "The Digital Evolution",
-            text: "227 interactive modules · STEMBot AI socratic evaluation · Power Badges · 100% free modules, 557 standards and concepts, 50+ hours of deep learning. Aligned with NGSS and RENAC SEP EC009 Competencies.",
+            text: "230 interactive modules · STEMBot AI socratic evaluation · Power Badges · 100% free modules, 557 standards and concepts, 50+ hours of deep learning. Aligned with NGSS and RENAC SEP EC009 Competencies.",
             btn: "Access JóvenesSTEM Web"
         },
         stemos_promo: {
@@ -190,7 +190,7 @@ const translations = {
         },
         jsweb_promo: {
             tagline: "数字进化",
-            text: "227个互动模块 · STEMBot AI苏格拉底式评估 · 能力徽章 · 100%免费模块，557个标准 and 概念，50+小时深度学习。与NGSS和RENAC SEP EC009能力对齐。",
+            text: "230个互动模块 · STEMBot AI苏格拉底式评估 · 能力徽章 · 100%免费模块，557个标准 and 概念，50+小时深度学习。与NGSS和RENAC SEP EC009能力对齐。",
             btn: "访问 JóvenesSTEM Web"
         },
         stemos_promo: {
