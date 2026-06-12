@@ -243,6 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
             "about.title": "Lovelace Feynman Technologies",
             "about.subtitle": "S.A.P.I. de C.V. • Hermosillo, Sonora, México",
             "about.text": "Inspirados por Ada Lovelace, la visionaria del primer algoritmo computacional, y Richard Feynman, el genio que nos enseñó a explicar lo complejo de forma simple; unimos la ciencia de datos, la física moderna y la Inteligencia Artificial para impulsar la educación y el capital humano en el norte de México y mercados globales.",
+            "about.btn_page": "Mi Página",
+            "about.btn_whatsapp": "WhatsApp",
             "footer.copy": "&copy; 2026 Lovelace Feynman Technologies S.A.P.I. de C.V. Todos los derechos reservados."
         },
         en: {
@@ -276,6 +278,8 @@ document.addEventListener('DOMContentLoaded', () => {
             "about.title": "Lovelace Feynman Technologies",
             "about.subtitle": "S.A.P.I. de C.V. • Hermosillo, Sonora, Mexico",
             "about.text": "Inspired by Ada Lovelace, the visionary behind the first computer algorithm, and Richard Feynman, the genius who taught us to explain complex topics in simple terms; we merge data science, modern physics, and Artificial Intelligence to advance education and human capital in northern Mexico and global markets.",
+            "about.btn_page": "My Page",
+            "about.btn_whatsapp": "WhatsApp",
             "footer.copy": "&copy; 2026 Lovelace Feynman Technologies S.A.P.I. de C.V. All rights reserved."
         }
     };
@@ -537,6 +541,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         requestAnimationFrame(animateAll);
     }
+
+    // Bind language switcher buttons programmatically
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            setLang(lang);
+        });
+    });
 
     // Launch Animations & Detect Language preference
     animateAll();
