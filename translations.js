@@ -36,13 +36,13 @@ const translations = {
             btn: "Acceder a JóvenesSTEM Web"
         },
         stemos_promo: {
-            tagline: "Plataforma LXP",
-            text: "La evolución del LMS hacia un entorno de experiencia de aprendizaje (LXP) nativo para LATAM. Basado en un grafo de habilidades y micro-credenciales verificables alineadas con la industria de alta tecnología.",
-            btn: "Accede al stemOS Preview"
+            tagline: "Plataforma English for Specific Purposes -NextGen LXP",
+            text: "stemOS es una plataforma de experiencia de aprendizaje (LXP) impulsada por IA para LATAM que ofrece trayectorias personalizadas de STEM e inglés técnico a través de micro-credenciales alineadas con la industria. Creada para cerrar la brecha de talento STEM y dominio del inglés, permite la validación medible de habilidades desde el aula hasta la carrera profesional.",
+            btn: "Accede stemOS Preview"
         },
         lovelace_promo: {
-            tagline: "Lovelace Feynman Technologies",
-            text: "Construyendo la infraestructura del futuro del aprendizaje y el desarrollo de competencias en América Latina a través de la física, la computación cuántica y la pedagogía socrática guiada por Inteligencia Artificial.",
+            tagline: "Lovelace Feynman Technologies SAPI SA de CV",
+            text: "Construyendo la infraestructura del futuro del aprendizaje y el desarrollo de competencias en LATAM a través de la física, la computación y pedagogía socrática guiada por Inteligencia Artificial.",
             btn: "Conoce Lovelace Feynman"
         },
         neosys: {
@@ -115,13 +115,13 @@ const translations = {
             btn: "Access JóvenesSTEM Web"
         },
         stemos_promo: {
-            tagline: "LXP Platform",
-            text: "The evolution of LMS into a native Learning Experience Platform (LXP) for LATAM. Built upon a skills graph and verifiable micro-credentials aligned with the high-tech industry.",
+            tagline: "English for Specific Purposes Platform -NextGen LXP",
+            text: "stemOS is an AI-powered Learning Experience Platform (LXP) for LATAM that delivers personalized STEM and technical English pathways through industry-aligned micro-credentials. Built to bridge the STEM talent and English proficiency gap, it enables measurable skills validation from classroom to career.",
             btn: "Access stemOS Preview"
         },
         lovelace_promo: {
-            tagline: "Lovelace Feynman Technologies",
-            text: "Building the infrastructure for the future of learning and competence development in Latin America through physics, quantum computing, and AI-guided Socratic pedagogy.",
+            tagline: "Lovelace Feynman Technologies SAPI SA de CV",
+            text: "Building the infrastructure for the future of learning and competence development in LATAM through physics, computing, and AI-guided Socratic pedagogy.",
             btn: "Explore Lovelace Feynman"
         },
         neosys: {
@@ -194,13 +194,13 @@ const translations = {
             btn: "访问 JóvenesSTEM Web"
         },
         stemos_promo: {
-            tagline: "LXP 平台",
-            text: "LMS 向适用于拉美地区的原生学习体验平台 (LXP) 的演进。基于技能图谱和与高科技产业对接的可验证微凭证。",
+            tagline: "专用英语 (ESP) 平台 -NextGen LXP",
+            text: "stemOS 是面向拉美地区 (LATAM) 的、基于人工智能的在线学习体验平台 (LXP)，通过与行业对接的微凭证，提供个性化的 STEM 和技术英语学习路径。旨在缩小 STEM 人才和英语水平差距，实现从课堂到职场的可衡量技能验证。",
             btn: "访问 stemOS Preview"
         },
         lovelace_promo: {
-            tagline: "Lovelace Feynman Technologies",
-            text: "通过物理、量子计算和人工智能引导的苏格拉底式教学法，构建拉丁美洲未来学习和技能发展的技术基础设施。",
+            tagline: "Lovelace Feynman Technologies SAPI SA de CV",
+            text: "通过物理、计算和人工智能引导的苏格拉底式教学法，构建拉丁美洲地区 (LATAM) 未来学习和技能发展的技术基础设施。",
             btn: "探索 Lovelace Feynman"
         },
         neosys: {
