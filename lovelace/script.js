@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "eco.card1_link": "Explore stemOS",
             "eco.card2_desc": "Our non-profit educational initiative and community in Mexico. Inspiring middle and high school students to pursue careers in the hard sciences through the SIIP NextGen method and the BlueBook v1.",
             "eco.card2_link": "Visit JóvenesSTEM",
-            "eco.card3_status": "Integrates Gemini API",
+            "eco.card3_status": "Integrated inside stemOS",
             "sandbox.title": "Quantum Wave Sandbox",
             "sandbox.desc": "Light and love are, ultimately, wave functions. Experiment with quantum interference equations. Modify the frequency and amplitude of the wave functions to reveal hidden harmonics.",
             "sandbox.desc_sub": "Tip: Increase the frequency to observe phase collapse in the subatomic interference grid.",
