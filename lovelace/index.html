@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lovelace Feynman Technologies | S.A.P.I. de C.V.</title>
+    <meta name="description" content="Lovelace Feynman Technologies is expanding the boundary between the known and unknown. Parent company of stemOS LXP, JóvenesSTEM and the Socratic Feynman pedagogical engine.">
+    <!-- Google Fonts: Space Grotesk (tech/geeky) & Inter (clean content) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Space/Quantum Background Canvas -->
+    <canvas id="quantum-bg"></canvas>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <!-- SVG Atom with a Heart in the center -->
+                <svg viewBox="0 0 100 100" class="logo-svg" aria-label="Lovelace Logo">
+                    <!-- Heart Core -->
+                    <path d="M50 38 C45 28, 30 28, 30 43 C30 55, 50 72, 50 72 C50 72, 70 55, 70 43 C70 28, 55 28, 50 38 Z" fill="none" stroke="#ff4a8b" stroke-width="2" class="heart-core"/>
+                    <!-- Quantum Orbit 1 -->
+                    <ellipse cx="50" cy="50" rx="42" ry="12" fill="none" stroke="#8b5cf6" stroke-width="1.5" transform="rotate(30 50 50)"/>
+                    <circle cx="50" cy="50" r="2" fill="#8b5cf6" class="electron-1"/>
+                    <!-- Quantum Orbit 2 -->
+                    <ellipse cx="50" cy="50" rx="42" ry="12" fill="none" stroke="#06b6d4" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+                    <circle cx="50" cy="50" r="2" fill="#06b6d4" class="electron-2"/>
+                    <!-- Quantum Orbit 3 -->
+                    <ellipse cx="50" cy="50" rx="42" ry="12" fill="none" stroke="#f43f5e" stroke-width="1" transform="rotate(90 50 50)"/>
+                </svg>
+                <span class="logo-text">Lovelace <span class="accent-text">Feynman</span></span>
+            </a>
+            
+            <nav class="nav">
+                <a href="#ecosystem" class="nav-link">Ecosistema</a>
+                <a href="#sandbox" class="nav-link">Wave Sandbox</a>
+                <a href="#about" class="nav-link">Nosotros</a>
+                <a href="https://github.com/yepzhi/stemOS.git" class="nav-btn" target="_blank">
+                    <span>Explore stemOS</span> <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="badge-quantum">
+                    <i class="fa-solid fa-atom pulse-icon"></i> S.A.P.I. de C.V.
+                </div>
+                <h1 class="hero-title">
+                    Expanding the boundary between the <span class="gradient-text">known</span> and the <span class="gradient-text-alt">unknown</span>.
+                </h1>
+                <p class="hero-description">
+                    Construyendo la infraestructura del futuro del aprendizaje y el desarrollo de competencias en América Latina a través de la física, la computación cuántica y la pedagogía socrática guiada por Inteligencia Artificial.
+                </p>
+                <div class="hero-actions">
+                    <a href="#ecosystem" class="btn btn-primary">Ver Ecosistema</a>
+                    <a href="#sandbox" class="btn btn-secondary">Interactuar con Ondas</a>
+                </div>
+            </div>
+            
+            <div class="hero-interactive">
+                <!-- Mathematical formula visual decoration -->
+                <div class="formula-overlay formula-1">E = ℏω</div>
+                <div class="formula-overlay formula-2">iℏ ∂ψ/∂t = Ĥψ</div>
+                <div class="formula-overlay formula-3">Δx · Δp ≥ ℏ/2</div>
+                
+                <div class="quantum-globe-container">
+                    <canvas id="hero-orbital-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Subtle Scroll Down Indicator -->
+        <a href="#ecosystem" class="scroll-down">
+            <span class="scroll-text">Física & Aprendizaje</span>
+            <i class="fa-solid fa-chevron-down scroll-arrow"></i>
+        </a>
+    </section>
+
+    <!-- Ecosystem Pillars -->
+    <section id="ecosystem" class="ecosystem-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">El Ecosistema Lovelace Feynman</h2>
+                <p class="section-subtitle">
+                    Nuestras marcas y tecnologías están diseñadas para funcionar en resonancia armónica, conectando la pedagogía de vanguardia con el desarrollo de talento regional.
+                </p>
+            </div>
+            
+            <div class="ecosystem-grid">
+                <!-- Card 1: stemOS -->
+                <div class="ecosystem-card glass-card">
+                    <div class="card-glow" style="--color: #8b5cf6;"></div>
+                    <div class="card-icon-container">
+                        <i class="fa-solid fa-cubes-stacked card-icon" style="color: #a78bfa;"></i>
+                    </div>
+                    <h3 class="card-title">stemOS <span class="card-badge">LXP Platform</span></h3>
+                    <p class="card-description">
+                        La evolución del LMS hacia un entorno de experiencia de aprendizaje (LXP) nativo para LATAM. Basado en un grafo de habilidades y micro-credenciales verificables alineadas con la industria de nearshoring.
+                    </p>
+                    <div class="card-footer">
+                        <a href="https://github.com/yepzhi/stemOS.git" target="_blank" class="card-link">Repositorio de stemOS <i class="fa-solid fa-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 2: JóvenesSTEM -->
+                <div class="ecosystem-card glass-card">
+                    <div class="card-glow" style="--color: #ff4a8b;"></div>
+                    <div class="card-icon-container">
+                        <i class="fa-solid fa-graduation-cap card-icon" style="color: #ff72a5;"></i>
+                    </div>
+                    <h3 class="card-title">JóvenesSTEM <span class="card-badge-alt">Community</span></h3>
+                    <p class="card-description">
+                        Nuestra comunidad e iniciativa educativa sin fines de lucro en México. Inspira a estudiantes de secundaria y preparatoria en las ciencias duras a través del método SIIP NextGen y el libro BlueBook v1.
+                    </p>
+                    <div class="card-footer">
+                        <span class="card-status"><i class="fa-solid fa-circle-check text-green"></i> En Producción Activa</span>
+                    </div>
+                </div>
+
+                <!-- Card 3: Feynman Engine -->
+                <div class="ecosystem-card glass-card">
+                    <div class="card-glow" style="--color: #06b6d4;"></div>
+                    <div class="card-icon-container">
+                        <i class="fa-solid fa-brain card-icon" style="color: #22d3ee;"></i>
+                    </div>
+                    <h3 class="card-title">Feynman Engine <span class="card-badge">AI Socratic Tutor</span></h3>
+                    <p class="card-description">
+                        Motor de tutoría de Inteligencia Artificial que realmente enseña. Sustituye las evaluaciones pasivas por diálogos socráticos adaptativos donde el estudiante explica los conceptos complejos con palabras sencillas.
+                    </p>
+                    <div class="card-footer">
+                        <span class="card-status"><i class="fa-solid fa-bolt text-cyan"></i> Integra Gemini API</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wave/Quantum Sandbox -->
+    <section id="sandbox" class="sandbox-section">
+        <div class="container">
+            <div class="sandbox-wrapper glass-card">
+                <div class="sandbox-info">
+                    <h2 class="sandbox-title"><i class="fa-solid fa-wave-square wave-icon"></i> Quantum Wave Sandbox</h2>
+                    <p class="sandbox-desc">
+                        La luz y el amor son, al final, funciones de onda. Experimenta con las ecuaciones de interferencia cuántica. Modifica la frecuencia y la amplitud de las funciones de onda para revelar armónicos ocultos.
+                    </p>
+                    <p class="sandbox-desc-sub">
+                        <em>Tip: Incrementa la frecuencia para observar el colapso de fase en la cuadrícula de interferencia subatómica.</em>
+                    </p>
+                    
+                    <div class="controls-grid">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <span>Frecuencia (Hz)</span>
+                                <span id="freq-val" class="control-value">2</span>
+                            </div>
+                            <input type="range" id="wave-frequency" min="0.5" max="8" step="0.1" value="2" class="slider">
+                        </div>
+                        
+                        <div class="control-group">
+                            <div class="control-label">
+                                <span>Amplitud (Ψ)</span>
+                                <span id="amp-val" class="control-value">40</span>
+                            </div>
+                            <input type="range" id="wave-amplitude" min="10" max="100" step="5" value="40" class="slider">
+                        </div>
+                        
+                        <div class="control-group">
+                            <div class="control-label">
+                                <span>Partículas (N)</span>
+                                <span id="parts-val" class="control-value">120</span>
+                            </div>
+                            <input type="range" id="wave-particles" min="50" max="250" step="10" value="120" class="slider">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Resonancia Corazón</label>
+                            <button id="btn-resonance" class="btn btn-secondary btn-sm">
+                                <i class="fa-solid fa-heart beat-icon"></i> Activar Resonancia (5.0Hz)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sandbox-canvas-container">
+                    <canvas id="sandbox-wave-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Corporate About & Contact -->
+    <section id="about" class="about-section">
+        <div class="container small-container">
+            <div class="about-card glass-card">
+                <div class="about-header">
+                    <h2 class="about-title">Lovelace Feynman Technologies</h2>
+                    <p class="about-subtitle">S.A.P.I. de C.V. • Hermosillo, Sonora, México</p>
+                </div>
+                <p class="about-text">
+                    Inspirados por Ada Lovelace, la visionaria del primer algoritmo computacional, y Richard Feynman, el genio que nos enseñó a explicar lo complejo de forma simple; unimos la ciencia de datos, la física moderna y la Inteligencia Artificial para impulsar la educación y el capital humano en el norte de México y mercados globales.
+                </p>
+                <div class="about-contact-links">
+                    <a href="mailto:alberto.yepiz@gmail.com" class="contact-link-item">
+                        <i class="fa-solid fa-envelope"></i> alberto.yepiz@gmail.com
+                    </a>
+                    <a href="https://wa.me/5216621147374" class="contact-link-item" target="_blank">
+                        <i class="fa-brands fa-whatsapp"></i> +52 (662) 114-7374
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p class="footer-copy">
+                &copy; 2026 Lovelace Feynman Technologies S.A.P.I. de C.V. Todos los derechos reservados.
+            </p>
+            <div class="footer-links">
+                <a href="https://github.com/yepzhi/lovelace.git" class="footer-link-item" target="_blank"><i class="fa-brands fa-github"></i> Lovelace Repo</a>
+                <a href="https://github.com/yepzhi/stemOS.git" class="footer-link-item" target="_blank"><i class="fa-brands fa-github"></i> stemOS Repo</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
