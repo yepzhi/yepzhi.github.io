@@ -802,3 +802,56 @@ h1, h2, h3, h4, .logo-text, .badge-quantum, .control-label, .formula-overlay {
         text-align: center;
     }
 }
+
+/* ==========================================================================
+   LANGUAGE SWITCHER STYLES
+   ========================================================================== */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.lang-switcher {
+    display: flex;
+    border-radius: 50px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.02);
+    align-items: center;
+    height: 32px;
+    padding: 2px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.lang-btn {
+    padding: 0 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    letter-spacing: 0.5px;
+    height: 100%;
+    border-radius: 50px;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lang-btn.active {
+    background: var(--quantum-primary);
+    color: white;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4);
+}
+
+.lang-btn:hover:not(.active) {
+    color: var(--text-light);
+    background: rgba(255, 255, 255, 0.05);
+}
+

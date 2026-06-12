@@ -208,12 +208,183 @@ document.addEventListener('DOMContentLoaded', () => {
         resizeWaveCanvas();
     });
 
+    // ==========================================
+    // 3.1 TRANSLATIONS & GEOLOCATION AUTO-DETECTION
+    // ==========================================
+    const translations = {
+        es: {
+            "nav.ecosystem": "Ecosistema",
+            "nav.sandbox": "Wave Sandbox",
+            "nav.about": "Nosotros",
+            "nav.explore_stemos": "Explorar stemOS",
+            "hero.title": "Expandiendo la frontera entre lo <span class=\"gradient-text\">conocido</span> y lo <span class=\"gradient-text-alt\">desconocido</span>.",
+            "hero.desc": "Construyendo la infraestructura del futuro del aprendizaje y el desarrollo de competencias en América Latina a través de la física, la computación cuántica y la pedagogía socrática guiada por Inteligencia Artificial.",
+            "hero.btn_eco": "Ver Ecosistema",
+            "hero.btn_waves": "Interactuar con Ondas",
+            "hero.scroll_down_lbl": "Física & Aprendizaje",
+            "eco.title": "El Ecosistema Lovelace Feynman",
+            "eco.subtitle": "Nuestras marcas y tecnologías están diseñadas para funcionar en resonancia armónica, conectando la pedagogía de vanguardia con el desarrollo de talento regional.",
+            "eco.card1_desc": "La evolución del LMS hacia un entorno de experiencia de aprendizaje (LXP) nativo para LATAM. Basado en un grafo de habilidades y micro-credenciales verificables alineadas con la industria de nearshoring.",
+            "eco.card1_link": "Repositorio de stemOS",
+            "eco.card2_desc": "Nuestra comunidad e iniciativa educativa sin fines de lucro en México. Inspira a estudiantes de secundaria y preparatoria en las ciencias duras a través del método SIIP NextGen y el libro BlueBook v1.",
+            "eco.card2_status": "En Producción Activa",
+            "eco.card3_desc": "Motor de tutoría de Inteligencia Artificial que realmente enseña. Sustituye las evaluaciones pasivas por diálogos socráticos adaptativos donde el estudiante explica los conceptos complejos con palabras sencillas.",
+            "eco.card3_status": "Integra Gemini API",
+            "sandbox.title": "Quantum Wave Sandbox",
+            "sandbox.desc": "La luz y el amor son, al final, funciones de onda. Experimenta con las ecuaciones de interferencia cuántica. Modifica la frecuencia y la amplitud de las funciones de onda para revelar armónicos ocultos.",
+            "sandbox.desc_sub": "Tip: Incrementa la frecuencia para observar el colapso de fase en la cuadrícula de interferencia subatómica.",
+            "sandbox.label_frequency": "Frecuencia (Hz)",
+            "sandbox.label_amplitude": "Amplitud (Ψ)",
+            "sandbox.label_particles": "Partículas (N)",
+            "sandbox.label_resonance": "Resonancia Corazón",
+            "sandbox.btn_resonance_off": "Activar Resonancia (5.0Hz)",
+            "sandbox.btn_resonance_on": "Resonancia Activa!",
+            "sandbox.val_resonance": "(RES)",
+            "about.title": "Lovelace Feynman Technologies",
+            "about.subtitle": "S.A.P.I. de C.V. • Hermosillo, Sonora, México",
+            "about.text": "Inspirados por Ada Lovelace, la visionaria del primer algoritmo computacional, y Richard Feynman, el genio que nos enseñó a explicar lo complejo de forma simple; unimos la ciencia de datos, la física moderna y la Inteligencia Artificial para impulsar la educación y el capital humano en el norte de México y mercados globales.",
+            "footer.copy": "&copy; 2026 Lovelace Feynman Technologies S.A.P.I. de C.V. Todos los derechos reservados."
+        },
+        en: {
+            "nav.ecosystem": "Ecosystem",
+            "nav.sandbox": "Wave Sandbox",
+            "nav.about": "About Us",
+            "nav.explore_stemos": "Explore stemOS",
+            "hero.title": "Expanding the boundary between the <span class=\"gradient-text\">known</span> and the <span class=\"gradient-text-alt\">unknown</span>.",
+            "hero.desc": "Building the infrastructure for the future of learning and competence development in Latin America through physics, quantum computing, and AI-guided Socratic pedagogy.",
+            "hero.btn_eco": "Explore Ecosystem",
+            "hero.btn_waves": "Interact with Waves",
+            "hero.scroll_down_lbl": "Physics & Learning",
+            "eco.title": "The Lovelace Feynman Ecosystem",
+            "eco.subtitle": "Our brands and technologies are designed to operate in harmonic resonance, connecting cutting-edge pedagogy with regional talent development.",
+            "eco.card1_desc": "The evolution of the LMS into a native Learning Experience Platform (LXP) for LATAM. Built upon a skills graph and verifiable micro-credentials aligned with the nearshoring industry.",
+            "eco.card1_link": "stemOS Repository",
+            "eco.card2_desc": "Our non-profit educational initiative and community in Mexico. Inspiring middle and high school students to pursue careers in the hard sciences through the SIIP NextGen method and the BlueBook v1.",
+            "eco.card2_status": "In Active Production",
+            "eco.card3_desc": "An AI-powered tutoring engine that truly teaches. It replaces passive assessments with adaptive Socratic dialogues where students explain complex concepts in simple terms.",
+            "eco.card3_status": "Integrates Gemini API",
+            "sandbox.title": "Quantum Wave Sandbox",
+            "sandbox.desc": "Light and love are, ultimately, wave functions. Experiment with quantum interference equations. Modify the frequency and amplitude of the wave functions to reveal hidden harmonics.",
+            "sandbox.desc_sub": "Tip: Increase the frequency to observe phase collapse in the subatomic interference grid.",
+            "sandbox.label_frequency": "Frequency (Hz)",
+            "sandbox.label_amplitude": "Amplitude (Ψ)",
+            "sandbox.label_particles": "Particles (N)",
+            "sandbox.label_resonance": "Heart Resonance",
+            "sandbox.btn_resonance_off": "Activate Resonance (5.0Hz)",
+            "sandbox.btn_resonance_on": "Resonance Active!",
+            "sandbox.val_resonance": "(ACTIVE)",
+            "about.title": "Lovelace Feynman Technologies",
+            "about.subtitle": "S.A.P.I. de C.V. • Hermosillo, Sonora, Mexico",
+            "about.text": "Inspired by Ada Lovelace, the visionary behind the first computer algorithm, and Richard Feynman, the genius who taught us to explain complex topics in simple terms; we merge data science, modern physics, and Artificial Intelligence to advance education and human capital in northern Mexico and global markets.",
+            "footer.copy": "&copy; 2026 Lovelace Feynman Technologies S.A.P.I. de C.V. All rights reserved."
+        }
+    };
+
+    let currentLang = 'es';
+
+    function getTranslation(key) {
+        return translations[currentLang][key] || translations['es'][key] || key;
+    }
+
+    function setLang(lang) {
+        if (!translations[lang]) lang = 'es';
+        currentLang = lang;
+        localStorage.setItem('lovelace-lang', lang);
+        
+        // Update switcher buttons active state
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            if (btn.getAttribute('data-lang') === lang) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        // Translate HTML elements with data-i18n attribute
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            const translation = getTranslation(key);
+            
+            if (translation.includes('<span') || translation.includes('<em') || translation.includes('&copy;')) {
+                el.innerHTML = translation;
+            } else {
+                el.textContent = translation;
+            }
+        });
+
+        // Update the resonance button text
+        updateResonanceButton();
+
+        // Update the active frequency display value if resonating
+        if (isResonating) {
+            freqVal.textContent = "5.0 " + getTranslation('sandbox.val_resonance');
+        }
+    }
+
+    // Expose setLang globally for HTML onclick events
+    window.setLang = setLang;
+
+    function updateResonanceButton() {
+        const icon = isResonating ? '<i class="fa-solid fa-heart pulse-icon"></i> ' : '<i class="fa-solid fa-heart"></i> ';
+        const key = isResonating ? 'sandbox.btn_resonance_on' : 'sandbox.btn_resonance_off';
+        resonanceBtn.innerHTML = icon + getTranslation(key);
+    }
+
+    // Auto-detect language by IP or browser setting
+    async function detectLanguage() {
+        // 1. Check saved language preference
+        const savedLang = localStorage.getItem('lovelace-lang');
+        if (savedLang) {
+            setLang(savedLang);
+            return;
+        }
+
+        // 2. Try IP-based detection using a fast HTTPS API
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 2000); // 2-second timeout
+            
+            const response = await fetch('https://ipwho.is/', { signal: controller.signal });
+            clearTimeout(timeoutId);
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data && data.success) {
+                    const code = (data.country_code || '').toUpperCase();
+                    const latamCountries = [
+                        'MX', 'AR', 'CO', 'CL', 'PE', 'VE', 'EC', 'GT', 
+                        'CU', 'BO', 'DO', 'HN', 'PY', 'SV', 'NI', 'CR', 
+                        'PA', 'UY', 'PR'
+                    ];
+                    
+                    if (latamCountries.includes(code)) {
+                        setLang('es');
+                        return;
+                    } else {
+                        setLang('en');
+                        return;
+                    }
+                }
+            }
+        } catch (err) {
+            console.log('IP Geolocation auto-detection failed, using browser locale fallback:', err);
+        }
+
+        // 3. Browser language fallback
+        const userLang = navigator.language || navigator.userLanguage || 'es';
+        if (userLang.toLowerCase().startsWith('es')) {
+            setLang('es');
+        } else {
+            setLang('en');
+        }
+    }
+
     // Slider Event Listeners
     freqSlider.addEventListener('input', (e) => {
         frequency = parseFloat(e.target.value);
         freqVal.textContent = frequency.toFixed(1);
-        isResonating = false; // deactivate heart resonance if user changes frequency
-        resonanceBtn.innerHTML = '<i class="fa-solid fa-heart"></i> Activar Resonancia (5.0Hz)';
+        isResonating = false; // deactivate heart resonance
+        updateResonanceButton();
         resonanceBtn.classList.remove('btn-primary');
         resonanceBtn.classList.add('btn-secondary');
     });
@@ -234,18 +405,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isResonating) {
             frequency = 5.0;
             freqSlider.value = 5.0;
-            freqVal.textContent = "5.0 (RES)";
-            resonanceBtn.innerHTML = '<i class="fa-solid fa-heart pulse-icon"></i> Resonancia Activa!';
+            freqVal.textContent = "5.0 " + getTranslation('sandbox.val_resonance');
             resonanceBtn.classList.remove('btn-secondary');
             resonanceBtn.classList.add('btn-primary');
             resonanceTimer = 0;
         } else {
             frequency = parseFloat(freqSlider.value);
             freqVal.textContent = frequency.toFixed(1);
-            resonanceBtn.innerHTML = '<i class="fa-solid fa-heart"></i> Activar Resonancia (5.0Hz)';
             resonanceBtn.classList.remove('btn-primary');
             resonanceBtn.classList.add('btn-secondary');
         }
+        updateResonanceButton();
     });
 
     let waveOffset = 0;
@@ -368,6 +538,7 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(animateAll);
     }
 
-    // Launch Animations
+    // Launch Animations & Detect Language preference
     animateAll();
+    detectLanguage();
 });

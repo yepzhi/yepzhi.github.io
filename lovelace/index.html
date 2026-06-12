@@ -39,13 +39,20 @@
             </a>
             
             <nav class="nav">
-                <a href="#ecosystem" class="nav-link">Ecosistema</a>
-                <a href="#sandbox" class="nav-link">Wave Sandbox</a>
-                <a href="#about" class="nav-link">Nosotros</a>
+                <a href="#ecosystem" class="nav-link" data-i18n="nav.ecosystem">Ecosistema</a>
+                <a href="#sandbox" class="nav-link" data-i18n="nav.sandbox">Wave Sandbox</a>
+                <a href="#about" class="nav-link" data-i18n="nav.about">Nosotros</a>
                 <a href="https://github.com/yepzhi/stemOS.git" class="nav-btn" target="_blank">
-                    <span>Explore stemOS</span> <i class="fa-solid fa-arrow-right"></i>
+                    <span data-i18n="nav.explore_stemos">Explore stemOS</span> <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </nav>
+            
+            <div class="header-actions">
+                <div class="lang-switcher">
+                    <button class="lang-btn active" data-lang="es" onclick="setLang('es')">ES</button>
+                    <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -56,15 +63,15 @@
                 <div class="badge-quantum">
                     <i class="fa-solid fa-atom pulse-icon"></i> S.A.P.I. de C.V.
                 </div>
-                <h1 class="hero-title">
+                <h1 class="hero-title" data-i18n="hero.title">
                     Expanding the boundary between the <span class="gradient-text">known</span> and the <span class="gradient-text-alt">unknown</span>.
                 </h1>
-                <p class="hero-description">
+                <p class="hero-description" data-i18n="hero.desc">
                     Construyendo la infraestructura del futuro del aprendizaje y el desarrollo de competencias en América Latina a través de la física, la computación cuántica y la pedagogía socrática guiada por Inteligencia Artificial.
                 </p>
                 <div class="hero-actions">
-                    <a href="#ecosystem" class="btn btn-primary">Ver Ecosistema</a>
-                    <a href="#sandbox" class="btn btn-secondary">Interactuar con Ondas</a>
+                    <a href="#ecosystem" class="btn btn-primary" data-i18n="hero.btn_eco">Ver Ecosistema</a>
+                    <a href="#sandbox" class="btn btn-secondary" data-i18n="hero.btn_waves">Interactuar con Ondas</a>
                 </div>
             </div>
             
@@ -82,7 +89,7 @@
         
         <!-- Subtle Scroll Down Indicator -->
         <a href="#ecosystem" class="scroll-down">
-            <span class="scroll-text">Física & Aprendizaje</span>
+            <span class="scroll-text" data-i18n="hero.scroll_down_lbl">Física & Aprendizaje</span>
             <i class="fa-solid fa-chevron-down scroll-arrow"></i>
         </a>
     </section>
@@ -91,8 +98,8 @@
     <section id="ecosystem" class="ecosystem-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">El Ecosistema Lovelace Feynman</h2>
-                <p class="section-subtitle">
+                <h2 class="section-title" data-i18n="eco.title">El Ecosistema Lovelace Feynman</h2>
+                <p class="section-subtitle" data-i18n="eco.subtitle">
                     Nuestras marcas y tecnologías están diseñadas para funcionar en resonancia armónica, conectando la pedagogía de vanguardia con el desarrollo de talento regional.
                 </p>
             </div>
@@ -105,14 +112,14 @@
                         <i class="fa-solid fa-cubes-stacked card-icon" style="color: #a78bfa;"></i>
                     </div>
                     <h3 class="card-title">stemOS <span class="card-badge">LXP Platform</span></h3>
-                    <p class="card-description">
+                    <p class="card-description" data-i18n="eco.card1_desc">
                         La evolución del LMS hacia un entorno de experiencia de aprendizaje (LXP) nativo para LATAM. Basado en un grafo de habilidades y micro-credenciales verificables alineadas con la industria de nearshoring.
                     </p>
                     <div class="card-footer">
-                        <a href="https://github.com/yepzhi/stemOS.git" target="_blank" class="card-link">Repositorio de stemOS <i class="fa-solid fa-up-right-from-square"></i></a>
+                        <a href="https://github.com/yepzhi/stemOS.git" target="_blank" class="card-link"><span data-i18n="eco.card1_link">Repositorio de stemOS</span> <i class="fa-solid fa-up-right-from-square"></i></a>
                     </div>
                 </div>
-
+ 
                 <!-- Card 2: JóvenesSTEM -->
                 <div class="ecosystem-card glass-card">
                     <div class="card-glow" style="--color: #ff4a8b;"></div>
@@ -120,14 +127,14 @@
                         <i class="fa-solid fa-graduation-cap card-icon" style="color: #ff72a5;"></i>
                     </div>
                     <h3 class="card-title">JóvenesSTEM <span class="card-badge-alt">Community</span></h3>
-                    <p class="card-description">
+                    <p class="card-description" data-i18n="eco.card2_desc">
                         Nuestra comunidad e iniciativa educativa sin fines de lucro en México. Inspira a estudiantes de secundaria y preparatoria en las ciencias duras a través del método SIIP NextGen y el libro BlueBook v1.
                     </p>
                     <div class="card-footer">
-                        <span class="card-status"><i class="fa-solid fa-circle-check text-green"></i> En Producción Activa</span>
+                        <span class="card-status"><i class="fa-solid fa-circle-check text-green"></i> <span data-i18n="eco.card2_status">En Producción Activa</span></span>
                     </div>
                 </div>
-
+ 
                 <!-- Card 3: Feynman Engine -->
                 <div class="ecosystem-card glass-card">
                     <div class="card-glow" style="--color: #06b6d4;"></div>
@@ -135,11 +142,11 @@
                         <i class="fa-solid fa-brain card-icon" style="color: #22d3ee;"></i>
                     </div>
                     <h3 class="card-title">Feynman Engine <span class="card-badge">AI Socratic Tutor</span></h3>
-                    <p class="card-description">
+                    <p class="card-description" data-i18n="eco.card3_desc">
                         Motor de tutoría de Inteligencia Artificial que realmente enseña. Sustituye las evaluaciones pasivas por diálogos socráticos adaptativos donde el estudiante explica los conceptos complejos con palabras sencillas.
                     </p>
                     <div class="card-footer">
-                        <span class="card-status"><i class="fa-solid fa-bolt text-cyan"></i> Integra Gemini API</span>
+                        <span class="card-status"><i class="fa-solid fa-bolt text-cyan"></i> <span data-i18n="eco.card3_status">Integra Gemini API</span></span>
                     </div>
                 </div>
             </div>
@@ -151,18 +158,18 @@
         <div class="container">
             <div class="sandbox-wrapper glass-card">
                 <div class="sandbox-info">
-                    <h2 class="sandbox-title"><i class="fa-solid fa-wave-square wave-icon"></i> Quantum Wave Sandbox</h2>
-                    <p class="sandbox-desc">
+                    <h2 class="sandbox-title"><i class="fa-solid fa-wave-square wave-icon"></i> <span data-i18n="sandbox.title">Quantum Wave Sandbox</span></h2>
+                    <p class="sandbox-desc" data-i18n="sandbox.desc">
                         La luz y el amor son, al final, funciones de onda. Experimenta con las ecuaciones de interferencia cuántica. Modifica la frecuencia y la amplitud de las funciones de onda para revelar armónicos ocultos.
                     </p>
-                    <p class="sandbox-desc-sub">
+                    <p class="sandbox-desc-sub" data-i18n="sandbox.desc_sub">
                         <em>Tip: Incrementa la frecuencia para observar el colapso de fase en la cuadrícula de interferencia subatómica.</em>
                     </p>
                     
                     <div class="controls-grid">
                         <div class="control-group">
                             <div class="control-label">
-                                <span>Frecuencia (Hz)</span>
+                                <span data-i18n="sandbox.label_frequency">Frecuencia (Hz)</span>
                                 <span id="freq-val" class="control-value">2</span>
                             </div>
                             <input type="range" id="wave-frequency" min="0.5" max="8" step="0.1" value="2" class="slider">
@@ -170,7 +177,7 @@
                         
                         <div class="control-group">
                             <div class="control-label">
-                                <span>Amplitud (Ψ)</span>
+                                <span data-i18n="sandbox.label_amplitude">Amplitud (Ψ)</span>
                                 <span id="amp-val" class="control-value">40</span>
                             </div>
                             <input type="range" id="wave-amplitude" min="10" max="100" step="5" value="40" class="slider">
@@ -178,14 +185,14 @@
                         
                         <div class="control-group">
                             <div class="control-label">
-                                <span>Partículas (N)</span>
+                                <span data-i18n="sandbox.label_particles">Partículas (N)</span>
                                 <span id="parts-val" class="control-value">120</span>
                             </div>
                             <input type="range" id="wave-particles" min="50" max="250" step="10" value="120" class="slider">
                         </div>
-
+ 
                         <div class="control-group">
-                            <label class="control-label">Resonancia Corazón</label>
+                            <label class="control-label" data-i18n="sandbox.label_resonance">Resonancia Corazón</label>
                             <button id="btn-resonance" class="btn btn-secondary btn-sm">
                                 <i class="fa-solid fa-heart beat-icon"></i> Activar Resonancia (5.0Hz)
                             </button>
@@ -205,10 +212,10 @@
         <div class="container small-container">
             <div class="about-card glass-card">
                 <div class="about-header">
-                    <h2 class="about-title">Lovelace Feynman Technologies</h2>
-                    <p class="about-subtitle">S.A.P.I. de C.V. • Hermosillo, Sonora, México</p>
+                    <h2 class="about-title" data-i18n="about.title">Lovelace Feynman Technologies</h2>
+                    <p class="about-subtitle" data-i18n="about.subtitle">S.A.P.I. de C.V. • Hermosillo, Sonora, México</p>
                 </div>
-                <p class="about-text">
+                <p class="about-text" data-i18n="about.text">
                     Inspirados por Ada Lovelace, la visionaria del primer algoritmo computacional, y Richard Feynman, el genio que nos enseñó a explicar lo complejo de forma simple; unimos la ciencia de datos, la física moderna y la Inteligencia Artificial para impulsar la educación y el capital humano en el norte de México y mercados globales.
                 </p>
                 <div class="about-contact-links">
@@ -222,11 +229,11 @@
             </div>
         </div>
     </section>
-
+ 
     <!-- Footer -->
     <footer class="footer">
         <div class="container footer-container">
-            <p class="footer-copy">
+            <p class="footer-copy" data-i18n="footer.copy">
                 &copy; 2026 Lovelace Feynman Technologies S.A.P.I. de C.V. Todos los derechos reservados.
             </p>
             <div class="footer-links">
