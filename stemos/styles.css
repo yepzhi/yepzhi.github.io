@@ -147,6 +147,21 @@ h1, h2, h3, h4, .brand-name, .node-text, .stat-num, .generating-title, .badge-ti
     object-fit: cover;
 }
 
+.avatar-initials {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-indigo), var(--accent-cyan));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.35);
+}
+
 .user-name {
     display: block;
     font-size: 0.9rem;

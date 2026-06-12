@@ -6,77 +6,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* --- Skills Nodes Data --- */
     const skillsData = {
-        origins: {
-            title: "Ciencia L1 (Orígenes)",
+        "esp-foundation": {
+            title: "A2 Bridge: Intro to ESP",
             status: "completed",
-            desc: "Comprensión del origen del Universo a través de la gran expansión cósmica y las partículas fundamentales constitutivas de la materia.",
-            prereq: "Ninguno (Fundación)",
-            standard: "NGSS HS-PS4 / SEP EC1290",
+            desc: "Transición lingüística del nivel A2 al inglés técnico especializado. Expresiones base, construcciones sintácticas y gramática del discurso tecnológico.",
+            prereq: "Ninguno (Nivel A2 alcanzado)",
+            standard: "MCER A2/B1 / Transición ESP",
             xp: 150,
-            chatTopic: "origins"
+            chatTopic: "esp-foundation"
         },
-        cosmology: {
-            title: "Cosmología",
+        semiconductors: {
+            title: "ESP: Semiconductores",
             status: "completed",
-            desc: "Modelos científicos sobre el origen, evolución y estructura general del cosmos, incluyendo la radiación de fondo de microondas y la energía oscura.",
-            prereq: "Ciencia L1 (Orígenes)",
-            standard: "NGSS HS-ESS1-2 / SEP EC1290",
+            desc: "Inglés técnico para la fabricación y ensamblaje de circuitos integrados. Vocabulario técnico sobre cleanrooms, obleas de silicio (wafers) y fotolitografía.",
+            prereq: "A2 Bridge: Intro to ESP",
+            standard: "CONOCER EC1338 / MCER B2",
             xp: 150,
-            chatTopic: "cosmology"
+            chatTopic: "semiconductors"
         },
-        transistors: {
-            title: "Física de Transistores",
-            status: "completed",
-            desc: "Comportamiento electrónico de materiales semiconductores dopados tipo P y N. Funcionamiento lógico de la compuerta del transistor en procesadores.",
-            prereq: "Ciencia L1 (Orígenes)",
-            standard: "SEP EC2034 (Manufactura de Chips)",
-            xp: 150,
-            chatTopic: "transistors"
-        },
-        relativity: {
-            title: "Relatividad Especial",
+        cybersecurity: {
+            title: "ESP: Ciberseguridad & Redes",
             status: "active",
-            desc: "Conceptos de espacio-tiempo curvo, dilatación temporal de Einstein y la transformación del marco de referencia en la velocidad de la luz.",
-            prereq: "Cosmología",
-            standard: "NGSS HS-PS2-4",
-            xp: 200,
-            chatTopic: "relativity"
-        },
-        cpu: {
-            title: "Arquitectura de Procesadores",
-            status: "active",
-            desc: "Cómo operan las unidades aritmético-lógicas (ALU), los registros internos, y los ciclos de instrucción Fetch-Decode-Execute en un CPU moderno.",
-            prereq: "Física de Transistores",
-            standard: "SEP EC2034 (Manufactura de Chips)",
-            xp: 200,
-            chatTopic: "cpu"
-        },
-        "english-esp": {
-            title: "Inglés ESP (Semiconductores)",
-            status: "active",
-            desc: "Inglés Técnico para Propósitos Específicos (ESP) enfocado en la cadena de suministro de microchips, salas limpias (cleanrooms) y especificaciones de fotolitografía.",
-            prereq: "Física de Transistores / CPU",
+            desc: "Inglés técnico enfocado en ciberseguridad, topología de redes inteligentes, encriptación, firewalls y mitigación de amenazas digitales (threat intelligence).",
+            prereq: "A2 Bridge: Intro to ESP",
             standard: "CONOCER EC1338 / MCER B2",
             xp: 180,
-            chatTopic: "english-esp"
+            chatTopic: "cybersecurity"
         },
-        quantum: {
-            title: "Computación Cuántica",
+        electromobility: {
+            title: "ESP: Electromovilidad",
+            status: "active",
+            desc: "Esqueleto del módulo de electromovilidad. Vocabulario técnico sobre sistemas de tren motriz eléctrico, gestión de baterías (BMS) y estaciones de carga rápida.",
+            prereq: "ESP: Semiconductores",
+            standard: "MCER B2 / Electromobility ESP",
+            xp: 200,
+            chatTopic: "electromobility"
+        },
+        "it-innovation": {
+            title: "ESP: TI & Innovación Digital",
+            status: "active",
+            desc: "Esqueleto del módulo de tecnologías de la información. Terminología de APIs, desarrollo frontend/backend, computación en la nube (Cloud) y transformación digital.",
+            prereq: "ESP: Ciberseguridad & Redes",
+            standard: "MCER B2 / IT ESP",
+            xp: 200,
+            chatTopic: "it-innovation"
+        },
+        aerospace: {
+            title: "ESP: Manufactura Aeronáutica",
             status: "locked",
-            desc: "Modelado de Qubits mediante principios de superposición, interferencia constructiva y entrelazamiento cuántico para resolución de algoritmos complejos.",
-            prereq: "Relatividad & Procesadores",
-            standard: "NGSS HS-PS4-5 / Quantum Computing Foundation",
+            desc: "Esqueleto de manufactura aeronáutica. Terminología de fuselajes, aviónica, motores de propulsión y materiales compuestos avanzados.",
+            prereq: "ESP: Electromovilidad & Innovación TI",
+            standard: "MCER B2 / Aerospace ESP",
             xp: 300,
-            chatTopic: "quantum"
+            chatTopic: "aerospace"
         },
-        "socratic-coding": {
-            title: "Coding Socrático",
+        "socratic-capstone": {
+            title: "Feynman Capstone Assessment",
             status: "locked",
-            desc: "Desarrollo y optimización de algoritmos en frontend/backend apoyado en la guía lógica y de refactorización interactiva del Feynman Engine.",
-            prereq: "Computación Cuántica",
-            standard: "SEP EC0982 (Programación Frontend)",
+            desc: "Módulo integrador final. Diálogo socrático abierto en inglés sobre resolución de retos técnicos reales en entornos industriales multidisciplinarios.",
+            prereq: "ESP: Manufactura Aeronáutica",
+            standard: "MCER C1 / Professional English",
             xp: 400,
-            chatTopic: "socratic-coding"
+            chatTopic: "socratic-capstone"
         }
     };
 
@@ -169,7 +160,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let chatState = {
         active: false,
         topic: "",
-        step: 0
+        step: 0,
+        lastUserReply: ""
     };
 
     startTutorBtn.addEventListener('click', () => {
@@ -248,39 +240,90 @@ document.addEventListener('DOMContentLoaded', () => {
     function triggerFeynmanSocraticStep() {
         removeTypingIndicator();
         
-        if (chatState.topic === "cosmology") {
+        const reply = (chatState.lastUserReply || "").toLowerCase();
+
+        if (chatState.topic === "esp-foundation") {
             if (chatState.step === 1) {
-                addBotMessage("Para evaluar tu comprensión en **Cosmología**, empecemos desde el principio. Imagina que le explicas a un niño de 8 años: **¿Qué fue el Big Bang y cómo dio origen a nuestro espacio?**");
+                addBotMessage("Welcome, Alberto! Let's start with your **A2 Bridge** assessment. Technical English uses specific verbs like **'conduct'**, **'amplify'**, and **'transmit'**. Can you tell me: **What is the difference in meaning between 'to transmit data' and 'to store data' in English?**");
             } else if (chatState.step === 2) {
-                addBotMessage("Esa es una perspectiva común. Pero dime, ¿el Big Bang fue una explosión que ocurrió *dentro* de un espacio que ya existía vacío, o fue la creación y expansión del *espacio mismo*?");
+                const hasSend = reply.includes("send") || reply.includes("move") || reply.includes("transfer") || reply.includes("enviar") || reply.includes("transmitir");
+                const hasSave = reply.includes("save") || reply.includes("keep") || reply.includes("store") || reply.includes("guardar") || reply.includes("almacenar");
+                if (hasSend && hasSave) {
+                    addBotMessage("Excellent! You distinguished them perfectly: to transmit means to send or move, while to store means to save or keep. Now, if we say a system has a **'failure'**, is that a good thing or a bad thing? What is a synonym for 'failure' in tech?");
+                } else {
+                    addBotMessage("Good start! Just remember, 'transmit' means to send or transfer data, whereas 'store' means to save or retain it. Now, if we say a system has a **'failure'**, is that a good thing or a bad thing? What is a synonym for 'failure' in tech?");
+                }
             } else if (chatState.step === 3) {
-                addBotMessage("¡Fantástico! Has captado la esencia cuántica: el espacio no es un contenedor pasivo, sino algo dinámico que se expande. Una última pregunta: si el espacio se está expandiendo en este instante, **¿por qué la Tierra o tú mismo no se están expandiendo de tamaño también?**");
+                const isBad = reply.includes("bad") || reply.includes("mal") || reply.includes("negative");
+                const hasSynonym = reply.includes("bug") || reply.includes("error") || reply.includes("fault") || reply.includes("defect") || reply.includes("glitch") || reply.includes("fallo");
+                if (isBad && hasSynonym) {
+                    addBotMessage("Exactly! A failure (fallo) is a bad thing, and a synonym is indeed 'bug', 'error', or 'defect'. Last question: what is the English verb we use when we want to **'find and resolve errors in a code or circuit'**?");
+                } else {
+                    addBotMessage("A failure is definitely a bad thing! Tech synonyms include **'bug'**, **'error'**, or **'defect'**. Last question: what is the English verb we use when we want to **'find and resolve errors in a code or circuit'**?");
+                }
             } else if (chatState.step === 4) {
-                addBotMessage("¡Absolutamente correcto! La fuerza de gravedad a corta escala y las fuerzas electromagnéticas que unen los átomos son mucho más fuertes que la débil tasa de expansión cósmica local. Has completado tu repaso de Cosmología con éxito. **¡+150 XP sumados a tu perfil!** 🌌");
+                const isCorrect = reply.includes("debug") || reply.includes("troubleshoot") || reply.includes("depurar");
+                if (isCorrect) {
+                    addBotMessage("Yes, **'to debug'** (depurar) or **'troubleshoot'**! You have successfully crossed the bridge into specialized technical English. **+150 XP awarded!** 🎓");
+                } else {
+                    addBotMessage("Good effort! The standard technical English verbs are **'to debug'** (depurar) or **'to troubleshoot'**. You have successfully crossed the bridge. **+150 XP awarded!** 🎓");
+                }
                 awardXP(150);
                 resetTutor();
             }
-        } else if (chatState.topic === "transistors") {
-            if (chatState.step === 1) {
-                addBotMessage("Excelente. Hablemos de la física de **Transistores**. Explécame de forma muy simple: **¿Qué es un transistor y cuál es su función principal dentro de tu celular?**");
-            } else if (chatState.step === 2) {
-                addBotMessage("Exacto, funciona como un apagador o interruptor microscópico. Ahora, para apagar una luz física usamos el dedo. **¿Qué señal física activa o desactiva la compuerta de este micro-interruptor dentro del silicio?**");
-            } else if (chatState.step === 3) {
-                addBotMessage("¡Brillante! Un voltaje eléctrico altera la conductividad eléctrica del silicio. Para cerrar el ciclo, ¿por qué llamamos al silicio un **semiconductor**? ¿Qué propiedad lo hace tan especial comparado con el cobre o el plástico?");
-            } else if (chatState.step === 4) {
-                addBotMessage("¡Exacto! El silicio puede comportarse como conductor o aislante dependiendo de la presencia de impurezas (dopaje) y campos eléctricos. Has demostrado un dominio conceptual sólido. **¡+150 XP añadidos!** 🔌");
-                awardXP(150);
-                resetTutor();
-            }
-        } else if (chatState.topic === "english-esp") {
+        } else if (chatState.topic === "semiconductors") {
             if (chatState.step === 1) {
                 addBotMessage("Welcome to the **Semiconductor Technical English (ESP)** review! Let's check your communication skills. Imagine describing the difference between a **'wafer'** and a **'die'** in English. How would you explain them simply?");
             } else if (chatState.step === 2) {
-                addBotMessage("Superb distinction! A wafer is the raw circular silicon disk, and a die is the individual chip block. Now, in the fabrication process, we build chips inside ultra-sterile environments. **What is the English term for these special rooms, and why is air filtering so critical there?**");
+                const hasWafer = reply.includes("wafer") || reply.includes("disk") || reply.includes("slice") || reply.includes("oblea") || reply.includes("circular");
+                const hasDie = reply.includes("die") || reply.includes("chip") || reply.includes("block") || reply.includes("square") || reply.includes("individual") || reply.includes("dado");
+                if (hasWafer && hasDie) {
+                    addBotMessage("Superb distinction! A wafer is the raw circular silicon disk, and a die is the individual chip block. Now, in the fabrication process, we build chips inside ultra-sterile environments. **What is the English term for these special rooms, and why is air filtering so critical there?**");
+                } else {
+                    addBotMessage("Keep in mind that a **wafer** is the large circular silicon disk from which chips are made, and a **die** is the individual small rectangular chip cut from it. Now, in the fabrication process, we build chips inside ultra-sterile environments. **What is the English term for these special rooms, and why is air filtering so critical there?**");
+                }
             } else if (chatState.step === 3) {
-                addBotMessage("Indeed, a 'cleanroom'! And yes, dust particles (contaminants) are the ultimate enemy of nanometric circuits. Now, to protect the cleanroom from human lint and skin cells, workers must wear specialized protective overalls. **Do you know the popular name of these white suits?**");
+                const isCleanroom = reply.includes("cleanroom") || reply.includes("clean room") || reply.includes("sala limpia") || reply.includes("cuarto limpio");
+                if (isCleanroom) {
+                    addBotMessage("Indeed, a **'cleanroom'**! And yes, dust particles (contaminants) are the ultimate enemy of nanometric circuits. Now, to protect the cleanroom from human lint and skin cells, workers must wear specialized protective overalls. **Do you know the popular name of these white suits?**");
+                } else {
+                    addBotMessage("It is called a **'cleanroom'**! And air filtering is critical because even micro-dust can ruin a nanometric chip. To protect the cleanroom from human particles, workers wear specialized white overalls. **Do you know the popular name of these white suits?**");
+                }
             } else if (chatState.step === 4) {
-                addBotMessage("Spot on! They are called **'bunny suits'**. You've proven that your English communication skills are perfectly aligned with cleanroom manufacturing requirements. **+180 XP awarded!** 🇺🇸📡");
+                const isBunny = reply.includes("bunny") || reply.includes("conejo");
+                if (isBunny) {
+                    addBotMessage("Spot on! They are called **'bunny suits'**. You've proven that your English communication skills are perfectly aligned with cleanroom manufacturing requirements. **+150 XP awarded!** 🇺🇸📡");
+                } else {
+                    addBotMessage("They are popularly called **'bunny suits'** (due to the ears/hood design)! Excellent effort. You've proven that your English communication skills are aligned with cleanroom manufacturing. **+150 XP awarded!** 🇺🇸📡");
+                }
+                awardXP(150);
+                resetTutor();
+            }
+        } else if (chatState.topic === "cybersecurity") {
+            if (chatState.step === 1) {
+                addBotMessage("Welcome! Let's check your technical English for **Smart Networks & Cybersecurity**. Imagine you need to explain to a client why a **'firewall'** is not enough to stop a **'phishing attack'**. How would you explain that in English?");
+            } else if (chatState.step === 2) {
+                const isHuman = reply.includes("human") || reply.includes("user") || reply.includes("people") || reply.includes("social") || reply.includes("email") || reply.includes("click") || reply.includes("engañ");
+                if (isHuman) {
+                    addBotMessage("Precisely! A firewall blocks unauthorized network traffic, but phishing targets human vulnerability (social engineering). Now, when hackers exploit a vulnerability that is completely unknown to the software developer, **what is this specific type of attack or exploit called in English?**");
+                } else {
+                    addBotMessage("Good point, but remember: a firewall regulates traffic on network ports, whereas phishing targets the **human user** to trick them into giving away credentials. Now, when hackers exploit a vulnerability that is completely unknown to the software developer, **what is this specific type of attack or exploit called in English?**");
+                }
+            } else if (chatState.step === 3) {
+                const isZeroDay = reply.includes("zero") || reply.includes("dia cero") || reply.includes("día cero") || reply.includes("0-day") || reply.includes("0 day");
+                if (isZeroDay) {
+                    addBotMessage("Exactly, a **'zero-day exploit'** (or zero-day attack)! Now, in a smart network, data is encoded so that only authorized parties can read it. **What is the English verb and noun for this mathematical shielding process?**");
+                } else {
+                    addBotMessage("It is called a **'zero-day exploit'** (since developers have 'zero days' to prepare a patch). Now, in a smart network, data is encoded so that only authorized parties can read it. **What is the English verb and noun for this mathematical shielding process?**");
+                }
+            } else if (chatState.step === 4) {
+                const hasVerb = reply.includes("encrypt") || reply.includes("encriptar");
+                const hasNoun = reply.includes("encryption") || reply.includes("encriptación") || reply.includes("encriptacion");
+                if (hasVerb && hasNoun) {
+                    addBotMessage("**'Encryption'** (noun) and **'encrypt'** (verb). Excellent job! You've shown that you have the vocabulary to discuss advanced security architecture in English. **+180 XP awarded!** 🛡️🌐");
+                } else {
+                    addBotMessage("The correct English terms are **'encryption'** (noun) and **'encrypt'** (verb). Excellent effort! You've shown that you have the vocabulary to discuss advanced security architecture in English. **+180 XP awarded!** 🛡️🌐");
+                }
                 awardXP(180);
                 resetTutor();
             }
@@ -300,6 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const text = chatInput.value.trim();
         if (!text || !chatState.active) return;
 
+        chatState.lastUserReply = text;
         addUserMessage(text);
         chatInput.value = '';
         chatInput.disabled = true;
@@ -433,8 +477,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 1. Create connection line
         const newLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
         newLine.setAttribute("x1", "250");
-        newLine.setAttribute("y1", "325");
-        newLine.setAttribute("x2", "330");
+        newLine.setAttribute("y1", "330");
+        newLine.setAttribute("x2", "350");
         newLine.setAttribute("y2", "400");
         newLine.setAttribute("class", "line active");
         svg.appendChild(newLine);
@@ -442,8 +486,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. Create the Node Group
         const newNodeGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
         newNodeGroup.setAttribute("class", "node node-active");
-        newNodeGroup.setAttribute("data-node", "semiconductors-phys");
-        newNodeGroup.setAttribute("transform", "translate(330, 400)");
+        newNodeGroup.setAttribute("data-node", "cybersecurity-adv");
+        newNodeGroup.setAttribute("transform", "translate(350, 400)");
 
         const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
         circle.setAttribute("r", "26");
@@ -457,26 +501,26 @@ document.addEventListener('DOMContentLoaded', () => {
         foreignObj.setAttribute("width", "16");
         foreignObj.setAttribute("height", "16");
         foreignObj.setAttribute("class", "node-icon-wrapper");
-        foreignObj.innerHTML = '<i class="fa-solid fa-atom node-icon"></i>';
+        foreignObj.innerHTML = '<i class="fa-solid fa-lock node-icon"></i>';
         newNodeGroup.appendChild(foreignObj);
 
         const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
         text.setAttribute("y", "44");
         text.setAttribute("class", "node-text");
-        text.textContent = "Física Semiconductors";
+        text.textContent = "Ciberseguridad Avanzada";
         newNodeGroup.appendChild(text);
 
         svg.appendChild(newNodeGroup);
 
         // Add details to dictionary dynamically
-        skillsData["semiconductors-phys"] = {
-            title: "Física de Semiconductores",
+        skillsData["cybersecurity-adv"] = {
+            title: "ESP: Ciberseguridad Avanzada",
             status: "active",
-            desc: "Estudio de las bandas de conducción en cristales de silicio, portadores mayoritarios/minoritarios y dopaje extrínseco para control electrónico.",
-            prereq: "Física de Transistores (SC-1)",
-            standard: "CONOCER EC2034",
+            desc: "Terminología inglesa avanzada para análisis de vulnerabilidades de día cero, modelado de amenazas y mitigación criptográfica en redes industriales inteligentes.",
+            prereq: "ESP: Ciberseguridad & Redes (SC-2)",
+            standard: "CONOCER EC1338 / B2",
             xp: 200,
-            chatTopic: "semiconductors-phys"
+            chatTopic: "cybersecurity-adv"
         };
 
         // Attach listener to new node
@@ -488,16 +532,16 @@ document.addEventListener('DOMContentLoaded', () => {
             emptyState.classList.add('hidden');
             infoContent.classList.remove('hidden');
 
-            nodeTitle.textContent = skillsData["semiconductors-phys"].title;
-            nodeDesc.textContent = skillsData["semiconductors-phys"].desc;
-            nodePrereq.textContent = skillsData["semiconductors-phys"].prereq;
-            nodeStandard.textContent = skillsData["semiconductors-phys"].standard;
-            nodePoints.textContent = `${skillsData["semiconductors-phys"].xp} XP`;
+            nodeTitle.textContent = skillsData["cybersecurity-adv"].title;
+            nodeDesc.textContent = skillsData["cybersecurity-adv"].desc;
+            nodePrereq.textContent = skillsData["cybersecurity-adv"].prereq;
+            nodeStandard.textContent = skillsData["cybersecurity-adv"].standard;
+            nodePoints.textContent = `${skillsData["cybersecurity-adv"].xp} XP`;
             nodeStatusBadge.textContent = "En Progreso";
             nodeStatusBadge.className = "badge-status active";
             startTutorBtn.disabled = false;
             startTutorBtn.innerHTML = `<i class="fa-solid fa-comments"></i> Evaluar con Feynman Engine`;
-            selectedNodeId = "semiconductors-phys";
+            selectedNodeId = "cybersecurity-adv";
         });
 
         // Update student progress metrics
