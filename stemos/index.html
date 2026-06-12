@@ -40,9 +40,6 @@
                 <a href="#" class="nav-item active" data-tab="dashboard">
                     <i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Dashboard del Estudiante
                 </a>
-                <a href="#" class="nav-item" data-tab="studio">
-                    <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> AI Creator Studio <span class="badge-role">Docente</span>
-                </a>
             </nav>
 
             <div class="sidebar-stats">
@@ -301,110 +298,7 @@
                 </div>
             </div>
 
-            <!-- Studio Tab (Teacher View) -->
-            <div class="tab-content" id="tab-studio">
-                <div class="dashboard-header">
-                    <div>
-                        <h1 class="page-title">AI Course Creator Studio</h1>
-                        <p class="page-subtitle">Genera instantáneamente grafos de habilidades adaptativos a partir de directrices, silabarios o archivos de competencia.</p>
-                    </div>
-                </div>
 
-                <div class="studio-wrapper">
-                    <!-- Input panel for Course Creation -->
-                    <div class="glass-panel studio-input-panel">
-                        <h3 class="studio-section-title"><i class="fa-solid fa-gears text-indigo" aria-hidden="true"></i> Configurar Generación AI</h3>
-                        
-                        <div class="studio-form-group">
-                            <label class="studio-label" for="course-name">Nombre del Curso / Habilidad Matriz</label>
-                            <input type="text" id="course-name" class="studio-input" placeholder="Ej. Semiconductores y Nearshoring de Chips">
-                        </div>
-
-                        <div class="studio-form-group">
-                            <label class="studio-label" for="course-prompt">Syllabus / Contenido o Prompt de Guía</label>
-                            <textarea id="course-prompt" class="studio-textarea" placeholder="Describe los contenidos del curso, por ejemplo:
-- Introducción a semiconductores dopados P y N.
-- Estructura y fotolitografía de circuitos integrados.
-- Transistores FinFET e introducción a salas limpias (clean rooms).
-- Estandarización de calidad ISO 9001 en fábricas de microchips."></textarea>
-                        </div>
-
-                        <div class="studio-form-group">
-                            <label class="studio-label" for="course-standard">Estándar de Competencia a Vincular</label>
-                            <select id="course-standard" class="studio-select">
-                                <option value="none">Ninguno (Crear grafo libre)</option>
-                                <option value="conocer-semi">CONOCER EC2034 - Manufactura de Microchips</option>
-                                <option value="ngss-high">NGSS HS-PS4-5 Wave and Quantum Mechanics</option>
-                                <option value="conocer-dev">CONOCER EC0982 - Programación Frontend</option>
-                            </select>
-                        </div>
-
-                        <div class="studio-form-group">
-                            <label class="studio-label" for="studio-file-input">Documento Base (PDF, DOCX) - Opcional</label>
-                            <div class="studio-file-drop" id="file-drop-area">
-                                <i class="fa-solid fa-cloud-arrow-up drop-icon" aria-hidden="true"></i>
-                                <span class="drop-text">Arrastra aquí tu plan de estudios o haz clic para subir</span>
-                                <span class="drop-sub">Soporta PDF, TXT hasta 20MB</span>
-                                <input type="file" id="studio-file-input" style="display: none;">
-                            </div>
-                            <div id="file-uploaded-badge" class="hidden">
-                                <i class="fa-solid fa-circle-check text-green" aria-hidden="true"></i> <span id="uploaded-filename">syllabus.pdf</span>
-                            </div>
-                        </div>
-
-                        <button id="btn-generate-course" class="btn btn-primary btn-block">
-                            <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Generar Grafo de Habilidades
-                        </button>
-                    </div>
-
-                    <!-- Generation Progress / Preview -->
-                    <div class="glass-panel studio-preview-panel">
-                        <h3 class="studio-section-title"><i class="fa-solid fa-network-wired text-cyan" aria-hidden="true"></i> Visualización del Grafo Generado</h3>
-                        
-                        <!-- Empty state before generation -->
-                        <div class="preview-empty-state" id="studio-preview-empty">
-                            <i class="fa-solid fa-chart-line preview-icon" aria-hidden="true"></i>
-                            <p>Ingresa los detalles a la izquierda y presiona **Generar Grafo** para observar cómo la Inteligencia Artificial desglosa el temario en un árbol de habilidades de aprendizaje interactivo.</p>
-                        </div>
-
-                        <!-- Active Generation Animation -->
-                        <div class="preview-generating-state hidden" id="studio-preview-generating">
-                            <div class="quantum-spinner">
-                                <div class="orbit1"></div>
-                                <div class="orbit2"></div>
-                                <div class="orbit3"></div>
-                            </div>
-                            <h4 class="generating-title">Estructurando Competencias...</h4>
-                            <p class="generating-log" id="generating-log-text">Leyendo syllabus.pdf...</p>
-                        </div>
-
-                        <!-- Generated Preview Display -->
-                        <div class="preview-results hidden" id="studio-preview-results">
-                            <div class="results-header">
-                                <div class="results-title-info">
-                                    <h4 id="gen-course-title">Semiconductores y Nearshoring de Chips</h4>
-                                    <span class="results-badge">6 Habilidades Generadas</span>
-                                </div>
-                                <button id="btn-deploy-course" class="btn btn-secondary btn-sm">
-                                    <i class="fa-solid fa-circle-check text-green" aria-hidden="true"></i> Desplegar en Dashboard Estudiante
-                                </button>
-                            </div>
-
-                            <div class="generated-graph-mock">
-                                <!-- Simulated resulting skills list -->
-                                <ul class="generated-skills-list">
-                                    <li><i class="fa-solid fa-circle-check text-green"></i> <strong>SC-1: Física de Semiconductores</strong> (Dopaje P/N, huecos y electrones)</li>
-                                    <li><i class="fa-solid fa-circle-play text-indigo"></i> <strong>SC-2: Juntas P-N y Diodos</strong> (Efecto rectificador, barrera de potencial)</li>
-                                    <li><i class="fa-solid fa-lock text-muted"></i> <strong>SC-3: Transistores MOSFET</strong> (Compuestas de compuerta, drenado, fuente)</li>
-                                    <li><i class="fa-solid fa-lock text-muted"></i> <strong>SC-4: Fotolitografía</strong> (Grabado de patrones en obleas de silicio)</li>
-                                    <li><i class="fa-solid fa-lock text-muted"></i> <strong>SC-5: Integración FinFET</strong> (Geometría tridimensional moderna)</li>
-                                    <li><i class="fa-solid fa-lock text-muted"></i> <strong>SC-6: Control de Calidad ISO 9001</strong> (Estándares para fabricación limpia)</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </main>
     </div>

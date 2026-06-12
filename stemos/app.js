@@ -466,173 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateProgressBar();
     }
 
-    /* ==========================================
-       AI COURSE CREATOR STUDIO (TEACHER VIEW)
-       ========================================== */
-    const generateBtn = document.getElementById('btn-generate-course');
-    const fileDropArea = document.getElementById('file-drop-area');
-    const fileInput = document.getElementById('studio-file-input');
-    const fileBadge = document.getElementById('file-uploaded-badge');
-    const filenameLabel = document.getElementById('uploaded-filename');
 
-    const previewEmpty = document.getElementById('studio-preview-empty');
-    const previewGenerating = document.getElementById('studio-preview-generating');
-    const previewResults = document.getElementById('studio-preview-results');
-    const generatingLogText = document.getElementById('generating-log-text');
-    const deployCourseBtn = document.getElementById('btn-deploy-course');
-    const genCourseTitle = document.getElementById('gen-course-title');
-    const courseNameInput = document.getElementById('course-name');
-
-    // Drag and Drop simulation
-    fileDropArea.addEventListener('click', () => fileInput.click());
-    
-    fileInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-            handleFileUpload(e.target.files[0].name);
-        }
-    });
-
-    fileDropArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        fileDropArea.style.borderColor = "#06b6d4";
-    });
-
-    fileDropArea.addEventListener('dragleave', () => {
-        fileDropArea.style.borderColor = "rgba(255, 255, 255, 0.1)";
-    });
-
-    fileDropArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        fileDropArea.style.borderColor = "rgba(255, 255, 255, 0.1)";
-        if (e.dataTransfer.files.length > 0) {
-            handleFileUpload(e.dataTransfer.files[0].name);
-        }
-    });
-
-    function handleFileUpload(name) {
-        fileBadge.classList.remove('hidden');
-        filenameLabel.textContent = name;
-        fileDropArea.style.display = "none";
-    }
-
-    // AI Generation Simulator
-    generateBtn.addEventListener('click', () => {
-        const cName = courseNameInput.value.trim() || "Semiconductores y Nearshoring de Chips";
-        genCourseTitle.textContent = cName;
-
-        previewEmpty.classList.add('hidden');
-        previewResults.classList.add('hidden');
-        previewGenerating.classList.remove('hidden');
-
-        // Log pipeline steps
-        const logs = [
-            "Extrayendo y vectorizando plan de estudios de syllabus.pdf...",
-            "Consultando catálogo nacional de competencias (CONOCER SEP EC2034)...",
-            "Mapeando dependencias lógicas y taxonomías de aprendizaje...",
-            "Diseñando prompt conversacional para Feynman Engine...",
-            "Generando árbol de competencias y nodos de evaluación..."
-        ];
-
-        let logIdx = 0;
-        const logInterval = setInterval(() => {
-            if (logIdx < logs.length) {
-                generatingLogText.textContent = logs[logIdx];
-                logIdx++;
-            } else {
-                clearInterval(logInterval);
-                // Complete simulation
-                previewGenerating.classList.add('hidden');
-                previewResults.classList.remove('hidden');
-            }
-        }, 600);
-    });
-
-    // Deploy simulated course to SVG skills graph!
-    deployCourseBtn.addEventListener('click', () => {
-        alert("¡Grafo desplegado con éxito! Se ha agregado el nodo 'SC-1: Física de Semiconductores' a tu mapa de competencias.");
-        
-        // Dynamically append a new SVG connection and node inside the student's graph!
-        const svg = document.getElementById('skills-graph-svg');
-        
-        // 1. Create connection line
-        const newLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        newLine.setAttribute("x1", "250");
-        newLine.setAttribute("y1", "330");
-        newLine.setAttribute("x2", "350");
-        newLine.setAttribute("y2", "400");
-        newLine.setAttribute("class", "line active");
-        svg.appendChild(newLine);
-
-        // 2. Create the Node Group
-        const newNodeGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
-        newNodeGroup.setAttribute("class", "node node-active");
-        newNodeGroup.setAttribute("data-node", "cybersecurity-adv");
-        newNodeGroup.setAttribute("transform", "translate(350, 400)");
-
-        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        circle.setAttribute("r", "26");
-        circle.setAttribute("class", "node-circle");
-        newNodeGroup.appendChild(circle);
-
-        // Standard-compliant SVG Icon
-        const foreignObj = document.createElementNS("http://www.w3.org/2000/svg", "foreignObject");
-        foreignObj.setAttribute("x", "-8");
-        foreignObj.setAttribute("y", "-8");
-        foreignObj.setAttribute("width", "16");
-        foreignObj.setAttribute("height", "16");
-        foreignObj.setAttribute("class", "node-icon-wrapper");
-        foreignObj.innerHTML = '<i class="fa-solid fa-lock node-icon"></i>';
-        newNodeGroup.appendChild(foreignObj);
-
-        const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        text.setAttribute("y", "44");
-        text.setAttribute("class", "node-text");
-        text.textContent = "Ciberseguridad Avanzada";
-        newNodeGroup.appendChild(text);
-
-        svg.appendChild(newNodeGroup);
-
-        // Add details to dictionary dynamically
-        skillsData["cybersecurity-adv"] = {
-            title: "ESP: Ciberseguridad Avanzada",
-            status: "active",
-            desc: "Terminología inglesa avanzada para análisis de vulnerabilidades de día cero, modelado de amenazas y mitigación criptográfica en redes industriales inteligentes.",
-            prereq: "ESP: Ciberseguridad & Redes (SC-2)",
-            standard: "CONOCER EC1338 / B2",
-            xp: 200,
-            chatTopic: "cybersecurity-adv"
-        };
-
-        // Attach listener to new node
-        newNodeGroup.addEventListener('click', () => {
-            svgNodes.forEach(n => n.querySelector('.node-circle').removeAttribute('style'));
-            circle.style.strokeWidth = "5px";
-            circle.style.stroke = "#f59e0b";
-
-            emptyState.classList.add('hidden');
-            infoContent.classList.remove('hidden');
-
-            nodeTitle.textContent = skillsData["cybersecurity-adv"].title;
-            nodeDesc.textContent = skillsData["cybersecurity-adv"].desc;
-            nodePrereq.textContent = skillsData["cybersecurity-adv"].prereq;
-            nodeStandard.textContent = skillsData["cybersecurity-adv"].standard;
-            nodePoints.textContent = `${skillsData["cybersecurity-adv"].xp} XP`;
-            nodeStatusBadge.textContent = "En Progreso";
-            nodeStatusBadge.className = "badge-status active";
-            startTutorBtn.disabled = false;
-            startTutorBtn.innerHTML = `<i class="fa-solid fa-comments"></i> Evaluar con Feynman Engine`;
-            selectedNodeId = "cybersecurity-adv";
-        });
-
-        // Update student progress metrics
-        globalCompleted += 1;
-        statCompleted.textContent = globalCompleted;
-        document.getElementById('progress-percent').textContent = "42%";
-        document.getElementById('progress-fill-bar').style.width = "42.5%";
-
-        // Redirect back to dashboard tab
-        document.querySelector('.nav-item[data-tab="dashboard"]').click();
-    });
 
     /* ==========================================
        CERTIFICATE VIEW MODAL (Native <dialog>)
@@ -867,6 +701,73 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Render reading text
         readingContentArea.innerHTML = parseMarkdownLineByLine(reading.content);
+
+        // Make bold vocabulary terms interactive inside the reading text
+        if (reading.vocabulary && reading.vocabulary.length > 0) {
+            const strongs = readingContentArea.querySelectorAll('strong');
+            strongs.forEach(strong => {
+                const text = strong.textContent.trim().toLowerCase();
+                
+                // Find matching vocabulary item
+                const match = reading.vocabulary.find(item => {
+                    const enTerm = item.en.toLowerCase();
+                    return text === enTerm || 
+                           text.includes(enTerm) || 
+                           enTerm.includes(text) ||
+                           (text.endsWith('s') && text.slice(0, -1) === enTerm);
+                });
+
+                if (match) {
+                    strong.classList.add('vocab-keyword');
+                    strong.title = `Significado A2 de: ${match.en}`;
+                    
+                    strong.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        // Remove any existing popovers
+                        document.querySelectorAll('.vocab-popover').forEach(p => p.remove());
+
+                        // Create popover
+                        const popover = document.createElement('div');
+                        popover.className = 'vocab-popover glass-panel';
+                        popover.innerHTML = `
+                            <div class="popover-header">
+                                <strong class="text-cyan">${match.en}</strong> 
+                                <span style="color:var(--text-muted)">→</span> 
+                                <strong class="text-indigo">${match.es}</strong>
+                            </div>
+                            <p class="popover-definition">${match.definition}</p>
+                            <div class="popover-footer">Vocabulario A2</div>
+                        `;
+
+                        document.body.appendChild(popover);
+
+                        // Position popover relative to the clicked element
+                        const rect = strong.getBoundingClientRect();
+                        popover.style.position = 'absolute';
+                        popover.style.zIndex = '10000';
+                        
+                        // Center popover horizontally relative to the keyword
+                        let leftPos = rect.left + window.scrollX + (rect.width / 2) - 140;
+                        let topPos = rect.bottom + window.scrollY + 8;
+                        
+                        if (leftPos < 10) leftPos = 10;
+                        if (leftPos + 280 > window.innerWidth) leftPos = window.innerWidth - 290;
+
+                        popover.style.left = `${leftPos}px`;
+                        popover.style.top = `${topPos}px`;
+
+                        // Close popover when clicking anywhere
+                        const closeHandler = () => {
+                            popover.remove();
+                            document.removeEventListener('click', closeHandler);
+                        };
+                        setTimeout(() => {
+                            document.addEventListener('click', closeHandler);
+                        }, 50);
+                    });
+                }
+            });
+        }
 
         const totalReadings = activeModule.readings.length;
         if (totalReadings > 1) {

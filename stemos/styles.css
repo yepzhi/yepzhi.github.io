@@ -836,235 +836,63 @@ h1, h2, h3, h4, .brand-name, .node-text, .stat-num, .generating-title, .badge-ti
 }
 
 /* ==========================================================================
-   AI COURSE CREATOR STUDIO (TEACHER VIEW)
+   INLINE VOCAB HELPER POPOVERS
    ========================================================================== */
 
-.studio-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1.1fr;
-    gap: 24px;
-    flex-grow: 1;
-    overflow: hidden;
-}
-
-.studio-input-panel {
-    padding: 24px;
-    overflow-y: auto;
-}
-
-.studio-section-title {
-    font-size: 1.15rem;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.studio-form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 20px;
-}
-
-.studio-label {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-}
-
-.studio-input, .studio-textarea, .studio-select {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--glass-border);
-    border-radius: 8px;
-    padding: 12px;
-    color: white;
-    font-family: inherit;
-    font-size: 0.9rem;
-    transition: border-color 0.2s ease;
-}
-
-.studio-input:focus-visible, .studio-textarea:focus-visible, .studio-select:focus-visible {
-    border-color: var(--accent-indigo);
-    outline: 2px solid var(--accent-indigo);
-    outline-offset: 1px;
-}
-
-.studio-textarea {
-    resize: none;
-    height: 120px;
-}
-
-.studio-select option {
-    background: var(--bg-lxp);
-}
-
-.studio-file-drop {
-    border: 2px dashed rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    padding: 20px;
-    text-align: center;
+.vocab-keyword {
+    border-bottom: 2px dashed var(--accent-cyan);
+    padding-bottom: 1px;
     cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    border-radius: 2px;
+}
+
+.vocab-keyword:hover {
+    color: var(--accent-cyan) !important;
+    border-bottom-color: var(--accent-indigo) !important;
+    background: rgba(6, 182, 212, 0.1);
+}
+
+.vocab-popover {
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 14px;
+    width: 280px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    animation: popover-fade-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes popover-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.popover-header {
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 8px;
-    transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.studio-file-drop:hover {
-    background: rgba(255, 255, 255, 0.01);
-    border-color: var(--accent-cyan);
-}
-
-.drop-icon {
-    font-size: 1.8rem;
-    color: var(--text-muted);
-}
-
-.drop-text {
     font-size: 0.85rem;
-    font-weight: 500;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 6px;
 }
 
-.drop-sub {
+.popover-definition {
     font-size: 0.75rem;
-    color: var(--text-muted);
-}
-
-/* Simulated deployment log styling */
-.preview-empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    gap: 16px;
-    padding: 40px;
-    flex-grow: 1;
     color: var(--text-secondary);
+    line-height: 1.4;
+    margin: 0 0 8px 0;
 }
 
-.preview-icon {
-    font-size: 3rem;
-    color: var(--text-muted);
-}
-
-.studio-preview-panel {
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-}
-
-.preview-generating-state {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-}
-
-/* Quantum Loading Spinner */
-.quantum-spinner {
-    position: relative;
-    width: 60px;
-    height: 60px;
-}
-
-.quantum-spinner div {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 1.5px solid transparent;
-    border-radius: 50%;
-}
-
-.quantum-spinner .orbit1 {
-    border-top-color: var(--accent-indigo);
-    animation: rot 1.5s linear infinite;
-}
-.quantum-spinner .orbit2 {
-    border-right-color: var(--accent-cyan);
-    animation: rot-rev 1.2s linear infinite;
-    transform: rotate(30deg);
-}
-.quantum-spinner .orbit3 {
-    border-bottom-color: var(--accent-pink);
-    animation: rot 2s linear infinite;
-    transform: rotate(-30deg);
-}
-
-@keyframes rot {
-    to { transform: rotate(360deg); }
-}
-@keyframes rot-rev {
-    to { transform: rotate(-360deg); }
-}
-
-.generating-title {
-    font-size: 1.1rem;
-}
-
-.generating-log {
-    font-size: 0.8rem;
-    font-family: monospace;
+.popover-footer {
+    font-size: 0.6rem;
     color: var(--accent-cyan);
-}
-
-/* Simulated Resulting Course graph preview */
-.preview-results {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.results-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding-bottom: 16px;
-}
-
-.results-title-info h4 {
-    font-size: 1.05rem;
-    margin-bottom: 4px;
-}
-
-.results-badge {
-    font-size: 0.7rem;
-    background: rgba(6, 182, 212, 0.15);
-    color: var(--accent-cyan);
-    padding: 2px 6px;
-    border-radius: 4px;
-}
-
-.generated-graph-mock {
-    background: rgba(0, 0, 0, 0.15);
-    border: 1px solid var(--glass-border);
-    border-radius: 8px;
-    padding: 16px;
-    flex-grow: 1;
-    overflow-y: auto;
-}
-
-.generated-skills-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.generated-skills-list li {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 0.9rem;
-    padding: 8px;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.01);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
 }
 
 /* ==========================================================================
