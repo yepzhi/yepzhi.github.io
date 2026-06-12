@@ -15,15 +15,18 @@
 </head>
 <body>
 
+    <!-- Skip to Content Link -->
+    <a href="#content" class="skip-link visually-hidden">Skip to content</a>
+
     <!-- Space/Quantum Background Canvas -->
-    <canvas id="quantum-bg"></canvas>
+    <canvas id="quantum-bg">Decorative quantum particle background</canvas>
 
     <!-- Header Navigation -->
     <header class="header">
         <div class="container nav-container">
             <a href="#" class="logo">
                 <!-- SVG Atom with a Heart in the center -->
-                <svg viewBox="0 0 100 100" class="logo-svg" aria-label="Lovelace Logo">
+                <svg viewBox="0 0 100 100" class="logo-svg" role="img" aria-label="Lovelace Logo">
                     <!-- Heart Core -->
                     <path d="M50 38 C45 28, 30 28, 30 43 C30 55, 50 72, 50 72 C50 72, 70 55, 70 43 C70 28, 55 28, 50 38 Z" fill="none" stroke="#ff4a8b" stroke-width="2" class="heart-core"/>
                     <!-- Quantum Orbit 1 -->
@@ -38,12 +41,12 @@
                 <span class="logo-text">Lovelace <span class="accent-text">Feynman</span></span>
             </a>
             
-            <nav class="nav">
+            <nav class="nav" aria-label="Primary">
                 <a href="#ecosystem" class="nav-link" data-i18n="nav.ecosystem">Ecosistema</a>
                 <a href="#sandbox" class="nav-link" data-i18n="nav.sandbox">Wave Sandbox</a>
                 <a href="#about" class="nav-link" data-i18n="nav.about">Nosotros</a>
                 <a href="https://github.com/yepzhi/stemOS.git" class="nav-btn" target="_blank">
-                    <span data-i18n="nav.explore_stemos">Explore stemOS</span> <i class="fa-solid fa-arrow-right"></i>
+                    <span data-i18n="nav.explore_stemos">Explore stemOS</span> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                 </a>
             </nav>
             
@@ -55,6 +58,9 @@
             </div>
         </div>
     </header>
+
+    <!-- Main Content -->
+    <main id="content" tabindex="-1">
 
     <!-- Hero Section -->
     <section class="hero-section">
@@ -75,12 +81,12 @@
             
             <div class="hero-interactive">
                 <!-- Mathematical formula visual decoration -->
-                <div class="formula-overlay formula-1">E = ℏω</div>
-                <div class="formula-overlay formula-2">iℏ ∂ψ/∂t = Ĥψ</div>
-                <div class="formula-overlay formula-3">Δx · Δp ≥ ℏ/2</div>
+                <div class="formula-overlay formula-1" aria-hidden="true">E = ℏω</div>
+                <div class="formula-overlay formula-2" aria-hidden="true">iℏ ∂ψ/∂t = Ĥψ</div>
+                <div class="formula-overlay formula-3" aria-hidden="true">Δx · Δp ≥ ℏ/2</div>
                 
                 <div class="quantum-globe-container">
-                    <canvas id="hero-orbital-canvas"></canvas>
+                    <canvas id="hero-orbital-canvas">Decorative quantum orbital animation</canvas>
                 </div>
             </div>
         </div>
@@ -88,7 +94,7 @@
         <!-- Subtle Scroll Down Indicator -->
         <a href="#ecosystem" class="scroll-down">
             <span class="scroll-text" data-i18n="hero.scroll_down_lbl">Física & Aprendizaje</span>
-            <i class="fa-solid fa-chevron-down scroll-arrow"></i>
+            <i class="fa-solid fa-chevron-down scroll-arrow" aria-hidden="true"></i>
         </a>
     </section>
 
@@ -108,7 +114,7 @@
                     <div class="card-glow" style="--color: #8b5cf6;"></div>
                     <div class="card-icon-container">
                         <!-- Geometric platform stack SVG -->
-                        <svg class="card-icon-svg" viewBox="0 0 24 24" style="stroke: #a78bfa; fill: none; width: 30px; height: 30px; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;">
+                        <svg class="card-icon-svg" viewBox="0 0 24 24" aria-hidden="true" style="stroke: #a78bfa; fill: none; width: 30px; height: 30px; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;">
                             <polygon points="12 2 2 7 12 12 22 7 12 2"/>
                             <polyline points="2 17 12 22 22 17"/>
                             <polyline points="2 12 12 17 22 12"/>
@@ -119,7 +125,7 @@
                         stemOS es una plataforma de experiencia de aprendizaje (LXP) impulsada por IA para LATAM que ofrece trayectorias personalizadas de STEM e inglés técnico a través de micro-credenciales alineadas con la industria. Creada para cerrar la brecha de talento STEM y dominio del inglés, permite la validación medible de habilidades desde el aula hasta la carrera profesional.
                     </p>
                     <div class="card-footer">
-                        <a href="https://yepzhi.com/stemos/" target="_blank" class="card-link"><span data-i18n="eco.card1_link">Explorar stemOS</span> <i class="fa-solid fa-up-right-from-square"></i></a>
+                        <a href="https://yepzhi.com/stemos/" target="_blank" class="card-link"><span data-i18n="eco.card1_link">Explorar stemOS</span> <i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i></a>
                     </div>
                 </div>
  
@@ -128,7 +134,7 @@
                     <div class="card-glow" style="--color: #ff4a8b;"></div>
                     <div class="card-icon-container">
                         <!-- Graduation cap with science rings / star SVG -->
-                        <svg class="card-icon-svg" viewBox="0 0 24 24" style="stroke: #ff72a5; fill: none; width: 30px; height: 30px; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;">
+                        <svg class="card-icon-svg" viewBox="0 0 24 24" aria-hidden="true" style="stroke: #ff72a5; fill: none; width: 30px; height: 30px; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;">
                             <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
                             <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/>
                         </svg>
@@ -138,7 +144,7 @@
                         Nuestra comunidad e iniciativa educativa sin fines de lucro en México. Inspira a estudiantes de secundaria y preparatoria en las ciencias duras a través del método SIIP NextGen y el libro BlueBook v1.
                     </p>
                     <div class="card-footer">
-                        <a href="https://yepzhi.com/jsweb/" target="_blank" class="card-link"><span data-i18n="eco.card2_link">Visitar JóvenesSTEM</span> <i class="fa-solid fa-up-right-from-square"></i></a>
+                        <a href="https://yepzhi.com/jsweb/" target="_blank" class="card-link"><span data-i18n="eco.card2_link">Visitar JóvenesSTEM</span> <i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i></a>
                     </div>
                 </div>
  
@@ -147,7 +153,7 @@
                     <div class="card-glow" style="--color: #06b6d4;"></div>
                     <div class="card-icon-container">
                         <!-- Stylized brain / AI neural core SVG -->
-                        <svg class="card-icon-svg" viewBox="0 0 24 24" style="stroke: #22d3ee; fill: none; width: 30px; height: 30px; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;">
+                        <svg class="card-icon-svg" viewBox="0 0 24 24" aria-hidden="true" style="stroke: #22d3ee; fill: none; width: 30px; height: 30px; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;">
                             <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1 0-3.12 3 3 0 0 1 0-3.88 2.5 2.5 0 0 1 0-3.12A2.5 2.5 0 0 1 9.5 2zM14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 0-3.12 3 3 0 0 0 0-3.88 2.5 2.5 0 0 0 0-3.12A2.5 2.5 0 0 0 14.5 2z"/>
                         </svg>
                     </div>
@@ -156,7 +162,7 @@
                         Motor de tutoría de Inteligencia Artificial que realmente enseña. Sustituye las evaluaciones pasivas por diálogos socráticos adaptativos donde el estudiante explica los conceptos complejos con palabras sencillas.
                     </p>
                     <div class="card-footer">
-                        <span class="card-status"><i class="fa-solid fa-bolt text-cyan"></i> <span data-i18n="eco.card3_status">Integra Gemini API</span></span>
+                        <span class="card-status"><i class="fa-solid fa-bolt text-cyan" aria-hidden="true"></i> <span data-i18n="eco.card3_status">Integra Gemini API</span></span>
                     </div>
                 </div>
             </div>
@@ -168,7 +174,7 @@
         <div class="container">
             <div class="sandbox-wrapper glass-card">
                 <div class="sandbox-info">
-                    <h2 class="sandbox-title"><i class="fa-solid fa-wave-square wave-icon"></i> <span data-i18n="sandbox.title">Quantum Wave Sandbox</span></h2>
+                    <h2 class="sandbox-title"><i class="fa-solid fa-wave-square wave-icon" aria-hidden="true"></i> <span data-i18n="sandbox.title">Quantum Wave Sandbox</span></h2>
                     <p class="sandbox-desc" data-i18n="sandbox.desc">
                         La luz y el amor son, al final, funciones de onda. Experimenta con las ecuaciones de interferencia cuántica. Modifica la frecuencia y la amplitud de las funciones de onda para revelar armónicos ocultos.
                     </p>
@@ -178,40 +184,40 @@
                     
                     <div class="controls-grid">
                         <div class="control-group">
-                            <div class="control-label">
+                            <label class="control-label" for="wave-frequency">
                                 <span data-i18n="sandbox.label_frequency">Frecuencia (Hz)</span>
                                 <span id="freq-val" class="control-value">2</span>
-                            </div>
+                            </label>
                             <input type="range" id="wave-frequency" min="0.5" max="8" step="0.1" value="2" class="slider">
                         </div>
                         
                         <div class="control-group">
-                            <div class="control-label">
+                            <label class="control-label" for="wave-amplitude">
                                 <span data-i18n="sandbox.label_amplitude">Amplitud (Ψ)</span>
                                 <span id="amp-val" class="control-value">40</span>
-                            </div>
+                            </label>
                             <input type="range" id="wave-amplitude" min="10" max="100" step="5" value="40" class="slider">
                         </div>
                         
                         <div class="control-group">
-                            <div class="control-label">
+                            <label class="control-label" for="wave-particles">
                                 <span data-i18n="sandbox.label_particles">Partículas (N)</span>
                                 <span id="parts-val" class="control-value">120</span>
-                            </div>
+                            </label>
                             <input type="range" id="wave-particles" min="50" max="250" step="10" value="120" class="slider">
                         </div>
  
                         <div class="control-group">
                             <label class="control-label" data-i18n="sandbox.label_resonance">Resonancia Corazón</label>
                             <button id="btn-resonance" class="btn btn-secondary btn-sm">
-                                <i class="fa-solid fa-heart beat-icon"></i> Activar Resonancia (5.0Hz)
+                                <i class="fa-solid fa-heart beat-icon" aria-hidden="true"></i> Activar Resonancia (5.0Hz)
                             </button>
                         </div>
                     </div>
                 </div>
                 
                 <div class="sandbox-canvas-container">
-                    <canvas id="sandbox-wave-canvas"></canvas>
+                    <canvas id="sandbox-wave-canvas">Interactive quantum wave interference visualization</canvas>
                 </div>
             </div>
         </div>
@@ -230,16 +236,18 @@
                 </p>
                 <div class="about-contact-links">
                     <a href="https://yepzhi.com" class="btn btn-contact" target="_blank">
-                        <i class="fa-solid fa-globe"></i> <span data-i18n="about.btn_page">Mi Página</span>
+                        <i class="fa-solid fa-globe" aria-hidden="true"></i> <span data-i18n="about.btn_page">Mi Página</span>
                     </a>
                     <a href="https://wa.me/5216621147374" class="btn btn-contact btn-whatsapp" target="_blank">
-                        <i class="fa-brands fa-whatsapp"></i> <span data-i18n="about.btn_whatsapp">WhatsApp</span>
+                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> <span data-i18n="about.btn_whatsapp">WhatsApp</span>
                     </a>
                 </div>
             </div>
         </div>
     </section>
  
+    </main>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container footer-container">
@@ -249,6 +257,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>

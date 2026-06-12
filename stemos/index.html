@@ -36,12 +36,12 @@
                 </div>
             </div>
 
-            <nav class="sidebar-nav">
+            <nav class="sidebar-nav" aria-label="Primary">
                 <a href="#" class="nav-item active" data-tab="dashboard">
-                    <i class="fa-solid fa-gauge-high"></i> Dashboard del Estudiante
+                    <i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Dashboard del Estudiante
                 </a>
                 <a href="#" class="nav-item" data-tab="studio">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Creator Studio <span class="badge-role">Docente</span>
+                    <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> AI Creator Studio <span class="badge-role">Docente</span>
                 </a>
             </nav>
 
@@ -93,7 +93,7 @@
                     <!-- Skills Graph Visor -->
                     <div class="glass-panel graph-panel">
                         <div class="panel-header">
-                            <h2 class="panel-title"><i class="fa-solid fa-network-wired text-indigo"></i> Mapa de Competencias Inglés ESP</h2>
+                            <h2 class="panel-title"><i class="fa-solid fa-network-wired text-indigo" aria-hidden="true"></i> Mapa de Competencias Inglés ESP</h2>
                             <div class="graph-legend">
                                 <span class="legend-item"><span class="legend-dot completed"></span>Completada</span>
                                 <span class="legend-item"><span class="legend-dot active"></span>En Progreso</span>
@@ -105,13 +105,13 @@
                             <!-- SVG network nodes representing skills -->
                             <svg class="skills-svg" viewBox="0 0 800 450" id="skills-graph-svg">
                                 <!-- Connection Lines -->
-                                <line x1="100" y1="225" x2="250" y2="120" class="line completed" />
-                                <line x1="100" y1="225" x2="250" y2="330" class="line completed" />
-                                <line x1="250" y1="120" x2="420" y2="120" class="line active" />
-                                <line x1="250" y1="330" x2="420" y2="330" class="line active" />
-                                <line x1="420" y1="120" x2="600" y2="225" class="line locked" />
-                                <line x1="420" y1="330" x2="600" y2="225" class="line locked" />
-                                <line x1="600" y1="225" x2="720" y2="225" class="line locked" />
+                                <line data-from="esp-foundation" data-to="semiconductors" x1="100" y1="225" x2="250" y2="120" class="line completed" />
+                                <line data-from="esp-foundation" data-to="cybersecurity" x1="100" y1="225" x2="250" y2="330" class="line completed" />
+                                <line data-from="semiconductors" data-to="electromobility" x1="250" y1="120" x2="420" y2="120" class="line active" />
+                                <line data-from="cybersecurity" data-to="it-innovation" x1="250" y1="330" x2="420" y2="330" class="line active" />
+                                <line data-from="electromobility" data-to="aerospace" x1="420" y1="120" x2="600" y2="225" class="line locked" />
+                                <line data-from="it-innovation" data-to="aerospace" x1="420" y2="330" x2="600" y2="225" class="line locked" />
+                                <line data-from="aerospace" data-to="socratic-capstone" x1="600" y2="225" x2="720" y2="225" class="line locked" />
 
                                 <!-- Node 1: A2 Bridge (A2 Foundation) -->
                                 <g class="node node-completed" data-node="esp-foundation" transform="translate(100, 225)">
@@ -182,7 +182,7 @@
                     <!-- Skills Info & Action Panel -->
                     <div class="glass-panel info-panel" id="skills-info-panel">
                         <div class="info-empty-state">
-                            <i class="fa-solid fa-circle-info text-muted"></i>
+                            <i class="fa-solid fa-circle-info text-muted" aria-hidden="true"></i>
                             <p>Selecciona una habilidad del mapa para ver los detalles y comenzar tu diálogo de aprendizaje.</p>
                         </div>
                         <div class="info-content hidden" id="info-content">
@@ -212,8 +212,15 @@
 
                             <div class="info-actions">
                                 <button id="btn-start-tutor" class="btn btn-primary btn-block">
-                                    <i class="fa-solid fa-comments"></i> Evaluar con Feynman Engine
+                                    <i class="fa-solid fa-comments" aria-hidden="true"></i> Evaluar con Feynman Engine
                                 </button>
+                            </div>
+
+                            <div class="info-modules-section" id="info-modules-section">
+                                <h4 class="modules-title"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Módulos de Aprendizaje</h4>
+                                <div class="modules-list" id="modules-list">
+                                    <!-- Creados dinámicamente -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -225,7 +232,7 @@
                     <!-- Feynman Engine Tutor Simulator -->
                     <div class="glass-panel tutor-panel" id="tutor-section">
                         <div class="panel-header">
-                            <h2 class="panel-title"><i class="fa-solid fa-brain text-amber"></i> Tutor Feynman <span class="engine-badge">Feynman Engine v1</span></h2>
+                            <h2 class="panel-title"><i class="fa-solid fa-brain text-amber" aria-hidden="true"></i> Tutor Feynman <span class="engine-badge">Feynman Engine v1</span></h2>
                             <div class="tutor-status" id="tutor-status-text">Tema: Esperando selección...</div>
                         </div>
 
@@ -245,14 +252,14 @@
                         <!-- Chat Inputs -->
                         <div class="chat-inputs">
                             <input type="text" id="chat-input" placeholder="Escribe tu explicación aquí..." disabled>
-                            <button id="chat-send-btn" class="btn btn-primary" disabled><i class="fa-solid fa-paper-plane"></i></button>
+                            <button id="chat-send-btn" class="btn btn-primary" disabled><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></button>
                         </div>
                     </div>
 
                     <!-- Badge showcase (Micro-credentials) -->
                     <div class="glass-panel badge-panel">
                         <div class="panel-header">
-                            <h2 class="panel-title"><i class="fa-solid fa-award text-pink"></i> Credenciales Verificables</h2>
+                            <h2 class="panel-title"><i class="fa-solid fa-award text-pink" aria-hidden="true"></i> Credenciales Verificables</h2>
                         </div>
                         
                         <div class="badge-wall">
@@ -260,20 +267,20 @@
                             <div class="badge-card unlocked">
                                 <div class="badge-glow"></div>
                                 <div class="badge-icon">
-                                    <i class="fa-solid fa-atom"></i>
+                                    <i class="fa-solid fa-atom" aria-hidden="true"></i>
                                 </div>
                                 <span class="badge-title">Ciencia Nivel 1</span>
                                 <span class="badge-date">Aprobado Jun 2026</span>
                                 <span class="badge-id">ID: 8085-L1-SCI</span>
                                 <button class="btn btn-secondary btn-sm badge-cert-btn" data-cert="l1-sci">
-                                    <i class="fa-solid fa-eye"></i> Ver Certificado
+                                    <i class="fa-solid fa-eye" aria-hidden="true"></i> Ver Certificado
                                 </button>
                             </div>
 
                             <!-- Badge 2: Tecnología L2 (Locked) -->
                             <div class="badge-card locked">
                                 <div class="badge-icon">
-                                    <i class="fa-solid fa-microchip"></i>
+                                    <i class="fa-solid fa-microchip" aria-hidden="true"></i>
                                 </div>
                                 <span class="badge-title">Tecnología L2</span>
                                 <span class="badge-date">Grafo al 50%</span>
@@ -283,7 +290,7 @@
                             <!-- Badge 3: Programación L3 (Locked) -->
                             <div class="badge-card locked">
                                 <div class="badge-icon">
-                                    <i class="fa-solid fa-code"></i>
+                                    <i class="fa-solid fa-code" aria-hidden="true"></i>
                                 </div>
                                 <span class="badge-title">Programación L3</span>
                                 <span class="badge-date">Grafo al 100%</span>
@@ -306,15 +313,15 @@
                 <div class="studio-wrapper">
                     <!-- Input panel for Course Creation -->
                     <div class="glass-panel studio-input-panel">
-                        <h3 class="studio-section-title"><i class="fa-solid fa-gears text-indigo"></i> Configurar Generación AI</h3>
+                        <h3 class="studio-section-title"><i class="fa-solid fa-gears text-indigo" aria-hidden="true"></i> Configurar Generación AI</h3>
                         
                         <div class="studio-form-group">
-                            <label class="studio-label">Nombre del Curso / Habilidad Matriz</label>
+                            <label class="studio-label" for="course-name">Nombre del Curso / Habilidad Matriz</label>
                             <input type="text" id="course-name" class="studio-input" placeholder="Ej. Semiconductores y Nearshoring de Chips">
                         </div>
 
                         <div class="studio-form-group">
-                            <label class="studio-label">Syllabus / Contenido o Prompt de Guía</label>
+                            <label class="studio-label" for="course-prompt">Syllabus / Contenido o Prompt de Guía</label>
                             <textarea id="course-prompt" class="studio-textarea" placeholder="Describe los contenidos del curso, por ejemplo:
 - Introducción a semiconductores dopados P y N.
 - Estructura y fotolitografía de circuitos integrados.
@@ -323,7 +330,7 @@
                         </div>
 
                         <div class="studio-form-group">
-                            <label class="studio-label">Estándar de Competencia a Vincular</label>
+                            <label class="studio-label" for="course-standard">Estándar de Competencia a Vincular</label>
                             <select id="course-standard" class="studio-select">
                                 <option value="none">Ninguno (Crear grafo libre)</option>
                                 <option value="conocer-semi">CONOCER EC2034 - Manufactura de Microchips</option>
@@ -333,30 +340,30 @@
                         </div>
 
                         <div class="studio-form-group">
-                            <label class="studio-label">Documento Base (PDF, DOCX) - Opcional</label>
+                            <label class="studio-label" for="studio-file-input">Documento Base (PDF, DOCX) - Opcional</label>
                             <div class="studio-file-drop" id="file-drop-area">
-                                <i class="fa-solid fa-cloud-arrow-up drop-icon"></i>
+                                <i class="fa-solid fa-cloud-arrow-up drop-icon" aria-hidden="true"></i>
                                 <span class="drop-text">Arrastra aquí tu plan de estudios o haz clic para subir</span>
                                 <span class="drop-sub">Soporta PDF, TXT hasta 20MB</span>
                                 <input type="file" id="studio-file-input" style="display: none;">
                             </div>
                             <div id="file-uploaded-badge" class="hidden">
-                                <i class="fa-solid fa-circle-check text-green"></i> <span id="uploaded-filename">syllabus.pdf</span>
+                                <i class="fa-solid fa-circle-check text-green" aria-hidden="true"></i> <span id="uploaded-filename">syllabus.pdf</span>
                             </div>
                         </div>
 
                         <button id="btn-generate-course" class="btn btn-primary btn-block">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i> Generar Grafo de Habilidades
+                            <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Generar Grafo de Habilidades
                         </button>
                     </div>
 
                     <!-- Generation Progress / Preview -->
                     <div class="glass-panel studio-preview-panel">
-                        <h3 class="studio-section-title"><i class="fa-solid fa-network-wired text-cyan"></i> Visualización del Grafo Generado</h3>
+                        <h3 class="studio-section-title"><i class="fa-solid fa-network-wired text-cyan" aria-hidden="true"></i> Visualización del Grafo Generado</h3>
                         
                         <!-- Empty state before generation -->
                         <div class="preview-empty-state" id="studio-preview-empty">
-                            <i class="fa-solid fa-chart-line preview-icon"></i>
+                            <i class="fa-solid fa-chart-line preview-icon" aria-hidden="true"></i>
                             <p>Ingresa los detalles a la izquierda y presiona **Generar Grafo** para observar cómo la Inteligencia Artificial desglosa el temario en un árbol de habilidades de aprendizaje interactivo.</p>
                         </div>
 
@@ -379,7 +386,7 @@
                                     <span class="results-badge">6 Habilidades Generadas</span>
                                 </div>
                                 <button id="btn-deploy-course" class="btn btn-secondary btn-sm">
-                                    <i class="fa-solid fa-circle-check text-green"></i> Desplegar en Dashboard Estudiante
+                                    <i class="fa-solid fa-circle-check text-green" aria-hidden="true"></i> Desplegar en Dashboard Estudiante
                                 </button>
                             </div>
 
@@ -403,9 +410,9 @@
     </div>
 
     <!-- Certificate Mockup Modal -->
-    <div class="modal-overlay" id="cert-modal">
+    <dialog class="modal-dialog" id="cert-modal">
         <div class="modal-card">
-            <button class="modal-close" id="cert-modal-close"><i class="fa-solid fa-xmark"></i></button>
+            <button class="modal-close" id="cert-modal-close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
             <div class="certificate-canvas">
                 <div class="cert-border-outer">
                     <div class="cert-border-inner">
@@ -439,11 +446,117 @@
                 </div>
             </div>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="window.print()"><i class="fa-solid fa-print"></i> Imprimir Constancia</button>
+                <button class="btn btn-secondary" id="btn-print-cert"><i class="fa-solid fa-print" aria-hidden="true"></i> Imprimir Constancia</button>
             </div>
         </div>
-    </div>
+    </dialog>
 
-    <script src="app.js"></script>
+    <!-- Academic Reader & Quiz Modal -->
+    <dialog class="modal-dialog" id="academic-modal">
+        <div class="modal-card academic-card">
+            <!-- Modal Header -->
+            <div class="academic-modal-header">
+                <div class="academic-header-info">
+                    <span class="academic-track-badge" id="acad-track-title">ESP Track</span>
+                    <h3 class="academic-module-title" id="acad-module-title">Cargando Lección...</h3>
+                </div>
+                <button class="modal-close" id="academic-modal-close" aria-label="Cerrar"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+            </div>
+
+            <!-- Steps Timeline Breadcrumbs -->
+            <div class="academic-timeline">
+                <div class="timeline-step active" id="step-btn-read">
+                    <span class="step-num">1</span>
+                    <span class="step-lbl">Lectura</span>
+                </div>
+                <div class="timeline-line"></div>
+                <div class="timeline-step" id="step-btn-vocab">
+                    <span class="step-num">2</span>
+                    <span class="step-lbl">Vocabulario</span>
+                </div>
+                <div class="timeline-line"></div>
+                <div class="timeline-step" id="step-btn-quiz">
+                    <span class="step-num">3</span>
+                    <span class="step-lbl">Cuestionario</span>
+                </div>
+            </div>
+
+            <!-- Modal Content Screens -->
+            <div class="academic-body">
+                <!-- Screen 1: Reading Reader -->
+                <div class="academic-screen active" id="screen-reading">
+                    <div class="reader-scrollable-content" id="reading-content-area">
+                        <!-- Content injected dynamically -->
+                    </div>
+                    <div class="screen-footer">
+                        <button class="btn btn-primary" id="btn-to-vocab">
+                            Continuar al Glosario <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Screen 2: Vocabulary Glossary -->
+                <div class="academic-screen" id="screen-vocabulary">
+                    <div class="vocabulary-scrollable-content">
+                        <h4 class="section-title-accent">ESP Technical Vocabulary (Glosario Técnico)</h4>
+                        <p class="section-subtitle-accent">Haz clic en las tarjetas para repasar el término en inglés, su traducción y definición.</p>
+                        <div class="vocab-grid" id="vocab-grid-area">
+                            <!-- Vocab cards injected dynamically -->
+                        </div>
+                    </div>
+                    <div class="screen-footer">
+                        <button class="btn btn-secondary" id="btn-back-to-read">
+                            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Regresar a Lectura
+                        </button>
+                        <button class="btn btn-primary" id="btn-to-quiz">
+                            Comenzar Cuestionario <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Screen 3: Comprehension Quiz -->
+                <div class="academic-screen" id="screen-quiz">
+                    <div class="quiz-scrollable-content">
+                        <h4 class="section-title-accent">Comprehension Quiz (Prueba de Comprensión)</h4>
+                        <p class="section-subtitle-accent">Completa la evaluación para validar tu comprensión y ganar XP.</p>
+                        <form id="academic-quiz-form" class="quiz-form" onsubmit="return false;">
+                            <div class="quiz-questions-list" id="quiz-questions-area">
+                                <!-- Questions injected dynamically -->
+                            </div>
+                        </form>
+                    </div>
+                    <div class="screen-footer">
+                        <button class="btn btn-secondary" id="btn-back-to-vocab">
+                            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Regresar al Glosario
+                        </button>
+                        <button class="btn btn-primary" id="btn-submit-quiz">
+                            Enviar Evaluación <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Screen 4: Congratulations Result -->
+                <div class="academic-screen" id="screen-congrats">
+                    <div class="congrats-container">
+                        <div class="success-icon-wrapper">
+                            <i class="fa-solid fa-circle-check text-green animate-bounce-custom" aria-hidden="true"></i>
+                        </div>
+                        <h4 class="congrats-title">¡Evaluación Aprobada!</h4>
+                        <p class="congrats-desc">Has demostrado un excelente entendimiento del vocabulario y conceptos técnicos de este módulo.</p>
+                        <div class="xp-award-box">
+                            <span class="xp-val" id="xp-award-val">+25 XP</span>
+                            <span class="xp-lbl">Puntos de Habilidad Ganados</span>
+                        </div>
+                        <button class="btn btn-primary btn-block" id="btn-close-academic-success">
+                            Volver al Dashboard
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <script src="content/courses.js" defer></script>
+    <script src="app.js" defer></script>
 </body>
 </html>

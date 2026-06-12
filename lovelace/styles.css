@@ -4,6 +4,7 @@
 
 /* --- Variables --- */
 :root {
+    color-scheme: dark;
     --bg-dark: #05050c;
     --text-light: #f1f5f9;
     --text-muted: #94a3b8;
@@ -598,6 +599,11 @@ h1, h2, h3, h4, .logo-text, .badge-quantum, .control-label, .formula-overlay {
     outline: none;
 }
 
+.slider:focus-visible {
+    outline: 2px solid var(--quantum-secondary);
+    outline-offset: 4px;
+}
+
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -852,6 +858,11 @@ h1, h2, h3, h4, .logo-text, .badge-quantum, .control-label, .formula-overlay {
     justify-content: center;
 }
 
+.lang-btn:focus-visible {
+    outline: 2px solid var(--quantum-primary);
+    outline-offset: 2px;
+}
+
 .lang-btn.active {
     background: rgba(139, 92, 246, 0.2);
     color: #e9d5ff; /* light purple text */
@@ -922,4 +933,102 @@ h1, h2, h3, h4, .logo-text, .badge-quantum, .control-label, .formula-overlay {
     color: #34d399;
 }
 
+/* ==========================================================================
+   ACCESSIBILITY UTILITIES
+   ========================================================================== */
 
+/* Visually hidden but accessible to screen readers.
+   :focus-within/:active opt-out reveals skip links on focus. */
+.visually-hidden:where(:not(:focus-within, :active)) {
+    position: absolute !important;
+    clip-path: inset(50%) !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    white-space: nowrap !important;
+}
+
+.skip-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 9999;
+    padding: 12px 24px;
+    background: var(--quantum-primary);
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+}
+
+/* Global focus-visible for all interactive elements */
+:where(a:any-link, button, [role="button"]):focus-visible {
+    outline: 2px solid var(--quantum-primary);
+    outline-offset: 3px;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY IMPROVEMENTS
+   ========================================================================== */
+
+h1, h2, h3 {
+    text-wrap: balance;
+}
+
+p, .card-description, .about-text, .sandbox-desc {
+    text-wrap: pretty;
+}
+
+.hero-title {
+    text-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+}
+
+/* ==========================================================================
+   SCROLL-DOWN BOUNCE ANIMATION
+   ========================================================================== */
+
+@keyframes scroll-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+}
+
+.scroll-arrow {
+    animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   REDUCED MOTION SUPPORT
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    .scroll-arrow {
+        animation: none;
+    }
+
+    .formula-overlay {
+        animation: none;
+        opacity: 0.6;
+    }
+
+    .heart-core,
+    .electron-1,
+    .electron-2 {
+        animation: none;
+    }
+}
