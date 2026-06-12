@@ -6,7 +6,7 @@ const translations = {
             tools_big: "🛠️ Conoce mis otros desarrollos"
         },
         profile: {
-            bio: "<strong>SaaS Product Leader | EdTech—Digital Platforms, ⚡GenAI Implementation.</strong> con +15 años de experiencia en <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>.<br><br>💼 MBA con background financiero, Full-Cycle CX/UX y Data Analytics. 📊 Certificado en Data Science &amp; Agile Systems for Product Management — University of Maryland ✨ + English CEFR B2 🇺🇸 by ETS.<br><br>💻 Fundador de <a href=\"https://www.instagram.com/jovenesstem/\" target=\"_blank\">JóvenesSTEM 🌎</a> — STEM for Education, conectando ciencia y tecnología con las nuevas generaciones."
+            bio: "<strong>SaaS Product Leader | EdTech—Digital Platforms, ⚡GenAI Implementation.</strong> con +15 años de experiencia en <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>.<br><br>💼 MBA con background financiero, Full-Cycle CX/UX y Data Analytics. 📊 Certificado en Data Science &amp; Agile Systems for Product Management — University of Maryland ✨ + English CEFR B2 🇺🇸 by ETS.<br><br>💻 Fundador de <a href=\"https://yepzhi.com/lovelace/\" target=\"_blank\"><strong>Lovelace Feynman Technologies SAPI SA de CV</strong></a>, impulsando <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a> (plataforma LXP de IA e inglés técnico) y la iniciativa social <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a> para conectar ciencia y tecnología con las nuevas generaciones."
         },
         links: {
             whatsapp: "👋 WhatsApp - Click Aqui!",
@@ -85,7 +85,7 @@ const translations = {
             tools_big: "🛠️ Get to know more of my tools"
         },
         profile: {
-            bio: "<strong>SaaS Product Leader | EdTech—Digital Platforms, ⚡GenAI Implementation.</strong> with +15 years of experience at <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> and <strong>Santillana/Richmond</strong>.<br><br>💼 MBA with financial background, Full-Cycle CX/UX and Data Analytics. 📊 Certified in Data Science &amp; Agile Systems for Product Management — University of Maryland ✨ + English CEFR B2 🇺🇸 by ETS.<br><br>💻 Founder of <a href=\"https://www.instagram.com/jovenesstem/\" target=\"_blank\">JóvenesSTEM 🌎</a> — STEM for Education, connecting science and technology with new generations."
+            bio: "<strong>SaaS Product Leader | EdTech—Digital Platforms, ⚡GenAI Implementation.</strong> with +15 years of experience at <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> and <strong>Santillana/Richmond</strong>.<br><br>💼 MBA with financial background, Full-Cycle CX/UX and Data Analytics. 📊 Certified in Data Science &amp; Agile Systems for Product Management — University of Maryland ✨ + English CEFR B2 🇺🇸 by ETS.<br><br>💻 Founder of <a href=\"https://yepzhi.com/lovelace/\" target=\"_blank\"><strong>Lovelace Feynman Technologies SAPI SA de CV</strong></a>, driving <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a> (AI-powered technical English LXP) and the social initiative <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a> to connect science and technology with new generations."
         },
         links: {
             whatsapp: "👋 WhatsApp - Click Here!",
@@ -164,7 +164,7 @@ const translations = {
             tools_big: "🛠️ 了解我的其他开发项目"
         },
         profile: {
-            bio: "<strong>SaaS 产品负责人 | EdTech——数字平台，⚡ GenAI 实施。</strong> 在 <strong>Apple</strong>、<strong>PepsiCo</strong>、<strong>AVIS</strong> 和 <strong>Santillana/Richmond</strong> 拥有 15 年以上经验。<br><br>💼 MBA，具备金融背景，全周期 CX/UX 和数据分析。📊 获得马里兰大学数据科学与敏捷系统产品管理认证 ✨ + ETS 英语 CEFR B2 🇺🇸。<br><br>💻 <a href=\"https://www.instagram.com/jovenesstem/\" target=\"_blank\">JóvenesSTEM 🌎</a> 创始人 — STEM for Education, 连接科学技术与新一代。"
+            bio: "<strong>SaaS 产品负责人 | EdTech——数字平台，⚡ GenAI 实施。</strong> 在 <strong>Apple</strong>、<strong>PepsiCo</strong>、<strong>AVIS</strong> 和 <strong>Santillana/Richmond</strong> 拥有 15 年以上 经验。<br><br>💼 MBA，具备金融背景，全周期 CX/UX 和数据分析。📊 获得马里兰大学数据科学与敏捷系统产品管理认证 ✨ + ETS 英语 CEFR B2 🇺🇸。<br><br>💻 <a href=\"https://yepzhi.com/lovelace/\" target=\"_blank\"><strong>Lovelace Feynman Technologies SAPI SA de CV</strong></a> 创始人，推动 <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a> (AI 辅助技术英语 LXP 平台) 和公益倡议项目 <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a>，连接科学技术与新一代。"
         },
         links: {
             whatsapp: "👋 WhatsApp - 点击这里!",
