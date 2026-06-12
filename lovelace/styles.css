@@ -443,6 +443,15 @@ h1, h2, h3, h4, .logo-text, .badge-quantum, .control-label, .formula-overlay {
     font-size: 1.6rem;
 }
 
+.card-icon-svg {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ecosystem-card:hover .card-icon-svg {
+    transform: scale(1.12);
+}
+
+
 .card-title {
     font-size: 1.45rem;
     margin-bottom: 16px;
