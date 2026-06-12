@@ -37,8 +37,8 @@ const translations = {
         },
         stemos_promo: {
             tagline: "Plataforma LXP",
-            text: "La evolución del LMS hacia un entorno de experiencia de aprendizaje (LXP) nativo para LATAM. Basado en un grafo de habilidades y micro-credenciales verificables alineadas con la industria de nearshoring.",
-            btn: "Acceder a stemOS LXP"
+            text: "La evolución del LMS hacia un entorno de experiencia de aprendizaje (LXP) nativo para LATAM. Basado en un grafo de habilidades y micro-credenciales verificables alineadas con la industria de alta tecnología.",
+            btn: "Accede al stemOS Preview"
         },
         lovelace_promo: {
             tagline: "Lovelace Feynman Technologies",
@@ -116,8 +116,8 @@ const translations = {
         },
         stemos_promo: {
             tagline: "LXP Platform",
-            text: "The evolution of LMS into a native Learning Experience Platform (LXP) for LATAM. Built upon a skills graph and verifiable micro-credentials aligned with the nearshoring industry.",
-            btn: "Access stemOS LXP"
+            text: "The evolution of LMS into a native Learning Experience Platform (LXP) for LATAM. Built upon a skills graph and verifiable micro-credentials aligned with the high-tech industry.",
+            btn: "Access stemOS Preview"
         },
         lovelace_promo: {
             tagline: "Lovelace Feynman Technologies",
@@ -195,8 +195,8 @@ const translations = {
         },
         stemos_promo: {
             tagline: "LXP 平台",
-            text: "LMS 向适用于拉美地区的原生学习体验平台 (LXP) 的演进。基于技能图谱和与近岸外包行业对接的可验证微凭证。",
-            btn: "访问 stemOS LXP"
+            text: "LMS 向适用于拉美地区的原生学习体验平台 (LXP) 的演进。基于技能图谱和与高科技产业对接的可验证微凭证。",
+            btn: "访问 stemOS Preview"
         },
         lovelace_promo: {
             tagline: "Lovelace Feynman Technologies",
