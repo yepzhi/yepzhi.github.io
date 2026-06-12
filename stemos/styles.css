@@ -117,11 +117,17 @@ h1, h2, h3, h4, .brand-name, .node-text, .stat-num, .generating-title, .badge-ti
 }
 
 .preview-badge {
-    color: var(--accent-amber);
-    font-size: 0.75rem;
+    background: rgba(234, 179, 8, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(234, 179, 8, 0.3);
+    font-size: 0.65rem;
     font-weight: 600;
-    margin-left: 4px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    margin-left: 6px;
+    text-transform: uppercase;
     vertical-align: middle;
+    display: inline-block;
 }
 
 .brand-version {
