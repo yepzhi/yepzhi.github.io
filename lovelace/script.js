@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "hero.scroll_down_lbl": "Física & Aprendizaje",
             "eco.title": "El Ecosistema Lovelace Feynman",
             "eco.subtitle": "Nuestras marcas y tecnologías están diseñadas para funcionar en resonancia armónica, conectando la pedagogía de vanguardia con el desarrollo de talento regional.",
-            "eco.card1_desc": "stemOS es una plataforma de experiencia de aprendizaje (LXP) impulsada por IA para LATAM que ofrece trayectorias personalizadas de STEM e inglés técnico a través de micro-credenciales alineadas con la industria. Creada para cerrar la brecha de talento STEM y dominio del inglés, permite la validación medible de habilidades desde el aula hasta la carrera profesional.",
+            "eco.card1_desc": "stemOS is an AI-powered Learning Experience Platform (LXP) that delivers personalized STEM and technical English Learning pathways through industry-aligned micro-credentials. Built to bridge the STEM talent and specialized English proficiency gap.",
             "eco.card1_link": "Explorar stemOS",
             "eco.card2_desc": "Nuestra comunidad e iniciativa educativa sin fines de lucro en México. Inspira a estudiantes de secundaria y preparatoria en las ciencias duras a través del método SIIP NextGen y el libro BlueBook v1.",
             "eco.card2_link": "Visitar JóvenesSTEM",

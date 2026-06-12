@@ -37,7 +37,7 @@ const translations = {
         },
         stemos_promo: {
             tagline: "Plataforma English for Specific Purposes -NextGen LXP",
-            text: "stemOS es una plataforma de experiencia de aprendizaje (LXP) impulsada por IA para LATAM que ofrece trayectorias personalizadas de STEM e inglés técnico a través de micro-credenciales alineadas con la industria. Creada para cerrar la brecha de talento STEM y dominio del inglés, permite la validación medible de habilidades desde el aula hasta la carrera profesional.",
+            text: "stemOS is an AI-powered Learning Experience Platform (LXP) that delivers personalized STEM and technical English Learning pathways through industry-aligned micro-credentials. Built to bridge the STEM talent and specialized English proficiency gap.",
             btn: "Accede stemOS Preview"
         },
         lovelace_promo: {
