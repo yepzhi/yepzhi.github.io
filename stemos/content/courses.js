@@ -1451,28 +1451,405 @@ The next evolution beyond FinFET is the **GAA transistor** (Gate-All-Around), wh
 
             // Remaining semiconductor modules as skeletons with titles
             {
-                id: "semi-m3", title: "Photolithography: Printing Circuits with Light",
-                titleES: "Fotolitografía: Imprimiendo Circuitos con Luz", icon: "fa-solid fa-sun",
-                readings: [{ id: "semi-m3-r1", title: "How Photolithography Works", duration: "10 min", content: "Content coming soon — this module covers the photolithography process including UV exposure, photoresist, masks, and EUV technology.", vocabulary: [], questions: [] },
-                           { id: "semi-m3-r2", title: "EUV: Extreme Ultraviolet Lithography", duration: "10 min", content: "Content coming soon — covers ASML's EUV machines and why they cost $150M+.", vocabulary: [], questions: [] }]
+                id: "semi-m3",
+                title: "Photolithography: Printing Circuits with Light",
+                titleES: "Fotolitografía: Imprimiendo Circuitos con Luz",
+                icon: "fa-solid fa-sun",
+                readings: [
+                    {
+                        id: "semi-m3-r1",
+                        title: "How Photolithography Works",
+                        duration: "10 min",
+                        content: `
+# How Photolithography Works
+
+**Photolithography** (fotolitografía) is the process of using light to transfer geometric patterns from a photomask to a light-sensitive chemical called a **photoresist** on the wafer. It is like printing a photograph, but on a microscopic scale. This is the key step that defines the size of the transistors on a chip.
+
+## The Step-by-Step Lithography Process
+
+To build a pattern on the silicon wafer, engineers follow these steps:
+
+1. **Surface Preparation & Cleaning**: The wafer is cleaned chemically to remove contaminants, and dehydrated at high temperatures.
+2. **Photoresist Coating (Recubrimiento de fotorresistencia)**: A liquid photoresist is applied to the wafer. The wafer is spun at high speed (1000 to 5000 RPM) to spread the chemical into a uniform, microscopically thin layer. This is called **spin coating**.
+3. **Soft Bake (Pre-horneado)**: The wafer is heated gently to evaporate the solvents and solidify the photoresist.
+4. **Alignment and UV Exposure (Alineación y exposición)**: A high-precision machine aligns a **photomask** (a template containing the circuit pattern) over the wafer. **Ultraviolet (UV) light** is projected through the mask, hitting the photoresist in specific areas.
+5. **Development (Revelado)**: The wafer is rinsed with a developer solution. Depending on the type of photoresist, the exposed or unexposed parts dissolve:
+   - **Positive Photoresist**: The areas exposed to light become soluble and dissolve. The unexposed areas remain. (This is the most common type used).
+   - **Negative Photoresist**: The areas exposed to light become insoluble and remain. The unexposed areas dissolve.
+6. **Hard Bake (Horneado final)**: The wafer is baked again to harden the remaining photoresist pattern before etching or doping begins.
+
+## The Importance of Alignment: Overlay Accuracy
+
+A modern microchip contains up to 80 separate layers. Each layer must align perfectly with the layers below it. The precision of this alignment is called **overlay accuracy** (precisión de superposición). If a layer is misaligned by even a fraction of a nanometer, the entire chip will fail.
+
+> **Analogy**: Imagine drawing 80 different layers of a house on separate sheets of clear paper. If you don't stack them perfectly, the doors won't line up with the walls, and the roof will float in the air.
+`,
+                        vocabulary: [
+                            { en: "Photoresist", es: "Fotorresistencia / Resina fotosensible", definition: "A light-sensitive chemical polymer coated on the wafer" },
+                            { en: "Photomask", es: "Fotomáscara / Retícula", definition: "A glass plate with metal patterns used to block UV light" },
+                            { en: "UV Exposure", es: "Exposición ultravioleta", definition: "Shining UV light through a mask onto a photoresist" },
+                            { en: "Development", es: "Revelado", definition: "Rinsing the wafer in chemical developer to reveal the pattern" },
+                            { en: "Spin Coating", es: "Recubrimiento por centrifugado", definition: "Method to apply liquid photoresist uniformly by spinning the wafer" },
+                            { en: "Overlay Accuracy", es: "Precisión de superposición", definition: "How precisely layers of a chip align on top of each other" }
+                        ],
+                        questions: [
+                            { q: "What does positive photoresist do when exposed to UV light?", options: ["It becomes soluble and dissolves in developer", "It becomes harder and insoluble", "It changes color to yellow", "It converts into pure silicon"], answer: 0 },
+                            { q: "What is the purpose of spin coating?", options: ["To clean the wafer from dust", "To spread liquid photoresist into a uniform, thin layer", "To cut the wafer into chips", "To bake the wafer at high speed"], answer: 1 },
+                            { q: "Which term refers to the alignment precision between different chip layers?", options: ["Wavelength accuracy", "Spin coating accuracy", "Overlay accuracy", "Chemical solubility"], answer: 2 },
+                            { q: "What is a photomask?", options: ["A protective cover worn by fab workers", "A tool to measure wafer thickness", "A template plate containing the circuit pattern", "A type of chemical developer"], answer: 2 }
+                        ]
+                    },
+                    {
+                        id: "semi-m3-r2",
+                        title: "EUV: Extreme Ultraviolet Lithography",
+                        duration: "10 min",
+                        content: `
+# EUV: Extreme Ultraviolet Lithography
+
+As transistors shrunk below 10 nanometers, traditional ultraviolet light (with a wavelength of 193 nm) became too thick to print such small features. To continue scaling down, the industry developed **EUV (Extreme Ultraviolet) lithography** (litografía ultravioleta extrema).
+
+## The Physics of EUV
+
+EUV light has a wavelength of only **13.5 nanometers** (nanómetros). This extremely short wavelength allows engineers to print features as small as 2 or 3 nanometers. However, working with EUV light is incredibly difficult because of its physical properties:
+
+1. **Air Absorbs EUV**: EUV light is absorbed by almost all matter, including air. Therefore, the entire lithography machine must operate under a high **vacuum** (vacío).
+2. **Glass Lenses Don't Work**: Traditional glass lenses absorb EUV light instead of bending it. Instead, EUV machines use high-precision **reflective mirrors** (espejos reflectores) coated with alternating layers of silicon and molybdenum to guide the light.
+3. **Generating the Light**: To create EUV light, a high-power CO₂ laser fires 50,000 times per second at tiny falling droplets of molten **tin** (estaño). The laser blasts the tin into a hot **plasma** that emits 13.5 nm light.
+
+## ASML: The Monopoly
+
+EUV technology is so complex that only one company in the world is capable of manufacturing EUV lithography machines: **ASML**, based in Veldhoven, Netherlands.
+
+A single ASML EUV machine:
+- Contains over 100,000 parts and 3,000 cables.
+- Costs between **$150 million and $350 million USD** depending on the model (e.g., High-NA EUV).
+- Requires 4 Boeing 747 cargo planes to ship to a fab.
+- Requires dozens of specialized engineers to install and maintain.
+
+Without ASML's EUV machines, companies like TSMC, Samsung, and Intel could not manufacture the 3-nanometer and 2-nanometer chips that power today's leading smartphones, AI servers, and graphics processors.
+`,
+                        vocabulary: [
+                            { en: "EUV Lithography", es: "Litografía ultravioleta extrema", definition: "Next-gen lithography using 13.5nm wavelength light" },
+                            { en: "Wavelength", es: "Longitud de onda", definition: "The distance between successive crests of a wave of light" },
+                            { en: "Vacuum", es: "Vacío", definition: "A space entirely devoid of matter/air" },
+                            { en: "Reflective Mirror", es: "Espejo reflector", definition: "Ultra-smooth mirror used to redirect light instead of lenses" },
+                            { en: "Tin", es: "Estaño", definition: "Metal melted and vaporized by laser to produce EUV light" },
+                            { en: "High-NA EUV", es: "EUV de alta apertura numérica", definition: "Advanced EUV systems using larger angles to print smaller sizes" }
+                        ],
+                        questions: [
+                            { q: "What is the wavelength of Extreme Ultraviolet (EUV) light?", options: ["193 nm", "13.5 nm", "3 nm", "1.2 nm"], answer: 1 },
+                            { q: "Why must EUV systems operate under a vacuum?", options: ["To prevent the silicon from burning", "Because air molecules absorb EUV light", "To cool down the lasers", "To speed up the spin coating"], answer: 1 },
+                            { q: "What does the ASML EUV system use instead of traditional glass lenses?", options: ["Fiber optic cables", "Prisms made of quartz", "Highly reflective mirrors", "Water droplets"], answer: 2 },
+                            { q: "Which company is the sole manufacturer of EUV lithography systems?", options: ["TSMC", "ASML", "Intel", "NVIDIA"], answer: 1 }
+                        ]
+                    }
+                ]
             },
             {
-                id: "semi-m4", title: "Etching, Deposition, and Clean Rooms",
-                titleES: "Grabado, Deposición y Salas Limpias", icon: "fa-solid fa-flask",
-                readings: [{ id: "semi-m4-r1", title: "The Clean Room Environment", duration: "10 min", content: "Content coming soon — covers cleanroom classifications, gowning procedures, and contamination control.", vocabulary: [], questions: [] },
-                           { id: "semi-m4-r2", title: "Etching and Thin Film Deposition", duration: "10 min", content: "Content coming soon — covers wet/dry etching, CVD, PVD, and ALD deposition techniques.", vocabulary: [], questions: [] }]
+                id: "semi-m4",
+                title: "Etching, Deposition, and Clean Rooms",
+                titleES: "Grabado, Deposición y Salas Limpias",
+                icon: "fa-solid fa-flask",
+                readings: [
+                    {
+                        id: "semi-m4-r1",
+                        title: "The Clean Room Environment",
+                        duration: "10 min",
+                        content: `
+# The Clean Room Environment
+
+A semiconductor fabrication plant (fab) is home to the **cleanroom** (sala limpia) — one of the cleanest environments on Earth. In a cleanroom, the air is filtered constantly to control the concentration of airborne particles, temperature, humidity, and vibration.
+
+## Why Cleanrooms Are Crucial
+
+A modern transistor is thousands of times smaller than a grain of sand. A single microscopic dust particle, hair, or skin cell landing on a wafer can block light during photolithography, short-circuit metal lines, or cause a transistor to fail. 
+
+The industry measures cleanliness using classes:
+- **Class 100**: Less than 100 particles (larger than 0.5 microns) per cubic foot of air.
+- **Class 10**: Less than 10 particles per cubic foot.
+- **Class 1 (Fab Floor)**: Less than 1 particle per cubic foot. (For comparison, normal outdoor air contains about 35 million particles per cubic foot!).
+
+## The Gown Room and Gowning Protocol
+
+Humans are the biggest source of contamination in a fab. Skin flakes, hair, dust from clothes, and sweat are constantly shedding. To enter the cleanroom, workers must follow a strict **gowning protocol** in the **gown room** (sala de vestimenta):
+
+1. **Shoe Cleaning**: Workers pass through shoe scrubbers and put on shoe covers.
+2. **Hair & Face Coverings**: Wearing a hairnet and face mask.
+3. **Bunny Suit (Traje especial)**: A full-body, anti-static suit that covers the worker from head to toe.
+4. **Booties & Gloves**: Wearing specialized non-dusting boots and double-layer nitrile gloves.
+5. **Air Shower (Ducha de aire)**: Before walking through the cleanroom doors, workers stand in an air shower cabinet that blows high-velocity filtered air to strip away any remaining dust from the outside of their bunny suits.
+
+Workers also use specialized **cleanroom paper** and non-shedding pens. Traditional pencils are banned because graphite flakes contaminate the air.
+`,
+                        vocabulary: [
+                            { en: "Cleanroom", es: "Sala limpia / Cuarto limpio", definition: "A controlled room with extremely low levels of dust and pollutants" },
+                            { en: "Gown Room", es: "Sala de vestimenta", definition: "The locker area where workers put on protective suits" },
+                            { en: "Bunny Suit", es: "Traje de sala limpia / Traje protector", definition: "The full-body suit worn to prevent human contamination" },
+                            { en: "Air Shower", es: "Ducha de aire", definition: "Chamber that blows air to remove particles from clothing before entry" },
+                            { en: "Contamination", es: "Contaminación", definition: "Unwanted particles that damage wafer circuits" },
+                            { en: "Gowning Protocol", es: "Protocolo de vestimenta", definition: "The strict sequence of steps to dress in cleanroom gear" }
+                        ],
+                        questions: [
+                            { q: "Why are cleanrooms necessary in semiconductor fabrication?", options: ["To prevent workers from getting sick", "Because a single dust particle can destroy microscopically small features", "To save electrical energy", "To protect wafers from daylight"], answer: 1 },
+                            { q: "Which area do workers use to put on bunny suits and prepare for cleanroom entry?", options: ["The control center", "The gown room", "The cafeteria", "The chemical bath"], answer: 1 },
+                            { q: "What is the function of the air shower?", options: ["To wash bunny suits with soap and water", "To blow high-velocity filtered air to remove dust particles from suits", "To measure the humidity of the fab", "To sterilize the silicon wafers"], answer: 1 },
+                            { q: "Compared to normal outdoor air, Class 1 cleanroom air is about:", options: ["10 times cleaner", "1,000 times cleaner", "35 million times cleaner", "Exactly the same"], answer: 2 }
+                        ]
+                    },
+                    {
+                        id: "semi-m4-r2",
+                        title: "Etching and Thin Film Deposition",
+                        duration: "10 min",
+                        content: `
+# Etching and Thin Film Deposition
+
+Once a circuit pattern has been printed onto the photoresist by photolithography, the wafer undergoes two key manufacturing phases to build the 3D structures: **Etching** (grabado) and **Deposition** (deposición).
+
+## Etching: Removing Material
+
+**Etching** is the process of removing unwanted materials from the wafer. The remaining photoresist acts as a shield, protecting the materials underneath. There are two primary types of etching:
+
+### 1. Wet Etching (Grabado por vía húmeda)
+The wafer is immersed in a liquid chemical bath (such as hydrofluoric acid). 
+- **Pros**: Simple and cheap.
+- **Cons**: It is **isotropic** (etched in all directions equally, creating curved edges). This makes it unsuitable for modern sub-10nm chips.
+
+### 2. Dry Etching (Grabado por vía seca)
+A machine uses reactive gas and **plasma** to bombard the wafer surface.
+- **Pros**: It is **anisotropic** (etches only in a vertical direction, creating straight, sharp vertical walls). Essential for tiny, dense transistors.
+- **Cons**: Complex, expensive, and can damage the crystal structure if not calibrated.
+
+## Thin Film Deposition: Adding Material
+
+To connect transistors and build insulating layers, engineers deposit thin films of conductors (metals) and insulators (dielectrics). The main methods are:
+
+- **CVD (Chemical Vapor Deposition)**: Reactant gases mix in a chamber, causing a chemical reaction that deposits a solid film on the wafer. Used for insulating layers.
+- **PVD (Physical Vapor Deposition / Sputtering)**: A physical process where gas ions bombard a metal target (like copper or aluminum), knocking atoms loose to coat the wafer. Used for metal connections.
+- **ALD (Atomic Layer Deposition)**: Gases are introduced one at a time in self-limiting pulses. It builds the film **one atomic layer at a time**. ALD offers unmatched control over thickness and step coverage.
+
+> **Overlaying layers**: These steps are repeated up to 80 times, layering oxides, metal lines, and silicon structures to build a complete microprocessor.
+`,
+                        vocabulary: [
+                            { en: "Wet Etching", es: "Grabado en húmedo (químico)", definition: "Removing material using liquid chemicals" },
+                            { en: "Dry Etching", es: "Grabado en seco (por plasma)", definition: "Removing material using reactive gases and plasma ions" },
+                            { en: "Isotropic", es: "Isotrópico", definition: "Etching that occurs in all directions at the same rate" },
+                            { en: "Anisotropic", es: "Anisotrópico", definition: "Etching that occurs in one preferred direction (typically vertical)" },
+                            { en: "Chemical Vapor Deposition (CVD)", es: "Deposición química de vapor", definition: "Depositing materials through chemical reactions of gases" },
+                            { en: "Physical Vapor Deposition (PVD)", es: "Deposición física de vapor", definition: "Coating wafer with metal by physically knocking atoms off a target" },
+                            { en: "Atomic Layer Deposition (ALD)", es: "Deposición por capa atómica", definition: "Adding films one atomic layer at a time for maximum control" }
+                        ],
+                        questions: [
+                            { q: "Why is dry etching preferred over wet etching for advanced node chips?", options: ["It is cheaper and faster", "It is anisotropic, creating straight vertical walls", "It uses liquid chemicals", "It cannot damage the crystal structure"], answer: 1 },
+                            { q: "Which deposition method builds thin films one atomic layer at a time?", options: ["ALD", "CVD", "PVD", "Wet Etching"], answer: 0 },
+                            { q: "What is PVD primarily used for in semiconductor manufacturing?", options: ["Developing positive photoresist", "Etching deep vertical channels", "Depositing metallic layers for electrical connections", "Purifying raw silicon crystals"], answer: 2 },
+                            { q: "What does isotropic mean in etching?", options: ["Material is removed vertically only", "Material is removed in all directions equally", "No material is removed", "Only metals are removed"], answer: 1 }
+                        ]
+                    }
+                ]
             },
             {
-                id: "semi-m5", title: "Testing, Packaging, and Quality Control",
-                titleES: "Pruebas, Empaquetado y Control de Calidad", icon: "fa-solid fa-vial",
-                readings: [{ id: "semi-m5-r1", title: "Wafer Testing and Yield", duration: "10 min", content: "Content coming soon — covers probe testing, yield analysis, binning, and defect classification.", vocabulary: [], questions: [] },
-                           { id: "semi-m5-r2", title: "Chip Packaging and ISO 9001", duration: "10 min", content: "Content coming soon — covers wire bonding, flip-chip, BGA packaging, and quality standards.", vocabulary: [], questions: [] }]
+                id: "semi-m5",
+                title: "Testing, Packaging, and Quality Control",
+                titleES: "Pruebas, Empaquetado y Control de Calidad",
+                icon: "fa-solid fa-vial",
+                readings: [
+                    {
+                        id: "semi-m5-r1",
+                        title: "Wafer Testing and Yield",
+                        duration: "10 min",
+                        content: `
+# Wafer Testing and Yield
+
+Before a silicon wafer is cut into individual chips, every single circuit must be tested. This phase is critical because manufacturing chips is imperfect, and defects are inevitable.
+
+## Wafer Probe Testing
+
+A machine called a **wafer prober** uses a probe card with thousands of microscopic needles to touch the electrical pads on each chip (called a **die**). It runs rapid electrical tests to verify if the logic, memory, and voltage levels are correct.
+
+- **Sorting / Binning**: Chips that pass are marked as functional. In some cases, chips are classified into different "bins" based on their performance (e.g., speed, power consumption). A high-speed chip is sold as a premium processor, while a slower chip from the same wafer is sold at a lower price.
+- **Ink Dotting / Digital Mapping**: Traditionally, defective chips were marked with a drop of black ink. Today, a computer generates a digital "wafer map" that records the coordinates of all failed dies.
+
+## Yield: The Ultimate Metric
+
+In semiconductor manufacturing, **yield** (rendimiento) is the most critical business metric. It represents the percentage of working chips produced compared to the maximum possible count.
+
+$$\text{Yield} = \frac{\text{Number of functional dies}}{\text{Total dies on wafer}} \times 100\%$$
+
+If a wafer contains 500 dies, and testing shows that 400 are functional, the yield is **80%**. A low yield (e.g., 20%) means the factory is wasting expensive materials and processing time, which can ruin a chip designer's profits.
+
+## Statistical Process Control (SPC)
+
+To maintain high yields, fabs use **SPC (Statistical Process Control)**. Sensors monitor thousands of parameters (such as temperature, gas flow, and pressure) in real-time. If a sensor's readings shift away from the statistical average, SPC charts alert engineers immediately. This allows them to stop the machines and fix issues before entire batches of wafers are ruined.
+`,
+                        vocabulary: [
+                            { en: "Probe Testing", es: "Prueba con sonda / Testeo de obleas", definition: "Electrical testing of chips while still on the wafer" },
+                            { en: "Die", es: "Pastilla / Chip individual", definition: "A single unpackaged square of silicon containing a circuit" },
+                            { en: "Yield", es: "Rendimiento", definition: "The ratio of working chips to the total chips produced" },
+                            { en: "Binning", es: "Clasificación de chips", definition: "Sorting chips into groups based on performance and speed" },
+                            { en: "Wafer Map", es: "Mapa de oblea", definition: "A digital grid recording the layout and status of each die" },
+                            { en: "Statistical Process Control (SPC)", es: "Control estadístico de procesos", definition: "Using statistical methods to monitor and control a production process" }
+                        ],
+                        questions: [
+                            { q: "What does 'yield' measure in semiconductor manufacturing?", options: ["The weight of the silicon wafer", "The speed of the chip processing", "The percentage of functional working chips produced", "The quantity of gas used in etching"], answer: 2 },
+                            { q: "What tool is used to run electrical tests on chips while they are still on the wafer?", options: ["A spin coater", "A wafer prober", "An ion implanter", "An air shower"], answer: 1 },
+                            { q: "What is the primary purpose of 'binning'?", options: ["To throw failed chips in the trash", "To sort working chips into price/performance categories", "To pack wafers into shipping containers", "To wash the wafer between layers"], answer: 1 },
+                            { q: "How is Statistical Process Control (SPC) used to maintain high yields?", options: ["By replacing human workers with robots", "By monitoring fab parameters in real-time to alert engineers of shifts", "By increasing the temperature of cleanrooms", "By using cheaper raw silicon"], answer: 1 }
+                        ]
+                    },
+                    {
+                        id: "semi-m5-r2",
+                        title: "Chip Packaging and ISO 9001",
+                        duration: "10 min",
+                        content: `
+# Chip Packaging and ISO 9001
+
+A functional silicon die is extremely fragile. It is thinner than paper, sensitive to moisture, and can be destroyed by static electricity. To be useful, it must be enclosed in a protective shell — a process called **packaging** (empaquetado).
+
+## The Three Roles of Packaging
+
+1. **Environmental Protection**: Enclosing the die in a plastic, ceramic, or metal case to block dust, moisture, and impact.
+2. **Electrical Connections**: Connecting the tiny microscopic pads on the die to larger pins or pads that can be soldered to a printed circuit board (PCB).
+3. **Heat Dissipation**: Providing a path to pull heat away from the silicon core (often using metal heat spreaders).
+
+## Packaging Techniques
+
+As chips grew more advanced, packaging evolved:
+
+### 1. Wire Bonding (Conexión por micro-alambres)
+Microscopic gold or aluminum wires are welded from the die pads to the package leads. 
+- **Pros**: Very cheap and reliable.
+- **Cons**: Slow and limited bandwidth; not suitable for high-speed processors.
+
+### 2. Flip-Chip
+The die is flipped upside down, and small solder bumps on the chip surface connect directly to the package substrate. This allows for higher pin counts and shorter electrical paths.
+
+### 3. BGA (Ball Grid Array)
+Instead of pins, BGA packages use a grid of tiny **solder balls** (bolas de soldadura) on the bottom of the package. It provides high contact density and excellent thermal performance.
+
+### 4. Advanced Packaging (2.5D/3D)
+Combining multiple dies (like CPU cores and high-bandwidth memory, HBM) in a single package. TSMC's **CoWoS** (Chip-on-Wafer-on-Substrate) is an example of advanced packaging used for high-end AI chips.
+
+## Quality Standards: ISO 9001 and Automotive Reliability
+
+Chips used in cars (automotive grade) or planes (aerospace grade) must follow extreme quality standards. They must operate from -40°C to 125°C and survive vibrations for 15+ years. A failure in a phone is annoying; a failure in a car brake system is fatal. Fabs must comply with **ISO 9001** (general quality management) and **AEC-Q100** (automotive qualification standard) to sell to these safety-critical industries.
+`,
+                        vocabulary: [
+                            { en: "Chip Packaging", es: "Empaquetado de chips / Encapsulado", definition: "Enclosing a silicon die in a protective container" },
+                            { en: "Wire Bonding", es: "Conexión de micro-alambres", definition: "Connecting die to package leads using ultra-thin metal wires" },
+                            { en: "Solder Ball", es: "Bola de soldadura", definition: "Tiny sphere of solder used to connect BGA packages to PCBs" },
+                            { en: "BGA (Ball Grid Array)", es: "Matriz de rejilla de bolas", definition: "Package style using a grid of solder balls on the bottom" },
+                            { en: "Heat Dissipation", es: "Disipación de calor", definition: "The process of transfering thermal energy away from the chip" },
+                            { en: "Substrate", es: "Sustrato", definition: "The base material that holds the die and wiring in the package" }
+                        ],
+                        questions: [
+                            { q: "What is the primary purpose of chip packaging?", options: ["To change the electrical voltage of the chip", "To protect the delicate silicon die and connect it to a circuit board", "To increase the transistor count", "To make chips look attractive"], answer: 1 },
+                            { q: "Which packaging technique uses a grid of tiny solder balls on the bottom?", options: ["Wire Bonding", "Flip-Chip", "BGA (Ball Grid Array)", "Doping"], answer: 2 },
+                            { q: "What is 'wire bonding'?", options: ["Welding micro-thin gold/aluminum wires from die pads to package leads", "Tying cables together inside the cleanroom", "Connecting wafers using copper bars", "Using lasers to glue the chip to glass"], answer: 0 },
+                            { q: "Why do automotive grade chips require stricter certifications like AEC-Q100?", options: ["To make them cheaper for car buyers", "Because they experience extreme temperatures, vibrations, and failures can be fatal", "So they can connect to wireless networks", "To speed up their manufacturing time"], answer: 1 }
+                        ]
+                    }
+                ]
             },
             {
-                id: "semi-m6", title: "The Global Chip Industry and Nearshoring",
-                titleES: "La Industria Global de Chips y Nearshoring", icon: "fa-solid fa-globe",
-                readings: [{ id: "semi-m6-r1", title: "The Semiconductor Supply Chain", duration: "10 min", content: "Content coming soon — covers TSMC, Samsung, Intel, the CHIPS Act, and Mexico's role.", vocabulary: [], questions: [] },
-                           { id: "semi-m6-r2", title: "Careers in Semiconductor Manufacturing", duration: "10 min", content: "Content coming soon — covers fab technician, process engineer, equipment engineer roles.", vocabulary: [], questions: [] }]
+                id: "semi-m6",
+                title: "The Global Chip Industry and Nearshoring",
+                titleES: "La Industria Global de Chips y Nearshoring",
+                icon: "fa-solid fa-globe",
+                readings: [
+                    {
+                        id: "semi-m6-r1",
+                        title: "The Semiconductor Supply Chain",
+                        duration: "10 min",
+                        content: `
+# The Semiconductor Supply Chain
+
+The semiconductor supply chain is one of the most complex, expensive, and specialized networks in global economics. No single country contains all the resources, tools, and talent required to design and build advanced chips.
+
+## Fabs vs. Fabless Design Houses
+
+The industry is split into three business models:
+
+1. **Fabless Companies (Sin fábrica)**: Companies that design chips but do not own manufacturing facilities. They focus on research and software.
+   - **Examples**: Apple, NVIDIA, AMD, Qualcomm.
+2. **Foundries (Fundidoras)**: Contract factories that manufacture chips designed by fabless companies. They do not design their own chips.
+   - **Examples**: **TSMC** (Taiwan Semiconductor Manufacturing Company), GlobalFoundries.
+3. **IDMs (Integrated Device Manufacturers)**: Companies that both design and manufacture their own chips.
+   - **Examples**: Intel, Samsung, Texas Instruments.
+
+TSMC is the absolute leader, manufacturing over **90%** of the world's most advanced processors.
+
+## Nearshoring and the CHIPS Act
+
+Because of geopolitical tensions and natural disasters, governments and corporations realized that having 90% of chip manufacturing in Taiwan is highly risky. The **US CHIPS Act** was passed to provide $52 billion in subsidies to build fabs inside North America.
+
+This trend is driving **nearshoring** (relocalización de manufactura en regiones cercanas) to Mexico:
+- **Design & Validation**: Fabs in Arizona (Intel, TSMC) are closely linked to design and testing hubs in Guadalajara and Monterrey.
+- **OSAT (Outsourced Semiconductor Assembly and Test)**: Mexico is capturing investments in packaging and testing facilities in cities like Chihuahua, Mexicali, and Hermosillo.
+- **Supply Chains**: Local manufacturers in Mexico supply critical gases, chemicals, and mechanical parts to fabs in the U.S. Southwest.
+`,
+                        vocabulary: [
+                            { en: "Supply Chain", es: "Cadena de suministro", definition: "The sequence of processes involved in the production and distribution of a commodity" },
+                            { en: "Foundry", es: "Fundidora de semiconductores", definition: "A factory that manufactures chips for other design companies" },
+                            { en: "Fabless", es: "Sin fábrica", definition: "A business model where a company designs chips but outsources fabrication" },
+                            { en: "IDM", es: "Fabricante de dispositivos integrados", definition: "A company that designs, manufactures, and sells its own chips" },
+                            { en: "Nearshoring", es: "Nearshoring / Relocalización cercana", definition: "Moving manufacturing operations close to the primary market" },
+                            { en: "CHIPS Act", es: "Ley de Chips (EE. UU.)", definition: "US federal law funding domestic semiconductor manufacturing and research" }
+                        ],
+                        questions: [
+                            { q: "What is a 'fabless' semiconductor company?", options: ["A company that only sells raw silicon crystals", "A company that designs chips but outsources manufacturing to a foundry", "A factory that operates without using electricity", "A company that packages chips without testing them"], answer: 1 },
+                            { q: "Which foundry company is the absolute world leader, manufacturing over 90% of advanced processors?", options: ["Intel", "Samsung", "TSMC", "ASML"], answer: 2 },
+                            { q: "Why is nearshoring bringing semiconductor investment to Mexico?", options: ["Because silicon is only mined in Mexico", "To locate testing, packaging, and supply chains closer to North American fab hubs", "To replace U.S. design houses completely", "Because ASML is based in Mexico"], answer: 1 },
+                            { q: "What is an IDM (Integrated Device Manufacturer)?", options: ["A company that designs, fabricates, and sells chips in-house", "A shipping firm that moves wafers", "A machine used in cleanrooms", "A brand of protective bunny suits"], answer: 0 }
+                        ]
+                    },
+                    {
+                        id: "semi-m6-r2",
+                        title: "Careers in Semiconductor Manufacturing",
+                        duration: "10 min",
+                        content: `
+# Careers in Semiconductor Manufacturing
+
+The expansion of semiconductor factories in North America and the nearshoring boom in Mexico are creating thousands of high-paying technical jobs. You do not always need a PhD to work in a fab — there are many entry paths for technicians and specialists.
+
+## Key Career Roles in a Fab
+
+### 1. Manufacturing Specialist (Especialista en manufactura)
+Manufacturing Specialists monitor production runs, handle materials, and manage the automated systems that move wafers through the fab. They are responsible for following gown room protocols, ensuring safety, and maximizing line yield.
+
+### 2. Equipment Technician (Técnico de equipo)
+Fabs use some of the most expensive machinery on Earth. Equipment Technicians perform preventive maintenance, calibrate sensors, and repair tools like ion implanters, gas chambers, and plasma etchers.
+
+### 3. Process Engineer (Ingeniero de procesos)
+Process Engineers optimize the chemical recipes for oxidation, etching, deposition, and lithography. Their goal is to reduce defects, decrease process time, and improve die yield.
+
+### 4. Quality Control Technician (Técnico de calidad)
+Quality Technicians apply Statistical Process Control (SPC) methods, monitor cleanroom contamination levels, inspect wafer samples under microscopes, and analyze test failures.
+
+## The Power of English for Specific Purposes (ESP)
+
+In a semiconductor fab, **English is the official language of operation**. All:
+- Equipment screens, operating software, and machine command consoles are in English.
+- Technical manuals, safety logs, and standard operating procedures (SOPs) are documented in English.
+- Global communications between factories in Mexico, the U.S., Taiwan, and Germany happen in English.
+
+Mastering the technical ESP vocabulary from this module is not just an academic exercise — it is a career-defining skill that separates entry-level workers from highly-paid global specialists.
+`,
+                        vocabulary: [
+                            { en: "Manufacturing Specialist", es: "Especialista en manufactura", definition: "Role monitoring fab runs, handling wafers, and managing automated systems" },
+                            { en: "Equipment Technician", es: "Técnico de equipo", definition: "Technician responsible for maintaining and repairing fab machinery" },
+                            { en: "Process Engineer", es: "Ingeniero de procesos", definition: "Engineer optimizing chemical and physical manufacturing stages to improve yield" },
+                            { en: "Quality Control", es: "Control de calidad", definition: "Monitoring and maintaining product standards using metrics like SPC" },
+                            { en: "SOP", es: "Procedimiento operativo estándar", definition: "Standard Operating Procedure — detailed instructions for operations" },
+                            { en: "Technical English", es: "Inglés técnico", definition: "English vocabulary and phrasing used for specific fields like engineering" }
+                        ],
+                        questions: [
+                            { q: "Which role focuses on preventive maintenance and repair of fab machinery?", options: ["Process Engineer", "Equipment Technician", "Manufacturing Specialist", "Quality Control Technician"], answer: 1 },
+                            { q: "Why is Technical English (ESP) critical in Mexican semiconductor facilities?", options: ["Because most workers are from England", "All manuals, equipment screens, and global operations are in English", "To write Spanish translations", "To communicate with local retail stores"], answer: 1 },
+                            { q: "What does a Process Engineer do in a fab?", options: ["Maintains cleanroom building structures", "Optimizes chemical and physical recipes of fabrication stages to improve yield", "Sorts packages into shipping boxes", "Dresses employees in the gown room"], answer: 1 },
+                            { q: "What is a Manufacturing Specialist responsible for?", options: ["Writing software for smartphone apps", "Designing circuit architectures", "Monitoring automated production runs, handling wafers, and following gown room protocols", "Operating laser drills"], answer: 2 }
+                        ]
+                    }
+                ]
             }
         ]
     },

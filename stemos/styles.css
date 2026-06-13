@@ -47,8 +47,9 @@ body {
 }
 
 h1, h2, h3, h4, .brand-name, .node-text, .stat-num, .generating-title, .badge-title {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 600;
+    letter-spacing: -0.02em;
 }
 
 /* Custom Scrollbar for Chat and Containers */
@@ -100,11 +101,12 @@ h1, h2, h3, h4, .brand-name, .node-text, .stat-num, .generating-title, .badge-ti
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: bold;
     font-size: 1.2rem;
     color: white;
     box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+    letter-spacing: -0.02em;
 }
 
 .brand-name {
@@ -986,7 +988,7 @@ h1, h2, h3, h4, .brand-name, .node-text, .stat-num, .generating-title, .badge-ti
 
 .cert-org {
     display: block;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 0.8rem;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -1004,7 +1006,7 @@ h1, h2, h3, h4, .brand-name, .node-text, .stat-num, .generating-title, .badge-ti
 }
 
 .cert-recipient {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 2.1rem;
     font-weight: 700;
     color: #1e3a8a; /* Royal blue */
@@ -1012,6 +1014,7 @@ h1, h2, h3, h4, .brand-name, .node-text, .stat-num, .generating-title, .badge-ti
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding-bottom: 8px;
     display: inline-block;
+    letter-spacing: -0.02em;
 }
 
 .cert-body-text {
@@ -1022,11 +1025,12 @@ h1, h2, h3, h4, .brand-name, .node-text, .stat-num, .generating-title, .badge-ti
 }
 
 .cert-skill-name {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1.25rem;
     font-weight: 700;
     color: #0f172a;
     margin: 12px 0 16px;
+    letter-spacing: -0.02em;
 }
 
 .cert-footer {
@@ -1703,7 +1707,8 @@ p, .info-node-desc, .page-subtitle, .cert-body-text {
     font-size: 1rem;
     font-weight: 700;
     color: white;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: -0.01em;
 }
 
 .vocab-term-es {
@@ -1881,7 +1886,7 @@ p, .info-node-desc, .page-subtitle, .cert-body-text {
     font-size: 2.2rem;
     font-weight: 800;
     color: var(--accent-amber);
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
     letter-spacing: -1px;
     text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
 }
