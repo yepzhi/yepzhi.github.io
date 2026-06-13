@@ -2018,3 +2018,33 @@ p, .info-node-desc, .page-subtitle, .cert-body-text {
     }
 }
 
+/* --- LXP Footer --- */
+.lxp-footer {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.lxp-footer-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-align: right;
+    max-width: 600px;
+}
+
+.lxp-footer-chips-inspired {
+    display: block;
+    font-size: 0.72rem;
+    opacity: 0.8;
+    margin-top: 2px;
+}
+
