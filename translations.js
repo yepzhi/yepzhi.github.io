@@ -75,7 +75,7 @@ const translations = {
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
-            rights: "© 2026 Alberto Yépiz • All Rights Reserved • v4.2.2"
+            rights: "© 2026 Alberto Yépiz • All Rights Reserved • v4.2.3"
         }
     },
     en: {
@@ -154,7 +154,7 @@ const translations = {
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
-            rights: "© 2026 Alberto Yépiz • All Rights Reserved • v4.2.2"
+            rights: "© 2026 Alberto Yépiz • All Rights Reserved • v4.2.3"
         }
     },
     cn: {
@@ -233,7 +233,7 @@ const translations = {
         footer: {
             developed: "由 <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a> 开发",
             visitors: "访客 👀",
-            rights: "© 2026 Alberto Yépiz • 版权所有 • v4.2.2"
+            rights: "© 2026 Alberto Yépiz • 版权所有 • v4.2.3"
         }
     }
 };
