@@ -1,0 +1,2 @@
+/stemos https://stemos.org 301
+/stemos/* https://stemos.org/:splat 301
