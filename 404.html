@@ -41,8 +41,11 @@
         const pathSegments = path.split('/');
         const rootPath = pathSegments[1] ? pathSegments[1].toLowerCase() : '';
 
-        // If it's a known project, redirect to the correct casing
-        if (rootPath && projectMap[rootPath]) {
+        // If it's stemos, redirect to the new domain
+        if (rootPath === 'stemos') {
+            const extraPath = pathSegments.slice(2).join('/');
+            window.location.replace('https://stemos.org' + (extraPath ? '/' + extraPath : '') + window.location.search + window.location.hash);
+        } else if (rootPath && projectMap[rootPath]) {
             const redirectPath = projectMap[rootPath] + (pathSegments.slice(2).join('/') ? '/' + pathSegments.slice(2).join('/') : '');
             window.location.replace(window.location.origin + redirectPath + window.location.search + window.location.hash);
         } else {
