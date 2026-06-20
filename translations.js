@@ -6,7 +6,7 @@ const translations = {
             tools_big: "🛠️ Conoce mis otros desarrollos"
         },
         profile: {
-            bio: "<strong>Líder en Alianzas Comerciales, Producto y Desarrollo de Socios | EdTech, Plataformas Digitales ⚡ Infraestructura local GenAI.</strong><br><br>+15 años impulsando crecimiento en empresas como <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>, a través de alianzas estratégicas, redes de distribución y relaciones comerciales de largo plazo.<br><br>💼 MBA con especialización en Finanzas. Experiencia en CX/UX, analítica de datos y toma de decisiones basada en información.<br><br>📊 Certificación en Data Science y Agile Systems for Product Management, University of Maryland ✨<br>🇺🇸 Inglés nivel B2 (CEFR), certificado por ETS.<br><br>💻 Desarrollamos <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a>: una plataforma LXP de inglés técnico potenciada con IA, con infraestructura local GenAI. También lidero <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a>, iniciativa social que acerca ciencia, tecnología e innovación a las nuevas generaciones."
+            bio: "<strong>Líder en Alianzas, Producto y Desarrollo de Socios Comerciales | EdTech, Plataformas Digitales ⚡ Infraestructura local GenAI.</strong> +15 años impulsando crecimiento en empresas como <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>, a través de alianzas estratégicas, redes de distribución y relaciones comerciales de largo plazo.<br><br>💼 MBA con especialización en Finanzas. Experiencia en CX/UX, analítica de datos y toma de decisiones basada en información. 📊 Certificación en Data Science y Agile Systems for Product Management, University of Maryland ✨<br>🇺🇸 Inglés nivel B2 (CEFR), certificado por ETS.<br><br>💻 Desarrollamos <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a>: una plataforma LXP de inglés técnico potenciada con IA, con infraestructura local GenAI. También lidero <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a>, iniciativa social que acerca ciencia, tecnología e innovación a las nuevas generaciones."
         },
         links: {
             whatsapp: "👋 WhatsApp - Click Aqui!",
@@ -75,7 +75,7 @@ const translations = {
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
-            rights: "© 2026 Alberto Yépiz • All Rights Reserved • v4.2.4"
+            rights: "© 2026 Alberto Yépiz • All Rights Reserved • v4.2.5"
         }
     },
     en: {
@@ -154,7 +154,7 @@ const translations = {
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
-            rights: "© 2026 Alberto Yépiz • All Rights Reserved • v4.2.4"
+            rights: "© 2026 Alberto Yépiz • All Rights Reserved • v4.2.5"
         }
     },
     cn: {
@@ -233,7 +233,7 @@ const translations = {
         footer: {
             developed: "由 <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a> 开发",
             visitors: "访客 👀",
-            rights: "© 2026 Alberto Yépiz • 版权所有 • v4.2.4"
+            rights: "© 2026 Alberto Yépiz • 版权所有 • v4.2.5"
         }
     }
 };
