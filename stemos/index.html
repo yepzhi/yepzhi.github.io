@@ -23,189 +23,190 @@
     <!-- Premium Glassmorphic Coming Soon Page styles -->
     <style>
         :root {
-            --cs-bg-color: #0b0f19; /* Slate-blue background */
-            --cs-card-bg: rgba(255, 255, 255, 0.03); /* Glassmorphism background */
-            --cs-border-color: rgba(255, 255, 255, 0.18); /* Stronger glassy outline */
-            --cs-text-primary: #f3f4f6;
-            --cs-text-secondary: rgba(255, 255, 255, 0.7);
-            --cs-blue-glow: rgba(39, 126, 255, 0.3);
-            --cs-cyan-glow: rgba(0, 210, 255, 0.25);
+            --cs-bg-color: #08111f;
+            --cs-card-bg: rgba(255, 255, 255, 0.04);
+            --cs-border-color: rgba(255, 255, 255, 0.13);
+            --cs-text-primary: #f0f4ff;
+            --cs-text-secondary: rgba(210, 225, 255, 0.65);
+            --cs-blue-glow: rgba(39, 126, 255, 0.32);
+            --cs-cyan-glow: rgba(0, 210, 255, 0.22);
         }
 
-        /* Coming Soon Screen Wrapper - Vertically scrollable and spacious */
+        /* ─── COMING SOON WRAPPER ─────────────────────────────────── */
         #coming-soon-screen {
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
             align-items: center;
             min-height: 100vh;
             width: 100%;
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             background-color: var(--cs-bg-color);
             color: var(--cs-text-primary);
             z-index: 999999;
-            overflow-y: auto; /* Enable vertical scroll */
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             font-family: 'Inter', sans-serif;
-            padding: 4rem 1rem;
+            scroll-behavior: smooth;
         }
 
-        /* Hide coming soon screen and show dashboard when unlocked */
-        .backdoor-unlocked #coming-soon-screen {
-            display: none !important;
-        }
-        
-        .backdoor-unlocked .dashboard-container {
-            display: flex !important;
-        }
+        .backdoor-unlocked #coming-soon-screen { display: none !important; }
+        .backdoor-unlocked .dashboard-container { display: flex !important; }
+        html:not(.backdoor-unlocked) .dashboard-container { display: none !important; }
 
-        /* If locked, hide the original dashboard container */
-        html:not(.backdoor-unlocked) .dashboard-container {
-            display: none !important;
-        }
-
-        /* Floating background gradients */
+        /* ─── AURORA BACKGROUND ──────────────────────────────────── */
         .cs-aurora-bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            overflow: hidden;
+            position: fixed;
+            width: 100%; height: 100%;
+            top: 0; left: 0;
             z-index: 1;
             pointer-events: none;
+            overflow: hidden;
         }
-
         .cs-aurora-orb {
             position: absolute;
-            filter: blur(140px);
+            filter: blur(130px);
             border-radius: 50%;
-            opacity: 0.55;
+            opacity: 0.5;
             mix-blend-mode: screen;
-            animation: cs-float 20s infinite alternate ease-in-out;
+            animation: cs-float 22s infinite alternate ease-in-out;
         }
-
         .cs-orb-1 {
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--cs-blue-glow) 0%, transparent 70%);
-            top: -10%;
-            left: -15%;
+            width: 650px; height: 650px;
+            background: radial-gradient(circle, rgba(30,100,255,0.35) 0%, transparent 70%);
+            top: -12%; left: -18%;
         }
-
         .cs-orb-2 {
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--cs-cyan-glow) 0%, transparent 70%);
-            bottom: -15%;
-            right: -10%;
-            animation-delay: -5s;
+            width: 580px; height: 580px;
+            background: radial-gradient(circle, rgba(0,200,255,0.28) 0%, transparent 70%);
+            bottom: -12%; right: -12%;
+            animation-delay: -7s;
         }
-
+        .cs-orb-3 {
+            width: 350px; height: 350px;
+            background: radial-gradient(circle, rgba(0,150,255,0.2) 0%, transparent 70%);
+            top: 40%; left: 55%;
+            animation-delay: -12s;
+        }
         @keyframes cs-float {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(30px, -40px) scale(1.06); }
-            100% { transform: translate(-15px, 20px) scale(0.97); }
+            0%   { transform: translate(0, 0) scale(1); }
+            50%  { transform: translate(28px, -38px) scale(1.06); }
+            100% { transform: translate(-14px, 18px) scale(0.97); }
         }
 
-        /* Glassmorphic Container */
-        .cs-container {
+        /* ─── SCROLL SECTIONS ────────────────────────────────────── */
+        .cs-scroll-wrapper {
             z-index: 10;
-            width: 95%;
-            max-width: 700px;
-            padding: 3.5rem 2.5rem;
-            border-radius: 28px;
-            background: var(--cs-card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--cs-border-color);
-            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.37),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            animation: cs-fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) ease-out;
-            margin-bottom: 2rem;
-        }
-
-        @keyframes cs-fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .cs-brand {
-            margin-bottom: 1.5rem;
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.25rem;
+            gap: 0;
         }
 
-        /* Vibrant blue/cyan logo */
+        /* Each "page" section fills the viewport */
+        .cs-section {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5rem 1.5rem 4rem;
+            position: relative;
+        }
+
+        /* ─── GLASSMORPHIC CARD ─────────────────────────────────── */
+        .cs-container {
+            width: 95%;
+            max-width: 660px;
+            padding: 3rem 2.5rem 2.5rem;
+            border-radius: 30px;
+            background: var(--cs-card-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--cs-border-color);
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.04) inset,
+                0 16px 48px rgba(5, 20, 60, 0.5),
+                0 0 80px rgba(39, 126, 255, 0.06);
+            text-align: center;
+            animation: cs-fadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @keyframes cs-fadeIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── BRAND ─────────────────────────────────────────────── */
+        .cs-brand {
+            margin-bottom: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
         .cs-logo-text {
             font-family: 'Outfit', sans-serif;
-            font-size: 3.2rem;
+            font-size: clamp(2.8rem, 8vw, 3.8rem);
             font-weight: 900;
-            letter-spacing: -0.03em;
-            line-height: 1.0;
-            background: linear-gradient(135deg, #00d2ff 0%, #277eff 50%, #ffffff 100%);
+            letter-spacing: -0.04em;
+            line-height: 1;
+            background: linear-gradient(135deg, #00d2ff 0%, #1e8fff 45%, #ffffff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             display: inline-flex;
             align-items: center;
         }
-
         .cs-badge {
             display: inline-flex;
             align-items: center;
             gap: 6px;
             background: rgba(39, 126, 255, 0.1);
             border: 1px solid rgba(39, 126, 255, 0.25);
-            color: #00d2ff;
-            padding: 4px 12px;
+            color: #7dd3fc;
+            padding: 4px 14px;
             border-radius: 9999px;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 0.5rem;
+            letter-spacing: 1.2px;
         }
 
-        /* Launching August 2026 Badge */
+        /* ─── LAUNCH DATE BADGE ─────────────────────────────────── */
         .cs-launch-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: linear-gradient(135deg, rgba(39, 126, 255, 0.15) 0%, rgba(0, 210, 255, 0.15) 100%);
-            border: 1px solid rgba(0, 210, 255, 0.35);
+            background: linear-gradient(135deg, rgba(39,126,255,0.12) 0%, rgba(0,210,255,0.12) 100%);
+            border: 1px solid rgba(0, 210, 255, 0.3);
             color: #00d2ff;
-            padding: 8px 18px;
+            padding: 9px 20px;
             border-radius: 9999px;
             font-size: 0.85rem;
             font-weight: 700;
-            letter-spacing: 0.5px;
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.15);
-            margin-bottom: 2rem;
-            animation: float-badge 3s infinite ease-in-out;
+            letter-spacing: 0.4px;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.12), 0 0 40px rgba(0, 210, 255, 0.05);
+            margin-bottom: 1.75rem;
+            animation: float-badge 3.5s infinite ease-in-out;
         }
-
+        .cs-launch-badge i { font-size: 0.9rem; }
         @keyframes float-badge {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-5px); }
         }
 
+        /* ─── HEADLINE ──────────────────────────────────────────── */
         .cs-container h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(2rem, 5vw, 2.6rem);
+            font-size: clamp(1.75rem, 4.5vw, 2.4rem);
             font-weight: 800;
-            line-height: 1.25;
-            margin-bottom: 1.25rem;
-            letter-spacing: -0.02em;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            letter-spacing: -0.025em;
             color: #ffffff;
         }
-
         .cs-highlight {
             background: linear-gradient(135deg, #00d2ff 0%, #277eff 100%);
             -webkit-background-clip: text;
@@ -213,259 +214,475 @@
             background-clip: text;
         }
 
+        /* ─── DESCRIPTION ───────────────────────────────────────── */
         .cs-description {
             font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            line-height: 1.65;
+            font-size: 0.97rem;
+            line-height: 1.75;
             color: var(--cs-text-secondary);
-            margin-bottom: 2.25rem;
-            max-width: 600px;
+            margin-bottom: 0;
+            max-width: 560px;
             margin-left: auto;
             margin-right: auto;
             font-weight: 400;
         }
-
         .cs-description strong {
-            color: #ffffff;
+            color: rgba(255, 255, 255, 0.92);
             font-weight: 600;
         }
 
-        /* Glass Interactive Preview - Beautiful SVG Graph */
+        /* ─── DIVIDER ───────────────────────────────────────────── */
+        .cs-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 30%, rgba(0,210,255,0.12) 50%, rgba(255,255,255,0.08) 70%, transparent);
+            margin: 2rem 0;
+        }
+
+        /* ─── FEATURES GRID (second section card) ───────────────── */
+        .cs-features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 0;
+        }
+        .cs-feature-item {
+            background: rgba(255,255,255,0.035);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            padding: 1.2rem 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .cs-feature-item:hover {
+            background: rgba(0,210,255,0.06);
+            border-color: rgba(0,210,255,0.2);
+            transform: translateY(-3px);
+        }
+        .cs-feature-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.6rem;
+            background: linear-gradient(135deg, #00d2ff, #277eff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .cs-feature-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.85);
+            display: block;
+            letter-spacing: 0.01em;
+        }
+        .cs-feature-desc {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.45);
+            margin-top: 0.2rem;
+            display: block;
+            line-height: 1.4;
+        }
+
+        /* ─── LXP GRAPH PREVIEW ─────────────────────────────────── */
         .cs-graph-preview {
             width: 100%;
-            height: 150px;
-            background: rgba(255, 255, 255, 0.015);
+            height: 140px;
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 20px;
-            margin-bottom: 2.25rem;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
-            padding: 10px;
+            padding: 8px;
         }
-
         .cs-graph-preview::after {
             content: '';
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, transparent 65%, rgba(11, 15, 25, 0.7) 100%);
+            width: 100%; height: 100%;
+            background: linear-gradient(180deg, transparent 60%, rgba(8,17,31,0.6) 100%);
             pointer-events: none;
         }
+        .cs-graph-preview svg { max-width: 440px; height: auto; }
 
-        .cs-graph-preview svg {
-            max-width: 440px;
-            height: auto;
-        }
-
-        /* Buttons Apple-Style */
+        /* ─── BUTTONS ───────────────────────────────────────────── */
         .cs-btn-group {
             display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
+            flex-wrap: wrap;
+            gap: 0.875rem;
             justify-content: center;
             align-items: center;
         }
-
-        @media (min-width: 640px) {
-            .cs-btn-group { flex-direction: row; }
-        }
-
         .cs-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            padding: 13px 30px;
+            gap: 9px;
+            padding: 12px 28px;
             border-radius: 9999px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 700;
             text-decoration: none;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
-            width: 100%;
+            white-space: nowrap;
         }
-
-        @media (min-width: 640px) {
-            .cs-btn { width: auto; }
-        }
-
         .cs-btn-primary {
             background: linear-gradient(135deg, #277eff 0%, #00d2ff 100%);
             color: #ffffff;
             border: none;
-            box-shadow: 0 4px 20px rgba(39, 126, 255, 0.35);
+            box-shadow: 0 4px 20px rgba(39, 126, 255, 0.3);
         }
-
         .cs-btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(39, 126, 255, 0.5);
+            box-shadow: 0 8px 28px rgba(39, 126, 255, 0.5);
         }
-
         .cs-btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255,255,255,0.85);
+            border: 1px solid rgba(255, 255, 255, 0.14);
         }
-
         .cs-btn-secondary:hover {
             background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.22);
             transform: translateY(-2px);
         }
 
+        /* ─── FOOTER ────────────────────────────────────────────── */
         .cs-footer {
-            margin-top: 1rem;
+            padding: 2.5rem 1rem 3rem;
             z-index: 10;
             text-align: center;
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.35);
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.3);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
-
-        /* Developed by Button Nice */
         .cs-dev-btn {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 18px;
+            padding: 7px 20px;
             border-radius: 9999px;
             font-size: 0.75rem;
             font-weight: 700;
             text-decoration: none;
-            background: linear-gradient(135deg, rgba(0, 210, 255, 0.08) 0%, rgba(39, 126, 255, 0.08) 100%);
-            border: 1px solid rgba(0, 210, 255, 0.25);
-            color: #00d2ff;
-            box-shadow: 0 0 10px rgba(0, 210, 255, 0.05);
+            background: linear-gradient(135deg, rgba(0,210,255,0.07) 0%, rgba(39,126,255,0.07) 100%);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            color: #7dd3fc;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             user-select: none;
         }
-
         .cs-dev-btn:hover {
             background: linear-gradient(135deg, #00d2ff 0%, #277eff 100%);
             color: #ffffff;
             border-color: transparent;
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.35);
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
             transform: translateY(-1.5px);
         }
 
-        /* Trigger Styling */
+        /* ─── SCROLL PROGRESS HEARTS (Ada Lovelace ♥) ──────────── */
+        .cs-scroll-dots {
+            position: fixed;
+            right: 1.4rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .cs-dot {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* The heart shape via ::before */
+        .cs-dot::before {
+            content: '\2665'; /* ♥ */
+            font-size: 16px;
+            line-height: 1;
+            color: rgba(255, 255, 255, 0.2);
+            transition:
+                color 0.35s ease,
+                filter 0.35s ease,
+                font-size 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: block;
+            filter: none;
+        }
+
+        /* Tooltip label on the left */
+        .cs-dot::after {
+            content: attr(data-label);
+            position: absolute;
+            right: calc(100% + 10px);
+            top: 50%;
+            transform: translateY(-50%) translateX(6px);
+            white-space: nowrap;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.0);
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            background: linear-gradient(135deg, #00d2ff, #ff6fb4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* HOVER state */
+        .cs-dot:hover {
+            transform: scale(1.5);
+        }
+        .cs-dot:hover::before {
+            color: #ff6fb4;
+            filter:
+                drop-shadow(0 0 6px rgba(255, 100, 180, 0.9))
+                drop-shadow(0 0 14px rgba(255, 100, 180, 0.5));
+            font-size: 18px;
+        }
+        .cs-dot:hover::after {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        /* ACTIVE (current section) */
+        .cs-dot.active::before {
+            color: #ff6fb4;
+            font-size: 20px;
+            filter:
+                drop-shadow(0 0 8px rgba(255, 100, 180, 0.9))
+                drop-shadow(0 0 20px rgba(255, 100, 180, 0.5))
+                drop-shadow(0 0 40px rgba(0, 210, 255, 0.3));
+            animation: lovelace-heartbeat 1.6s ease-in-out infinite;
+        }
+        .cs-dot.active::after {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+        .cs-dot.active {
+            transform: scale(1.35);
+        }
+
+        @keyframes lovelace-heartbeat {
+            0%, 100% { transform: scale(1);   filter: drop-shadow(0 0 8px rgba(255,100,180,0.9)) drop-shadow(0 0 20px rgba(255,100,180,0.5)); }
+            14%       { transform: scale(1.2); filter: drop-shadow(0 0 14px rgba(255,100,180,1))  drop-shadow(0 0 30px rgba(255,100,180,0.7)); }
+            28%       { transform: scale(1);   filter: drop-shadow(0 0 8px rgba(255,100,180,0.9)); }
+            42%       { transform: scale(1.1); filter: drop-shadow(0 0 10px rgba(255,100,180,0.95)); }
+        }
+
+        /* Click ripple */
+        .cs-dot.clicked::before {
+            animation: heart-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes heart-pop {
+            0%   { transform: scale(1); }
+            50%  { transform: scale(1.8); }
+            100% { transform: scale(1); }
+        }
+
+        /* ─── TRIGGER ──────────────────────────────────────────── */
         #backdoor-trigger {
             cursor: pointer;
             user-select: none;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-block;
         }
-
         #backdoor-trigger:hover {
-            text-shadow: 0 0 15px rgba(0, 210, 255, 0.9);
-            transform: scale(1.12);
+            filter: drop-shadow(0 0 14px rgba(0, 210, 255, 0.8));
+            transform: scale(1.1);
         }
     </style>
 </head>
 <body>
-    <!-- Under Construction Screen -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <!--   COMING SOON SCREEN                           -->
+    <!-- ═══════════════════════════════════════════════ -->
     <div id="coming-soon-screen">
-        <!-- Aurora Background glows -->
+
+        <!-- Fixed Aurora orbs -->
         <div class="cs-aurora-bg">
             <div class="cs-aurora-orb cs-orb-1"></div>
             <div class="cs-aurora-orb cs-orb-2"></div>
+            <div class="cs-aurora-orb cs-orb-3"></div>
         </div>
 
-        <!-- Main Container -->
-        <div class="cs-container">
-            <!-- Logo -->
-            <div class="cs-brand">
-                <div class="cs-logo-text">stem<span id="backdoor-trigger">O</span>S</div>
-                <div class="cs-badge">
-                    <i class="fa-solid fa-microchip"></i> LXP Platform
+        <!-- Scroll progress dots (fixed sidebar) -->
+        <nav class="cs-scroll-dots" id="cs-scroll-dots" aria-label="Page sections">
+            <div class="cs-dot active" data-section="0" data-label="Home" title="Home"></div>
+            <div class="cs-dot" data-section="1" data-label="About" title="About stemOS"></div>
+            <div class="cs-dot" data-section="2" data-label="Features" title="Features"></div>
+        </nav>
+
+        <!-- Scrollable content wrapper -->
+        <div class="cs-scroll-wrapper">
+
+            <!-- ══ SECTION 1 — HERO ═════════════════════════════ -->
+            <section class="cs-section" id="cs-section-0">
+                <div class="cs-container">
+
+                    <!-- Logo / Brand -->
+                    <div class="cs-brand">
+                        <div class="cs-logo-text">stem<span id="backdoor-trigger">O</span>S</div>
+                        <div class="cs-badge"><i class="fa-solid fa-microchip"></i>&nbsp;LXP Platform</div>
+                    </div>
+
+                    <!-- Launch Date Badge -->
+                    <div class="cs-launch-badge">
+                        <i class="fa-solid fa-rocket"></i>
+                        Launching&nbsp;<strong>August 2026</strong>
+                    </div>
+
+                    <!-- Headline -->
+                    <h1>Next-Gen Learning Experience<br><span class="cs-highlight">Is Coming Soon</span></h1>
+
+                    <div class="cs-divider"></div>
+
+                    <!-- Tagline description -->
+                    <p class="cs-description">
+                        <strong>stemOS</strong> is an AI-powered Learning Experience Platform (LXP) designed to
+                        bridge the STEM talent and specialized English proficiency gap — through personalized
+                        pathways, industry-aligned micro-credentials, and Socratic AI tutoring.
+                    </p>
+
+                    <div class="cs-divider"></div>
+
+                    <!-- CTAs -->
+                    <div class="cs-btn-group">
+                        <a href="https://jovenesstem.com" class="cs-btn cs-btn-primary" target="_blank" rel="noopener noreferrer">
+                            <i class="fa-solid fa-seedling"></i> Explore JóvenesSTEM
+                        </a>
+                        <a href="https://yepzhi.com" class="cs-btn cs-btn-secondary">
+                            <i class="fa-solid fa-arrow-left"></i> Back to yepzhi.com
+                        </a>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- Launch Date Badge -->
-            <div class="cs-launch-badge">
-                <i class="fa-solid fa-calendar-days"></i> Launching August 2026
-            </div>
+            <!-- ══ SECTION 2 — ABOUT ════════════════════════════ -->
+            <section class="cs-section" id="cs-section-1">
+                <div class="cs-container">
+                    <div class="cs-brand" style="margin-bottom:1rem">
+                        <div class="cs-badge"><i class="fa-solid fa-circle-info"></i>&nbsp;About stemOS</div>
+                    </div>
+                    <h1 style="font-size:clamp(1.6rem,4vw,2.1rem); margin-bottom:1.25rem;">What is <span class="cs-highlight">stemOS</span>?</h1>
 
-            <!-- Headline -->
-            <h1>Next-Gen Learning Experience <br><span class="cs-highlight">Is Coming Soon</span></h1>
+                    <p class="cs-description" style="margin-bottom:0;">
+                        stemOS is a <strong>Latin American-native</strong> platform that combines a skills graph engine,
+                        a Socratic AI tutor (<em>Feynman Engine</em>), and Open Badges 3.0 credentials — all running on
+                        <strong>local GenAI infrastructure</strong>. Our mission: to make high-quality technical
+                        English and STEM education accessible to the next generation of engineers, technicians, and innovators.
+                    </p>
 
-            <!-- Pitch -->
-            <p class="cs-description">
-                <strong>stemOS</strong> is an AI-powered Learning Experience Platform (LXP) that delivers personalized STEM and technical English learning pathways through industry-aligned micro-credentials. Built to bridge the STEM talent and specialized English proficiency gap.
-                <br><br>
-                We are actively designing the core architecture. Very soon, you will be able to explore the interactive skills graph, participate in AI-guided Socratic dialogues, and earn verifiable credentials.
-            </p>
+                    <div class="cs-divider"></div>
 
-            <!-- Visual representation of LXP Graph - Premium SVG -->
-            <div class="cs-graph-preview">
-                <svg width="100%" height="100%" viewBox="0 0 400 150">
-                    <!-- Glowing connection lines -->
-                    <line x1="80" y1="75" x2="200" y2="75" stroke="#277eff" stroke-width="2" stroke-dasharray="4 2" />
-                    <line x1="200" y1="75" x2="320" y2="75" stroke="#00d2ff" stroke-width="2" stroke-dasharray="4 2" />
-                    <line x1="200" y1="75" x2="200" y2="35" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" />
-                    
-                    <!-- Node 1: Completed -->
-                    <g transform="translate(80, 75)">
-                        <circle r="20" fill="#0b0f19" stroke="#277eff" stroke-width="2" style="filter: drop-shadow(0 0 8px rgba(39, 126, 255, 0.5));" />
-                        <foreignObject x="-10" y="-10" width="20" height="20">
-                            <i class="fa-solid fa-check" style="color: #277eff; font-size: 14px; display: block; text-align: center; line-height: 20px;"></i>
-                        </foreignObject>
-                        <text y="32" font-family="'Outfit', sans-serif" font-size="10" fill="rgba(255,255,255,0.7)" font-weight="600" text-anchor="middle">English ESP</text>
-                    </g>
+                    <!-- Skills graph preview -->
+                    <div class="cs-graph-preview">
+                        <svg width="100%" height="100%" viewBox="0 0 400 130">
+                            <line x1="80" y1="65" x2="200" y2="65" stroke="#277eff" stroke-width="1.8" stroke-dasharray="5 3" opacity="0.7"/>
+                            <line x1="200" y1="65" x2="320" y2="65" stroke="#00d2ff" stroke-width="1.8" stroke-dasharray="5 3" opacity="0.7"/>
+                            <line x1="200" y1="65" x2="200" y2="28" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
+                            <!-- Node 1 -->
+                            <g transform="translate(80,65)">
+                                <circle r="19" fill="rgba(8,17,31,0.9)" stroke="#277eff" stroke-width="2" filter="url(#glow-blue)"/>
+                                <text x="0" y="5" font-family="'Outfit',sans-serif" font-size="11" fill="#277eff" font-weight="700" text-anchor="middle">✓</text>
+                                <text y="32" font-family="'Outfit',sans-serif" font-size="9" fill="rgba(255,255,255,0.6)" font-weight="600" text-anchor="middle">English ESP</text>
+                            </g>
+                            <!-- Node 2 -->
+                            <g transform="translate(200,65)">
+                                <circle r="23" fill="rgba(8,17,31,0.9)" stroke="#00d2ff" stroke-width="2.5" filter="url(#glow-cyan)"/>
+                                <text x="0" y="5" font-family="'Outfit',sans-serif" font-size="13" fill="#00d2ff" text-anchor="middle">⚡</text>
+                                <text y="36" font-family="'Outfit',sans-serif" font-size="9.5" fill="#ffffff" font-weight="700" text-anchor="middle">stemOS Core</text>
+                            </g>
+                            <!-- Node 3 -->
+                            <g transform="translate(320,65)">
+                                <circle r="19" fill="rgba(8,17,31,0.9)" stroke="#00d2ff" stroke-width="2" filter="url(#glow-cyan)"/>
+                                <text x="0" y="5" font-family="'Outfit',sans-serif" font-size="11" fill="#00d2ff" text-anchor="middle">💬</text>
+                                <text y="32" font-family="'Outfit',sans-serif" font-size="9" fill="rgba(255,255,255,0.6)" font-weight="600" text-anchor="middle">Feynman AI</text>
+                            </g>
+                            <!-- Node 4 Locked -->
+                            <g transform="translate(200,28)">
+                                <circle r="14" fill="rgba(8,17,31,0.9)" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
+                                <text x="0" y="5" font-family="'Outfit',sans-serif" font-size="10" fill="rgba(255,255,255,0.25)" text-anchor="middle">🔒</text>
+                            </g>
+                            <defs>
+                                <filter id="glow-blue"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                                <filter id="glow-cyan"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+            </section>
 
-                    <!-- Node 2: Core (Active) -->
-                    <g transform="translate(200, 75)">
-                        <circle r="24" fill="#0b0f19" stroke="#00d2ff" stroke-width="2.5" style="filter: drop-shadow(0 0 12px rgba(0, 210, 255, 0.6));" />
-                        <foreignObject x="-12" y="-12" width="24" height="24">
-                            <i class="fa-solid fa-brain" style="color: #00d2ff; font-size: 16px; display: block; text-align: center; line-height: 24px;"></i>
-                        </foreignObject>
-                        <text y="36" font-family="'Outfit', sans-serif" font-size="11" fill="#ffffff" font-weight="700" text-anchor="middle">stemOS Core</text>
-                    </g>
+            <!-- ══ SECTION 3 — FEATURES ═════════════════════════ -->
+            <section class="cs-section" id="cs-section-2">
+                <div class="cs-container">
+                    <div class="cs-brand" style="margin-bottom:1rem">
+                        <div class="cs-badge"><i class="fa-solid fa-star"></i>&nbsp;Core Features</div>
+                    </div>
+                    <h1 style="font-size:clamp(1.6rem,4vw,2.1rem); margin-bottom:1.5rem;">What to <span class="cs-highlight">Expect</span></h1>
 
-                    <!-- Node 3: AI Socratic (Active) -->
-                    <g transform="translate(320, 75)">
-                        <circle r="20" fill="#0b0f19" stroke="#00d2ff" stroke-width="2" style="filter: drop-shadow(0 0 8px rgba(0, 210, 255, 0.5));" />
-                        <foreignObject x="-10" y="-10" width="20" height="20">
-                            <i class="fa-solid fa-comments" style="color: #00d2ff; font-size: 13px; display: block; text-align: center; line-height: 20px;"></i>
-                        </foreignObject>
-                        <text y="32" font-family="'Outfit', sans-serif" font-size="10" fill="rgba(255,255,255,0.7)" font-weight="600" text-anchor="middle">Feynman AI</text>
-                    </g>
-                    
-                    <!-- Node 4: Locked -->
-                    <g transform="translate(200, 35)">
-                        <circle r="16" fill="#0b0f19" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" />
-                        <foreignObject x="-8" y="-8" width="16" height="16">
-                            <i class="fa-solid fa-lock" style="color: rgba(255, 255, 255, 0.3); font-size: 11px; display: block; text-align: center; line-height: 16px;"></i>
-                        </foreignObject>
-                    </g>
-                </svg>
-            </div>
+                    <div class="cs-features-grid">
+                        <div class="cs-feature-item">
+                            <div class="cs-feature-icon"><i class="fa-solid fa-diagram-project"></i></div>
+                            <span class="cs-feature-title">Skills Graph</span>
+                            <span class="cs-feature-desc">Adaptive competency maps per industry track</span>
+                        </div>
+                        <div class="cs-feature-item">
+                            <div class="cs-feature-icon"><i class="fa-solid fa-brain"></i></div>
+                            <span class="cs-feature-title">Feynman Engine</span>
+                            <span class="cs-feature-desc">Socratic AI tutor powered by local GenAI</span>
+                        </div>
+                        <div class="cs-feature-item">
+                            <div class="cs-feature-icon"><i class="fa-solid fa-award"></i></div>
+                            <span class="cs-feature-title">Open Badges 3.0</span>
+                            <span class="cs-feature-desc">Verifiable credentials (W3C / 1EdTech)</span>
+                        </div>
+                        <div class="cs-feature-item">
+                            <div class="cs-feature-icon"><i class="fa-solid fa-language"></i></div>
+                            <span class="cs-feature-title">Technical English</span>
+                            <span class="cs-feature-desc">ESP tracks: semiconductor, aerospace & more</span>
+                        </div>
+                    </div>
 
-            <!-- Call to Actions -->
-            <div class="cs-btn-group">
-                <a href="https://jovenesstem.com" class="cs-btn cs-btn-primary" target="_blank" rel="noopener noreferrer">
-                    <i class="fa-solid fa-rocket"></i> Explore JóvenesSTEM Web
-                </a>
-                <a href="https://yepzhi.com" class="cs-btn cs-btn-secondary">
-                    <i class="fa-solid fa-arrow-left"></i> Back to yepzhi.com
-                </a>
-            </div>
-        </div>
+                    <div class="cs-divider"></div>
 
-        <!-- Footer -->
-        <div class="cs-footer">
-            <p>&copy; 2026 Lovelace Feynman Technologies SAPI SA de CV. All rights reserved.</p>
-            <a href="https://yepzhi.com" class="cs-dev-btn">
-                <i class="fa-solid fa-code"></i> Developed by @yepzhi
-            </a>
-        </div>
-    </div>
+                    <div class="cs-btn-group">
+                        <a href="https://jovenesstem.com" class="cs-btn cs-btn-primary" target="_blank" rel="noopener noreferrer">
+                            <i class="fa-solid fa-seedling"></i> Explore JóvenesSTEM
+                        </a>
+                        <a href="https://yepzhi.com" class="cs-btn cs-btn-secondary">
+                            <i class="fa-solid fa-user"></i> yepzhi.com
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Footer at end of last section -->
+                <div class="cs-footer">
+                    <p>&copy; 2026 Lovelace Feynman Technologies SAPI de CV. All rights reserved.</p>
+                    <a href="https://yepzhi.com" class="cs-dev-btn">
+                        <i class="fa-solid fa-code"></i>&nbsp;Developed by @yepzhi
+                    </a>
+                </div>
+            </section>
+
+        </div><!-- /cs-scroll-wrapper -->
+    </div><!-- /coming-soon-screen -->
 
 
     <!-- Main LXP Dashboard Container -->
@@ -928,26 +1145,71 @@
     <script src="content/courses.js" defer></script>
     <script src="app.js" defer></script>
 
-    <!-- Backdoor Controller Script -->
+    <!-- Backdoor + Scroll Dots Controller -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+            // ── Backdoor trigger (click the "O" in stemOS) ──────────────
             const trigger = document.getElementById('backdoor-trigger');
             if (trigger) {
                 trigger.addEventListener('click', (e) => {
                     e.preventDefault();
                     document.documentElement.classList.add('backdoor-unlocked');
                     localStorage.setItem('stemos_backdoor', 'true');
-                    console.log('backdoor unlocked!');
                 });
             }
 
-            // Allow locking back by double clicking the dashboard brand logo
+            // ── Lock back by double-clicking the dashboard logo ─────────
             const dbBrand = document.getElementById('dashboard-brand-logo');
             if (dbBrand) {
                 dbBrand.addEventListener('dblclick', () => {
                     localStorage.removeItem('stemos_backdoor');
                     document.documentElement.classList.remove('backdoor-unlocked');
                     window.location.reload();
+                });
+            }
+
+            // ── Scroll-progress hearts ─────────────────────────────────
+            const screen   = document.getElementById('coming-soon-screen');
+            const dots     = document.querySelectorAll('.cs-dot');
+            const sections = [
+                document.getElementById('cs-section-0'),
+                document.getElementById('cs-section-1'),
+                document.getElementById('cs-section-2'),
+            ];
+
+            function getActiveSection() {
+                const scrollMid = screen.scrollTop + screen.clientHeight / 2;
+                let best = 0;
+                sections.forEach((sec, i) => {
+                    if (!sec) return;
+                    const top = sec.offsetTop;
+                    const bot = top + sec.offsetHeight;
+                    if (scrollMid >= top && scrollMid < bot) best = i;
+                });
+                return best;
+            }
+
+            function updateDots() {
+                const active = getActiveSection();
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === active);
+                });
+            }
+
+            if (screen) {
+                screen.addEventListener('scroll', updateDots, { passive: true });
+                updateDots();
+
+                // Click on heart → scroll to section + pop animation
+                dots.forEach((dot, i) => {
+                    dot.addEventListener('click', () => {
+                        dot.classList.add('clicked');
+                        setTimeout(() => dot.classList.remove('clicked'), 450);
+                        if (sections[i]) {
+                            sections[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
                 });
             }
         });
