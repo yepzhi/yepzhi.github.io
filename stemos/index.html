@@ -8,7 +8,7 @@
     <!-- Google Fonts: Space Grotesk & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css?v=1.0.1">
@@ -20,17 +20,15 @@
         }
     </script>
 
-    <!-- Ultra-modern Coming Soon Page styles -->
+    <!-- Premium Apple-style Coming Soon Page styles -->
     <style>
         :root {
-            --cs-bg-color: #030712;
-            --cs-card-bg: rgba(17, 24, 39, 0.7);
-            --cs-border-color: rgba(255, 255, 255, 0.08);
+            --cs-bg-color: #08070f;
+            --cs-card-bg: linear-gradient(135deg, rgba(139, 92, 246, 0.04) 0%, rgba(10, 10, 10, 0.7) 100%);
+            --cs-border-color: rgba(139, 92, 246, 0.25);
             --cs-text-primary: #f3f4f6;
-            --cs-text-secondary: #9ca3af;
-            --cs-indigo: #6366f1;
-            --cs-cyan: #06b6d4;
-            --cs-pink: #ec4899;
+            --cs-text-secondary: rgba(255, 255, 255, 0.8);
+            --cs-purple-glow: rgba(139, 92, 246, 0.15);
         }
 
         /* Coming Soon Screen Wrapper */
@@ -66,7 +64,7 @@
             display: none !important;
         }
 
-        /* Coming Soon Visuals */
+        /* Floating background elements */
         .cs-aurora-bg {
             position: absolute;
             width: 100%;
@@ -82,173 +80,150 @@
             position: absolute;
             filter: blur(140px);
             border-radius: 50%;
-            opacity: 0.4;
+            opacity: 0.35;
             mix-blend-mode: screen;
-            animation: cs-float 20s infinite alternate ease-in-out;
+            animation: cs-float 25s infinite alternate ease-in-out;
         }
 
         .cs-orb-1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, var(--cs-indigo) 0%, transparent 70%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, transparent 70%);
             top: -10%;
-            left: -10%;
+            left: -15%;
         }
 
         .cs-orb-2 {
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, var(--cs-cyan) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
             bottom: -20%;
             right: -10%;
-            animation-delay: -5s;
-        }
-
-        .cs-orb-3 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, var(--cs-pink) 0%, transparent 70%);
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-delay: -10s;
+            animation-delay: -6s;
         }
 
         @keyframes cs-float {
             0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(40px, -60px) scale(1.1); }
-            100% { transform: translate(-20px, 30px) scale(0.95); }
+            50% { transform: translate(30px, -45px) scale(1.08); }
+            100% { transform: translate(-15px, 20px) scale(0.96); }
         }
 
+        /* Glass Container - Apple Style */
         .cs-container {
             z-index: 10;
             width: 90%;
-            max-width: 800px;
-            padding: 3.5rem 2rem;
-            border-radius: 24px;
+            max-width: 720px;
+            padding: 3.5rem 2.5rem;
+            border-radius: 28px;
             background: var(--cs-card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--cs-border-color);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.05);
             text-align: center;
             position: relative;
             overflow: hidden;
-            animation: cs-fadeIn 1.2s ease-out;
-        }
-
-        .cs-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--cs-indigo), var(--cs-cyan), var(--cs-pink));
+            animation: cs-fadeIn 1.0s cubic-bezier(0.16, 1, 0.3, 1) ease-out;
         }
 
         @keyframes cs-fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .cs-brand {
-            margin-bottom: 2rem;
+            margin-bottom: 2.25rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
         .cs-logo-text {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 700;
-            letter-spacing: -1.5px;
-            background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.6rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.0;
+            background: linear-gradient(135deg, #c084fc 0%, #ffffff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            display: flex;
+            background-clip: text;
+            display: inline-flex;
             align-items: center;
-            gap: 4px;
-        }
-
-        .cs-logo-accent {
-            background: linear-gradient(135deg, var(--cs-indigo), var(--cs-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
         .cs-badge {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(99, 102, 241, 0.12);
-            border: 1px solid rgba(99, 102, 241, 0.25);
-            color: #a5b4fc;
-            padding: 6px 14px;
+            background: rgba(167, 139, 250, 0.08);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            color: #c084fc;
+            padding: 5px 12px;
             border-radius: 9999px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            animation: cs-pulse 2s infinite;
-        }
-
-        @keyframes cs-pulse {
-            0%, 100% { box-shadow: 0 0 15px rgba(99, 102, 241, 0.1); border-color: rgba(99, 102, 241, 0.25); }
-            50% { box-shadow: 0 0 25px rgba(99, 102, 241, 0.25); border-color: rgba(99, 102, 241, 0.5); }
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
         }
 
         .cs-construction-banner {
-            background: linear-gradient(90deg, rgba(234, 179, 8, 0.08) 0%, rgba(234, 179, 8, 0.02) 100%);
-            border: 1px solid rgba(234, 179, 8, 0.18);
-            color: #fef08a;
-            padding: 8px 18px;
+            background: linear-gradient(90deg, rgba(167, 139, 250, 0.08) 0%, rgba(167, 139, 250, 0.01) 100%);
+            border: 1px solid rgba(167, 139, 250, 0.15);
+            color: #d8b4fe;
+            padding: 8px 16px;
             border-radius: 12px;
             font-size: 0.85rem;
             font-weight: 500;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 2.25rem;
+            margin-bottom: 2rem;
         }
 
         .cs-container h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            line-height: 1.25;
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 800;
+            line-height: 1.15;
             margin-bottom: 1.5rem;
-            letter-spacing: -0.75px;
+            letter-spacing: -0.02em;
+            color: #ffffff;
         }
 
         .cs-highlight {
-            background: linear-gradient(120deg, #818cf8, #38bdf8);
+            background: linear-gradient(135deg, #c084fc 0%, #818cf8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .cs-description {
-            font-size: 1.05rem;
-            line-height: 1.65;
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.9rem, 2vw, 1.0rem);
+            line-height: 1.55;
             color: var(--cs-text-secondary);
             margin-bottom: 2.5rem;
-            max-width: 680px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            font-weight: 400;
         }
 
         .cs-description strong {
-            color: var(--cs-text-primary);
+            color: #ffffff;
             font-weight: 600;
         }
 
+        /* Glass Interactive Preview */
         .cs-graph-preview {
             width: 100%;
-            height: 160px;
-            background: rgba(255, 255, 255, 0.015);
-            border: 1px solid var(--cs-border-color);
+            height: 140px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 20px;
             margin-bottom: 2.5rem;
             display: flex;
@@ -263,14 +238,14 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, transparent 60%, rgba(3, 7, 18, 0.7) 100%);
+            background: linear-gradient(180deg, transparent 60%, rgba(8, 7, 15, 0.7) 100%);
             pointer-events: none;
         }
 
         .cs-nodes-container {
             display: flex;
             justify-content: space-around;
-            width: 75%;
+            width: 70%;
             position: relative;
         }
 
@@ -280,44 +255,45 @@
             top: 50%;
             left: 5%;
             right: 5%;
-            height: 2px;
-            background: linear-gradient(90deg, rgba(99, 102, 241, 0.7), rgba(6, 182, 212, 0.15));
+            height: 1px;
+            background: linear-gradient(90deg, rgba(167, 139, 250, 0.5), rgba(255, 255, 255, 0.05));
             z-index: 1;
             transform: translateY(-50%);
         }
 
         .cs-g-node {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: #0f172a;
-            border: 2px solid var(--cs-indigo);
+            background: #0f0e17;
+            border: 1px solid rgba(167, 139, 250, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2;
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.35);
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.2);
             animation: cs-nodePulse 3s infinite ease-in-out;
         }
 
         .cs-g-node.active {
-            border-color: var(--cs-cyan);
-            box-shadow: 0 0 25px rgba(6, 182, 212, 0.5);
+            border-color: #c084fc;
+            box-shadow: 0 0 20px rgba(192, 132, 252, 0.4);
             animation-delay: 1s;
         }
 
         .cs-g-node.locked {
-            border-color: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.1);
             box-shadow: none;
             animation: none;
-            opacity: 0.4;
+            opacity: 0.3;
         }
 
         @keyframes cs-nodePulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
+            50% { transform: scale(1.06); }
         }
 
+        /* Buttons Apple-Style */
         .cs-btn-group {
             display: flex;
             flex-direction: column;
@@ -335,12 +311,12 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            padding: 14px 30px;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 9999px;
+            font-size: 0.95rem;
+            font-weight: 700;
             text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
             width: 100%;
         }
@@ -350,26 +326,26 @@
         }
 
         .cs-btn-primary {
-            background: linear-gradient(135deg, var(--cs-indigo) 0%, #4f46e5 100%);
+            background: linear-gradient(135deg, #277eff 0%, #00d2ff 100%);
             color: #ffffff;
             border: none;
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 4px 24px rgba(39, 126, 255, 0.4);
         }
 
         .cs-btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
+            box-shadow: 0 6px 30px rgba(39, 126, 255, 0.6);
         }
 
         .cs-btn-secondary {
-            background: rgba(255, 255, 255, 0.04);
-            color: var(--cs-text-primary);
-            border: 1px solid var(--cs-border-color);
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .cs-btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
             transform: translateY(-2px);
         }
 
@@ -378,28 +354,28 @@
             z-index: 10;
             text-align: center;
             font-size: 0.8rem;
-            color: var(--cs-text-secondary);
+            color: rgba(255, 255, 255, 0.4);
         }
 
         .cs-footer a {
-            color: #a5b4fc;
+            color: #c084fc;
             text-decoration: none;
             transition: color 0.2s;
         }
 
-        .cs-footer a:hover { color: #c7d2fe; }
+        .cs-footer a:hover { color: #d8b4fe; }
 
-        /* Trigger Visual Feedback */
+        /* Trigger Styling */
         #backdoor-trigger {
             cursor: pointer;
             user-select: none;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-block;
         }
 
         #backdoor-trigger:hover {
-            text-shadow: 0 0 15px rgba(99, 102, 241, 0.9);
-            transform: scale(1.15);
+            text-shadow: 0 0 15px rgba(192, 132, 252, 0.9);
+            transform: scale(1.12);
         }
     </style>
 </head>
@@ -410,14 +386,13 @@
         <div class="cs-aurora-bg">
             <div class="cs-aurora-orb cs-orb-1"></div>
             <div class="cs-aurora-orb cs-orb-2"></div>
-            <div class="cs-aurora-orb cs-orb-3"></div>
         </div>
 
         <!-- Main Container -->
         <div class="cs-container">
             <!-- Logo -->
             <div class="cs-brand">
-                <div class="cs-logo-text">stem<span class="cs-logo-accent"><span id="backdoor-trigger">O</span>S</span></div>
+                <div class="cs-logo-text">stem<span id="backdoor-trigger">O</span>S</div>
                 <div class="cs-badge">
                     <i class="fa-solid fa-microchip"></i> LXP Platform
                 </div>
@@ -443,13 +418,13 @@
             <div class="cs-graph-preview">
                 <div class="cs-nodes-container">
                     <div class="cs-g-node">
-                        <i class="fa-solid fa-code" style="color: #a5b4fc;"></i>
+                        <i class="fa-solid fa-code" style="color: #a78bfa;"></i>
                     </div>
                     <div class="cs-g-node active">
-                        <i class="fa-solid fa-brain" style="color: #67e8f9;"></i>
+                        <i class="fa-solid fa-brain" style="color: #c084fc;"></i>
                     </div>
                     <div class="cs-g-node locked">
-                        <i class="fa-solid fa-lock" style="color: rgba(255, 255, 255, 0.4);"></i>
+                        <i class="fa-solid fa-lock" style="color: rgba(255, 255, 255, 0.3);"></i>
                     </div>
                 </div>
             </div>
