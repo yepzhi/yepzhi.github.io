@@ -112,16 +112,22 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 5rem 1.5rem 4rem;
+            padding: 2.5rem 1rem;
             position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .cs-section {
+                padding: 4rem 2rem;
+            }
         }
 
         /* ─── GLASSMORPHIC CARD ─────────────────────────────────── */
         .cs-container {
             width: 95%;
             max-width: 660px;
-            padding: 3rem 2.5rem 2.5rem;
-            border-radius: 30px;
+            padding: 2rem 1.5rem 1.5rem;
+            border-radius: 24px;
             background: var(--cs-card-bg);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
@@ -133,6 +139,12 @@
             text-align: center;
             animation: cs-fadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
+        @media (min-width: 768px) {
+            .cs-container {
+                padding: 3rem 2.5rem 2.5rem;
+                border-radius: 30px;
+            }
+        }
         @keyframes cs-fadeIn {
             from { opacity: 0; transform: translateY(16px); }
             to   { opacity: 1; transform: translateY(0); }
@@ -140,7 +152,7 @@
 
         /* ─── BRAND ─────────────────────────────────────────────── */
         .cs-brand {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -148,7 +160,7 @@
         }
         .cs-logo-text {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(2.8rem, 8vw, 3.8rem);
+            font-size: clamp(2.4rem, 7vw, 3.4rem);
             font-weight: 900;
             letter-spacing: -0.04em;
             line-height: 1;
@@ -182,28 +194,28 @@
             background: linear-gradient(135deg, rgba(39,126,255,0.12) 0%, rgba(0,210,255,0.12) 100%);
             border: 1px solid rgba(0, 210, 255, 0.3);
             color: #00d2ff;
-            padding: 9px 20px;
+            padding: 8px 18px;
             border-radius: 9999px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 0.4px;
             box-shadow: 0 0 20px rgba(0, 210, 255, 0.12), 0 0 40px rgba(0, 210, 255, 0.05);
-            margin-bottom: 1.75rem;
+            margin-bottom: 1.25rem;
             animation: float-badge 3.5s infinite ease-in-out;
         }
-        .cs-launch-badge i { font-size: 0.9rem; }
+        .cs-launch-badge i { font-size: 0.85rem; }
         @keyframes float-badge {
             0%, 100% { transform: translateY(0px); }
-            50%       { transform: translateY(-5px); }
+            50%       { transform: translateY(-4px); }
         }
 
         /* ─── HEADLINE ──────────────────────────────────────────── */
         .cs-container h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(1.75rem, 4.5vw, 2.4rem);
+            font-size: clamp(1.5rem, 4vw, 2.1rem);
             font-weight: 800;
-            line-height: 1.3;
-            margin-bottom: 1rem;
+            line-height: 1.25;
+            margin-bottom: 0.75rem;
             letter-spacing: -0.025em;
             color: #ffffff;
         }
@@ -217,8 +229,8 @@
         /* ─── DESCRIPTION ───────────────────────────────────────── */
         .cs-description {
             font-family: 'Inter', sans-serif;
-            font-size: 0.97rem;
-            line-height: 1.75;
+            font-size: 0.92rem;
+            line-height: 1.65;
             color: var(--cs-text-secondary);
             margin-bottom: 0;
             max-width: 560px;
@@ -236,15 +248,21 @@
             width: 100%;
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 30%, rgba(0,210,255,0.12) 50%, rgba(255,255,255,0.08) 70%, transparent);
-            margin: 2rem 0;
+            margin: 1.25rem 0;
         }
 
         /* ─── FEATURES GRID (second section card) ───────────────── */
         .cs-features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
             margin-bottom: 0;
+        }
+        @media (min-width: 480px) {
+            .cs-features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+                gap: 1rem;
+            }
         }
         .cs-feature-item {
             background: rgba(255,255,255,0.035);
@@ -423,7 +441,11 @@
 
         /* The heart path shape */
         .cs-dot-heart-path {
-            fill: #ff6fb4;
+            fill: none;
+            stroke: rgba(0, 210, 255, 0.65);
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
             opacity: 0;
             transform: scale(0);
             transform-origin: center;
@@ -447,7 +469,7 @@
             opacity: 0;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: none;
-            background: linear-gradient(135deg, #00d2ff, #ff6fb4);
+            background: linear-gradient(135deg, #00d2ff, #277eff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -464,9 +486,8 @@
         .cs-dot:hover .cs-dot-heart-path {
             opacity: 1;
             transform: scale(1.1);
-            filter:
-                drop-shadow(0 0 6px rgba(255, 100, 180, 0.9))
-                drop-shadow(0 0 14px rgba(255, 100, 180, 0.5));
+            stroke: #00d2ff;
+            filter: drop-shadow(0 0 6px rgba(0, 210, 255, 0.8));
         }
         .cs-dot:hover::after {
             opacity: 1;
@@ -484,10 +505,10 @@
         .cs-dot.active .cs-dot-heart-path {
             opacity: 1;
             transform: scale(1.2);
+            stroke: #00d2ff;
             filter:
-                drop-shadow(0 0 8px rgba(255, 100, 180, 0.9))
-                drop-shadow(0 0 20px rgba(255, 100, 180, 0.5))
-                drop-shadow(0 0 40px rgba(0, 210, 255, 0.3));
+                drop-shadow(0 0 8px rgba(0, 210, 255, 0.9))
+                drop-shadow(0 0 20px rgba(0, 210, 255, 0.3));
             animation: lovelace-heartbeat 1.6s ease-in-out infinite;
         }
         .cs-dot.active::after {
@@ -496,10 +517,10 @@
         }
 
         @keyframes lovelace-heartbeat {
-            0%, 100% { transform: scale(1.2); filter: drop-shadow(0 0 8px rgba(255,100,180,0.9)) drop-shadow(0 0 20px rgba(255,100,180,0.5)); }
-            14%       { transform: scale(1.4); filter: drop-shadow(0 0 14px rgba(255,100,180,1))  drop-shadow(0 0 30px rgba(255,100,180,0.7)); }
-            28%       { transform: scale(1.2); filter: drop-shadow(0 0 8px rgba(255,100,180,0.9)); }
-            42%       { transform: scale(1.3); filter: drop-shadow(0 0 10px rgba(255,100,180,0.95)); }
+            0%, 100% { transform: scale(1.2); filter: drop-shadow(0 0 6px rgba(0,210,255,0.7)); }
+            14%       { transform: scale(1.4); filter: drop-shadow(0 0 10px rgba(0,210,255,0.9)); }
+            28%       { transform: scale(1.2); filter: drop-shadow(0 0 6px rgba(0,210,255,0.7)); }
+            42%       { transform: scale(1.3); filter: drop-shadow(0 0 8px rgba(0,210,255,0.8)); }
         }
 
         /* Click ripple */
@@ -631,25 +652,25 @@
                             <!-- Node 1 -->
                             <g transform="translate(80,65)">
                                 <circle r="19" fill="rgba(8,17,31,0.9)" stroke="#277eff" stroke-width="2" filter="url(#glow-blue)"/>
-                                <text x="0" y="5" font-family="'Outfit',sans-serif" font-size="11" fill="#277eff" font-weight="700" text-anchor="middle">✓</text>
+                                <path d="M-5.5 -1.5 L-1.5 2.5 L5.5 -4.5" fill="none" stroke="#277eff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 <text y="32" font-family="'Outfit',sans-serif" font-size="9" fill="rgba(255,255,255,0.6)" font-weight="600" text-anchor="middle">English ESP</text>
                             </g>
                             <!-- Node 2 -->
                             <g transform="translate(200,65)">
                                 <circle r="23" fill="rgba(8,17,31,0.9)" stroke="#00d2ff" stroke-width="2.5" filter="url(#glow-cyan)"/>
-                                <text x="0" y="5" font-family="'Outfit',sans-serif" font-size="13" fill="#00d2ff" text-anchor="middle">⚡</text>
+                                <path d="M-1 -10 L5 -2 L1 -2 L3 10 L-5 2 L-1 2 Z" fill="#00d2ff"/>
                                 <text y="36" font-family="'Outfit',sans-serif" font-size="9.5" fill="#ffffff" font-weight="700" text-anchor="middle">stemOS Core</text>
                             </g>
                             <!-- Node 3 -->
                             <g transform="translate(320,65)">
                                 <circle r="19" fill="rgba(8,17,31,0.9)" stroke="#00d2ff" stroke-width="2" filter="url(#glow-cyan)"/>
-                                <text x="0" y="5" font-family="'Outfit',sans-serif" font-size="11" fill="#00d2ff" text-anchor="middle">💬</text>
+                                <path d="M-8 -6 h16 a4 4 0 0 1 4 4 v5 a4 4 0 0 1 -4 4 h-7 l-5 4 v-4 h-4 a4 4 0 0 1 -4 -4 v-5 a4 4 0 0 1 4 -4 z" fill="#00d2ff" transform="scale(0.7) translate(-1, -1)"/>
                                 <text y="32" font-family="'Outfit',sans-serif" font-size="9" fill="rgba(255,255,255,0.6)" font-weight="600" text-anchor="middle">Feynman AI</text>
                             </g>
                             <!-- Node 4 Locked -->
                             <g transform="translate(200,28)">
                                 <circle r="14" fill="rgba(8,17,31,0.9)" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
-                                <text x="0" y="5" font-family="'Outfit',sans-serif" font-size="10" fill="rgba(255,255,255,0.25)" text-anchor="middle">🔒</text>
+                                <path d="M-4.5 -2 h9 v7 h-9 z M-3 -2 v-2.5 a3 3 0 0 1 6 0 v2.5" fill="none" stroke="rgba(255, 255, 255, 0.3)" stroke-width="1.5" stroke-linecap="round" transform="translate(0, 1)"/>
                             </g>
                             <defs>
                                 <filter id="glow-blue"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
