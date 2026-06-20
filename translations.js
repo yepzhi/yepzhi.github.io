@@ -6,7 +6,7 @@ const translations = {
             tools_big: "🛠️ Conoce mis otros desarrollos"
         },
         profile: {
-            bio: "<strong>Líder de Alianzas Estratégicas y Canales | EdTech—Plataformas Digitales, ⚡Implementación de Servidores GenAI.</strong> con +15 años de experiencia en <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>, construyendo redes de canales de distribución y ecosistemas de desarrolladores.<br><br>💼 MBA con background financiero, Full-Cycle CX/UX y Data Analytics. 📊 Certificado en Data Science &amp; Agile Systems for Product Management — University of Maryland ✨ + English CEFR B2 🇺🇸 by ETS.<br><br>💻 Fundador de <a href=\"https://yepzhi.com/lovelace/\" target=\"_blank\"><strong>Lovelace Feynman Technologies SAPI SA de CV</strong></a>, impulsando <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a> (plataforma LXP de inglés técnico con IA, desplegada en infraestructura local de servidores GenAI) y la iniciativa social <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a> para conectar ciencia y tecnología con nuestras nuevas generaciones."
+            bio: "<strong>Líder en Alianzas Comerciales, Producto y Desarrollo de Socios | EdTech, Plataformas Digitales ⚡ Infraestructura local GenAI.</strong><br><br>+15 años impulsando crecimiento en empresas como <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>, a través de alianzas estratégicas, redes de distribución y relaciones comerciales de largo plazo.<br><br>💼 MBA con especialización en Finanzas. Experiencia en CX/UX, analítica de datos y toma de decisiones basada en información.<br><br>📊 Certificación en Data Science y Agile Systems for Product Management, University of Maryland ✨<br>🇺🇸 Inglés nivel B2 (CEFR), certificado por ETS.<br><br>💻 Desarrollamos <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a>: una plataforma LXP de inglés técnico potenciada con IA, con infraestructura local GenAI. También lidero <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a>, iniciativa social que acerca ciencia, tecnología e innovación a las nuevas generaciones."
         },
         links: {
             whatsapp: "👋 WhatsApp - Click Aqui!",
@@ -75,7 +75,7 @@ const translations = {
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
-            rights: "© 2026 Alberto Yépiz • All Rights Reserved • v4.2.3"
+            rights: "© 2026 Alberto Yépiz • All Rights Reserved • v4.2.4"
         }
     },
     en: {
@@ -85,7 +85,7 @@ const translations = {
             tools_big: "🛠️ Get to know more of my tools"
         },
         profile: {
-            bio: "<strong>Strategic Partnerships &amp; Channel Leader | EdTech—Digital Platforms, ⚡GenAI Server Implementation.</strong> with +15 years of experience at <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> and <strong>Santillana/Richmond</strong>, building distributor channel networks and developer ecosystems.<br><br>💼 MBA with financial background, Full-Cycle CX/UX and Data Analytics. 📊 Certified in Data Science &amp; Agile Systems for Product Management — University of Maryland ✨ + English CEFR B2 🇺🇸 by ETS.<br><br>💻 Founder of <a href=\"https://yepzhi.com/lovelace/\" target=\"_blank\"><strong>Lovelace Feynman Technologies SAPI SA de CV</strong></a>, driving <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a> (technical English LXP with AI, deployed on local GenAI server infrastructure) and the social initiative <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a> to connect science and technology with our new generations."
+            bio: "<strong>Strategic Partnerships &amp; Channel Leader | EdTech—Digital Platforms, ⚡GenAI Server Implementation.</strong> with +15 years of experience at <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> and <strong>Santillana/Richmond</strong>, building distributor channel networks and developer ecosystems.<br><br>💼 MBA with financial background, Full-Cycle CX/UX and Data Analytics. 📊 Certified in Data Science &amp; Agile Systems for Product Management — University of Maryland ✨ + English CEFR B2 🇺🇸 by ETS.<br><br>💻 Founder <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a> (technical English LXP with AI, deployed on local GenAI server infrastructure) and the social initiative <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JovenesSTEM 🌎</strong></a> to connect science and technology with our new generations."
         },
         links: {
             whatsapp: "👋 WhatsApp - Click Here!",
@@ -154,7 +154,7 @@ const translations = {
         footer: {
             developed: "Developed by <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a>",
             visitors: "Visitors 👀",
-            rights: "© 2026 Alberto Yépiz • All Rights Reserved • v4.2.3"
+            rights: "© 2026 Alberto Yépiz • All Rights Reserved • v4.2.4"
         }
     },
     cn: {
@@ -233,7 +233,7 @@ const translations = {
         footer: {
             developed: "由 <a href=\"https://github.com/yepzhi\" target=\"_blank\">@yepzhi</a> 开发",
             visitors: "访客 👀",
-            rights: "© 2026 Alberto Yépiz • 版权所有 • v4.2.3"
+            rights: "© 2026 Alberto Yépiz • 版权所有 • v4.2.4"
         }
     }
 };
