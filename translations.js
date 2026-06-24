@@ -6,7 +6,7 @@ const translations = {
             tools_big: "🛠️ Conoce mis otros desarrollos"
         },
         profile: {
-            bio: "<strong>Líder en Alianzas y Producto | EdTech, Plataformas Digitales ⚡ Infraestructura local GenAI.</strong> +15 años impulsando crecimiento en empresas como <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>, a través de alianzas estratégicas, redes de distribución y relaciones comerciales de largo plazo.<br><br>💼 MBA con especialización en Finanzas. Experiencia en CX/UX, analítica de datos y toma de decisiones basada en información. 📊 Certificación en Data Science y Agile Systems for Product Management, University of Maryland ✨<br>🇺🇸 Inglés nivel B2 (CEFR), certificado por ETS.<br><br>💻 Desarrollamos <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a>: una plataforma LXP de inglés técnico potenciada con IA, con infraestructura local GenAI. También lidero <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a>, iniciativa social que acerca ciencia, tecnología e innovación a las nuevas generaciones."
+            bio: "<strong>Líder en Alianzas y Producto | EdTech, Plataformas Digitales ⚡ Infraestructura local GenAI.</strong> +15 años impulsando crecimiento en empresas como <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond</strong>, a través de alianzas estratégicas, redes de distribución y relaciones comerciales de largo plazo.<br><br>💼 MBA con especialización en Finanzas. Experiencia en CX/UX, analítica de datos y toma de decisiones basada en información. 📊 Certificación en Data Science y Agile Systems for Product Management, University of Maryland ✨<br>🇺🇸 Inglés nivel B2 (CEFR), certificado por ETS.<br><br>💻 Desarrollamos <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a>: una plataforma LXP Next-Gen de habilidades técnicas y STEM potenciada con IA, con infraestructura local GenAI. También lidero <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a>, iniciativa social que acerca ciencia, tecnología e innovación a las nuevas generaciones."
         },
         links: {
             whatsapp: "👋 WhatsApp - Click Aqui!",
@@ -36,8 +36,8 @@ const translations = {
             btn: "Acceder a JóvenesSTEM Web"
         },
         stemos_promo: {
-            tagline: "Plataforma English for Specific Purposes -NextGen LXP",
-            text: "stemOS is an AI-powered Learning Experience Platform (LXP) that delivers personalized STEM and technical English Learning pathways through industry-aligned micro-credentials. Built to bridge the STEM talent and specialized English proficiency gap.",
+            tagline: "Plataforma LXP Next-Gen",
+            text: "stemOS is an AI-powered Learning Experience Platform (LXP) that delivers personalized STEM and technical skill learning pathways through industry-aligned micro-credentials. Built to bridge the STEM talent and technical skills gap.",
             btn: "Accede stemOS Preview"
         },
         lovelace_promo: {
@@ -85,7 +85,7 @@ const translations = {
             tools_big: "🛠️ Get to know more of my tools"
         },
         profile: {
-            bio: "<strong>Strategic Partnerships &amp; Channel Leader | EdTech—Digital Platforms, ⚡GenAI Server Implementation.</strong> with +15 years of experience at <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> and <strong>Santillana/Richmond</strong>, building distributor channel networks and developer ecosystems.<br><br>💼 MBA with financial background, Full-Cycle CX/UX and Data Analytics. 📊 Certified in Data Science &amp; Agile Systems for Product Management — University of Maryland ✨ + English CEFR B2 🇺🇸 by ETS.<br><br>💻 Founder <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a> (technical English LXP with AI, deployed on local GenAI server infrastructure) and the social initiative <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JovenesSTEM 🌎</strong></a> to connect science and technology with our new generations."
+            bio: "<strong>Strategic Partnerships &amp; Channel Leader | EdTech—Digital Platforms, ⚡GenAI Server Implementation.</strong> with +15 years of experience at <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> and <strong>Santillana/Richmond</strong>, building distributor channel networks and developer ecosystems.<br><br>💼 MBA with financial background, Full-Cycle CX/UX and Data Analytics. 📊 Certified in Data Science &amp; Agile Systems for Product Management — University of Maryland ✨ + English CEFR B2 🇺🇸 by ETS.<br><br>💻 Founder <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a> (Next-Gen STEM and technical skills LXP with AI, deployed on local GenAI server infrastructure) and the social initiative <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JovenesSTEM 🌎</strong></a> to connect science and technology with our new generations."
         },
         links: {
             whatsapp: "👋 WhatsApp - Click Here!",
@@ -115,8 +115,8 @@ const translations = {
             btn: "Access JóvenesSTEM Web"
         },
         stemos_promo: {
-            tagline: "English for Specific Purposes Platform -NextGen LXP",
-            text: "stemOS is an AI-powered Learning Experience Platform (LXP) that delivers personalized STEM and technical English Learning pathways through industry-aligned micro-credentials. Built to bridge the STEM talent and specialized English proficiency gap.",
+            tagline: "Next-Gen LXP Platform",
+            text: "stemOS is an AI-powered Learning Experience Platform (LXP) that delivers personalized STEM and technical skill learning pathways through industry-aligned micro-credentials. Built to bridge the STEM talent and technical skills gap.",
             btn: "Access stemOS Preview"
         },
         lovelace_promo: {
@@ -164,7 +164,7 @@ const translations = {
             tools_big: "🛠️ 了解我的其他开发项目"
         },
         profile: {
-            bio: "<strong>战略合作伙伴与渠道负责人 | EdTech——数字平台，⚡ GenAI 服务器实施。</strong>在 <strong>Apple</strong>、<strong>PepsiCo</strong>、<strong>AVIS</strong> 和 <strong>Santillana/Richmond</strong> 拥有 15 年以上经验，致力于构建分销商渠道网络和开发者生态系统。<br><br>💼 MBA，具备金融背景，全周期 CX/UX 和数据分析。📊 获得马里兰大学数据科学与敏捷系统产品管理认证 ✨ + ETS 英语 CEFR B2 🇺🇸。<br><br>💻 <a href=\"https://yepzhi.com/lovelace/\" target=\"_blank\"><strong>Lovelace Feynman Technologies SAPI SA de CV</strong></a> 创始人，推动 <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a> (部署于本地 GenAI 服务器基础设施、带 AI 辅助的技术英语 LXP) 和公益倡议项目 <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a>，连接科学技术与我们的新一代。"
+            bio: "<strong>战略合作伙伴与渠道负责人 | EdTech——数字平台，⚡ GenAI 服务器实施。</strong>在 <strong>Apple</strong>、<strong>PepsiCo</strong>、<strong>AVIS</strong> 和 <strong>Santillana/Richmond</strong> 拥有 15 年以上经验，致力于构建分销商渠道网络和开发者生态系统。<br><br>💼 MBA，具备金融背景，全周期 CX/UX 和数据分析。📊 获得马里兰大学数据科学与敏捷系统产品管理认证 ✨ + ETS 英语 CEFR B2 🇺🇸。<br><br>💻 <a href=\"https://yepzhi.com/lovelace/\" target=\"_blank\"><strong>Lovelace Feynman Technologies SAPI SA de CV</strong></a> 创始人，推动 <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a> (部署于本地 GenAI 服务器基础设施、带 AI 辅助的 Next-Gen LXP) 和公益倡议项目 <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a>，连接科学技术与我们的新一代。"
         },
         links: {
             whatsapp: "👋 WhatsApp - 点击这里!",
@@ -194,8 +194,8 @@ const translations = {
             btn: "访问 JóvenesSTEM Web"
         },
         stemos_promo: {
-            tagline: "专用英语 (ESP) 平台 -NextGen LXP",
-            text: "stemOS 是面向拉美地区 (LATAM) 的、基于人工智能的在线学习体验平台 (LXP)，通过与行业对接的微凭证，提供个性化的 STEM 和技术英语学习路径。旨在缩小 STEM 人才和英语水平差距，实现从课堂到职场的可衡量技能验证。",
+            tagline: "NextGen LXP 平台",
+            text: "stemOS 是面向拉美地区 (LATAM) 的、基于人工智能的在线学习体验平台 (LXP)，通过与行业对接的微凭证，提供个性化的 STEM 和技术技能学习路径。旨在缩小 STEM 人才和技术技能差距，实现从课堂到职场的可衡量技能验证。",
             btn: "访问 stemOS Preview"
         },
         lovelace_promo: {
@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 langBtn.title = "切换到中文";
             } else {
                 // Next is ES
-                langBtn.innerHTML = '<span class="lang-flag">🇲🇽</span><span class="lang-text" style="font-weight:700; font-size:12px; margin-left:4px;">ESP</span>';
+                langBtn.innerHTML = '<span class="lang-flag">🇲🇽</span><span class="lang-text" style="font-weight:700; font-size:12px; margin-left:4px;">ES</span>';
                 langBtn.title = "Cambiar a Español";
             }
         }

@@ -1,9 +1,9 @@
 # MÓDULO STEMos: Semiconductores y Manufactura de Chips
 ### Especificación de Contenido para Despliegue — STEMos Skills Graph
-**Track:** STEM Avanzado · ESP Técnico (English for Specific Purposes)
+**Track:** STEM Avanzado · Especialidad Técnica
 **Alineación:** Estructura curricular TSMC-GCU Manufacturing Specialist Intensive (MSI) — replicada con certificación propia STEMos
 **Audiencia:** 16-18 años · Nivel "Aplicado" en el grafo de habilidades
-**Idioma:** Contenido bilingüe ES/EN, con vocabulario técnico ESP integrado inline
+**Idioma:** Contenido bilingüe ES/EN, con vocabulario técnico integrado inline
 
 ---
 
@@ -14,7 +14,7 @@ Este módulo replica la lógica curricular del programa MSI (TSMC + Grand Canyon
 STEMos adapta esta estructura a un formato modular auto-implementable, sin requerir partnership con TSMC/IEEE, con certificación STEMos propia. El objetivo es que el estudiante egrese entendiendo:
 - Qué es un semiconductor y por qué importa
 - El proceso completo de fabricación de un wafer (de silicio a chip)
-- Vocabulario técnico en inglés (ESP) usado en la industria real
+- Vocabulario técnico en inglés usado en la industria real
 - Roles, carreras y rutas de entrada a la industria
 
 ---
@@ -49,7 +49,7 @@ Espejo directo de la estructura de 4 cursos del programa MSI:
 ### 3.2 Pregunta socrática para STEMBot
 > "If a semiconductor can both conduct AND block electricity depending on conditions, what real-world advantage does that give engineers compared to materials that only do one or the other?"
 
-### 3.3 Vocabulario ESP técnico (frases de uso real en la industria)
+### 3.3 Vocabulario Técnico (frases de uso real en la industria)
 - "The fab is running at full capacity."
 - "This chip uses a 3-nanometer process node."
 - "TSMC is the world's largest foundry."
@@ -71,7 +71,7 @@ Basado en el recorrido completo de una oblea de silicio, desde silicio crudo has
 ### 4.2 Analogía pedagógica (para estudiante de 16 años)
 > "Imagina que una oblea de silicio es como una hoja de papel en blanco. La fotolitografía es como imprimir el dibujo más detallado del mundo sobre ella — tan detallado que no se ve ni con una lupa, solo con microscopios especiales. El grabado es como recortar con tijeras siguiendo ese dibujo, pero a escala atómica."
 
-### 4.3 Vocabulario ESP técnico
+### 4.3 Vocabulario Técnico
 - "The wafer goes through photolithography before etching."
 - "Doping changes the electrical properties of the silicon."
 - "Each layer must align perfectly — this is called overlay accuracy."
@@ -92,7 +92,7 @@ Cubre protocolos de gown room, control de calidad de producción (die yield y li
 ### 5.2 Pregunta socrática para STEMBot
 > "If a single dust particle can ruin a chip worth thousands of dollars, why do you think semiconductor companies are willing to spend millions on cleanroom infrastructure instead of just being more careful?"
 
-### 5.3 Vocabulario ESP técnico
+### 5.3 Vocabulario Técnico
 - "We need to improve our die yield this quarter."
 - "Please follow gown room protocol before entering."
 - "The SPC chart shows the process is in control."
@@ -110,8 +110,8 @@ Cubre protocolos de gown room, control de calidad de producción (die yield y li
 ### 6.2 Dato de impacto para motivación del estudiante
 > Un programa similar (TSMC-GCU, Arizona) tuvo 84% de finalización en sus dos primeras cohortes de 2025, y 70% de los graduados fueron seleccionados para empleo en TSMC. La industria de semiconductores está creciendo globalmente — y no requiere necesariamente un título universitario de 4 años para entrar.
 
-### 6.3 Conexión con ESP (cierre del módulo)
-> "Toda la documentación técnica, manuales de equipo, y comunicación interna en una fab opera en inglés técnico. Dominar el vocabulario ESP de este módulo no es opcional — es la llave de entrada."
+### 6.3 Conexión con Inglés Técnico (cierre del módulo)
+> "Toda la documentación técnica, manuales de equipo, y comunicación interna en una fab opera en inglés técnico. Dominar el vocabulario técnico de este módulo no es opcional — es la llave de entrada."
 
 ---
 
@@ -119,7 +119,7 @@ Cubre protocolos de gown room, control de calidad de producción (die yield y li
 
 ### 7.1 Estructura de evaluación (espejo de "Program Completion Certificate")
 - **Evaluación 1**: STEMBot — quiz socrático de conceptos (Sub-módulos 4.1-4.2)
-- **Evaluación 2**: STEMBot — quiz de vocabulario ESP técnico (todas las frases del módulo)
+- **Evaluación 2**: STEMBot — quiz de vocabulario técnico (todas las frases del módulo)
 - **Evaluación 3**: Proyecto final — diagrama del fab process completo, etiquetado en inglés y español
 - **Umbral de aprobación**: 80% (consistente con política STEMos existente)
 
@@ -136,7 +136,7 @@ Punto clave: **cualquier organización puede ser "issuer" sin pagar a 1EdTech ni
 
 ### 7.3 Credencial emitida
 
-**Nombre del badge:** "STEMos Certified — Semiconductor Manufacturing Fundamentals (ESP-Aligned)"
+**Nombre del badge:** "STEMos Certified — Semiconductor Manufacturing Fundamentals (LXP-Aligned)"
 **Issuer:** Lovelace Feynman SAPI de C.V. / JóvenesSTEM
 **Formato:** Open Badges 3.0 (OpenBadgeCredential, JSON-LD + imagen PNG/SVG embebida)
 
@@ -144,7 +144,7 @@ Punto clave: **cualquier organización puede ser "issuer" sin pagar a 1EdTech ni
 - `criteria`: descripción de las 3 evaluaciones (sección 7.1) y umbral 80%
 - `alignment`: array de alineaciones — NGSS, SEP CONOCER EC009, y la frase pública sobre CHIPS Act workforce competencies (sección anterior)
 - `evidence`: link al proyecto final (diagrama del fab process del estudiante)
-- `tag`: `semiconductor`, `ESP`, `STEM`, `manufacturing-fundamentals`
+- `tag`: `semiconductor`, `LXP`, `STEM`, `manufacturing-fundamentals`
 
 Lenguaje de afiliación: *"curriculum structure and competency alignment informed by industry-recognized semiconductor workforce training programs"* — nunca implicar afiliación directa con TSMC/GCU/IEEE.
 
@@ -154,7 +154,7 @@ Lenguaje de afiliación: *"curriculum structure and competency alignment informe
 
 1. **Estructura de datos**: cada concepto de la sección 3.1, 4.1, 5.1 y 6.1 debe cargarse como nodo individual en el skills graph, con tag `semiconductor` + sub-tag por sub-módulo (`4.1`, `4.2`, `4.3`, `4.4`).
 2. **STEMBot prompts**: las preguntas socráticas (3.2, 5.2) van como system prompts de evaluación contextual — no como preguntas de opción múltiple.
-3. **Vocabulario ESP**: cada frase debe ser un componente reutilizable con audio TTS (Piper) para pronunciación — consistente con la arquitectura de inferencia local ya definida para JóvenesSTEM.
+3. **Vocabulario técnico**: cada frase debe ser un componente reutilizable con audio TTS (Piper) para pronunciación — consistente con la arquitectura de inferencia local ya definida para JóvenesSTEM.
 4. **Assets visuales**: el diagrama de las 5 etapas (sección 4.1) es candidato ideal para un componente interactivo drag-and-drop (orden correcto del proceso) — alta probabilidad de engagement.
 5. **Naming**: usar siempre "STEMos Certified" en lugar de cualquier referencia directa a TSMC/GCU/IEEE en materiales públicos, para evitar implicación de partnership no existente.
 
