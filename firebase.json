@@ -22,7 +22,12 @@
     "public": ".",
     "ignore": [
       "firebase.json",
-      "**/.*",
+      ".git",
+      ".firebase",
+      ".firebaserc",
+      ".gitignore",
+      ".DS_Store",
+      ".nojekyll",
       "**/node_modules/**"
     ],
     "redirects": [
