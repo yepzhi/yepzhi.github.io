@@ -40,6 +40,21 @@ const translations = {
             text: "stemOS is an AI-powered Learning Experience Platform (LXP) that delivers personalized STEM and technical skill learning pathways through industry-aligned micro-credentials. Built to bridge the STEM talent and technical skills gap.",
             btn: "Accede stemOS Preview"
         },
+        speaker: {
+            title: "STEM Education Advocate & Public Speaker",
+            subtitle: "Conferencias sobre tecnología, educación y futuro digital para estudiantes y comunidades en México y LATAM.",
+            stat_events: "10+",
+            stat_events_lbl: "Eventos e Instituciones",
+            stat_audience: "1000+",
+            stat_audience_lbl: "Audiencia Total",
+            stat_topics: "Temas Recurrentes",
+            tag1: "AI",
+            tag2: "EdTech",
+            tag3: "Plataformas",
+            tag4: "CX",
+            tag5: "Divulgación",
+            tag6: "STEM Education"
+        },
         lovelace_promo: {
             tagline: "Lovelace Feynman Technologies SAPI SA de CV",
             text: "Construyendo la infraestructura del futuro del aprendizaje y el desarrollo de competencias en LATAM a través de la física, la computación y pedagogía socrática guiada por Inteligencia Artificial.",
@@ -119,6 +134,21 @@ const translations = {
             text: "stemOS is an AI-powered Learning Experience Platform (LXP) that delivers personalized STEM and technical skill learning pathways through industry-aligned micro-credentials. Built to bridge the STEM talent and technical skills gap.",
             btn: "Access stemOS Preview"
         },
+        speaker: {
+            title: "STEM Education Advocate & Public Speaker",
+            subtitle: "Talks on technology, education, and the digital future for students and communities in Mexico and LATAM.",
+            stat_events: "10+",
+            stat_events_lbl: "Events & Institutions",
+            stat_audience: "1000+",
+            stat_audience_lbl: "Total Audience",
+            stat_topics: "Recurrent Topics",
+            tag1: "AI",
+            tag2: "EdTech",
+            tag3: "Platforms",
+            tag4: "CX",
+            tag5: "Outreach",
+            tag6: "STEM Education"
+        },
         lovelace_promo: {
             tagline: "Lovelace Feynman Technologies SAPI SA de CV",
             text: "Building the infrastructure for the future of learning and competence development in LATAM & US through physics, computing, and AI-guided Socratic pedagogy.",
@@ -195,8 +225,23 @@ const translations = {
         },
         stemos_promo: {
             tagline: "NextGen LXP 平台",
-            text: "stemOS 是面向拉美地区 (LATAM) 的、基于人工智能的在线学习体验平台 (LXP)，通过与行业对接的微凭证，提供个性化的 STEM 和技术技能学习路径。旨在缩小 STEM 人才和技术技能差距，实现从课堂到职场的可衡量技能验证。",
+            text: "stemOS 是面向拉美地区 (LATAM) 的、基于人工智能的在线学习体验平台 (LXP)，通过与 industry 对接的微凭证，提供个性化的 STEM 和技术技能学习路径。旨在缩小 STEM 人才和技术技能差距，实现从课堂到职场的可衡量技能验证。",
             btn: "访问 stemOS Preview"
+        },
+        speaker: {
+            title: "STEM Education Advocate & Public Speaker",
+            subtitle: "为拉美和墨西哥地区的学生和社区提供关于技术、教育和数字化未来的演讲与分享。",
+            stat_events: "10+",
+            stat_events_lbl: "活动与合作机构",
+            stat_audience: "1000+",
+            stat_audience_lbl: "影响受众人数",
+            stat_topics: "核心演讲主题",
+            tag1: "AI",
+            tag2: "EdTech",
+            tag3: "数字平台",
+            tag4: "CX",
+            tag5: "科学科普",
+            tag6: "STEM 教育"
         },
         lovelace_promo: {
             tagline: "Lovelace Feynman Technologies SAPI SA de CV",

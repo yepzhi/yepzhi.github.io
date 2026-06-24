@@ -1783,6 +1783,177 @@
             }
         }
 
+        /* SPEAKER MODULE STYLE */
+        .speaker-section {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .speaker-title {
+            font-size: clamp(20px, 4vw, 24px);
+            font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa 0%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .speaker-subtitle {
+            font-size: clamp(14px, 2vw, 15px);
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 16px;
+        }
+
+        /* Stats Grid */
+        .speaker-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(167, 139, 250, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-num {
+            font-size: clamp(28px, 5vw, 36px);
+            font-weight: 800;
+            color: #c084fc;
+            line-height: 1.1;
+            margin-bottom: 4px;
+            font-family: 'Space Grotesk', sans-serif;
+            text-shadow: 0 0 15px rgba(192, 132, 252, 0.3);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Topics tags */
+        .speaker-topics {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .topics-title {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .topics-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .topic-pill {
+            background: rgba(167, 139, 250, 0.08);
+            border: 1px solid rgba(167, 139, 250, 0.15);
+            color: #d8b4fe;
+            border-radius: 99px;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .topic-pill:hover {
+            background: rgba(167, 139, 250, 0.15);
+            border-color: rgba(167, 139, 250, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Photo slider */
+        .speaker-gallery {
+            position: relative;
+            margin-top: 8px;
+        }
+
+        .gallery-wrapper {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 8px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(167, 139, 250, 0.3) rgba(255, 255, 255, 0.02);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .gallery-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .gallery-wrapper::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 99px;
+        }
+
+        .gallery-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(167, 139, 250, 0.3);
+            border-radius: 99px;
+        }
+
+        .gallery-wrapper::-webkit-scrollbar-thumb:hover {
+            background: rgba(167, 139, 250, 0.5);
+        }
+
+        .gallery-item {
+            flex: 0 0 85%;
+            aspect-ratio: 16 / 10;
+            scroll-snap-align: start;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        @media (min-width: 600px) {
+            .gallery-item {
+                flex: 0 0 60%;
+            }
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-item:hover {
+            border-color: rgba(167, 139, 250, 0.4);
+        }
+
     </style>
 </head>
 
@@ -1887,6 +2058,57 @@
                     🔊 Renta equipo Bose aquí!
                 </a>
 
+            </div>
+        </div>
+
+        <!-- PUBLIC SPEAKER MODULE -->
+        <div class="glass-container speaker-section">
+            <h2 class="speaker-title" data-i18n="speaker.title">STEM Education Advocate & Public Speaker</h2>
+            <p class="speaker-subtitle" data-i18n="speaker.subtitle">
+                Conferencias sobre tecnología, educación y futuro digital para estudiantes y comunidades en México y LATAM.
+            </p>
+        
+            <div class="speaker-stats">
+                <div class="stat-card">
+                    <div class="stat-num" data-i18n="speaker.stat_events">10+</div>
+                    <div class="stat-label" data-i18n="speaker.stat_events_lbl">Eventos e Instituciones</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num" data-i18n="speaker.stat_audience">1000+</div>
+                    <div class="stat-label" data-i18n="speaker.stat_audience_lbl">Audiencia Total</div>
+                </div>
+            </div>
+        
+            <div class="speaker-topics">
+                <h3 class="topics-title" data-i18n="speaker.stat_topics">Temas Recurrentes</h3>
+                <div class="topics-grid">
+                    <span class="topic-pill" data-i18n="speaker.tag1">AI</span>
+                    <span class="topic-pill" data-i18n="speaker.tag2">EdTech</span>
+                    <span class="topic-pill" data-i18n="speaker.tag3">Plataformas</span>
+                    <span class="topic-pill" data-i18n="speaker.tag4">CX</span>
+                    <span class="topic-pill" data-i18n="speaker.tag5">Divulgación</span>
+                    <span class="topic-pill" data-i18n="speaker.tag6">STEM Education</span>
+                </div>
+            </div>
+        
+            <div class="speaker-gallery">
+                <div class="gallery-wrapper">
+                    <div class="gallery-item">
+                        <img src="conferencia1.jpg" alt="Conferencia Yepzhi 1" loading="lazy">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="conferencia2.jpg" alt="Conferencia Yepzhi 2" loading="lazy">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="conferencia3.jpg" alt="Conferencia Yepzhi 3" loading="lazy">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="conferencia4.jpg" alt="Conferencia Yepzhi 4" loading="lazy">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="conferencia5.jpg" alt="Conferencia Yepzhi 5" loading="lazy">
+                    </div>
+                </div>
             </div>
         </div>
 
