@@ -1787,119 +1787,142 @@
         .speaker-section {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            align-items: center;
+            text-align: center;
+            gap: 28px;
+            background: radial-gradient(circle at top right, rgba(167, 139, 250, 0.08), transparent 60%), radial-gradient(circle at bottom left, rgba(244, 114, 182, 0.05), transparent 60%), var(--glass-bg);
+            box-shadow: 0 8px 32px 0 var(--shadow), 0 0 32px rgba(167, 139, 250, 0.08);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .speaker-section:hover {
+            box-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.5), 0 0 40px rgba(167, 139, 250, 0.15);
+            border-color: rgba(167, 139, 250, 0.3);
+            transform: translateY(-2px);
         }
 
         .speaker-title {
-            font-size: clamp(20px, 4vw, 24px);
-            font-weight: 800;
-            background: linear-gradient(135deg, #a78bfa 0%, #c084fc 100%);
+            font-size: clamp(22px, 5vw, 28px);
+            font-weight: 900;
+            background: linear-gradient(135deg, #a78bfa 0%, #c084fc 40%, #ff4a8b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 8px;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.8px;
         }
 
         .speaker-subtitle {
             font-size: clamp(14px, 2vw, 15px);
             line-height: 1.6;
             color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 16px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 8px;
         }
 
         /* Stats Grid */
         .speaker-stats {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-bottom: 8px;
+            gap: 20px;
+            width: 100%;
+            max-width: 600px;
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 16px;
+            border-radius: 20px;
+            padding: 24px 16px;
             text-align: center;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .stat-card:hover {
-            transform: translateY(-2px);
-            border-color: rgba(167, 139, 250, 0.3);
-            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-4px) scale(1.02);
+            border-color: rgba(167, 139, 250, 0.4);
+            background: rgba(167, 139, 250, 0.05);
+            box-shadow: 0 12px 30px rgba(167, 139, 250, 0.15);
         }
 
         .stat-num {
-            font-size: clamp(28px, 5vw, 36px);
+            font-size: clamp(38px, 8vw, 52px);
             font-weight: 800;
             color: #c084fc;
-            line-height: 1.1;
-            margin-bottom: 4px;
+            line-height: 1.05;
+            margin-bottom: 6px;
             font-family: 'Space Grotesk', sans-serif;
-            text-shadow: 0 0 15px rgba(192, 132, 252, 0.3);
+            text-shadow: 0 0 25px rgba(192, 132, 252, 0.4);
         }
 
         .stat-label {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-            font-weight: 500;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.55);
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
         /* Topics tags */
         .speaker-topics {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
         }
 
         .topics-title {
-            font-size: 12px;
+            font-size: 11px;
             color: rgba(255, 255, 255, 0.4);
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
 
         .topics-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
+            justify-content: center;
+            max-width: 600px;
         }
 
         .topic-pill {
-            background: rgba(167, 139, 250, 0.08);
-            border: 1px solid rgba(167, 139, 250, 0.15);
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.1) 0%, rgba(244, 114, 182, 0.08) 100%);
+            border: 1px solid rgba(167, 139, 250, 0.2);
             color: #d8b4fe;
             border-radius: 99px;
-            padding: 6px 14px;
+            padding: 8px 18px;
             font-size: 13px;
-            font-weight: 500;
-            transition: all 0.2s ease;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .topic-pill:hover {
-            background: rgba(167, 139, 250, 0.15);
-            border-color: rgba(167, 139, 250, 0.3);
-            transform: scale(1.05);
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.18) 0%, rgba(244, 114, 182, 0.15) 100%);
+            border-color: rgba(167, 139, 250, 0.45);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(167, 139, 250, 0.25);
+            color: #ffffff;
         }
 
         /* Photo slider */
         .speaker-gallery {
             position: relative;
             margin-top: 8px;
+            width: 100%;
         }
 
         .gallery-wrapper {
             display: flex;
-            gap: 12px;
+            gap: 16px;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
-            padding-bottom: 8px;
+            padding-bottom: 12px;
             scrollbar-width: thin;
-            scrollbar-color: rgba(167, 139, 250, 0.3) rgba(255, 255, 255, 0.02);
+            scrollbar-color: rgba(167, 139, 250, 0.4) rgba(255, 255, 255, 0.02);
             -webkit-overflow-scrolling: touch;
         }
 
@@ -1913,24 +1936,24 @@
         }
 
         .gallery-wrapper::-webkit-scrollbar-thumb {
-            background: rgba(167, 139, 250, 0.3);
+            background: rgba(167, 139, 250, 0.4);
             border-radius: 99px;
         }
 
         .gallery-wrapper::-webkit-scrollbar-thumb:hover {
-            background: rgba(167, 139, 250, 0.5);
+            background: rgba(167, 139, 250, 0.6);
         }
 
         .gallery-item {
             flex: 0 0 85%;
             aspect-ratio: 16 / 10;
             scroll-snap-align: start;
-            border-radius: 20px;
+            border-radius: 24px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.08);
             position: relative;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            transition: border-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         @media (min-width: 600px) {
@@ -1943,15 +1966,17 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .gallery-item:hover img {
-            transform: scale(1.05);
+            transform: scale(1.06);
         }
 
         .gallery-item:hover {
-            border-color: rgba(167, 139, 250, 0.4);
+            border-color: rgba(167, 139, 250, 0.5);
+            box-shadow: 0 12px 40px rgba(167, 139, 250, 0.2);
+            transform: translateY(-2px);
         }
 
     </style>
@@ -2070,11 +2095,11 @@
         
             <div class="speaker-stats">
                 <div class="stat-card">
-                    <div class="stat-num" data-i18n="speaker.stat_events">10+</div>
+                    <div class="stat-num" data-target="10" data-suffix="+">0</div>
                     <div class="stat-label" data-i18n="speaker.stat_events_lbl">Eventos e Instituciones</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-num" data-i18n="speaker.stat_audience">1000+</div>
+                    <div class="stat-num" data-target="1000" data-suffix="+">0</div>
                     <div class="stat-label" data-i18n="speaker.stat_audience_lbl">Audiencia Total</div>
                 </div>
             </div>
@@ -2428,6 +2453,46 @@
     </script>
     <script>window.NEOSYS_SITE_ID = "yepzhiweb";</script>
     <script src="https://yepzhi.com/visitors/tracker.js" defer></script>
+    <!-- Count-up Animation Script for Speaker Stats -->
+    <script>
+        (function() {
+            const stats = document.querySelectorAll('.stat-num');
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        const targetVal = parseInt(target.getAttribute('data-target'), 10);
+                        const suffix = target.getAttribute('data-suffix') || '';
+                        let count = 0;
+                        const duration = 2000; // 2 seconds animation
+                        const startTime = performance.now();
+
+                        function updateCount(currentTime) {
+                            const elapsed = currentTime - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+                            
+                            // Ease out quad timing function
+                            const easeProgress = progress * (2 - progress);
+                            const currentVal = Math.floor(easeProgress * targetVal);
+                            
+                            target.textContent = currentVal + suffix;
+                            
+                            if (progress < 1) {
+                                requestAnimationFrame(updateCount);
+                            } else {
+                                target.textContent = targetVal + suffix;
+                            }
+                        }
+                        
+                        requestAnimationFrame(updateCount);
+                        observer.unobserve(target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            stats.forEach(stat => observer.observe(stat));
+        })();
+    </script>
 </body>
 
 </html>
