@@ -1,37 +1,35 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
   <defs>
+    <!-- Deep Obsidian Black Background -->
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#090a10"/>
-      <stop offset="100%" stop-color="#111827"/>
+      <stop offset="0%" stop-color="#050508"/>
+      <stop offset="100%" stop-color="#0f111a"/>
     </linearGradient>
+    
+    <!-- Rich Metallic Gold Gradient -->
     <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#fef08a"/>
-      <stop offset="40%" stop-color="#fbbf24"/>
-      <stop offset="100%" stop-color="#f59e0b"/>
+      <stop offset="35%" stop-color="#fbbf24"/>
+      <stop offset="70%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
     </linearGradient>
-    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#bae6fd"/>
-      <stop offset="100%" stop-color="#38bdf8"/>
-    </linearGradient>
-    <radialGradient id="glow" cx="40%" cy="60%" r="60%">
-      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.25"/>
-      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+
+    <!-- Deep Warm Amber Glow -->
+    <radialGradient id="glow" cx="45%" cy="55%" r="55%">
+      <stop offset="0%" stop-color="#d97706" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#d97706" stop-opacity="0"/>
     </radialGradient>
   </defs>
 
-  <!-- Dark Background Card -->
-  <rect x="16" y="16" width="480" height="480" rx="120" fill="url(#bgGrad)" stroke="#334155" stroke-width="6"/>
+  <!-- Dark Obsidian Card -->
+  <rect x="16" y="16" width="480" height="480" rx="120" fill="url(#bgGrad)" stroke="#d97706" stroke-width="6" stroke-opacity="0.4"/>
 
-  <!-- Ambient Golden Glow -->
-  <circle cx="210" cy="290" r="160" fill="url(#glow)"/>
+  <!-- Subtle Warm Glow -->
+  <circle cx="240" cy="270" r="170" fill="url(#glow)"/>
 
-  <!-- Main Sparkle Star (Gold) -->
-  <path d="M 220 110 C 220 190, 140 270, 60 270 C 140 270, 220 350, 220 430 C 220 350, 300 270, 380 270 C 300 270, 220 190, 220 110 Z" fill="url(#goldGrad)"/>
+  <!-- Main Sparkle Star (Rich Gold) -->
+  <path d="M 230 110 C 230 190, 150 270, 70 270 C 150 270, 230 350, 230 430 C 230 350, 310 270, 390 270 C 310 270, 230 190, 230 110 Z" fill="url(#goldGrad)"/>
 
-  <!-- Secondary Sparkle Star (Cyan) -->
-  <path d="M 370 70 C 370 115, 325 160, 280 160 C 325 160, 370 205, 370 250 C 370 205, 415 160, 460 160 C 415 160, 370 115, 370 70 Z" fill="url(#cyanGrad)"/>
-
-  <!-- Bright Core Dots -->
-  <circle cx="220" cy="270" r="16" fill="#ffffff"/>
-  <circle cx="370" cy="160" r="9" fill="#ffffff"/>
+  <!-- Secondary Sparkle Star (Warm Accent Gold) -->
+  <path d="M 370 70 C 370 115, 325 160, 280 160 C 325 160, 370 205, 370 250 C 370 205, 415 160, 460 160 C 415 160, 370 115, 370 70 Z" fill="url(#goldGrad)" opacity="0.9"/>
 </svg>
