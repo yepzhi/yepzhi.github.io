@@ -1154,7 +1154,7 @@
             transform: translateY(-2px);
         }
 
-        .hopradio-btn {
+        .sergradio-btn, .hopradio-btn {
             margin-bottom: 0;
             padding: 8px 16px;
             /* Slightly tighter padding */
@@ -1173,11 +1173,27 @@
             transition: transform 0.3s ease;
         }
 
-        .hopradio-btn:hover {
+        .sergradio-btn:hover, .hopradio-btn:hover {
             transform: scale(1.05);
             /* Gentle zoom */
             background: transparent;
             box-shadow: none;
+        }
+
+        /* "SERGRadio" - Blue SERG + Red Gradient Radio */
+        .serg-text {
+            color: #3b82f6;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.4);
+            letter-spacing: -1px;
+        }
+
+        .serg-radio-text {
+            background: linear-gradient(135deg, #ff4444 0%, #cc0000 60%, #8b0000 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.6));
+            letter-spacing: -1px;
         }
 
         /* "hopRadio" - Red to Gold Gradient */
@@ -2037,10 +2053,10 @@
                     <span class="jovenes-logo-part">jóvenes</span><span class="stem-logo-part">STEM</span><sup style="font-size: 0.5em; color: #174c99; font-weight: 700; margin-left: 0; vertical-align: 0.75em; line-height: 0; display: inline-block;">&reg;</sup><span class="web-badge">Web</span>
                 </a>
 
-                <!-- HOPRADIO BTN (Logo Style) -->
-                <a href="https://yepzhi.com/hopRadio/" target="_blank" rel="noopener noreferrer"
-                    class="test-link-btn hopradio-btn">
-                    <span class="hop-text">hopRadio</span> <span class="live-text">Live</span>
+                <!-- SERGRADIO BTN (Logo Style) -->
+                <a href="https://yepzhi.com/SERGRadio/" target="_blank" rel="noopener noreferrer"
+                    class="test-link-btn sergradio-btn">
+                    <span class="serg-text">SERG</span><span class="serg-radio-text">Radio</span> <span class="live-text">Live</span>
                 </a>
 
                 <!-- MIS DESARROLLOS BTN (Golden Hub Link) -->
