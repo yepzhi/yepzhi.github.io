@@ -1180,20 +1180,27 @@
             box-shadow: none;
         }
 
-        /* "SERGRadio" - Blue SERG + Red Gradient Radio */
-        .serg-text {
-            color: #3b82f6;
-            text-shadow: 0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.4);
-            letter-spacing: -1px;
+        /* "SERGRadio" - Blue SERG + Red Gradient Radio (Exact SERGRadio Brand) */
+        .serg-blue-text {
+            color: #1d4ed8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-shadow:
+                0 0 10px rgba(0, 0, 255, 0.9),
+                0 0 30px rgba(0, 0, 255, 0.7),
+                0 0 60px rgba(0, 0, 255, 0.5),
+                0 0 100px rgba(0, 0, 255, 0.3);
+            filter: drop-shadow(0 0 20px rgba(0, 0, 255, 0.6));
+            letter-spacing: -1.5px;
         }
 
-        .serg-radio-text {
+        .radio-gradient-text {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #ff4444 0%, #cc0000 60%, #8b0000 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.6));
-            letter-spacing: -1px;
+            filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.8)) drop-shadow(0 0 40px rgba(255, 0, 0, 0.5)) drop-shadow(0 0 80px rgba(139, 0, 0, 0.3));
+            letter-spacing: -1.5px;
         }
 
         /* "hopRadio" - Red to Gold Gradient */
@@ -2053,10 +2060,10 @@
                     <span class="jovenes-logo-part">jóvenes</span><span class="stem-logo-part">STEM</span><sup style="font-size: 0.5em; color: #174c99; font-weight: 700; margin-left: 0; vertical-align: 0.75em; line-height: 0; display: inline-block;">&reg;</sup><span class="web-badge">Web</span>
                 </a>
 
-                <!-- SERGRADIO BTN (Logo Style) -->
+                <!-- SERGRADIO BTN (Exact Logo Style) -->
                 <a href="https://yepzhi.com/SERGRadio/" target="_blank" rel="noopener noreferrer"
                     class="test-link-btn sergradio-btn">
-                    <span class="serg-text">SERG</span><span class="serg-radio-text">Radio</span> <span class="live-text">Live</span>
+                    <span class="serg-blue-text">SERG</span><span class="radio-gradient-text">Radio</span> <span class="live-text">Live</span>
                 </a>
 
                 <!-- MIS DESARROLLOS BTN (Golden Hub Link) -->
