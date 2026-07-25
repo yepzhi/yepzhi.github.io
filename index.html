@@ -1181,26 +1181,39 @@
         }
 
         /* "SERGRadio" - Blue SERG + Red Gradient Radio (Exact SERGRadio Brand) */
+        .serg-logo-group {
+            display: inline-flex;
+            align-items: center;
+            letter-spacing: -2px;
+            white-space: nowrap;
+        }
+
         .serg-blue-text {
             color: #1d4ed8;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: 900;
             text-shadow:
                 0 0 10px rgba(0, 0, 255, 0.9),
                 0 0 30px rgba(0, 0, 255, 0.7),
                 0 0 60px rgba(0, 0, 255, 0.5),
                 0 0 100px rgba(0, 0, 255, 0.3);
             filter: drop-shadow(0 0 20px rgba(0, 0, 255, 0.6));
-            letter-spacing: -1.5px;
+            letter-spacing: -2px;
+            margin: 0;
+            padding: 0;
         }
 
         .radio-gradient-text {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: 900;
             background: linear-gradient(135deg, #ff4444 0%, #cc0000 60%, #8b0000 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.8)) drop-shadow(0 0 40px rgba(255, 0, 0, 0.5)) drop-shadow(0 0 80px rgba(139, 0, 0, 0.3));
-            letter-spacing: -1.5px;
+            letter-spacing: -2px;
+            margin: 0;
+            padding: 0;
         }
 
         /* "hopRadio" - Red to Gold Gradient */
@@ -1222,6 +1235,30 @@
                 0 0 20px rgba(255, 0, 0, 0.4);
             font-weight: 800;
             letter-spacing: 0px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        @keyframes livePulse {
+            0%, 100% {
+                opacity: 1;
+                box-shadow: 0 0 8px #ff0000, 0 0 16px #ff0000;
+            }
+            50% {
+                opacity: 0.3;
+                box-shadow: 0 0 3px #ff0000;
+            }
+        }
+
+        .live-dot-anim {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            background-color: #ff0000;
+            border-radius: 50%;
+            margin-left: 2px;
+            animation: livePulse 1.5s ease-in-out infinite;
         }
 
         /* --- JOVENES STEM LOGO STYLE --- */
@@ -2060,10 +2097,10 @@
                     <span class="jovenes-logo-part">jóvenes</span><span class="stem-logo-part">STEM</span><sup style="font-size: 0.5em; color: #174c99; font-weight: 700; margin-left: 0; vertical-align: 0.75em; line-height: 0; display: inline-block;">&reg;</sup><span class="web-badge">Web</span>
                 </a>
 
-                <!-- SERGRADIO BTN (Exact Logo Style) -->
+                <!-- SERGRADIO BTN (Exact Logo Style with Live Dot) -->
                 <a href="https://yepzhi.com/SERGRadio/" target="_blank" rel="noopener noreferrer"
                     class="test-link-btn sergradio-btn">
-                    <span class="serg-blue-text">SERG</span><span class="radio-gradient-text">Radio</span> <span class="live-text">Live</span>
+                    <span class="serg-logo-group"><span class="serg-blue-text">SERG</span><span class="radio-gradient-text">Radio</span></span> <span class="live-text">Live<span class="live-dot-anim"></span></span>
                 </a>
 
                 <!-- MIS DESARROLLOS BTN (Golden Hub Link) -->
