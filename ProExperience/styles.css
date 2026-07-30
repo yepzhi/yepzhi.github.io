@@ -831,6 +831,7 @@ h1, h2, h3, h4 {
   }
   .footer-certs {
     flex-direction: column !important;
+    align-items: center !important;
     gap: 1rem !important;
   }
   .footer-bottom {
