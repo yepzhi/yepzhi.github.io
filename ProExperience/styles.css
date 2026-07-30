@@ -821,12 +821,13 @@ h1, h2, h3, h4 {
     font-size: 0.85rem;
   }
   .brand-text {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
+    white-space: nowrap;
   }
   .brand-text > span:last-child {
-    display: block;
-    font-size: 0.9rem;
-    margin-top: -2px;
+    display: inline;
+    font-size: 0.85rem;
+    margin-top: 0;
   }
   .footer-certs {
     flex-direction: column !important;
