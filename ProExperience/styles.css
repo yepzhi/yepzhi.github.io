@@ -815,6 +815,23 @@ h1, h2, h3, h4 {
   .btn {
     width: 100%;
   }
+  .nav-bar .btn {
+    width: auto;
+    padding: 0.3rem 0.6rem !important;
+    font-size: 0.85rem;
+  }
+  .brand-text {
+    font-size: 1.1rem;
+  }
+  .brand-text > span:last-child {
+    display: block;
+    font-size: 0.9rem;
+    margin-top: -2px;
+  }
+  .footer-certs {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
   .footer-bottom {
     flex-direction: column;
     gap: 16px;
