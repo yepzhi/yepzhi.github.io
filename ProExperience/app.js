@@ -93,4 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
       slider.scrollBy({ left: -itemWidth, behavior: 'smooth' });
     });
   }
+
+  // --- 5. Dynamic Footer Year ---
+  const dynamicYear = document.getElementById('dynamic-year');
+  if (dynamicYear) {
+    dynamicYear.innerHTML = `&copy; ${new Date().getFullYear()}, sitio por <a href="https://yepzhi.com" target="_blank" style="color: var(--brand-primary); text-decoration: none;">yepzhi</a>, todos los derechos reservados.`;
+  }
 });
