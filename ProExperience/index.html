@@ -111,58 +111,8 @@
         <p class="section-desc">Conoce de primera mano cómo se vive la experiencia Richmond Pro en diferentes instituciones.</p>
       </div>
 
-      <div class="slider-container fade-up delay-1">
-        <button class="slider-btn slider-prev" aria-label="Anterior">
-          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-        
-        <div class="slider-track" id="evidencias-slider">
-          
-          <!-- Slide 1 (Priority 1) -->
-          <article class="slider-item iframe-wrapper">
-            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
-            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7364836890056802304" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
-          </article>
-
-          <!-- Slide 2 (Priority 2) -->
-          <article class="slider-item iframe-wrapper">
-            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
-            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7364733445169741825" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
-          </article>
-
-          <!-- Slide 3 (Priority 3) -->
-          <article class="slider-item iframe-wrapper">
-            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
-            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7430788221736943616" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
-          </article>
-
-          <!-- Slide 4 -->
-          <article class="slider-item iframe-wrapper">
-            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
-            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7475092259017871360" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
-          </article>
-
-          <!-- Slide 5 -->
-          <article class="slider-item iframe-wrapper">
-            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
-            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7463023449314127872" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
-          </article>
-
-          <!-- Slide 6 -->
-          <article class="slider-item iframe-wrapper">
-            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
-            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7431790851795853313" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
-          </article>
-
-          <!-- Slide 7 -->
-          <article class="slider-item iframe-wrapper">
-            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
-            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7476448290901741568" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
-          </article>
-          
-        </div>
-
-        <button class="slider-btn slider-next" aria-label="Siguiente evidencia">&#10095;</button>
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- JS will inject gallery items here -->
       </div>
 
       <div style="text-align: center; margin-top: 60px;" class="fade-up">
@@ -272,26 +222,17 @@
     </div>
   </footer>
 
-  <!-- Modal para Casos de Éxito Completos -->
-  <!-- 
-    NOTA: Este modal está comentado porque de momento no hay casos de éxito en texto largo (solo iframes de LinkedIn).
-    Si a futuro deseas agregar tarjetas clickeables con galerías, descomenta este bloque y el código JS en app.js.
-    
-  <div class="modal-overlay" id="modal-template">
-    <div class="modal-container">
+  <!-- Lightbox Modal -->
+  <div class="modal-overlay" id="lightbox-modal">
+    <div class="modal">
       <button class="modal-close" aria-label="Cerrar modal">&times;</button>
-      <div class="modal-body">
-        <h2 class="modal-title">Título del Caso de Éxito</h2>
-        <p class="modal-text">
-          Aquí se colocará el texto completo sobre la implementación. Detalles sobre cómo los docentes adoptaron la herramienta, métricas específicas, testimonios extendidos y galerías de imágenes de los alumnos usando la plataforma en el aula.
-        </p>
-        <p class="modal-text">
-          Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.
-        </p>
+      <button class="modal-nav modal-prev" aria-label="Anterior">&#10094;</button>
+      <button class="modal-nav modal-next" aria-label="Siguiente">&#10095;</button>
+      <div id="lightbox-content">
+        <!-- Image or video will be injected here -->
       </div>
     </div>
   </div>
-  -->
 
   <script src="app.js"></script>
 </body>
