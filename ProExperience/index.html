@@ -19,11 +19,16 @@
   <!-- Navigation -->
   <nav class="nav-bar">
     <div class="nav-container">
-      <div class="nav-brand">
-        <span class="brand-text">Richmond <span class="brand-highlight">Pro</span></span>
+      <div class="logo">
+        <div class="logo-icon"></div>
+        Richmond Pro Noroeste
       </div>
+      
+      <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">&#9776;</button>
+      
       <div class="nav-links">
         <!-- Links removed per request -->
+        <button id="btn-otras-regiones" class="btn btn-outline" style="margin-left: 10px; padding: 0.4rem 1rem;">Otras Regiones</button>
       </div>
     </div>
   </nav>
@@ -111,8 +116,67 @@
         <p class="section-desc">Conoce de primera mano cómo se vive la experiencia Richmond Pro en diferentes instituciones.</p>
       </div>
 
-      <div class="gallery-grid" id="gallery-grid">
-        <!-- JS will inject gallery items here -->
+      <div class="slider-container fade-up delay-1">
+        <button class="slider-btn slider-prev" aria-label="Anterior">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        
+        <div class="slider-track" id="evidencias-slider">
+          <!-- Slide 1 (Priority 1) -->
+          <article class="slider-item iframe-wrapper">
+            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7364836890056802304" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
+          </article>
+          <!-- Slide 2 (Priority 2) -->
+          <article class="slider-item iframe-wrapper">
+            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7364733445169741825" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
+          </article>
+          <!-- Slide 3 (Priority 3) -->
+          <article class="slider-item iframe-wrapper">
+            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7430788221736943616" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
+          </article>
+          <!-- Slide 4 -->
+          <article class="slider-item iframe-wrapper">
+            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7475092259017871360" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
+          </article>
+          <!-- Slide 5 -->
+          <article class="slider-item iframe-wrapper">
+            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7463023449314127872" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
+          </article>
+          <!-- Slide 6 -->
+          <article class="slider-item iframe-wrapper">
+            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7431790851795853313" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
+          </article>
+          <!-- Slide 7 -->
+          <article class="slider-item iframe-wrapper">
+            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7476448290901741568" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
+          </article>
+        </div>
+
+        <button class="slider-btn slider-next" aria-label="Siguiente evidencia">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+
+      <div class="section-header fade-up" style="margin-top: 80px;">
+        <span class="badge">Galerías de Fotos</span>
+        <h2 class="section-title">Galerías por Universidad</h2>
+        <p class="section-desc">Explora las imágenes de nuestras implementaciones exitosas divididas por categoría.</p>
+      </div>
+
+      <div class="gallery-folders" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 2rem;">
+        <button class="btn btn-outline" onclick="openGallery('UTH')">UT Hermosillo</button>
+        <button class="btn btn-outline" onclick="openGallery('UTT')">UT Tijuana</button>
+        <button class="btn btn-outline" onclick="openGallery('UTN')">UT Nogales</button>
+        <button class="btn btn-outline" onclick="openGallery('TOEIC')">TOEIC In Action</button>
+        <button class="btn btn-outline" onclick="openGallery('MAKING')">Making It Real</button>
+        <button class="btn btn-outline" onclick="openGallery('VIDEOS')">Videos Oficiales</button>
       </div>
 
       <div style="text-align: center; margin-top: 60px;" class="fade-up">
@@ -234,6 +298,19 @@
     </div>
   </div>
 
+  <!-- Map & Team Directory Modal -->
+  <div class="modal-overlay" id="map-modal">
+    <div class="modal" style="max-width: 1000px; padding: 2rem 1rem;">
+      <button class="modal-close" id="map-modal-close" aria-label="Cerrar modal">&times;</button>
+      
+      <!-- TEAM DIRECTORY + MAP injected by team.js -->
+      <section id="team-section" class="team-section-outer"></section>
+      
+    </div>
+  </div>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="app.js"></script>
+  <script src="team.js"></script>
 </body>
 </html>

@@ -837,3 +837,358 @@ h1, h2, h3, h4 {
     right: 10px;
   }
 }
+.team-section-outer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 1rem;
+  position: relative;
+  z-index: 1;          /* keeps section above glass-card orbs */
+  isolation: isolate;  /* new stacking context — Leaflet panes stay inside */
+}
+
+/* ── Team header ───────────────────────── */
+.team-header { text-align: center; position: relative; z-index: 2; }
+
+.team-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(79,189,247,0.1);
+  border: 1px solid rgba(79,189,247,0.3);
+  padding: 0.35rem 1rem;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  color: #4fbdf7;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.team-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 30%, #4f8ef7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+}
+.team-heart { -webkit-text-fill-color: initial; }
+.team-sub { color: var(--c-muted); font-size: 0.95rem; }
+
+/* Social icons row in team header */
+.team-socials {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-top: 0.85rem;
+}
+.team-social-link {
+  color: rgba(160, 185, 230, 0.55);
+  text-decoration: none;
+  display: flex;
+  transition: color 0.2s, transform 0.2s;
+  position: relative;
+  z-index: 10;   /* above Leaflet panes */
+  cursor: pointer;
+}
+.team-social-link:hover {
+  color: rgba(160, 185, 230, 0.95);
+  transform: translateY(-3px);
+}
+
+
+/* ── Map container ──────────────────────── */
+.team-map-wrap {
+  position: relative;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;           /* clips map to rounded box */
+  border: 1px solid var(--c-border);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+  z-index: 0;
+}
+
+#team-map {
+  display: block;
+  width: 100%;
+  height: 400px;
+  background: #0a0d1c;
+}
+
+.map-legend {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  background: rgba(7,9,26,0.88);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  padding: 0.6rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  z-index: 1000;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--c-muted);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.legend-item:hover { color: var(--c-text); }
+.legend-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+
+/* Map markers */
+.map-state-dot {
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.4);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.map-state-dot:hover { transform: scale(1.4); }
+
+/* Active state markers (shown on card click) */
+.map-active-dot {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(255,255,255,0.7);
+  animation: pulseDot 1.4s ease-in-out infinite;
+  cursor: pointer;
+}
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%       { transform: scale(1.3); opacity: 0.75; }
+}
+
+.map-zone-label {
+  font-size: 9px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(7,9,26,0.75);
+  backdrop-filter: blur(4px);
+  border: 1px solid currentColor;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Leaflet popup override */
+.rp-popup .leaflet-popup-content-wrapper {
+  background: rgba(15,18,40,0.97);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  color: var(--c-text);
+  padding: 0;
+}
+.rp-popup .leaflet-popup-content { margin: 0; padding: 0; }
+.rp-popup .leaflet-popup-tip { background: rgba(15,18,40,0.97); }
+.rp-popup .leaflet-popup-close-button { color: var(--c-muted) !important; }
+
+.map-popup {
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.map-popup-zona  { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-muted); }
+.map-popup-name  { font-size: 1rem; font-weight: 700; color: var(--c-text); }
+.map-popup-state { font-size: 0.82rem; color: var(--c-muted); }
+.map-popup-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  background: rgba(37,211,102,0.15);
+  border: 1px solid rgba(37,211,102,0.4);
+  border-radius: 8px;
+  color: #43e89e;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  font-family: 'Outfit', sans-serif;
+  transition: background 0.2s;
+}
+.map-popup-wa:hover { background: rgba(37,211,102,0.25); }
+
+/* ── Team Cards Grid ───────────────────── */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 0.85rem;
+  position: relative;
+  z-index: 2;  /* above map wrap */
+}
+
+.team-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1rem 1rem 1.2rem;
+  background: var(--c-surface);
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+  overflow: hidden;
+}
+.team-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.08); }
+.team-card.highlighted { border-color: var(--c-accent); box-shadow: 0 0 20px rgba(79,142,247,0.25); background: rgba(79,142,247,0.08); }
+
+.team-card-accent {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 3px 0 0 3px;
+}
+
+.team-card-avatar {
+  width: 46px; height: 46px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid;
+  flex-shrink: 0;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.team-card-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+
+.team-card-info { flex: 1; min-width: 0; }
+.team-card-zona  { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; }
+.team-card-name  { font-size: 0.95rem; font-weight: 700; color: var(--c-text); margin: 0.1rem 0; }
+/* Estados hidden visually, data kept in JS for map */
+.team-card-estados { display: none; }
+
+.team-card-wa {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+.team-card-wa:hover { filter: brightness(1.2); }
+
+/* ── Managers ──────────────────────────── */
+.managers-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 2;
+}
+.managers-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-muted);
+  font-weight: 600;
+  padding-left: 0.25rem;
+}
+.managers-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.75rem;
+}
+
+.manager-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.9rem 1.1rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  text-decoration: none;
+  color: var(--c-text);
+  transition: var(--transition);
+}
+.manager-card:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-1px);
+}
+.manager-highlight {
+  background: rgba(244,201,78,0.06);
+  border-color: rgba(244,201,78,0.25);
+}
+.manager-highlight:hover { border-color: rgba(244,201,78,0.5); box-shadow: 0 0 20px rgba(244,201,78,0.15); }
+
+.manager-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(244,201,78,0.1);
+  border: 1px solid rgba(244,201,78,0.3);
+  flex-shrink: 0;
+  color: var(--c-gold);
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+.manager-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.manager-highlight .manager-avatar { background: rgba(244,201,78,0.15); border-color: rgba(244,201,78,0.5); }
+
+.manager-name { font-weight: 700; font-size: 0.9rem; }
+.manager-rol  { font-size: 0.75rem; color: var(--c-muted); }
+
+/* WhatsApp pill on managers */
+.manager-wa-btn {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(67,232,158,0.12);
+  border: 1px solid rgba(67,232,158,0.35);
+  border-radius: 100px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #43e89e;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+.manager-card:hover .manager-wa-btn { background: rgba(67,232,158,0.22); }
+
+/* ── Responsive team ───────────────────── */
+@media (max-width: 700px) {
+  .portal-wrap { padding: 1.25rem 0.75rem 2rem; gap: 1.25rem; }
+  .team-title  { font-size: 1.3rem; }
+  .team-header-badge { font-size: 0.72rem; }
+  #team-map    { height: 260px; }
+  .map-legend  { padding: 0.4rem 0.6rem; gap: 0.2rem; font-size: 0.7rem; }
+  .legend-dot  { width: 6px; height: 6px; }
+  .team-grid   { grid-template-columns: 1fr; }
+  .managers-row { grid-template-columns: 1fr; }
+  .team-card   { padding: 0.85rem 0.85rem 0.85rem 1rem; gap: 0.7rem; }
+  .team-card-avatar { width: 38px; height: 38px; }
+  .team-card-wa { padding: 0.4rem 0.6rem; font-size: 0.75rem; }
+  .manager-card { padding: 0.75rem 0.9rem; }
+  .manager-wa-btn { padding: 0.25rem 0.55rem; font-size: 0.7rem; }
+}
+
