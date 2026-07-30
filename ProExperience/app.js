@@ -200,6 +200,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const mapModalBack = document.getElementById('map-modal-back');
+  if (mapModalBack) {
+    mapModalBack.addEventListener('click', () => {
+      mapModal.classList.remove('active');
+      mapModal.querySelector('.modal').classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  }
+
   if (mapModal) {
     mapModal.addEventListener('click', (e) => {
       if (e.target === mapModal) {

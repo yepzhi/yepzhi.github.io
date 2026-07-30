@@ -306,8 +306,14 @@
 
   <!-- Map & Team Directory Modal -->
   <div class="modal-overlay" id="map-modal">
-    <div class="modal" style="max-width: 1200px; padding: 2rem 1rem; display: block; overflow-y: auto; background: var(--bg-color); width: 95vw; max-height: 95vh;">
-      <button class="modal-close" id="map-modal-close" aria-label="Cerrar modal">&times;</button>
+    <div class="modal" style="max-width: 1200px; padding: 2rem 1rem; display: block; overflow-y: auto; background: var(--bg-color); width: 85vw; max-height: 95vh; border-radius: 12px;">
+      <button class="modal-close" id="map-modal-close" aria-label="Cerrar modal" style="display: none;">&times;</button>
+      
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+        <button id="map-modal-back" class="btn btn-outline" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">
+          &#8592; Regresar
+        </button>
+      </div>
       
       <!-- TEAM DIRECTORY + MAP injected by team.js -->
       <section id="team-section" class="team-section-outer"></section>
