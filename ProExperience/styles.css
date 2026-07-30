@@ -232,6 +232,26 @@ h1, h2, h3, h4 {
   margin-bottom: 1.5rem;
 }
 
+.hero-logos-container {
+  margin-top: 1.5rem; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 0.3rem;
+}
+
+.hero-pro-logo {
+  max-height: 77px;
+  width: auto;
+}
+
+.hero-ets-logo {
+  max-height: 32px;
+  width: auto;
+  opacity: 0.9;
+  transform: translateX(20%);
+}
+
 .hero-subtitle {
   font-size: clamp(1.1rem, 2vw, 1.3rem);
   color: var(--text-secondary);
@@ -809,6 +829,14 @@ h1, h2, h3, h4 {
 }
 
 @media (max-width: 768px) {
+  .hero-pro-logo {
+    max-height: 48px;
+    max-width: 85%;
+  }
+  .hero-ets-logo {
+    max-height: 20px;
+    max-width: 75%;
+  }
   .hero-actions {
     flex-direction: column;
   }
