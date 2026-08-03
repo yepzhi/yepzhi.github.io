@@ -127,6 +127,46 @@ h1, h2, h3, h4 {
   color: var(--text-primary);
 }
 
+/* Language Switcher */
+.lang-switcher {
+  display: inline-flex;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--surface-border);
+  background: rgba(255, 255, 255, 0.04);
+  align-items: center;
+  height: 34px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.lang-btn {
+  padding: 4px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-family: var(--font-head);
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  outline: none;
+}
+
+.lang-btn.active {
+  background: var(--brand-primary);
+  color: #ffffff;
+}
+
+.lang-btn:hover:not(.active) {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
 /* Buttons */
 .btn {
   display: inline-flex;

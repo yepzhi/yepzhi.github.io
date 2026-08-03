@@ -23,9 +23,12 @@
         <span class="brand-text">Richmond <span class="brand-highlight">Pro</span> <span style="font-weight: 300; color: #888;">Noroeste</span></span>
       </div>
       
-      <div class="nav-links">
-        <!-- Links removed per request -->
-        <button id="btn-otras-regiones" class="btn btn-outline" style="margin-left: 10px; padding: 0.4rem 1rem;">Otras Regiones</button>
+      <div class="nav-links" style="display: flex; align-items: center; gap: 8px;">
+        <button id="btn-otras-regiones" class="btn btn-outline" style="padding: 0.4rem 1rem;" data-i18n="nav_other_regions">Otras Regiones</button>
+        <div class="lang-switcher">
+          <button class="lang-btn active" data-lang-btn="en" onclick="setLanguage('en')">EN</button>
+          <button class="lang-btn" data-lang-btn="es" onclick="setLanguage('es')">ES</button>
+        </div>
       </div>
     </div>
   </nav>
@@ -34,20 +37,20 @@
   <header class="hero-section">
     <div class="hero-bg-glow"></div>
     <div class="container hero-content">
-      <span class="eyebrow fade-up">Ecosistema Pro</span>
+      <span class="eyebrow fade-up" data-i18n="hero_eyebrow">Ecosistema Pro</span>
       <h1 class="hero-title fade-up delay-1">
-        Transformando escuelas con <br>
+        <span data-i18n="hero_title">Transformando escuelas con</span> <br>
         <div style="margin-top: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.3rem;">
           <img src="assets/pro-logo.png" alt="Richmond Pro" style="max-height: 77px; max-width: 80%; height: auto; object-fit: contain;">
           <img src="assets/ets-logo.png" alt="In Association with ETS TOEIC" style="max-height: 32px; max-width: 40%; height: auto; object-fit: contain; opacity: 0.9; transform: translateX(33%);">
         </div>
       </h1>
-      <p class="hero-subtitle fade-up delay-2">
+      <p class="hero-subtitle fade-up delay-2" data-i18n="hero_subtitle">
         Descubre cómo nuestras escuelas hermanas en la región están integrando tecnología de vanguardia, certificaciones globales y resultados probados para elevar su nivel académico.
       </p>
         <div class="hero-actions fade-up delay-2">
-          <a href="https://calendly.com/yepzhi/30min" class="btn btn-primary" target="_blank" rel="noopener">Agendar una demo</a>
-          <a href="https://wa.me/message/6O4USI5SGF3IA1" class="btn btn-whatsapp" target="_blank" rel="noopener">Conversa ahora</a>
+          <a href="https://calendly.com/yepzhi/30min" class="btn btn-primary" target="_blank" rel="noopener" data-i18n="hero_btn_demo">Agendar una demo</a>
+          <a href="https://wa.me/message/6O4USI5SGF3IA1" class="btn btn-whatsapp" target="_blank" rel="noopener" data-i18n="hero_btn_chat">Conversa ahora</a>
         </div>
     </div>
   </header>
@@ -57,19 +60,19 @@
     <div class="container metrics-grid">
       <div class="metric-card fade-up">
         <div class="metric-value">5+</div>
-        <div class="metric-label">Escuelas en la región Noroeste</div>
+        <div class="metric-label" data-i18n="metric_1_lbl">Escuelas en la región Noroeste</div>
       </div>
       <div class="metric-card fade-up delay-1">
         <div class="metric-value">16,000+</div>
-        <div class="metric-label">Alumnos inscritos en la región</div>
+        <div class="metric-label" data-i18n="metric_2_lbl">Alumnos inscritos en la región</div>
       </div>
       <div class="metric-card fade-up delay-2">
         <div class="metric-value">90%+</div>
-        <div class="metric-label">Mejora de cobertura en certificaciones</div>
+        <div class="metric-label" data-i18n="metric_3_lbl">Mejora de cobertura en certificaciones</div>
       </div>
       <div class="metric-card fade-up delay-3">
-        <div class="metric-value">100%+</div>
-        <div class="metric-label">Integración digital</div>
+        <div class="metric-value">100%</div>
+        <div class="metric-label" data-i18n="metric_4_lbl">Alineado al MCER</div>
       </div>
     </div>
   </section>
@@ -78,32 +81,32 @@
   <section class="ecosystem-section">
     <div class="container">
       <div class="section-header fade-up">
-        <h2 class="section-title">El Ecosistema <span class="text-gradient">Richmond Pro</span></h2>
-        <p class="section-desc">Todo lo que necesitas para llevar el nivel de inglés de tu institución a estándares internacionales.</p>
+        <h2 class="section-title"><span data-i18n="eco_title_1">El Ecosistema</span> <span class="text-gradient" data-i18n="eco_title_2">Richmond Pro</span></h2>
+        <p class="section-desc" data-i18n="eco_subtitle">Una metodología completa que conecta el aula, la práctica digital y la certificación internacional.</p>
       </div>
       <div class="ecosystem-grid fade-up delay-1">
         <div class="eco-item">
           <div class="eco-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
           </div>
-          <h3 class="eco-title">Materiales Flexibles</h3>
-          <p class="eco-desc">Opciones de materiales físicos o un ecosistema 100% digital que se adapta a las necesidades de tus alumnos y docentes.</p>
+          <h3 class="eco-title" data-i18n="eco_item_1_title">Formatos a Medida</h3>
+          <p class="eco-desc" data-i18n="eco_item_1_desc">Opciones de materiales físicos o un ecosistema 100% digital que se adapta a las necesidades de tus alumnos y docentes.</p>
         </div>
         
         <div class="eco-item">
           <div class="eco-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
           </div>
-          <h3 class="eco-title">Plataformas State of the Art</h3>
-          <p class="eco-desc">Entornos de aprendizaje modernos, intuitivos y basados en datos, para un monitoreo preciso del progreso y desempeño.</p>
+          <h3 class="eco-title" data-i18n="eco_item_2_title">Plataformas en Estado del Arte</h3>
+          <p class="eco-desc" data-i18n="eco_item_2_desc">Entornos de aprendizaje modernos, intuitivos y basados en datos, para un monitoreo preciso del progreso y desempeño.</p>
         </div>
         
         <div class="eco-item">
           <div class="eco-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
           </div>
-          <h3 class="eco-title">Certificación TOEIC</h3>
-          <p class="eco-desc">Incluye preparación enfocada (Prep Course) y la certificación TOEIC oficial por ETS para asegurar el dominio del idioma.</p>
+          <h3 class="eco-title" data-i18n="eco_item_3_title">Certificación TOEIC</h3>
+          <p class="eco-desc" data-i18n="eco_item_3_desc">Incluye preparación enfocada (Prep Course) y la certificación TOEIC oficial por ETS para asegurar el dominio del idioma.</p>
         </div>
       </div>
     </div>
@@ -113,8 +116,8 @@
   <section id="evidencias" class="evidencias-section">
     <div class="container">
       <div class="section-header fade-up">
-        <h2 class="section-title">Conoce la experiencia de <span class="text-gradient">otras instituciones</span></h2>
-        <p class="section-desc">Explora cómo docentes, coordinadores y estudiantes han integrado Richmond Pro en su día a día.</p>
+        <h2 class="section-title"><span data-i18n="success_title_1">Conoce la experiencia de</span> <span class="text-gradient" data-i18n="success_title_2">otras instituciones</span></h2>
+        <p class="section-desc" data-i18n="success_subtitle">Explora cómo docentes, coordinadores y estudiantes han integrado Richmond Pro en su día a día.</p>
       </div>
 
       <div class="slider-container fade-up delay-1">
@@ -125,37 +128,37 @@
         <div class="slider-track" id="evidencias-slider">
           <!-- Slide 1 (Priority 1) -->
           <article class="slider-item iframe-wrapper">
-            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
+            <div class="iframe-loader" data-i18n="iframe_loader">Cargando publicación de LinkedIn...</div>
             <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7364836890056802304" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
           </article>
           <!-- Slide 2 (Priority 2) -->
           <article class="slider-item iframe-wrapper">
-            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
+            <div class="iframe-loader" data-i18n="iframe_loader">Cargando publicación de LinkedIn...</div>
             <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7364733445169741825" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
           </article>
           <!-- Slide 3 (Priority 3) -->
           <article class="slider-item iframe-wrapper">
-            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
+            <div class="iframe-loader" data-i18n="iframe_loader">Cargando publicación de LinkedIn...</div>
             <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7430788221736943616" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
           </article>
           <!-- Slide 4 -->
           <article class="slider-item iframe-wrapper">
-            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
+            <div class="iframe-loader" data-i18n="iframe_loader">Cargando publicación de LinkedIn...</div>
             <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7475092259017871360" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
           </article>
           <!-- Slide 5 -->
           <article class="slider-item iframe-wrapper">
-            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
+            <div class="iframe-loader" data-i18n="iframe_loader">Cargando publicación de LinkedIn...</div>
             <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7463023449314127872" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
           </article>
           <!-- Slide 6 -->
           <article class="slider-item iframe-wrapper">
-            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
+            <div class="iframe-loader" data-i18n="iframe_loader">Cargando publicación de LinkedIn...</div>
             <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7431790851795853313" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
           </article>
           <!-- Slide 7 -->
           <article class="slider-item iframe-wrapper">
-            <div class="iframe-loader">Cargando publicación de LinkedIn...</div>
+            <div class="iframe-loader" data-i18n="iframe_loader">Cargando publicación de LinkedIn...</div>
             <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7476448290901741568" width="100%" frameborder="0" allowfullscreen="" title="Embedded post" style="width: 100%; height: 500px; border-radius: 16px; border: none;"></iframe>
           </article>
         </div>
@@ -166,22 +169,22 @@
       </div>
 
       <div class="section-header fade-up" style="margin-top: 80px;">
-        <span class="badge">Galerías de Fotos</span>
-        <h2 class="section-title">Galerías por <span class="text-gradient">Universidad</span></h2>
-        <p class="section-desc">Explora las imágenes de nuestras implementaciones exitosas divididas por categoría.</p>
+        <span class="badge" data-i18n="gallery_badge">Galerías de Fotos</span>
+        <h2 class="section-title"><span data-i18n="gallery_title_1">Galerías por</span> <span class="text-gradient" data-i18n="gallery_title_2">Universidad</span></h2>
+        <p class="section-desc" data-i18n="gallery_desc">Explora las imágenes de nuestras implementaciones exitosas divididas por categoría.</p>
       </div>
 
       <div class="gallery-folders" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 2rem;">
-        <button class="btn btn-outline" onclick="openGallery('UTH')">UT Hermosillo</button>
-        <button class="btn btn-outline" onclick="openGallery('UTT')">UT Tijuana</button>
-        <button class="btn btn-outline" onclick="openGallery('UTN')">UT Nogales</button>
-        <button class="btn btn-outline" onclick="openGallery('TOEIC')">TOEIC In Action</button>
-        <button class="btn btn-outline" onclick="openGallery('MAKING')">Making It Real</button>
-        <button class="btn btn-outline" onclick="openGallery('VIDEOS')">Videos Oficiales</button>
+        <button class="btn btn-outline" onclick="openGallery('UTH')" data-i18n="btn_gallery_uth">UT Hermosillo</button>
+        <button class="btn btn-outline" onclick="openGallery('UTT')" data-i18n="btn_gallery_utt">UT Tijuana</button>
+        <button class="btn btn-outline" onclick="openGallery('UTN')" data-i18n="btn_gallery_utn">UT Nogales</button>
+        <button class="btn btn-outline" onclick="openGallery('TOEIC')" data-i18n="btn_gallery_toeic">TOEIC In Action</button>
+        <button class="btn btn-outline" onclick="openGallery('MAKING')" data-i18n="btn_gallery_making">Making It Real</button>
+        <button class="btn btn-outline" onclick="openGallery('VIDEOS')" data-i18n="btn_gallery_videos">Videos Oficiales</button>
       </div>
 
       <div style="text-align: center; margin-top: 60px;" class="fade-up">
-        <a href="https://wa.me/message/6O4USI5SGF3IA1" class="btn btn-primary" target="_blank" rel="noopener">Implementa Richmond Pro ahora</a>
+        <a href="https://wa.me/message/6O4USI5SGF3IA1" class="btn btn-primary" target="_blank" rel="noopener" data-i18n="btn_implement_now">Implementa Richmond Pro ahora</a>
       </div>
     </div>
   </section>
@@ -191,9 +194,9 @@
     <div class="container">
       <div class="cert-showcase-grid">
         <div class="cert-info fade-up">
-          <span class="eyebrow" style="color: #10b981;">Estándar Internacional</span>
-          <h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem;">Certificaciones <span class="text-gradient">TOEIC® y ETS</span> en Acción</h2>
-          <p class="section-desc" style="margin-bottom: 2rem; text-align: left; max-width: 100%;">
+          <span class="eyebrow" style="color: #10b981;" data-i18n="cert_eyebrow">Estándar Internacional</span>
+          <h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem;"><span data-i18n="cert_title_1">Certificaciones</span> <span class="text-gradient" data-i18n="cert_title_2">TOEIC® y ETS en Acción</span></h2>
+          <p class="section-desc" style="margin-bottom: 2rem; text-align: left; max-width: 100%;" data-i18n="cert_desc">
             Nuestros alumnos alcanzan niveles competitivos globales, respaldados por la acreditación de idioma más reconocida y exigida en el mundo laboral y académico. Así es un certificado oficial otorgado al finalizar con éxito nuestros programas con Richmond Pro y ETS.
           </p>
           
@@ -203,8 +206,8 @@
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00a896" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path></svg>
               </div>
               <div>
-                <h4 class="cert-feature-title">Reconocimiento y Validez Global</h4>
-                <p class="cert-feature-desc">Evaluadas estrictamente bajo el Marco Común Europeo de Referencia (MCER) con total validez oficial en empresas y universidades en todo el mundo.</p>
+                <h4 class="cert-feature-title" data-i18n="cert_feat_1_title">Reconocimiento y Validez Global</h4>
+                <p class="cert-feature-desc" data-i18n="cert_feat_1_desc">Evaluadas strictly bajo el Marco Común Europeo de Referencia (MCER) con total validez oficial en empresas y universidades en todo el mundo.</p>
               </div>
             </div>
             <div class="cert-feature-item">
@@ -212,8 +215,8 @@
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00a896" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
               </div>
               <div>
-                <h4 class="cert-feature-title">Verificación Digital Inteligente y QR</h4>
-                <p class="cert-feature-desc">Cada acreditación cuenta con identificador criptográfico, código QR antivandalismo y portal digital de validación en tiempo real en los servidores de ETS.</p>
+                <h4 class="cert-feature-title" data-i18n="cert_feat_2_title">Verificación Digital Inteligente y QR</h4>
+                <p class="cert-feature-desc" data-i18n="cert_feat_2_desc">Cada acreditación cuenta con identificador criptográfico, código QR antivandalismo y portal digital de validación en tiempo real en los servidores de ETS.</p>
               </div>
             </div>
             <div class="cert-feature-item">
@@ -221,8 +224,8 @@
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00a896" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
               </div>
               <div>
-                <h4 class="cert-feature-title">Medición Detallada por Competencia</h4>
-                <p class="cert-feature-desc">Reporta puntuaciones precisas y desglosadas en Listening y Reading, comprobando las habilidades comunicativas y profesionales del estudiante.</p>
+                <h4 class="cert-feature-title" data-i18n="cert_feat_3_title">Medición Detallada por Competencia</h4>
+                <p class="cert-feature-desc" data-i18n="cert_feat_3_desc">Reporta puntuaciones precisas y desglosadas en Listening y Reading, comprobando las habilidades comunicativas y profesionales del estudiante.</p>
               </div>
             </div>
           </div>
@@ -230,9 +233,9 @@
           <div style="margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
             <a href="assets/toeic_demo_cert.pdf" target="_blank" class="btn btn-primary">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-              Ver Certificado en PDF
+              <span data-i18n="cert_btn_pdf">Ver Certificado en PDF</span>
             </a>
-            <button class="btn btn-outline" onclick="openCertModal()">Ampliar Demo Interactiva</button>
+            <button class="btn btn-outline" onclick="openCertModal()" data-i18n="cert_btn_modal">Ampliar Demo Interactiva</button>
           </div>
         </div>
 
@@ -242,12 +245,12 @@
               <div class="cert-dots">
                 <span></span><span></span><span></span>
               </div>
-              <span class="cert-tag">Demo Oficial Anonymizado</span>
+              <span class="cert-tag" data-i18n="cert_card_tag">Demo Oficial Anonymizado</span>
             </div>
             <div class="cert-image-container" onclick="openCertModal()" title="Haz clic para ampliar">
               <img src="assets/toeic_demo_cert.png" alt="Demostración de Certificado TOEIC ETS Richmond Pro" class="cert-preview-img" loading="lazy">
               <div class="cert-hover-overlay">
-                <span class="hover-text">Haz clic para ampliar certificado</span>
+                <span class="hover-text" data-i18n="cert_hover_text">Haz clic para ampliar certificado</span>
               </div>
             </div>
           </div>
@@ -260,8 +263,8 @@
       <div class="modal-content-wrapper" onclick="event.stopPropagation()">
         <button class="modal-close-btn" onclick="closeCertModal()" aria-label="Cerrar">&times;</button>
         <div style="text-align: center; margin-bottom: 1.2rem;">
-          <h3 style="font-size: 1.5rem; color: #fff; margin-bottom: 0.3rem;">Muestra Oficial de Certificación TOEIC® / ETS</h3>
-          <p style="color: var(--text-secondary); font-size: 0.95rem;">Acreditación internacional otorgada en programas institucionales con Richmond Pro</p>
+          <h3 style="font-size: 1.5rem; color: #fff; margin-bottom: 0.3rem;" data-i18n="modal_cert_title">Muestra Oficial de Certificación TOEIC® / ETS</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;" data-i18n="modal_cert_subtitle">Acreditación internacional otorgada en programas institucionales con Richmond Pro</p>
         </div>
         <img src="assets/toeic_demo_cert.png" alt="Demo Certificación Completa" class="modal-cert-img">
       </div>
@@ -274,12 +277,12 @@
       <div class="testimonials-grid">
         <!-- Testimonio 1 -->
         <article class="testimonial-card fade-up">
-          <p class="testimonial-text">"Estamos muy contentos con esta alianza con Richmond Pro y ETS que nos ha permitido llevar a nuestros alumnos a estándares internacionales sin precedentes."</p>
+          <p class="testimonial-text" data-i18n="testimonial_text">"Estamos muy contentos con esta alianza con Richmond Pro y ETS que nos ha permitido llevar a nuestros alumnos a estándares internacionales sin precedentes."</p>
           <div class="testimonial-author">
             <div class="author-avatar">UTT</div>
             <div>
-              <div class="author-name">Director Académico</div>
-              <div class="author-role">Universidad Tecnológica de Tijuana</div>
+              <div class="author-name" data-i18n="testimonial_author_name">Director Académico</div>
+              <div class="author-role" data-i18n="testimonial_author_role">Universidad Tecnológica de Tijuana</div>
             </div>
           </div>
         </article>
@@ -291,36 +294,29 @@
   <section class="faq-section" id="faq">
     <div class="container">
       <div class="section-header fade-up">
-        <h2 class="section-title">Preguntas Frecuentes</h2>
-        <p class="section-desc">Resolvemos tus dudas sobre la implementación de Richmond Pro.</p>
+        <h2 class="section-title" data-i18n="faq_title">Preguntas Frecuentes</h2>
+        <p class="section-desc" data-i18n="faq_desc">Resolvemos tus dudas sobre la implementación de Richmond Pro.</p>
       </div>
       
       <div class="faq-accordion">
         <details class="faq-item fade-up" name="faq-group">
-          <summary>¿Cuánto cuesta implementar Richmond Pro en mi institución?</summary>
+          <summary data-i18n="faq_q1">¿Cuánto cuesta implementar Richmond Pro en mi institución?</summary>
           <div class="faq-content">
-            <p>Ofrecemos planes altamente competitivos. Nuestro plan base cuatrimestral diseñado para universidades Tecnológicas comienza desde $429 MXN* por alumno, el semestral desde $629 MXN* e incluye metodologías simultáneas, certificación TOEIC ETS*, y acceso a plataformas como Richmond Studio y ETS English Discoveries. (*Los precios están sujetos a volumen y adopción total, la certificación TOEIC sin costo solo aplica para alumnos con nivel B1 ó superiror del MCER). No dudes en contactarnos para ampliar el tema comercial y de precios y ver de qué forma nos adaptamos mejor a tu institución.</p>
+            <p data-i18n="faq_a1">Ofrecemos planes altamente competitivos. Nuestro plan base cuatrimestral diseñado para universidades Tecnológicas comienza desde $429 MXN* por alumno, el semestral desde $629 MXN* e incluye metodologías simultáneas, certificación TOEIC ETS*, y acceso a plataformas como Richmond Studio y ETS English Discoveries. (*Los precios están sujetos a volumen y adopción total, la certificación TOEIC sin costo solo aplica para alumnos con nivel B1 ó superiror del MCER). No dudes en contactarnos para ampliar el tema comercial y de precios y ver de qué forma nos adaptamos mejor a tu institución.</p>
           </div>
         </details>
 
         <details class="faq-item fade-up delay-1" name="faq-group">
-          <summary>¿Cuánto tiempo toma la implementación?</summary>
+          <summary data-i18n="faq_q2">¿Cómo se maneja la capacitación docente?</summary>
           <div class="faq-content">
-            <p>Se requiere un mínimo de <strong>3 semanas previo al inicio de clases</strong>, nos adaptamos a los procesos internos de la Universidad, dentro de este tiempo se realizan capacitaciones de plataforma y materiales, surtido y preparativos en general.</p>
+            <p data-i18n="faq_a2">Ofrecemos acompañamiento académico continuo, talleres iniciales de onboarding y seminarios especializados durante todo el periodo académico para asegurar que los docentes aprovechen al máximo las plataformas.</p>
           </div>
         </details>
 
         <details class="faq-item fade-up delay-2" name="faq-group">
-          <summary>¿Qué soporte reciben los docentes durante la adopción?</summary>
+          <summary data-i18n="faq_q3">¿Se puede integrar en planes de estudio existentes?</summary>
           <div class="faq-content">
-            <p>Incluimos un <strong>Plan de Desarrollo Docente (PDD)</strong> con capacitación continua (virtual/presencial), acceso a webinars mensuales (más de 25 hrs al año), la comunidad ED de ETS, y cursos gratuitos de preparación para certificaciones TKT sin costo adicional.</p>
-          </div>
-        </details>
-
-        <details class="faq-item fade-up delay-3" name="faq-group">
-          <summary>¿La certificación TOEIC está incluida en el costo?</summary>
-          <div class="faq-content">
-            <p>Sí, la certificación <strong>TOEIC está incluida sin costo</strong> para alumnos que alcancen el nivel B1 o superior (según el MCER). Además, preparamos a la escuela para postularse como Centro Autorizado ETS® (permitiendo evaluar a personas externas con costo) e incluimos examen TOEIC personal para maestros.</p>
+            <p data-i18n="faq_a3">Sí, Richmond Pro está diseñado para adaptarse ágilmente a esquemas cuatrimestrales o semestrales, alineándose con los objetivos institucionales de inglés.</p>
           </div>
         </details>
       </div>
@@ -331,10 +327,10 @@
   <footer class="footer">
     <div class="container">
       <div class="footer-cta fade-up">
-        <h2>¿Listo para dar el siguiente paso?</h2>
+        <h2 data-i18n="hero_title">Transformando escuelas con</h2>
         <div class="hero-actions" style="margin-top: 32px; justify-content: center;">
-          <a href="https://calendly.com/yepzhi/30min" class="btn btn-primary" target="_blank" rel="noopener">Agendar una demo</a>
-          <a href="https://wa.me/message/6O4USI5SGF3IA1" class="btn btn-whatsapp" target="_blank" rel="noopener">Conversa ahora</a>
+          <a href="https://calendly.com/yepzhi/30min" class="btn btn-primary" target="_blank" rel="noopener" data-i18n="hero_btn_demo">Agendar una demo</a>
+          <a href="https://wa.me/message/6O4USI5SGF3IA1" class="btn btn-whatsapp" target="_blank" rel="noopener" data-i18n="hero_btn_chat">Conversa ahora</a>
         </div>
       </div>
       

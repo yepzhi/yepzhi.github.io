@@ -1,9 +1,162 @@
-/* 
-  ProExperience Skeleton Logic
-  Handles animations and modal interactions
-*/
+// --- i18n Translation Dictionary ---
+const translations = {
+  en: {
+    nav_other_regions: "Other Regions",
+    hero_eyebrow: "Pro Ecosystem",
+    hero_title: "Transforming schools with",
+    hero_subtitle: "Discover how our partner schools in the region are integrating cutting-edge technology, global certifications, and proven results to elevate their academic standard.",
+    hero_btn_demo: "Schedule a Demo",
+    hero_btn_chat: "Chat Now",
+    metric_1_lbl: "Partner Schools in Northwest Mexico",
+    metric_2_lbl: "Enrolled Students in the Region",
+    metric_3_lbl: "Certification Coverage Growth",
+    metric_4_lbl: "Aligned with CEFR Standards",
+    eco_eyebrow: "Integral Solution",
+    eco_title_1: "The Richmond Pro",
+    eco_title_2: "Ecosystem",
+    eco_subtitle: "A complete methodology connecting classroom, digital practice, and international certification.",
+    eco_item_1_title: "Tailored Formats",
+    eco_item_1_desc: "Options for physical print materials or a 100% digital ecosystem adapting to student and faculty needs.",
+    eco_item_2_title: "State-of-the-Art Platforms",
+    eco_item_2_desc: "Modern, intuitive, data-driven learning environments for precise tracking of progress and performance.",
+    eco_item_3_title: "TOEIC Certification",
+    eco_item_3_desc: "Includes targeted preparation (Prep Course) and official TOEIC certification by ETS to guarantee language mastery.",
+    success_title_1: "Experience from",
+    success_title_2: "Other Institutions",
+    success_subtitle: "Explore how teachers, coordinators, and students integrate Richmond Pro into their daily routines.",
+    iframe_loader: "Loading LinkedIn post...",
+    gallery_badge: "Photo Galleries",
+    gallery_title_1: "Galleries by",
+    gallery_title_2: "University",
+    gallery_desc: "Explore implementation photos categorized by university and event.",
+    btn_gallery_uth: "UT Hermosillo",
+    btn_gallery_utt: "UT Tijuana",
+    btn_gallery_utn: "UT Nogales",
+    btn_gallery_toeic: "TOEIC In Action",
+    btn_gallery_making: "Making It Real",
+    btn_gallery_videos: "Official Videos",
+    btn_implement_now: "Implement Richmond Pro Now",
+    cert_eyebrow: "International Standard",
+    cert_title_1: "TOEIC® & ETS Certifications",
+    cert_title_2: "in Action",
+    cert_desc: "Our students achieve competitive global standards, backed by the most recognized language accreditation in the academic and professional world. This is what an official certificate looks like upon completing our programs with Richmond Pro and ETS.",
+    cert_feat_1_title: "Global Recognition & Validity",
+    cert_feat_1_desc: "Strictly evaluated under the Common European Framework of Reference (CEFR) with full official validity in companies and universities worldwide.",
+    cert_feat_2_title: "Smart Digital & QR Verification",
+    cert_feat_2_desc: "Every accreditation features a unique cryptographic ID, anti-tamper QR code, and real-time online validation on ETS servers.",
+    cert_feat_3_title: "Detailed Skill Assessment",
+    cert_feat_3_desc: "Reports precise score breakdowns in Listening and Reading, verifying professional communication skills.",
+    cert_btn_pdf: "View Certificate PDF",
+    cert_btn_modal: "Expand Interactive Demo",
+    cert_card_tag: "Official Anonymized Demo",
+    cert_hover_text: "Click to expand certificate",
+    modal_cert_title: "Official TOEIC® / ETS Certification Sample",
+    modal_cert_subtitle: "International accreditation awarded through institutional programs with Richmond Pro",
+    testimonial_text: "\"We are extremely pleased with our partnership with Richmond Pro and ETS, which has enabled our students to reach unprecedented international standards.\"",
+    testimonial_author_name: "Academic Director",
+    testimonial_author_role: "Technological University of Tijuana",
+    faq_title: "Frequently Asked Questions",
+    faq_desc: "Answers to common questions regarding Richmond Pro implementation.",
+    faq_q1: "How much does it cost to implement Richmond Pro at my institution?",
+    faq_a1: "We offer highly competitive plans. Our base four-month plan designed for Technological Universities starts from $429 MXN* per student, and the six-month plan starts from $629 MXN*, including simultaneous methodologies, TOEIC ETS certification*, and access to platforms like Richmond Studio and ETS English Discoveries. (*Prices subject to volume and full adoption; TOEIC certification at no extra cost applies to students at B1 level or above). Feel free to contact us for customized commercial options.",
+    faq_q2: "How is teacher training handled?",
+    faq_a2: "We provide continuous academic support, initial onboarding workshops, and specialized webinars throughout the academic period to ensure faculty maximize platform capabilities.",
+    faq_q3: "Can it be integrated into existing university curricula?",
+    faq_a3: "Yes, Richmond Pro is designed to seamlessly adapt to four-month or six-month academic schedules, aligning with institutional language objectives."
+  },
+  es: {
+    nav_other_regions: "Otras Regiones",
+    hero_eyebrow: "Ecosistema Pro",
+    hero_title: "Transformando escuelas con",
+    hero_subtitle: "Descubre cómo nuestras escuelas hermanas en la región están integrando tecnología de vanguardia, certificaciones globales y resultados probados para elevar su nivel académico.",
+    hero_btn_demo: "Agendar una demo",
+    hero_btn_chat: "Conversa ahora",
+    metric_1_lbl: "Escuelas en la región Noroeste",
+    metric_2_lbl: "Alumnos inscritos en la región",
+    metric_3_lbl: "Mejora de cobertura en certificaciones",
+    metric_4_lbl: "Alineado al MCER",
+    eco_eyebrow: "Solución Integral",
+    eco_title_1: "El Ecosistema",
+    eco_title_2: "Richmond Pro",
+    eco_subtitle: "Una metodología completa que conecta el aula, la práctica digital y la certificación internacional.",
+    eco_item_1_title: "Formatos a Medida",
+    eco_item_1_desc: "Opciones de materiales físicos o un ecosistema 100% digital que se adapta a las necesidades de tus alumnos y docentes.",
+    eco_item_2_title: "Plataformas en Estado del Arte",
+    eco_item_2_desc: "Entornos de aprendizaje modernos, intuitivos y basados en datos, para un monitoreo preciso del progreso y desempeño.",
+    eco_item_3_title: "Certificación TOEIC",
+    eco_item_3_desc: "Incluye preparación enfocada (Prep Course) y la certificación TOEIC oficial por ETS para asegurar el dominio del idioma.",
+    success_title_1: "Conoce la experiencia de",
+    success_title_2: "otras instituciones",
+    success_subtitle: "Explora cómo docentes, coordinadores y estudiantes han integrado Richmond Pro en su día a día.",
+    iframe_loader: "Cargando publicación de LinkedIn...",
+    gallery_badge: "Galerías de Fotos",
+    gallery_title_1: "Galerías por",
+    gallery_title_2: "Universidad",
+    gallery_desc: "Explora las imágenes de nuestras implementaciones exitosas divididas por categoría.",
+    btn_gallery_uth: "UT Hermosillo",
+    btn_gallery_utt: "UT Tijuana",
+    btn_gallery_utn: "UT Nogales",
+    btn_gallery_toeic: "TOEIC In Action",
+    btn_gallery_making: "Making It Real",
+    btn_gallery_videos: "Videos Oficiales",
+    btn_implement_now: "Implementa Richmond Pro ahora",
+    cert_eyebrow: "Estándar Internacional",
+    cert_title_1: "Certificaciones",
+    cert_title_2: "TOEIC® y ETS en Acción",
+    cert_desc: "Nuestros alumnos alcanzan niveles competitivos globales, respaldados por la acreditación de idioma más reconocida y exigida en el mundo laboral y académico. Así es un certificado oficial otorgado al finalizar con éxito nuestros programas con Richmond Pro y ETS.",
+    cert_feat_1_title: "Reconocimiento y Validez Global",
+    cert_feat_1_desc: "Evaluadas estrictamente bajo el Marco Común Europeo de Referencia (MCER) con total validez oficial en empresas y universidades en todo el mundo.",
+    cert_feat_2_title: "Verificación Digital Inteligente y QR",
+    cert_feat_2_desc: "Cada acreditación cuenta con identificador criptográfico, código QR antivandalismo y portal digital de validación en tiempo real en los servidores de ETS.",
+    cert_feat_3_title: "Medición Detallada por Competencia",
+    cert_feat_3_desc: "Reporta puntuaciones precisas y desglosadas en Listening y Reading, comprobando las habilidades comunicativas y profesionales del estudiante.",
+    cert_btn_pdf: "Ver Certificado en PDF",
+    cert_btn_modal: "Ampliar Demo Interactiva",
+    cert_card_tag: "Demo Oficial Anonymizado",
+    cert_hover_text: "Haz clic para ampliar certificado",
+    modal_cert_title: "Muestra Oficial de Certificación TOEIC® / ETS",
+    modal_cert_subtitle: "Acreditación internacional otorgada en programas institucionales con Richmond Pro",
+    testimonial_text: "\"Estamos muy contentos con esta alianza con Richmond Pro y ETS que nos ha permitido llevar a nuestros alumnos a estándares internacionales sin precedentes.\"",
+    testimonial_author_name: "Director Académico",
+    testimonial_author_role: "Universidad Tecnológica de Tijuana",
+    faq_title: "Preguntas Frecuentes",
+    faq_desc: "Resolvemos tus dudas sobre la implementación de Richmond Pro.",
+    faq_q1: "¿Cuánto cuesta implementar Richmond Pro en mi institución?",
+    faq_a1: "Ofrecemos planes altamente competitivos. Nuestro plan base cuatrimestral diseñado para universidades Tecnológicas comienza desde $429 MXN* por alumno, el semestral desde $629 MXN* e incluye metodologías simultáneas, certificación TOEIC ETS*, y acceso a plataformas como Richmond Studio y ETS English Discoveries. (*Los precios están sujetos a volumen y adopción total, la certificación TOEIC sin costo solo aplica para alumnos con nivel B1 ó superiror del MCER). No dudes en contactarnos para ampliar el tema comercial y de precios y ver de qué forma nos adaptamos mejor a tu institución.",
+    faq_q2: "¿Cómo se maneja la capacitación docente?",
+    faq_a2: "Ofrecemos acompañamiento académico continuo, talleres iniciales de onboarding y seminarios especializados durante todo el periodo académico para asegurar que los docentes aprovechen al máximo las plataformas.",
+    faq_q3: "¿Se puede integrar en planes de estudio existentes?",
+    faq_a3: "Sí, Richmond Pro está diseñado para adaptarse ágilmente a esquemas cuatrimestrales o semestrales, alineándose con los objetivos institucionales de inglés."
+  }
+};
+
+window.setLanguage = function(lang) {
+  if (!translations[lang]) return;
+  document.documentElement.lang = lang;
+  
+  // Update toggle buttons
+  document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+    if (btn.getAttribute('data-lang-btn') === lang) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  // Replace text for all data-i18n elements
+  const langData = translations[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (langData[key]) {
+      el.textContent = langData[key];
+    }
+  });
+};
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Always load English by default
+  window.setLanguage('en');
+
   // --- 1. Current Year in Footer ---
   const yearSpan = document.getElementById('year');
   if (yearSpan) {
