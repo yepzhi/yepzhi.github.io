@@ -59,10 +59,12 @@ const translations = {
     faq_desc: "Answers to common questions regarding Richmond Pro implementation.",
     faq_q1: "How much does it cost to implement Richmond Pro at my institution?",
     faq_a1: "We offer highly competitive plans. Our base four-month plan designed for Technological Universities starts from $429 MXN* per student, and the six-month plan starts from $629 MXN*, including simultaneous methodologies, TOEIC ETS certification*, and access to platforms like Richmond Studio and ETS English Discoveries. (*Prices subject to volume and full adoption; TOEIC certification at no extra cost applies to students at B1 level or above). Feel free to contact us for customized commercial options.",
-    faq_q2: "How is teacher training handled?",
-    faq_a2: "We provide continuous academic support, initial onboarding workshops, and specialized webinars throughout the academic period to ensure faculty maximize platform capabilities.",
-    faq_q3: "Can it be integrated into existing university curricula?",
-    faq_a3: "Yes, Richmond Pro is designed to seamlessly adapt to four-month or six-month academic schedules, aligning with institutional language objectives."
+    faq_q2: "How long does implementation take?",
+    faq_a2: "A minimum of 3 weeks prior to the start of classes is required. We adapt to the University's internal processes, during which platform and material training, inventory logistics, and general preparations are completed.",
+    faq_q3: "What support do faculty members receive during adoption?",
+    faq_a3: "We include a Faculty Development Plan (PDD) with continuous training (virtual/in-person), access to monthly webinars (25+ hrs/year), the ETS English Discoveries community, and free TKT certification preparation courses at no extra cost.",
+    faq_q4: "Is the TOEIC certification included in the cost?",
+    faq_a4: "Yes, the TOEIC certification is included at no extra cost for students reaching B1 level or above (CEFR). Additionally, we prepare the institution to apply as an Authorized ETS® Test Center (enabling external candidate testing for revenue) and include personal TOEIC exams for teachers."
   },
   es: {
     nav_other_regions: "Otras Regiones",
@@ -123,10 +125,12 @@ const translations = {
     faq_desc: "Resolvemos tus dudas sobre la implementación de Richmond Pro.",
     faq_q1: "¿Cuánto cuesta implementar Richmond Pro en mi institución?",
     faq_a1: "Ofrecemos planes altamente competitivos. Nuestro plan base cuatrimestral diseñado para universidades Tecnológicas comienza desde $429 MXN* por alumno, el semestral desde $629 MXN* e incluye metodologías simultáneas, certificación TOEIC ETS*, y acceso a plataformas como Richmond Studio y ETS English Discoveries. (*Los precios están sujetos a volumen y adopción total, la certificación TOEIC sin costo solo aplica para alumnos con nivel B1 ó superiror del MCER). No dudes en contactarnos para ampliar el tema comercial y de precios y ver de qué forma nos adaptamos mejor a tu institución.",
-    faq_q2: "¿Cómo se maneja la capacitación docente?",
-    faq_a2: "Ofrecemos acompañamiento académico continuo, talleres iniciales de onboarding y seminarios especializados durante todo el periodo académico para asegurar que los docentes aprovechen al máximo las plataformas.",
-    faq_q3: "¿Se puede integrar en planes de estudio existentes?",
-    faq_a3: "Sí, Richmond Pro está diseñado para adaptarse ágilmente a esquemas cuatrimestrales o semestrales, alineándose con los objetivos institucionales de inglés."
+    faq_q2: "¿Cuánto tiempo toma la implementación?",
+    faq_a2: "Se requiere un mínimo de 3 semanas previo al inicio de clases, nos adaptamos a los procesos internos de la Universidad, dentro de este tiempo se realizan capacitaciones de plataforma y materiales, surtido y preparativos en general.",
+    faq_q3: "¿Qué soporte reciben los docentes durante la adopción?",
+    faq_a3: "Incluimos un Plan de Desarrollo Docente (PDD) con capacitación continua (virtual/presencial), acceso a webinars mensuales (más de 25 hrs al año), la comunidad ED de ETS, y cursos gratuitos de preparación para certificaciones TKT sin costo adicional.",
+    faq_q4: "¿La certificación TOEIC está incluida en el costo?",
+    faq_a4: "Sí, la certificación TOEIC está incluida sin costo para alumnos que alcancen el nivel B1 o superior (según el MCER). Además, preparamos a la escuela para postularse como Centro Autorizado ETS® (permitiendo evaluar a personas externas con costo) e incluimos examen TOEIC personal para maestros."
   }
 };
 
