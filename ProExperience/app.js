@@ -145,6 +145,17 @@ window.setLanguage = function(lang) {
       el.textContent = langData[key];
     }
   });
+
+  // Dynamic Footer Copyright
+  const year = new Date().getFullYear();
+  const dynamicYear = document.getElementById('dynamic-year');
+  if (dynamicYear) {
+    if (lang === 'en') {
+      dynamicYear.innerHTML = `&copy;${year} all rights reserved, site by <a href="https://yepzhi.com" target="_blank" style="color: var(--brand-primary); text-decoration: none;">yepzhi</a>.`;
+    } else {
+      dynamicYear.innerHTML = `&copy;${year} todos los derechos reservados, sitio por <a href="https://yepzhi.com" target="_blank" style="color: var(--brand-primary); text-decoration: none;">yepzhi</a>.`;
+    }
+  }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
