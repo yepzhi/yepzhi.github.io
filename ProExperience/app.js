@@ -3,7 +3,8 @@ const translations = {
   en: {
     nav_other_regions: "Other Regions",
     hero_eyebrow: "Pro Ecosystem",
-    hero_title: "Transforming schools with",
+    hero_title: "Discover how schools across our region are using",
+    footer_cta_title: "Ready to take the next step?",
     hero_subtitle: "Discover how our partner schools in the region are integrating cutting-edge technology, global certifications, and proven results to elevate their academic standard.",
     hero_btn_demo: "Schedule a Demo",
     hero_btn_chat: "Chat Now",
@@ -64,7 +65,8 @@ const translations = {
   es: {
     nav_other_regions: "Otras Regiones",
     hero_eyebrow: "Ecosistema Pro",
-    hero_title: "Transformando escuelas con",
+    hero_title: "Descubre cómo las escuelas de nuestra región están utilizando",
+    footer_cta_title: "¿Listo para dar el siguiente paso?",
     hero_subtitle: "Descubre cómo nuestras escuelas hermanas en la región están integrando tecnología de vanguardia, certificaciones globales y resultados probados para elevar su nivel académico.",
     hero_btn_demo: "Agendar una demo",
     hero_btn_chat: "Conversa ahora",
