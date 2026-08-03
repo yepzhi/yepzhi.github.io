@@ -3,9 +3,9 @@ const translations = {
   en: {
     nav_other_regions: "Other Regions",
     hero_eyebrow: "Pro Ecosystem",
-    hero_title: "Discover how schools across our region are using",
+    hero_title: "Discover how our partner schools are using",
     footer_cta_title: "Ready to take the next step?",
-    hero_subtitle: "Discover how our partner schools in the region are integrating cutting-edge technology, global certifications, and proven results to elevate their academic standard.",
+    hero_subtitle: "in our region, integrating cutting-edge technology, global certifications, and proven results to elevate their academic standard.",
     hero_btn_demo: "Schedule a Demo",
     hero_btn_chat: "Chat Now",
     metric_1_lbl: "Partner Schools in Northwest Mexico",
@@ -67,9 +67,9 @@ const translations = {
   es: {
     nav_other_regions: "Otras Regiones",
     hero_eyebrow: "Ecosistema Pro",
-    hero_title: "Descubre cómo las escuelas de nuestra región están utilizando",
+    hero_title: "Descubre cómo nuestras escuelas aliadas están utilizando",
     footer_cta_title: "¿Listo para dar el siguiente paso?",
-    hero_subtitle: "Descubre cómo nuestras escuelas hermanas en la región están integrando tecnología de vanguardia, certificaciones globales y resultados probados para elevar su nivel académico.",
+    hero_subtitle: "en nuestra región, integrando tecnología de vanguardia, certificaciones globales y resultados probados para elevar su nivel académico.",
     hero_btn_demo: "Agendar una demo",
     hero_btn_chat: "Conversa ahora",
     metric_1_lbl: "Escuelas en la región Noroeste",
