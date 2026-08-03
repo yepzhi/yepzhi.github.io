@@ -3,7 +3,7 @@ const translations = {
   en: {
     nav_other_regions: "Other Regions",
     hero_eyebrow: "Pro Ecosystem",
-    hero_title: "Discover how schools use",
+    hero_title: "Discover how <br>our schools use",
     footer_cta_title: "Ready to take the next step?",
     hero_subtitle: "Discover how our partner schools in the region are integrating cutting-edge technology, global certifications, and proven results to elevate their academic standard.",
     hero_btn_demo: "Schedule a Demo",
@@ -67,7 +67,7 @@ const translations = {
   es: {
     nav_other_regions: "Otras Regiones",
     hero_eyebrow: "Ecosistema Pro",
-    hero_title: "Descubre cómo las escuelas utilizan",
+    hero_title: "Descubre cómo <br>nuestras escuelas utilizan",
     footer_cta_title: "¿Listo para dar el siguiente paso?",
     hero_subtitle: "Descubre cómo nuestras escuelas hermanas en la región están integrando tecnología de vanguardia, certificaciones globales y resultados probados para elevar su nivel académico.",
     hero_btn_demo: "Agendar una demo",
@@ -149,6 +149,13 @@ window.setLanguage = function(lang) {
     const key = el.getAttribute('data-i18n');
     if (langData[key]) {
       el.textContent = langData[key];
+    }
+  });
+
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if (langData[key]) {
+      el.innerHTML = langData[key];
     }
   });
 
