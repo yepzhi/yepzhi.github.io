@@ -184,6 +184,86 @@
         <a href="https://wa.me/message/6O4USI5SGF3IA1" class="btn btn-primary" target="_blank" rel="noopener">Implementa Richmond Pro ahora</a>
       </div>
     </div>
+  <!-- Certification Showcase Section -->
+  <section class="certification-section" id="certificacion">
+    <div class="container">
+      <div class="cert-showcase-grid">
+        <div class="cert-info fade-up">
+          <span class="eyebrow" style="color: #10b981;">Estándar Internacional</span>
+          <h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem;">Certificaciones <span class="text-gradient">TOEIC® y ETS</span> en Acción</h2>
+          <p class="section-desc" style="margin-bottom: 2rem; text-align: left; max-width: 100%;">
+            Nuestros alumnos alcanzan niveles competitivos globales, respaldados por la acreditación de idioma más reconocida y exigida en el mundo laboral y académico. Así es un certificado oficial otorgado al finalizar con éxito nuestros programas con Richmond Pro y ETS.
+          </p>
+          
+          <div class="cert-highlights">
+            <div class="cert-feature-item">
+              <div class="cert-icon">🏆</div>
+              <div>
+                <h4 class="cert-feature-title">Reconocimiento y Validez Global</h4>
+                <p class="cert-feature-desc">Evaluadas estrictamente bajo el Marco Común Europeo de Referencia (MCER) con total validez oficial en empresas y universidades en todo el mundo.</p>
+              </div>
+            </div>
+            <div class="cert-feature-item">
+              <div class="cert-icon">🔒</div>
+              <div>
+                <h4 class="cert-feature-title">Verificación Digital Inteligente y QR</h4>
+                <p class="cert-feature-desc">Cada acreditación cuenta con identificador criptográfico, código QR antivandalismo y portal digital de validación en tiempo real en los servidores de ETS.</p>
+              </div>
+            </div>
+            <div class="cert-feature-item">
+              <div class="cert-icon">📊</div>
+              <div>
+                <h4 class="cert-feature-title">Medición Detallada por Competencia</h4>
+                <p class="cert-feature-desc">Reporta puntuaciones precisas y desglosadas en Listening y Reading, comprobando las habilidades comunicativas y profesionales del estudiante.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="assets/toeic_demo_cert.pdf" target="_blank" class="btn btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              Ver Certificado en PDF
+            </a>
+            <button class="btn btn-outline" onclick="openCertModal()">🔍 Ampliar Demo Interactiva</button>
+          </div>
+        </div>
+
+        <div class="cert-visual fade-up delay-1">
+          <div class="cert-card-glass">
+            <div class="cert-card-header">
+              <div class="cert-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span class="cert-tag">✓ Demo Oficial Anonymizado</span>
+            </div>
+            <div class="cert-image-container" onclick="openCertModal()" title="Haz clic para ampliar">
+              <img src="assets/toeic_demo_cert.png" alt="Demostración de Certificado TOEIC ETS Richmond Pro" class="cert-preview-img" loading="lazy">
+              <div class="cert-hover-overlay">
+                <span class="hover-text">🔍 Haz clic para explorar certificado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal para ver certificado completo -->
+    <div id="certModal" class="custom-modal" onclick="closeCertModal()">
+      <div class="modal-content-wrapper" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="closeCertModal()" aria-label="Cerrar">&times;</button>
+        <div style="text-align: center; margin-bottom: 1.2rem;">
+          <h3 style="font-size: 1.5rem; color: #fff; margin-bottom: 0.3rem;">Muestra Oficial de Certificación TOEIC® / ETS</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">Acreditación internacional otorgada en programas institucionales con Richmond Pro</p>
+        </div>
+        <img src="assets/toeic_demo_cert.png" alt="Demo Certificación Completa" class="modal-cert-img">
+        <div class="modal-actions" style="margin-top: 1.5rem; display: flex; justify-content: center; gap: 1rem;">
+          <a href="assets/toeic_demo_cert.pdf" download="Demo_Certificación_TOEIC_RichmondPro.pdf" target="_blank" class="btn btn-primary">
+            📥 Descargar PDF Muestra
+          </a>
+          <button class="btn btn-outline" onclick="closeCertModal()">Cerrar Ventana</button>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Testimonials Section -->
@@ -198,30 +278,6 @@
             <div>
               <div class="author-name">Director Académico</div>
               <div class="author-role">Universidad Tecnológica de Tijuana</div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Testimonio 2 -->
-        <article class="testimonial-card fade-up delay-1">
-          <p class="testimonial-text">"[Texto del testimonio pendiente por parte del cliente. Puede detallar resultados y mejoras en sus indicadores.]"</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">N/A</div>
-            <div>
-              <div class="author-name">[Nombre pendiente]</div>
-              <div class="author-role">[Cargo e Institución]</div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Testimonio 3 -->
-        <article class="testimonial-card fade-up delay-2">
-          <p class="testimonial-text">"[Texto del testimonio pendiente por parte del cliente. Puede detallar resultados y mejoras en sus indicadores.]"</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">N/A</div>
-            <div>
-              <div class="author-name">[Nombre pendiente]</div>
-              <div class="author-role">[Cargo e Institución]</div>
             </div>
           </div>
         </article>

@@ -224,4 +224,29 @@ document.addEventListener('DOMContentLoaded', () => {
   if (dynamicYear) {
     dynamicYear.innerHTML = `&copy; ${new Date().getFullYear()}, sitio por <a href="https://yepzhi.com" target="_blank" style="color: var(--brand-primary); text-decoration: none;">yepzhi</a>, todos los derechos reservados.`;
   }
+
+  // --- 6. Certificate Demo Modal Logic ---
+  const certModal = document.getElementById('certModal');
+
+  window.openCertModal = function() {
+    if (certModal) {
+      certModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  };
+
+  window.closeCertModal = function() {
+    if (certModal) {
+      certModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  };
+
+  if (certModal) {
+    certModal.addEventListener('click', (e) => {
+      if (e.target === certModal) {
+        window.closeCertModal();
+      }
+    });
+  }
 });
