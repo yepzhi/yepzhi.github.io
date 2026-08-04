@@ -35,6 +35,8 @@ const translations = {
     btn_gallery_utn: "UT Nogales",
     btn_gallery_itesca: "ITESCA",
     badge_aug5: "Aug 5",
+    btn_gallery_itlm: "ITLM",
+    badge_h1_2027: "H1 2027",
     btn_gallery_toeic: "TOEIC In Action",
     btn_gallery_making: "Making It Real",
     btn_gallery_videos: "Official Videos",
@@ -101,6 +103,8 @@ const translations = {
     btn_gallery_utn: "UT Nogales",
     btn_gallery_itesca: "ITESCA",
     badge_aug5: "5 Ago",
+    btn_gallery_itlm: "ITLM",
+    badge_h1_2027: "H1 2027",
     btn_gallery_toeic: "TOEIC In Action",
     btn_gallery_making: "Making It Real",
     btn_gallery_videos: "Videos Oficiales",
@@ -252,6 +256,9 @@ document.addEventListener('DOMContentLoaded', () => {
     'ITESCA': [
       "COMING_SOON_ITESCA"
     ],
+    'ITLM': [
+      "COMING_SOON_ITLM"
+    ],
     'UTT': [
       "assets/gallery/UTT/1755814852209.jpeg",
       "assets/gallery/UTT/1755814852217.jpeg",
@@ -312,6 +319,29 @@ document.addEventListener('DOMContentLoaded', () => {
           </h3>
           <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">
             ${isEn ? 'Official inauguration event set for August 5th, 2026. Full photo and video coverage will be published immediately after the ceremony.' : 'Evento de inauguración oficial programado para el 5 de Agosto de 2026. La cobertura fotográfica y en video estará disponible inmediatamente tras la ceremonia.'}
+          </p>
+        </div>
+      `;
+      modalPrev.style.display = 'none';
+      modalNext.style.display = 'none';
+      return;
+    }
+
+    if (file === 'COMING_SOON_ITLM') {
+      const isEn = document.documentElement.lang === 'en';
+      lightboxContent.innerHTML = `
+        <div style="padding: 2.5rem 2rem; text-align: center; color: #fff; max-width: 480px; margin: 0 auto; background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.7);">
+          <div style="width: 50px; height: 50px; background: rgba(245, 158, 11, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem; color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          </div>
+          <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: #f59e0b; background: rgba(245, 158, 11, 0.15); padding: 4px 12px; border-radius: 20px; font-weight: 700; border: 1px solid rgba(245, 158, 11, 0.3);">
+            ${isEn ? 'Coming Soon' : 'Próximamente'}
+          </span>
+          <h3 style="font-size: 1.7rem; margin: 1.2rem 0 0.5rem; color: #fff; font-family: var(--font-head);">
+            ${isEn ? 'ITLM Implementation' : 'Implementación ITLM'}
+          </h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">
+            ${isEn ? 'Official implementation at Instituto Tecnológico de Los Mochis scheduled for H1 2027. Photo and video coverage will be published following launch.' : 'Implementación oficial en el Instituto Tecnológico de Los Mochis programada para H1 2027. La cobertura fotográfica y en video estará disponible tras el lanzamiento.'}
           </p>
         </div>
       `;
