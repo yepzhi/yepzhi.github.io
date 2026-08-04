@@ -838,6 +838,10 @@ h1, h2, h3, h4 {
 .author-avatar {
   width: 56px;
   height: 56px;
+  min-width: 56px;
+  min-height: 56px;
+  flex: 0 0 56px;
+  flex-shrink: 0;
   border-radius: 50%;
   background: var(--gradient-primary);
   display: flex;
@@ -845,6 +849,8 @@ h1, h2, h3, h4 {
   justify-content: center;
   font-weight: 700;
   font-family: var(--font-head);
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
 }
 
 .author-info {
