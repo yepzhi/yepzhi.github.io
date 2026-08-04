@@ -136,7 +136,7 @@ h1, h2, h3, h4 {
   background: rgba(255, 255, 255, 0.04);
   align-items: center;
   height: 34px;
-  margin-left: 10px;
+  margin-left: 0;
   vertical-align: middle;
 }
 
@@ -1140,18 +1140,30 @@ h1, h2, h3, h4 {
   .btn {
     width: 100%;
   }
+  .nav-links {
+    gap: 6px !important;
+  }
   .nav-bar .btn {
     width: auto;
-    padding: 0.3rem 0.6rem !important;
-    font-size: 0.85rem;
+    padding: 0.3rem 0.55rem !important;
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+  .lang-switcher {
+    height: 30px;
+    margin-left: 0;
+  }
+  .lang-btn {
+    padding: 2px 8px;
+    font-size: 0.72rem;
   }
   .brand-text {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     white-space: nowrap;
   }
   .brand-text > span:last-child {
     display: inline;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     margin-top: 0;
   }
   .footer-certs {
