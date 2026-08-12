@@ -266,7 +266,13 @@ document.addEventListener('DOMContentLoaded', () => {
       "assets/gallery/UTN/1771637967214.jpeg"
     ],
     'ITESCA': [
-      "COMING_SOON_ITESCA"
+      "assets/gallery/ITESCA/F1.jpg",
+      "assets/gallery/ITESCA/F2.png",
+      "assets/gallery/ITESCA/F3.jpg",
+      "assets/gallery/ITESCA/F4.mov",
+      "assets/gallery/ITESCA/F5.png",
+      "assets/gallery/ITESCA/F6.jpg",
+      "assets/gallery/ITESCA/F7.jpg"
     ],
     'ITLM': [
       "COMING_SOON_ITLM"
@@ -364,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     modalPrev.style.display = currentGroup.length > 1 ? 'flex' : 'none';
     modalNext.style.display = currentGroup.length > 1 ? 'flex' : 'none';
-    const isVideo = file.endsWith('.mp4');
+    const isVideo = file.match(/\.(mp4|mov)$/i);
     
     if (isVideo) {
       lightboxContent.innerHTML = `<video src="${file}" controls autoplay playsinline style="max-height: 85vh; width: 100%; object-fit: contain;"></video>`;
