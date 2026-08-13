@@ -271,10 +271,10 @@ document.addEventListener('DOMContentLoaded', () => {
     ],
     'ITESCA': [
       "assets/gallery/ITESCA/F1.jpg",
-      "assets/gallery/ITESCA/F2.png",
+      "assets/gallery/ITESCA/F2.jpg",
       "assets/gallery/ITESCA/F3.jpg",
       "assets/gallery/ITESCA/F4.mov",
-      "assets/gallery/ITESCA/F5.png",
+      "assets/gallery/ITESCA/F5.jpg",
       "assets/gallery/ITESCA/F6.jpg",
       "assets/gallery/ITESCA/F7.jpg"
     ],
