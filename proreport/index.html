@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richmond ProReport | Reporte de Ejercicios e Incidencias</title>
+    <meta name="description" content="Richmond ProReport — Plataforma oficial para documentar y reportar incidencias en ejercicios, plataformas y libros del Programa Richmond Pro.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://yepzhi.com/proreport/">
+
+    <!-- Performance & Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #07090e;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-hover: rgba(255, 255, 255, 0.08);
+            --card-border: rgba(255, 255, 255, 0.09);
+            --card-border-active: #facc15;
+            --accent-yellow: #facc15;
+            --accent-gold: #ca8a04;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: rgba(248, 250, 252, 0.65);
+            --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 16px 60px;
+            position: relative;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        /* Ambient Glow Background matching Hub */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(250, 204, 21, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 85% 60%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 90%, rgba(236, 72, 153, 0.08) 0%, transparent 40%);
+            animation: bg-pulse 10s ease-in-out infinite;
+        }
+
+        @keyframes bg-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.75; transform: scale(1.02); }
+        }
+
+        /* Top Nav Bar */
+        .top-nav {
+            width: 100%;
+            max-width: 880px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 0 4px;
+        }
+
+        .back-link {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .back-link:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateX(-3px);
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #facc15;
+            background: rgba(250, 204, 21, 0.1);
+            border: 1px solid rgba(250, 204, 21, 0.25);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            max-width: 780px;
+            margin-bottom: 36px;
+        }
+
+        .header h1 {
+            font-family: var(--font-display);
+            background: linear-gradient(135deg, #fefce8 0%, #facc15 50%, #ca8a04 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 0 15px rgba(250, 204, 21, 0.45)) drop-shadow(0 0 35px rgba(250, 204, 21, 0.2));
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            font-weight: 400;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        /* Main Form Container */
+        .report-form {
+            width: 100%;
+            max-width: 880px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        /* Section Card */
+        .form-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 28px 24px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.2s ease;
+        }
+
+        .form-section:hover {
+            border-color: rgba(255, 255, 255, 0.16);
+        }
+
+        .section-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #facc15, #ca8a04);
+            color: #000;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.3px;
+        }
+
+        .section-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: -14px;
+            margin-bottom: 18px;
+            padding-left: 44px;
+        }
+
+        /* Grid of Hub-Style Module Buttons */
+        .hub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+        }
+
+        /* Interactive Selectable Module Card (Ported & Enhanced from /hub/) */
+        .hub-card-btn {
+            text-decoration: none;
+            color: white;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 20px 18px;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .hub-card-btn:hover {
+            background: rgba(255, 255, 255, 0.07);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.6);
+            border-color: rgba(255, 255, 255, 0.22);
+        }
+
+        .hub-card-btn.selected {
+            background: linear-gradient(135deg, rgba(250, 204, 21, 0.12), rgba(202, 138, 4, 0.05));
+            border-color: #facc15;
+            box-shadow: 0 0 25px rgba(250, 204, 21, 0.25), inset 0 0 15px rgba(250, 204, 21, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .hub-card-btn.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 22px;
+            height: 22px;
+            background: #facc15;
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 900;
+            box-shadow: 0 0 10px rgba(250, 204, 21, 0.6);
+        }
+
+        .card-header-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            width: 100%;
+        }
+
+        .card-icon {
+            font-size: 1.6rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: #fff;
+        }
+
+        .card-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Level Pills Row */
+        .level-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+            width: 100%;
+        }
+
+        .level-pill {
+            padding: 6px 12px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #e2e8f0;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .level-pill:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .level-pill.active {
+            background: #facc15;
+            color: #000;
+            border-color: #facc15;
+            box-shadow: 0 0 12px rgba(250, 204, 21, 0.5);
+        }
+
+        /* Component Buttons Grid (Step 2) */
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+            gap: 12px;
+        }
+
+        .component-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 14px 16px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #fff;
+            position: relative;
+        }
+
+        .component-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .component-btn.selected {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.05));
+            border-color: #3b82f6;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            color: #93c5fd;
+        }
+
+        .component-btn.selected .comp-icon {
+            transform: scale(1.15);
+        }
+
+        .comp-icon {
+            font-size: 1.3rem;
+            transition: transform 0.2s ease;
+        }
+
+        .comp-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .comp-name {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #fff;
+        }
+
+        .comp-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        /* Step 3: Units Selector (Dropdown + Quick Buttons 1-12) */
+        .units-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .unit-pills-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(58px, 1fr));
+            gap: 8px;
+        }
+
+        .unit-pill-btn {
+            height: 44px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .unit-pill-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .unit-pill-btn.active {
+            background: linear-gradient(135deg, #06b6d4, #0284c7);
+            border-color: #06b6d4;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .custom-select-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .custom-select-wrap {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .custom-select,
+        .custom-input,
+        .custom-textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 12px 16px;
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .custom-select:focus,
+        .custom-input:focus,
+        .custom-textarea:focus {
+            border-color: #facc15;
+            box-shadow: 0 0 15px rgba(250, 204, 21, 0.25);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .custom-select option {
+            background: #0f172a;
+            color: #fff;
+        }
+
+        /* Step 4: Text Area & Details */
+        .custom-textarea {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.55;
+        }
+
+        /* Quick Issue Type Tags */
+        .tags-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .issue-tags-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .issue-tag {
+            padding: 6px 12px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .issue-tag:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .issue-tag.selected {
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            border-color: #ef4444;
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Image Paste & Upload Box */
+        .dropzone-box {
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .dropzone-box:hover,
+        .dropzone-box.dragover {
+            border-color: #facc15;
+            background: rgba(250, 204, 21, 0.04);
+        }
+
+        .dropzone-preview-container {
+            display: none;
+            margin-top: 14px;
+            position: relative;
+            max-width: 100%;
+        }
+
+        .dropzone-preview {
+            max-height: 220px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            object-fit: contain;
+            background: #000;
+        }
+
+        .remove-img-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Action Buttons Row */
+        .actions-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+        }
+
+        .btn-main-submit {
+            width: 100%;
+            padding: 16px 24px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #fefce8 0%, #facc15 50%, #ca8a04 100%);
+            border: none;
+            color: #000;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.15rem;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(250, 204, 21, 0.45);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-main-submit:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 0 35px rgba(250, 204, 21, 0.65);
+        }
+
+        .secondary-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            min-width: 180px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #fff;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* Success / Copy Modal */
+        .toast-notification {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(15, 23, 42, 0.92);
+            border: 1px solid #10b981;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(16, 185, 129, 0.3);
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            backdrop-filter: blur(12px);
+        }
+
+        .toast-notification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* History Drawer */
+        .history-card {
+            margin-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 24px;
+        }
+
+        .history-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.88rem;
+        }
+
+        .history-badge {
+            background: rgba(250, 204, 21, 0.15);
+            color: #facc15;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 640px) {
+            .form-section {
+                padding: 20px 16px;
+            }
+            .section-title {
+                font-size: 1.1rem;
+            }
+            .hub-grid {
+                grid-template-columns: 1fr;
+            }
+            .components-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .unit-pills-row {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <a href="https://yepzhi.com/hub/" class="back-link">
+            <span>‹</span> Volver al Hub
+        </a>
+        <div class="brand-badge">✨ Richmond ProReport</div>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>Richmond ProReport</h1>
+        <p>Documentación técnica y reporte de incidencias en ejercicios, plataformas y libros del Programa Richmond Pro.</p>
+    </div>
+
+    <!-- Form Container -->
+    <form class="report-form" id="proReportForm" onsubmit="event.preventDefault(); submitReport();">
+
+        <!-- PASO 1: SELECCIÓN DE LIBRO Y NIVEL -->
+        <div class="form-section">
+            <div class="section-title-row">
+                <div class="step-number">1</div>
+                <h2 class="section-title">Selección del Libro y Nivel</h2>
+            </div>
+            <p class="section-subtitle">Selecciona el título del programa y haz clic en el nivel correspondiente.</p>
+
+            <div class="hub-grid">
+                <!-- English ID 3.0 Card -->
+                <div class="hub-card-btn" id="cardEnglishID" onclick="selectBook('English ID 3.0', ['A1', 'A2', 'B1', 'B1+'], this)">
+                    <div class="card-header-row">
+                        <span class="card-icon">📘</span>
+                        <h3 class="card-title">English ID 3.0</h3>
+                    </div>
+                    <p class="card-desc">Programa comunicativo acelerado con enfoque en fluidez y precisión para adultos jóvenes.</p>
+                    <div class="level-selector" id="levelsEnglishID">
+                        <span class="level-pill" onclick="selectLevel(event, 'English ID 3.0', 'A1')">A1</span>
+                        <span class="level-pill" onclick="selectLevel(event, 'English ID 3.0', 'A2')">A2</span>
+                        <span class="level-pill" onclick="selectLevel(event, 'English ID 3.0', 'B1')">B1</span>
+                        <span class="level-pill" onclick="selectLevel(event, 'English ID 3.0', 'B1+')">B1+</span>
+                    </div>
+                </div>
+
+                <!-- Personal Best 2.0 Card -->
+                <div class="hub-card-btn" id="cardPersonalBest" onclick="selectBook('Personal Best 2.0', ['A1', 'A2', 'B1', 'B1+', 'B2', 'C1'], this)">
+                    <div class="card-header-row">
+                        <span class="card-icon">📕</span>
+                        <h3 class="card-title">Personal Best 2.0</h3>
+                    </div>
+                    <p class="card-desc">Metodología integral de 6 niveles centrada en el desarrollo de competencias prácticas del idioma.</p>
+                    <div class="level-selector" id="levelsPersonalBest">
+                        <span class="level-pill" onclick="selectLevel(event, 'Personal Best 2.0', 'A1')">A1</span>
+                        <span class="level-pill" onclick="selectLevel(event, 'Personal Best 2.0', 'A2')">A2</span>
+                        <span class="level-pill" onclick="selectLevel(event, 'Personal Best 2.0', 'B1')">B1</span>
+                        <span class="level-pill" onclick="selectLevel(event, 'Personal Best 2.0', 'B1+')">B1+</span>
+                        <span class="level-pill" onclick="selectLevel(event, 'Personal Best 2.0', 'B2')">B2</span>
+                        <span class="level-pill" onclick="selectLevel(event, 'Personal Best 2.0', 'C1')">C1</span>
+                    </div>
+                </div>
+
+                <!-- Otro Libro Card -->
+                <div class="hub-card-btn" id="cardOtherBook" onclick="selectBook('Otro libro', [], this)">
+                    <div class="card-header-row">
+                        <span class="card-icon">📚</span>
+                        <h3 class="card-title">Otro Libro / Material</h3>
+                    </div>
+                    <p class="card-desc">Especifica cualquier otro título, serie o material institucional de Richmond.</p>
+                    <div style="width: 100%; margin-top: 12px; display: none;" id="otherBookInputWrap">
+                        <input type="text" id="otherBookInput" class="custom-input" placeholder="Nombre del libro y nivel (ej: Compass 4)..." onclick="event.stopPropagation();">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PASO 2: DÓNDE SE DETECTÓ EL ERROR -->
+        <div class="form-section">
+            <div class="section-title-row">
+                <div class="step-number">2</div>
+                <h2 class="section-title">¿Dónde se detectó el error? (Componente / Plataforma)</h2>
+            </div>
+            <p class="section-subtitle">Elige el área o componente específico donde se presenta la falla.</p>
+
+            <div class="components-grid">
+                <div class="component-btn" onclick="toggleComponent('EPAs', this)">
+                    <span class="comp-icon">⚡</span>
+                    <div class="comp-info">
+                        <span class="comp-name">EPAs</span>
+                        <span class="comp-sub">Assessment / Practice</span>
+                    </div>
+                </div>
+
+                <div class="component-btn" onclick="toggleComponent('eSB (eStudentBook)', this)">
+                    <span class="comp-icon">📖</span>
+                    <div class="comp-info">
+                        <span class="comp-name">eSB</span>
+                        <span class="comp-sub">eStudentBook Digital</span>
+                    </div>
+                </div>
+
+                <div class="component-btn" onclick="toggleComponent('iSolutions (Teachers)', this)">
+                    <span class="comp-icon">👨‍🏫</span>
+                    <div class="comp-info">
+                        <span class="comp-name">iSolutions</span>
+                        <span class="comp-sub">Teacher Presentation</span>
+                    </div>
+                </div>
+
+                <div class="component-btn" onclick="toggleComponent('SpeechLab', this)">
+                    <span class="comp-icon">🎙️</span>
+                    <div class="comp-info">
+                        <span class="comp-name">SpeechLab</span>
+                        <span class="comp-sub">Pronunciation Tool</span>
+                    </div>
+                </div>
+
+                <div class="component-btn" onclick="toggleComponent('GrammarBlitz', this)">
+                    <span class="comp-icon">⚡</span>
+                    <div class="comp-info">
+                        <span class="comp-name">GrammarBlitz</span>
+                        <span class="comp-sub">Grammar Training</span>
+                    </div>
+                </div>
+
+                <div class="component-btn" onclick="toggleComponent('ExamJam', this)">
+                    <span class="comp-icon">🎯</span>
+                    <div class="comp-info">
+                        <span class="comp-name">ExamJam</span>
+                        <span class="comp-sub">Quizzes & Tests</span>
+                    </div>
+                </div>
+
+                <div class="component-btn" onclick="toggleComponent('Additional Resources', this)">
+                    <span class="comp-icon">📦</span>
+                    <div class="comp-info">
+                        <span class="comp-name">Additional Resources</span>
+                        <span class="comp-sub">Audio, PDF, Tests</span>
+                    </div>
+                </div>
+
+                <div class="component-btn" onclick="toggleComponent('eWorkBook', this)">
+                    <span class="comp-icon">📝</span>
+                    <div class="comp-info">
+                        <span class="comp-name">eWorkBook</span>
+                        <span class="comp-sub">Practice Workbook</span>
+                    </div>
+                </div>
+
+                <div class="component-btn" onclick="toggleComponent('Skills Boost', this)">
+                    <span class="comp-icon">🚀</span>
+                    <div class="comp-info">
+                        <span class="comp-name">Skills Boost</span>
+                        <span class="comp-sub">Targeted Skills</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PASO 3: UNIDAD O SECCIÓN -->
+        <div class="form-section">
+            <div class="section-title-row">
+                <div class="step-number">3</div>
+                <h2 class="section-title">Unidad o Sección</h2>
+            </div>
+            <p class="section-subtitle">Selecciona la unidad (1 al 12) o una sección especial del contenido.</p>
+
+            <div class="units-container">
+                <!-- Quick Unit Selector 1 - 12 -->
+                <div class="unit-pills-row">
+                    <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 1', this)">U1</button>
+                    <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 2', this)">U2</button>
+                    <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 3', this)">U3</button>
+                    <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 4', this)">U4</button>
+                    <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 5', this)">U5</button>
+                    <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 6', this)">U6</button>
+                    <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 7', this)">U7</button>
+                    <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 8', this)">U8</button>
+                    <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 9', this)">U9</button>
+                    <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 10', this)">U10</button>
+                    <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 11', this)">U11</button>
+                    <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 12', this)">U12</button>
+                </div>
+
+                <div class="custom-select-row">
+                    <div class="custom-select-wrap">
+                        <select id="unitDropdown" class="custom-select" onchange="onDropdownUnitChange(this.value)">
+                            <option value="">-- O selecciona del menú desplegable --</option>
+                            <option value="Welcome / Starter Unit">Welcome / Starter Unit</option>
+                            <option value="Unit 1">Unit 1</option>
+                            <option value="Unit 2">Unit 2</option>
+                            <option value="Unit 3">Unit 3</option>
+                            <option value="Unit 4">Unit 4</option>
+                            <option value="Unit 5">Unit 5</option>
+                            <option value="Unit 6">Unit 6</option>
+                            <option value="Unit 7">Unit 7</option>
+                            <option value="Unit 8">Unit 8</option>
+                            <option value="Unit 9">Unit 9</option>
+                            <option value="Unit 10">Unit 10</option>
+                            <option value="Unit 11">Unit 11</option>
+                            <option value="Unit 12">Unit 12</option>
+                            <option value="Review / Grammar Reference">Review / Grammar Reference</option>
+                            <option value="Writing Section">Writing Section</option>
+                            <option value="Audio / Video Resource">Audio / Video Resource</option>
+                            <option value="General / Assessment">General / Assessment Test</option>
+                        </select>
+                    </div>
+
+                    <div style="flex: 1; min-width: 180px;">
+                        <input type="text" id="pageOrLessonInput" class="custom-input" placeholder="Página / Lección (ej: Pág 42, Lesson 4B)...">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PASO 4: EJERCICIO O ÁREA ESPECÍFICA DEL ERROR -->
+        <div class="form-section">
+            <div class="section-title-row">
+                <div class="step-number">4</div>
+                <h2 class="section-title">Ejercicio o Área Específica del Error</h2>
+            </div>
+            <p class="section-subtitle">Describe detalladamente cuál es el ejercicio y el comportamiento erróneo detectado.</p>
+
+            <!-- Quick Issue Tags -->
+            <span class="tags-label">Tipo de incidencia (opcional):</span>
+            <div class="issue-tags-row">
+                <span class="issue-tag" onclick="toggleIssueTag('Clave de respuesta incorrecta', this)">🏷️ Clave incorrecta</span>
+                <span class="issue-tag" onclick="toggleIssueTag('Audio / Video desincronizado o no reproduce', this)">🎧 Audio/Video falla</span>
+                <span class="issue-tag" onclick="toggleIssueTag('Error tipográfico u ortográfico', this)">✍️ Error tipográfico</span>
+                <span class="issue-tag" onclick="toggleIssueTag('Botón o Drag & Drop no responde', this)">⚙️ Error de interacción</span>
+                <span class="issue-tag" onclick="toggleIssueTag('Instrucción confusa o ambigua', this)">❓ Instrucción ambigua</span>
+                <span class="issue-tag" onclick="toggleIssueTag('Problema de visualización en pantalla', this)">📱 Visualización / Layout</span>
+            </div>
+
+            <textarea id="errorDescription" class="custom-textarea" required
+                placeholder="Describe cuál es el ejercicio con una descripción del error específico (ej: En el ejercicio 3b de la página 24, el audio reproduce el track 12 en lugar del track 14, o la opción marcada como correcta en la clave es 'B' pero la plataforma solo acepta 'C')..."></textarea>
+
+            <!-- Datos del Docente / Reportante -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 18px;">
+                <input type="text" id="reporterName" class="custom-input" placeholder="Nombre del docente / coordinador (opcional)">
+                <input type="text" id="reporterSchool" class="custom-input" placeholder="Universidad / Institución (ej: UTH, UTN, ITLM)">
+            </div>
+        </div>
+
+        <!-- PASO 5: CAPTURA O EVIDENCIA (OPCIONAL) -->
+        <div class="form-section">
+            <div class="section-title-row">
+                <div class="step-number">5</div>
+                <h2 class="section-title">Evidencia Visual / Captura (Opcional)</h2>
+            </div>
+            <p class="section-subtitle">Pega una captura directamente con Ctrl+V (Cmd+V) o haz clic para subir una imagen.</p>
+
+            <div class="dropzone-box" id="dropzone" onclick="document.getElementById('fileInput').click();">
+                <div id="dropzonePrompt">
+                    <span style="font-size: 2rem; display: block; margin-bottom: 8px;">📷</span>
+                    <p style="font-weight: 600; color: #fff;">Haz clic para adjuntar o pega una captura aquí (Ctrl+V)</p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Formatos soportados: PNG, JPG, JPEG, WebP</p>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+                <div class="dropzone-preview-container" id="previewContainer">
+                    <img id="imagePreview" class="dropzone-preview" alt="Vista previa de evidencia">
+                    <button type="button" class="remove-img-btn" onclick="event.stopPropagation(); removeImage();" title="Eliminar imagen">×</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACCIONES FINALES -->
+        <div class="actions-card">
+            <button type="submit" class="btn-main-submit" id="btnSubmit">
+                <span>📋 Generar y Guardar Reporte</span>
+            </button>
+
+            <div class="secondary-actions">
+                <button type="button" class="btn-secondary" onclick="copyFormattedReport()">
+                    <span>📄 Copiar Formato WhatsApp / Correo</span>
+                </button>
+                <button type="button" class="btn-secondary" onclick="resetForm()">
+                    <span>🔄 Limpiar Formulario</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- HISTORIAL DE REPORTES LOCALES -->
+        <div class="form-section history-card" id="historySection" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;">📜 Reportes Generados Recientemente</h3>
+                <button type="button" onclick="clearHistory()" style="background: transparent; border: none; color: #ef4444; font-size: 0.8rem; font-weight: 600; cursor: pointer;">Borrar historial</button>
+            </div>
+            <div id="historyList"></div>
+        </div>
+
+    </form>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toast">
+        <span id="toastIcon">✅</span>
+        <span id="toastMsg">Reporte copiado al portapapeles con éxito</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2026 Richmond ProReport · Herramienta de Soporte Académico y Técnico</p>
+        <p style="margin-top: 4px; font-size: 0.75rem; opacity: 0.6;">Desarrollado para el ecosistema educativo @yepzhi Tools</p>
+    </footer>
+
+    <!-- LOGIC SCRIPT -->
+    <script>
+        // State
+        let currentSelectedBook = '';
+        let currentSelectedLevel = '';
+        let selectedComponents = new Set();
+        let currentSelectedUnit = '';
+        let selectedIssueTags = new Set();
+        let attachedImageBase64 = null;
+
+        // Auto paste listener for screenshots anywhere on page
+        window.addEventListener('paste', (e) => {
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            for (let item of items) {
+                if (item.type.indexOf('image') !== -1) {
+                    const blob = item.getAsFile();
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        setImagePreview(event.target.result);
+                        showToast('📷 Captura pegada desde el portapapeles');
+                    };
+                    reader.readAsDataURL(blob);
+                    break;
+                }
+            }
+        });
+
+        // Drag & Drop
+        const dropzone = document.getElementById('dropzone');
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropzone.classList.add('dragover');
+            }, false);
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('dragover');
+            }, false);
+        });
+        dropzone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length && files[0].type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    setImagePreview(event.target.result);
+                    showToast('📷 Imagen cargada');
+                };
+                reader.readAsDataURL(files[0]);
+            }
+        });
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    setImagePreview(event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function setImagePreview(base64) {
+            attachedImageBase64 = base64;
+            document.getElementById('imagePreview').src = base64;
+            document.getElementById('previewContainer').style.display = 'block';
+            document.getElementById('dropzonePrompt').style.display = 'none';
+        }
+
+        function removeImage() {
+            attachedImageBase64 = null;
+            document.getElementById('fileInput').value = '';
+            document.getElementById('previewContainer').style.display = 'none';
+            document.getElementById('dropzonePrompt').style.display = 'block';
+        }
+
+        // Selection Handlers
+        function selectBook(bookName, levels, cardEl) {
+            currentSelectedBook = bookName;
+            document.querySelectorAll('.hub-card-btn').forEach(c => c.classList.remove('selected'));
+            cardEl.classList.add('selected');
+
+            // Handle custom input
+            const otherWrap = document.getElementById('otherBookInputWrap');
+            if (bookName === 'Otro libro') {
+                otherWrap.style.display = 'block';
+                document.getElementById('otherBookInput').focus();
+            } else {
+                otherWrap.style.display = 'none';
+            }
+        }
+
+        function selectLevel(event, bookName, level) {
+            event.stopPropagation();
+            currentSelectedBook = bookName;
+            currentSelectedLevel = level;
+
+            // Highlight card
+            document.querySelectorAll('.hub-card-btn').forEach(c => c.classList.remove('selected'));
+            if (bookName.includes('English ID')) {
+                document.getElementById('cardEnglishID').classList.add('selected');
+            } else if (bookName.includes('Personal Best')) {
+                document.getElementById('cardPersonalBest').classList.add('selected');
+            }
+
+            // Highlight pill
+            document.querySelectorAll('.level-pill').forEach(p => p.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function toggleComponent(compName, btnEl) {
+            if (selectedComponents.has(compName)) {
+                selectedComponents.delete(compName);
+                btnEl.classList.remove('selected');
+            } else {
+                selectedComponents.add(compName);
+                btnEl.classList.add('selected');
+            }
+        }
+
+        function setUnit(unitStr, btnEl) {
+            currentSelectedUnit = unitStr;
+            document.querySelectorAll('.unit-pill-btn').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            document.getElementById('unitDropdown').value = unitStr;
+        }
+
+        function onDropdownUnitChange(val) {
+            currentSelectedUnit = val;
+            document.querySelectorAll('.unit-pill-btn').forEach(b => {
+                b.classList.toggle('active', b.textContent === val.replace('Unit ', 'U'));
+            });
+        }
+
+        function toggleIssueTag(tagName, tagEl) {
+            if (selectedIssueTags.has(tagName)) {
+                selectedIssueTags.delete(tagName);
+                tagEl.classList.remove('selected');
+            } else {
+                selectedIssueTags.add(tagName);
+                tagEl.classList.add('selected');
+            }
+        }
+
+        function getCompiledData() {
+            let book = currentSelectedBook;
+            if (book === 'Otro libro') {
+                const custom = document.getElementById('otherBookInput').value.trim();
+                book = custom ? `Otro: ${custom}` : 'Otro libro';
+            }
+            const level = currentSelectedLevel ? ` (Nivel: ${currentSelectedLevel})` : '';
+            const fullBook = book ? `${book}${level}` : 'No especificado';
+
+            const components = selectedComponents.size > 0 ? Array.from(selectedComponents).join(', ') : 'No especificado';
+            const unit = currentSelectedUnit || document.getElementById('unitDropdown').value || 'No especificada';
+            const pageOrLesson = document.getElementById('pageOrLessonInput').value.trim();
+            const fullUnit = pageOrLesson ? `${unit} — ${pageOrLesson}` : unit;
+
+            const tags = selectedIssueTags.size > 0 ? Array.from(selectedIssueTags).join(' · ') : '';
+            const description = document.getElementById('errorDescription').value.trim();
+
+            const reporter = document.getElementById('reporterName').value.trim();
+            const school = document.getElementById('reporterSchool').value.trim();
+
+            const ticketId = 'PRO-' + Math.floor(100000 + Math.random() * 900000);
+            const dateStr = new Date().toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' });
+
+            return {
+                ticketId,
+                dateStr,
+                fullBook,
+                components,
+                fullUnit,
+                tags,
+                description,
+                reporter: reporter || 'Docente / Coordinador Pro',
+                school: school || 'Institución Richmond Pro',
+                hasImage: !!attachedImageBase64
+            };
+        }
+
+        function generateFormattedText(data) {
+            return `📌 *REPORTE DE INCIDENCIA — PROGRAMA RICHMOND PRO*
+🏷️ *Folio:* #${data.ticketId}
+📅 *Fecha:* ${data.dateStr}
+🏫 *Institución:* ${data.school}
+👤 *Reportante:* ${data.reporter}
+
+━━━━━━━━━━━━━━━━━━━━
+📘 *Libro / Programa:* ${data.fullBook}
+🛠️ *Componente:* ${data.components}
+📍 *Unidad / Sección:* ${data.fullUnit}
+${data.tags ? `⚠️ *Tipo de Incidencia:* ${data.tags}\n` : ''}
+📝 *Descripción del Error:*
+${data.description || 'Sin descripción adicional proporcionada.'}
+${data.hasImage ? '\n📷 *Evidencia visual:* Adjunta en captura de pantalla.' : ''}
+━━━━━━━━━━━━━━━━━━━━
+_Generado automáticamente a través de Richmond ProReport (yepzhi.com/proreport)_`;
+        }
+
+    <!-- FIREBASE & LOGIC SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        // Firebase LeadGen (Promixing account - 100% separate from JSweb)
+        const firebaseConfig = {
+            apiKey:            "AIzaSyCdszta7w3yg1zLeHDrPlo4Kln63K2Ftks",
+            authDomain:        "leadgen-ca3c9.firebaseapp.com",
+            projectId:         "leadgen-ca3c9",
+            storageBucket:     "leadgen-ca3c9.firebasestorage.app",
+            messagingSenderId: "436445053383",
+            appId:             "1:436445053383:web:e7c99ece8753f6a56d59e2"
+        };
+
+        let db = null;
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            console.log('[ProReport] Firebase cloud connected to leadgen-ca3c9');
+        } catch (e) {
+            console.warn('[ProReport] Firebase init notice:', e);
+        }
+
+        // State
+        let currentSelectedBook = '';
+        let currentSelectedLevel = '';
+        let selectedComponents = new Set();
+        let currentSelectedUnit = '';
+        let selectedIssueTags = new Set();
+        let attachedImageBase64 = null;
+
+        // Auto paste listener for screenshots anywhere on page
+        window.addEventListener('paste', (e) => {
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            for (let item of items) {
+                if (item.type.indexOf('image') !== -1) {
+                    const blob = item.getAsFile();
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        setImagePreview(event.target.result);
+                        showToast('📷 Captura pegada desde el portapapeles');
+                    };
+                    reader.readAsDataURL(blob);
+                    break;
+                }
+            }
+        });
+
+        // Drag & Drop
+        const dropzone = document.getElementById('dropzone');
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropzone.classList.add('dragover');
+            }, false);
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('dragover');
+            }, false);
+        });
+        dropzone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length && files[0].type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    setImagePreview(event.target.result);
+                    showToast('📷 Imagen cargada');
+                };
+                reader.readAsDataURL(files[0]);
+            }
+        });
+
+        window.handleFileSelect = function(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    setImagePreview(event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+
+        function setImagePreview(base64) {
+            attachedImageBase64 = base64;
+            document.getElementById('imagePreview').src = base64;
+            document.getElementById('previewContainer').style.display = 'block';
+            document.getElementById('dropzonePrompt').style.display = 'none';
+        }
+
+        window.removeImage = function() {
+            attachedImageBase64 = null;
+            document.getElementById('fileInput').value = '';
+            document.getElementById('previewContainer').style.display = 'none';
+            document.getElementById('dropzonePrompt').style.display = 'block';
+        };
+
+        // Selection Handlers
+        window.selectBook = function(bookName, levels, cardEl) {
+            currentSelectedBook = bookName;
+            document.querySelectorAll('.hub-card-btn').forEach(c => c.classList.remove('selected'));
+            cardEl.classList.add('selected');
+
+            // Handle custom input
+            const otherWrap = document.getElementById('otherBookInputWrap');
+            if (bookName === 'Otro libro') {
+                otherWrap.style.display = 'block';
+                document.getElementById('otherBookInput').focus();
+            } else {
+                otherWrap.style.display = 'none';
+            }
+        };
+
+        window.selectLevel = function(event, bookName, level) {
+            event.stopPropagation();
+            currentSelectedBook = bookName;
+            currentSelectedLevel = level;
+
+            // Highlight card
+            document.querySelectorAll('.hub-card-btn').forEach(c => c.classList.remove('selected'));
+            if (bookName.includes('English ID')) {
+                document.getElementById('cardEnglishID').classList.add('selected');
+            } else if (bookName.includes('Personal Best')) {
+                document.getElementById('cardPersonalBest').classList.add('selected');
+            }
+
+            // Highlight pill
+            document.querySelectorAll('.level-pill').forEach(p => p.classList.remove('active'));
+            event.target.classList.add('active');
+        };
+
+        window.toggleComponent = function(compName, btnEl) {
+            if (selectedComponents.has(compName)) {
+                selectedComponents.delete(compName);
+                btnEl.classList.remove('selected');
+            } else {
+                selectedComponents.add(compName);
+                btnEl.classList.add('selected');
+            }
+        };
+
+        window.setUnit = function(unitStr, btnEl) {
+            currentSelectedUnit = unitStr;
+            document.querySelectorAll('.unit-pill-btn').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            document.getElementById('unitDropdown').value = unitStr;
+        };
+
+        window.onDropdownUnitChange = function(val) {
+            currentSelectedUnit = val;
+            document.querySelectorAll('.unit-pill-btn').forEach(b => {
+                b.classList.toggle('active', b.textContent === val.replace('Unit ', 'U'));
+            });
+        };
+
+        window.toggleIssueTag = function(tagName, tagEl) {
+            if (selectedIssueTags.has(tagName)) {
+                selectedIssueTags.delete(tagName);
+                tagEl.classList.remove('selected');
+            } else {
+                selectedIssueTags.add(tagName);
+                tagEl.classList.add('selected');
+            }
+        };
+
+        function getCompiledData() {
+            let book = currentSelectedBook;
+            if (book === 'Otro libro') {
+                const custom = document.getElementById('otherBookInput').value.trim();
+                book = custom ? `Otro: ${custom}` : 'Otro libro';
+            }
+            const level = currentSelectedLevel ? ` (Nivel: ${currentSelectedLevel})` : '';
+            const fullBook = book ? `${book}${level}` : 'No especificado';
+
+            const components = selectedComponents.size > 0 ? Array.from(selectedComponents).join(', ') : 'No especificado';
+            const unit = currentSelectedUnit || document.getElementById('unitDropdown').value || 'No especificada';
+            const pageOrLesson = document.getElementById('pageOrLessonInput').value.trim();
+            const fullUnit = pageOrLesson ? `${unit} — ${pageOrLesson}` : unit;
+
+            const tags = selectedIssueTags.size > 0 ? Array.from(selectedIssueTags).join(' · ') : '';
+            const description = document.getElementById('errorDescription').value.trim();
+
+            const reporter = document.getElementById('reporterName').value.trim();
+            const school = document.getElementById('reporterSchool').value.trim();
+
+            const ticketId = 'PRO-' + Math.floor(100000 + Math.random() * 900000);
+            const dateStr = new Date().toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' });
+
+            return {
+                ticketId,
+                dateStr,
+                fullBook,
+                components,
+                fullUnit,
+                tags,
+                description,
+                reporter: reporter || 'Docente / Coordinador Pro',
+                school: school || 'Institución Richmond Pro',
+                hasImage: !!attachedImageBase64
+            };
+        }
+
+        function generateFormattedText(data) {
+            return `📌 *REPORTE DE INCIDENCIA — PROGRAMA RICHMOND PRO*
+🏷️ *Folio:* #${data.ticketId}
+📅 *Fecha:* ${data.dateStr}
+🏫 *Institución:* ${data.school}
+👤 *Reportante:* ${data.reporter}
+
+━━━━━━━━━━━━━━━━━━━━
+📘 *Libro / Programa:* ${data.fullBook}
+🛠️ *Componente:* ${data.components}
+📍 *Unidad / Sección:* ${data.fullUnit}
+${data.tags ? `⚠️ *Tipo de Incidencia:* ${data.tags}\n` : ''}
+📝 *Descripción del Error:*
+${data.description || 'Sin descripción adicional proporcionada.'}
+${data.hasImage ? '\n📷 *Evidencia visual:* Adjunta en captura de pantalla.' : ''}
+━━━━━━━━━━━━━━━━━━━━
+_Generado automáticamente a través de Richmond ProReport (yepzhi.com/proreport)_`;
+        }
+
+        window.submitReport = async function() {
+            const desc = document.getElementById('errorDescription').value.trim();
+            if (!desc) {
+                showToast('⚠️ Por favor ingresa la descripción del error antes de generar el reporte', 'warning');
+                document.getElementById('errorDescription').focus();
+                return;
+            }
+
+            const data = getCompiledData();
+            saveReportToHistory(data);
+
+            // Cloud Sync to Firestore (leadgen-ca3c9)
+            if (db) {
+                try {
+                    await addDoc(collection(db, "pro_reports"), {
+                        ticketId: data.ticketId,
+                        dateStr: data.dateStr,
+                        book: data.fullBook,
+                        components: data.components,
+                        unit: data.fullUnit,
+                        tags: data.tags,
+                        description: data.description,
+                        reporter: data.reporter,
+                        school: data.school,
+                        createdAt: serverTimestamp()
+                    });
+                    console.log('[Firestore] Report synced to cloud:', data.ticketId);
+                } catch (cloudErr) {
+                    console.warn('[Firestore Cloud Sync]', cloudErr);
+                }
+            }
+
+            copyFormattedReport(data);
+            showToast(`✅ Reporte #${data.ticketId} generado y copiado al portapapeles`);
+        };
+
+        window.copyFormattedReport = function(providedData) {
+            const data = providedData || getCompiledData();
+            if (!data.description) {
+                showToast('⚠️ Escribe la descripción del error para copiar el formato completo', 'warning');
+                return;
+            }
+            const textToCopy = generateFormattedText(data);
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast('📋 ¡Reporte formateado copiado para WhatsApp / Correo!');
+            }).catch(() => {
+                showToast('⚠️ No se pudo copiar automáticamente, selecciona el texto');
+            });
+        };
+
+        function saveReportToHistory(data) {
+            try {
+                const history = JSON.parse(localStorage.getItem('richmond_pro_reports') || '[]');
+                history.unshift(data);
+                if (history.length > 10) history.pop();
+                localStorage.setItem('richmond_pro_reports', JSON.stringify(history));
+                renderHistory();
+            } catch (e) {
+                console.warn('LocalStorage error', e);
+            }
+        }
+
+        function renderHistory() {
+            const history = JSON.parse(localStorage.getItem('richmond_pro_reports') || '[]');
+            const historySection = document.getElementById('historySection');
+            const historyList = document.getElementById('historyList');
+
+            if (!historySection || !historyList) return;
+
+            if (history.length === 0) {
+                historySection.style.display = 'none';
+                return;
+            }
+
+            historySection.style.display = 'block';
+            historyList.innerHTML = history.map(item => `
+                <div class="history-item">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                            <span class="history-badge">#${item.ticketId}</span>
+                            <strong>${item.fullBook}</strong>
+                            <span style="color: var(--text-muted); font-size: 0.8rem;">· ${item.fullUnit}</span>
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 0.82rem; max-width: 520px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            ${item.description}
+                        </p>
+                    </div>
+                    <button type="button" class="btn-secondary" style="min-width: auto; padding: 6px 12px; font-size: 0.75rem;" onclick="copySingleHistoryReport('${item.ticketId}')">
+                        Copiar
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        window.copySingleHistoryReport = function(ticketId) {
+            const history = JSON.parse(localStorage.getItem('richmond_pro_reports') || '[]');
+            const found = history.find(h => h.ticketId === ticketId);
+            if (found) {
+                const text = generateFormattedText(found);
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(`📋 Reporte #${ticketId} copiado`);
+                });
+            }
+        };
+
+        window.clearHistory = function() {
+            if (confirm('¿Deseas limpiar el historial de reportes guardados localmente?')) {
+                localStorage.removeItem('richmond_pro_reports');
+                renderHistory();
+                showToast('Historial limpiado');
+            }
+        };
+
+        window.resetForm = function() {
+            document.getElementById('proReportForm').reset();
+            currentSelectedBook = '';
+            currentSelectedLevel = '';
+            selectedComponents.clear();
+            currentSelectedUnit = '';
+            selectedIssueTags.clear();
+            removeImage();
+
+            document.querySelectorAll('.hub-card-btn').forEach(c => c.classList.remove('selected'));
+            document.querySelectorAll('.level-pill').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.component-btn').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.unit-pill-btn').forEach(u => u.classList.remove('active'));
+            document.querySelectorAll('.issue-tag').forEach(t => t.classList.remove('selected'));
+            document.getElementById('otherBookInputWrap').style.display = 'none';
+
+            showToast('Formulario restablecido');
+        };
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toastMsg');
+            const iconEl = document.getElementById('toastIcon');
+
+            msgEl.textContent = message;
+            iconEl.textContent = type === 'warning' ? '⚠️' : '✅';
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        // Initialize history on load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHistory();
+        });
+    </script>
+</body>
+</html>
