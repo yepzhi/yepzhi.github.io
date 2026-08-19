@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Richmond ProReport | Reporte y Seguimiento de Incidencias</title>
-    <meta name="description" content="Richmond ProReport — Plataforma oficial para documentar, consultar y dar seguimiento a reportes de incidencias en ejercicios del Programa Richmond Pro.">
+    <title>Richmond ProReport System | Seguimiento Técnico de Incidencias</title>
+    <meta name="description" content="Richmond ProReport System — Plataforma técnica para documentar, consultar y dar seguimiento a incidencias en ejercicios de los programas de Richmond Pro.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://yepzhi.com/proreport/">
 
@@ -16,839 +16,898 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        :root {
-            --bg-dark: #07090e;
-            --card-bg: rgba(255, 255, 255, 0.04);
-            --card-hover: rgba(255, 255, 255, 0.08);
-            --card-border: rgba(255, 255, 255, 0.09);
-            --card-border-active: #facc15;
-            --accent-yellow: #facc15;
-            --accent-gold: #ca8a04;
-            --accent-blue: #3b82f6;
-            --accent-cyan: #06b6d4;
-            --accent-green: #10b981;
-            --accent-red: #ef4444;
-            --text-main: #f8fafc;
-            --text-muted: rgba(248, 250, 252, 0.65);
-            --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
-        * {
+        *, *::before, *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
+
+        :root {
+            --c-bg: #03050e;
+            --c-surface: rgba(255, 255, 255, 0.04);
+            --c-surface-2: rgba(255, 255, 255, 0.07);
+            --c-border: rgba(255, 255, 255, 0.09);
+            --c-border-hi: rgba(255, 255, 255, 0.18);
+            --c-accent: #1e7aff;
+            --c-accent2: #38b6ff;
+            --c-gold: #f4c94e;
+            --c-text: #eef0fb;
+            --c-muted: rgba(220, 226, 255, 0.55);
+            --c-error: #ff5f5f;
+            --c-success: #34d399;
+            --glass-blur: 40px;
+            --r-card: 24px;
+            --r-input: 14px;
+            --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.07) inset,
+                           0 2px 0 rgba(255, 255, 255, 0.1) inset,
+                           0 40px 80px rgba(0, 0, 0, 0.7),
+                           0 0 60px rgba(30, 122, 255, 0.06);
+            --btn-gradient: linear-gradient(145deg, #2d8fff 0%, #0e5fd8 60%, #0a47b8 100%);
+            --btn-sheen: linear-gradient(160deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.04) 45%, transparent 100%);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: var(--font-body);
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+            background: var(--c-bg);
+            color: var(--c-text);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 24px 16px 60px;
+            padding: 32px 16px 60px;
             position: relative;
             overflow-x: hidden;
             line-height: 1.5;
         }
 
-        /* Ambient Glow Background matching Hub */
-        body::before {
-            content: '';
+        /* Ambient Animated Orbs matching ldgen */
+        .bg-orbs {
             position: fixed;
             inset: 0;
-            width: 100%;
-            height: 100%;
             pointer-events: none;
-            z-index: -1;
-            background:
-                radial-gradient(circle at 15% 20%, rgba(250, 204, 21, 0.12) 0%, transparent 45%),
-                radial-gradient(circle at 85% 60%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 50% 90%, rgba(236, 72, 153, 0.08) 0%, transparent 40%);
-            animation: bg-pulse 10s ease-in-out infinite;
+            z-index: 0;
+            overflow: hidden;
         }
 
-        @keyframes bg-pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.75; transform: scale(1.02); }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.22;
+            animation: drift 18s ease-in-out infinite;
         }
 
-        /* Top Nav Bar */
-        .top-nav {
+        .orb-1 {
+            width: 520px;
+            height: 520px;
+            background: radial-gradient(circle, #1e7aff 0%, transparent 70%);
+            top: -160px;
+            left: -140px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 440px;
+            height: 440px;
+            background: radial-gradient(circle, #a78bfa 0%, transparent 70%);
+            bottom: -120px;
+            right: -100px;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, #f4c94e 0%, transparent 70%);
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -13s;
+            opacity: 0.12;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -20px) scale(1.05); }
+            66% { transform: translate(-20px, 30px) scale(0.97); }
+        }
+
+        /* Container Wrap */
+        .portal-wrap {
+            position: relative;
+            z-index: 1;
             width: 100%;
             max-width: 900px;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            margin-bottom: 24px;
-            padding: 0 4px;
+            gap: 20px;
         }
 
-        .back-link {
-            color: rgba(255, 255, 255, 0.75);
-            text-decoration: none;
+        /* Top Brand Header */
+        .portal-header {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .logo-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            padding: 6px 14px;
-            border-radius: 9999px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--c-surface);
+            border: 1px solid var(--c-border);
+            backdrop-filter: blur(var(--glass-blur));
+            padding: 0.55rem 1.4rem;
+            border-radius: 100px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
-        .back-link:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.25);
-            transform: translateX(-3px);
-        }
-
-        .brand-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+        .logo-text {
             font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: #facc15;
-            background: rgba(250, 204, 21, 0.1);
-            border: 1px solid rgba(250, 204, 21, 0.25);
-            padding: 6px 14px;
-            border-radius: 9999px;
-            letter-spacing: 0.5px;
-        }
-
-        /* Header Section */
-        .header {
-            text-align: center;
-            max-width: 780px;
-            margin-bottom: 28px;
-        }
-
-        .header h1 {
-            font-family: var(--font-display);
-            background: linear-gradient(135deg, #fefce8 0%, #facc15 50%, #ca8a04 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-size: 1.15rem;
             font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 8px;
-            filter: drop-shadow(0 0 15px rgba(250, 204, 21, 0.45)) drop-shadow(0 0 35px rgba(250, 204, 21, 0.2));
+            letter-spacing: -0.01em;
+            color: #fff;
         }
 
-        .header p {
-            color: var(--text-muted);
-            font-size: clamp(0.95rem, 2vw, 1.08rem);
-            font-weight: 400;
-            max-width: 650px;
+        .logo-text strong {
+            color: var(--c-accent2);
+        }
+
+        .header-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4.5vw, 2.9rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 30%, #93c5fd 80%, #38b6ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.18;
+            margin-bottom: 10px;
+        }
+
+        .portal-tagline {
+            font-size: clamp(0.9rem, 2vw, 1.02rem);
+            color: var(--c-muted);
+            max-width: 660px;
+            line-height: 1.5;
             margin: 0 auto;
         }
 
-        /* Top Segmented Navigation Tabs */
+        /* View Switcher Tabs */
         .view-switcher {
             width: 100%;
-            max-width: 900px;
             display: flex;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--c-surface);
+            border: 1px solid var(--c-border);
             border-radius: 18px;
             padding: 6px;
             gap: 6px;
-            margin-bottom: 28px;
-            backdrop-filter: blur(14px);
+            backdrop-filter: blur(var(--glass-blur));
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
         }
 
         .view-tab-btn {
             flex: 1;
             padding: 12px 18px;
             border-radius: 13px;
-            border: none;
+            border: 1px solid transparent;
             background: transparent;
-            color: var(--text-muted);
+            color: var(--c-muted);
             font-family: var(--font-display);
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: var(--transition);
         }
 
         .view-tab-btn:hover {
             color: #fff;
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .view-tab-btn.active {
-            background: linear-gradient(135deg, rgba(250, 204, 21, 0.2), rgba(202, 138, 4, 0.15));
-            border: 1px solid #facc15;
-            color: #fefce8;
-            box-shadow: 0 0 20px rgba(250, 204, 21, 0.25);
+            background: rgba(30, 122, 255, 0.15);
+            border-color: rgba(30, 122, 255, 0.4);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(30, 122, 255, 0.2);
         }
 
         .tab-counter {
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 2px 8px;
             border-radius: 9999px;
             font-size: 0.75rem;
-            color: #facc15;
+            color: var(--c-accent2);
         }
 
         /* View Panels */
         .view-panel {
             width: 100%;
-            max-width: 900px;
             display: none;
         }
 
         .view-panel.active {
             display: flex;
             flex-direction: column;
-            gap: 26px;
-            animation: fadeIn 0.3s ease;
+            gap: 20px;
+            animation: fadeSlide 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Section Card */
-        .form-section {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 28px 24px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        /* Glassmorphism Section Card */
+        .glass-section {
+            width: 100%;
+            background: var(--c-surface);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--c-border);
+            border-top-color: var(--c-border-hi);
+            border-radius: var(--r-card);
+            box-shadow: var(--shadow-card);
+            padding: 26px 24px;
+            position: relative;
+            overflow: hidden;
             transition: border-color 0.2s ease;
         }
 
-        .form-section:hover {
-            border-color: rgba(255, 255, 255, 0.16);
+        .glass-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.035) 0%, transparent 100%);
+            border-radius: var(--r-card) var(--r-card) 0 0;
+            pointer-events: none;
         }
 
-        .section-title-row {
+        .section-header-row {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
 
-        .step-number {
-            width: 32px;
-            height: 32px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #facc15, #ca8a04);
-            color: #000;
+        .step-pill {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: var(--btn-gradient);
+            color: #fff;
             font-family: var(--font-display);
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 0.88rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
+            box-shadow: 0 0 12px rgba(30, 122, 255, 0.4);
             flex-shrink: 0;
         }
 
         .section-title {
             font-family: var(--font-display);
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 700;
             color: #fff;
-            letter-spacing: -0.3px;
+            letter-spacing: -0.01em;
         }
 
         .section-subtitle {
             font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: -14px;
+            color: var(--c-muted);
             margin-bottom: 18px;
-            padding-left: 44px;
+            padding-left: 40px;
         }
 
-        /* Grid of Hub-Style Module Buttons */
-        .hub-grid {
+        /* ── STEP 1: BOOKS (APPLE MINIMALIST) ── */
+        .books-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 14px;
+            gap: 12px;
         }
 
-        /* Interactive Selectable Module Card */
-        .hub-card-btn {
-            text-decoration: none;
-            color: white;
+        .book-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 20px 18px;
+            border-top-color: rgba(255, 255, 255, 0.12);
             border-radius: 18px;
+            padding: 18px 16px;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            text-align: left;
-            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            gap: 12px;
             cursor: pointer;
-            user-select: none;
+            transition: var(--transition);
+            position: relative;
         }
 
-        .hub-card-btn:hover {
-            background: rgba(255, 255, 255, 0.07);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.6);
-            border-color: rgba(255, 255, 255, 0.22);
-        }
-
-        .hub-card-btn.selected {
-            background: linear-gradient(135deg, rgba(250, 204, 21, 0.12), rgba(202, 138, 4, 0.05));
-            border-color: #facc15;
-            box-shadow: 0 0 25px rgba(250, 204, 21, 0.25), inset 0 0 15px rgba(250, 204, 21, 0.08);
+        .book-card:hover {
+            background: rgba(30, 122, 255, 0.06);
+            border-color: rgba(30, 122, 255, 0.3);
             transform: translateY(-2px);
         }
 
-        .hub-card-btn.selected::after {
-            content: '✓';
-            position: absolute;
-            top: 14px;
-            right: 14px;
-            width: 22px;
-            height: 22px;
-            background: #facc15;
-            color: #000;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 900;
-            box-shadow: 0 0 10px rgba(250, 204, 21, 0.6);
+        .book-card.selected {
+            background: rgba(30, 122, 255, 0.12);
+            border-color: var(--c-accent);
+            box-shadow: 0 0 24px rgba(30, 122, 255, 0.25);
         }
 
-        .card-header-row {
+        .book-title-row {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 8px;
-            width: 100%;
         }
 
-        .card-icon {
-            font-size: 1.6rem;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        .book-svg {
+            width: 22px;
+            height: 22px;
+            color: var(--c-accent2);
+            flex-shrink: 0;
         }
 
-        .card-title {
+        .book-name {
             font-family: var(--font-display);
             font-weight: 700;
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             color: #fff;
         }
 
-        .card-desc {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
-
-        /* Level Pills Row */
-        .level-selector {
+        .level-pills-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 14px;
-            width: 100%;
+            gap: 6px;
         }
 
-        .level-pill {
-            padding: 6px 12px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: #e2e8f0;
-            font-size: 0.8rem;
+        .level-chip {
+            padding: 5px 12px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--c-muted);
+            font-size: 0.78rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.18s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            transition: var(--transition);
         }
 
-        .level-pill:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
+        .level-chip:hover {
+            background: rgba(255, 255, 255, 0.12);
             color: #fff;
-            transform: scale(1.05);
         }
 
-        .level-pill.active {
-            background: #facc15;
-            color: #000;
-            border-color: #facc15;
-            box-shadow: 0 0 12px rgba(250, 204, 21, 0.5);
+        .level-chip.active {
+            background: var(--c-accent);
+            border-color: var(--c-accent2);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(30, 122, 255, 0.5);
         }
 
-        /* Component Buttons Grid (Step 2) */
+        /* ── STEP 2: COMPONENTS GRID ── */
         .components-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
         }
 
-        .component-btn {
+        .comp-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top-color: rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
             padding: 14px 16px;
-            border-radius: 14px;
             display: flex;
             align-items: center;
             gap: 12px;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            color: #fff;
-            position: relative;
+            transition: var(--transition);
         }
 
-        .component-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
+        .comp-card:hover {
+            background: rgba(30, 122, 255, 0.08);
+            border-color: rgba(30, 122, 255, 0.3);
             transform: translateY(-2px);
         }
 
-        .component-btn.selected {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.05));
-            border-color: #3b82f6;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-            color: #93c5fd;
+        .comp-card.selected {
+            background: rgba(30, 122, 255, 0.15);
+            border-color: var(--c-accent);
+            box-shadow: 0 0 20px rgba(30, 122, 255, 0.25);
         }
 
-        .component-btn.selected .comp-icon {
-            transform: scale(1.15);
+        .comp-svg-wrap {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--c-accent2);
+            transition: var(--transition);
         }
 
-        .comp-icon {
-            font-size: 1.3rem;
-            transition: transform 0.2s ease;
+        .comp-card.selected .comp-svg-wrap {
+            background: var(--c-accent);
+            color: #fff;
+            box-shadow: 0 0 12px rgba(30, 122, 255, 0.5);
         }
 
-        .comp-info {
+        .comp-svg-wrap svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .comp-meta {
             display: flex;
             flex-direction: column;
         }
 
-        .comp-name {
+        .comp-title {
             font-family: var(--font-display);
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             color: #fff;
         }
 
-        .comp-sub {
+        .comp-subtitle {
             font-size: 0.72rem;
-            color: var(--text-muted);
+            color: var(--c-muted);
         }
 
-        /* Step 3: Units Selector */
-        .units-container {
+        /* ── STEP 3: UNITS & SPECIAL COMPONENT BLOCKS ── */
+        .units-block {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
         }
 
-        .unit-pills-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(58px, 1fr));
+        /* Special Component Blocks (A, B, C) */
+        .special-comp-box {
+            display: none;
+            background: rgba(56, 182, 255, 0.06);
+            border: 1px dashed rgba(56, 182, 255, 0.3);
+            border-radius: 14px;
+            padding: 12px 14px;
+            flex-direction: column;
             gap: 8px;
         }
 
-        .unit-pill-btn {
-            height: 44px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .special-comp-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--c-accent2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .special-comp-pills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .comp-block-btn {
+            padding: 8px 16px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #fff;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .comp-block-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .comp-block-btn.active {
+            background: var(--c-accent);
+            border-color: var(--c-accent2);
+            box-shadow: 0 0 14px rgba(30, 122, 255, 0.4);
+        }
+
+        /* Standard Unit Pills 1 - 12 */
+        .unit-pills-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+            gap: 8px;
+        }
+
+        .unit-btn {
+            height: 42px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.09);
             border-radius: 12px;
             color: #fff;
             font-family: var(--font-display);
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.18s ease;
+            transition: var(--transition);
         }
 
-        .unit-pill-btn:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
+        .unit-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
         }
 
-        .unit-pill-btn.active {
-            background: linear-gradient(135deg, #06b6d4, #0284c7);
-            border-color: #06b6d4;
+        .unit-btn.active {
+            background: var(--btn-gradient);
+            border-color: var(--c-accent2);
             color: #fff;
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
-            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(30, 122, 255, 0.4);
         }
 
-        .custom-select-row {
-            display: flex;
+        .input-row-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .custom-select-wrap {
-            flex: 1;
-            min-width: 220px;
         }
 
         .custom-select,
         .custom-input,
         .custom-textarea {
             width: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 14px;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--r-input);
             padding: 12px 16px;
             color: #fff;
             font-family: var(--font-body);
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             outline: none;
-            transition: all 0.2s ease;
+            transition: var(--transition);
         }
 
         .custom-select:focus,
         .custom-input:focus,
         .custom-textarea:focus {
-            border-color: #facc15;
-            box-shadow: 0 0 15px rgba(250, 204, 21, 0.25);
-            background: rgba(0, 0, 0, 0.6);
+            border-color: var(--c-accent);
+            box-shadow: 0 0 16px rgba(30, 122, 255, 0.25);
+            background: rgba(0, 0, 0, 0.65);
         }
 
         .custom-select option {
-            background: #0f172a;
+            background: #080b16;
             color: #fff;
         }
 
-        /* Step 4: Text Area & Details */
-        .custom-textarea {
-            min-height: 120px;
-            resize: vertical;
-            line-height: 1.55;
-        }
-
-        /* Quick Issue Type Tags */
-        .tags-label {
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .issue-tags-row {
+        /* ── STEP 4: TAGS & DESCRIPTION ── */
+        .issue-tags-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
-        .issue-tag {
-            padding: 6px 12px;
-            border-radius: 9999px;
+        .issue-tag-chip {
+            padding: 7px 14px;
+            border-radius: 100px;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.78rem;
+            color: var(--c-muted);
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.18s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
         }
 
-        .issue-tag:hover {
-            background: rgba(255, 255, 255, 0.1);
+        .issue-tag-chip svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .issue-tag-chip:hover {
+            background: rgba(255, 255, 255, 0.09);
             color: #fff;
-            border-color: rgba(255, 255, 255, 0.25);
         }
 
-        .issue-tag.selected {
+        .issue-tag-chip.selected {
             background: rgba(239, 68, 68, 0.15);
             color: #fca5a5;
-            border-color: #ef4444;
-            box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
+            border-color: rgba(239, 68, 68, 0.4);
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.25);
         }
 
-        /* Image Paste & Upload Box */
+        .custom-textarea {
+            min-height: 110px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        /* ── STEP 5: DROPZONE ── */
         .dropzone-box {
-            border: 2px dashed rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
+            border: 2px dashed rgba(255, 255, 255, 0.14);
+            border-radius: 18px;
             padding: 24px;
             text-align: center;
-            background: rgba(0, 0, 0, 0.25);
+            background: rgba(0, 0, 0, 0.3);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: var(--transition);
             position: relative;
         }
 
         .dropzone-box:hover,
         .dropzone-box.dragover {
-            border-color: #facc15;
-            background: rgba(250, 204, 21, 0.04);
+            border-color: var(--c-accent);
+            background: rgba(30, 122, 255, 0.05);
         }
 
-        .dropzone-preview-container {
+        .dropzone-icon {
+            width: 36px;
+            height: 36px;
+            color: var(--c-accent2);
+            margin-bottom: 8px;
+        }
+
+        .dropzone-preview-wrap {
             display: none;
-            margin-top: 14px;
+            margin-top: 12px;
             position: relative;
-            max-width: 100%;
         }
 
-        .dropzone-preview {
-            max-height: 220px;
+        .dropzone-img {
+            max-height: 200px;
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            object-fit: contain;
+            border: 1px solid rgba(255, 255, 255, 0.15);
             background: #000;
         }
 
         .remove-img-btn {
             position: absolute;
-            top: 6px;
-            right: 6px;
+            top: 4px;
+            right: 4px;
             background: #ef4444;
             color: #fff;
             border: none;
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            font-weight: 900;
+            font-size: 14px;
+            font-weight: 800;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
-        /* Action Buttons Row */
+        /* Action Buttons */
         .actions-card {
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            padding: 24px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
+            gap: 14px;
+            padding: 22px 24px;
         }
 
-        .btn-main-submit {
+        .btn-primary-action {
             width: 100%;
-            padding: 16px 24px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #fefce8 0%, #facc15 50%, #ca8a04 100%);
+            padding: 15px 24px;
+            border-radius: var(--r-input);
+            background: var(--btn-gradient);
             border: none;
-            color: #000;
+            color: #fff;
             font-family: var(--font-display);
             font-weight: 800;
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             cursor: pointer;
-            box-shadow: 0 0 25px rgba(250, 204, 21, 0.45);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(14, 95, 216, 0.45);
+            transition: var(--transition);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-main-submit:hover {
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 0 35px rgba(250, 204, 21, 0.65);
+        .btn-primary-action::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--btn-sheen);
+            pointer-events: none;
+        }
+
+        .btn-primary-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(30, 122, 255, 0.6);
         }
 
         .secondary-actions {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
-        .btn-secondary {
+        .btn-sec-action {
             flex: 1;
-            min-width: 160px;
+            min-width: 170px;
             padding: 12px 18px;
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: #fff;
             font-family: var(--font-display);
             font-weight: 700;
-            font-size: 0.92rem;
+            font-size: 0.88rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: all 0.2s ease;
+            transition: var(--transition);
         }
 
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
+        .btn-sec-action:hover {
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
         }
 
-        /* ─── LIVE EXPLORER / ACTIVE REPORTS STYLES ─── */
-        .explorer-filter-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
+        /* ── LIVE EXPLORER PANEL ── */
+        .explorer-bar {
+            background: var(--c-surface);
+            border: 1px solid var(--c-border);
             border-radius: 20px;
-            padding: 20px;
+            padding: 18px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            backdrop-filter: blur(14px);
+            gap: 12px;
+            backdrop-filter: blur(var(--glass-blur));
         }
 
-        .search-bar-wrap {
+        .search-wrap {
             position: relative;
             width: 100%;
         }
 
-        .search-icon {
+        .search-svg {
             position: absolute;
-            left: 16px;
+            left: 14px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-muted);
-            font-size: 1.1rem;
+            width: 18px;
+            height: 18px;
+            color: var(--c-muted);
         }
 
         .search-input {
             width: 100%;
-            padding: 14px 16px 14px 44px;
+            padding: 12px 16px 12px 42px;
             background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
             color: #fff;
-            font-size: 0.95rem;
-            font-family: var(--font-body);
+            font-size: 0.9rem;
             outline: none;
-            transition: all 0.2s ease;
+            transition: var(--transition);
         }
 
         .search-input:focus {
-            border-color: #facc15;
-            box-shadow: 0 0 15px rgba(250, 204, 21, 0.25);
+            border-color: var(--c-accent);
+            box-shadow: 0 0 14px rgba(30, 122, 255, 0.25);
         }
 
-        .filters-row {
+        .filters-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 8px;
         }
 
-        .results-header {
+        .feed-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 4px;
         }
 
-        .results-count {
-            font-size: 0.9rem;
-            color: var(--text-muted);
+        .feed-counter {
+            font-size: 0.88rem;
+            color: var(--c-muted);
             font-weight: 600;
         }
 
-        .btn-refresh {
+        .btn-reload {
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.12);
             color: #fff;
             padding: 6px 14px;
-            border-radius: 9999px;
+            border-radius: 100px;
             font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.2s ease;
+            transition: var(--transition);
         }
 
-        .btn-refresh:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
+        .btn-reload:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.25);
         }
 
-        .reports-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        /* Report Item Card */
-        .report-item-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            border-radius: 20px;
-            padding: 22px 20px;
+        .reports-feed {
             display: flex;
             flex-direction: column;
             gap: 14px;
-            backdrop-filter: blur(14px);
-            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
         }
 
-        .report-item-card:hover {
-            border-color: rgba(250, 204, 21, 0.35);
+        /* Report Item Card */
+        .report-card {
+            background: var(--c-surface);
+            border: 1px solid var(--c-border);
+            border-top-color: var(--c-border-hi);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            backdrop-filter: blur(var(--glass-blur));
+            transition: var(--transition);
+        }
+
+        .report-card:hover {
+            border-color: rgba(30, 122, 255, 0.35);
             background: rgba(255, 255, 255, 0.05);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
         }
 
-        .report-header-line {
+        .report-card-top {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .report-badges-wrap {
-            display: flex;
             align-items: center;
-            gap: 8px;
             flex-wrap: wrap;
+            gap: 8px;
         }
 
-        .badge-folio {
-            background: rgba(250, 204, 21, 0.12);
-            color: #facc15;
-            border: 1px solid rgba(250, 204, 21, 0.3);
+        .badge-id {
+            background: rgba(30, 122, 255, 0.12);
+            color: var(--c-accent2);
+            border: 1px solid rgba(30, 122, 255, 0.3);
             padding: 4px 10px;
             border-radius: 8px;
             font-family: var(--font-display);
             font-weight: 800;
-            font-size: 0.82rem;
-            letter-spacing: 0.5px;
+            font-size: 0.8rem;
         }
 
         .badge-status {
             padding: 4px 10px;
             border-radius: 8px;
-            font-size: 0.76rem;
+            font-size: 0.75rem;
             font-weight: 700;
             display: inline-flex;
             align-items: center;
@@ -856,210 +915,129 @@
         }
 
         .status-active {
-            background: rgba(234, 179, 8, 0.15);
-            color: #fde047;
-            border: 1px solid rgba(234, 179, 8, 0.3);
+            background: rgba(244, 201, 78, 0.12);
+            color: var(--c-gold);
+            border: 1px solid rgba(244, 201, 78, 0.3);
         }
 
         .status-progress {
-            background: rgba(59, 130, 246, 0.15);
+            background: rgba(30, 122, 255, 0.12);
             color: #93c5fd;
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            border: 1px solid rgba(30, 122, 255, 0.3);
         }
 
         .status-solved {
-            background: rgba(16, 185, 129, 0.15);
-            color: #6ee7b7;
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: rgba(52, 211, 153, 0.12);
+            color: var(--c-success);
+            border: 1px solid rgba(52, 211, 153, 0.3);
         }
 
-        .report-date {
-            color: var(--text-muted);
-            font-size: 0.78rem;
-            font-weight: 500;
-        }
-
-        .report-meta-grid {
+        .report-meta-box {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 8px;
             background: rgba(0, 0, 0, 0.25);
-            padding: 12px 14px;
+            padding: 10px 14px;
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .meta-col {
+        .meta-group {
             display: flex;
             flex-direction: column;
             gap: 2px;
         }
 
-        .meta-lbl {
-            font-size: 0.7rem;
-            color: var(--text-muted);
+        .meta-k {
+            font-size: 0.68rem;
+            color: var(--c-muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
-        .meta-val {
-            font-size: 0.88rem;
+        .meta-v {
+            font-size: 0.85rem;
             color: #fff;
             font-weight: 600;
         }
 
-        .report-desc-text {
+        .report-desc-box {
             color: #e2e8f0;
-            font-size: 0.92rem;
-            line-height: 1.55;
+            font-size: 0.9rem;
+            line-height: 1.5;
             background: rgba(255, 255, 255, 0.02);
-            border-left: 3px solid #facc15;
+            border-left: 3px solid var(--c-accent);
             padding: 10px 14px;
             border-radius: 0 10px 10px 0;
             white-space: pre-wrap;
         }
 
-        /* Comments / Resolution Progress Timeline */
-        .comments-section {
+        /* Comments / Timeline */
+        .progress-box {
             border-top: 1px solid rgba(255, 255, 255, 0.08);
-            padding-top: 14px;
-            margin-top: 4px;
+            padding-top: 12px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .comments-header {
+        .progress-head {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .comments-title {
-            font-size: 0.85rem;
+        .progress-title {
+            font-size: 0.82rem;
             font-weight: 700;
-            color: #facc15;
+            color: var(--c-accent2);
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .comments-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .comment-bubble {
+        .comment-item {
             background: rgba(0, 0, 0, 0.35);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 10px 14px;
-            font-size: 0.85rem;
-        }
-
-        .comment-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 4px;
-        }
-
-        .comment-author {
-            font-weight: 700;
-            color: #93c5fd;
+            border-radius: 10px;
+            padding: 8px 12px;
             font-size: 0.82rem;
         }
 
+        .comment-user {
+            font-weight: 700;
+            color: #93c5fd;
+            font-size: 0.78rem;
+        }
+
         .comment-time {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-        }
-
-        .comment-msg {
-            color: #f1f5f9;
-            line-height: 1.45;
-        }
-
-        .comment-form-wrap {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px dashed rgba(255, 255, 255, 0.12);
-            padding: 12px;
-            border-radius: 14px;
-            margin-top: 4px;
-        }
-
-        .comment-row-inputs {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .comment-input {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 10px;
-            padding: 8px 12px;
-            color: #fff;
-            font-size: 0.84rem;
-            outline: none;
-        }
-
-        .comment-input:focus {
-            border-color: #facc15;
-        }
-
-        .report-footer-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-top: 4px;
-            flex-wrap: wrap;
-        }
-
-        .reporter-info {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px dashed rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+            font-size: 0.7rem;
+            color: var(--c-muted);
         }
 
         /* Toast Notification */
         .toast-notification {
             position: fixed;
-            bottom: 30px;
+            bottom: 24px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: rgba(15, 23, 42, 0.92);
-            border: 1px solid #10b981;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(16, 185, 129, 0.3);
+            background: rgba(10, 14, 26, 0.95);
+            border: 1px solid var(--c-success);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(52, 211, 153, 0.3);
             color: #fff;
-            padding: 14px 24px;
-            border-radius: 9999px;
+            padding: 12px 22px;
+            border-radius: 100px;
             display: flex;
             align-items: center;
             gap: 10px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             z-index: 1000;
             opacity: 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: var(--transition);
             pointer-events: none;
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px);
         }
 
         .toast-notification.show {
@@ -1068,234 +1046,294 @@
         }
 
         /* Footer */
-        .footer {
+        .portal-footer {
             margin-top: 40px;
             text-align: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--c-muted);
+            font-size: 0.82rem;
+        }
+
+        .yepzhi-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 14px;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--c-accent2);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.78rem;
+            transition: var(--transition);
+        }
+
+        .yepzhi-btn:hover {
+            background: rgba(30, 122, 255, 0.15);
+            border-color: var(--c-accent);
+            color: #fff;
+            transform: scale(1.04);
         }
 
         @media (max-width: 640px) {
-            .form-section {
-                padding: 20px 16px;
-            }
-            .section-title {
-                font-size: 1.1rem;
-            }
-            .hub-grid {
-                grid-template-columns: 1fr;
-            }
-            .components-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .unit-pills-row {
-                grid-template-columns: repeat(6, 1fr);
-            }
-            .view-tab-btn {
-                font-size: 0.88rem;
-                padding: 10px 12px;
-            }
+            .glass-section { padding: 20px 16px; }
+            .section-subtitle { padding-left: 0; }
+            .books-grid { grid-template-columns: 1fr; }
+            .components-grid { grid-template-columns: 1fr 1fr; }
+            .unit-pills-row { grid-template-columns: repeat(6, 1fr); }
+            .view-tab-btn { font-size: 0.85rem; padding: 10px 8px; }
         }
     </style>
 </head>
 
 <body>
-    <!-- Top Navigation -->
-    <div class="top-nav">
-        <a href="https://yepzhi.com/hub/" class="back-link">
-            <span>‹</span> Volver al Hub
-        </a>
-        <div class="brand-badge">✨ Richmond ProReport</div>
+    <!-- Ambient Orbs Background -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
     </div>
 
-    <!-- Header -->
-    <div class="header">
-        <h1>Richmond ProReport</h1>
-        <p>Centro oficial de soporte académico y técnico para documentar, consultar y dar seguimiento a incidencias en ejercicios del Programa Richmond Pro.</p>
-    </div>
+    <!-- Main Container Wrap -->
+    <div class="portal-wrap">
 
-    <!-- Segmented Navigation (New Report vs Active Reports Feed) -->
-    <div class="view-switcher">
-        <button class="view-tab-btn active" id="tabBtnNew" onclick="switchView('new')">
-            <span>📝 Crear Nuevo Reporte</span>
-        </button>
-        <button class="view-tab-btn" id="tabBtnExplore" onclick="switchView('explore')">
-            <span>🔍 Explorar Reportes Activos</span>
-            <span class="tab-counter" id="activeReportsCounter">...</span>
-        </button>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════
-         PANEL 1: CREAR NUEVO REPORTE
-    ════════════════════════════════════════════════════════════ -->
-    <div class="view-panel active" id="panelNewReport">
-        <form class="report-form" id="proReportForm" onsubmit="event.preventDefault(); submitReport();">
-
-            <!-- PASO 1: SELECCIÓN DE LIBRO Y NIVEL -->
-            <div class="form-section">
-                <div class="section-title-row">
-                    <div class="step-number">1</div>
-                    <h2 class="section-title">Selección del Libro y Nivel</h2>
-                </div>
-                <p class="section-subtitle">Selecciona el título del programa y haz clic en el nivel correspondiente.</p>
-
-                <div class="hub-grid">
-                    <!-- English ID 3.0 Card -->
-                    <div class="hub-card-btn" id="cardEnglishID" onclick="selectBook('English ID 3.0', ['A1', 'A2', 'B1', 'B1+'], this)">
-                        <div class="card-header-row">
-                            <span class="card-icon">📘</span>
-                            <h3 class="card-title">English ID 3.0</h3>
-                        </div>
-                        <p class="card-desc">Programa comunicativo acelerado con enfoque en fluidez y precisión para adultos jóvenes.</p>
-                        <div class="level-selector" id="levelsEnglishID">
-                            <span class="level-pill" onclick="selectLevel(event, 'English ID 3.0', 'A1')">A1</span>
-                            <span class="level-pill" onclick="selectLevel(event, 'English ID 3.0', 'A2')">A2</span>
-                            <span class="level-pill" onclick="selectLevel(event, 'English ID 3.0', 'B1')">B1</span>
-                            <span class="level-pill" onclick="selectLevel(event, 'English ID 3.0', 'B1+')">B1+</span>
-                        </div>
-                    </div>
-
-                    <!-- Personal Best 2.0 Card -->
-                    <div class="hub-card-btn" id="cardPersonalBest" onclick="selectBook('Personal Best 2.0', ['A1', 'A2', 'B1', 'B1+', 'B2', 'C1'], this)">
-                        <div class="card-header-row">
-                            <span class="card-icon">📕</span>
-                            <h3 class="card-title">Personal Best 2.0</h3>
-                        </div>
-                        <p class="card-desc">Metodología integral de 6 niveles centrada en el desarrollo de competencias prácticas del idioma.</p>
-                        <div class="level-selector" id="levelsPersonalBest">
-                            <span class="level-pill" onclick="selectLevel(event, 'Personal Best 2.0', 'A1')">A1</span>
-                            <span class="level-pill" onclick="selectLevel(event, 'Personal Best 2.0', 'A2')">A2</span>
-                            <span class="level-pill" onclick="selectLevel(event, 'Personal Best 2.0', 'B1')">B1</span>
-                            <span class="level-pill" onclick="selectLevel(event, 'Personal Best 2.0', 'B1+')">B1+</span>
-                            <span class="level-pill" onclick="selectLevel(event, 'Personal Best 2.0', 'B2')">B2</span>
-                            <span class="level-pill" onclick="selectLevel(event, 'Personal Best 2.0', 'C1')">C1</span>
-                        </div>
-                    </div>
-
-                    <!-- Otro Libro Card -->
-                    <div class="hub-card-btn" id="cardOtherBook" onclick="selectBook('Otro libro', [], this)">
-                        <div class="card-header-row">
-                            <span class="card-icon">📚</span>
-                            <h3 class="card-title">Otro Libro / Material</h3>
-                        </div>
-                        <p class="card-desc">Especifica cualquier otro título, serie o material institucional de Richmond.</p>
-                        <div style="width: 100%; margin-top: 12px; display: none;" id="otherBookInputWrap">
-                            <input type="text" id="otherBookInput" class="custom-input" placeholder="Nombre del libro y nivel (ej: Compass 4)..." onclick="event.stopPropagation();">
-                        </div>
-                    </div>
-                </div>
+        <!-- Header -->
+        <header class="portal-header">
+            <div class="logo-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--c-accent2);">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <span class="logo-text">Richmond <strong>ProReport</strong></span>
             </div>
+            <h1 class="header-title">Richmond ProReport System</h1>
+            <p class="portal-tagline">Sistema para seguimiento técnico para documentar, consultar y dar seguimiento a incidencias en ejercicios de los programas de Richmond Pro.</p>
+        </header>
 
-            <!-- PASO 2: DÓNDE SE DETECTÓ EL ERROR -->
-            <div class="form-section">
-                <div class="section-title-row">
-                    <div class="step-number">2</div>
-                    <h2 class="section-title">¿Dónde se detectó el error? (Componente / Plataforma)</h2>
-                </div>
-                <p class="section-subtitle">Elige el área o componente específico donde se presenta la falla.</p>
+        <!-- Segmented Navigation (Crear vs Explorar) -->
+        <div class="view-switcher">
+            <button class="view-tab-btn active" id="tabBtnNew" onclick="switchView('new')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                <span>Crear Nuevo Reporte</span>
+            </button>
+            <button class="view-tab-btn" id="tabBtnExplore" onclick="switchView('explore')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <span>Explorar Reportes Activos</span>
+                <span class="tab-counter" id="activeReportsCounter">...</span>
+            </button>
+        </div>
 
-                <div class="components-grid">
-                    <div class="component-btn" onclick="toggleComponent('EPAs', this)">
-                        <span class="comp-icon">⚡</span>
-                        <div class="comp-info">
-                            <span class="comp-name">EPAs</span>
-                            <span class="comp-sub">Assessment / Practice</span>
-                        </div>
+        <!-- ═══════════════════════════════════════════════════════
+             PANEL 1: CREAR NUEVO REPORTE
+        ════════════════════════════════════════════════════════════ -->
+        <div class="view-panel active" id="panelNewReport">
+            <form id="proReportForm" onsubmit="event.preventDefault(); submitReport();" style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
+
+                <!-- PASO 1: SELECCIÓN DE LIBRO Y NIVEL -->
+                <div class="glass-section">
+                    <div class="section-header-row">
+                        <div class="step-pill">1</div>
+                        <h2 class="section-title">Selección del Libro y Nivel</h2>
                     </div>
+                    <p class="section-subtitle">Selecciona el título del programa y haz clic en el nivel correspondiente.</p>
 
-                    <div class="component-btn" onclick="toggleComponent('eSB (eStudentBook)', this)">
-                        <span class="comp-icon">📖</span>
-                        <div class="comp-info">
-                            <span class="comp-name">eSB</span>
-                            <span class="comp-sub">eStudentBook Digital</span>
+                    <div class="books-grid">
+                        <!-- English ID 3.0 Card -->
+                        <div class="book-card" id="cardEnglishID" onclick="selectBook('English ID 3.0', ['A1', 'A2', 'B1', 'B1+'], this)">
+                            <div class="book-title-row">
+                                <svg class="book-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                                <span class="book-name">English ID 3.0</span>
+                            </div>
+                            <div class="level-pills-row" id="levelsEnglishID">
+                                <span class="level-chip" onclick="selectLevel(event, 'English ID 3.0', 'A1')">A1</span>
+                                <span class="level-chip" onclick="selectLevel(event, 'English ID 3.0', 'A2')">A2</span>
+                                <span class="level-chip" onclick="selectLevel(event, 'English ID 3.0', 'B1')">B1</span>
+                                <span class="level-chip" onclick="selectLevel(event, 'English ID 3.0', 'B1+')">B1+</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="component-btn" onclick="toggleComponent('iSolutions (Teachers)', this)">
-                        <span class="comp-icon">👨‍🏫</span>
-                        <div class="comp-info">
-                            <span class="comp-name">iSolutions</span>
-                            <span class="comp-sub">Teacher Presentation</span>
+                        <!-- Personal Best 2.0 Card -->
+                        <div class="book-card" id="cardPersonalBest" onclick="selectBook('Personal Best 2.0', ['A1', 'A2', 'B1', 'B1+', 'B2', 'C1'], this)">
+                            <div class="book-title-row">
+                                <svg class="book-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                                <span class="book-name">Personal Best 2.0</span>
+                            </div>
+                            <div class="level-pills-row" id="levelsPersonalBest">
+                                <span class="level-chip" onclick="selectLevel(event, 'Personal Best 2.0', 'A1')">A1</span>
+                                <span class="level-chip" onclick="selectLevel(event, 'Personal Best 2.0', 'A2')">A2</span>
+                                <span class="level-chip" onclick="selectLevel(event, 'Personal Best 2.0', 'B1')">B1</span>
+                                <span class="level-chip" onclick="selectLevel(event, 'Personal Best 2.0', 'B1+')">B1+</span>
+                                <span class="level-chip" onclick="selectLevel(event, 'Personal Best 2.0', 'B2')">B2</span>
+                                <span class="level-chip" onclick="selectLevel(event, 'Personal Best 2.0', 'C1')">C1</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="component-btn" onclick="toggleComponent('SpeechLab', this)">
-                        <span class="comp-icon">🎙️</span>
-                        <div class="comp-info">
-                            <span class="comp-name">SpeechLab</span>
-                            <span class="comp-sub">Pronunciation Tool</span>
-                        </div>
-                    </div>
-
-                    <div class="component-btn" onclick="toggleComponent('GrammarBlitz', this)">
-                        <span class="comp-icon">⚡</span>
-                        <div class="comp-info">
-                            <span class="comp-name">GrammarBlitz</span>
-                            <span class="comp-sub">Grammar Training</span>
-                        </div>
-                    </div>
-
-                    <div class="component-btn" onclick="toggleComponent('ExamJam', this)">
-                        <span class="comp-icon">🎯</span>
-                        <div class="comp-info">
-                            <span class="comp-name">ExamJam</span>
-                            <span class="comp-sub">Quizzes & Tests</span>
-                        </div>
-                    </div>
-
-                    <div class="component-btn" onclick="toggleComponent('Additional Resources', this)">
-                        <span class="comp-icon">📦</span>
-                        <div class="comp-info">
-                            <span class="comp-name">Additional Resources</span>
-                            <span class="comp-sub">Audio, PDF, Tests</span>
-                        </div>
-                    </div>
-
-                    <div class="component-btn" onclick="toggleComponent('eWorkBook', this)">
-                        <span class="comp-icon">📝</span>
-                        <div class="comp-info">
-                            <span class="comp-name">eWorkBook</span>
-                            <span class="comp-sub">Practice Workbook</span>
-                        </div>
-                    </div>
-
-                    <div class="component-btn" onclick="toggleComponent('Skills Boost', this)">
-                        <span class="comp-icon">🚀</span>
-                        <div class="comp-info">
-                            <span class="comp-name">Skills Boost</span>
-                            <span class="comp-sub">Targeted Skills</span>
+                        <!-- Otro Libro Card -->
+                        <div class="book-card" id="cardOtherBook" onclick="selectBook('Otro libro', [], this)">
+                            <div class="book-title-row">
+                                <svg class="book-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                <span class="book-name">Otro Libro / Material</span>
+                            </div>
+                            <div style="width: 100%; display: none;" id="otherBookInputWrap">
+                                <input type="text" id="otherBookInput" class="custom-input" placeholder="Título del libro y nivel..." onclick="event.stopPropagation();">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- PASO 3: UNIDAD O SECCIÓN -->
-            <div class="form-section">
-                <div class="section-title-row">
-                    <div class="step-number">3</div>
-                    <h2 class="section-title">Unidad o Sección</h2>
-                </div>
-                <p class="section-subtitle">Selecciona la unidad (1 al 12) o una sección especial del contenido.</p>
-
-                <div class="units-container">
-                    <!-- Quick Unit Selector 1 - 12 -->
-                    <div class="unit-pills-row">
-                        <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 1', this)">U1</button>
-                        <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 2', this)">U2</button>
-                        <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 3', this)">U3</button>
-                        <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 4', this)">U4</button>
-                        <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 5', this)">U5</button>
-                        <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 6', this)">U6</button>
-                        <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 7', this)">U7</button>
-                        <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 8', this)">U8</button>
-                        <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 9', this)">U9</button>
-                        <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 10', this)">U10</button>
-                        <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 11', this)">U11</button>
-                        <button type="button" class="unit-pill-btn" onclick="setUnit('Unit 12', this)">U12</button>
+                <!-- PASO 2: DÓNDE SE DETECTÓ EL ERROR -->
+                <div class="glass-section">
+                    <div class="section-header-row">
+                        <div class="step-pill">2</div>
+                        <h2 class="section-title">¿Dónde se detectó el error? (Componente / Plataforma)</h2>
                     </div>
+                    <p class="section-subtitle">Elige el área o componente específico donde se presenta la falla.</p>
 
-                    <div class="custom-select-row">
-                        <div class="custom-select-wrap">
+                    <div class="components-grid">
+                        <!-- EPAs -->
+                        <div class="comp-card" onclick="toggleComponent('EPAs', this)">
+                            <div class="comp-svg-wrap">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                            </div>
+                            <div class="comp-meta">
+                                <span class="comp-title">EPAs</span>
+                                <span class="comp-subtitle">Assessment / Practice</span>
+                            </div>
+                        </div>
+
+                        <!-- eSB -->
+                        <div class="comp-card" onclick="toggleComponent('eSB (eStudentBook)', this)">
+                            <div class="comp-svg-wrap">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                            </div>
+                            <div class="comp-meta">
+                                <span class="comp-title">eSB</span>
+                                <span class="comp-subtitle">eStudentBook Digital</span>
+                            </div>
+                        </div>
+
+                        <!-- iSolutions -->
+                        <div class="comp-card" onclick="toggleComponent('iSolutions (Teachers)', this)">
+                            <div class="comp-svg-wrap">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                            </div>
+                            <div class="comp-meta">
+                                <span class="comp-title">iSolutions</span>
+                                <span class="comp-subtitle">Teacher Presentation</span>
+                            </div>
+                        </div>
+
+                        <!-- SpeechLab -->
+                        <div class="comp-card" onclick="toggleComponent('SpeechLab', this)">
+                            <div class="comp-svg-wrap">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                            </div>
+                            <div class="comp-meta">
+                                <span class="comp-title">SpeechLab</span>
+                                <span class="comp-subtitle">Pronunciation Tool</span>
+                            </div>
+                        </div>
+
+                        <!-- GrammarBlitz -->
+                        <div class="comp-card" onclick="toggleComponent('GrammarBlitz', this)">
+                            <div class="comp-svg-wrap">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                            </div>
+                            <div class="comp-meta">
+                                <span class="comp-title">GrammarBlitz</span>
+                                <span class="comp-subtitle">Grammar Training</span>
+                            </div>
+                        </div>
+
+                        <!-- ExamJam -->
+                        <div class="comp-card" onclick="toggleComponent('ExamJam', this)">
+                            <div class="comp-svg-wrap">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                            </div>
+                            <div class="comp-meta">
+                                <span class="comp-title">ExamJam</span>
+                                <span class="comp-subtitle">Quizzes & Tests</span>
+                            </div>
+                        </div>
+
+                        <!-- Additional Resources -->
+                        <div class="comp-card" onclick="toggleComponent('Additional Resources', this)">
+                            <div class="comp-svg-wrap">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                            </div>
+                            <div class="comp-meta">
+                                <span class="comp-title">Additional Resources</span>
+                                <span class="comp-subtitle">Audio, PDF, Tests</span>
+                            </div>
+                        </div>
+
+                        <!-- eWorkBook -->
+                        <div class="comp-card" onclick="toggleComponent('eWorkBook', this)">
+                            <div class="comp-svg-wrap">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                            </div>
+                            <div class="comp-meta">
+                                <span class="comp-title">eWorkBook</span>
+                                <span class="comp-subtitle">Practice Workbook</span>
+                            </div>
+                        </div>
+
+                        <!-- Skills Boost -->
+                        <div class="comp-card" onclick="toggleComponent('Skills Boost', this)">
+                            <div class="comp-svg-wrap">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            </div>
+                            <div class="comp-meta">
+                                <span class="comp-title">Skills Boost</span>
+                                <span class="comp-subtitle">Targeted Skills</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASO 3: UNIDAD O SECCIÓN -->
+                <div class="glass-section">
+                    <div class="section-header-row">
+                        <div class="step-pill">3</div>
+                        <h2 class="section-title">Unidad o Sección</h2>
+                    </div>
+                    <p class="section-subtitle">Selecciona la unidad (1 al 12), componente de práctica (A, B o C) o sección del contenido.</p>
+
+                    <div class="units-block">
+                        <!-- Dynamic Special Component Box (SpeechLab, GrammarBlitz, ExamJam) -->
+                        <div class="special-comp-box" id="specialCompBox">
+                            <span class="special-comp-label">Bloque / Componente de Práctica:</span>
+                            <div class="special-comp-pills">
+                                <button type="button" class="comp-block-btn" onclick="setSpecialBlock('Componente A', this)">Componente A</button>
+                                <button type="button" class="comp-block-btn" onclick="setSpecialBlock('Componente B', this)">Componente B</button>
+                                <button type="button" class="comp-block-btn" onclick="setSpecialBlock('Componente C', this)">Componente C</button>
+                            </div>
+                        </div>
+
+                        <!-- Standard Unit Pills 1-12 -->
+                        <div class="unit-pills-row">
+                            <button type="button" class="unit-btn" onclick="setUnit('Unit 1', this)">U1</button>
+                            <button type="button" class="unit-btn" onclick="setUnit('Unit 2', this)">U2</button>
+                            <button type="button" class="unit-btn" onclick="setUnit('Unit 3', this)">U3</button>
+                            <button type="button" class="unit-btn" onclick="setUnit('Unit 4', this)">U4</button>
+                            <button type="button" class="unit-btn" onclick="setUnit('Unit 5', this)">U5</button>
+                            <button type="button" class="unit-btn" onclick="setUnit('Unit 6', this)">U6</button>
+                            <button type="button" class="unit-btn" onclick="setUnit('Unit 7', this)">U7</button>
+                            <button type="button" class="unit-btn" onclick="setUnit('Unit 8', this)">U8</button>
+                            <button type="button" class="unit-btn" onclick="setUnit('Unit 9', this)">U9</button>
+                            <button type="button" class="unit-btn" onclick="setUnit('Unit 10', this)">U10</button>
+                            <button type="button" class="unit-btn" onclick="setUnit('Unit 11', this)">U11</button>
+                            <button type="button" class="unit-btn" onclick="setUnit('Unit 12', this)">U12</button>
+                        </div>
+
+                        <div class="input-row-grid">
                             <select id="unitDropdown" class="custom-select" onchange="onDropdownUnitChange(this.value)">
                                 <option value="">-- O selecciona del menú desplegable --</option>
                                 <option value="Welcome / Starter Unit">Welcome / Starter Unit</option>
@@ -1316,162 +1354,186 @@
                                 <option value="Audio / Video Resource">Audio / Video Resource</option>
                                 <option value="General / Assessment">General / Assessment Test</option>
                             </select>
-                        </div>
 
-                        <div style="flex: 1; min-width: 180px;">
                             <input type="text" id="pageOrLessonInput" class="custom-input" placeholder="Página / Lección (ej: Pág 42, Lesson 4B)...">
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- PASO 4: EJERCICIO O ÁREA ESPECÍFICA DEL ERROR -->
-            <div class="form-section">
-                <div class="section-title-row">
-                    <div class="step-number">4</div>
-                    <h2 class="section-title">Ejercicio o Área Específica del Error</h2>
-                </div>
-                <p class="section-subtitle">Describe detalladamente cuál es el ejercicio y el comportamiento erróneo detectado.</p>
-
-                <!-- Quick Issue Tags -->
-                <span class="tags-label">Tipo de incidencia (opcional):</span>
-                <div class="issue-tags-row">
-                    <span class="issue-tag" onclick="toggleIssueTag('Clave de respuesta incorrecta', this)">🏷️ Clave incorrecta</span>
-                    <span class="issue-tag" onclick="toggleIssueTag('Audio / Video desincronizado o no reproduce', this)">🎧 Audio/Video falla</span>
-                    <span class="issue-tag" onclick="toggleIssueTag('Error tipográfico u ortográfico', this)">✍️ Error tipográfico</span>
-                    <span class="issue-tag" onclick="toggleIssueTag('Botón o Drag & Drop no responde', this)">⚙️ Error de interacción</span>
-                    <span class="issue-tag" onclick="toggleIssueTag('Instrucción confusa o ambigua', this)">❓ Instrucción ambigua</span>
-                    <span class="issue-tag" onclick="toggleIssueTag('Problema de visualización en pantalla', this)">📱 Visualización / Layout</span>
-                </div>
-
-                <textarea id="errorDescription" class="custom-textarea" required
-                    placeholder="Describe cuál es el ejercicio con una descripción del error específico (ej: En el ejercicio 3b de la página 24, el audio reproduce el track 12 en lugar del track 14, o la opción marcada como correcta en la clave es 'B' pero la plataforma solo acepta 'C')..."></textarea>
-
-                <!-- Datos del Docente / Reportante -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 18px;">
-                    <input type="text" id="reporterName" class="custom-input" placeholder="Nombre del docente / coordinador (opcional)">
-                    <input type="text" id="reporterSchool" class="custom-input" placeholder="Universidad / Institución (ej: UTH, UTN, ITLM)">
-                </div>
-            </div>
-
-            <!-- PASO 5: CAPTURA O EVIDENCIA (OPCIONAL) -->
-            <div class="form-section">
-                <div class="section-title-row">
-                    <div class="step-number">5</div>
-                    <h2 class="section-title">Evidencia Visual / Captura (Opcional)</h2>
-                </div>
-                <p class="section-subtitle">Pega una captura directamente con Ctrl+V (Cmd+V) o haz clic para subir una imagen.</p>
-
-                <div class="dropzone-box" id="dropzone" onclick="document.getElementById('fileInput').click();">
-                    <div id="dropzonePrompt">
-                        <span style="font-size: 2rem; display: block; margin-bottom: 8px;">📷</span>
-                        <p style="font-weight: 600; color: #fff;">Haz clic para adjuntar o pega una captura aquí (Ctrl+V)</p>
-                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Formatos soportados: PNG, JPG, JPEG, WebP</p>
+                <!-- PASO 4: EJERCICIO O ÁREA ESPECÍFICA DEL ERROR -->
+                <div class="glass-section">
+                    <div class="section-header-row">
+                        <div class="step-pill">4</div>
+                        <h2 class="section-title">Ejercicio o Área Específica del Error</h2>
                     </div>
-                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
-                    <div class="dropzone-preview-container" id="previewContainer">
-                        <img id="imagePreview" class="dropzone-preview" alt="Vista previa de evidencia">
-                        <button type="button" class="remove-img-btn" onclick="event.stopPropagation(); removeImage();" title="Eliminar imagen">×</button>
+                    <p class="section-subtitle">Describe detalladamente cuál es el ejercicio y el comportamiento erróneo detectado.</p>
+
+                    <!-- Issue Tag Chips with SVGs -->
+                    <div class="issue-tags-grid">
+                        <span class="issue-tag-chip" onclick="toggleIssueTag('Opciones incorrectas', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                            Opciones incorrectas
+                        </span>
+                        <span class="issue-tag-chip" onclick="toggleIssueTag('Audio / Video falla', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                            Audio / Video falla
+                        </span>
+                        <span class="issue-tag-chip" onclick="toggleIssueTag('Error tipográfico', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                            Error tipográfico
+                        </span>
+                        <span class="issue-tag-chip" onclick="toggleIssueTag('Error de interacción', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                            Error de interacción
+                        </span>
+                        <span class="issue-tag-chip" onclick="toggleIssueTag('Instrucción ambigua', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            Instrucción ambigua
+                        </span>
+                        <span class="issue-tag-chip" onclick="toggleIssueTag('Visualización / Layout', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                            Visualización / Layout
+                        </span>
+                        <span class="issue-tag-chip" onclick="toggleIssueTag('Error Académico', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+                            Error Académico
+                        </span>
+                    </div>
+
+                    <textarea id="errorDescription" class="custom-textarea" required
+                        placeholder="Describe cuál es el ejercicio con una descripción del error específico (ej: En el ejercicio 3b de la página 24, el audio reproduce el track 12 en lugar del track 14, o la opción marcada como correcta en la clave es 'B' pero la plataforma solo acepta 'C')..."></textarea>
+
+                    <div class="input-row-grid" style="margin-top: 12px;">
+                        <input type="text" id="reporterName" class="custom-input" placeholder="Nombre del docente / coordinador (opcional)">
+                        <input type="text" id="reporterSchool" class="custom-input" placeholder="Universidad / Institución (ej: UTH, UTN, ITLM)">
                     </div>
                 </div>
+
+                <!-- PASO 5: CAPTURA O EVIDENCIA -->
+                <div class="glass-section">
+                    <div class="section-header-row">
+                        <div class="step-pill">5</div>
+                        <h2 class="section-title">Evidencia Visual / Captura (Opcional)</h2>
+                    </div>
+                    <p class="section-subtitle">Pega una captura directamente con Ctrl+V (Cmd+V) o haz clic para subir una imagen.</p>
+
+                    <div class="dropzone-box" id="dropzone" onclick="document.getElementById('fileInput').click();">
+                        <div id="dropzonePrompt">
+                            <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                            <p style="font-weight: 600; color: #fff; font-size: 0.95rem;">Haz clic para adjuntar o pega una captura aquí (Ctrl+V)</p>
+                            <p style="font-size: 0.78rem; color: var(--c-muted); margin-top: 4px;">Formatos soportados: PNG, JPG, JPEG, WebP</p>
+                        </div>
+                        <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+                        <div class="dropzone-preview-wrap" id="previewContainer">
+                            <img id="imagePreview" class="dropzone-img" alt="Vista previa">
+                            <button type="button" class="remove-img-btn" onclick="event.stopPropagation(); removeImage();">×</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACCIONES FINALES -->
+                <div class="glass-section actions-card">
+                    <button type="submit" class="btn-primary-action" id="btnSubmit">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                        <span>Guardar y Publicar Reporte</span>
+                    </button>
+
+                    <div class="secondary-actions">
+                        <button type="button" class="btn-sec-action" onclick="copyFormattedReport()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            <span>Copiar Formato WhatsApp / Correo</span>
+                        </button>
+                        <button type="button" class="btn-sec-action" onclick="resetForm()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                            <span>Limpiar Formulario</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════
+             PANEL 2: EXPLORAR REPORTES ACTIVOS REGISTRADOS (LIVE)
+        ════════════════════════════════════════════════════════════ -->
+        <div class="view-panel" id="panelExplore">
+            
+            <!-- Filters -->
+            <div class="explorer-bar">
+                <div class="search-wrap">
+                    <svg class="search-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="liveSearchInput" class="search-input" placeholder="Buscar por palabra clave, error, unidad, página o folio (ej: U3, audio, track 12)..." oninput="applyFilters()">
+                </div>
+
+                <div class="filters-grid">
+                    <select id="filterBook" class="custom-select" onchange="applyFilters()">
+                        <option value="">Todos los Libros</option>
+                        <option value="English ID 3.0">English ID 3.0</option>
+                        <option value="Personal Best 2.0">Personal Best 2.0</option>
+                        <option value="Otro">Otros Libros / Material</option>
+                    </select>
+
+                    <select id="filterComponent" class="custom-select" onchange="applyFilters()">
+                        <option value="">Todos los Componentes</option>
+                        <option value="EPAs">EPAs</option>
+                        <option value="eSB">eSB (eStudentBook)</option>
+                        <option value="iSolutions">iSolutions (Teachers)</option>
+                        <option value="SpeechLab">SpeechLab</option>
+                        <option value="GrammarBlitz">GrammarBlitz</option>
+                        <option value="ExamJam">ExamJam</option>
+                        <option value="Additional Resources">Additional Resources</option>
+                        <option value="eWorkBook">eWorkBook</option>
+                        <option value="Skills Boost">Skills Boost</option>
+                    </select>
+
+                    <select id="filterUnit" class="custom-select" onchange="applyFilters()">
+                        <option value="">Todas las Unidades</option>
+                        <option value="Unit 1">Unit 1</option>
+                        <option value="Unit 2">Unit 2</option>
+                        <option value="Unit 3">Unit 3</option>
+                        <option value="Unit 4">Unit 4</option>
+                        <option value="Unit 5">Unit 5</option>
+                        <option value="Unit 6">Unit 6</option>
+                        <option value="Unit 7">Unit 7</option>
+                        <option value="Unit 8">Unit 8</option>
+                        <option value="Unit 9">Unit 9</option>
+                        <option value="Unit 10">Unit 10</option>
+                        <option value="Unit 11">Unit 11</option>
+                        <option value="Unit 12">Unit 12</option>
+                    </select>
+                </div>
             </div>
 
-            <!-- ACCIONES FINALES -->
-            <div class="actions-card">
-                <button type="submit" class="btn-main-submit" id="btnSubmit">
-                    <span>📋 Generar y Publicar Reporte</span>
+            <div class="feed-header">
+                <span class="feed-counter" id="resultsCount">Cargando reportes activos...</span>
+                <button type="button" class="btn-reload" onclick="fetchCloudReports()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                    <span>Actualizar lista</span>
                 </button>
-
-                <div class="secondary-actions">
-                    <button type="button" class="btn-secondary" onclick="copyFormattedReport()">
-                        <span>📄 Copiar Formato WhatsApp / Correo</span>
-                    </button>
-                    <button type="button" class="btn-secondary" onclick="resetForm()">
-                        <span>🔄 Limpiar Formulario</span>
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════
-         PANEL 2: EXPLORAR REPORTES ACTIVOS REGISTRADOS (LIVE)
-    ════════════════════════════════════════════════════════════ -->
-    <div class="view-panel" id="panelExplore">
-        
-        <!-- Search & Filter Controls -->
-        <div class="explorer-filter-card">
-            <div class="search-bar-wrap">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="liveSearchInput" class="search-input" placeholder="Buscar por palabra clave, error, unidad, página o folio (ej: U3, audio, track 12)..." oninput="applyFilters()">
             </div>
 
-            <div class="filters-row">
-                <select id="filterBook" class="custom-select" onchange="applyFilters()">
-                    <option value="">Todos los Libros</option>
-                    <option value="English ID 3.0">English ID 3.0</option>
-                    <option value="Personal Best 2.0">Personal Best 2.0</option>
-                    <option value="Otro">Otros Libros / Material</option>
-                </select>
-
-                <select id="filterComponent" class="custom-select" onchange="applyFilters()">
-                    <option value="">Todos los Componentes</option>
-                    <option value="EPAs">EPAs</option>
-                    <option value="eSB">eSB (eStudentBook)</option>
-                    <option value="iSolutions">iSolutions (Teachers)</option>
-                    <option value="SpeechLab">SpeechLab</option>
-                    <option value="GrammarBlitz">GrammarBlitz</option>
-                    <option value="ExamJam">ExamJam</option>
-                    <option value="Additional Resources">Additional Resources</option>
-                    <option value="eWorkBook">eWorkBook</option>
-                    <option value="Skills Boost">Skills Boost</option>
-                </select>
-
-                <select id="filterUnit" class="custom-select" onchange="applyFilters()">
-                    <option value="">Todas las Unidades</option>
-                    <option value="Unit 1">Unit 1</option>
-                    <option value="Unit 2">Unit 2</option>
-                    <option value="Unit 3">Unit 3</option>
-                    <option value="Unit 4">Unit 4</option>
-                    <option value="Unit 5">Unit 5</option>
-                    <option value="Unit 6">Unit 6</option>
-                    <option value="Unit 7">Unit 7</option>
-                    <option value="Unit 8">Unit 8</option>
-                    <option value="Unit 9">Unit 9</option>
-                    <option value="Unit 10">Unit 10</option>
-                    <option value="Unit 11">Unit 11</option>
-                    <option value="Unit 12">Unit 12</option>
-                </select>
-            </div>
+            <!-- Feed Items -->
+            <div class="reports-feed" id="reportsFeedContainer"></div>
         </div>
 
-        <!-- Live Feed Counter & Refresh -->
-        <div class="results-header">
-            <span class="results-count" id="resultsCount">Cargando reportes activos...</span>
-            <button type="button" class="btn-refresh" onclick="fetchCloudReports()">
-                <span>🔄 Actualizar lista</span>
-            </button>
-        </div>
+        <!-- Footer -->
+        <footer class="portal-footer">
+            <p>© 2026 Richmond ProReport · Herramienta de Soporte Académico y Técnico</p>
+            <p>
+                <a href="https://yepzhi.com" target="_blank" class="yepzhi-btn">by @yepzhi</a>
+                <span style="margin: 0 4px;">·</span>
+                <span>Sincronizado en la nube</span>
+            </p>
+        </footer>
 
-        <!-- Reports Feed Container -->
-        <div class="reports-list" id="reportsFeedContainer">
-            <!-- Dynamic Feed rendered here -->
-        </div>
     </div>
 
     <!-- Toast Notification -->
     <div class="toast-notification" id="toast">
-        <span id="toastIcon">✅</span>
-        <span id="toastMsg">Reporte copiado al portapapeles con éxito</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--c-success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span id="toastMsg">Reporte publicado con éxito</span>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>© 2026 Richmond ProReport · Herramienta de Soporte Académico y Técnico</p>
-        <p style="margin-top: 4px; font-size: 0.75rem; opacity: 0.6;">Ecosistema educativo @yepzhi Tools · Sincronizado en la nube</p>
-    </footer>
-
-    <!-- FIREBASE & LOGIC SCRIPT -->
+    <!-- FIREBASE MODULE & LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, arrayUnion, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -1492,9 +1554,9 @@
         try {
             const app = initializeApp(firebaseConfig);
             db = getFirestore(app);
-            console.log('[ProReport] Firebase cloud connected to leadgen-ca3c9');
+            console.log('[ProReport System] Firebase cloud connected to leadgen-ca3c9');
         } catch (e) {
-            console.warn('[ProReport] Firebase init notice:', e);
+            console.warn('[ProReport System] Firebase init notice:', e);
         }
 
         // State
@@ -1502,10 +1564,11 @@
         let currentSelectedLevel = '';
         let selectedComponents = new Set();
         let currentSelectedUnit = '';
+        let selectedSpecialBlock = '';
         let selectedIssueTags = new Set();
         let attachedImageBase64 = null;
 
-        // View Switching (New vs Explore)
+        // View Switching
         window.switchView = function(viewName) {
             const tabBtnNew = document.getElementById('tabBtnNew');
             const tabBtnExplore = document.getElementById('tabBtnExplore');
@@ -1526,16 +1589,15 @@
             }
         };
 
-        // Fetch Cloud Reports from Firestore
+        // Fetch Cloud Reports
         window.fetchCloudReports = async function() {
             const container = document.getElementById('reportsFeedContainer');
             const counter = document.getElementById('resultsCount');
             const tabCounter = document.getElementById('activeReportsCounter');
 
             container.innerHTML = `
-                <div class="empty-state">
-                    <span style="font-size: 2rem; display: block; margin-bottom: 10px;">⏳</span>
-                    <p style="color: #fff; font-weight: 600;">Sincronizando reportes desde la nube...</p>
+                <div class="empty-state" style="text-align: center; padding: 40px; color: var(--c-muted);">
+                    <p style="font-weight: 600; color: #fff;">Sincronizando reportes desde la nube...</p>
                 </div>
             `;
 
@@ -1553,7 +1615,7 @@
                 }
             }
 
-            // Merge with local storage fallback
+            // Fallback merge with local storage
             const local = JSON.parse(localStorage.getItem('richmond_pro_reports') || '[]');
             local.forEach(l => {
                 if (!reports.some(r => r.ticketId === l.ticketId)) {
@@ -1575,10 +1637,9 @@
 
             if (reports.length === 0) {
                 container.innerHTML = `
-                    <div class="empty-state">
-                        <span style="font-size: 2.5rem; display: block; margin-bottom: 10px;">🔍</span>
-                        <p style="color: #fff; font-weight: 700; font-size: 1.1rem;">No se encontraron reportes con estos filtros</p>
-                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">Si detectaste este error en tus clases, puedes ser el primero en registrarlo en la pestaña "Crear Nuevo Reporte".</p>
+                    <div style="text-align: center; padding: 50px 20px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1); border-radius: 20px;">
+                        <p style="color: #fff; font-weight: 700; font-size: 1.05rem;">No se encontraron reportes con estos filtros</p>
+                        <p style="color: var(--c-muted); font-size: 0.85rem; margin-top: 4px;">Si detectaste este error en tus clases, puedes registrarlo en la pestaña "Crear Nuevo Reporte".</p>
                     </div>
                 `;
                 return;
@@ -1588,17 +1649,17 @@
                 const isSolved = r.status === 'solved' || r.status === 'resuelto';
                 const isProgress = r.status === 'progress' || r.status === 'tramite';
                 
-                let statusHtml = `<span class="badge-status status-active">🟡 En Revisión Activa</span>`;
+                let statusHtml = `<span class="badge-status status-active">En Revisión</span>`;
                 if (isSolved) {
-                    statusHtml = `<span class="badge-status status-solved">🟢 Resuelto / Corregido</span>`;
+                    statusHtml = `<span class="badge-status status-solved">Resuelto / Corregido</span>`;
                 } else if (isProgress) {
-                    statusHtml = `<span class="badge-status status-progress">🔵 En Trámite Editorial</span>`;
+                    statusHtml = `<span class="badge-status status-progress">En Trámite Editorial</span>`;
                 }
 
                 const bookName = r.book || r.fullBook || 'Libro Pro';
                 const comps = r.components || 'General';
                 const unit = r.unit || r.fullUnit || 'No especificada';
-                const tags = r.tags ? `<div style="margin-top: 4px;"><span style="color: #fca5a5; font-size: 0.78rem; font-weight: 600;">⚠️ ${r.tags}</span></div>` : '';
+                const tags = r.tags ? `<div style="margin-top: 2px;"><span style="color: #fca5a5; font-size: 0.76rem; font-weight: 600;">${r.tags}</span></div>` : '';
                 const desc = r.description || 'Sin detalles adicionales.';
                 const reporter = r.reporter || 'Docente Richmond Pro';
                 const school = r.school || 'Institución Pro';
@@ -1607,84 +1668,81 @@
                 const docId = r.id || '';
                 const comments = r.comments || [];
 
-                // Comments list HTML
                 const commentsHtml = comments.map(c => `
-                    <div class="comment-bubble">
-                        <div class="comment-header-row">
-                            <span class="comment-author">${escapeHtml(c.author || 'Equipo Académico')}</span>
+                    <div class="comment-item">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                            <span class="comment-user">${escapeHtml(c.author || 'Equipo Académico')}</span>
                             <span class="comment-time">${escapeHtml(c.date || '')}</span>
                         </div>
-                        <p class="comment-msg">${escapeHtml(c.text || '')}</p>
+                        <p style="color: #f1f5f9; line-height: 1.4;">${escapeHtml(c.text || '')}</p>
                     </div>
                 `).join('');
 
                 return `
-                    <div class="report-item-card" id="card-${folio}">
-                        <div class="report-header-line">
-                            <div class="report-badges-wrap">
-                                <span class="badge-folio">#${folio}</span>
+                    <div class="report-card" id="card-${folio}">
+                        <div class="report-card-top">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span class="badge-id">#${folio}</span>
                                 ${statusHtml}
                             </div>
-                            <span class="report-date">📅 ${date}</span>
+                            <span style="color: var(--c-muted); font-size: 0.76rem;">${date}</span>
                         </div>
 
-                        <div class="report-meta-grid">
-                            <div class="meta-col">
-                                <span class="meta-lbl">Libro / Programa</span>
-                                <span class="meta-val">${bookName}</span>
+                        <div class="report-meta-box">
+                            <div class="meta-group">
+                                <span class="meta-k">Libro</span>
+                                <span class="meta-v">${bookName}</span>
                             </div>
-                            <div class="meta-col">
-                                <span class="meta-lbl">Componente / Plataforma</span>
-                                <span class="meta-val">${comps}</span>
+                            <div class="meta-group">
+                                <span class="meta-k">Componente</span>
+                                <span class="meta-v">${comps}</span>
                             </div>
-                            <div class="meta-col">
-                                <span class="meta-lbl">Unidad / Ubicación</span>
-                                <span class="meta-val">${unit}</span>
+                            <div class="meta-group">
+                                <span class="meta-k">Unidad / Ubicación</span>
+                                <span class="meta-v">${unit}</span>
                             </div>
                         </div>
 
                         ${tags}
 
-                        <div class="report-desc-text">${escapeHtml(desc)}</div>
+                        <div class="report-desc-box">${escapeHtml(desc)}</div>
 
-                        <div class="report-footer-row">
-                            <div class="reporter-info">
-                                <span>👤 ${escapeHtml(reporter)}</span>
-                                <span>·</span>
-                                <span>🏫 ${escapeHtml(school)}</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 4px;">
+                            <div style="font-size: 0.78rem; color: var(--c-muted);">
+                                <span>${escapeHtml(reporter)}</span> · <span>${escapeHtml(school)}</span>
                             </div>
-                            <button type="button" class="btn-secondary" style="min-width: auto; padding: 6px 14px; font-size: 0.8rem;" onclick="copyRawReport('${folio}')">
-                                📋 Copiar Ficha
+                            <button type="button" class="btn-sec-action" style="min-width: auto; padding: 6px 14px; font-size: 0.78rem;" onclick="copyRawReport('${folio}')">
+                                Copiar Ficha
                             </button>
                         </div>
 
-                        <!-- Resolution Progress & Comments -->
-                        <div class="comments-section">
-                            <div class="comments-header">
-                                <span class="comments-title">💬 Avances y Resolución (${comments.length})</span>
-                                <button type="button" style="background: transparent; border: none; color: #facc15; font-size: 0.78rem; font-weight: 700; cursor: pointer;" onclick="toggleCommentBox('${folio}')">
-                                    ➕ Registrar Avance
+                        <!-- Comments / Resolution Progress -->
+                        <div class="progress-box">
+                            <div class="progress-head">
+                                <span class="progress-title">Avances y Resolución (${comments.length})</span>
+                                <button type="button" style="background: transparent; border: none; color: var(--c-accent2); font-size: 0.78rem; font-weight: 700; cursor: pointer;" onclick="toggleCommentBox('${folio}')">
+                                    + Registrar Avance
                                 </button>
                             </div>
 
-                            <div class="comments-list" id="comments-list-${folio}">
-                                ${commentsHtml || '<p style="color: var(--text-muted); font-size: 0.78rem; font-style: italic;">Sin comentarios de avance aún. Haz clic en "Registrar Avance" para añadir uno.</p>'}
+                            <div style="display: flex; flex-direction: column; gap: 6px;" id="comments-list-${folio}">
+                                ${commentsHtml || '<p style="color: var(--c-muted); font-size: 0.76rem; font-style: italic;">Sin avances registrados aún.</p>'}
                             </div>
 
-                            <!-- New Comment Box -->
-                            <div class="comment-form-wrap" id="comment-form-${folio}" style="display: none;">
-                                <div class="comment-row-inputs">
-                                    <input type="text" id="comm-author-${folio}" class="comment-input" style="flex: 1; min-width: 150px;" placeholder="Tu nombre / Rol (ej: Alberto Yépiz, Prof. Ramírez)">
-                                    <select id="comm-status-${folio}" class="comment-input" style="flex: 1; min-width: 150px;">
-                                        <option value="active">🟡 Mantener En Revisión</option>
-                                        <option value="progress">🔵 Marcar En Trámite Editorial</option>
-                                        <option value="solved">🟢 Marcar como Resuelto</option>
+                            <!-- Comment Input Form -->
+                            <div id="comment-form-${folio}" style="display: none; flex-direction: column; gap: 8px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.12); padding: 10px; border-radius: 12px; margin-top: 4px;">
+                                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                    <input type="text" id="comm-author-${folio}" class="custom-input" style="flex: 1; padding: 8px 12px; font-size: 0.8rem;" placeholder="Tu nombre / Rol (ej: Coordinador Pro, Docente)">
+                                    <select id="comm-status-${folio}" class="custom-select" style="flex: 1; padding: 8px 12px; font-size: 0.8rem;">
+                                        <option value="active">Mantener En Revisión</option>
+                                        <option value="progress">Marcar En Trámite Editorial</option>
+                                        <option value="solved">Marcar como Resuelto</option>
                                     </select>
                                 </div>
-                                <textarea id="comm-text-${folio}" class="comment-input" style="resize: vertical; min-height: 60px;" placeholder="Escribe el avance o estado de la solución (ej: Se envió a soporte editorial, parche disponible en próxima actualización)..."></textarea>
+                                <textarea id="comm-text-${folio}" class="custom-textarea" style="min-height: 55px; padding: 8px 12px; font-size: 0.82rem;" placeholder="Escribe el avance o estado de la solución..."></textarea>
                                 <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                                    <button type="button" class="btn-secondary" style="min-width: auto; padding: 6px 12px; font-size: 0.78rem;" onclick="toggleCommentBox('${folio}')">Cancelar</button>
-                                    <button type="button" class="btn-main-submit" style="min-width: auto; padding: 6px 16px; font-size: 0.82rem;" onclick="submitProgressComment('${folio}', '${docId}')">Publicar Avance</button>
+                                    <button type="button" class="btn-sec-action" style="min-width: auto; padding: 5px 12px; font-size: 0.75rem;" onclick="toggleCommentBox('${folio}')">Cancelar</button>
+                                    <button type="button" class="btn-primary-action" style="min-width: auto; padding: 6px 14px; font-size: 0.78rem;" onclick="submitProgressComment('${folio}', '${docId}')">Publicar Avance</button>
                                 </div>
                             </div>
                         </div>
@@ -1710,7 +1768,7 @@
             const text = (textInput.value || '').trim();
 
             if (!text) {
-                showToast('⚠️ Por favor escribe el avance antes de publicar', 'warning');
+                showToast('Escribe el avance antes de publicar');
                 textInput.focus();
                 return;
             }
@@ -1718,7 +1776,6 @@
             const dateStr = new Date().toLocaleString('es-MX', { dateStyle: 'short', timeStyle: 'short' });
             const newComment = { author, text, date: dateStr };
 
-            // 1. Update in local array
             const found = allCloudReports.find(r => r.ticketId === folio);
             if (found) {
                 if (!found.comments) found.comments = [];
@@ -1726,7 +1783,6 @@
                 found.status = status;
             }
 
-            // 2. Save in Firestore Cloud
             if (db && docId) {
                 try {
                     const reportRef = doc(db, "pro_reports", docId);
@@ -1734,13 +1790,12 @@
                         comments: arrayUnion(newComment),
                         status: status
                     });
-                    console.log('[Firestore] Comment updated in doc:', docId);
+                    console.log('[Firestore] Comment updated:', docId);
                 } catch (e) {
                     console.warn('[Firestore Comment Warning]', e);
                 }
             }
 
-            // 3. Save in LocalStorage
             try {
                 const local = JSON.parse(localStorage.getItem('richmond_pro_reports') || '[]');
                 const localItem = local.find(l => l.ticketId === folio);
@@ -1752,7 +1807,7 @@
                 }
             } catch (err) {}
 
-            showToast('✅ Avance registrado exitosamente');
+            showToast('Avance registrado exitosamente');
             applyFilters();
         };
 
@@ -1775,22 +1830,18 @@
             const filtered = allCloudReports.filter(r => {
                 const fullText = `${r.ticketId} ${r.book || r.fullBook} ${r.components} ${r.unit || r.fullUnit} ${r.description} ${r.reporter} ${r.school}`.toLowerCase();
                 
-                // Text search
                 if (queryText && !fullText.includes(queryText)) return false;
 
-                // Book filter
                 if (bookFilter) {
                     const b = (r.book || r.fullBook || '').toLowerCase();
                     if (!b.includes(bookFilter.toLowerCase())) return false;
                 }
 
-                // Component filter
                 if (compFilter) {
                     const c = (r.components || '').toLowerCase();
                     if (!c.includes(compFilter.toLowerCase())) return false;
                 }
 
-                // Unit filter
                 if (unitFilter) {
                     const u = (r.unit || r.fullUnit || '').toLowerCase();
                     if (!u.includes(unitFilter.toLowerCase())) return false;
@@ -1807,12 +1858,12 @@
             if (found) {
                 const text = generateFormattedText(found);
                 navigator.clipboard.writeText(text).then(() => {
-                    showToast(`📋 Ficha del reporte #${folio} copiada al portapapeles`);
+                    showToast(`Ficha del reporte #${folio} copiada`);
                 });
             }
         };
 
-        // Auto paste listener for screenshots anywhere on page
+        // Clipboard Paste Listener
         window.addEventListener('paste', (e) => {
             const items = (e.clipboardData || e.originalEvent.clipboardData).items;
             for (let item of items) {
@@ -1821,7 +1872,7 @@
                     const reader = new FileReader();
                     reader.onload = (event) => {
                         setImagePreview(event.target.result);
-                        showToast('📷 Captura pegada desde el portapapeles');
+                        showToast('Captura pegada desde el portapapeles');
                     };
                     reader.readAsDataURL(blob);
                     break;
@@ -1851,7 +1902,7 @@
                     const reader = new FileReader();
                     reader.onload = (event) => {
                         setImagePreview(event.target.result);
-                        showToast('📷 Imagen cargada');
+                        showToast('Imagen cargada');
                     };
                     reader.readAsDataURL(files[0]);
                 }
@@ -1886,10 +1937,9 @@
         // Selection Handlers
         window.selectBook = function(bookName, levels, cardEl) {
             currentSelectedBook = bookName;
-            document.querySelectorAll('.hub-card-btn').forEach(c => c.classList.remove('selected'));
+            document.querySelectorAll('.book-card').forEach(c => c.classList.remove('selected'));
             cardEl.classList.add('selected');
 
-            // Handle custom input
             const otherWrap = document.getElementById('otherBookInputWrap');
             if (bookName === 'Otro libro') {
                 otherWrap.style.display = 'block';
@@ -1904,16 +1954,14 @@
             currentSelectedBook = bookName;
             currentSelectedLevel = level;
 
-            // Highlight card
-            document.querySelectorAll('.hub-card-btn').forEach(c => c.classList.remove('selected'));
+            document.querySelectorAll('.book-card').forEach(c => c.classList.remove('selected'));
             if (bookName.includes('English ID')) {
                 document.getElementById('cardEnglishID').classList.add('selected');
             } else if (bookName.includes('Personal Best')) {
                 document.getElementById('cardPersonalBest').classList.add('selected');
             }
 
-            // Highlight pill
-            document.querySelectorAll('.level-pill').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.level-chip').forEach(p => p.classList.remove('active'));
             event.target.classList.add('active');
         };
 
@@ -1925,18 +1973,37 @@
                 selectedComponents.add(compName);
                 btnEl.classList.add('selected');
             }
+
+            // Check if SpeechLab, GrammarBlitz, or ExamJam is selected
+            const specialCompBox = document.getElementById('specialCompBox');
+            const hasSpecial = selectedComponents.has('SpeechLab') || 
+                               selectedComponents.has('GrammarBlitz') || 
+                               selectedComponents.has('ExamJam');
+            
+            specialCompBox.style.display = hasSpecial ? 'flex' : 'none';
+        };
+
+        window.setSpecialBlock = function(blockStr, btnEl) {
+            if (selectedSpecialBlock === blockStr) {
+                selectedSpecialBlock = '';
+                btnEl.classList.remove('active');
+            } else {
+                selectedSpecialBlock = blockStr;
+                document.querySelectorAll('.comp-block-btn').forEach(b => b.classList.remove('active'));
+                btnEl.classList.add('active');
+            }
         };
 
         window.setUnit = function(unitStr, btnEl) {
             currentSelectedUnit = unitStr;
-            document.querySelectorAll('.unit-pill-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
             if (btnEl) btnEl.classList.add('active');
             document.getElementById('unitDropdown').value = unitStr;
         };
 
         window.onDropdownUnitChange = function(val) {
             currentSelectedUnit = val;
-            document.querySelectorAll('.unit-pill-btn').forEach(b => {
+            document.querySelectorAll('.unit-btn').forEach(b => {
                 b.classList.toggle('active', b.textContent === val.replace('Unit ', 'U'));
             });
         };
@@ -1961,9 +2028,13 @@
             const fullBook = book ? `${book}${level}` : 'No especificado';
 
             const components = selectedComponents.size > 0 ? Array.from(selectedComponents).join(', ') : 'No especificado';
-            const unit = currentSelectedUnit || document.getElementById('unitDropdown').value || 'No especificada';
+            
+            let unitPart = currentSelectedUnit || document.getElementById('unitDropdown').value || '';
+            if (selectedSpecialBlock) {
+                unitPart = unitPart ? `${selectedSpecialBlock} · ${unitPart}` : selectedSpecialBlock;
+            }
             const pageOrLesson = document.getElementById('pageOrLessonInput').value.trim();
-            const fullUnit = pageOrLesson ? `${unit} — ${pageOrLesson}` : unit;
+            const fullUnit = pageOrLesson ? `${unitPart || 'Ubicación'} — ${pageOrLesson}` : (unitPart || 'No especificada');
 
             const tags = selectedIssueTags.size > 0 ? Array.from(selectedIssueTags).join(' · ') : '';
             const description = document.getElementById('errorDescription').value.trim();
@@ -2010,13 +2081,13 @@ ${data.tags ? `⚠️ *Tipo de Incidencia:* ${data.tags}\n` : ''}
 ${data.description || 'Sin descripción adicional proporcionada.'}
 ${data.hasImage ? '\n📷 *Evidencia visual:* Adjunta en captura de pantalla.' : ''}
 ━━━━━━━━━━━━━━━━━━━━
-_Generado automáticamente a través de Richmond ProReport (yepzhi.com/proreport)_`;
+_Generado automáticamente a través de Richmond ProReport System (yepzhi.com/proreport)_`;
         }
 
         window.submitReport = async function() {
             const desc = document.getElementById('errorDescription').value.trim();
             if (!desc) {
-                showToast('⚠️ Por favor ingresa la descripción del error antes de generar el reporte', 'warning');
+                showToast('Por favor ingresa la descripción del error');
                 document.getElementById('errorDescription').focus();
                 return;
             }
@@ -2041,16 +2112,15 @@ _Generado automáticamente a través de Richmond ProReport (yepzhi.com/proreport
                         comments: [],
                         createdAt: serverTimestamp()
                     });
-                    console.log('[Firestore] Report synced to cloud:', data.ticketId);
+                    console.log('[Firestore] Report synced:', data.ticketId);
                 } catch (cloudErr) {
                     console.warn('[Firestore Cloud Sync]', cloudErr);
                 }
             }
 
             copyFormattedReport(data);
-            showToast(`✅ Reporte #${data.ticketId} publicado y copiado al portapapeles`);
+            showToast(`Reporte #${data.ticketId} publicado y copiado`);
 
-            // Switch to explore tab
             setTimeout(() => {
                 switchView('explore');
             }, 1200);
@@ -2059,14 +2129,14 @@ _Generado automáticamente a través de Richmond ProReport (yepzhi.com/proreport
         window.copyFormattedReport = function(providedData) {
             const data = providedData || getCompiledData();
             if (!data.description) {
-                showToast('⚠️ Escribe la descripción del error para copiar el formato completo', 'warning');
+                showToast('Escribe la descripción del error para copiar el formato');
                 return;
             }
             const textToCopy = generateFormattedText(data);
             navigator.clipboard.writeText(textToCopy).then(() => {
-                showToast('📋 ¡Reporte formateado copiado para WhatsApp / Correo!');
+                showToast('Reporte formateado copiado para WhatsApp / Correo');
             }).catch(() => {
-                showToast('⚠️ No se pudo copiar automáticamente, selecciona el texto');
+                showToast('No se pudo copiar automáticamente');
             });
         };
 
@@ -2087,34 +2157,33 @@ _Generado automáticamente a través de Richmond ProReport (yepzhi.com/proreport
             currentSelectedLevel = '';
             selectedComponents.clear();
             currentSelectedUnit = '';
+            selectedSpecialBlock = '';
             selectedIssueTags.clear();
             removeImage();
 
-            document.querySelectorAll('.hub-card-btn').forEach(c => c.classList.remove('selected'));
-            document.querySelectorAll('.level-pill').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.component-btn').forEach(b => b.classList.remove('selected'));
-            document.querySelectorAll('.unit-pill-btn').forEach(u => u.classList.remove('active'));
-            document.querySelectorAll('.issue-tag').forEach(t => t.classList.remove('selected'));
+            document.querySelectorAll('.book-card').forEach(c => c.classList.remove('selected'));
+            document.querySelectorAll('.level-chip').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.comp-card').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.comp-block-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.unit-btn').forEach(u => u.classList.remove('active'));
+            document.querySelectorAll('.issue-tag-chip').forEach(t => t.classList.remove('selected'));
             document.getElementById('otherBookInputWrap').style.display = 'none';
+            document.getElementById('specialCompBox').style.display = 'none';
 
             showToast('Formulario restablecido');
         };
 
-        function showToast(message, type = 'success') {
+        function showToast(message) {
             const toast = document.getElementById('toast');
             const msgEl = document.getElementById('toastMsg');
-            const iconEl = document.getElementById('toastIcon');
-
             msgEl.textContent = message;
-            iconEl.textContent = type === 'warning' ? '⚠️' : '✅';
             toast.classList.add('show');
-
             setTimeout(() => {
                 toast.classList.remove('show');
-            }, 3500);
+            }, 3200);
         }
 
-        // Initialize and count reports on load
+        // Initialize on load
         document.addEventListener('DOMContentLoaded', () => {
             fetchCloudReports();
         });
