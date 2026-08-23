@@ -1,6 +1,7 @@
 /* ==========================================================================
    BOSE HI-DEF PARTIES · Apple-Style Luxury Lead Generator
    Design Language: Apple Dark Luxury · Glassmorphism · Precision Typography
+   Campaign: "Because We LOVE Music!" & Interactive Heart Beat Sandbox
    ========================================================================== */
 
 :root {
@@ -21,12 +22,15 @@
   --bose-blue: #2997ff;
   --bose-cyan: #00f3ff;
   --bose-gold: #f5c518;
+  --bose-pink: #ec4899;
+  --bose-purple: #8b5cf6;
   --whatsapp-green: #25D366;
   --whatsapp-hover: #20bd5a;
 
-  --grad-bose: linear-gradient(135deg, #ffffff 0%, #a1a1a6 100%);
+  --grad-bose: linear-gradient(180deg, #ffffff 0%, #a1a1a6 100%);
   --grad-accent: linear-gradient(135deg, #2997ff 0%, #00f3ff 100%);
   --grad-gold: linear-gradient(135deg, #ffe066 0%, #f5c518 100%);
+  --grad-love: linear-gradient(135deg, #ec4899 0%, #f43f5e 50%, #8b5cf6 100%);
   
   --radius-xl: 28px;
   --radius-lg: 20px;
@@ -35,6 +39,7 @@
   
   --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
   --shadow-glow: 0 0 40px rgba(41, 151, 255, 0.15);
+  --shadow-love: 0 0 50px rgba(236, 72, 153, 0.25);
 }
 
 * {
@@ -78,8 +83,8 @@ body {
 .glow-2 {
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(245, 197, 24, 0.12) 0%, transparent 70%);
-  top: 45%;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.18) 0%, transparent 70%);
+  top: 40%;
   right: -100px;
 }
 
@@ -121,6 +126,13 @@ h1, h2, h3, h4 {
   background-clip: text;
 }
 
+.text-love {
+  background: var(--grad-love);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* Navigation - Apple Minimalist Bar */
 .navbar {
   position: fixed;
@@ -144,7 +156,6 @@ h1, h2, h3, h4 {
   width: 100%;
 }
 
-/* Apple-style Redesigned Brand Logo */
 .brand-logo-wrap {
   display: flex;
   align-items: center;
@@ -248,10 +259,21 @@ h1, h2, h3, h4 {
   box-shadow: 0 8px 30px rgba(245, 197, 24, 0.45);
 }
 
+.btn-love {
+  background: var(--grad-love);
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 4px 20px rgba(236, 72, 153, 0.35);
+}
+.btn-love:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(236, 72, 153, 0.55);
+}
+
 /* Hero Section */
 .hero-section {
   padding-top: 130px;
-  padding-bottom: 60px;
+  padding-bottom: 50px;
   text-align: center;
 }
 
@@ -296,7 +318,7 @@ h1, h2, h3, h4 {
   margin-bottom: 44px;
 }
 
-/* Trust Badges Bar (Apple Style SVG Icons) */
+/* Trust Badges Bar (Apple SVG Icons) */
 .trust-bar {
   display: flex;
   justify-content: center;
@@ -439,6 +461,114 @@ h1, h2, h3, h4 {
   border-radius: var(--radius-lg);
   padding: 28px;
   text-align: center;
+}
+
+/* ==========================================================================
+   CAMPAIGN "BECAUSE WE LOVE MUSIC!" & INTERACTIVE HEART SANDBOX MINI-GAME
+   ========================================================================== */
+
+.love-campaign-card {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(139, 92, 246, 0.05) 50%, rgba(41, 151, 255, 0.04) 100%);
+  border: 1px solid rgba(236, 72, 153, 0.35);
+  border-radius: var(--radius-xl);
+  padding: 36px 40px;
+  margin-bottom: 60px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-love);
+}
+
+.love-badge-corner {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--grad-love);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.76rem;
+  padding: 6px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+}
+
+.love-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 36px;
+  align-items: center;
+  margin-top: 20px;
+}
+@media (max-width: 880px) {
+  .love-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Interactive Canvas Mini-game container */
+.heart-sandbox-container {
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(236, 72, 153, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+#heart-audio-canvas {
+  width: 100%;
+  height: 240px;
+  border-radius: 12px;
+  background: radial-gradient(circle at center, rgba(236, 72, 153, 0.15) 0%, rgba(0, 0, 0, 0.8) 80%);
+  display: block;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.mini-game-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mini-game-slider-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.mini-game-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+/* Floating Heart Particles (Mini-game Burst) */
+.floating-heart-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  user-select: none;
+  animation: floatHeart 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes floatHeart {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.6) rotate(0deg);
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dest-x), var(--dest-y)) scale(1.4) rotate(var(--dest-rot));
+  }
 }
 
 /* Promo Banner / Featured Card */
