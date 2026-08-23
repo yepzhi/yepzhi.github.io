@@ -2080,20 +2080,26 @@
             transform: translateY(-50%) scale(0.95);
         }
 
-    </style>
+    <!-- ReactBits UI Component Suite -->
+    <script src="ui/aurora.js" defer></script>
+    <script src="ui/spotlight.js" defer></script>
+    <script src="ui/buttons.js" defer></script>
+    <script src="ui/text-effects.js" defer></script>
 </head>
 
 <body>
-    <div class="loader-screen"></div>
+    <!-- Dynamic Aurora interactive background -->
+    <div id="aurora-bg" data-aurora style="position:fixed;inset:0;pointer-events:none;z-index:-1;"></div>
 
+    <div class="loader-screen"></div>
 
     <div class="container">
         <!-- SECCIÓN DE PERFIL -->
-        <div class="glass-container profile-section">
+        <div class="glass-container profile-section" data-spotlight data-spotlight-size="400">
             <div class="header-left-buttons">
 
                 <a href="https://yepzhi.com/jsweb/" target="_blank" rel="noopener noreferrer"
-                    class="jovenes-btn-web">
+                    class="jovenes-btn-web" data-starborder data-sb-color="#00a896" data-sb-speed="3">
                     <span class="jovenes-logo-part">jóvenes</span><span class="stem-logo-part">STEM</span><sup style="font-size: 0.5em; color: #174c99; font-weight: 700; margin-left: 0; vertical-align: 0.75em; line-height: 0; display: inline-block;">&reg;</sup><span class="web-badge">Web</span>
                 </a>
 
@@ -2116,7 +2122,7 @@
             <!-- TOGGLE REMOVED - MOVED TO GLOBAL -->
             <img src="author.JPEG" alt="Alberto Yépiz, fundador de JóvenesSTEM y EdTech innovator" class="profile-pic"
                 width="140" height="140" fetchpriority="high" decoding="async">
-            <h1 class="profile-name">Alberto Yépiz</h1>
+            <h1 class="profile-name" data-decrypt data-decrypt-speed="25">Alberto Yépiz</h1>
             <div class="profile-bio" data-i18n="profile.bio">
                 <strong>Líder en Alianzas y Producto, full cycle CX | EdTech Plataformas Digitales.</strong><br>+15 años impulsando crecimiento en empresas como <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond ELT</strong>.<br>Especializado en alianzas estratégicas, desarrollo de canales y relaciones comerciales de largo plazo.<br><br>
                 MBA con especialización en Finanzas y analítica de datos.<br>
@@ -2155,7 +2161,7 @@
 
             <!-- New Tools Button -->
             <div style="margin-top: 24px; text-align: center;">
-                <a href="https://yepzhi.com/tools/hub" class="test-link-btn tools-btn-style" data-i18n="nav.tools_big">
+                <a href="https://yepzhi.com/tools/hub" class="test-link-btn tools-btn-style" data-starborder data-sb-color="#facc15" data-i18n="nav.tools_big">
                     🛠️ Get to know more of my tools
                 </a>
             </div>
@@ -2165,19 +2171,19 @@
         <div class="glass-container links-section">
             <div class="links-grid">
                 <a href="https://wa.me/message/6O4USI5SGF3IA1" target="_blank" rel="noopener noreferrer"
-                    class="link-btn" data-i18n="links.whatsapp">
+                    class="link-btn" data-spotlight data-tilted data-i18n="links.whatsapp">
                     👋 WhatsApp - Click Aqui!
                 </a>
                 <a href="https://heyzine.com/flip-book/b3d2f0a53e.html" target="_blank" rel="noopener noreferrer"
-                    class="link-btn" data-i18n="links.book">
+                    class="link-btn" data-spotlight data-tilted data-i18n="links.book">
                     📚 Mi libro BlueBook v1 gratis!
                 </a>
                 <a href="https://open.spotify.com/show/3wLCHgay5RrtgEWSH2XoTu?si=i5wQe0DKROS9U2IAbDh1eA" target="_blank"
-                    rel="noopener noreferrer" class="link-btn" data-i18n="links.podcast">
+                    rel="noopener noreferrer" class="link-btn" data-spotlight data-tilted data-i18n="links.podcast">
                     🎙️ Escucha mis Podcasts
                 </a>
                 <a href="https://www.instagram.com/hidefparties" target="_blank" rel="noopener noreferrer"
-                    class="link-btn" data-i18n="links.bose">
+                    class="link-btn" data-spotlight data-tilted data-i18n="links.bose">
                     🔊 Renta equipo Bose aquí!
                 </a>
 
@@ -2186,17 +2192,17 @@
 
         <!-- PUBLIC SPEAKER MODULE -->
         <div class="glass-container speaker-section">
-            <h2 class="speaker-title" data-i18n="speaker.title">STEM Education Advocate & Public Speaker</h2>
-            <p class="speaker-subtitle" data-i18n="speaker.subtitle">
+            <h2 class="speaker-title" data-decrypt data-decrypt-speed="25" data-i18n="speaker.title">STEM Education Advocate & Public Speaker</h2>
+            <p class="speaker-subtitle" data-split data-split-delay="25" data-i18n="speaker.subtitle">
                 Conferencias sobre tecnología, educación y futuro digital para estudiantes y comunidades en México y LATAM.
             </p>
         
             <div class="speaker-stats">
-                <div class="stat-card">
+                <div class="stat-card" data-spotlight data-tilted>
                     <div class="stat-num" data-target="10" data-suffix="+">0</div>
                     <div class="stat-label" data-i18n="speaker.stat_events_lbl">Eventos e Instituciones</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card" data-spotlight data-tilted>
                     <div class="stat-num" data-target="3" data-suffix="K+">0</div>
                     <div class="stat-label" data-i18n="speaker.stat_audience_lbl">Audiencia Total</div>
                 </div>

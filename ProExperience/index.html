@@ -13,8 +13,15 @@
   
   <!-- Main CSS -->
   <link rel="stylesheet" href="styles.css?v=2.2">
+  <!-- ReactBits UI Component Suite -->
+  <script src="ui/aurora.js" defer></script>
+  <script src="ui/spotlight.js" defer></script>
+  <script src="ui/buttons.js" defer></script>
+  <script src="ui/text-effects.js" defer></script>
 </head>
 <body>
+  <!-- Dynamic Aurora interactive background -->
+  <div id="aurora-bg" data-aurora style="position:fixed;inset:0;pointer-events:none;z-index:-1;"></div>
 
   <!-- Navigation -->
   <nav class="nav-bar">
@@ -51,7 +58,7 @@
         Discover how our partner schools in the region are integrating cutting-edge technology, global certifications, and proven results to elevate their academic standard.
       </p>
         <div class="hero-actions fade-up delay-2">
-          <a href="https://calendly.com/yepzhi/30min" class="btn btn-primary" target="_blank" rel="noopener" data-i18n="hero_btn_demo">Agendar una demo</a>
+          <a href="https://calendly.com/yepzhi/30min" class="btn btn-primary" target="_blank" rel="noopener" data-starborder data-sb-color="#facc15" data-i18n="hero_btn_demo">Agendar una demo</a>
           <a href="https://wa.me/message/6O4USI5SGF3IA1" class="btn btn-whatsapp" target="_blank" rel="noopener" data-i18n="hero_btn_chat">Conversa ahora</a>
         </div>
     </div>

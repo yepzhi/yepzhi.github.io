@@ -321,9 +321,17 @@
             font-size: 1.4em;
         }
     </style>
+    <!-- ReactBits UI Component Suite -->
+    <script src="ui/aurora.js" defer></script>
+    <script src="ui/spotlight.js" defer></script>
+    <script src="ui/buttons.js" defer></script>
+    <script src="ui/text-effects.js" defer></script>
 </head>
 
 <body>
+    <!-- Aurora background container -->
+    <div id="aurora-bg" data-aurora style="position:fixed;inset:0;pointer-events:none;z-index:-1;"></div>
+
     <!-- Header -->
     <div
         style="width: 100%; max-width: 920px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; padding: 0 10px;">
@@ -335,14 +343,14 @@
     </div>
 
     <div class="header">
-        <h1>Developer Hub</h1>
-        <p>Access all tools and platforms from one place</p>
+        <h1 data-decrypt data-decrypt-speed="25">Developer Hub</h1>
+        <p data-split data-split-delay="40">Access all tools and platforms from one place</p>
     </div>
 
     <!-- Modules Navigation -->
     <div class="modules-grid">
         <!-- JóvenesSTEM® (Premier #1 Project) -->
-        <a href="https://jovenesstem.com/" class="module-card"
+        <a href="https://jovenesstem.com/" class="module-card" data-spotlight data-tilted
             style="border-color: rgba(0, 243, 255, 0.45); background: linear-gradient(135deg, rgba(0, 243, 255, 0.12), rgba(37, 99, 235, 0.08)); box-shadow: 0 0 35px rgba(0, 243, 255, 0.18);">
             <div class="module-icon" style="margin-bottom: 4px;" aria-hidden="true">🚀</div>
             <h3 class="module-title">
@@ -352,7 +360,7 @@
         </a>
 
         <!-- YZ AI (yzai) -->
-        <a href="https://yzai.yepzhi.com/" target="_blank" rel="noopener" class="module-card"
+        <a href="https://yzai.yepzhi.com/" target="_blank" rel="noopener" class="module-card" data-spotlight data-tilted
             style="border-color: rgba(56, 182, 255, 0.35); background: linear-gradient(135deg, rgba(56, 182, 255, 0.08), rgba(236, 72, 153, 0.06));">
             <div class="module-icon" aria-hidden="true">🧠</div>
             <h3 class="module-title"><span style="background: linear-gradient(90deg, #38b6ff, #818cf8, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; font-size: 1.35em; letter-spacing: -1px; filter: drop-shadow(0 0 12px rgba(56, 182, 255, 0.45));">YZ AI · Studio</span></h3>
@@ -360,7 +368,7 @@
         </a>
 
         <!-- LeadGen Pro (ldgen) -->
-        <a href="https://yepzhi.com/ldgen/" class="module-card"
+        <a href="https://yepzhi.com/ldgen/" class="module-card" data-spotlight data-tilted
             style="border-color: rgba(30, 122, 255, 0.35); background: linear-gradient(135deg, rgba(30, 122, 255, 0.08), rgba(56, 182, 255, 0.05));">
             <div class="module-icon" aria-hidden="true">🎯</div>
             <h3 class="module-title"><span style="background: linear-gradient(90deg, #60a5fa, #38b6ff, #93c5fd); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; font-size: 1.35em; letter-spacing: -1px; filter: drop-shadow(0 0 10px rgba(30, 122, 255, 0.4));">LeadGen Pro</span></h3>
@@ -368,7 +376,7 @@
         </a>
 
         <!-- ProReport -->
-        <a href="https://yepzhi.com/proreport/" class="module-card"
+        <a href="https://yepzhi.com/proreport/" class="module-card" data-spotlight data-tilted
             style="border-color: rgba(250, 204, 21, 0.35); background: linear-gradient(135deg, rgba(250, 204, 21, 0.08), rgba(202, 138, 4, 0.05));">
             <div class="module-icon" aria-hidden="true">📋</div>
             <h3 class="module-title"><span style="background: linear-gradient(90deg, #fefce8, #facc15, #eab308); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; font-size: 1.3em; letter-spacing: -1px; filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.45));">ProReport</span></h3>
@@ -376,7 +384,7 @@
         </a>
 
         <!-- ProExperience -->
-        <a href="https://yepzhi.com/ProExperience/" class="module-card"
+        <a href="https://yepzhi.com/ProExperience/" class="module-card" data-spotlight data-tilted
             style="border-color: rgba(244, 201, 78, 0.35); background: linear-gradient(135deg, rgba(244, 201, 78, 0.08), rgba(255, 255, 255, 0.04));">
             <div class="module-icon" aria-hidden="true">💎</div>
             <h3 class="module-title"><span style="background: linear-gradient(90deg, #fef08a, #facc15, #ffffff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; font-size: 1.3em; letter-spacing: -1px; filter: drop-shadow(0 0 10px rgba(244, 201, 78, 0.4));">ProExperience</span></h3>
@@ -384,7 +392,7 @@
         </a>
 
         <!-- Lovelace Feynman -->
-        <a href="https://yepzhi.com/lovelace/" class="module-card"
+        <a href="https://yepzhi.com/lovelace/" class="module-card" data-spotlight data-tilted
             style="border-color: rgba(236, 72, 153, 0.3); background: linear-gradient(135deg, rgba(236, 72, 153, 0.05), rgba(244, 114, 182, 0.05));">
             <div class="module-icon" aria-hidden="true">✨</div>
             <h3 class="module-title"><span style="background: linear-gradient(90deg, #ec4899, #f472b6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; font-size: 1.4em; letter-spacing: -1px; filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.4));">Lovelace Feynman</span></h3>
@@ -392,7 +400,7 @@
         </a>
 
         <!-- stemOS -->
-        <a href="https://stemos.org" class="module-card"
+        <a href="https://stemos.org" class="module-card" data-spotlight data-tilted
             style="border-color: rgba(139, 92, 246, 0.3); background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(192, 132, 252, 0.05));">
             <div class="module-icon" aria-hidden="true">⚛️</div>
             <h3 class="module-title"><span style="background: linear-gradient(90deg, #a78bfa, #c084fc); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; font-size: 1.4em; letter-spacing: -1px; filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.4));">stemOS</span></h3>
@@ -400,7 +408,7 @@
         </a>
 
         <!-- RProDash CRM -->
-        <a href="https://yepzhi.com/RProDash/" class="module-card"
+        <a href="https://yepzhi.com/RProDash/" class="module-card" data-spotlight data-tilted
             style="border-color: rgba(255, 149, 0, 0.3); background: linear-gradient(135deg, rgba(255,149,0,0.05), rgba(255,204,0,0.05));">
             <div class="module-icon" aria-hidden="true">📊</div>
             <h3 class="module-title"><span class="rprodash-text">RProDash CRM</span></h3>
@@ -408,7 +416,7 @@
         </a>
 
         <!-- Visitors Monitoring -->
-        <a href="https://yepzhi.com/visitors/" class="module-card"
+        <a href="https://yepzhi.com/visitors/" class="module-card" data-spotlight data-tilted
             style="border-color: rgba(0, 243, 255, 0.3); background: linear-gradient(135deg, rgba(0,243,255,0.05), rgba(0,120,255,0.05));">
             <div class="module-icon" aria-hidden="true">🌐</div>
             <h3 class="module-title"><span class="visitors-text">Visitors Monitoring</span></h3>
@@ -416,7 +424,7 @@
         </a>
 
         <!-- EntryTest STEM -->
-        <a href="https://yepzhi.com/entrytest/" class="module-card"
+        <a href="https://yepzhi.com/entrytest/" class="module-card" data-spotlight data-tilted
             style="border-color: rgba(48, 209, 88, 0.3); background: linear-gradient(135deg, rgba(48,209,88,0.05), rgba(10,132,255,0.05));">
             <div class="module-icon" aria-hidden="true">📝</div>
             <h3 class="module-title"><span class="entrytest-text">EntryTest STEM</span></h3>
@@ -424,21 +432,21 @@
         </a>
 
         <!-- Neosys Aeon -->
-        <a href="https://yepzhi.com/neosys" class="module-card">
+        <a href="https://yepzhi.com/neosys" class="module-card" data-spotlight data-tilted>
             <div class="module-icon" aria-hidden="true">✨</div>
             <h3 class="module-title"><span class="neosys-text">Neosys Aeon</span></h3>
             <p class="module-desc">Applied Scientific Framework</p>
         </a>
 
         <!-- JovenesSTEM Data Analytics -->
-        <a href="https://yepzhi.com/jovenesstemData/" class="module-card">
+        <a href="https://yepzhi.com/jovenesstemData/" class="module-card" data-spotlight data-tilted>
             <div class="module-icon" aria-hidden="true">📊</div>
             <h3 class="module-title">JovenesSTEM Data Analytics</h3>
             <p class="module-desc">Higher Ed Research Report</p>
         </a>
 
         <!-- LOT Marketplace -->
-        <a href="https://yepzhi.com/lot" class="module-card" 
+        <a href="https://yepzhi.com/lot" class="module-card" data-spotlight data-tilted 
             style="border-color: rgba(125, 249, 255, 0.3); background: linear-gradient(135deg, rgba(125,249,255,0.05), rgba(255,107,248,0.05));">
             <div class="module-icon" aria-hidden="true">🏷️</div>
             <h3 class="module-title"><span class="lot-text">Vende en LOT</span></h3>
@@ -446,28 +454,28 @@
         </a>
 
         <!-- WebCert -->
-        <a href="webcert" class="module-card">
+        <a href="webcert" class="module-card" data-spotlight data-tilted>
             <div class="module-icon" aria-hidden="true">📜</div>
             <h3 class="module-title">WebCert Generator</h3>
             <p class="module-desc">Create digital certificates</p>
         </a>
 
         <!-- Pro Token -->
-        <a href="https://yepzhi.com/richmond-token-check/" class="module-card">
+        <a href="https://yepzhi.com/richmond-token-check/" class="module-card" data-spotlight data-tilted>
             <div class="module-icon" aria-hidden="true">🎓</div>
             <h3 class="module-title">Pro Token Check</h3>
             <p class="module-desc">Access Code Validator</p>
         </a>
 
         <!-- ProBot -->
-        <a href="https://yepzhi.com/richmondbot/" class="module-card">
+        <a href="https://yepzhi.com/richmondbot/" class="module-card" data-spotlight data-tilted>
             <div class="module-icon" aria-hidden="true">🤖</div>
             <h3 class="module-title">ProBot AI</h3>
             <p class="module-desc">AI Support Assistant</p>
         </a>
 
         <!-- hopRadio -->
-        <a href="https://yepzhi.com/hopRadio/" class="module-card" style="justify-content: center; padding-top: 30px;">
+        <a href="https://yepzhi.com/hopRadio/" class="module-card" data-spotlight data-tilted style="justify-content: center; padding-top: 30px;">
             <div class="module-icon" aria-hidden="true">&#128266;</div>
             <h3 class="module-title">
                 <span class="hop-text" style="font-size: 1.3em;">hopRadio</span> <span class="live-text" style="font-size: 1.3em;">Live</span>
@@ -476,7 +484,7 @@
         </a>
 
         <!-- SERGRadio -->
-        <a href="https://yepzhi.com/SERGRadio/" class="module-card" style="justify-content: center; padding-top: 30px;">
+        <a href="https://yepzhi.com/SERGRadio/" class="module-card" data-spotlight data-tilted style="justify-content: center; padding-top: 30px;">
             <div class="module-icon" aria-hidden="true">&#129705;</div>
             <h3 class="module-title">
                 <span class="serg-blue-text" style="font-size: 1.3em;">SERG</span><span class="serg-radio-text" style="font-size: 1.3em;">Radio</span>
@@ -485,28 +493,28 @@
         </a>
 
         <!-- Sensor Monitor -->
-        <a href="https://yepzhi.com/sensor-monitor/" class="module-card">
+        <a href="https://yepzhi.com/sensor-monitor/" class="module-card" data-spotlight data-tilted>
             <div class="module-icon" aria-hidden="true">🧭</div>
             <h3 class="module-title">Sensor Monitor</h3>
             <p class="module-desc">Real-time Device Sensors</p>
         </a>
 
         <!-- EventSeeker -->
-        <a href="https://yepzhi.com/eventseeker" class="module-card">
+        <a href="https://yepzhi.com/eventseeker" class="module-card" data-spotlight data-tilted>
             <div class="module-icon" aria-hidden="true">🎉</div>
             <h3 class="module-title"><span class="es-text">EventSeeker</span></h3>
             <p class="module-desc">Curated Events (AZ/SON/BC)</p>
         </a>
 
         <!-- ytDownloader -->
-        <a href="https://yepzhi.com/ytDownloader/" class="module-card">
+        <a href="https://yepzhi.com/ytDownloader/" class="module-card" data-spotlight data-tilted>
             <div class="module-icon" aria-hidden="true">⬇️</div>
             <h3 class="module-title">ytDownloader</h3>
             <p class="module-desc">HQ Audio/Video Downloader</p>
         </a>
 
         <!-- OSINT -->
-        <a href="osint" class="module-card">
+        <a href="osint" class="module-card" data-spotlight data-tilted>
             <div class="module-icon" aria-hidden="true">🔍</div>
             <h3 class="module-title">OSINT Analyzer</h3>
             <p class="module-desc">Deep profile search engine</p>
@@ -516,7 +524,7 @@
     <div class="footer">
         <div>
             <span class="footer-text-prefix">Developed by</span>
-            <a href="https://yepzhi.com" target="_blank" class="footer-btn">
+            <a href="https://yepzhi.com" target="_blank" class="footer-btn" data-starborder data-sb-color="#38b6ff">
                 @yepzhi
             </a>
         </div>
