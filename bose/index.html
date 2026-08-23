@@ -19,7 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=2.3">
+  <link rel="stylesheet" href="styles.css?v=2.4">
 
   <!-- ReactBits UI Component Suite -->
   <script src="ui/aurora.js" defer></script>
@@ -64,8 +64,8 @@
     </div>
   </nav>
 
-  <!-- HERO SECTION -->
-  <header class="hero-section">
+  <!-- 1. HERO SECTION -->
+  <header class="hero-section reveal-section is-revealed">
     <div class="container">
       <div class="hero-pill" data-spotlight>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2997ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -114,8 +114,8 @@
     </div>
   </header>
 
-  <!-- CALCULADORA DE EVENTO INTERACTIVA (TOP POSITION) -->
-  <section id="cotizador" class="container">
+  <!-- 2. CALCULADORA DE EVENTO INTERACTIVA (TOP POSITION) -->
+  <section id="cotizador" class="container reveal-section">
     <div class="section-header">
       <span class="section-tag">Cotizador Instantáneo</span>
       <h2 class="section-title">Elige la Duración de tu Evento</h2>
@@ -140,7 +140,7 @@
             <span>8 Horas</span>
           </div>
 
-          <div style="margin-top: 22px;">
+          <div style="margin-top: 20px;">
             <label style="font-weight: 600; font-size: 0.88rem; color: var(--text-secondary); display: block; margin-bottom: 8px;">Opciones Rápidas:</label>
             <div class="calc-presets">
               <button class="preset-btn active" id="preset3h" onclick="setHours(3)">3 Horas ($1,500)</button>
@@ -151,9 +151,9 @@
             </div>
           </div>
 
-          <div style="margin-top: 22px;">
+          <div style="margin-top: 20px;">
             <label style="font-weight: 600; font-size: 0.88rem; color: var(--text-secondary); display: block; margin-bottom: 8px;">Tipo de Evento:</label>
-            <select id="eventTypeSelect" onchange="updateCalculator()" style="width: 100%; padding: 10px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: #fff; font-size: 0.95rem; outline: none; font-family: var(--font-base);">
+            <select id="eventTypeSelect" onchange="updateCalculator()" style="width: 100%; padding: 12px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: 10px; color: #fff; font-size: 16px; outline: none; font-family: var(--font-base);">
               <option value="Cumpleaños / Fiesta Privada" style="background:#000;">Cumpleaños / Fiesta Privada</option>
               <option value="Karaoke Party Pro" style="background:#000;">Karaoke Party Pro</option>
               <option value="Revelación de Género (Gender Reveal)" style="background:#000;">Revelación de Género</option>
@@ -169,9 +169,9 @@
         <div class="calc-summary-box" data-tilted>
           <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--bose-blue); font-weight: 700;">Presupuesto de tu Evento</span>
           <div id="calcTotalPrice" style="font-size: 3.2rem; font-family: var(--font-head); font-weight: 800; color: #fff; margin: 8px 0 2px; letter-spacing: -0.03em;">$1,500 <span style="font-size: 0.95rem; color: var(--text-muted); font-weight: 400;">MXN</span></div>
-          <div id="calcDiscountTag" style="color: var(--bose-gold); font-size: 0.88rem; font-weight: 600; margin-bottom: 18px; min-height: 20px;">Incluye instalación y Audio Expert</div>
+          <div id="calcDiscountTag" style="color: var(--bose-gold); font-size: 0.88rem; font-weight: 600; margin-bottom: 16px; min-height: 20px;">Incluye instalación y Audio Expert</div>
 
-          <div style="text-align: left; background: rgba(0,0,0,0.4); border-radius: 12px; padding: 14px 18px; margin-bottom: 20px; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; border: 1px solid rgba(255,255,255,0.06);">
+          <div style="text-align: left; background: rgba(0,0,0,0.4); border-radius: 12px; padding: 14px 16px; margin-bottom: 18px; font-size: 0.86rem; color: var(--text-secondary); line-height: 1.6; border: 1px solid rgba(255,255,255,0.06);">
             <div>• <strong style="color:#fff;">3 Bocinas Bose S1 Pro + Subwoofer F1</strong></div>
             <div>• <strong style="color:#fff;">Micrófonos inalámbricos</strong> para discursos/karaoke</div>
             <div>• <strong style="color:#fff;">Audio Expert</strong> en cabina todo el evento</div>
@@ -186,8 +186,8 @@
     </div>
   </section>
 
-  <!-- CAMPAÑA: BECAUSE WE LOVE MUSIC & INTERACTIVE HEART MINI-GAME -->
-  <section class="container">
+  <!-- 3. CAMPAÑA: BECAUSE WE LOVE MUSIC & INTERACTIVE HEART MINI-GAME -->
+  <section class="container reveal-section">
     <div class="love-campaign-card" data-spotlight data-tilted>
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
         <div class="love-badge-corner">
@@ -203,17 +203,17 @@
             Because We <br>
             <span class="text-love">LOVE Music!</span>
           </h2>
-          <p style="color: var(--text-secondary); font-size: 1.02rem; line-height: 1.6; margin-bottom: 20px;">
+          <p style="color: var(--text-secondary); font-size: 1.02rem; line-height: 1.6; margin-bottom: 18px;">
             La música no es solo sonido: es la energía, los abrazos y los recuerdos que unen a tu gente. En <strong>Bose Hi-Def Parties</strong> operamos cada evento con el corazón para que tu fiesta vibre con la máxima pasión.
           </p>
 
           <!-- PROMO 5X4 AROUND CAMPAIGN -->
-          <div style="background: rgba(236, 72, 153, 0.08); border: 1px solid rgba(236, 72, 153, 0.3); border-radius: 16px; padding: 18px 22px; margin-bottom: 22px;">
-            <div style="font-weight: 800; font-size: 1.1rem; color: #fff; margin-bottom: 4px; display: flex; align-items: center; gap: 8px;">
+          <div style="background: rgba(236, 72, 153, 0.08); border: 1px solid rgba(236, 72, 153, 0.3); border-radius: 16px; padding: 16px 18px; margin-bottom: 20px;">
+            <div style="font-weight: 800; font-size: 1.05rem; color: #fff; margin-bottom: 4px; display: flex; align-items: center; gap: 8px;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="#ec4899"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-              <span>Promo Especial 5x4: 5 Horas por $2,000</span>
+              <span>Promo Especial: 5 Horas por $2,000</span>
             </div>
-            <p style="font-size: 0.9rem; color: var(--text-secondary);">
+            <p style="font-size: 0.88rem; color: var(--text-secondary);">
               Renta 4 horas y llévate <strong>1 hora extra de regalo</strong>. ¡Música continua y fiesta completa por $2,000 MXN sin anticipo!
             </p>
           </div>
@@ -253,8 +253,8 @@
     </div>
   </section>
 
-  <!-- EL EQUIPO BOSE PRO -->
-  <section class="container">
+  <!-- 4. EL EQUIPO BOSE PRO -->
+  <section class="container reveal-section">
     <div class="section-header">
       <span class="section-tag">Tecnología de Audio</span>
       <h2 class="section-title">Equipamiento Premium Incluido</h2>
@@ -262,7 +262,7 @@
     </div>
 
     <div class="gear-grid">
-      <div class="gear-card" data-spotlight data-tilted>
+      <div class="gear-card reveal-item" data-spotlight data-tilted>
         <div class="gear-icon-box">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
         </div>
@@ -272,7 +272,7 @@
         </p>
       </div>
 
-      <div class="gear-card" data-spotlight data-tilted>
+      <div class="gear-card reveal-item" data-spotlight data-tilted>
         <div class="gear-icon-box">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/></svg>
         </div>
@@ -282,7 +282,7 @@
         </p>
       </div>
 
-      <div class="gear-card" data-spotlight data-tilted>
+      <div class="gear-card reveal-item" data-spotlight data-tilted>
         <div class="gear-icon-box">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
         </div>
@@ -292,7 +292,7 @@
         </p>
       </div>
 
-      <div class="gear-card" data-spotlight data-tilted>
+      <div class="gear-card reveal-item" data-spotlight data-tilted>
         <div class="gear-icon-box">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
         </div>
@@ -302,7 +302,7 @@
         </p>
       </div>
 
-      <div class="gear-card" data-spotlight data-tilted>
+      <div class="gear-card reveal-item" data-spotlight data-tilted>
         <div class="gear-icon-box">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
         </div>
@@ -312,7 +312,7 @@
         </p>
       </div>
 
-      <div class="gear-card" data-spotlight data-tilted>
+      <div class="gear-card reveal-item" data-spotlight data-tilted>
         <div class="gear-icon-box">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         </div>
@@ -324,8 +324,8 @@
     </div>
   </section>
 
-  <!-- EVENTOS PERFECTOS -->
-  <section class="container">
+  <!-- 5. EVENTOS PERFECTOS -->
+  <section class="container reveal-section">
     <div class="section-header">
       <span class="section-tag">Versatilidad Total</span>
       <h2 class="section-title">Ideal para Cualquier Celebración</h2>
@@ -333,7 +333,7 @@
     </div>
 
     <div class="events-grid">
-      <div class="event-chip" data-spotlight data-tilted onclick="quickQuote('Cumpleaños')">
+      <div class="event-chip reveal-item" data-spotlight data-tilted onclick="quickQuote('Cumpleaños')">
         <div class="event-icon-box">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20"/><path d="M7 8v2"/><path d="M12 8v2"/><path d="M17 8v2"/><path d="M7 4h.01"/><path d="M12 4h.01"/><path d="M17 4h.01"/></svg>
         </div>
@@ -341,7 +341,7 @@
         <span class="event-chip-sub">Música continua y ambiente total</span>
       </div>
 
-      <div class="event-chip" data-spotlight data-tilted onclick="quickQuote('Karaoke Party')">
+      <div class="event-chip reveal-item" data-spotlight data-tilted onclick="quickQuote('Karaoke Party')">
         <div class="event-icon-box">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
         </div>
@@ -349,7 +349,7 @@
         <span class="event-chip-sub">Micrófonos inalámbricos y canciones en vivo</span>
       </div>
 
-      <div class="event-chip" data-spotlight data-tilted onclick="quickQuote('Revelación de Género')">
+      <div class="event-chip reveal-item" data-spotlight data-tilted onclick="quickQuote('Revelación de Género')">
         <div class="event-icon-box">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
         </div>
@@ -357,7 +357,7 @@
         <span class="event-chip-sub">El conteo regresivo con máxima emoción</span>
       </div>
 
-      <div class="event-chip" data-spotlight data-tilted onclick="quickQuote('Bautizo o Primera Comunión')">
+      <div class="event-chip reveal-item" data-spotlight data-tilted onclick="quickQuote('Bautizo o Primera Comunión')">
         <div class="event-icon-box">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M7 7h10"/></svg>
         </div>
@@ -365,7 +365,7 @@
         <span class="event-chip-sub">Audio ambiental elegante y festivo</span>
       </div>
 
-      <div class="event-chip" data-spotlight data-tilted onclick="quickQuote('Conferencia o Corporativo')">
+      <div class="event-chip reveal-item" data-spotlight data-tilted onclick="quickQuote('Conferencia o Corporativo')">
         <div class="event-icon-box">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
         </div>
@@ -373,7 +373,7 @@
         <span class="event-chip-sub">Claridad vocal para ponentes y videos</span>
       </div>
 
-      <div class="event-chip" data-spotlight data-tilted onclick="quickQuote('Recital de Danza o Baile')">
+      <div class="event-chip reveal-item" data-spotlight data-tilted onclick="quickQuote('Recital de Danza o Baile')">
         <div class="event-icon-box">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
         </div>
@@ -381,7 +381,7 @@
         <span class="event-chip-sub">Fidelidad rítmica y potencia de ensayo</span>
       </div>
 
-      <div class="event-chip" data-spotlight data-tilted onclick="quickQuote('Graduación')">
+      <div class="event-chip reveal-item" data-spotlight data-tilted onclick="quickQuote('Graduación')">
         <div class="event-icon-box">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
         </div>
@@ -389,7 +389,7 @@
         <span class="event-chip-sub">Los mejores beats para celebrar en grande</span>
       </div>
 
-      <div class="event-chip" data-spotlight data-tilted onclick="quickQuote('Boda Íntima')">
+      <div class="event-chip reveal-item" data-spotlight data-tilted onclick="quickQuote('Boda Íntima')">
         <div class="event-icon-box">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/></svg>
         </div>
@@ -399,8 +399,8 @@
     </div>
   </section>
 
-  <!-- SPOTIFY CURATED PLAYLISTS -->
-  <section class="container">
+  <!-- 6. SPOTIFY CURATED PLAYLISTS -->
+  <section class="container reveal-section">
     <div class="spotify-card" data-spotlight data-tilted>
       <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="#1ed760"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
@@ -439,20 +439,23 @@
     </div>
   </section>
 
-  <!-- GALERÍA DE VIDEOS REALES & INSTAGRAM HIGHLIGHT -->
-  <section id="galeria" class="container">
+  <!-- 7. GALERÍA DE VIDEOS REALES & INSTAGRAM HIGHLIGHT (FAST ON-DEMAND CLICK-TO-PLAY) -->
+  <section id="galeria" class="container reveal-section">
     <div class="section-header">
       <span class="section-tag">Evidencias en Video</span>
       <h2 class="section-title">Así Suenan Nuestros Eventos</h2>
-      <p class="section-desc">Instalaciones reales y ambiente en vivo capturado en eventos de nuestros clientes.</p>
+      <p class="section-desc">Haz clic en cualquier video para ver el montaje y ambiente real en vivo.</p>
     </div>
 
     <div class="video-gallery-grid">
       <!-- Video 1 -->
-      <div class="video-card" data-spotlight data-tilted>
-        <video class="video-player" playsinline webkit-playsinline autoplay muted loop preload="metadata">
-          <source src="assets/04199EF1-B40F-45EA-B8B6-2EF05DE244A7.MP4" type="video/mp4">
-        </video>
+      <div class="video-card" onclick="playVideoCard(this)" data-spotlight>
+        <img class="video-poster-img" src="assets/poster_video1.jpg" alt="Setup Bose Hi-Def" loading="lazy">
+        <video class="video-player" data-src="assets/04199EF1-B40F-45EA-B8B6-2EF05DE244A7.MP4" playsinline webkit-playsinline loop controls></video>
+        <div class="video-play-badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Ver Video</span>
+        </div>
         <div class="video-overlay-info">
           <span style="font-weight: 700; font-size: 0.95rem; color: #fff;">Ambiente de Fiesta & Pista</span>
           <span style="font-size: 0.78rem; color: var(--bose-blue);">Cobertura de audio Bose®</span>
@@ -460,10 +463,13 @@
       </div>
 
       <!-- Video 2 -->
-      <div class="video-card" data-spotlight data-tilted>
-        <video class="video-player" playsinline webkit-playsinline autoplay muted loop preload="metadata">
-          <source src="assets/48C4600E-879A-4DA9-9CA3-28D7273C29B2.MP4" type="video/mp4">
-        </video>
+      <div class="video-card" onclick="playVideoCard(this)" data-spotlight>
+        <img class="video-poster-img" src="assets/poster_video2.jpg" alt="Setup Bose F1 + S1 Pro" loading="lazy">
+        <video class="video-player" data-src="assets/48C4600E-879A-4DA9-9CA3-28D7273C29B2.MP4" playsinline webkit-playsinline loop controls></video>
+        <div class="video-play-badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Ver Video</span>
+        </div>
         <div class="video-overlay-info">
           <span style="font-weight: 700; font-size: 0.95rem; color: #fff;">Setup Bose F1 + S1 Pro</span>
           <span style="font-size: 0.78rem; color: var(--bose-cyan);">Instalación limpia y potente</span>
@@ -471,10 +477,13 @@
       </div>
 
       <!-- Video 3 -->
-      <div class="video-card" data-spotlight data-tilted>
-        <video class="video-player" playsinline webkit-playsinline autoplay muted loop preload="metadata">
-          <source src="assets/CD98E98E-D5BF-435B-869B-4FBBB1D2FC6E.MP4" type="video/mp4">
-        </video>
+      <div class="video-card" onclick="playVideoCard(this)" data-spotlight>
+        <img class="video-poster-img" src="assets/poster_video3.jpg" alt="Audio Exterior Jardín" loading="lazy">
+        <video class="video-player" data-src="assets/CD98E98E-D5BF-435B-869B-4FBBB1D2FC6E.MP4" playsinline webkit-playsinline loop controls></video>
+        <div class="video-play-badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Ver Video</span>
+        </div>
         <div class="video-overlay-info">
           <span style="font-weight: 700; font-size: 0.95rem; color: #fff;">Audio Exterior & Jardín</span>
           <span style="font-size: 0.78rem; color: var(--bose-gold);">Claridad acústica total</span>
@@ -482,10 +491,13 @@
       </div>
 
       <!-- Video 4 -->
-      <div class="video-card" data-spotlight data-tilted>
-        <video class="video-player" playsinline webkit-playsinline autoplay muted loop preload="metadata">
-          <source src="assets/A6213799-F434-4605-8F4E-51993846555F.MP4" type="video/mp4">
-        </video>
+      <div class="video-card" onclick="playVideoCard(this)" data-spotlight>
+        <img class="video-poster-img" src="assets/poster_video4.jpg" alt="Fidelidad en Vivo" loading="lazy">
+        <video class="video-player" data-src="assets/A6213799-F434-4605-8F4E-51993846555F.MP4" playsinline webkit-playsinline loop controls></video>
+        <div class="video-play-badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Ver Video</span>
+        </div>
         <div class="video-overlay-info">
           <span style="font-weight: 700; font-size: 0.95rem; color: #fff;">Fidelidad en Vivo</span>
           <span style="font-size: 0.78rem; color: #25D366;">Operado por Audio Expert</span>
@@ -511,8 +523,8 @@
     </div>
   </section>
 
-  <!-- PREGUNTAS FRECUENTES (FAQ) -->
-  <section class="container">
+  <!-- 8. PREGUNTAS FRECUENTES (FAQ) -->
+  <section class="container reveal-section">
     <div class="section-header">
       <span class="section-tag">Transparencia & Confianza</span>
       <h2 class="section-title">Preguntas Frecuentes</h2>
@@ -572,8 +584,8 @@
     </div>
   </section>
 
-  <!-- FINAL CTA BANNER -->
-  <section class="container">
+  <!-- 9. FINAL CTA BANNER -->
+  <section class="container reveal-section">
     <div class="final-cta-section" data-spotlight data-tilted>
       <span class="section-tag" style="color: var(--bose-gold);">Agenda en 1 Minuto</span>
       <h2 style="font-size: clamp(1.9rem, 4vw, 2.8rem); margin-bottom: 12px;">
@@ -607,10 +619,63 @@
     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
   </a>
 
-  <!-- Mini-Game & Calculator Scripts -->
+  <!-- Interactive Scripts: Calculator, Heart Game, On-Demand Video Player, Scroll Reveals -->
   <script>
     /* ==========================================================================
-       1. INTERACTIVE CALCULATOR
+       1. SCROLL REVEAL OBSERVER (INTERSECTION OBSERVER)
+       ========================================================================== */
+    document.addEventListener('DOMContentLoaded', () => {
+      const revealElements = document.querySelectorAll('.reveal-section');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              obs.unobserve(entry.target);
+            }
+          });
+        }, {
+          root: null,
+          threshold: 0.08,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        revealElements.forEach(el => observer.observe(el));
+      } else {
+        revealElements.forEach(el => el.classList.add('is-revealed'));
+      }
+    });
+
+    /* ==========================================================================
+       2. ON-DEMAND VIDEO PLAYER (ZERO INITIAL BANDWIDTH COST)
+       ========================================================================== */
+    function playVideoCard(card) {
+      if (!card) return;
+      const video = card.querySelector('.video-player');
+      if (!video) return;
+
+      // Pause any other playing video
+      document.querySelectorAll('.video-card.is-playing').forEach(otherCard => {
+        if (otherCard !== card) {
+          const otherVid = otherCard.querySelector('.video-player');
+          if (otherVid) otherVid.pause();
+          otherCard.classList.remove('is-playing');
+        }
+      });
+
+      if (!video.src && video.getAttribute('data-src')) {
+        video.src = video.getAttribute('data-src');
+        video.load();
+      }
+
+      card.classList.add('is-playing');
+      video.play().catch(err => {
+        console.log('Video play interrupted or muted required:', err);
+      });
+    }
+
+    /* ==========================================================================
+       3. INTERACTIVE CALCULATOR
        ========================================================================== */
     function updateCalculator() {
       const range = document.getElementById('hoursRange');
@@ -692,10 +757,10 @@
     document.addEventListener('DOMContentLoaded', updateCalculator);
 
     /* ==========================================================================
-       2. "BECAUSE WE LOVE MUSIC" HEART BEAT & EQUALIZER MINI-GAME
+       4. "BECAUSE WE LOVE MUSIC" HEART BEAT & EQUALIZER MINI-GAME
        ========================================================================== */
     const heartCanvas = document.getElementById('heart-audio-canvas');
-    const heartCtx = heartCanvas.getContext('2d');
+    const heartCtx = heartCanvas ? heartCanvas.getContext('2d') : null;
 
     let bpm = 128;
     let bass = 3;
@@ -703,8 +768,8 @@
 
     function resizeHeartCanvas() {
       if (!heartCanvas) return;
-      heartCanvas.width = heartCanvas.clientWidth || 340;
-      heartCanvas.height = heartCanvas.clientHeight || 240;
+      heartCanvas.width = heartCanvas.clientWidth || 320;
+      heartCanvas.height = heartCanvas.clientHeight || 200;
     }
     window.addEventListener('resize', resizeHeartCanvas);
     document.addEventListener('DOMContentLoaded', resizeHeartCanvas);
@@ -740,8 +805,8 @@
       const numBars = 32;
       for (let i = 0; i < numBars; i++) {
         const ang = (i / numBars) * Math.PI * 2;
-        const waveH = Math.sin(ang * 4 + heartTime * 5) * (12 * bass) + (10 * bass);
-        const distInner = 60 * pulseScale;
+        const waveH = Math.sin(ang * 4 + heartTime * 5) * (10 * bass) + (8 * bass);
+        const distInner = 50 * pulseScale;
         const distOuter = distInner + waveH;
 
         const x1 = cx + Math.cos(ang) * distInner;
@@ -753,7 +818,7 @@
         heartCtx.moveTo(x1, y1);
         heartCtx.lineTo(x2, y2);
         heartCtx.strokeStyle = i % 2 === 0 ? 'rgba(236, 72, 153, 0.4)' : 'rgba(41, 151, 255, 0.4)';
-        heartCtx.lineWidth = 3;
+        heartCtx.lineWidth = 2.5;
         heartCtx.stroke();
       }
 
@@ -763,23 +828,23 @@
       heartCtx.scale(pulseScale, pulseScale);
 
       // Heart Outer Glow
-      const glowGrad = heartCtx.createRadialGradient(0, 0, 10, 0, 0, 70);
+      const glowGrad = heartCtx.createRadialGradient(0, 0, 10, 0, 0, 60);
       glowGrad.addColorStop(0, 'rgba(236, 72, 153, 0.45)');
       glowGrad.addColorStop(0.5, 'rgba(244, 63, 94, 0.2)');
       glowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
       heartCtx.fillStyle = glowGrad;
       heartCtx.beginPath();
-      heartCtx.arc(0, 0, 70, 0, Math.PI * 2);
+      heartCtx.arc(0, 0, 60, 0, Math.PI * 2);
       heartCtx.fill();
 
       // Parametric Heart Boundary
-      const heartSteps = 80;
+      const heartSteps = 70;
       heartCtx.beginPath();
       for (let i = 0; i <= heartSteps; i++) {
         const t = (i / heartSteps) * Math.PI * 2;
         const hx = 16 * Math.pow(Math.sin(t), 3);
         const hy = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-        const s = 3.2; // Scale
+        const s = 2.8; // Scale
         const px = hx * s;
         const py = hy * s;
         if (i === 0) heartCtx.moveTo(px, py);
@@ -788,15 +853,15 @@
       heartCtx.closePath();
       heartCtx.fillStyle = 'rgba(236, 72, 153, 0.85)';
       heartCtx.shadowColor = '#ec4899';
-      heartCtx.shadowBlur = 16 * (bass * 0.4);
+      heartCtx.shadowBlur = 14 * (bass * 0.4);
       heartCtx.fill();
 
       // Heart Core Highlight
       heartCtx.fillStyle = '#ffffff';
-      heartCtx.font = 'bold 11px Inter, sans-serif';
+      heartCtx.font = 'bold 10px Inter, sans-serif';
       heartCtx.textAlign = 'center';
       heartCtx.shadowBlur = 0;
-      heartCtx.fillText('BOSE LOVE', 0, 4);
+      heartCtx.fillText('BOSE LOVE', 0, 3);
 
       heartCtx.restore();
 
@@ -810,25 +875,25 @@
     });
 
     /* ==========================================================================
-       3. HEART BURST PARTICLE EMITTER
+       5. HEART BURST PARTICLE EMITTER
        ========================================================================== */
     function triggerHeartBurst(e) {
       const clickX = e && e.clientX ? e.clientX : window.innerWidth / 2;
       const clickY = e && e.clientY ? e.clientY : window.innerHeight / 2;
 
       const colors = ['#ec4899', '#f43f5e', '#a855f7', '#2997ff', '#f5c518', '#00f3ff'];
-      const numHearts = 18;
+      const numHearts = 16;
 
       for (let i = 0; i < numHearts; i++) {
         const heart = document.createElement('div');
         heart.className = 'floating-heart-particle';
 
         const color = colors[Math.floor(Math.random() * colors.length)];
-        const size = Math.floor(Math.random() * 22) + 16;
+        const size = Math.floor(Math.random() * 20) + 14;
         const angle = Math.random() * Math.PI * 2;
-        const dist = Math.random() * 180 + 70;
+        const dist = Math.random() * 160 + 60;
         const destX = Math.cos(angle) * dist;
-        const destY = Math.sin(angle) * dist - 80;
+        const destY = Math.sin(angle) * dist - 70;
         const destRot = (Math.random() * 120 - 60) + 'deg';
 
         heart.style.left = `${clickX}px`;
