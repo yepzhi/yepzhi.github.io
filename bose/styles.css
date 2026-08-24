@@ -222,27 +222,31 @@ h1, h2, h3, h4 {
 .brand-logo-wrap {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   text-decoration: none;
   color: #fff;
   flex-shrink: 0;
 }
 
-.brand-icon-box {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--bose-blue);
+.bose-nav-logo {
+  height: 17px;
+  width: auto;
+  max-width: 105px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.25));
+  transition: transform 0.2s ease;
 }
 
-.brand-icon-box svg {
-  width: 16px;
-  height: 16px;
+.brand-logo-wrap:hover .bose-nav-logo {
+  transform: scale(1.04);
+}
+
+.brand-divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 1px;
 }
 
 .brand-text-block {
@@ -252,7 +256,7 @@ h1, h2, h3, h4 {
 
 .brand-name {
   font-family: var(--font-head);
-  font-size: 1.02rem;
+  font-size: 0.98rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.1;
@@ -260,11 +264,11 @@ h1, h2, h3, h4 {
 }
 
 .brand-sub {
-  font-size: 0.6rem;
+  font-size: 0.56rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--text-muted);
+  color: var(--bose-cyan);
 }
 
 .nav-actions {
@@ -1056,20 +1060,18 @@ h1, h2, h3, h4 {
   .navbar {
     height: 54px;
   }
-  .brand-icon-box {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
+  .bose-nav-logo {
+    height: 13px;
+    max-width: 78px;
   }
-  .brand-icon-box svg {
-    width: 14px;
-    height: 14px;
+  .brand-divider {
+    height: 12px;
   }
   .brand-name {
-    font-size: 0.9rem;
+    font-size: 0.82rem;
   }
   .brand-sub {
-    font-size: 0.52rem;
+    font-size: 0.48rem;
   }
   .btn-nav-secondary {
     padding: 4px 8px;
