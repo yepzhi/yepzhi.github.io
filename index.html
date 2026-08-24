@@ -301,12 +301,15 @@
         .profile-name {
             font-size: 3em;
             font-weight: 800;
-            color: var(--text-color);
             margin-bottom: 16px;
             text-align: center;
             display: block;
             letter-spacing: -0.5px;
-            transition: color 0.5s ease;
+            background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 45%, #93c5fd 85%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 24px rgba(56, 189, 248, 0.28));
         }
 
         .profile-bio {
@@ -1868,12 +1871,14 @@
         .speaker-title {
             font-size: clamp(19px, 4.2vw, 24px);
             font-weight: 900;
-            background: linear-gradient(135deg, #a78bfa 0%, #c084fc 40%, #ff4a8b 100%);
+            background: linear-gradient(135deg, #c4b5fd 0%, #a78bfa 45%, #f472b6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 4px;
-            letter-spacing: -0.8px;
-            line-height: 1.15;
+            background-clip: text;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            filter: drop-shadow(0 0 16px rgba(167, 139, 250, 0.25));
         }
 
         .speaker-subtitle {
@@ -2123,7 +2128,7 @@
             <!-- TOGGLE REMOVED - MOVED TO GLOBAL -->
             <img src="author.JPEG" alt="Alberto Yépiz, fundador de JóvenesSTEM y EdTech innovator" class="profile-pic"
                 width="140" height="140" fetchpriority="high" decoding="async">
-            <h1 class="profile-name" data-decrypt data-decrypt-speed="25">Alberto Yépiz</h1>
+            <h1 class="profile-name">Alberto Yépiz</h1>
             <div class="profile-bio" data-i18n="profile.bio">
                 <strong>Líder en Alianzas y Producto, full cycle CX | EdTech Plataformas Digitales.</strong><br>+15 años impulsando crecimiento en empresas como <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond ELT</strong>.<br>Especializado en alianzas estratégicas, desarrollo de canales y relaciones comerciales de largo plazo.<br><br>
                 MBA con especialización en Finanzas y analítica de datos.<br>
@@ -2193,8 +2198,8 @@
 
         <!-- PUBLIC SPEAKER MODULE -->
         <div class="glass-container speaker-section">
-            <h2 class="speaker-title" data-decrypt data-decrypt-speed="25" data-i18n="speaker.title">STEM Education Advocate & Public Speaker</h2>
-            <p class="speaker-subtitle" data-split data-split-delay="25" data-i18n="speaker.subtitle">
+            <h2 class="speaker-title" data-i18n="speaker.title">STEM Education Advocate & Public Speaker</h2>
+            <p class="speaker-subtitle" data-i18n="speaker.subtitle">
                 Conferencias sobre tecnología, educación y futuro digital para estudiantes y comunidades en México y LATAM.
             </p>
         
