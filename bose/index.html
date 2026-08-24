@@ -150,38 +150,33 @@
 
             <input type="range" id="hoursRange" class="hours-slider" min="3" max="8" value="3" step="1" oninput="updateCalculator()">
 
-            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted);">
-              <span>3 Horas</span>
-              <span>4 Horas</span>
-              <span>5 Horas (Promo)</span>
-              <span>6 Horas</span>
-              <span>8 Horas</span>
+            <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); padding: 0 2px;">
+              <span>3h</span>
+              <span>4h</span>
+              <span style="color:#ffe066;">5h Promo</span>
+              <span style="color:#ffe066;">6h (1h Gratis)</span>
+              <span>7h</span>
+              <span style="color:#ffe066;">8h (1.5h Gratis)</span>
             </div>
 
-            <div style="margin-top: 18px;">
-              <label style="font-weight: 600; font-size: 0.84rem; color: var(--text-secondary); display: block; margin-bottom: 6px;">Opciones Rápidas:</label>
-              <div class="calc-presets">
-                <button class="preset-btn active" id="preset3h" onclick="setHours(3)">3 Horas ($1,500)</button>
-                <button class="preset-btn" onclick="setHours(4)">4 Horas ($2,000)</button>
-                <button class="preset-btn" id="presetPromo" onclick="setHours(5)">5 Horas Promo ($2,000) 🔥</button>
-                <button class="preset-btn" onclick="setHours(6)">6 Horas ($2,500)</button>
-                <button class="preset-btn" onclick="setHours(8)">8 Horas ($3,500)</button>
-              </div>
-            </div>
-
-            <div style="margin-top: 18px;">
+            <div style="margin-top: 20px;">
               <label style="font-weight: 600; font-size: 0.84rem; color: var(--text-secondary); display: block; margin-bottom: 6px;">Tipo de Celebración:</label>
               <select id="eventTypeSelect" onchange="updateCalculator()" style="width: 100%; padding: 10px 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: #fff; font-size: 16px; outline: none; font-family: var(--font-base);">
-                <option value="Cumpleaños / Fiesta Privada" style="background:#000;">Cumpleaños / Fiesta Privada</option>
+                <option value="Cumpleaños & Fiestas" style="background:#000;">Cumpleaños & Fiestas</option>
                 <option value="Karaoke Party Pro" style="background:#000;">Karaoke Party Pro</option>
-                <option value="Revelación de Género (Gender Reveal)" style="background:#000;">Revelación de Género</option>
-                <option value="Bautizo / Primera Comunión" style="background:#000;">Bautizo / Primera Comunión</option>
-                <option value="Conferencia / Evento Corporativo" style="background:#000;">Conferencia / Corporativo</option>
-                <option value="Evento de Danza / Recital / Baile" style="background:#000;">Danza / Recital / Baile</option>
-                <option value="Graduación / After Party" style="background:#000;">Graduación / After Party</option>
-                <option value="Boda Íntima / Aniversario" style="background:#000;">Boda Íntima / Aniversario</option>
+                <option value="Gender Reveal" style="background:#000;">Gender Reveal</option>
+                <option value="Bautizos & Comunión" style="background:#000;">Bautizos & Comunión</option>
+                <option value="Conferencias, sala de prensa" style="background:#000;">Conferencias, sala de prensa</option>
+                <option value="Danza & Recitales, Escuelas de Baile" style="background:#000;">Danza & Recitales, Escuelas de Baile</option>
+                <option value="Graduaciones" style="background:#000;">Graduaciones</option>
+                <option value="Bodas & Vals" style="background:#000;">Bodas & Vals</option>
+                <option value="Otros" style="background:#000;">Otros</option>
               </select>
             </div>
+
+            <p style="margin-top: 14px; font-size: 0.78rem; color: rgba(245,245,247,0.55); text-align: left; line-height: 1.4;">
+              *Audio y cobertura para hasta 100 invitados con equipos incluidos.
+            </p>
           </div>
 
           <div class="calc-summary-box">
@@ -194,9 +189,12 @@
               <div>• <strong style="color:#fff;">Micrófonos inalámbricos UHF</strong></div>
               <div>• <strong style="color:#fff;">Audio Expert en cabina</strong></div>
               <div>• <strong style="color:#fff;">Sin anticipos</strong> · Pago al instalar</div>
+              <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.12); font-size: 0.78rem; color: var(--bose-cyan); line-height: 1.4;">
+                *Audio y cobertura para hasta 100 invitados con equipos incluidos.
+              </div>
             </div>
 
-            <a id="calcWhatsappBtn" href="https://wa.me/message/6O4USI5SGF3IA1?text=Hola!%20Quiero%20apartar%203%20horas%20de%20audio%20Bose%20para%20un%20Cumpleaños%20por%20$1500" target="_blank" rel="noopener" class="btn btn-whatsapp" style="width: 100%; font-size: 0.95rem;">
+            <a id="calcWhatsappBtn" href="https://wa.me/message/6O4USI5SGF3IA1?text=Hola!%20Quiero%20apartar%203%20horas%20de%20audio%20Bose%20para%20un%20Cumplea%C3%B1os%20por%20$1500" target="_blank" rel="noopener" class="btn btn-whatsapp" style="width: 100%; font-size: 0.95rem;">
               <span>Apartar por WhatsApp con 1 Clic</span>
             </a>
           </div>
@@ -421,84 +419,12 @@
   </section>
 
   <!-- ═══════════════════════════════════════════
-       STAGE 5: CELEBRACIONES & SPOTIFY (Screen 6)
+       STAGE 5: FAQ & AGENDA (Screen 6)
        ═══════════════════════════════════════════ -->
   <section class="stage-section">
     <div class="container">
       <div class="stage-header">
-        <span class="stage-badge">05 · Versatilidad Musical</span>
-        <h2 class="stage-title">Música Perfecta Para Tu Evento</h2>
-        <p class="stage-desc">Curaduría musical y playlists personalizadas sin interrupciones.</p>
-      </div>
-
-      <div class="events-grid">
-        <div class="event-chip" onclick="quickQuote('Cumpleaños')">
-          <div class="event-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M2 21h20"/></svg></div>
-          <span class="event-chip-title">Cumpleaños & Fiestas</span>
-        </div>
-        <div class="event-chip" onclick="quickQuote('Karaoke Party')">
-          <div class="event-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg></div>
-          <span class="event-chip-title">Karaoke Party Pro</span>
-        </div>
-        <div class="event-chip" onclick="quickQuote('Revelación de Género')">
-          <div class="event-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-          <span class="event-chip-title">Gender Reveal</span>
-        </div>
-        <div class="event-chip" onclick="quickQuote('Bautizo o Primera Comunión')">
-          <div class="event-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M7 7h10"/></svg></div>
-          <span class="event-chip-title">Bautizos & Comunión</span>
-        </div>
-        <div class="event-chip" onclick="quickQuote('Conferencia o Corporativo')">
-          <div class="event-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
-          <span class="event-chip-title">Conferencias</span>
-        </div>
-        <div class="event-chip" onclick="quickQuote('Recital de Danza o Baile')">
-          <div class="event-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
-          <span class="event-chip-title">Danza & Recitales</span>
-        </div>
-        <div class="event-chip" onclick="quickQuote('Graduación')">
-          <div class="event-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg></div>
-          <span class="event-chip-title">Graduaciones</span>
-        </div>
-        <div class="event-chip" onclick="quickQuote('Boda Íntima')">
-          <div class="event-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/></svg></div>
-          <span class="event-chip-title">Bodas & Vals</span>
-        </div>
-      </div>
-
-      <div class="spotify-card">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="#1ed760"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-          <span style="font-weight: 700; font-size: 1.05rem; color: #1ed760;">Repertorio & Spotify</span>
-        </div>
-        <p style="color: var(--text-secondary); font-size: 0.94rem; margin-bottom: 14px;">
-          Pistas masterizadas por momento. Puedes compartir tus playlists al Audio Expert para mantener la máxima fidelidad acústica.
-        </p>
-        <div class="genre-tag-cloud">
-          <span class="genre-pill">Reggaetón Antiguo</span>
-          <span class="genre-pill">Banda & Corridos</span>
-          <span class="genre-pill">Cumbia & Sonora</span>
-          <span class="genre-pill">Salsa & Éxitos CDMX</span>
-          <span class="genre-pill">Mixes de Club</span>
-          <span class="genre-pill">Electrónica & House</span>
-          <span class="genre-pill">Pop & Rock 80s/90s/2000s</span>
-          <span class="genre-pill">Show Drag & Pop</span>
-          <span class="genre-pill">Animación Infantil</span>
-        </div>
-        <a href="https://open.spotify.com/user/12169911263?si=ca44c9c13c664343" target="_blank" rel="noopener" class="btn btn-secondary" style="border-color: rgba(30,215,96,0.4); color: #1ed760; font-size: 0.88rem;">
-          <span>Escuchar Perfil en Spotify (+2,000 canciones)</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════
-       STAGE 6: FAQ & AGENDA (Screen 7)
-       ═══════════════════════════════════════════ -->
-  <section class="stage-section">
-    <div class="container">
-      <div class="stage-header">
-        <span class="stage-badge">06 · Preguntas Frecuentes</span>
+        <span class="stage-badge">05 · Preguntas Frecuentes</span>
         <h2 class="stage-title">Todo Claro Antes de Apartar</h2>
         <p class="stage-desc">Servicio garantizado sin letras chiquitas.</p>
       </div>
@@ -651,64 +577,42 @@
       if (h === 3) {
         price = 1500;
         hoursDisplay.textContent = '3 Horas ($1,500)';
+        discountTag.textContent = 'Paquete Básico · Instalación y Audio Expert incluido';
       } else if (h === 4) {
         price = 2000;
         hoursDisplay.textContent = '4 Horas ($2,000)';
+        discountTag.textContent = '4 Horas de audio continuo Bose';
       } else if (h === 5) {
         price = 2000;
         isPromo = true;
-        hoursDisplay.innerHTML = `5 Horas <span style="color:#f5c518;font-size:0.95rem;">(Promo 4+1 Gratis)</span>`;
+        hoursDisplay.innerHTML = `5 Horas <span style="color:#f5c518;font-size:0.92rem;font-weight:700;">(Promo 4+1 Gratis)</span>`;
+        discountTag.textContent = '🔥 Promo Estrella: 1 Hora Extra GRATIS ($2,000 total)';
       } else if (h === 6) {
         price = 2500;
-        hoursDisplay.textContent = '6 Horas ($2,500)';
+        isPromo = true;
+        hoursDisplay.innerHTML = `6 Horas <span style="color:#f5c518;font-size:0.92rem;font-weight:700;">($2,500 · 1h Gratis)</span>`;
+        discountTag.textContent = '🔥 Promo 6 Horas: 1 Hora Extra GRATIS ($2,500 total)';
+      } else if (h === 7) {
+        price = 3000;
+        hoursDisplay.textContent = '7 Horas ($3,000)';
+        discountTag.textContent = '7 Horas de servicio completo de audio Bose';
       } else if (h === 8) {
-        price = 3500;
-        hoursDisplay.textContent = '8 Horas ($3,500)';
+        price = 3300;
+        isPromo = true;
+        hoursDisplay.innerHTML = `8 Horas <span style="color:#f5c518;font-size:0.92rem;font-weight:700;">($3,300 · 1.5h Gratis)</span>`;
+        discountTag.textContent = '🔥 Mega Promo 8 Horas: 1.5 Horas GRATIS ($3,300 total)';
       } else {
         price = h * 500;
         hoursDisplay.textContent = `${h} Horas ($${price.toLocaleString()})`;
+        discountTag.textContent = `Precio especial por ${h} horas de fiesta`;
       }
 
       totalPrice.innerHTML = `$${price.toLocaleString()} <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">MXN</span>`;
+      discountTag.style.display = 'block';
 
-      if (isPromo) {
-        discountTag.style.display = 'block';
-        discountTag.textContent = 'Promo Aplicada: 1 Hora Extra GRATIS ($2,000 total)';
-      } else if (h === 3) {
-        discountTag.style.display = 'block';
-        discountTag.textContent = 'Paquete Básico · Instalación y Audio Expert incluido';
-      } else if (h >= 6) {
-        discountTag.style.display = 'block';
-        discountTag.textContent = `Precio especial por ${h} horas completas de fiesta`;
-      } else {
-        discountTag.style.display = 'none';
-      }
-
-      const msg = encodeURIComponent(`Hola Alberto! Quiero apartar el audio Bose para mi evento (${eventType}) por ${h} horas ($${price.toLocaleString()} MXN). ¿Tienes disponible la fecha?`);
+      const promoDetail = isPromo ? ' (con Promoción)' : '';
+      const msg = encodeURIComponent(`Hola Alberto! Quiero apartar el audio Bose para mi evento (${eventType}) por ${h} horas ($${price.toLocaleString()} MXN${promoDetail}). ¿Tienes disponible la fecha?`);
       waBtn.href = `https://wa.me/message/6O4USI5SGF3IA1?text=${msg}`;
-
-      document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
-      const activePreset = document.querySelector(`.preset-btn[onclick="setHours(${h})"]`);
-      if (activePreset) activePreset.classList.add('active');
-    }
-
-    function setHours(h) {
-      const range = document.getElementById('hoursRange');
-      range.value = h;
-      updateCalculator();
-    }
-
-    function quickQuote(eventType) {
-      const select = document.getElementById('eventTypeSelect');
-      for (let i = 0; i < select.options.length; i++) {
-        if (select.options[i].text.includes(eventType) || select.options[i].value.includes(eventType)) {
-          select.selectedIndex = i;
-          break;
-        }
-      }
-      const cotizadorEl = document.getElementById('cotizador');
-      if (cotizadorEl) cotizadorEl.scrollIntoView({ behavior: 'smooth' });
-      updateCalculator();
     }
 
     document.addEventListener('DOMContentLoaded', updateCalculator);
