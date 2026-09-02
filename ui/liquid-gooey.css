@@ -260,11 +260,11 @@
   top: 3px;
   left: 3px;
   height: calc(100% - 6px);
-  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-  border-radius: 9999px;
+  background: var(--liquid-tab-bg, #00a896);
+  border-radius: inherit;
   pointer-events: none;
   z-index: 1;
-  box-shadow: 0 2px 10px rgba(124, 58, 237, 0.35);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
               width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
   will-change: transform, width;
@@ -309,8 +309,10 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.liquid-tab-btn.active {
-  color: #ffffff;
+.liquid-tab-btn.active,
+.liquid-tabs-container .active {
+  color: #ffffff !important;
+  background: transparent !important;
 }
 
 .liquid-tab-btn:hover:not(.active) {
