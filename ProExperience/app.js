@@ -20,6 +20,8 @@ const translations = {
     eco_item_1_desc: "Options for physical print materials or a 100% digital ecosystem adapting to student and faculty needs.",
     eco_item_2_title: "State-of-the-Art Platforms",
     eco_item_2_desc: "Modern, intuitive, data-driven learning environments for precise tracking of progress and performance.",
+    eco_books_eid_desc: "English ID is a youthful and innovative approach featuring Pink Stress Letters, Songs, and more!",
+    eco_books_pb_desc: "PB (Personal Best) is designed for high academic loads and the most demanding schools.",
     eco_item_3_title: "TOEIC Certification",
     eco_item_3_desc: "Includes targeted preparation (Prep Course) and official TOEIC certification by ETS to guarantee language mastery.",
     eco_item_4_title: "Unlimited Placement Test",
@@ -96,6 +98,8 @@ const translations = {
     eco_item_1_desc: "Opciones de materiales físicos o un ecosistema 100% digital que se adapta a las necesidades de tus alumnos y docentes.",
     eco_item_2_title: "Plataformas en Estado del Arte",
     eco_item_2_desc: "Entornos de aprendizaje modernos, intuitivos y basados en datos, para un monitoreo preciso del progreso y desempeño.",
+    eco_books_eid_desc: "English ID es un enfoque juvenil e innovador con Pink Stress Letters, Songs and more!",
+    eco_books_pb_desc: "PB está diseñado para carga académica alta y las escuelas más exigentes.",
     eco_item_3_title: "Certificación TOEIC",
     eco_item_3_desc: "Incluye preparación enfocada (Prep Course) y la certificación TOEIC oficial por ETS para asegurar el dominio del idioma.",
     eco_item_4_title: "Placement Test Ilimitado",
@@ -399,9 +403,10 @@ document.addEventListener('DOMContentLoaded', () => {
           attributionControl: false
         }).setView([30.5, -112.5], 6);
 
-        // Dark modern map tiles
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-          maxZoom: 19
+        // Default OSM tiles with CSS filter for dark mode (API key free)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          className: 'dark-map-tiles'
         }).addTo(map);
 
         L.control.zoom({ position: 'bottomright' }).addTo(map);
@@ -441,13 +446,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const schools = [
-          { name: "UT Nogales", lat: 31.3012, lng: -110.9416, state: "Sonora", dir: "top", icon: proIcon, desc: "Universidad Tecnológica de Nogales" },
-          { name: "UT Tijuana", lat: 32.5027, lng: -116.9242, state: "BCN", dir: "top", icon: proIcon, desc: "Universidad Tecnológica de Tijuana" },
-          { name: "UT Hermosillo", lat: 29.0232, lng: -110.9701, state: "Sonora", dir: "bottom", icon: proIcon, desc: "Universidad Tecnológica de Hermosillo" },
-          { name: "ITESCA", lat: 27.5020, lng: -109.9575, state: "Cd. Obregón, Son", dir: "top", icon: comingSoonIcon, desc: "Instituto Tecnológico Superior de Cajeme" },
-          { name: "ITLM", lat: 25.8016, lng: -108.9839, state: "Los Mochis (ENE 27')", dir: "top", icon: comingSoonIcon, desc: "Instituto Tecnológico de Los Mochis" },
-          { name: "IT Mexicali", lat: 32.6174, lng: -115.4242, state: "Mexicali (OCT 26')", dir: "top", icon: comingSoonIcon, desc: "Instituto Tecnológico de Mexicali" },
-          { name: "IT Hermosillo", lat: 29.1172, lng: -110.9634, state: "Hermosillo (OCT 26')", dir: "top", icon: comingSoonIcon, desc: "Instituto Tecnológico de Hermosillo" }
+          { name: "UTN", lat: 31.3012, lng: -110.9416, dir: "top", icon: proIcon },
+          { name: "UTT", lat: 32.5027, lng: -116.9242, dir: "top", icon: proIcon },
+          { name: "UTH", lat: 29.0232, lng: -110.9701, dir: "bottom", icon: proIcon },
+          { name: "ITESCA", lat: 27.5020, lng: -109.9575, dir: "top", icon: comingSoonIcon },
+          { name: "ITLM", lat: 25.8016, lng: -108.9839, dir: "top", icon: comingSoonIcon },
+          { name: "ITMXL", lat: 32.6174, lng: -115.4242, dir: "top", icon: comingSoonIcon },
+          { name: "ITH", lat: 29.1172, lng: -110.9634, dir: "top", icon: comingSoonIcon }
         ];
 
         const markersGroup = [];
@@ -463,18 +468,17 @@ document.addEventListener('DOMContentLoaded', () => {
             : `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
 
           marker.bindTooltip(`
-            <div style="text-align:center; padding:2px 4px; line-height:1.25;">
-              <div style="font-family:'Outfit', sans-serif; font-size:12px; font-weight:800; color:#0f172a; white-space:nowrap; display:flex; align-items:center; justify-content:center;">
+            <div style="text-align:center; padding:1px 3px; line-height:1;">
+              <div style="font-family:'Outfit', sans-serif; font-size:11px; font-weight:700; color:#0f172a; white-space:nowrap; display:flex; align-items:center; justify-content:center; letter-spacing:0.5px;">
                 ${badgeIcon}
                 <span>${school.name}</span>
               </div>
-              <div style="font-size:10px; font-weight:700; color:${isPro ? '#0284c7' : '#059669'}; white-space:nowrap; margin-top:2px;">${school.state}</div>
             </div>
           `, {
             permanent: true,
             direction: school.dir,
             offset: isTop ? [0, -32] : [0, 8],
-            className: 'custom-pro-tooltip'
+            className: 'custom-pro-tooltip-mini'
           });
         });
 
@@ -487,17 +491,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Custom Tooltip Style injected
         const style = document.createElement('style');
         style.innerHTML = `
-          .custom-pro-tooltip {
-            background: rgba(255, 255, 255, 0.96) !important;
-            border: 1px solid rgba(0, 210, 255, 0.35) !important;
-            border-radius: 8px !important;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5), 0 0 10px rgba(0,210,255,0.2) !important;
-            padding: 5px 9px !important;
-            pointer-events: none !important;
+          .custom-pro-tooltip-mini {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(4px) !important;
+            -webkit-backdrop-filter: blur(4px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 6px !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+            padding: 2px 5px !important;
+            margin: 0 !important;
+            opacity: 1 !important;
           }
-          .custom-pro-tooltip::before {
-            border-top-color: rgba(255, 255, 255, 0.96) !important;
-            border-bottom-color: rgba(255, 255, 255, 0.96) !important;
+          .custom-pro-tooltip-mini::before {
+            display: none !important;
+          }
+          .dark-map-tiles {
+            filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
           }
         `;
         document.head.appendChild(style);

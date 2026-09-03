@@ -16,7 +16,7 @@
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <!-- Main CSS -->
-  <link rel="stylesheet" href="styles.css?v=2.2">
+  <link rel="stylesheet" href="styles.css?v=2.3">
   <!-- ReactBits UI Component Suite -->
   <script src="ui/aurora.js" defer></script>
   <script src="ui/spotlight.js" defer></script>
@@ -72,11 +72,11 @@
   <section class="metrics-section">
     <div class="container metrics-grid">
       <div class="metric-card fade-up">
-        <div class="metric-value">5+</div>
+        <div class="metric-value">7+</div>
         <div class="metric-label" data-i18n="metric_1_lbl">Escuelas en la región Noroeste</div>
       </div>
       <div class="metric-card fade-up delay-1">
-        <div class="metric-value">16,000+</div>
+        <div class="metric-value">20K</div>
         <div class="metric-label" data-i18n="metric_2_lbl">Alumnos inscritos en la región</div>
       </div>
       <div class="metric-card fade-up delay-2">
@@ -103,7 +103,13 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
           </div>
           <h3 class="eco-title" data-i18n="eco_item_1_title">Formatos a Medida</h3>
-          <p class="eco-desc" data-i18n="eco_item_1_desc">Opciones de materiales físicos o un ecosistema 100% digital que se adapta a las necesidades de tus alumnos y docentes.</p>
+          <p class="eco-desc" data-i18n="eco_item_1_desc">Options for physical print materials or a 100% digital ecosystem adapting to student and faculty needs.</p>
+          <div style="margin-top: 1.5rem;">
+            <a href="#tailored-books" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; padding: 6px 14px; border-color: rgba(255,255,255,0.2);">
+              Ver más
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
         </div>
         
         <div class="eco-item">
@@ -211,18 +217,9 @@
         <button class="btn btn-outline" onclick="openGallery('UTT')" data-i18n="btn_gallery_utt">UT Tijuana</button>
         <button class="btn btn-outline" onclick="openGallery('UTN')" data-i18n="btn_gallery_utn">UT Nogales</button>
         <button class="btn btn-outline" onclick="openGallery('ITESCA')" data-i18n="btn_gallery_itesca">ITESCA</button>
-        <button class="btn btn-outline" onclick="openGallery('ITLM')" style="display: inline-flex; align-items: center; gap: 6px;">
-          <span data-i18n="btn_gallery_itlm">ITLM</span>
-          <span style="font-size: 0.68rem; background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.4); padding: 2px 7px; border-radius: 10px; font-weight: 700; text-transform: uppercase;" data-i18n="badge_h1_2027">ENE 27'</span>
-        </button>
-        <button class="btn btn-outline" onclick="openGallery('ITMXL')" style="display: inline-flex; align-items: center; gap: 6px;">
-          <span>IT Mexicali</span>
-          <span style="font-size: 0.68rem; background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); padding: 2px 7px; border-radius: 10px; font-weight: 700; text-transform: uppercase;">OCT 26'</span>
-        </button>
-        <button class="btn btn-outline" onclick="openGallery('ITH')" style="display: inline-flex; align-items: center; gap: 6px;">
-          <span>IT Hermosillo</span>
-          <span style="font-size: 0.68rem; background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); padding: 2px 7px; border-radius: 10px; font-weight: 700; text-transform: uppercase;">OCT 26'</span>
-        </button>
+        <button class="btn btn-outline" onclick="openGallery('ITLM')" data-i18n="btn_gallery_itlm">ITLM</button>
+        <button class="btn btn-outline" onclick="openGallery('ITMXL')">IT Mexicali</button>
+        <button class="btn btn-outline" onclick="openGallery('ITH')">IT Hermosillo</button>
         <button class="btn btn-outline" onclick="openGallery('TOEIC')" data-i18n="btn_gallery_toeic">TOEIC In Action</button>
         <button class="btn btn-outline" onclick="openGallery('MAKING')" data-i18n="btn_gallery_making">Making It Real</button>
         <button class="btn btn-outline" onclick="openGallery('VIDEOS')" data-i18n="btn_gallery_videos">Videos Oficiales</button>
@@ -332,6 +329,44 @@
     </div>
   </section>
 
+  <!-- Tailored Books Section -->
+  <section class="tailored-books-section" id="tailored-books" style="padding: 4rem 0; background: rgba(0,0,0,0.2);">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2 class="section-title">Formatos <span class="text-gradient">a Medida</span></h2>
+        <p class="section-desc">Conoce nuestras series principales diseñadas para adaptarse al entorno de educación superior.</p>
+      </div>
+      
+      <div class="books-showcase-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; margin-top: 3rem;">
+        
+        <!-- English ID 3.0 -->
+        <div class="book-card fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,95,158,0.2); border-radius: 24px; padding: 2rem; display: flex; flex-direction: column; align-items: center; text-align: center; backdrop-filter: blur(10px);">
+          <div style="display: flex; gap: -20px; justify-content: center; margin-bottom: 1.5rem; perspective: 1000px;">
+            <img src="assets/Books/media_1788466308699.jpg" alt="English ID 3.0" style="width: 130px; border-radius: 6px; box-shadow: -10px 10px 30px rgba(0,0,0,0.5); transform: rotateY(15deg); z-index: 2;">
+            <img src="assets/Books/media_1788466405836.jpg" alt="English ID 3.0 B1+" style="width: 130px; border-radius: 6px; box-shadow: -10px 10px 30px rgba(0,0,0,0.5); transform: rotateY(15deg) translateZ(-30px) translateX(-40px); z-index: 1;">
+          </div>
+          <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.5rem; color: #ff5f9e; margin-bottom: 1rem;">English ID 3.0</h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem; line-height: 1.6;">
+            English ID 3.0 es un enfoque juvenil e innovador con <strong>Pink Stress Letters</strong>, canciones y contenido que conecta con la identidad de los estudiantes jóvenes adultos.
+          </p>
+        </div>
+
+        <!-- Personal Best 2.0 -->
+        <div class="book-card fade-up delay-1" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(79,142,247,0.2); border-radius: 24px; padding: 2rem; display: flex; flex-direction: column; align-items: center; text-align: center; backdrop-filter: blur(10px);">
+          <div style="display: flex; gap: -20px; justify-content: center; margin-bottom: 1.5rem; perspective: 1000px;">
+            <img src="assets/Books/media_1788466316487.jpg" alt="Personal Best 2.0 C1" style="width: 130px; border-radius: 6px; box-shadow: -10px 10px 30px rgba(0,0,0,0.5); transform: rotateY(15deg); z-index: 2;">
+            <img src="assets/Books/media_1788466319537.png" alt="Personal Best 2.0 A1" style="width: 130px; border-radius: 6px; box-shadow: -10px 10px 30px rgba(0,0,0,0.5); transform: rotateY(15deg) translateZ(-30px) translateX(-40px); z-index: 1;">
+          </div>
+          <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.5rem; color: #4f8ef7; margin-bottom: 1rem;">Personal Best 2.0</h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem; line-height: 1.6;">
+            Personal Best 2.0 está diseñado para una carga académica alta y las escuelas más exigentes, enfocándose en la producción del lenguaje de manera intensiva.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- FAQ Section -->
   <section class="faq-section" id="faq">
     <div class="container">
@@ -422,7 +457,7 @@
   </div>
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script src="app.js?v=2.6"></script>
+  <script src="app.js?v=2.8"></script>
   <script src="team.js?v=2.2"></script>
 </body>
 </html>
