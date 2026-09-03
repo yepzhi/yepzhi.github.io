@@ -281,6 +281,12 @@ document.addEventListener('DOMContentLoaded', () => {
     'ITLM': [
       "COMING_SOON_ITLM"
     ],
+    'ITMXL': [
+      "COMING_SOON_ITMXL"
+    ],
+    'ITH': [
+      "COMING_SOON_ITH"
+    ],
     'UTT': [
       "assets/gallery/UTT/1755814852209.jpeg",
       "assets/gallery/UTT/1755814852217.jpeg",
@@ -319,8 +325,128 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Pause any playing video when closed
     const video = lightboxContent.querySelector('video');
-    if (video) video.pause();
-  }
+    if (video && !video.paused) {
+      video.pause();
+    }
+  });
+
+  // --- Noroeste Map Modal ---
+  window.openNoroesteMap = function() {
+    const isEn = document.documentElement.lang === 'en';
+    const modal = document.createElement('div');
+    modal.className = 'noroeste-map-modal';
+    modal.style.cssText = 'position:fixed; inset:0; z-index:999999; background:rgba(10,10,15,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; transition:opacity 0.3s ease;';
+    
+    const content = document.createElement('div');
+    content.style.cssText = 'position:relative; width:100%; max-width:900px; height:85vh; background:linear-gradient(145deg, #161622, #0d0d14); border-radius:24px; border:1px solid rgba(255,255,255,0.1); box-shadow:0 25px 50px -12px rgba(0,0,0,0.6), 0 0 40px rgba(0, 210, 255, 0.1); overflow:hidden; display:flex; flex-direction:column; transform:scale(0.95) translateY(20px); transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);';
+    
+    const header = document.createElement('div');
+    header.style.cssText = 'padding:16px 24px; border-bottom:1px solid rgba(255,255,255,0.08); display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3);';
+    header.innerHTML = `
+      <div style="display:flex; align-items:center; gap:14px;">
+        <div style="width:40px; height:40px; border-radius:12px; background:linear-gradient(135deg, #00d2ff, #3a7bd5); display:flex; align-items:center; justify-content:center; box-shadow:0 0 15px rgba(0,210,255,0.4);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
+        </div>
+        <div>
+          <h3 style="margin:0; font-family:'Outfit', sans-serif; font-size:1.15rem; font-weight:800; color:#fff; letter-spacing:0.5px;">Cobertura Zona Noroeste</h3>
+          <p style="margin:0; font-size:0.75rem; color:rgba(255,255,255,0.6); font-weight:600; margin-top:2px;">Mapa de Universidades y Tecnológicos PRO</p>
+        </div>
+      </div>
+      <button id="close-map-modal" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#fff; transition:all 0.2s;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    `;
+    
+    const mapContainer = document.createElement('div');
+    mapContainer.id = 'noroeste-map';
+    mapContainer.style.cssText = 'flex:1; width:100%; position:relative; background:#1e1e24;';
+    
+    content.appendChild(header);
+    content.appendChild(mapContainer);
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    requestAnimationFrame(() => {
+      modal.style.opacity = '1';
+      content.style.transform = 'scale(1) translateY(0)';
+    });
+    
+    const closeBtn = header.querySelector('#close-map-modal');
+    closeBtn.onmouseover = () => { closeBtn.style.background = 'rgba(255,255,255,0.15)'; closeBtn.style.transform = 'scale(1.05)'; };
+    closeBtn.onmouseout = () => { closeBtn.style.background = 'rgba(255,255,255,0.05)'; closeBtn.style.transform = 'scale(1)'; };
+    
+    const closeModal = () => {
+      modal.style.opacity = '0';
+      content.style.transform = 'scale(0.95) translateY(10px)';
+      setTimeout(() => {
+        if (document.body.contains(modal)) {
+          document.body.removeChild(modal);
+        }
+      }, 300);
+    };
+    closeBtn.onclick = closeModal;
+    modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+
+    // Initialize Leaflet Map centered on Noroeste (Hermosillo approx: 29.07, -110.95)
+    setTimeout(() => {
+      if (typeof L !== 'undefined') {
+        const map = L.map('noroeste-map', {
+          zoomControl: false,
+          attributionControl: false
+        }).setView([30.5, -112.5], 6);
+
+        // Dark modern map tiles
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+          maxZoom: 19
+        }).addTo(map);
+
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+        // Custom Pro Marker
+        const proIcon = L.divIcon({
+          className: 'pro-map-marker',
+          html: `<div style="width:24px; height:24px; background:linear-gradient(135deg, #00d2ff, #3a7bd5); border-radius:50%; border:2px solid #fff; box-shadow:0 0 15px #00d2ff, inset 0 0 10px rgba(0,0,0,0.5);"></div>`,
+          iconSize: [24, 24],
+          iconAnchor: [12, 12]
+        });
+        
+        const comingSoonIcon = L.divIcon({
+          className: 'pro-map-marker-soon',
+          html: `<div style="width:20px; height:20px; background:linear-gradient(135deg, #10b981, #059669); border-radius:50%; border:2px solid #fff; box-shadow:0 0 15px #10b981, inset 0 0 10px rgba(0,0,0,0.5);"></div>`,
+          iconSize: [20, 20],
+          iconAnchor: [10, 10]
+        });
+
+        const schools = [
+          { name: "UT Nogales", lat: 31.3012, lng: -110.9416, state: "Sonora", icon: proIcon, desc: "Universidad Tecnológica de Nogales" },
+          { name: "UT Tijuana", lat: 32.5027, lng: -116.9242, state: "BCN", icon: proIcon, desc: "Universidad Tecnológica de Tijuana" },
+          { name: "UT Hermosillo", lat: 29.0232, lng: -110.9701, state: "Sonora", icon: proIcon, desc: "Universidad Tecnológica de Hermosillo" },
+          { name: "ITESCA", lat: 27.5020, lng: -109.9575, state: "Sonora", icon: comingSoonIcon, desc: "Instituto Tecnológico Superior de Cajeme" },
+          { name: "ITLM", lat: 25.8016, lng: -108.9839, state: "Sinaloa (H1 2027)", icon: comingSoonIcon, desc: "Instituto Tecnológico de Los Mochis" },
+          { name: "IT Mexicali", lat: 32.6174, lng: -115.4242, state: "BCN (OCT 26')", icon: comingSoonIcon, desc: "Instituto Tecnológico de Mexicali" },
+          { name: "IT Hermosillo", lat: 29.1172, lng: -110.9634, state: "Sonora (OCT 26')", icon: comingSoonIcon, desc: "Instituto Tecnológico de Hermosillo" }
+        ];
+
+        schools.forEach(school => {
+          L.marker([school.lat, school.lng], { icon: school.icon })
+            .addTo(map)
+            .bindTooltip(`<b style="font-family:'Outfit', sans-serif; font-size:14px; color:#1a1a24;">${school.name}</b><br/><span style="font-size:11px; color:#666;">${school.state}</span>`, {
+              direction: 'top',
+              offset: [0, -12],
+              className: 'custom-pro-tooltip'
+            });
+        });
+        
+        // Custom Tooltip Style injected
+        const style = document.createElement('style');
+        style.innerHTML = `
+          .custom-pro-tooltip { background: #fff !important; border: none !important; border-radius: 8px !important; box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important; padding: 6px 12px !important; }
+          .custom-pro-tooltip::before { border-top-color: #fff !important; }
+        `;
+        document.head.appendChild(style);
+      }
+    }, 400); // Give time for transition
+  };
 
   function renderLightboxContent() {
     if (currentGroup.length === 0) return;
@@ -364,6 +490,31 @@ document.addEventListener('DOMContentLoaded', () => {
           </h3>
           <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">
             ${isEn ? 'Official implementation at Instituto Tecnológico de Los Mochis scheduled for H1 2027. Photo and video coverage will be published following launch.' : 'Implementación oficial en el Instituto Tecnológico de Los Mochis programada para H1 2027. La cobertura fotográfica y en video estará disponible tras el lanzamiento.'}
+          </p>
+        </div>
+      `;
+      modalPrev.style.display = 'none';
+      modalNext.style.display = 'none';
+      return;
+    }
+
+    if (file === 'COMING_SOON_ITMXL' || file === 'COMING_SOON_ITH') {
+      const isEn = document.documentElement.lang === 'en';
+      const isMxl = file === 'COMING_SOON_ITMXL';
+      const name = isMxl ? 'IT Mexicali' : 'IT Hermosillo';
+      lightboxContent.innerHTML = `
+        <div style="padding: 2.5rem 2rem; text-align: center; color: #fff; max-width: 480px; margin: 0 auto; background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.7);">
+          <div style="width: 50px; height: 50px; background: rgba(16, 185, 129, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem; color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
+          <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: #10b981; background: rgba(16, 185, 129, 0.15); padding: 4px 12px; border-radius: 20px; font-weight: 700; border: 1px solid rgba(16, 185, 129, 0.3);">
+            ${isEn ? 'Coming Soon' : 'Próximamente'}
+          </span>
+          <h3 style="font-size: 1.7rem; margin: 1.2rem 0 0.5rem; color: #fff; font-family: var(--font-head);">
+            ${isEn ? name + ' Inauguration' : 'Inauguración ' + name}
+          </h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">
+            ${isEn ? 'Official inauguration event set for October 2026. Full photo and video coverage will be published immediately after the ceremony.' : 'Evento de inauguración oficial programado para Octubre de 2026. La cobertura fotográfica y en video estará disponible inmediatamente tras la ceremonia.'}
           </p>
         </div>
       `;

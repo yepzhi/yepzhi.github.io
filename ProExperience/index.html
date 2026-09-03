@@ -11,6 +11,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
   
+  <!-- Leaflet for Maps -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
   <!-- Main CSS -->
   <link rel="stylesheet" href="styles.css?v=2.2">
   <!-- ReactBits UI Component Suite -->
@@ -194,6 +198,12 @@
         <span class="badge" data-i18n="gallery_badge">Galerías de Fotos</span>
         <h2 class="section-title"><span data-i18n="gallery_title_1">Galerías por</span> <span class="text-gradient" data-i18n="gallery_title_2">Universidad</span></h2>
         <p class="section-desc" data-i18n="gallery_desc">Explora las imágenes de nuestras implementaciones exitosas divididas por categoría.</p>
+        <div style="margin-top: 1.5rem;">
+          <button class="btn btn-primary" onclick="openNoroesteMap()" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(0, 210, 255, 0.1); border: 1px solid rgba(0, 210, 255, 0.3); color: #00d2ff; padding: 10px 20px; font-weight: 700;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
+            Ver Mapa de Escuelas PRO
+          </button>
+        </div>
       </div>
 
       <div class="gallery-folders" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 2rem;">
@@ -203,7 +213,15 @@
         <button class="btn btn-outline" onclick="openGallery('ITESCA')" data-i18n="btn_gallery_itesca">ITESCA</button>
         <button class="btn btn-outline" onclick="openGallery('ITLM')" style="display: inline-flex; align-items: center; gap: 6px;">
           <span data-i18n="btn_gallery_itlm">ITLM</span>
-          <span style="font-size: 0.68rem; background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.4); padding: 2px 7px; border-radius: 10px; font-weight: 700; text-transform: uppercase;" data-i18n="badge_h1_2027">H1 2027</span>
+          <span style="font-size: 0.68rem; background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.4); padding: 2px 7px; border-radius: 10px; font-weight: 700; text-transform: uppercase;" data-i18n="badge_h1_2027">ENE 27'</span>
+        </button>
+        <button class="btn btn-outline" onclick="openGallery('ITMXL')" style="display: inline-flex; align-items: center; gap: 6px;">
+          <span>IT Mexicali</span>
+          <span style="font-size: 0.68rem; background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); padding: 2px 7px; border-radius: 10px; font-weight: 700; text-transform: uppercase;">OCT 26'</span>
+        </button>
+        <button class="btn btn-outline" onclick="openGallery('ITH')" style="display: inline-flex; align-items: center; gap: 6px;">
+          <span>IT Hermosillo</span>
+          <span style="font-size: 0.68rem; background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); padding: 2px 7px; border-radius: 10px; font-weight: 700; text-transform: uppercase;">OCT 26'</span>
         </button>
         <button class="btn btn-outline" onclick="openGallery('TOEIC')" data-i18n="btn_gallery_toeic">TOEIC In Action</button>
         <button class="btn btn-outline" onclick="openGallery('MAKING')" data-i18n="btn_gallery_making">Making It Real</button>
