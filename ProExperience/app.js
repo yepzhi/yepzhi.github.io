@@ -38,12 +38,12 @@ const translations = {
     gallery_title_1: "Galleries by",
     gallery_title_2: "University",
     gallery_desc: "Explore implementation photos categorized by university and event.",
-    btn_gallery_uth: "UT Hermosillo",
-    btn_gallery_utt: "UT Tijuana",
-    btn_gallery_utn: "UT Nogales",
-    btn_gallery_itesca: "ITESCA",
+    btn_gallery_uth: "UT Hermosillo (Aug 5)",
+    btn_gallery_utt: "UT Tijuana (Aug 5)",
+    btn_gallery_utn: "UT Nogales (Aug 5)",
+    btn_gallery_itesca: "ITESCA (Aug 5)",
     badge_aug5: "Aug 5",
-    btn_gallery_itlm: "ITLM",
+    btn_gallery_itlm: "ITLM (H1 2027)",
     badge_h1_2027: "H1 2027",
     btn_gallery_toeic: "TOEIC In Action",
     btn_gallery_making: "Making It Real",
@@ -120,12 +120,12 @@ const translations = {
     gallery_title_1: "Galerías por",
     gallery_title_2: "Universidad",
     gallery_desc: "Explora las imágenes de nuestras implementaciones exitosas divididas por categoría.",
-    btn_gallery_uth: "UT Hermosillo",
-    btn_gallery_utt: "UT Tijuana",
-    btn_gallery_utn: "UT Nogales",
-    btn_gallery_itesca: "ITESCA",
+    btn_gallery_uth: "UT Hermosillo (5 Ago)",
+    btn_gallery_utt: "UT Tijuana (5 Ago)",
+    btn_gallery_utn: "UT Nogales (5 Ago)",
+    btn_gallery_itesca: "ITESCA (5 Ago)",
     badge_aug5: "5 Ago",
-    btn_gallery_itlm: "ITLM",
+    btn_gallery_itlm: "ITLM (H1 2027)",
     badge_h1_2027: "H1 2027",
     btn_gallery_toeic: "TOEIC In Action",
     btn_gallery_making: "Making It Real",
@@ -411,10 +411,10 @@ document.addEventListener('DOMContentLoaded', () => {
           attributionControl: false
         }).setView([30.5, -112.5], 6);
 
-        // Default OSM tiles with CSS filter for dark mode (API key free)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        // CartoDB Dark Matter (True black map, no API key required)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
           maxZoom: 19,
-          className: 'dark-map-tiles'
+          attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>'
         }).addTo(map);
 
         L.control.zoom({ position: 'bottomright' }).addTo(map);
