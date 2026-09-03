@@ -224,6 +224,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }, observerOptions);
 
   fadeElements.forEach(el => fadeObserver.observe(el));
+  // Fallback to guarantee all content is visible even on slow devices or older browsers
+  setTimeout(() => {
+    fadeElements.forEach(el => el.classList.add('visible'));
+  }, 400);
 
   // --- 3. Lightbox Gallery Logic (Grouped) ---
   const galleryGroups = {
