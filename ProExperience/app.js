@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (video && !video.paused) {
       video.pause();
     }
-  });
+  }
 
   // --- Noroeste Map Modal ---
   window.openNoroesteMap = function() {
