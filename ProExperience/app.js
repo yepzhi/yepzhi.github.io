@@ -406,46 +406,99 @@ document.addEventListener('DOMContentLoaded', () => {
 
         L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-        // Custom Pro Marker
+        // Custom Pro Marker (Pure SVG vector pin)
         const proIcon = L.divIcon({
-          className: 'pro-map-marker',
-          html: `<div style="width:24px; height:24px; background:linear-gradient(135deg, #00d2ff, #3a7bd5); border-radius:50%; border:2px solid #fff; box-shadow:0 0 15px #00d2ff, inset 0 0 10px rgba(0,0,0,0.5);"></div>`,
-          iconSize: [24, 24],
-          iconAnchor: [12, 12]
+          className: 'pro-map-marker-svg',
+          html: `
+            <div style="position:relative; width:28px; height:36px; filter:drop-shadow(0 4px 8px rgba(0,210,255,0.45));">
+              <svg width="28" height="36" viewBox="0 0 24 30" fill="none">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 8.5 12 18 12 18s12-9.5 12-18c0-6.63-5.37-12-12-12z" fill="#00d2ff"/>
+                <path d="M12 2C6.48 2 2 6.48 2 12c0 7.2 10 15.3 10 15.3s10-8.1 10-15.3c0-5.52-4.48-10-10-10z" fill="#2563eb"/>
+                <circle cx="12" cy="11" r="5" fill="#ffffff"/>
+                <circle cx="12" cy="11" r="2.5" fill="#00d2ff"/>
+              </svg>
+            </div>
+          `,
+          iconSize: [28, 36],
+          iconAnchor: [14, 34]
         });
         
+        // Coming Soon Marker (Pure SVG vector pin)
         const comingSoonIcon = L.divIcon({
-          className: 'pro-map-marker-soon',
-          html: `<div style="width:20px; height:20px; background:linear-gradient(135deg, #10b981, #059669); border-radius:50%; border:2px solid #fff; box-shadow:0 0 15px #10b981, inset 0 0 10px rgba(0,0,0,0.5);"></div>`,
-          iconSize: [20, 20],
-          iconAnchor: [10, 10]
+          className: 'pro-map-marker-soon-svg',
+          html: `
+            <div style="position:relative; width:26px; height:34px; filter:drop-shadow(0 4px 8px rgba(16,185,129,0.45));">
+              <svg width="26" height="34" viewBox="0 0 24 30" fill="none">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 8.5 12 18 12 18s12-9.5 12-18c0-6.63-5.37-12-12-12z" fill="#34d399"/>
+                <path d="M12 2C6.48 2 2 6.48 2 12c0 7.2 10 15.3 10 15.3s10-8.1 10-15.3c0-5.52-4.48-10-10-10z" fill="#059669"/>
+                <circle cx="12" cy="11" r="4.5" fill="#ffffff"/>
+                <circle cx="12" cy="11" r="2.2" fill="#10b981"/>
+              </svg>
+            </div>
+          `,
+          iconSize: [26, 34],
+          iconAnchor: [13, 32]
         });
 
         const schools = [
-          { name: "UT Nogales", lat: 31.3012, lng: -110.9416, state: "Sonora", icon: proIcon, desc: "Universidad Tecnológica de Nogales" },
-          { name: "UT Tijuana", lat: 32.5027, lng: -116.9242, state: "BCN", icon: proIcon, desc: "Universidad Tecnológica de Tijuana" },
-          { name: "UT Hermosillo", lat: 29.0232, lng: -110.9701, state: "Sonora", icon: proIcon, desc: "Universidad Tecnológica de Hermosillo" },
-          { name: "ITESCA", lat: 27.5020, lng: -109.9575, state: "Sonora", icon: comingSoonIcon, desc: "Instituto Tecnológico Superior de Cajeme" },
-          { name: "ITLM", lat: 25.8016, lng: -108.9839, state: "Sinaloa (H1 2027)", icon: comingSoonIcon, desc: "Instituto Tecnológico de Los Mochis" },
-          { name: "IT Mexicali", lat: 32.6174, lng: -115.4242, state: "BCN (OCT 26')", icon: comingSoonIcon, desc: "Instituto Tecnológico de Mexicali" },
-          { name: "IT Hermosillo", lat: 29.1172, lng: -110.9634, state: "Sonora (OCT 26')", icon: comingSoonIcon, desc: "Instituto Tecnológico de Hermosillo" }
+          { name: "UT Nogales", lat: 31.3012, lng: -110.9416, state: "Sonora", dir: "top", icon: proIcon, desc: "Universidad Tecnológica de Nogales" },
+          { name: "UT Tijuana", lat: 32.5027, lng: -116.9242, state: "BCN", dir: "top", icon: proIcon, desc: "Universidad Tecnológica de Tijuana" },
+          { name: "UT Hermosillo", lat: 29.0232, lng: -110.9701, state: "Sonora", dir: "bottom", icon: proIcon, desc: "Universidad Tecnológica de Hermosillo" },
+          { name: "ITESCA", lat: 27.5020, lng: -109.9575, state: "Cd. Obregón, Son", dir: "top", icon: comingSoonIcon, desc: "Instituto Tecnológico Superior de Cajeme" },
+          { name: "ITLM", lat: 25.8016, lng: -108.9839, state: "Los Mochis (ENE 27')", dir: "top", icon: comingSoonIcon, desc: "Instituto Tecnológico de Los Mochis" },
+          { name: "IT Mexicali", lat: 32.6174, lng: -115.4242, state: "Mexicali (OCT 26')", dir: "top", icon: comingSoonIcon, desc: "Instituto Tecnológico de Mexicali" },
+          { name: "IT Hermosillo", lat: 29.1172, lng: -110.9634, state: "Hermosillo (OCT 26')", dir: "top", icon: comingSoonIcon, desc: "Instituto Tecnológico de Hermosillo" }
         ];
 
+        const markersGroup = [];
+
         schools.forEach(school => {
-          L.marker([school.lat, school.lng], { icon: school.icon })
-            .addTo(map)
-            .bindTooltip(`<b style="font-family:'Outfit', sans-serif; font-size:14px; color:#1a1a24;">${school.name}</b><br/><span style="font-size:11px; color:#666;">${school.state}</span>`, {
-              direction: 'top',
-              offset: [0, -12],
-              className: 'custom-pro-tooltip'
-            });
+          const marker = L.marker([school.lat, school.lng], { icon: school.icon }).addTo(map);
+          markersGroup.push(marker);
+
+          const isTop = (school.dir === "top");
+          const isPro = (school.icon === proIcon);
+          const badgeIcon = isPro
+            ? `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px; margin-right:4px;"><polyline points="20 6 9 17 4 12"/></svg>`
+            : `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+
+          marker.bindTooltip(`
+            <div style="text-align:center; padding:2px 4px; line-height:1.25;">
+              <div style="font-family:'Outfit', sans-serif; font-size:12px; font-weight:800; color:#0f172a; white-space:nowrap; display:flex; align-items:center; justify-content:center;">
+                ${badgeIcon}
+                <span>${school.name}</span>
+              </div>
+              <div style="font-size:10px; font-weight:700; color:${isPro ? '#0284c7' : '#059669'}; white-space:nowrap; margin-top:2px;">${school.state}</div>
+            </div>
+          `, {
+            permanent: true,
+            direction: school.dir,
+            offset: isTop ? [0, -32] : [0, 8],
+            className: 'custom-pro-tooltip'
+          });
         });
+
+        // Fit map bounds to show all northwest schools
+        if (markersGroup.length > 0) {
+          const group = L.featureGroup(markersGroup);
+          map.fitBounds(group.getBounds().pad(0.18));
+        }
         
         // Custom Tooltip Style injected
         const style = document.createElement('style');
         style.innerHTML = `
-          .custom-pro-tooltip { background: #fff !important; border: none !important; border-radius: 8px !important; box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important; padding: 6px 12px !important; }
-          .custom-pro-tooltip::before { border-top-color: #fff !important; }
+          .custom-pro-tooltip {
+            background: rgba(255, 255, 255, 0.96) !important;
+            border: 1px solid rgba(0, 210, 255, 0.35) !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5), 0 0 10px rgba(0,210,255,0.2) !important;
+            padding: 5px 9px !important;
+            pointer-events: none !important;
+          }
+          .custom-pro-tooltip::before {
+            border-top-color: rgba(255, 255, 255, 0.96) !important;
+            border-bottom-color: rgba(255, 255, 255, 0.96) !important;
+          }
         `;
         document.head.appendChild(style);
       }
