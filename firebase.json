@@ -40,6 +40,46 @@
         "source": "/richmond-token-check/**",
         "destination": "https://huggingface.co/spaces/yepzhi/richmond-token-check",
         "type": 301
+      },
+      {
+        "source": "/personal-best",
+        "destination": "/Personal%20Best%202.0/index.html",
+        "type": 301
+      },
+      {
+        "source": "/personal-best/**",
+        "destination": "/Personal%20Best%202.0/index.html",
+        "type": 301
+      },
+      {
+        "source": "/pb2",
+        "destination": "/Personal%20Best%202.0/index.html",
+        "type": 301
+      },
+      {
+        "source": "/pb2/**",
+        "destination": "/Personal%20Best%202.0/index.html",
+        "type": 301
+      },
+      {
+        "source": "/PB2.0",
+        "destination": "/Personal%20Best%202.0/index.html",
+        "type": 301
+      },
+      {
+        "source": "/PB2.0/**",
+        "destination": "/Personal%20Best%202.0/index.html",
+        "type": 301
+      },
+      {
+        "source": "/pb2.0",
+        "destination": "/Personal%20Best%202.0/index.html",
+        "type": 301
+      },
+      {
+        "source": "/pb2.0/**",
+        "destination": "/Personal%20Best%202.0/index.html",
+        "type": 301
       }
     ]
   }

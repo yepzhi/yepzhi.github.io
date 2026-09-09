@@ -2,3 +2,11 @@
 /yzai/* https://yzai.yepzhi.com/:splat 301
 /stemos https://stemos.org 301
 /stemos/* https://stemos.org/:splat 301
+/personal-best /Personal%20Best%202.0/index.html 301
+/personal-best/* /Personal%20Best%202.0/index.html 301
+/pb2 /Personal%20Best%202.0/index.html 301
+/pb2/* /Personal%20Best%202.0/index.html 301
+/PB2.0 /Personal%20Best%202.0/index.html 301
+/PB2.0/* /Personal%20Best%202.0/index.html 301
+/pb2.0 /Personal%20Best%202.0/index.html 301
+/pb2.0/* /Personal%20Best%202.0/index.html 301
