@@ -42,44 +42,49 @@
         "type": 301
       },
       {
-        "source": "/personal-best",
-        "destination": "/Personal%20Best%202.0/index.html",
+        "source": "/PB2",
+        "destination": "/PB2/index.html",
         "type": 301
       },
       {
-        "source": "/personal-best/**",
-        "destination": "/Personal%20Best%202.0/index.html",
-        "type": 301
+        "source": "/PB2/**",
+        "destination": "/PB2/**"
       },
       {
         "source": "/pb2",
-        "destination": "/Personal%20Best%202.0/index.html",
+        "destination": "/PB2/index.html",
         "type": 301
       },
       {
         "source": "/pb2/**",
-        "destination": "/Personal%20Best%202.0/index.html",
-        "type": 301
+        "destination": "/PB2/**"
       },
       {
         "source": "/PB2.0",
-        "destination": "/Personal%20Best%202.0/index.html",
+        "destination": "/PB2/index.html",
         "type": 301
       },
       {
         "source": "/PB2.0/**",
-        "destination": "/Personal%20Best%202.0/index.html",
-        "type": 301
+        "destination": "/PB2/**"
       },
       {
         "source": "/pb2.0",
-        "destination": "/Personal%20Best%202.0/index.html",
+        "destination": "/PB2/index.html",
         "type": 301
       },
       {
         "source": "/pb2.0/**",
-        "destination": "/Personal%20Best%202.0/index.html",
+        "destination": "/PB2/**"
+      },
+      {
+        "source": "/personal-best",
+        "destination": "/PB2/index.html",
         "type": 301
+      },
+      {
+        "source": "/personal-best/**",
+        "destination": "/PB2/**"
       }
     ]
   }

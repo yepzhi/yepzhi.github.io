@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Personal Best 2 (PB2) | Sitio de experiencia interactiva de la serie de inglés líder de Richmond ELT. Deeper Learning, Meaningful Practice, ODS y Richmond Studio.">
+  <meta name="keywords" content="Personal Best 2, PB2, Richmond ELT, Richmond Studio, English Learning, CEFR, Jim Scrivener, Adrian Underhill, ODS, SDGs, ELT Mexico, ESL">
+  <meta property="og:title" content="Personal Best 2 (PB2) | Experience Site">
+  <meta property="og:description" content="Deeper learning through focused, meaningful practice. Explora la serie, la anatomía de unidad, Richmond Studio y las herramientas de Richmond AI.">
+  <meta property="og:image" content="assets/image4.png">
+  <title>Personal Best 2 (PB2) | Richmond Experience Platform</title>
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=2.0">
+
+  <!-- UI Micro-interaction scripts -->
+  <script src="ui/aurora.js" defer></script>
+  <script src="ui/spotlight.js" defer></script>
+  <script src="ui/buttons.js" defer></script>
+  <script src="ui/text-effects.js" defer></script>
+</head>
+<body>
+
+  <!-- Dynamic Aurora Background & Noise -->
+  <div class="aurora-canvas-bg" data-aurora></div>
+  <div class="noise-overlay"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="nav-bar" id="navbar">
+    <div class="container nav-container">
+      <div class="nav-brand">
+        <a href="#hero" title="Personal Best 2.0 Home" style="display: flex; align-items: center; gap: 0.85rem; text-decoration: none;">
+          <img src="assets/image2_light.png" alt="Richmond Publishing" class="brand-logo-img">
+          <div class="brand-separator"></div>
+          <span class="brand-badge">Personal Best 2.0</span>
+        </a>
+      </div>
+
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#levels" class="nav-link" data-i18n="nav_levels">Niveles</a></li>
+        <li><a href="#features" class="nav-link" data-i18n="nav_features">Diferenciadores</a></li>
+        <li><a href="#walkthrough" class="nav-link" data-i18n="nav_walkthrough">Anatomía de Unidad</a></li>
+        <li><a href="#studio" class="nav-link" data-i18n="nav_studio">Richmond Studio</a></li>
+        <li><a href="#simulator" class="nav-link" data-i18n="nav_simulator">Inducción Alumnos</a></li>
+        <li><a href="#ai-suite" class="nav-link" data-i18n="nav_ai">Richmond AI</a></li>
+        <li><a href="#authors" class="nav-link" data-i18n="nav_authors">Autores</a></li>
+        <li><a href="#pacing" class="nav-link" data-i18n="nav_pacing">Pacing</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="lang-switcher">
+          <button class="lang-btn active" data-lang-btn="es">ES</button>
+          <button class="lang-btn" data-lang-btn="en">EN</button>
+        </div>
+        <a href="#cta" class="btn btn-primary btn-sm" data-i18n="nav_demo_btn">Solicitar Muestra</a>
+        <button class="mobile-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation">
+          &#9776;
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero-section" id="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <span class="eyebrow" data-i18n="hero_eyebrow">Ecosistema Educativo Richmond Pro</span>
+        <h1 class="hero-title" data-i18n-html="hero_title">
+          Personal Best 2.0 <br><span class="text-gradient">Deeper Learning.</span> Meaningful Practice.
+        </h1>
+        <p class="hero-subtitle" data-i18n="hero_subtitle">
+          Un ecosistema pedagógico y digital diseñado para transformar el aula de inglés. Práctica intencional en el corazón del aprendizaje, alineación con los ODS de la ONU, mediación CEFR y tecnología Richmond Studio impulsada por IA.
+        </p>
+        
+        <div class="hero-actions">
+          <a href="#walkthrough" class="btn btn-primary" data-i18n="hero_btn_explore">Explorar la Experiencia</a>
+          <a href="#video-showcase" class="btn btn-secondary" data-i18n="hero_btn_video">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            Ver Video Oficial
+          </a>
+        </div>
+
+        <div class="hero-tags">
+          <span class="hero-tag">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span data-i18n="hero_tag_1">Marco CEFR A1 a C1</span>
+          </span>
+          <span class="hero-tag">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
+            <span data-i18n="hero_tag_2">Objetivos ONU 2030</span>
+          </span>
+          <span class="hero-tag">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
+            <span data-i18n="hero_tag_3">Voice AI Speech Recognition</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-emblem-card" data-spotlight>
+          <div class="hero-badge-float top-left">
+            <div class="badge-icon-box amber">&#9733;</div>
+            <div>
+              <strong style="display:block; color:var(--text-white);" data-i18n="hero_badge_float_1">Autores de Clase Mundial</strong>
+              <span style="color:var(--text-muted); font-size:0.78rem;">Scrivener & Underhill</span>
+            </div>
+          </div>
+
+          <img src="assets/image4.png" alt="Personal Best 2.0 Emblem" class="hero-emblem-img">
+
+          <div style="font-family:'Outfit', sans-serif; font-size:1.6rem; font-weight:800; color:var(--text-white); margin-bottom:0.25rem;">
+            Richmond <span class="text-gradient">Pro</span>
+          </div>
+          <p style="font-size:0.88rem; color:var(--text-secondary);">
+            Educational Ecosystem with Measurable Impact
+          </p>
+
+          <div class="hero-badge-float bottom-right">
+            <div class="badge-icon-box cyan">&#10003;</div>
+            <div>
+              <strong style="display:block; color:var(--text-white);" data-i18n="hero_badge_float_2">Herramientas de IA Docente</strong>
+              <span style="color:var(--text-muted); font-size:0.78rem;">Richmond AI Integrated</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Non-Negotiables Banner -->
+  <aside class="non-negotiables-bar" aria-label="Onboarding Non-Negotiables">
+    <div class="container non-negotiables-container">
+      <div class="nn-label">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="color:var(--cyan-primary);"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <span data-i18n="nn_title">Non-Negotiables de Inducción:</span>
+      </div>
+      <div class="nn-items">
+        <div class="nn-item"><span class="nn-bullet"></span><span data-i18n="nn_1">Capacitación de Serie</span></div>
+        <div class="nn-item"><span class="nn-bullet"></span><span data-i18n="nn_2">Capacitación de Plataforma</span></div>
+        <div class="nn-item"><span class="nn-bullet"></span><span data-i18n="nn_3">Pacing & Planning de Estructura</span></div>
+        <div class="nn-item"><span class="nn-bullet"></span><span data-i18n="nn_4">ODS y Aprendizaje Basado en Proyectos</span></div>
+        <div class="nn-item"><span class="nn-bullet"></span><span data-i18n="nn_5">Mediación en el Aula</span></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Levels Section -->
+  <section class="section-padding levels-section" id="levels">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow" data-i18n="levels_eyebrow">Serie Completa A1 - C1</span>
+        <h2 class="section-title" data-i18n="levels_title">6 Niveles Adaptados a Cada Etapa</h2>
+        <p class="section-desc" data-i18n="levels_desc">
+          Desde principiantes absolutos hasta estudiantes avanzados. Cada nivel cuenta con Student's Book, Workbook, Teacher's iSolutions y suite digital completa en Richmond Studio.
+        </p>
+      </div>
+
+      <!-- Level Selector Tabs -->
+      <div class="level-selector-tabs" id="level-tabs-container"></div>
+
+      <!-- Level Display Card -->
+      <div class="level-display-card" id="level-display-card"></div>
+    </div>
+  </section>
+
+  <!-- Key Features / Differentiators Section -->
+  <section class="section-padding" id="features" style="background: var(--bg-primary);">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow amber" data-i18n="feat_eyebrow">Propuesta de Valor Única</span>
+        <h2 class="section-title" data-i18n="feat_title">¿Por Qué Personal Best 2.0 es Diferente?</h2>
+        <p class="section-desc" data-i18n="feat_desc">
+          Cinco pilares pedagógicos que superan los métodos tradicionales de enseñanza del inglés y preparan al estudiante para el mundo global.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Feature 1: Practice at Heart -->
+        <article class="feature-card" data-spotlight>
+          <div class="feature-icon-wrapper">
+            <img src="assets/image20.svg" alt="Practice Plus Icon" class="feature-icon-img" style="filter: brightness(0) invert(1);">
+          </div>
+          <h3 data-i18n="feat_1_title">Práctica en el Corazón del Aprendizaje</h3>
+          <p data-i18n="feat_1_desc">
+            Ofrece múltiples oportunidades seguras para experimentar con el idioma. La sección Practice Plus en Teacher's Guides permite jugar con formas y significados, logrando una mayor retención y personalización.
+          </p>
+          <div class="feature-tag-row">
+            <span class="feature-mini-badge">Practice Plus</span>
+            <span class="feature-mini-badge">Internalization</span>
+            <span class="feature-mini-badge">Games & Tasks</span>
+          </div>
+        </article>
+
+        <!-- Feature 2: Sustainable Development Goals -->
+        <article class="feature-card" data-spotlight>
+          <div class="feature-icon-wrapper">
+            <img src="assets/image25.svg" alt="UN SDGs Icon" class="feature-icon-img">
+          </div>
+          <h3 data-i18n="feat_2_title">ODS de la ONU y Ciudadanía Global</h3>
+          <p data-i18n="feat_2_desc">
+            Cada unidad abre con un video de los Objetivos de Desarrollo Sostenible de la ONU. Sensibiliza a los estudiantes sobre problemáticas del mundo real y fomenta su rol como ciudadanos globales activos.
+          </p>
+          <div class="feature-tag-row">
+            <span class="feature-mini-badge">UN 2030 Agenda</span>
+            <span class="feature-mini-badge">Global Citizenship</span>
+            <span class="feature-mini-badge">Best Start Video</span>
+          </div>
+        </article>
+
+        <!-- Feature 3: International English -->
+        <article class="feature-card" data-spotlight>
+          <div class="feature-icon-wrapper">
+            <img src="assets/image27.svg" alt="International English Icon" class="feature-icon-img">
+          </div>
+          <h3 data-i18n="feat_3_title">Inglés Internacional Más Allá de UK/USA</h3>
+          <p data-i18n="feat_3_desc">
+            Exposición a acentos globales auténticos. Las destrezas de Listening y Speaking se presentan mediante Learning Curve y Talking Zone, shows web conducidos por un equipo internacional de presentadores.
+          </p>
+          <div class="feature-tag-row">
+            <span class="feature-mini-badge">Learning Curve</span>
+            <span class="feature-mini-badge">Talking Zone</span>
+            <span class="feature-mini-badge">Authentic Accents</span>
+          </div>
+        </article>
+
+        <!-- Feature 4: Mediation in ELT -->
+        <article class="feature-card" data-spotlight>
+          <div class="feature-icon-wrapper">
+            <img src="assets/image26.svg" alt="Mediation Icon" class="feature-icon-img">
+          </div>
+          <h3 data-i18n="feat_4_title">Mediación CEFR en el Centro</h3>
+          <p data-i18n="feat_4_desc">
+            No solo comunicación: los estudiantes aprenden a actuar como mediadores lingüísticos para transferir, resumir y adaptar información para terceros, una competencia indispensable del MCER.
+          </p>
+          <div class="feature-tag-row">
+            <span class="feature-mini-badge">Textual Mediation</span>
+            <span class="feature-mini-badge">Conceptual Mediation</span>
+            <span class="feature-mini-badge">CEFR Companion</span>
+          </div>
+        </article>
+
+        <!-- Feature 5: Life Skills & Mini-projects -->
+        <article class="feature-card" data-spotlight>
+          <div class="feature-icon-wrapper">
+            <img src="assets/image24.svg" alt="Life Skills Icon" class="feature-icon-img">
+          </div>
+          <h3 data-i18n="feat_5_title">Mini-Proyectos Colaborativos y Life Skills</h3>
+          <p data-i18n="feat_5_desc">
+            Tareas en equipo tipo mini-proyecto Best Finish que desarrollan habilidades para la vida y el trabajo profesional: resolución de problemas, creatividad, pensamiento crítico y empatía.
+          </p>
+          <div class="feature-tag-row">
+            <span class="feature-mini-badge">Collaborative Tasks</span>
+            <span class="feature-mini-badge">Life Skills</span>
+            <span class="feature-mini-badge">Best Finish</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Unit Walkthrough -->
+  <section class="section-padding walkthrough-section" id="walkthrough">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow" data-i18n="walk_eyebrow">Estructura Pedagógica de la Serie</span>
+        <h2 class="section-title" data-i18n="walk_title">Anatomía Interactiva de una Unidad</h2>
+        <p class="section-desc" data-i18n="walk_desc">
+          Descubre la secuencia paso a paso de cada unidad de Personal Best 2.0: desde la apertura temática hasta el proyecto colaborativo final.
+        </p>
+      </div>
+
+      <!-- Stepper Indicator -->
+      <div class="walkthrough-stepper" id="walkthrough-stepper"></div>
+
+      <!-- Active Stage Card -->
+      <div class="walkthrough-stage" id="walkthrough-stage"></div>
+    </div>
+  </section>
+
+  <!-- Print Ecosystem, Workbook & Assessment -->
+  <section class="section-padding" style="background: var(--bg-primary);">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow amber" data-i18n="eco_eyebrow">Ecosistema Impreso y de Evaluación</span>
+        <h2 class="section-title" data-i18n="eco_title">Workbook, Writing Practice & Assessment</h2>
+        <p class="section-desc" data-i18n="eco_desc">
+          Materiales complementarios diseñados para reforzar cada aspecto del aprendizaje dentro y fuera del aula.
+        </p>
+      </div>
+
+      <div class="ecosystem-suite-grid">
+        <!-- Workbook Card -->
+        <div class="eco-suite-card" onclick="openLightbox('assets/image47.png', 'Workbook: Práctica página a página alineada al curso')">
+          <img src="assets/image47.png" alt="Workbook Spread" class="eco-suite-thumb" loading="lazy">
+          <div class="eco-suite-body">
+            <h4 data-i18n="eco_card_1_title">Workbook & Self-Study</h4>
+            <p data-i18n="eco_card_1_desc">Una página de práctica por cada lección del Student's Book más una sección Review and Practice para repasar el contenido de toda la unidad.</p>
+            <span style="font-size:0.8rem; color:var(--cyan-primary); font-weight:600; margin-top:auto;">&#128065; Clic para ver muestra</span>
+          </div>
+        </div>
+
+        <!-- Writing Practice Card -->
+        <div class="eco-suite-card" onclick="openLightbox('assets/image50.png', 'Writing Practice: Lecciones dedicadas por género textual')">
+          <img src="assets/image50.png" alt="Writing Practice Spread" class="eco-suite-thumb" loading="lazy">
+          <div class="eco-suite-body">
+            <h4 data-i18n="eco_card_2_title">Writing Practice Dedicado</h4>
+            <p data-i18n="eco_card_2_desc">6 páginas completas por nivel dedicadas a desarrollar destrezas de redacción por géneros (notas, artículos, narrativa, coherencia y conectores).</p>
+            <span style="font-size:0.8rem; color:var(--cyan-primary); font-weight:600; margin-top:auto;">&#128065; Clic para ver muestra</span>
+          </div>
+        </div>
+
+        <!-- Continuous Assessment Card -->
+        <div class="eco-suite-card" onclick="openLightbox('assets/image53.png', 'Continuous Assessment: Test Manager y Evaluaciones periódicas')">
+          <img src="assets/image53.png" alt="Continuous Assessment" class="eco-suite-thumb" loading="lazy">
+          <div class="eco-suite-body">
+            <h4 data-i18n="eco_card_3_title">Evaluación Continua</h4>
+            <p data-i18n="eco_card_3_desc">Evaluaciones guiadas por el profesor y autoevaluación continua. Pruebas imprimibles y digitales personalizables con Test Manager.</p>
+            <span style="font-size:0.8rem; color:var(--cyan-primary); font-weight:600; margin-top:auto;">&#128065; Clic para ver muestra</span>
+          </div>
+        </div>
+
+        <!-- Exam Practice & Exam Jam Card -->
+        <div class="eco-suite-card" onclick="openLightbox('assets/image55.png', 'Exam Practice & Exam Jam: Preparación para exámenes internacionales')">
+          <img src="assets/image55.png" alt="Exam Practice Spread" class="eco-suite-thumb" loading="lazy">
+          <div class="eco-suite-body">
+            <h4 data-i18n="eco_card_4_title">Exam Practice & Exam Jam</h4>
+            <p data-i18n="eco_card_4_desc">Práctica orientada a exámenes oficiales internacionales (Cambridge, TOEFL, TOEIC) integrada de forma natural en el itinerario.</p>
+            <span style="font-size:0.8rem; color:var(--cyan-primary); font-weight:600; margin-top:auto;">&#128065; Clic para ver muestra</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Richmond Studio Section -->
+  <section class="section-padding studio-section" id="studio">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow" data-i18n="studio_eyebrow">Hub Digital Todo-en-Uno</span>
+        <h2 class="section-title" data-i18n="studio_title">Richmond Studio: La Plataforma Central</h2>
+        <p class="section-desc" data-i18n="studio_desc">
+          Un entorno digital unificado para la gestión de clase, seguimiento en tiempo real, práctica con reconocimiento de voz y herramientas docentes interactivas.
+        </p>
+      </div>
+
+      <div class="studio-showcase-container">
+        <!-- Studio Tabs Navigation -->
+        <div class="studio-tabs" id="studio-tabs"></div>
+
+        <!-- Studio Active Tab Content -->
+        <div class="studio-tab-content" id="studio-tab-content"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Student Onboarding Simulator Section -->
+  <section class="section-padding simulator-section" id="simulator">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow amber" data-i18n="sim_eyebrow">Paso a Paso</span>
+        <h2 class="section-title" data-i18n="sim_title">Guía de Activación e Inducción de Alumnos</h2>
+        <p class="section-desc" data-i18n="sim_desc">
+          Conoce el flujo exacto que siguen tus alumnos desde el primer día para registrarse, activar su libro y unirse a tu clase en Richmond Studio.
+        </p>
+      </div>
+
+      <div class="simulator-card" id="simulator-container"></div>
+    </div>
+  </section>
+
+  <!-- Richmond AI Suite Section -->
+  <section class="section-padding ai-section" id="ai-suite">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow" style="background:rgba(139,92,246,0.15); border-color:var(--purple-accent); color:var(--purple-accent);" data-i18n="ai_eyebrow">Inteligencia Artificial para Educadores</span>
+        <h2 class="section-title" data-i18n="ai_title">Richmond AI: Superpoderes para el Docente</h2>
+        <p class="section-desc" data-i18n="ai_desc">
+          Herramientas de última generación basadas en IA que automatizan diagnósticos, verifican niveles de complejidad y generan actividades dinámicas a partir de videos.
+        </p>
+      </div>
+
+      <div class="ai-grid" id="ai-grid-container"></div>
+    </div>
+  </section>
+
+  <!-- Pacing Calculator Section -->
+  <section class="section-padding pacing-section" id="pacing">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow amber" data-i18n="pacing_eyebrow">Planificación Académica</span>
+        <h2 class="section-title" data-i18n="pacing_title">Calculadora de Pacing & Estructura</h2>
+        <p class="section-desc" data-i18n="pacing_desc">
+          Ajusta la intensidad horaria semanal y el tipo de edición para visualizar el cronograma sugerido de avance, exámenes y entregas de mediación.
+        </p>
+      </div>
+
+      <div class="pacing-container">
+        <div class="pacing-controls">
+          <div class="control-group">
+            <label data-i18n="pacing_edition_lbl">Modalidad de Edición:</label>
+            <div class="radio-group">
+              <button class="radio-btn active" data-pacing-edition="full">Full Edition (10-12 Units)</button>
+              <button class="radio-btn" data-pacing-edition="split">Split Edition (A / B)</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label data-i18n="pacing_hours_lbl">Horas de clase por semana:</label>
+            <div class="range-slider-wrapper">
+              <input type="range" min="2" max="10" value="4" class="range-slider" id="pacing-slider">
+              <span class="slider-val-bubble" id="pacing-hours-val">4 hrs</span>
+            </div>
+          </div>
+
+          <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:1.25rem;">
+            <strong style="color:var(--text-white); font-size:0.95rem;">Estructura de Unidad:</strong>
+            <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.4rem;">
+              Cada unidad incluye <strong>2 lecciones de lenguaje</strong> (Grammar, Vocabulary & Pronunciation), <strong>1 destreza receptiva</strong> (Reading/Listening) y <strong>1 destreza productiva</strong> (Speaking/Writing) + tarea de Mediación.
+            </p>
+          </div>
+        </div>
+
+        <div class="pacing-results">
+          <div class="pacing-metric-row">
+            <div class="pacing-metric-box">
+              <div class="pacing-metric-num" id="pacing-total-weeks">24</div>
+              <div class="pacing-metric-lbl" data-i18n="pacing_metric_weeks">Semanas Estimadas</div>
+            </div>
+            <div class="pacing-metric-box">
+              <div class="pacing-metric-num" id="pacing-total-hours">96h</div>
+              <div class="pacing-metric-lbl" data-i18n="pacing_metric_hours">Horas de Contacto</div>
+            </div>
+          </div>
+
+          <div class="pacing-timeline-preview">
+            <h4 style="font-size: 1.05rem; margin-bottom: 0.75rem; color:var(--text-white);">Hitos Clave del Ciclo:</h4>
+            <div id="pacing-timeline-steps"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Authors & Methodology Section -->
+  <section class="section-padding" id="authors" style="background: var(--bg-primary);">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow" data-i18n="auth_eyebrow">Pedagogía Respaldada</span>
+        <h2 class="section-title" data-i18n="auth_title">Autores de Renombre y Metodología</h2>
+        <p class="section-desc" data-i18n="auth_desc">
+          Creado por dos de las figuras más influyentes de la enseñanza del idioma inglés a nivel mundial.
+        </p>
+      </div>
+
+      <!-- Authors Cards -->
+      <div class="authors-grid">
+        <div class="author-card" data-spotlight>
+          <div class="author-portrait-box">
+            <img src="assets/image95.png" alt="Jim Scrivener" class="author-portrait-img">
+          </div>
+          <div class="author-info">
+            <h3>Jim Scrivener</h3>
+            <div class="author-role" data-i18n="auth_1_role">Referente Mundial en Metodología & Visual Grammar</div>
+            <p class="author-bio" data-i18n="auth_1_bio">
+              Autor legendario de títulos como "Classroom Management Techniques" y "Visual Grammar". Diseñó la estructura de lecciones claras, dinámicas y centradas en el estudiante de Personal Best 2.0.
+            </p>
+          </div>
+        </div>
+
+        <div class="author-card" data-spotlight>
+          <div class="author-portrait-box">
+            <img src="assets/image96.png" alt="Adrian Underhill" class="author-portrait-img">
+          </div>
+          <div class="author-info">
+            <h3>Adrian Underhill</h3>
+            <div class="author-role" data-i18n="auth_2_role">Experto en Pronunciación & Creador del IPA Interactivo</div>
+            <p class="author-bio" data-i18n="auth_2_bio">
+              Creador del Cuadro Fonémico Interactivo (IPA Chart). Desarrolló el syllabus de connected speech de Personal Best 2.0, enfocándose en ritmo, elisión y habla natural.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TBL Principles & Mediation Matrix -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-bottom: 3.5rem;">
+        <div style="background:var(--bg-card); border:1px solid var(--border-light); border-radius:var(--radius-lg); padding:2.25rem;">
+          <span class="eyebrow">Task-Based Learning (TBL)</span>
+          <h3 style="font-size: 1.5rem; margin: 0.5rem 0 1.25rem;" data-i18n="tbl_title">Principios de Task-Based Learning:</h3>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:0.75rem; font-size:0.92rem; color:var(--text-secondary);">
+            <li style="display:flex; gap:0.6rem;"><span style="color:var(--cyan-primary); font-weight:700;">&#10003;</span> <span data-i18n="tbl_1">La tarea debe ser relevante y significativa para el estudiante.</span></li>
+            <li style="display:flex; gap:0.6rem;"><span style="color:var(--cyan-primary); font-weight:700;">&#10003;</span> <span data-i18n="tbl_2">El foco principal está en el significado y la comprensión.</span></li>
+            <li style="display:flex; gap:0.6rem;"><span style="color:var(--cyan-primary); font-weight:700;">&#10003;</span> <span data-i18n="tbl_3">Los estudiantes aprenden interactuando de forma activa.</span></li>
+            <li style="display:flex; gap:0.6rem;"><span style="color:var(--cyan-primary); font-weight:700;">&#10003;</span> <span data-i18n="tbl_4">Los errores son parte natural e indispensable del proceso.</span></li>
+            <li style="display:flex; gap:0.6rem;"><span style="color:var(--cyan-primary); font-weight:700;">&#10003;</span> <span data-i18n="tbl_5">Prioridad al proceso comunicativo más que al producto final.</span></li>
+            <li style="display:flex; gap:0.6rem;"><span style="color:var(--cyan-primary); font-weight:700;">&#10003;</span> <span data-i18n="tbl_6">La participación y resolución de tareas genera motivación intrínseca.</span></li>
+          </ul>
+        </div>
+
+        <div style="background:var(--bg-card); border:1px solid var(--border-light); border-radius:var(--radius-lg); padding:2.25rem;">
+          <span class="eyebrow amber">CEFR Companion Volume</span>
+          <h3 style="font-size: 1.5rem; margin: 0.5rem 0 1.25rem;" data-i18n="med_title">Las 3 Dimensiones de la Mediación CEFR:</h3>
+          <div style="display:flex; flex-direction:column; gap:1rem;">
+            <div style="border-left:3px solid var(--cyan-primary); padding-left:1rem;">
+              <strong style="color:var(--text-white); font-size:1rem;" data-i18n="med_1_title">Mediación Textual</strong>
+              <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:0.25rem;" data-i18n="med_1_desc">Resumir, parafrasear, traducir o explicar textos escritos y orales para que sean comprensibles para otros.</p>
+            </div>
+            <div style="border-left:3px solid var(--amber-primary); padding-left:1rem;">
+              <strong style="color:var(--text-white); font-size:1rem;" data-i18n="med_2_title">Mediación Conceptual</strong>
+              <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:0.25rem;" data-i18n="med_2_desc">Facilitar la comprensión de ideas complejas a través de discusiones colaborativas y resolución de problemas.</p>
+            </div>
+            <div style="border-left:3px solid var(--purple-accent); padding-left:1rem;">
+              <strong style="color:var(--text-white); font-size:1rem;" data-i18n="med_3_title">Mediación Comunicativa</strong>
+              <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:0.25rem;" data-i18n="med_3_desc">Gestionar interacciones delicadas, asegurando una comunicación empática en contextos pluriculturales.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Showcase Section -->
+  <section class="section-padding video-section" id="video-showcase">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow" data-i18n="video_eyebrow">Presentación Oficial</span>
+        <h2 class="section-title" data-i18n="video_title">Descubre Personal Best 2.0 en Acción</h2>
+        <p class="section-desc" data-i18n="video_desc">
+          Observa el video de bienvenida institucional de la serie y visualiza el impacto que generará en tu comunidad educativa.
+        </p>
+      </div>
+
+      <div class="video-player-container">
+        <video class="video-element" controls playsinline preload="metadata" poster="assets/image3.png">
+          <source src="assets/media1.mp4" type="video/mp4">
+          Tu navegador no soporta reproducción de video HTML5.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / Contact Section -->
+  <section class="cta-section" id="cta">
+    <div class="container">
+      <div class="cta-card">
+        <span class="eyebrow amber" data-i18n="cta_eyebrow">Siguiente Paso</span>
+        <h2 data-i18n="cta_title">¿Listo para Elevar el Nivel de tu Institución?</h2>
+        <p data-i18n="cta_desc">
+          Agenda una sesión de inducción personalizada, solicita muestras físicas o digitales de los libros y conoce cómo implementar Personal Best 2.0 en tu programa.
+        </p>
+
+        <div class="cta-button-group">
+          <a href="https://calendly.com/yepzhi/30min" class="btn btn-primary" target="_blank" rel="noopener" data-i18n="cta_btn_demo">
+            Agendar Demo Académica
+          </a>
+          <a href="https://wa.me/message/6O4USI5SGF3IA1" class="btn btn-whatsapp" target="_blank" rel="noopener" data-i18n="cta_btn_whatsapp">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.2.662.591 1.221.774 1.394.86.174.086.275.073.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z"/></svg>
+            Conversar por WhatsApp
+          </a>
+          <a href="mailto:name@richmondelt.com" class="btn btn-secondary" data-i18n="cta_btn_email">
+            Escribir a Soporte Richmond
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="assets/image2_light.png" alt="Richmond Logo" style="height:32px; width:auto; margin-bottom:1.25rem;">
+          <h4>Personal Best 2.0</h4>
+          <p>
+            The comprehensive English Language Teaching experience powered by Richmond Pro, Santillana. Deeper learning through focused, meaningful practice.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Navegación</h5>
+          <ul class="footer-links">
+            <li class="footer-link-item"><a href="#levels">Niveles A1 - C1</a></li>
+            <li class="footer-link-item"><a href="#features">Diferenciadores Clave</a></li>
+            <li class="footer-link-item"><a href="#walkthrough">Anatomía de Unidad</a></li>
+            <li class="footer-link-item"><a href="#studio">Richmond Studio</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Plataforma</h5>
+          <ul class="footer-links">
+            <li class="footer-link-item"><a href="#simulator">Inducción de Alumnos</a></li>
+            <li class="footer-link-item"><a href="#ai-suite">Richmond AI</a></li>
+            <li class="footer-link-item"><a href="#pacing">Pacing & Planning</a></li>
+            <li class="footer-link-item"><a href="#authors">Scrivener & Underhill</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Contacto & Acceso</h5>
+          <ul class="footer-links">
+            <li class="footer-link-item"><a href="https://richmondstudio.global/login" target="_blank" rel="noopener">richmondstudio.global</a></li>
+            <li class="footer-link-item"><a href="mailto:name@richmondelt.com">name@richmondelt.com</a></li>
+            <li class="footer-link-item"><a href="https://wa.me/message/6O4USI5SGF3IA1" target="_blank" rel="noopener">WhatsApp Directo</a></li>
+            <li class="footer-link-item"><a href="https://calendly.com/yepzhi/30min" target="_blank" rel="noopener">Agendar Cita Demo</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 Richmond Publishing / Santillana. Todos los derechos reservados.
+        </div>
+        <div style="color:var(--text-muted); font-size:0.85rem;">
+          Personal Best 2.0 Experience Platform &middot; In Association with ETS TOEIC &middot; CEFR Aligned
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Universal Lightbox Modal -->
+  <div class="lightbox-modal" id="lightbox-modal">
+    <div class="lightbox-content">
+      <button class="lightbox-close-btn" id="lightbox-close" aria-label="Cerrar">&#10005;</button>
+      <img src="" alt="Muestra ampliada" class="lightbox-img" id="lightbox-img">
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript Application -->
+  <script src="app.js?v=2.0"></script>
+</body>
+</html>
