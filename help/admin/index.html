@@ -264,14 +264,11 @@
         Ingresa tu PIN o clave de asesor para gestionar solicitudes e incidencias.
       </p>
 
-      <input type="password" class="input-text" id="gatePassInput" placeholder="Clave de acceso (ej. richmond2026)" style="margin-bottom: 1rem; text-align: center;" />
+      <input type="password" class="input-text" id="gatePassInput" placeholder="Clave de acceso" style="margin-bottom: 1rem; text-align: center;" />
       <button type="button" class="btn-primary" style="width: 100%; justify-content: center;" onclick="checkAdminGate()">
         Ingresar al Portal
       </button>
       <div class="err-msg" id="gateErr"></div>
-      <p style="font-size: 0.75rem; color: var(--c-muted); margin-top: 1rem;">
-        Clave predeterminada: <code style="color: var(--c-accent2);">richmond2026</code>
-      </p>
     </div>
   </div>
 
@@ -529,7 +526,7 @@
       const err = document.getElementById('gateErr');
       const val = input.value.trim();
 
-      if (val === 'richmond2026' || val === 'admin123' || val === 'yepzhi') {
+      if (val === 'Pro26' || val === 'pro26') {
         document.getElementById('gateOverlay').style.display = 'none';
         document.getElementById('adminApp').style.display = 'block';
         loadAdminTickets();
