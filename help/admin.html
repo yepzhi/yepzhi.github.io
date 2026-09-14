@@ -453,13 +453,26 @@
         <label for="filterSchool">Escuela:</label>
         <select class="select-custom" id="filterSchool" onchange="applyFilters()">
           <option value="ALL">Todas las instituciones</option>
-          <option value="UTH">UTH (Hermosillo)</option>
-          <option value="ITESCA">ITESCA (Cajeme)</option>
-          <option value="ITLM">ITLM (Los Mochis)</option>
-          <option value="ITH">ITH (Hermosillo)</option>
-          <option value="IT MXL">IT MXL (Mexicali)</option>
-          <option value="UNIVAFU">UNIVAFU (Los Mochis)</option>
-          <option value="OTRA">Otras instituciones</option>
+          <optgroup label="ZONA NOROESTE (Alberto Yépiz)">
+            <option value="UTH">UTH (Hermosillo)</option>
+            <option value="ITESCA">ITESCA (Cajeme)</option>
+            <option value="ITLM">ITLM (Los Mochis)</option>
+            <option value="ITH">ITH (Hermosillo)</option>
+            <option value="IT MXL">IT MXL (Mexicali)</option>
+            <option value="UNIVAFU">UNIVAFU (Los Mochis)</option>
+          </optgroup>
+          <optgroup label="ZONA OCCIDENTE (Fabiola Martinez)">
+            <option value="UTNA">UTNA (Aguascalientes)</option>
+            <option value="IT CUL">IT CUL (Culiacán)</option>
+            <option value="BACH TEPIC">Bach. Ciencias y Letras (Tepic)</option>
+            <option value="UPSIN">UPSIN (Sinaloa)</option>
+            <option value="CETI COLOMOS">CETI Colomos (Guadalajara)</option>
+            <option value="LAMAR">LAMAR (Guadalajara)</option>
+            <option value="CAI">CAI (Internacionales)</option>
+          </optgroup>
+          <optgroup label="OTRAS">
+            <option value="OTRA">Otras instituciones</option>
+          </optgroup>
         </select>
       </div>
 
@@ -745,8 +758,9 @@
         if (fAdvisor !== 'ALL' && t.assignedAdvisor !== fAdvisor) return false;
         // Escuela
         if (fSchool !== 'ALL') {
+          const KNOWN_CODES = ['UTH', 'ITESCA', 'ITLM', 'ITH', 'IT MXL', 'UNIVAFU', 'UTNA', 'IT CUL', 'BACH TEPIC', 'UPSIN', 'CETI COLOMOS', 'LAMAR', 'CAI'];
           if (fSchool === 'OTRA') {
-            if (['UTH', 'ITESCA', 'ITLM', 'ITH', 'IT MXL', 'UNIVAFU'].includes(t.schoolCode)) return false;
+            if (KNOWN_CODES.includes(t.schoolCode)) return false;
           } else if (t.schoolCode !== fSchool && !t.school?.includes(fSchool)) {
             return false;
           }

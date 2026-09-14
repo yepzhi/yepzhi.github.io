@@ -384,10 +384,45 @@ async function submitTicket() {
   const folio = `HELP-${randomNum}`;
 
   // Determinación de Asesor:
-  // Escuelas del Noroeste (UTH, ITESCA, ITLM, ITH, IT MXL, UNIVAFU) -> Alberto Yépiz
+  // Noroeste -> Alberto Yépiz (UTH, ITESCA, ITLM, ITH, IT MXL, UNIVAFU)
+  // Occidente -> Fabiola Martinez (UTNA, IT CUL, BACH TEPIC, UPSIN, CETI COLOMOS, LAMAR, CAI)
   const schoolKey = STATE.data.school;
   let assignedAdvisor = 'Alberto Yépiz';
   let advisorWA = '5216621147374';
+
+  const OCCIDENTE_SCHOOLS = [
+    'UTNA',
+    'IT CUL',
+    'BACH TEPIC',
+    'UPSIN',
+    'CETI COLOMOS',
+    'LAMAR',
+    'CAI'
+  ];
+
+  const SCHOOL_NAMES = {
+    'UTH': 'UTH - Univ. Tecnológica de Hermosillo',
+    'ITESCA': 'ITESCA - Inst. Tecnológico Superior de Cajeme',
+    'ITLM': 'ITLM - Inst. Tecnológico de Los Mochis',
+    'ITH': 'ITH - Inst. Tecnológico de Hermosillo',
+    'IT MXL': 'IT MXL - Inst. Tecnológico de Mexicali',
+    'UNIVAFU': 'UNIVAFU - Universidad del Valle del Fuerte',
+    'UTNA': 'UTNA - Univ. Tecnológica del Norte de Aguascalientes',
+    'IT CUL': 'IT CUL - Inst. Tecnológico de Culiacán',
+    'BACH TEPIC': 'Bach. de Ciencias y Letras de Tepic',
+    'UPSIN': 'UPSIN - Univ. Politécnica de Sinaloa',
+    'CETI COLOMOS': 'CETI Colomos - Centro de Enseñanza Técnica Industrial',
+    'LAMAR': 'LAMAR - Univ. Guadalajara LAMAR',
+    'CAI': 'CAI - Coordinación de Asuntos Internacionales'
+  };
+
+  if (OCCIDENTE_SCHOOLS.includes(schoolKey)) {
+    assignedAdvisor = 'Fabiola Martinez';
+    advisorWA = '5213316025928';
+  } else {
+    assignedAdvisor = 'Alberto Yépiz';
+    advisorWA = '5216621147374';
+  }
 
   const now = new Date();
   const dateStr = now.toLocaleDateString('es-MX', {
@@ -402,7 +437,7 @@ async function submitTicket() {
   const payload = {
     folio: folio,
     issueType: STATE.data.issueType,
-    school: schoolKey === 'OTRA' ? STATE.data.schoolOther : schoolKey,
+    school: schoolKey === 'OTRA' ? (STATE.data.schoolOther || 'Otra institución') : (SCHOOL_NAMES[schoolKey] || schoolKey),
     schoolCode: schoolKey,
     email: STATE.data.email.toLowerCase(),
     altEmail: STATE.data.altEmail ? STATE.data.altEmail.toLowerCase() : '',

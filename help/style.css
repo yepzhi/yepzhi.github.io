@@ -683,10 +683,21 @@ body {
   font-weight: 600;
   min-height: 1.1rem;
 }
+.select-custom optgroup {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: var(--primary);
+  background: #f8fafc;
+  padding: 0.45rem 0.3rem;
+  letter-spacing: 0.04em;
+}
 .select-custom option {
   background: #ffffff;
   color: #0f172a;
   padding: 0.5rem;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
 }
 
 /* ── INCIDENCE SELECTOR (CHIPS / CARDS) ── */

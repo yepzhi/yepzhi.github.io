@@ -243,14 +243,30 @@
               Escuela o Institución:
             </label>
             <select class="select-custom" id="schoolSelect">
-              <option value="" disabled selected>-- Selecciona tu institución --</option>
-              <option value="UTH">UTH - Universidad Tecnológica de Hermosillo</option>
-              <option value="ITESCA">ITESCA - Inst. Tecnológico Superior de Cajeme</option>
-              <option value="ITLM">ITLM - Instituto Tecnológico de Los Mochis</option>
-              <option value="ITH">ITH - Instituto Tecnológico de Hermosillo</option>
-              <option value="IT MXL">IT MXL - Instituto Tecnológico de Mexicali</option>
-              <option value="UNIVAFU">UNIVAFU - Universidad del Valle del Fuerte</option>
-              <option value="OTRA">Otra institución educativa…</option>
+              <option value="" disabled selected>-- Selecciona tu institución educativa --</option>
+
+              <optgroup label="ZONA NOROESTE (Asesor: Alberto Yépiz)">
+                <option value="UTH">UTH - Universidad Tecnológica de Hermosillo</option>
+                <option value="ITESCA">ITESCA - Inst. Tecnológico Superior de Cajeme</option>
+                <option value="ITLM">ITLM - Instituto Tecnológico de Los Mochis</option>
+                <option value="ITH">ITH - Instituto Tecnológico de Hermosillo</option>
+                <option value="IT MXL">IT MXL - Instituto Tecnológico de Mexicali</option>
+                <option value="UNIVAFU">UNIVAFU - Universidad del Valle del Fuerte</option>
+              </optgroup>
+
+              <optgroup label="ZONA OCCIDENTE (Asesora: Fabiola Martinez)">
+                <option value="UTNA">UTNA - Universidad Tecnológica del Norte de Aguascalientes</option>
+                <option value="IT CUL">IT CUL - Inst. Tecnológico de Culiacán</option>
+                <option value="BACH TEPIC">Bach. de Ciencias y Letras de Tepic</option>
+                <option value="UPSIN">UPSIN - Universidad Politécnica de Sinaloa</option>
+                <option value="CETI COLOMOS">CETI Colomos - Centro de Enseñanza Técnica Industrial</option>
+                <option value="LAMAR">LAMAR - Universidad Guadalajara LAMAR</option>
+                <option value="CAI">CAI - Coordinación de Asuntos Internacionales</option>
+              </optgroup>
+
+              <optgroup label="OTRA REGIÓN O INSTITUCIÓN">
+                <option value="OTRA">Otra institución educativa…</option>
+              </optgroup>
             </select>
             <div class="err-msg" id="err-school"></div>
           </div>
