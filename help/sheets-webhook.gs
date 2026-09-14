@@ -43,22 +43,21 @@ function appendTicketToSheet(ss, sheetName, data) {
   }
 
   // Si la pestaña está vacía, agregar encabezados formateados
-  if (sheet.getLastRow() === 0) {
     const headers = [
-      '🎫 Folio',
-      '📅 Fecha Registro',
-      '🏫 Escuela',
-      '⚠️ Tipo de Incidencia',
-      '👤 Nombre Completo',
-      '🏷️ Apodo / Alias',
-      '📧 Correo Principal',
-      '📧 Segundo Correo',
-      '📖 Código de Libro',
-      '👨‍💼 Asesor Asignado',
-      '🔄 Estatus',
-      '⏱️ Tiempo Transcurrido (min)',
-      '💬 Solución / Nota Asesor',
-      '🆔 Firestore ID'
+      'Folio',
+      'Fecha Registro',
+      'Escuela',
+      'Tipo de Incidencia',
+      'Nombre Completo',
+      'Apodo / Alias',
+      'Correo Principal',
+      'Segundo Correo',
+      'Codigo de Libro',
+      'Asesor Asignado',
+      'Estatus',
+      'Tiempo Transcurrido (min)',
+      'Solucion / Nota Asesor',
+      'Firestore ID'
     ];
     sheet.appendRow(headers);
 

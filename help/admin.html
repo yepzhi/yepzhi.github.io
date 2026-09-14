@@ -339,7 +339,7 @@
     <section class="filters-bar">
       <!-- Selector de Asesor -->
       <div class="filter-item">
-        <label for="filterAdvisor">👨‍💼 Asesor Responsable:</label>
+        <label for="filterAdvisor">Asesor Responsable:</label>
         <select class="select-custom" id="filterAdvisor" onchange="applyFilters()">
           <option value="ALL">Todos los Asesores de México</option>
           <option value="Alberto Yépiz" selected>Alberto Yépiz (Noroeste)</option>
@@ -356,7 +356,7 @@
 
       <!-- Selector de Escuela -->
       <div class="filter-item">
-        <label for="filterSchool">🏫 Escuela:</label>
+        <label for="filterSchool">Escuela:</label>
         <select class="select-custom" id="filterSchool" onchange="applyFilters()">
           <option value="ALL">Todas las instituciones</option>
           <option value="UTH">UTH (Hermosillo)</option>
@@ -371,7 +371,7 @@
 
       <!-- Selector de Estatus -->
       <div class="filter-item">
-        <label for="filterStatus">🔄 Estatus:</label>
+        <label for="filterStatus">Estatus:</label>
         <select class="select-custom" id="filterStatus" onchange="applyFilters()">
           <option value="ALL">Todos los Estatus</option>
           <option value="Pendiente">Pendiente / En Espera</option>
@@ -382,7 +382,7 @@
 
       <!-- Buscador -->
       <div class="filter-item filter-search">
-        <label for="filterSearch">🔍 Búsqueda Rápida:</label>
+        <label for="filterSearch">Búsqueda Rápida:</label>
         <input type="text" class="input-text" id="filterSearch" placeholder="Buscar por Folio, Alumno, Correo o Código…" oninput="applyFilters()" />
       </div>
     </section>
@@ -400,7 +400,7 @@
               <th>Incidencia</th>
               <th>Código Libro</th>
               <th>Asesor</th>
-              <th>⏱️ Elapsed Time</th>
+              <th>Elapsed Time</th>
               <th>Estatus</th>
               <th>Acciones</th>
             </tr>
@@ -426,7 +426,7 @@
           <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); font-weight: 800; font-family: 'Outfit', sans-serif;">Gestión de Solicitud</span>
           <h2 id="modalFolio" style="font-size: 1.55rem; font-weight: 900; color: var(--text-main); font-family: monospace;">HELP-00000</h2>
         </div>
-        <button type="button" class="btn-action" onclick="closeDetailModal()">✕ Cerrar</button>
+        <button type="button" class="btn-action" onclick="closeDetailModal()">Cerrar</button>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 1.5rem; font-size: 0.88rem;">
@@ -448,9 +448,9 @@
         <div class="form-group">
           <label class="form-label" for="modalStatusSelect">Actualizar Estatus:</label>
           <select class="select-custom" id="modalStatusSelect">
-            <option value="Pendiente">🟡 Pendiente / En Espera</option>
-            <option value="En Revisión">🔵 En Revisión por Asesor</option>
-            <option value="Resuelto">🟢 Resuelto</option>
+            <option value="Pendiente">Pendiente / En Espera</option>
+            <option value="En Revisión">En Revisión por Asesor</option>
+            <option value="Resuelto">Resuelto</option>
           </select>
         </div>
 

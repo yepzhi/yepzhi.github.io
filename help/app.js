@@ -542,13 +542,13 @@ function renderStatusCard(ticket) {
   const isProgress = ticket.status === 'En Revisión';
 
   let badgeClass = 'pending';
-  let badgeText = '🟡 En Espera de Revisión';
+  let badgeText = 'En Espera de Revisión';
   if (isResolved) {
     badgeClass = 'resolved';
-    badgeText = '🟢 Solicitud Resuelta';
+    badgeText = 'Solicitud Resuelta';
   } else if (isProgress) {
     badgeClass = 'progress';
-    badgeText = '🔵 En Proceso de Atención';
+    badgeText = 'En Proceso de Atención';
   }
 
   const createdAt = ticket.createdAtMillis || (ticket.createdAt?.toDate ? ticket.createdAt.toDate().getTime() : Date.now());
