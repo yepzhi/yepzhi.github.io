@@ -719,7 +719,7 @@ function renderStatusCard(ticket) {
         </div>
       </div>
 
-      <!-- Solution box if resolved -->
+      <!-- Solution box if provided -->
       ${ticket.solutionNote ? `
         <div class="advisor-solution-box">
           <div class="solution-header">
@@ -730,6 +730,21 @@ function renderStatusCard(ticket) {
             Indicaciones del Asesor:
           </div>
           <div class="solution-text">${escapeHtml(ticket.solutionNote)}</div>
+
+          ${(ticket.solutionNote.toLowerCase().includes('whatsapp') || ticket.solutionNote.toLowerCase().includes('foto') || ticket.solutionNote.toLowerCase().includes('código') || ticket.solutionNote.toLowerCase().includes('codigo') || ticket.solutionNote.toLowerCase().includes('asesor') || ticket.status !== 'Resuelto') ? `
+            <div style="margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px dashed rgba(22, 163, 74, 0.35); display: flex; flex-direction: column; gap: 0.45rem;">
+              <span style="font-size: 0.78rem; color: #166534; font-weight: 700;">Envía la foto de tu código directamente a tu asesor aquí:</span>
+              <a href="https://wa.me/${ticket.advisorWA || '5216621147374'}?text=${encodeURIComponent(`Hola, envío la foto de mi código respecto a mi solicitud con Folio: ${ticket.folio} (${ticket.fullName})`)}" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 class="btn-solution-whatsapp">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/>
+                </svg>
+                Contactar directamente a tu asesor por WhatsApp
+              </a>
+            </div>
+          ` : ''}
         </div>
       ` : ''}
 

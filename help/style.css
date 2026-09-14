@@ -1135,6 +1135,37 @@ body {
   font-weight: 600;
 }
 
+.btn-solution-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff !important;
+  text-decoration: none;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.94rem;
+  font-weight: 800;
+  padding: 0.75rem 1.4rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.32);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+.btn-solution-whatsapp:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
+  transform: translateY(-1.5px);
+}
+.btn-solution-whatsapp:active {
+  transform: translateY(0);
+}
+.btn-solution-whatsapp svg {
+  flex-shrink: 0;
+}
+
 /* ── QUEUE / POSITION IN LINE ── */
 .queue-box {
   background: linear-gradient(135deg, #fffbeb, #fef3c7);
