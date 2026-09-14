@@ -661,7 +661,13 @@ function renderStatusCard(ticket) {
 
   const createdAt = ticket.createdAtMillis || (ticket.createdAt?.toDate ? ticket.createdAt.toDate().getTime() : Date.now());
   const resolvedAt = ticket.resolvedAtMillis || null;
-  const assignedPassword = ticket.assignedPassword || 'Mexico26*';
+  const assignedPassword = (ticket.assignedPassword || '').trim();
+  const noteText = (ticket.solutionNote || '').toLowerCase();
+  const isNoUserFound = noteText.includes('no se encontró') || 
+                        noteText.includes('no se encontro') || 
+                        noteText.includes('ningún usuario') || 
+                        noteText.includes('ningun usuario');
+  const hasPasswordAssigned = isResolved && assignedPassword.length > 0 && !isNoUserFound;
 
   container.innerHTML = `
     <div class="status-card">
@@ -675,8 +681,8 @@ function renderStatusCard(ticket) {
         </div>
       </div>
 
-      <!-- SI ESTÁ RESUELTA: BANNER PRINCIPAL CON ACCESO Y CONTRASEÑA -->
-      ${isResolved ? `
+      <!-- CASO 1: RESUELTO CON CONTRASEÑA ASIGNADA -->
+      ${hasPasswordAssigned ? `
         <div class="resolved-hero-card">
           <div class="resolved-hero-header">
             <span class="resolved-check-icon">
@@ -722,8 +728,49 @@ function renderStatusCard(ticket) {
             Una vez dentro, podrás actualizar tu contraseña si lo deseas en la sección <strong>"My Profile"</strong>.
           </p>
         </div>
-      ` : `
-        <!-- SI NO ESTÁ RESUELTA: COLA DE ATENCIÓN EN TIEMPO REAL -->
+      ` : ''}
+
+      <!-- CASO 2: NO SE ENCONTRÓ USUARIO (SIN CONTRASEÑA) -->
+      ${isNoUserFound ? `
+        <div class="resolved-hero-card" style="background: #fffbeb; border: 2px solid #fcd34d; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.12);">
+          <div class="resolved-hero-header">
+            <span class="resolved-check-icon" style="background: #f59e0b; box-shadow: 0 4px 16px rgba(245, 158, 11, 0.35);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </span>
+            <div>
+              <h4 class="resolved-hero-title" style="color: #92400e;">${isResolved ? 'Solicitud Atendida: Usuario No Encontrado' : 'Revisión: Usuario No Encontrado'}</h4>
+              <p class="resolved-hero-subtitle" style="color: #78350f;">No existe una cuenta registrada previa con estos datos en la plataforma Richmond Studio.</p>
+            </div>
+          </div>
+
+          <div style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 14px; padding: 1.05rem 1.25rem; color: #1e293b; font-size: 0.93rem; line-height: 1.55; font-weight: 600;">
+            ${escapeHtml(ticket.solutionNote || 'No se encontró ningún usuario con esos datos. Favor de revisar e intentar registrar su código de nuevo en la plataforma; mandar foto al asesor vía WhatsApp. Si sigue saliendo inválido se le proporcionará un código de repuesto nuevo.')}
+          </div>
+
+          <div style="margin-top: 0.3rem;">
+            <a href="https://wa.me/${ticket.advisorWA || '5216621147374'}?text=${encodeURIComponent(`Hola, envío foto de mi código sobre mi solicitud con Folio: ${ticket.folio} (${ticket.fullName})`)}" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="btn-solution-whatsapp">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/>
+              </svg>
+              Enviar foto de mi código al asesor por WhatsApp
+            </a>
+          </div>
+
+          <p class="resolved-tip" style="color: #92400e;">
+            <strong>Nota:</strong> Al no existir cuenta previa en la plataforma, <strong>NO</strong> se te asignó ninguna contraseña predeterminada. Debes crear tu cuenta registrando tu código del libro.
+          </p>
+        </div>
+      ` : ''}
+
+      <!-- CASO 3: EN PROCESO (SIN RESOLUCIÓN NI AVISO DE NO USUARIO) -->
+      ${(!isResolved && !isNoUserFound) ? `
         <div class="queue-box" id="queuePositionBox">
           <div class="queue-box-info">
             <div class="queue-icon-bubble">
@@ -741,7 +788,7 @@ function renderStatusCard(ticket) {
           </div>
           <span class="queue-badge-pill" id="queuePosVal">Consultando…</span>
         </div>
-      `}
+      ` : ''}
 
       <!-- Live Elapsed Time Ticker -->
       <div class="elapsed-box">
@@ -754,8 +801,8 @@ function renderStatusCard(ticket) {
         </div>
       </div>
 
-      <!-- Solution box if provided -->
-      ${ticket.solutionNote ? `
+      <!-- Indicaciones Generales del Asesor si no es caso de "No Usuario" -->
+      ${(ticket.solutionNote && !isNoUserFound) ? `
         <div class="advisor-solution-box">
           <div class="solution-header">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -766,7 +813,7 @@ function renderStatusCard(ticket) {
           </div>
           <div class="solution-text">${escapeHtml(ticket.solutionNote)}</div>
 
-          ${(ticket.solutionNote.toLowerCase().includes('whatsapp') || ticket.solutionNote.toLowerCase().includes('foto') || ticket.solutionNote.toLowerCase().includes('código') || ticket.solutionNote.toLowerCase().includes('codigo') || ticket.solutionNote.toLowerCase().includes('asesor') || ticket.status !== 'Resuelto') ? `
+          ${(ticket.solutionNote.toLowerCase().includes('whatsapp') || ticket.solutionNote.toLowerCase().includes('foto') || ticket.solutionNote.toLowerCase().includes('código') || ticket.solutionNote.toLowerCase().includes('codigo') || ticket.solutionNote.toLowerCase().includes('asesor')) ? `
             <div style="margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px dashed rgba(22, 163, 74, 0.35); display: flex; flex-direction: column; gap: 0.45rem;">
               <span style="font-size: 0.78rem; color: #166534; font-weight: 700;">Envía la foto de tu código directamente a tu asesor aquí:</span>
               <a href="https://wa.me/${ticket.advisorWA || '5216621147374'}?text=${encodeURIComponent(`Hola, envío la foto de mi código respecto a mi solicitud con Folio: ${ticket.folio} (${ticket.fullName})`)}" 

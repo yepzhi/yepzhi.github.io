@@ -618,16 +618,20 @@
           </div>
 
           <!-- Opciones Rápidas de Solución -->
-          <div style="display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.65rem;">
+          <div style="display: flex; flex-direction: column; gap: 0.45rem; margin-bottom: 0.75rem;">
             <span style="font-size: 0.74rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em;">Plantillas rápidas de solución:</span>
             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-              <button type="button" class="btn-preset-solution" onclick="applySolutionPreset('resolved_pass')">
+              <button type="button" class="btn-preset-solution" onclick="applySolutionPreset('resolved_pass')" title="Marcar como Resuelto y asignar contraseña Mexico26*">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                Restablecida a Mexico26*
+                Resolver: Clave Mexico26*
               </button>
-              <button type="button" class="btn-preset-solution warning" onclick="applySolutionPreset('no_user_found')">
+              <button type="button" class="btn-preset-solution warning" onclick="applySolutionPreset('no_user_found_resolved')" title="Marcar como Resuelto SIN asignar contraseña porque no existe el usuario">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Resolver: No se encontró usuario (Sin clave)
+              </button>
+              <button type="button" class="btn-preset-solution secondary" onclick="applySolutionPreset('no_user_found_review')" title="Dejar En Revisión">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                No se encontró usuario (Reintentar código)
+                En Revisión: No se encontró usuario
               </button>
             </div>
           </div>
@@ -993,9 +997,15 @@
       const passGroup = document.getElementById('modalPasswordGroup');
       const passInput = document.getElementById('modalAssignedPassword');
 
-      if (presetType === 'no_user_found') {
+      if (presetType === 'no_user_found_resolved') {
+        noteEl.value = 'No se encontró ningún usuario con esos datos. Favor de revisar e intentar registrar su código de nuevo en la plataforma; mandar foto al asesor vía WhatsApp. Si sigue saliendo inválido, se le proporcionará un código de repuesto nuevo.';
+        statusSelect.value = 'Resuelto';
+        if (passInput) passInput.value = '';
+        if (passGroup) passGroup.style.display = 'none';
+      } else if (presetType === 'no_user_found_review') {
         noteEl.value = 'No se encontró ningún usuario con esos datos. Favor de revisar e intentar registrar su código de nuevo en la plataforma; mandar foto al asesor vía WhatsApp. Si sigue saliendo inválido, se le proporcionará un código de repuesto nuevo.';
         statusSelect.value = 'En Revisión';
+        if (passInput) passInput.value = '';
         if (passGroup) passGroup.style.display = 'none';
       } else if (presetType === 'resolved_pass') {
         noteEl.value = 'Se asignó tu contraseña a: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio con tu correo y esta clave.';
@@ -1017,8 +1027,17 @@
       const newStatus = document.getElementById('modalStatusSelect').value;
       const newAdvisor = document.getElementById('modalAdvisorSelect').value;
       const newSolutionNote = document.getElementById('modalSolutionNote').value.trim();
+      const passGroup = document.getElementById('modalPasswordGroup');
       const passInput = document.getElementById('modalAssignedPassword');
-      const assignedPass = (newStatus === 'Resuelto') ? ((passInput && passInput.value.trim()) || 'Mexico26*') : '';
+      const isPassVisible = passGroup && passGroup.style.display !== 'none';
+      const noteLower = newSolutionNote.toLowerCase();
+      const isNoUser = noteLower.includes('no se encontró') || noteLower.includes('no se encontro') || noteLower.includes('ningún usuario') || noteLower.includes('ningun usuario');
+
+      // Solo asignar contraseña si es Resuelto, el panel de clave está visible, NO es caso de "no se encontró usuario" y el input no está vacío
+      let assignedPass = '';
+      if (newStatus === 'Resuelto' && isPassVisible && !isNoUser && passInput) {
+        assignedPass = passInput.value.trim();
+      }
 
       const wasResolved = currentEditingTicket.status === 'Resuelto';
       let resolvedAtMillis = currentEditingTicket.resolvedAtMillis;
