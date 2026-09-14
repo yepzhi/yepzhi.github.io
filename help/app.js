@@ -122,7 +122,7 @@ window.switchTab = switchTab;
 
 // ─── ISSUE SELECTOR CHIPS ─────────────────────────
 function initIssueSelectors() {
-  const cards = document.querySelectorAll('.issue-card');
+  const cards = document.querySelectorAll('.issue-card:not(.issue-card-external)');
   cards.forEach(card => {
     card.addEventListener('click', () => {
       cards.forEach(c => c.classList.remove('selected'));

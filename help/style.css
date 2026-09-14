@@ -764,6 +764,50 @@ body {
   line-height: 1.45;
 }
 
+/* External Link Card (ProReport) */
+.issue-card-external {
+  text-decoration: none;
+  color: inherit;
+  border-color: rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 245, 255, 0.88));
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+.issue-card-external:hover {
+  border-color: var(--primary);
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(30, 122, 255, 0.12), 0 0 0 1px rgba(30, 122, 255, 0.2);
+}
+.issue-card-external .ext-indicator {
+  background: #eff6ff;
+  border-color: rgba(30, 122, 255, 0.3);
+  color: var(--primary);
+}
+.issue-card-external .issue-arrow {
+  margin-left: auto;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+.issue-card-external:hover .issue-arrow {
+  transform: translateX(4px);
+}
+.ext-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  background: #eff6ff;
+  color: #1e7aff;
+  border: 1px solid #bfdbfe;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 /* ── BOOK CODE HELPER BADGE ── */
 .book-tip-box {
   background: #f0fdf4;
