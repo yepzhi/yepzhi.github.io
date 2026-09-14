@@ -6,7 +6,7 @@
   <title>Richmond Pro · Centro de Ayuda e Incidencias</title>
   <meta name="description" content="Portal oficial de atención a incidencias técnicas comunes de Richmond Studio: Invalid Credentials, Invalid Code y recuperación de correos." />
   <meta name="color-scheme" content="light">
-  <link rel="stylesheet" href="style.css?v=2.1.0" />
+  <link rel="stylesheet" href="style.css?v=2.2.0" />
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 </head>
 <body>
@@ -28,7 +28,7 @@
       <a href="./" class="logo-badge" title="Richmond Pro Help">
         <span class="logo-text">Richmond <strong>Pro</strong></span>
       </a>
-      <p class="portal-tagline">Centro de Soporte Técnico · Richmond Studio</p>
+      <p class="portal-tagline">Soporte Técnico Provisional · Richmond Studio</p>
     </header>
 
     <!-- TOP NAVIGATION TABS -->
@@ -64,9 +64,9 @@
     ───────────────────────────────────────────── -->
     <section class="view-panel active" id="viewForm">
 
-      <!-- PRE-FILL WARNING / SELF-DIAGNOSTIC BANNER -->
+      <!-- PRE-FILL WARNING / SELF-DIAGNOSTIC BANNER (CENTRADO) -->
       <div class="warning-box">
-        <div class="warning-header">
+        <div class="warning-header" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem;">
           <span class="warning-badge">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
@@ -75,10 +75,10 @@
             </svg>
             Importante
           </span>
-          <h2 class="warning-title">¡Lee esto antes de enviar tu solicitud!</h2>
+          <h2 class="warning-title" style="text-align: center;">¡Lee esto antes de enviar tu solicitud!</h2>
         </div>
-        <p class="warning-intro">
-          La mayoría de los errores comunes tienen solución inmediata. Revisa estos 2 casos frecuentes antes de llenar el formulario:
+        <p class="warning-intro" style="text-align: center; max-width: 580px; margin: 0 auto 1.2rem auto;">
+          La mayoría de los errores comunes tienen solución inmediata. Revisa estas soluciones frecuentes antes de llenar el formulario:
         </p>
 
         <div class="diagnostics-grid">
@@ -86,7 +86,7 @@
           <details class="diag-card" open>
             <summary class="diag-summary">
               <div class="diag-summary-left">
-                <span class="diag-tag top1">Top 1</span>
+                <span class="diag-tag top1">Error más común 1</span>
                 <span class="diag-title">No puedo entrar: "Invalid Credentials"</span>
               </div>
               <svg class="diag-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -119,7 +119,7 @@
           <details class="diag-card" open>
             <summary class="diag-summary">
               <div class="diag-summary-left">
-                <span class="diag-tag top2">Top 2</span>
+                <span class="diag-tag top2">Error más común 2</span>
                 <span class="diag-title">"Invalid Code" / Mi código no funciona</span>
               </div>
               <svg class="diag-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -469,8 +469,7 @@
       </p>
     </footer>
 
-  </main>
-
-  <script type="module" src="app.js?v=2.1.0"></script>
+  <script src="aurora.js?v=2.2.0"></script>
+  <script type="module" src="app.js?v=2.2.0"></script>
 </body>
 </html>
