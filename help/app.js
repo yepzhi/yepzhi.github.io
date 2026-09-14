@@ -385,10 +385,18 @@ async function submitTicket() {
 
   // Determinación de Asesor:
   // Noroeste -> Alberto Yépiz (UTH, ITESCA, ITLM, ITH, IT MXL, UNIVAFU)
+  // Norte    -> Luis Franco (UAZ PEUL, UJED, ICEST TAMPICO, CI 22 UANL)
   // Occidente -> Fabiola Martinez (UTNA, IT CUL, BACH TEPIC, UPSIN, CETI COLOMOS, LAMAR, CAI)
   const schoolKey = STATE.data.school;
   let assignedAdvisor = 'Alberto Yépiz';
   let advisorWA = '5216621147374';
+
+  const NORTE_SCHOOLS = [
+    'UAZ PEUL',
+    'UJED',
+    'ICEST TAMPICO',
+    'CI 22 UANL'
+  ];
 
   const OCCIDENTE_SCHOOLS = [
     'UTNA',
@@ -407,6 +415,10 @@ async function submitTicket() {
     'ITH': 'ITH - Inst. Tecnológico de Hermosillo',
     'IT MXL': 'IT MXL - Inst. Tecnológico de Mexicali',
     'UNIVAFU': 'UNIVAFU - Universidad del Valle del Fuerte',
+    'UAZ PEUL': 'UAZ PEUL - Universidad Autónoma de Zacatecas (PEUL)',
+    'UJED': 'UJED - Facultad de Lenguas PUAALI',
+    'ICEST TAMPICO': 'ICEST Tampico',
+    'CI 22 UANL': 'CI 22 UANL - Centro de Idiomas Prepa',
     'UTNA': 'UTNA - Univ. Tecnológica del Norte de Aguascalientes',
     'IT CUL': 'IT CUL - Inst. Tecnológico de Culiacán',
     'BACH TEPIC': 'Bach. de Ciencias y Letras de Tepic',
@@ -416,7 +428,10 @@ async function submitTicket() {
     'CAI': 'CAI - Coordinación de Asuntos Internacionales'
   };
 
-  if (OCCIDENTE_SCHOOLS.includes(schoolKey)) {
+  if (NORTE_SCHOOLS.includes(schoolKey)) {
+    assignedAdvisor = 'Luis Franco';
+    advisorWA = '5218119905772';
+  } else if (OCCIDENTE_SCHOOLS.includes(schoolKey)) {
     assignedAdvisor = 'Fabiola Martinez';
     advisorWA = '5213316025928';
   } else {

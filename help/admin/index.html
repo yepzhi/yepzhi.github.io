@@ -461,6 +461,12 @@
             <option value="IT MXL">IT MXL (Mexicali)</option>
             <option value="UNIVAFU">UNIVAFU (Los Mochis)</option>
           </optgroup>
+          <optgroup label="ZONA NORTE (Luis Franco)">
+            <option value="UAZ PEUL">UAZ PEUL (Zacatecas)</option>
+            <option value="UJED">UJED (Durango)</option>
+            <option value="ICEST TAMPICO">ICEST Tampico (Tamaulipas)</option>
+            <option value="CI 22 UANL">CI 22 UANL (Nuevo León)</option>
+          </optgroup>
           <optgroup label="ZONA OCCIDENTE (Fabiola Martinez)">
             <option value="UTNA">UTNA (Aguascalientes)</option>
             <option value="IT CUL">IT CUL (Culiacán)</option>
@@ -762,7 +768,11 @@
         if (fAdvisor !== 'ALL' && t.assignedAdvisor !== fAdvisor) return false;
         // Escuela
         if (fSchool !== 'ALL') {
-          const KNOWN_CODES = ['UTH', 'ITESCA', 'ITLM', 'ITH', 'IT MXL', 'UNIVAFU', 'UTNA', 'IT CUL', 'BACH TEPIC', 'UPSIN', 'CETI COLOMOS', 'LAMAR', 'CAI'];
+          const KNOWN_CODES = [
+            'UTH', 'ITESCA', 'ITLM', 'ITH', 'IT MXL', 'UNIVAFU',
+            'UAZ PEUL', 'UJED', 'ICEST TAMPICO', 'CI 22 UANL',
+            'UTNA', 'IT CUL', 'BACH TEPIC', 'UPSIN', 'CETI COLOMOS', 'LAMAR', 'CAI'
+          ];
           if (fSchool === 'OTRA') {
             if (KNOWN_CODES.includes(t.schoolCode)) return false;
           } else if (t.schoolCode !== fSchool && !t.school?.includes(fSchool)) {
@@ -1049,9 +1059,23 @@
         resolvedAtMillis = null;
       }
 
+      const ADVISOR_WAS = {
+        'Alberto Yépiz': '5216621147374',
+        'Luis Franco': '5218119905772',
+        'Fabiola Martinez': '5213316025928',
+        'Arturo Mendoza': '5215537339886',
+        'Joel Navor': '522211057576',
+        'Edgar Espinoza': '526641234572',
+        'Miguel Campero': '5218116318251',
+        'Daniel Morales': '5215537339631',
+        'Yanzer Rebollo': '5215666689003'
+      };
+      const newAdvisorWA = ADVISOR_WAS[newAdvisor] || currentEditingTicket.advisorWA || '5216621147374';
+
       const updates = {
         status: newStatus,
         assignedAdvisor: newAdvisor,
+        advisorWA: newAdvisorWA,
         assignedPassword: assignedPass,
         solutionNote: newSolutionNote,
         resolvedAtMillis: resolvedAtMillis
