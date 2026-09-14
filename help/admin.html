@@ -9,9 +9,10 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     /* Admin specific styling */
+    /* Admin specific styling - Clean Light Theme */
     .admin-container {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1240px;
       padding: 1.8rem 1.25rem 4rem;
       position: relative;
       z-index: 1;
@@ -33,15 +34,16 @@
     }
 
     .admin-badge {
-      background: rgba(244, 201, 78, 0.15);
-      color: var(--c-gold);
-      border: 1px solid rgba(244, 201, 78, 0.35);
+      background: var(--warning-bg);
+      color: var(--warning-text);
+      border: 1px solid var(--warning-border);
       padding: 0.25rem 0.65rem;
       border-radius: 8px;
       font-size: 0.72rem;
       font-weight: 800;
       letter-spacing: 0.06em;
       text-transform: uppercase;
+      font-family: 'Outfit', sans-serif;
     }
 
     /* Stats Grid */
@@ -52,22 +54,19 @@
       margin-bottom: 1.6rem;
     }
     .metric-card {
-      background: var(--c-surface);
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
-      border: 1px solid var(--c-border);
-      border-top-color: var(--c-border-hi);
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 18px;
-      padding: 1.15rem 1.25rem;
+      padding: 1.2rem 1.3rem;
       display: flex;
       flex-direction: column;
       gap: 0.3rem;
-      box-shadow: 0 10px 28px rgba(0,0,0,0.3);
+      box-shadow: var(--shadow-card);
     }
     .metric-val {
-      font-size: 1.85rem;
+      font-size: 1.95rem;
       font-weight: 800;
-      color: #fff;
+      color: var(--text-main);
       line-height: 1.1;
       font-family: monospace;
     }
@@ -75,26 +74,27 @@
       font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: var(--c-muted);
-      font-weight: 600;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
     }
-    .metric-card.accent .metric-val { color: var(--c-accent2); }
-    .metric-card.gold .metric-val { color: var(--c-gold); }
-    .metric-card.green .metric-val { color: var(--c-success); }
-    .metric-card.purple .metric-val { color: #c084fc; }
+    .metric-card.accent .metric-val { color: var(--primary); }
+    .metric-card.gold .metric-val { color: #d97706; }
+    .metric-card.green .metric-val { color: #16a34a; }
+    .metric-card.purple .metric-val { color: #7c3aed; }
 
     /* Filters Bar */
     .filters-bar {
-      background: var(--c-surface);
-      backdrop-filter: blur(var(--glass-blur));
-      border: 1px solid var(--c-border);
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 18px;
-      padding: 1.1rem 1.3rem;
+      padding: 1.2rem 1.4rem;
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem;
+      gap: 0.85rem;
       align-items: center;
       margin-bottom: 1.2rem;
+      box-shadow: var(--shadow-sm);
     }
     .filter-item {
       display: flex;
@@ -104,11 +104,12 @@
       min-width: 170px;
     }
     .filter-item label {
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: var(--c-muted);
+      color: var(--text-muted);
       font-weight: 700;
+      font-family: 'Outfit', sans-serif;
     }
     .filter-search {
       flex: 2;
@@ -117,11 +118,9 @@
 
     /* Table */
     .table-container {
-      background: var(--c-surface);
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
-      border: 1px solid var(--c-border);
-      border-radius: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
       overflow: hidden;
       box-shadow: var(--shadow-card);
     }
@@ -133,12 +132,12 @@
       width: 100%;
       border-collapse: collapse;
       text-align: left;
-      font-size: 0.85rem;
+      font-size: 0.86rem;
     }
     th {
-      background: rgba(14, 23, 56, 0.85);
-      color: var(--c-muted);
-      padding: 0.85rem 1rem;
+      background: #f8fafc;
+      color: #475569;
+      padding: 0.95rem 1rem;
       font-weight: 700;
       text-transform: uppercase;
       font-size: 0.72rem;
@@ -146,53 +145,56 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      border-bottom: 1px solid var(--c-border);
+      border-bottom: 1.5px solid var(--border);
       white-space: nowrap;
+      font-family: 'Outfit', sans-serif;
     }
     td {
       padding: 0.95rem 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      color: var(--c-text);
+      border-bottom: 1px solid #f1f5f9;
+      color: var(--text-main);
       vertical-align: middle;
     }
     tr:hover td {
-      background: rgba(255, 255, 255, 0.035);
+      background: #f8fafc;
     }
 
     /* Action Buttons */
     .btn-action {
-      padding: 0.4rem 0.8rem;
-      border-radius: 8px;
-      font-size: 0.76rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 10px;
+      font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
-      border: 1px solid var(--c-border);
-      background: rgba(255, 255, 255, 0.05);
-      color: #fff;
+      border: 1.5px solid var(--border);
+      background: #ffffff;
+      color: var(--text-main);
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
       transition: var(--transition);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
     }
     .btn-action:hover {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.25);
+      background: #f8fafc;
+      border-color: var(--primary);
+      color: var(--primary);
     }
     .btn-action.resolve {
-      background: rgba(52, 211, 153, 0.15);
-      border-color: rgba(52, 211, 153, 0.4);
-      color: var(--c-success);
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+      color: #059669;
     }
     .btn-action.resolve:hover {
-      background: rgba(52, 211, 153, 0.28);
+      background: #d1fae5;
     }
 
     /* Modal */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(2, 4, 12, 0.82);
-      backdrop-filter: blur(14px);
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(8px);
       z-index: 1000;
       display: none;
       align-items: center;
@@ -203,15 +205,15 @@
       display: flex;
     }
     .modal-box {
-      background: #090e24;
-      border: 1px solid var(--c-border-hi);
-      border-radius: 22px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
       width: 100%;
-      max-width: 540px;
+      max-width: 560px;
       max-height: 90vh;
       overflow-y: auto;
-      padding: 2rem;
-      box-shadow: 0 25px 70px rgba(0,0,0,0.8);
+      padding: 2.2rem;
+      box-shadow: var(--shadow-lg);
       position: relative;
     }
 
@@ -219,7 +221,7 @@
     #gateOverlay {
       position: fixed;
       inset: 0;
-      background: #03050e;
+      background: var(--bg-color);
       z-index: 2000;
       display: flex;
       align-items: center;
@@ -227,19 +229,21 @@
       padding: 1.5rem;
     }
     .gate-card {
-      background: var(--c-surface);
-      backdrop-filter: blur(40px);
-      border: 1px solid var(--c-border-hi);
-      border-radius: 24px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 22px;
       padding: 2.8rem 2.2rem;
       width: 100%;
-      max-width: 380px;
+      max-width: 390px;
       text-align: center;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+      box-shadow: var(--shadow-lg);
     }
   </style>
 </head>
 <body>
+
+  <!-- BACKGROUND TECH GRID (stemOS / JSweb style) -->
+  <div class="bg-grid"></div>
 
   <!-- AMBIENT ORBS -->
   <div class="bg-orbs">
@@ -419,21 +423,21 @@
     <div class="modal-box">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem;">
         <div>
-          <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-accent2); font-weight: 700;">Gestión de Solicitud</span>
-          <h2 id="modalFolio" style="font-size: 1.5rem; font-weight: 900; color: #fff; font-family: monospace;">HELP-00000</h2>
+          <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); font-weight: 800; font-family: 'Outfit', sans-serif;">Gestión de Solicitud</span>
+          <h2 id="modalFolio" style="font-size: 1.55rem; font-weight: 900; color: var(--text-main); font-family: monospace;">HELP-00000</h2>
         </div>
         <button type="button" class="btn-action" onclick="closeDetailModal()">✕ Cerrar</button>
       </div>
 
-      <div style="display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 1.5rem; font-size: 0.85rem;">
-        <div><strong>Alumno:</strong> <span id="modalStudent">-</span></div>
-        <div><strong>Correo(s):</strong> <span id="modalEmails" style="color: var(--c-accent2);">-</span></div>
-        <div><strong>Escuela:</strong> <span id="modalSchool">-</span></div>
-        <div><strong>Incidencia:</strong> <span id="modalIssue">-</span></div>
-        <div><strong>Código del Libro:</strong> <code id="modalBookCode" style="color: var(--c-gold); font-size: 0.95rem;">-</code></div>
-        <div><strong>Registrado hace:</strong> <span id="modalElapsed" style="font-weight: 700; color: #fff;">-</span></div>
-        <div id="modalNotesWrap" style="display: none; background: rgba(255,255,255,0.03); padding: 0.65rem; border-radius: 8px;">
-          <strong>Notas del Alumno:</strong> <span id="modalNotes">-</span>
+      <div style="display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 1.5rem; font-size: 0.88rem;">
+        <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Alumno:</strong> <span id="modalStudent" style="font-weight: 700; color: var(--text-main);">-</span></div>
+        <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Correo(s):</strong> <span id="modalEmails" style="color: var(--primary); font-weight: 600;">-</span></div>
+        <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Escuela:</strong> <span id="modalSchool" style="font-weight: 600;">-</span></div>
+        <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Incidencia:</strong> <span id="modalIssue" style="color: #334155;">-</span></div>
+        <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Código del Libro:</strong> <code id="modalBookCode" style="color: #b45309; font-weight: 800; font-size: 0.95rem; background: #fffbeb; padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid #fef08a;">-</code></div>
+        <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Registrado hace:</strong> <span id="modalElapsed" style="font-weight: 800; color: var(--text-main); font-family: monospace;">-</span></div>
+        <div id="modalNotesWrap" style="display: none; background: #f8fafc; padding: 0.75rem 0.9rem; border-radius: 10px; border: 1px solid var(--border);">
+          <strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Notas del Alumno:</strong> <span id="modalNotes" style="color: #334155;">-</span>
         </div>
       </div>
 
@@ -644,19 +648,19 @@
 
         return `
           <tr data-ticket-id="${t.id || t.folio}">
-            <td style="font-family: monospace; font-weight: 800; color: #fff;">${escapeHtml(t.folio)}</td>
-            <td style="white-space: nowrap; font-size: 0.78rem; color: var(--c-muted);">${t.createdAtDateStr || 'Reciente'}</td>
+            <td style="font-family: monospace; font-weight: 800; color: var(--text-main);">${escapeHtml(t.folio)}</td>
+            <td style="white-space: nowrap; font-size: 0.78rem; color: var(--text-muted);">${t.createdAtDateStr || 'Reciente'}</td>
             <td><strong>${escapeHtml(t.school)}</strong></td>
             <td>
-              <div style="font-weight: 600; color: #fff;">${escapeHtml(t.fullName)}</div>
-              <div style="font-size: 0.75rem; color: var(--c-muted);">${escapeHtml(t.email)}</div>
+              <div style="font-weight: 700; color: var(--text-main);">${escapeHtml(t.fullName)}</div>
+              <div style="font-size: 0.76rem; color: var(--text-muted);">${escapeHtml(t.email)}</div>
             </td>
-            <td style="max-width: 220px; font-size: 0.78rem;">
-              <span style="color: #e2e8f0;">${escapeHtml(t.issueType)}</span>
+            <td style="max-width: 220px; font-size: 0.8rem;">
+              <span style="color: #334155;">${escapeHtml(t.issueType)}</span>
             </td>
-            <td><code style="color: var(--c-gold); font-size: 0.8rem;">${escapeHtml(t.bookCode)}</code></td>
-            <td style="color: var(--c-accent2); font-weight: 600; white-space: nowrap;">${escapeHtml(t.assignedAdvisor || 'Alberto Yépiz')}</td>
-            <td class="table-elapsed-cell" data-created="${createdAt}" data-resolved="${resolvedAt || ''}" data-status="${t.status}" style="font-family: monospace; font-weight: 700; white-space: nowrap; color: ${isResolved ? '#34d399' : '#fff'};">
+            <td><code style="color: #b45309; font-weight: 700; font-size: 0.82rem; background: #fffbeb; padding: 0.15rem 0.45rem; border-radius: 6px; border: 1px solid #fef08a;">${escapeHtml(t.bookCode)}</code></td>
+            <td style="color: var(--primary); font-weight: 700; white-space: nowrap;">${escapeHtml(t.assignedAdvisor || 'Alberto Yépiz')}</td>
+            <td class="table-elapsed-cell" data-created="${createdAt}" data-resolved="${resolvedAt || ''}" data-status="${t.status}" style="font-family: monospace; font-weight: 800; white-space: nowrap; color: ${isResolved ? '#15803d' : '#0f172a'};">
               ${elapsedFormatted}
             </td>
             <td><span class="status-badge ${badgeClass}" style="font-size: 0.72rem; padding: 0.2rem 0.6rem;">${badgeLabel}</span></td>
