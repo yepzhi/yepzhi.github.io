@@ -154,6 +154,39 @@ function initSchoolSelect() {
   }
 }
 
+// ─── WARNING BOX COLLAPSE (CON ESTILO) ────────────
+export function toggleWarningBox() {
+  const box = document.getElementById('warningBox');
+  if (!box) return;
+  const isCollapsed = box.classList.contains('is-collapsed');
+  setWarningBoxCollapsed(!isCollapsed);
+}
+window.toggleWarningBox = toggleWarningBox;
+
+export function setWarningBoxCollapsed(collapsed) {
+  const box = document.getElementById('warningBox');
+  const label = document.getElementById('warningToggleLabel');
+  const btn = document.getElementById('warningToggleBtn');
+  if (!box) return;
+
+  if (collapsed) {
+    box.classList.add('is-collapsed');
+    if (label) label.textContent = 'Ver soluciones frecuentes (2)';
+    if (btn) {
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('title', 'Mostrar soluciones frecuentes a errores');
+    }
+  } else {
+    box.classList.remove('is-collapsed');
+    if (label) label.textContent = 'Ocultar guía';
+    if (btn) {
+      btn.setAttribute('aria-expanded', 'true');
+      btn.setAttribute('title', 'Ocultar guía de soluciones');
+    }
+  }
+}
+window.setWarningBoxCollapsed = setWarningBoxCollapsed;
+
 // ─── STEPPER NAVIGATION ───────────────────────────
 export function goStep(stepNumber) {
   const currentStepEl = document.getElementById(`step-${STATE.currentStep}`);
@@ -166,7 +199,23 @@ export function goStep(stepNumber) {
 
   STATE.currentStep = stepNumber;
   updateStepperProgress(stepNumber);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Al avanzar más allá del paso 1, colapsar con estilo el anuncio de errores comunes
+  if (stepNumber > 1) {
+    setWarningBoxCollapsed(true);
+  } else {
+    setWarningBoxCollapsed(false);
+  }
+
+  // Desplazamiento fluido hacia la tarjeta para una experiencia impecable
+  const wizardCard = document.querySelector('.glass-card');
+  if (wizardCard && stepNumber > 1) {
+    const yOffset = -24;
+    const y = wizardCard.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 window.goStep = goStep;
 

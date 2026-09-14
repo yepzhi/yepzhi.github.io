@@ -212,7 +212,7 @@ body {
   display: block;
 }
 
-/* ── PRE-FILL WARNING (Crisp Contour & High Contrast) ── */
+/* ── PRE-FILL WARNING (Crisp Contour & High Contrast + Animated Collapse) ── */
 .warning-box {
   width: 100%;
   background: var(--surface-glass);
@@ -224,13 +224,42 @@ body {
   padding: 1.5rem 1.7rem;
   margin-bottom: 1.5rem;
   box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.2), 0 14px 36px -6px rgba(245, 158, 11, 0.12);
+  transition: padding 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              margin 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.4s ease,
+              border-radius 0.4s ease,
+              box-shadow 0.4s ease;
+  overflow: hidden;
 }
+
 .warning-header {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  margin-bottom: 0.75rem;
+  justify-content: space-between;
+  gap: 0.75rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+.warning-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  transition: all 0.4s ease;
+}
+
+.warning-box:not(.is-collapsed) .warning-header {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 0.6rem;
+}
+
+.warning-box:not(.is-collapsed) .warning-header-left {
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .warning-badge {
   display: inline-flex;
   align-items: center;
@@ -244,13 +273,131 @@ body {
   font-weight: 800;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  flex-shrink: 0;
 }
+
 .warning-title {
   font-family: 'Outfit', sans-serif;
   font-size: 1.1rem;
   font-weight: 800;
   color: var(--text-main);
+  transition: font-size 0.3s ease;
+  margin: 0;
 }
+
+.warning-title-compact {
+  display: none;
+}
+.warning-title-full {
+  display: inline;
+}
+
+/* Collapsed state styling */
+.warning-box.is-collapsed {
+  padding: 0.85rem 1.4rem;
+  margin-bottom: 1.25rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.08), 0 0 0 1px rgba(245, 158, 11, 0.25);
+}
+
+.warning-box.is-collapsed .warning-header {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.warning-box.is-collapsed .warning-header-left {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.warning-box.is-collapsed .warning-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.warning-box.is-collapsed .warning-title-full {
+  display: none;
+}
+
+.warning-box.is-collapsed .warning-title-compact {
+  display: inline;
+}
+
+/* Collapse Toggle Button with modern gooey glass style */
+.warning-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(254, 243, 199, 0.9);
+  color: #92400e;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: 100px;
+  padding: 0.35rem 0.95rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.1);
+  white-space: nowrap;
+  flex-shrink: 0;
+  outline: none;
+}
+
+.warning-box:not(.is-collapsed) .warning-toggle-btn {
+  margin-top: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.warning-toggle-btn:hover {
+  background: #fef3c7;
+  color: #78350f;
+  transform: translateY(-1px);
+  border-color: rgba(245, 158, 11, 0.6);
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.2);
+}
+
+.warning-toggle-btn:active {
+  transform: translateY(0);
+}
+
+.warning-toggle-btn .toggle-chevron {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.warning-box.is-collapsed .warning-toggle-btn .toggle-chevron {
+  transform: rotate(-180deg);
+}
+
+/* Smooth CSS Grid Collapse (0 to auto height animation) */
+.warning-collapsible-wrapper {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.4s ease,
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.warning-collapsible-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.warning-box.is-collapsed .warning-collapsible-wrapper {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+}
+
 .warning-intro {
   font-size: 0.88rem;
   color: var(--text-muted);

@@ -6,7 +6,7 @@
   <title>Richmond Pro · Centro de Ayuda e Incidencias</title>
   <meta name="description" content="Portal oficial de atención a incidencias técnicas comunes de Richmond Studio: Invalid Credentials, Invalid Code y recuperación de correos." />
   <meta name="color-scheme" content="light">
-  <link rel="stylesheet" href="style.css?v=2.2.0" />
+  <link rel="stylesheet" href="style.css?v=2.3.0" />
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 </head>
 <body>
@@ -64,83 +64,99 @@
     ───────────────────────────────────────────── -->
     <section class="view-panel active" id="viewForm">
 
-      <!-- PRE-FILL WARNING / SELF-DIAGNOSTIC BANNER (CENTRADO) -->
-      <div class="warning-box">
-        <div class="warning-header" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem;">
-          <span class="warning-badge">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-              <line x1="12" y1="9" x2="12" y2="13"/>
-              <line x1="12" y1="17" x2="12.01" y2="17"/>
+      <!-- PRE-FILL WARNING / SELF-DIAGNOSTIC BANNER (CON COLAPSO CON ESTILO) -->
+      <div class="warning-box" id="warningBox">
+        <div class="warning-header" id="warningHeader">
+          <div class="warning-header-left">
+            <span class="warning-badge">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+              Importante
+            </span>
+            <h2 class="warning-title">
+              <span class="warning-title-full">¡Lee esto antes de enviar tu solicitud!</span>
+              <span class="warning-title-compact">Soluciones a errores más comunes</span>
+            </h2>
+          </div>
+          <button type="button" class="warning-toggle-btn" id="warningToggleBtn" onclick="toggleWarningBox()" aria-expanded="true" title="Mostrar u ocultar soluciones frecuentes">
+            <span id="warningToggleLabel">Ocultar guía</span>
+            <svg class="toggle-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9"/>
             </svg>
-            Importante
-          </span>
-          <h2 class="warning-title" style="text-align: center;">¡Lee esto antes de enviar tu solicitud!</h2>
+          </button>
         </div>
-        <p class="warning-intro" style="text-align: center; max-width: 580px; margin: 0 auto 1.2rem auto;">
-          La mayoría de los errores comunes tienen solución inmediata. Revisa estas soluciones frecuentes antes de llenar el formulario:
-        </p>
 
-        <div class="diagnostics-grid">
-          <!-- DIAGNOSTIC 1: Invalid Credentials -->
-          <details class="diag-card" open>
-            <summary class="diag-summary">
-              <div class="diag-summary-left">
-                <span class="diag-tag top1">Error más común 1</span>
-                <span class="diag-title">No puedo entrar: "Invalid Credentials"</span>
-              </div>
-              <svg class="diag-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </summary>
-            <div class="diag-content">
-              <div class="diag-item">
-                <span class="diag-bullet">•</span>
-                <div>
-                  <strong>Sensibilidad a mayúsculas:</strong> La plataforma es sensible a mayúsculas y minúsculas. Prueba poniendo la <strong>primera letra de tu contraseña en mayúscula</strong> o revisa si tu teclado tenía Bloq Mayús activo; es muy frecuente haberla escrito así al registrarte.
-                </div>
-              </div>
-              <div class="diag-item">
-                <span class="diag-bullet">•</span>
-                <div>
-                  <strong>¿Pusiste mal tu correo al registrarte?</strong> ¡Aún puedes entrar! Ingresa con ese <strong>correo erróneo y la contraseña que creaste</strong>. Una vez dentro de Richmond Studio, ve a la sección <strong>"My Profile"</strong> y ahí podrás corregirlo de forma definitiva.
-                </div>
-              </div>
-              <div class="diag-item">
-                <span class="diag-bullet">•</span>
-                <div>
-                  <strong>¿Olvidaste tu contraseña?</strong> Richmond Studio actualmente no cuenta con botón nativo de <em>"Forgot Password"</em> (esta función oficial será lanzada a <strong>finales de Octubre</strong>). Si la olvidaste por completo, procede a llenar este formulario para asignarte una clave provisional.
-                </div>
-              </div>
-            </div>
-          </details>
+        <div class="warning-collapsible-wrapper" id="warningCollapsible">
+          <div class="warning-collapsible-inner">
+            <p class="warning-intro" style="text-align: center; max-width: 580px; margin: 0 auto 1.2rem auto;">
+              La mayoría de los errores comunes tienen solución inmediata. Revisa estas soluciones frecuentes antes de llenar el formulario:
+            </p>
 
-          <!-- DIAGNOSTIC 2: Invalid Code -->
-          <details class="diag-card" open>
-            <summary class="diag-summary">
-              <div class="diag-summary-left">
-                <span class="diag-tag top2">Error más común 2</span>
-                <span class="diag-title">"Invalid Code" / Mi código no funciona</span>
-              </div>
-              <svg class="diag-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </summary>
-            <div class="diag-content">
-              <div class="diag-item">
-                <span class="diag-bullet">•</span>
-                <div>
-                  <strong>Tu código probablemente ya fue canjeado:</strong> Si la plataforma muestra <em>"Invalid Code"</em> o <em>"Código no válido"</em>, busca en tu correo (incluyendo carpeta de Spam/No deseados) un mensaje con el asunto <strong>"Welcome to Richmond Studio"</strong>.
+            <div class="diagnostics-grid">
+              <!-- DIAGNOSTIC 1: Invalid Credentials -->
+              <details class="diag-card" open>
+                <summary class="diag-summary">
+                  <div class="diag-summary-left">
+                    <span class="diag-tag top1">Error más común 1</span>
+                    <span class="diag-title">No puedo entrar: "Invalid Credentials"</span>
+                  </div>
+                  <svg class="diag-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </summary>
+                <div class="diag-content">
+                  <div class="diag-item">
+                    <span class="diag-bullet">•</span>
+                    <div>
+                      <strong>Sensibilidad a mayúsculas:</strong> La plataforma es sensible a mayúsculas y minúsculas. Prueba poniendo la <strong>primera letra de tu contraseña en mayúscula</strong> o revisa si tu teclado tenía Bloq Mayús activo; es muy frecuente haberla escrito así al registrarte.
+                    </div>
+                  </div>
+                  <div class="diag-item">
+                    <span class="diag-bullet">•</span>
+                    <div>
+                      <strong>¿Pusiste mal tu correo al registrarte?</strong> ¡Aún puedes entrar! Ingresa con ese <strong>correo erróneo y la contraseña que creaste</strong>. Una vez dentro de Richmond Studio, ve a la sección <strong>"My Profile"</strong> y ahí podrás corregirlo de forma definitiva.
+                    </div>
+                  </div>
+                  <div class="diag-item">
+                    <span class="diag-bullet">•</span>
+                    <div>
+                      <strong>¿Olvidaste tu contraseña?</strong> Richmond Studio actualmente no cuenta con botón nativo de <em>"Forgot Password"</em> (esta función oficial será lanzada a <strong>finales de Octubre</strong>). Si la olvidaste por completo, procede a llenar este formulario para asignarte una clave provisional.
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="diag-item">
-                <span class="diag-bullet">•</span>
-                <div>
-                  <strong>¿Tienes ese correo? Tu cuenta ya está activa:</strong> Contar con ese mensaje confirma que tu registro fue exitoso y que tu código ya quedó vinculado a tu perfil. Como los códigos son de uso único, no podrás volver a ingresarlo; simplemente <strong>inicia sesión</strong> directamente con el correo y la contraseña que tú mismo registraste en el formulario inicial.
+              </details>
+
+              <!-- DIAGNOSTIC 2: Invalid Code -->
+              <details class="diag-card" open>
+                <summary class="diag-summary">
+                  <div class="diag-summary-left">
+                    <span class="diag-tag top2">Error más común 2</span>
+                    <span class="diag-title">"Invalid Code" / Mi código no funciona</span>
+                  </div>
+                  <svg class="diag-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </summary>
+                <div class="diag-content">
+                  <div class="diag-item">
+                    <span class="diag-bullet">•</span>
+                    <div>
+                      <strong>Tu código probablemente ya fue canjeado:</strong> Si la plataforma muestra <em>"Invalid Code"</em> o <em>"Código no válido"</em>, busca en tu correo (incluyendo carpeta de Spam/No deseados) un mensaje con el asunto <strong>"Welcome to Richmond Studio"</strong>.
+                    </div>
+                  </div>
+                  <div class="diag-item">
+                    <span class="diag-bullet">•</span>
+                    <div>
+                      <strong>¿Tienes ese correo? Tu cuenta ya está activa:</strong> Contar con ese mensaje confirma que tu registro fue exitoso y que tu código ya quedó vinculado a tu perfil. Como los códigos son de uso único, no podrás volver a ingresarlo; simplemente <strong>inicia sesión</strong> directamente con el correo y la contraseña que tú mismo registraste en el formulario inicial.
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </details>
             </div>
-          </details>
+          </div>
         </div>
       </div>
 
@@ -470,6 +486,6 @@
     </footer>
 
   <script src="aurora.js?v=2.2.0"></script>
-  <script type="module" src="app.js?v=2.2.0"></script>
+  <script type="module" src="app.js?v=2.3.0"></script>
 </body>
 </html>
