@@ -520,12 +520,12 @@ export async function searchTicketStatus(explicitQuery = null) {
   if (errEl) errEl.textContent = '';
 
   resultContainer.innerHTML = `
-    <div style="text-align: center; padding: 2.5rem 1rem; color: var(--c-muted);">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c-accent2)" stroke-width="2" style="animation: spin 1s linear infinite; margin-bottom: 0.5rem;">
+    <div style="text-align: center; padding: 2.5rem 1rem; color: var(--text-muted);">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" style="animation: spin 1s linear infinite; margin-bottom: 0.5rem;">
         <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
         <path d="M12 2a10 10 0 0 1 10 10"/>
       </svg>
-      <p style="font-size: 0.88rem;">Consultando estatus de tu solicitud…</p>
+      <p style="font-size: 0.88rem; font-weight: 600; color: var(--text-main);">Consultando estatus de tu solicitud…</p>
     </div>
   `;
 
@@ -564,9 +564,12 @@ export async function searchTicketStatus(explicitQuery = null) {
 
   if (!foundTicket) {
     resultContainer.innerHTML = `
-      <div style="text-align:center; padding: 2rem 1.5rem; background: rgba(255,95,95,0.06); border: 1px dashed rgba(255,95,95,0.3); border-radius: 18px;">
-        <p style="color: #fff; font-weight: 700; font-size: 1rem; margin-bottom: 0.4rem;">No encontramos una solicitud con ese dato</p>
-        <p style="color: var(--c-muted); font-size: 0.84rem; line-height: 1.45;">
+      <div style="text-align:center; padding: 2rem 1.5rem; background: #fff1f2; border: 1.5px dashed #f43f5e; border-radius: 18px;">
+        <p style="color: #9f1239; font-weight: 700; font-size: 1rem; margin-bottom: 0.4rem;">No encontramos una solicitud con ese dato</p>
+        <p style="color: var(--text-muted); font-size: 0.84rem; line-height: 1.45;">
+          Verifica que hayas escrito tu Folio correctamente (ej. HELP-12345) o el mismo correo electrónico que ingresaste al registrar la solicitud.
+        </p>
+      </div>
     `;
     return;
   }
@@ -836,19 +839,19 @@ function updateElapsedTimeDisplay(createdAtMillis, resolvedAtMillis, isResolved)
   const targetEnd = (isResolved && resolvedAtMillis) ? resolvedAtMillis : Date.now();
   const diffMs = Math.max(0, targetEnd - createdAtMillis);
 
-  const totalSecs = Math.floor(diffMs / 1000);
-  const hours = Math.floor(totalSecs / 3600);
-  const minutes = Math.floor((totalSecs % 3600) / 60);
-  const seconds = totalSecs % 60;
-
+  const totalMinutes = Math.floor(diffMs / 60000);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
   const pad = (n) => String(n).padStart(2, '0');
 
   if (hours >= 24) {
     const days = Math.floor(hours / 24);
     const remHours = hours % 24;
-    el.textContent = `${days}d ${pad(remHours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+    el.textContent = `${days}d ${pad(remHours)}h ${pad(minutes)}m`;
+  } else if (hours > 0) {
+    el.textContent = `${hours}h ${pad(minutes)}m`;
   } else {
-    el.textContent = `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+    el.textContent = `${minutes} min`;
   }
 }
 
