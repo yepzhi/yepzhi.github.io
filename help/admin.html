@@ -442,13 +442,45 @@
 
       <!-- Formulario de Acción del Asesor -->
       <form id="advisorActionForm" onsubmit="saveAdvisorResolution(event)">
+        
+        <!-- Quick 1-click Resolution Toggle / Button -->
+        <div class="quick-resolve-bar" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 14px; padding: 0.9rem 1.1rem; margin-bottom: 1.1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap;">
+          <div>
+            <div style="font-weight: 800; font-size: 0.88rem; color: #166534; display: flex; align-items: center; gap: 0.4rem;">
+              <span>¿Incidencia Solucionada?</span>
+            </div>
+            <div style="font-size: 0.76rem; color: #15803d; margin-top: 0.15rem;">
+              Marcar como <strong>Resuelto</strong> y asignar clave convención <strong>Mexico26*</strong>
+            </div>
+          </div>
+          <button type="button" class="btn-primary" style="background: #16a34a; font-size: 0.8rem; padding: 0.45rem 1rem;" onclick="quickResolveWithDefaultPassword()">
+            Resolver con Mexico26*
+          </button>
+        </div>
+
         <div class="form-group">
           <label class="form-label" for="modalStatusSelect">Actualizar Estatus:</label>
-          <select class="select-custom" id="modalStatusSelect">
+          <select class="select-custom" id="modalStatusSelect" onchange="handleModalStatusChange()">
             <option value="Pendiente">Pendiente / En Espera</option>
             <option value="En Revisión">En Revisión por Asesor</option>
             <option value="Resuelto">Resuelto</option>
           </select>
+        </div>
+
+        <!-- Password Assignment Box (Shown when resolved) -->
+        <div id="modalPasswordGroup" style="display: none; background: #faf5ff; border: 1.5px solid #d8b4fe; border-radius: 14px; padding: 0.95rem 1.1rem; margin-bottom: 1.1rem;">
+          <label class="form-label" for="modalAssignedPassword" style="color: #6b21a8; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">
+            Contraseña asignada / restablecida al alumno:
+          </label>
+          <div style="display: flex; gap: 0.5rem; align-items: center; margin-top: 0.35rem;">
+            <input type="text" class="input-text" id="modalAssignedPassword" placeholder="Mexico26*" value="Mexico26*" style="font-family: monospace; font-weight: 800; font-size: 1.05rem; background: #ffffff; color: #1e40af;" />
+            <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem; font-weight: 700;" onclick="document.getElementById('modalAssignedPassword').value='Mexico26*'">
+              Poner Mexico26*
+            </button>
+          </div>
+          <p style="font-size: 0.74rem; color: #7e22ce; margin-top: 0.4rem; line-height: 1.4;">
+            Esta contraseña se mostrará en grande en la pantalla del alumno junto al botón directo de ingreso a Richmond Studio.
+          </p>
         </div>
 
         <div class="form-group">
@@ -471,7 +503,7 @@
             Respuesta / Solución para el Alumno:
             <span class="label-hint">(El alumno la verá en su portal de consulta)</span>
           </label>
-          <textarea class="input-text" id="modalSolutionNote" rows="3" placeholder="Ej. Se restableció tu contraseña a: Richmond2026!, ingresa a Richmond Studio con esa clave."></textarea>
+          <textarea class="input-text" id="modalSolutionNote" rows="3" placeholder="Ej. Se restableció tu contraseña a Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio."></textarea>
         </div>
 
         <div style="display: flex; gap: 0.8rem; margin-top: 1.4rem;">
@@ -762,9 +794,19 @@
         notesWrap.style.display = 'none';
       }
 
-      document.getElementById('modalStatusSelect').value = ticket.status || 'Pendiente';
+      const currentStatus = ticket.status || 'Pendiente';
+      document.getElementById('modalStatusSelect').value = currentStatus;
       document.getElementById('modalAdvisorSelect').value = ticket.assignedAdvisor || 'Alberto Yépiz';
       document.getElementById('modalSolutionNote').value = ticket.solutionNote || '';
+      
+      const passGroup = document.getElementById('modalPasswordGroup');
+      const passInput = document.getElementById('modalAssignedPassword');
+      if (passInput) {
+        passInput.value = ticket.assignedPassword || 'Mexico26*';
+      }
+      if (passGroup) {
+        passGroup.style.display = (currentStatus === 'Resuelto') ? 'block' : 'none';
+      }
 
       // Configurar botón WhatsApp al alumno
       const waBtn = document.getElementById('btnContactStudentWA');
@@ -776,18 +818,49 @@
       document.getElementById('detailModal').classList.add('active');
     };
 
+    window.handleModalStatusChange = function() {
+      const status = document.getElementById('modalStatusSelect').value;
+      const passGroup = document.getElementById('modalPasswordGroup');
+      const passInput = document.getElementById('modalAssignedPassword');
+      if (passGroup) {
+        passGroup.style.display = (status === 'Resuelto') ? 'block' : 'none';
+      }
+      if (status === 'Resuelto' && passInput && !passInput.value.trim()) {
+        passInput.value = 'Mexico26*';
+      }
+    };
+
+    window.quickResolveWithDefaultPassword = function() {
+      if (!currentEditingTicket) return;
+      document.getElementById('modalStatusSelect').value = 'Resuelto';
+      const passGroup = document.getElementById('modalPasswordGroup');
+      const passInput = document.getElementById('modalAssignedPassword');
+      if (passGroup) passGroup.style.display = 'block';
+      if (passInput) passInput.value = 'Mexico26*';
+
+      const noteEl = document.getElementById('modalSolutionNote');
+      if (noteEl && !noteEl.value.trim()) {
+        noteEl.value = 'Se asignó tu contraseña provisional a: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio.';
+      }
+
+      // Guardar de inmediato
+      saveAdvisorResolution(new Event('submit'));
+    };
+
     window.closeDetailModal = function() {
       document.getElementById('detailModal').classList.remove('active');
       currentEditingTicket = null;
     };
 
     window.saveAdvisorResolution = async function(e) {
-      e.preventDefault();
+      if (e && e.preventDefault) e.preventDefault();
       if (!currentEditingTicket) return;
 
       const newStatus = document.getElementById('modalStatusSelect').value;
       const newAdvisor = document.getElementById('modalAdvisorSelect').value;
       const newSolutionNote = document.getElementById('modalSolutionNote').value.trim();
+      const passInput = document.getElementById('modalAssignedPassword');
+      const assignedPass = (newStatus === 'Resuelto') ? ((passInput && passInput.value.trim()) || 'Mexico26*') : '';
 
       const wasResolved = currentEditingTicket.status === 'Resuelto';
       let resolvedAtMillis = currentEditingTicket.resolvedAtMillis;
@@ -802,6 +875,7 @@
       const updates = {
         status: newStatus,
         assignedAdvisor: newAdvisor,
+        assignedPassword: assignedPass,
         solutionNote: newSolutionNote,
         resolvedAtMillis: resolvedAtMillis
       };

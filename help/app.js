@@ -9,6 +9,8 @@ import {
   collection, 
   addDoc, 
   getDocs, 
+  doc,
+  onSnapshot,
   query, 
   where, 
   orderBy, 
@@ -65,7 +67,8 @@ const STATE = {
     notes: ''
   },
   activeTicket: null,
-  activeTimerInterval: null
+  activeTimerInterval: null,
+  activeSnapshotUnsub: null
 };
 
 // ─── INIT ─────────────────────────────────────────
@@ -564,19 +567,37 @@ export async function searchTicketStatus(explicitQuery = null) {
       <div style="text-align:center; padding: 2rem 1.5rem; background: rgba(255,95,95,0.06); border: 1px dashed rgba(255,95,95,0.3); border-radius: 18px;">
         <p style="color: #fff; font-weight: 700; font-size: 1rem; margin-bottom: 0.4rem;">No encontramos una solicitud con ese dato</p>
         <p style="color: var(--c-muted); font-size: 0.84rem; line-height: 1.45;">
-          Verifica que el folio esté escrito exactamente (ej. <strong>HELP-12345</strong>) o ingresa el correo que utilizaste.
-        </p>
-      </div>
     `;
     return;
   }
 
   STATE.activeTicket = foundTicket;
+
+  // Suscribirse a cambios en tiempo real en Firestore
+  if (STATE.activeSnapshotUnsub) {
+    STATE.activeSnapshotUnsub();
+    STATE.activeSnapshotUnsub = null;
+  }
+
+  if (db && foundTicket.id) {
+    try {
+      STATE.activeSnapshotUnsub = onSnapshot(doc(db, "help_tickets", foundTicket.id), (docSnap) => {
+        if (docSnap.exists()) {
+          const freshData = { id: docSnap.id, ...docSnap.data() };
+          STATE.activeTicket = freshData;
+          renderStatusCard(freshData);
+        }
+      });
+    } catch (err) {
+      console.warn('[Realtime listener notice]:', err);
+    }
+  }
+
   renderStatusCard(foundTicket);
 }
 window.searchTicketStatus = searchTicketStatus;
 
-// ─── RENDER STATUS CARD WITH ELAPSED TIME ──────────
+// ─── RENDER STATUS CARD WITH ELAPSED TIME & QUEUE ───
 function renderStatusCard(ticket) {
   const container = document.getElementById('lookupResultContainer');
   if (!container) return;
@@ -602,24 +623,93 @@ function renderStatusCard(ticket) {
 
   const createdAt = ticket.createdAtMillis || (ticket.createdAt?.toDate ? ticket.createdAt.toDate().getTime() : Date.now());
   const resolvedAt = ticket.resolvedAtMillis || null;
+  const assignedPassword = ticket.assignedPassword || 'Mexico26*';
 
   container.innerHTML = `
     <div class="status-card">
       <div class="status-card-header">
         <div>
-          <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-accent2); font-weight: 700;">Folio Oficial</span>
-          <h3 style="font-size: 1.45rem; font-weight: 900; color: #fff; font-family: monospace;">${ticket.folio}</h3>
+          <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); font-weight: 800;">Folio Oficial</span>
+          <h3 style="font-size: 1.45rem; font-weight: 900; color: var(--text-main); font-family: monospace;">${ticket.folio}</h3>
         </div>
         <div class="status-badge ${badgeClass}">
           ${badgeText}
         </div>
       </div>
 
+      <!-- SI ESTÁ RESUELTA: BANNER PRINCIPAL CON ACCESO Y CONTRASEÑA -->
+      ${isResolved ? `
+        <div class="resolved-hero-card">
+          <div class="resolved-hero-header">
+            <span class="resolved-check-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </span>
+            <div>
+              <h4 class="resolved-hero-title">¡Tu solicitud está resuelta!</h4>
+              <p class="resolved-hero-subtitle">Puedes proceder a ingresar a tu portal Richmond Studio con estos datos:</p>
+            </div>
+          </div>
+
+          <div class="resolved-credentials-box">
+            <div class="cred-row">
+              <span class="cred-label">Usuario / Correo:</span>
+              <div class="cred-val-wrap">
+                <code class="cred-val" id="credEmailText">${escapeHtml(ticket.email)}</code>
+                <button type="button" class="btn-copy" onclick="copyToClipboard('${escapeHtml(ticket.email)}', this)">Copiar</button>
+              </div>
+            </div>
+
+            <div class="cred-row">
+              <span class="cred-label">Contraseña asignada:</span>
+              <div class="cred-val-wrap">
+                <code class="cred-val highlight" id="credPassText">${escapeHtml(assignedPassword)}</code>
+                <button type="button" class="btn-copy" onclick="copyToClipboard('${escapeHtml(assignedPassword)}', this)">Copiar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="resolved-action-bar">
+            <a href="https://www.richmondlp.com" target="_blank" rel="noopener noreferrer" class="btn-access-studio" title="Ingresar a la plataforma Richmond Studio">
+              <span>Ingresar a mi portal Richmond Studio</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <p class="resolved-tip">
+            Una vez dentro, podrás actualizar tu contraseña si lo deseas en la sección <strong>"My Profile"</strong>.
+          </p>
+        </div>
+      ` : `
+        <!-- SI NO ESTÁ RESUELTA: COLA DE ATENCIÓN EN TIEMPO REAL -->
+        <div class="queue-box" id="queuePositionBox">
+          <div class="queue-box-info">
+            <div class="queue-icon-bubble">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <div>
+              <div class="queue-headline">Fila de Atención en Vivo</div>
+              <div class="queue-subtext" id="queuePosText">Calculando solicitudes en cola…</div>
+            </div>
+          </div>
+          <span class="queue-badge-pill" id="queuePosVal">Consultando…</span>
+        </div>
+      `}
+
       <!-- Live Elapsed Time Ticker -->
       <div class="elapsed-box">
         <div class="elapsed-label">
-          <span class="elapsed-pulse-dot" style="${isResolved ? 'background:#34d399; box-shadow:0 0 10px #34d399; animation:none;' : ''}"></span>
-          <span>${isResolved ? 'Tiempo Total de Resolución:' : 'Tiempo Transcurrido (Elapsed Time):'}</span>
+          <span class="elapsed-pulse-dot" style="${isResolved ? 'background:#16a34a; box-shadow:0 0 10px #16a34a; animation:none;' : ''}"></span>
+          <span>${isResolved ? 'Tiempo Total de Resolución (SLA):' : 'Tiempo Transcurrido (Elapsed Time):'}</span>
         </div>
         <div class="elapsed-time-val" id="liveElapsedTimer">
           Calculando…
@@ -634,7 +724,7 @@ function renderStatusCard(ticket) {
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
               <polyline points="22 4 12 14.01 9 11.01"/>
             </svg>
-            Respuesta & Solución del Asesor:
+            Indicaciones del Asesor:
           </div>
           <div class="solution-text">${escapeHtml(ticket.solutionNote)}</div>
         </div>
@@ -654,8 +744,8 @@ function renderStatusCard(ticket) {
           <span class="val">${escapeHtml(ticket.issueType)}</span>
         </div>
         <div class="status-detail-item">
-          <span class="label">Asesor Asignado</span>
-          <span class="val" style="color: var(--c-accent2);">${escapeHtml(ticket.assignedAdvisor || 'Alberto Yépiz')}</span>
+          <span class="label">Asesor Responsable</span>
+          <span class="val" style="color: var(--primary);">${escapeHtml(ticket.assignedAdvisor || 'Alberto Yépiz')}</span>
         </div>
         <div class="status-detail-item">
           <span class="label">Fecha de Registro</span>
@@ -671,11 +761,11 @@ function renderStatusCard(ticket) {
         <a href="https://wa.me/${ticket.advisorWA || '5216621147374'}?text=${encodeURIComponent(`Hola, tengo una duda sobre mi solicitud con Folio: ${ticket.folio} (${ticket.fullName})`)}" 
            target="_blank" 
            rel="noopener noreferrer" 
-           style="display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; color: var(--c-success); text-decoration: none; font-weight: 600;">
+           style="display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.82rem; color: var(--success); text-decoration: none; font-weight: 700;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/>
           </svg>
-          Contactar directamente al asesor por WhatsApp
+          Contactar directamente a tu asesor por WhatsApp
         </a>
       </div>
     </div>
@@ -687,6 +777,55 @@ function renderStatusCard(ticket) {
     STATE.activeTimerInterval = setInterval(() => {
       updateElapsedTimeDisplay(createdAt, resolvedAt, false);
     }, 1000);
+
+    // Calcular posición en la fila en tiempo real
+    updateQueuePositionDisplay(ticket);
+  }
+}
+
+// ─── CÁLCULO DE POSICIÓN EN COLA EN TIEMPO REAL ───
+async function updateQueuePositionDisplay(ticket) {
+  const queueBoxEl = document.getElementById('queuePositionBox');
+  if (!queueBoxEl) return;
+  if (!db) {
+    queueBoxEl.style.display = 'none';
+    return;
+  }
+
+  const myCreated = ticket.createdAtMillis || (ticket.createdAt?.toDate ? ticket.createdAt.toDate().getTime() : 0);
+  if (!myCreated) return;
+
+  try {
+    const q = query(
+      collection(db, "help_tickets"),
+      where("status", "in", ["Pendiente", "En Revisión"])
+    );
+    const snap = await getDocs(q);
+    let aheadCount = 0;
+    snap.forEach(docSnap => {
+      const d = docSnap.data();
+      if (docSnap.id !== ticket.id && d.folio !== ticket.folio) {
+        const theirCreated = d.createdAtMillis || (d.createdAt?.toDate ? d.createdAt.toDate().getTime() : 0);
+        if (theirCreated && theirCreated < myCreated) {
+          aheadCount++;
+        }
+      }
+    });
+
+    const posEl = document.getElementById('queuePosVal');
+    const textEl = document.getElementById('queuePosText');
+    if (posEl) posEl.textContent = `Posición: #${aheadCount + 1}`;
+    if (textEl) {
+      if (aheadCount === 0) {
+        textEl.innerHTML = `<strong>¡Eres el siguiente en ser atendido!</strong> Tu asesor está revisando tu caso.`;
+      } else if (aheadCount === 1) {
+        textEl.innerHTML = `Hay <strong>1 solicitud</strong> antes que la tuya en la fila de atención.`;
+      } else {
+        textEl.innerHTML = `Hay <strong>${aheadCount} solicitudes</strong> antes que la tuya en la fila de atención.`;
+      }
+    }
+  } catch (err) {
+    console.warn('[Queue Calc Error]:', err);
   }
 }
 
@@ -712,6 +851,24 @@ function updateElapsedTimeDisplay(createdAtMillis, resolvedAtMillis, isResolved)
     el.textContent = `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
   }
 }
+
+// ─── CLIPBOARD COPY HELPER ────────────────────────
+export function copyToClipboard(text, btn) {
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '¡Copiado!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    btn.textContent = '¡Copiado!';
+    setTimeout(() => btn.textContent = 'Copiar', 1500);
+  });
+}
+window.copyToClipboard = copyToClipboard;
 
 // ─── TOAST NOTIFICATION ───────────────────────────
 export function showToast(msg) {
