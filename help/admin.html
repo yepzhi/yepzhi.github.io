@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Richmond Pro · Panel de Asesores & SLA</title>
+  <meta name="description" content="Panel de administración y control de incidencias técnicas para asesores comerciales y académicos de Richmond Pro México." />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Admin specific styling */
+    .admin-container {
+      width: 100%;
+      max-width: 1200px;
+      padding: 1.8rem 1.25rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .admin-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .admin-title-area {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .admin-badge {
+      background: rgba(244, 201, 78, 0.15);
+      color: var(--c-gold);
+      border: 1px solid rgba(244, 201, 78, 0.35);
+      padding: 0.25rem 0.65rem;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* Stats Grid */
+    .stats-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 0.9rem;
+      margin-bottom: 1.6rem;
+    }
+    .metric-card {
+      background: var(--c-surface);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--c-border);
+      border-top-color: var(--c-border-hi);
+      border-radius: 18px;
+      padding: 1.15rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.3);
+    }
+    .metric-val {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+      font-family: monospace;
+    }
+    .metric-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--c-muted);
+      font-weight: 600;
+    }
+    .metric-card.accent .metric-val { color: var(--c-accent2); }
+    .metric-card.gold .metric-val { color: var(--c-gold); }
+    .metric-card.green .metric-val { color: var(--c-success); }
+    .metric-card.purple .metric-val { color: #c084fc; }
+
+    /* Filters Bar */
+    .filters-bar {
+      background: var(--c-surface);
+      backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--c-border);
+      border-radius: 18px;
+      padding: 1.1rem 1.3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1.2rem;
+    }
+    .filter-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      flex: 1;
+      min-width: 170px;
+    }
+    .filter-item label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--c-muted);
+      font-weight: 700;
+    }
+    .filter-search {
+      flex: 2;
+      min-width: 240px;
+    }
+
+    /* Table */
+    .table-container {
+      background: var(--c-surface);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--c-border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+    .table-scroll {
+      overflow-x: auto;
+      max-height: 65vh;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+    th {
+      background: rgba(14, 23, 56, 0.85);
+      color: var(--c-muted);
+      padding: 0.85rem 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--c-border);
+      white-space: nowrap;
+    }
+    td {
+      padding: 0.95rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--c-text);
+      vertical-align: middle;
+    }
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    /* Action Buttons */
+    .btn-action {
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--c-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: var(--transition);
+    }
+    .btn-action:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .btn-action.resolve {
+      background: rgba(52, 211, 153, 0.15);
+      border-color: rgba(52, 211, 153, 0.4);
+      color: var(--c-success);
+    }
+    .btn-action.resolve:hover {
+      background: rgba(52, 211, 153, 0.28);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 4, 12, 0.82);
+      backdrop-filter: blur(14px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-box {
+      background: #090e24;
+      border: 1px solid var(--c-border-hi);
+      border-radius: 22px;
+      width: 100%;
+      max-width: 540px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.8);
+      position: relative;
+    }
+
+    /* Gate Overlay */
+    #gateOverlay {
+      position: fixed;
+      inset: 0;
+      background: #03050e;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .gate-card {
+      background: var(--c-surface);
+      backdrop-filter: blur(40px);
+      border: 1px solid var(--c-border-hi);
+      border-radius: 24px;
+      padding: 2.8rem 2.2rem;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- AMBIENT ORBS -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- PASSWORD / ACCESS GATE -->
+  <div id="gateOverlay">
+    <div class="gate-card">
+      <div style="margin-bottom: 1.25rem;">
+        <span class="logo-text">Richmond <strong>Pro</strong></span>
+        <p style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); margin-top: 0.2rem;">Panel de Asesores México</p>
+      </div>
+
+      <p style="font-size: 0.85rem; color: rgba(220, 226, 255, 0.7); margin-bottom: 1.4rem;">
+        Ingresa tu PIN o clave de asesor para gestionar solicitudes e incidencias.
+      </p>
+
+      <input type="password" class="input-text" id="gatePassInput" placeholder="Clave de acceso (ej. richmond2026)" style="margin-bottom: 1rem; text-align: center;" />
+      <button type="button" class="btn-primary" style="width: 100%; justify-content: center;" onclick="checkAdminGate()">
+        Ingresar al Portal
+      </button>
+      <div class="err-msg" id="gateErr"></div>
+      <p style="font-size: 0.75rem; color: var(--c-muted); margin-top: 1rem;">
+        Clave predeterminada: <code style="color: var(--c-accent2);">richmond2026</code>
+      </p>
+    </div>
+  </div>
+
+  <!-- ADMIN APP CONTAINER -->
+  <main class="admin-container" id="adminApp" style="display: none;">
+
+    <!-- TOP HEADER -->
+    <header class="admin-header-bar">
+      <div class="admin-title-area">
+        <a href="./" style="text-decoration: none; color: inherit;">
+          <span class="logo-text">Richmond <strong>Pro</strong></span>
+        </a>
+        <span class="admin-badge">Control de Incidencias & SLA</span>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+        <button type="button" class="btn-action" onclick="refreshAdminData()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"/>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg>
+          Sincronizar
+        </button>
+
+        <button type="button" class="btn-action" style="color: var(--c-success); border-color: rgba(52,211,153,0.3);" onclick="exportTicketsToCSV()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Exportar CSV
+        </button>
+
+        <a href="./" class="btn-action" style="color: var(--c-muted);">
+          ← Ir al Portal del Alumno
+        </a>
+      </div>
+    </header>
+
+    <!-- STATS METRICS & SLA GRID -->
+    <section class="stats-metrics-grid">
+      <div class="metric-card accent">
+        <span class="metric-val" id="statTotal">0</span>
+        <span class="metric-label">Total Solicitudes</span>
+      </div>
+      <div class="metric-card gold">
+        <span class="metric-val" id="statPending">0</span>
+        <span class="metric-label">En Espera / Pendientes</span>
+      </div>
+      <div class="metric-card accent">
+        <span class="metric-val" id="statProgress">0</span>
+        <span class="metric-label">En Revisión</span>
+      </div>
+      <div class="metric-card green">
+        <span class="metric-val" id="statResolved">0</span>
+        <span class="metric-label">Resueltas</span>
+      </div>
+      <div class="metric-card purple">
+        <span class="metric-val" id="statAvgElapsed">--:--</span>
+        <span class="metric-label">Tiempo Promedio SLA (HH:MM)</span>
+      </div>
+    </section>
+
+    <!-- FILTERS BAR -->
+    <section class="filters-bar">
+      <!-- Selector de Asesor -->
+      <div class="filter-item">
+        <label for="filterAdvisor">👨‍💼 Asesor Responsable:</label>
+        <select class="select-custom" id="filterAdvisor" onchange="applyFilters()">
+          <option value="ALL">Todos los Asesores de México</option>
+          <option value="Alberto Yépiz" selected>Alberto Yépiz (Noroeste)</option>
+          <option value="Luis Franco">Luis Franco (Norte)</option>
+          <option value="Fabiola Martinez">Fabiola Martinez (Occidente)</option>
+          <option value="Arturo Mendoza">Arturo Mendoza (Sureste)</option>
+          <option value="Joel Navor">Joel Navor (Puebla / Veracruz)</option>
+          <option value="Edgar Espinoza">Edgar Espinoza (Toluca / CDMX)</option>
+          <option value="Miguel Campero">Miguel Campero (CDMX)</option>
+          <option value="Daniel Morales">Daniel Morales (CDMX)</option>
+          <option value="Yanzer Rebollo">Yanzer Rebollo (Académico)</option>
+        </select>
+      </div>
+
+      <!-- Selector de Escuela -->
+      <div class="filter-item">
+        <label for="filterSchool">🏫 Escuela:</label>
+        <select class="select-custom" id="filterSchool" onchange="applyFilters()">
+          <option value="ALL">Todas las instituciones</option>
+          <option value="UTH">UTH (Hermosillo)</option>
+          <option value="ITESCA">ITESCA (Cajeme)</option>
+          <option value="ITLM">ITLM (Los Mochis)</option>
+          <option value="ITH">ITH (Hermosillo)</option>
+          <option value="IT MXL">IT MXL (Mexicali)</option>
+          <option value="UNIVAFU">UNIVAFU (Los Mochis)</option>
+          <option value="OTRA">Otras instituciones</option>
+        </select>
+      </div>
+
+      <!-- Selector de Estatus -->
+      <div class="filter-item">
+        <label for="filterStatus">🔄 Estatus:</label>
+        <select class="select-custom" id="filterStatus" onchange="applyFilters()">
+          <option value="ALL">Todos los Estatus</option>
+          <option value="Pendiente">Pendiente / En Espera</option>
+          <option value="En Revisión">En Revisión</option>
+          <option value="Resuelto">Resuelto</option>
+        </select>
+      </div>
+
+      <!-- Buscador -->
+      <div class="filter-item filter-search">
+        <label for="filterSearch">🔍 Búsqueda Rápida:</label>
+        <input type="text" class="input-text" id="filterSearch" placeholder="Buscar por Folio, Alumno, Correo o Código…" oninput="applyFilters()" />
+      </div>
+    </section>
+
+    <!-- TICKETS TABLE -->
+    <div class="table-container">
+      <div class="table-scroll">
+        <table id="ticketsTable">
+          <thead>
+            <tr>
+              <th>Folio</th>
+              <th>Fecha</th>
+              <th>Escuela</th>
+              <th>Alumno</th>
+              <th>Incidencia</th>
+              <th>Código Libro</th>
+              <th>Asesor</th>
+              <th>⏱️ Elapsed Time</th>
+              <th>Estatus</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="ticketsTableBody">
+            <tr>
+              <td colspan="10" style="text-align: center; padding: 3rem; color: var(--c-muted);">
+                Cargando solicitudes desde la nube…
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- EDIT / DETAIL MODAL -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem;">
+        <div>
+          <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-accent2); font-weight: 700;">Gestión de Solicitud</span>
+          <h2 id="modalFolio" style="font-size: 1.5rem; font-weight: 900; color: #fff; font-family: monospace;">HELP-00000</h2>
+        </div>
+        <button type="button" class="btn-action" onclick="closeDetailModal()">✕ Cerrar</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 1.5rem; font-size: 0.85rem;">
+        <div><strong>Alumno:</strong> <span id="modalStudent">-</span></div>
+        <div><strong>Correo(s):</strong> <span id="modalEmails" style="color: var(--c-accent2);">-</span></div>
+        <div><strong>Escuela:</strong> <span id="modalSchool">-</span></div>
+        <div><strong>Incidencia:</strong> <span id="modalIssue">-</span></div>
+        <div><strong>Código del Libro:</strong> <code id="modalBookCode" style="color: var(--c-gold); font-size: 0.95rem;">-</code></div>
+        <div><strong>Registrado hace:</strong> <span id="modalElapsed" style="font-weight: 700; color: #fff;">-</span></div>
+        <div id="modalNotesWrap" style="display: none; background: rgba(255,255,255,0.03); padding: 0.65rem; border-radius: 8px;">
+          <strong>Notas del Alumno:</strong> <span id="modalNotes">-</span>
+        </div>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid var(--c-border); margin: 1.2rem 0;" />
+
+      <!-- Formulario de Acción del Asesor -->
+      <form id="advisorActionForm" onsubmit="saveAdvisorResolution(event)">
+        <div class="form-group">
+          <label class="form-label" for="modalStatusSelect">Actualizar Estatus:</label>
+          <select class="select-custom" id="modalStatusSelect">
+            <option value="Pendiente">🟡 Pendiente / En Espera</option>
+            <option value="En Revisión">🔵 En Revisión por Asesor</option>
+            <option value="Resuelto">🟢 Resuelto</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="modalAdvisorSelect">Reasignar Asesor:</label>
+          <select class="select-custom" id="modalAdvisorSelect">
+            <option value="Alberto Yépiz">Alberto Yépiz (Noroeste)</option>
+            <option value="Luis Franco">Luis Franco (Norte)</option>
+            <option value="Fabiola Martinez">Fabiola Martinez (Occidente)</option>
+            <option value="Arturo Mendoza">Arturo Mendoza (Sureste)</option>
+            <option value="Joel Navor">Joel Navor (Puebla / Veracruz)</option>
+            <option value="Edgar Espinoza">Edgar Espinoza (Toluca / CDMX)</option>
+            <option value="Miguel Campero">Miguel Campero (CDMX)</option>
+            <option value="Daniel Morales">Daniel Morales (CDMX)</option>
+            <option value="Yanzer Rebollo">Yanzer Rebollo (Académico)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="modalSolutionNote">
+            Respuesta / Solución para el Alumno:
+            <span class="label-hint">(El alumno la verá en su portal de consulta)</span>
+          </label>
+          <textarea class="input-text" id="modalSolutionNote" rows="3" placeholder="Ej. Se restableció tu contraseña a: Richmond2026!, ingresa a Richmond Studio con esa clave."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 0.8rem; margin-top: 1.4rem;">
+          <button type="submit" class="btn-primary" style="flex: 1; justify-content: center;">
+            Guardar Cambios
+          </button>
+          <button type="button" class="btn-action" id="btnContactStudentWA" style="background: rgba(52,211,153,0.15); color: var(--c-success); border-color: rgba(52,211,153,0.3);">
+            WhatsApp
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FIREBASE MODULE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { 
+      getFirestore, 
+      collection, 
+      getDocs, 
+      doc, 
+      updateDoc, 
+      query, 
+      orderBy 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey:            "AIzaSyCdszta7w3yg1zLeHDrPlo4Kln63K2Ftks",
+      authDomain:        "leadgen-ca3c9.firebaseapp.com",
+      projectId:         "leadgen-ca3c9",
+      storageBucket:     "leadgen-ca3c9.firebasestorage.app",
+      messagingSenderId: "436445053383",
+      appId:             "1:436445053383:web:e7c99ece8753f6a56d59e2"
+    };
+
+    let db = null;
+    try {
+      const app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+    } catch (e) {
+      console.warn('[Admin] Firebase error:', e);
+    }
+
+    let allTickets = [];
+    let currentEditingTicket = null;
+    let liveTickInterval = null;
+
+    // ─── GATE LOGIN ───
+    window.checkAdminGate = function() {
+      const input = document.getElementById('gatePassInput');
+      const err = document.getElementById('gateErr');
+      const val = input.value.trim();
+
+      if (val === 'richmond2026' || val === 'admin123' || val === 'yepzhi') {
+        document.getElementById('gateOverlay').style.display = 'none';
+        document.getElementById('adminApp').style.display = 'block';
+        loadAdminTickets();
+      } else {
+        err.textContent = 'Clave incorrecta. Intenta nuevamente.';
+      }
+    };
+
+    // Enter key on pass input
+    document.getElementById('gatePassInput')?.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') window.checkAdminGate();
+    });
+
+    // ─── LOAD DATA ───
+    window.loadAdminTickets = async function() {
+      const tbody = document.getElementById('ticketsTableBody');
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="10" style="text-align: center; padding: 2.5rem; color: var(--c-muted);">
+            Sincronizando solicitudes en tiempo real desde Firestore…
+          </td>
+        </tr>
+      `;
+
+      let tickets = [];
+
+      if (db) {
+        try {
+          const q = query(collection(db, "help_tickets"), orderBy("createdAtMillis", "desc"));
+          const snapshot = await getDocs(q);
+          snapshot.forEach((docSnapshot) => {
+            tickets.push({ id: docSnapshot.id, ...docSnapshot.data() });
+          });
+        } catch (err) {
+          console.warn('[Admin Firestore fetch error]:', err);
+        }
+      }
+
+      // Merge local storage fallback
+      const local = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
+      local.forEach(loc => {
+        if (!tickets.some(t => t.folio === loc.folio)) {
+          tickets.push(loc);
+        }
+      });
+
+      allTickets = tickets;
+      applyFilters();
+
+      // Arrancar intervalo de cálculo en vivo de Elapsed Time
+      if (liveTickInterval) clearInterval(liveTickInterval);
+      liveTickInterval = setInterval(updateLiveTableElapsedTimes, 1000);
+    };
+
+    window.refreshAdminData = function() {
+      loadAdminTickets();
+    };
+
+    // ─── FILTERS & RENDER ───
+    window.applyFilters = function() {
+      const fAdvisor = document.getElementById('filterAdvisor').value;
+      const fSchool  = document.getElementById('filterSchool').value;
+      const fStatus  = document.getElementById('filterStatus').value;
+      const fSearch  = (document.getElementById('filterSearch').value || '').toLowerCase().trim();
+
+      const filtered = allTickets.filter(t => {
+        // Asesor
+        if (fAdvisor !== 'ALL' && t.assignedAdvisor !== fAdvisor) return false;
+        // Escuela
+        if (fSchool !== 'ALL') {
+          if (fSchool === 'OTRA') {
+            if (['UTH', 'ITESCA', 'ITLM', 'ITH', 'IT MXL', 'UNIVAFU'].includes(t.schoolCode)) return false;
+          } else if (t.schoolCode !== fSchool && !t.school?.includes(fSchool)) {
+            return false;
+          }
+        }
+        // Estatus
+        if (fStatus !== 'ALL' && t.status !== fStatus) return false;
+        // Búsqueda
+        if (fSearch) {
+          const hay = `${t.folio || ''} ${t.fullName || ''} ${t.email || ''} ${t.bookCode || ''} ${t.school || ''}`.toLowerCase();
+          if (!hay.includes(fSearch)) return false;
+        }
+        return true;
+      });
+
+      renderTable(filtered);
+      updateMetrics(filtered);
+    };
+
+    function renderTable(tickets) {
+      const tbody = document.getElementById('ticketsTableBody');
+      if (!tickets.length) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="10" style="text-align: center; padding: 3rem 1rem; color: var(--c-muted);">
+              No se encontraron solicitudes con los filtros aplicados.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = tickets.map(t => {
+        const isResolved = t.status === 'Resuelto';
+        const isProgress = t.status === 'En Revisión';
+
+        let badgeClass = 'pending';
+        let badgeLabel = 'En Espera';
+        if (isResolved) { badgeClass = 'resolved'; badgeLabel = 'Resuelto'; }
+        else if (isProgress) { badgeClass = 'progress'; badgeLabel = 'En Revisión'; }
+
+        const createdAt = t.createdAtMillis || (t.createdAt?.toDate ? t.createdAt.toDate().getTime() : Date.now());
+        const resolvedAt = t.resolvedAtMillis || null;
+        const elapsedFormatted = calculateElapsedString(createdAt, resolvedAt, isResolved);
+
+        return `
+          <tr data-ticket-id="${t.id || t.folio}">
+            <td style="font-family: monospace; font-weight: 800; color: #fff;">${escapeHtml(t.folio)}</td>
+            <td style="white-space: nowrap; font-size: 0.78rem; color: var(--c-muted);">${t.createdAtDateStr || 'Reciente'}</td>
+            <td><strong>${escapeHtml(t.school)}</strong></td>
+            <td>
+              <div style="font-weight: 600; color: #fff;">${escapeHtml(t.fullName)}</div>
+              <div style="font-size: 0.75rem; color: var(--c-muted);">${escapeHtml(t.email)}</div>
+            </td>
+            <td style="max-width: 220px; font-size: 0.78rem;">
+              <span style="color: #e2e8f0;">${escapeHtml(t.issueType)}</span>
+            </td>
+            <td><code style="color: var(--c-gold); font-size: 0.8rem;">${escapeHtml(t.bookCode)}</code></td>
+            <td style="color: var(--c-accent2); font-weight: 600; white-space: nowrap;">${escapeHtml(t.assignedAdvisor || 'Alberto Yépiz')}</td>
+            <td class="table-elapsed-cell" data-created="${createdAt}" data-resolved="${resolvedAt || ''}" data-status="${t.status}" style="font-family: monospace; font-weight: 700; white-space: nowrap; color: ${isResolved ? '#34d399' : '#fff'};">
+              ${elapsedFormatted}
+            </td>
+            <td><span class="status-badge ${badgeClass}" style="font-size: 0.72rem; padding: 0.2rem 0.6rem;">${badgeLabel}</span></td>
+            <td style="white-space: nowrap;">
+              <button type="button" class="btn-action" onclick="openDetailModal('${t.folio}')">
+                Atender
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Actualizador en vivo de cronómetros en la tabla
+    function updateLiveTableElapsedTimes() {
+      const cells = document.querySelectorAll('.table-elapsed-cell');
+      cells.forEach(c => {
+        const status = c.dataset.status;
+        if (status === 'Resuelto') return; // Ya está congelado
+        const created = parseInt(c.dataset.created, 10);
+        c.textContent = calculateElapsedString(created, null, false);
+      });
+    }
+
+    function calculateElapsedString(startMs, endMs, isResolved) {
+      const target = (isResolved && endMs) ? endMs : Date.now();
+      const diffMs = Math.max(0, target - startMs);
+
+      const totalSecs = Math.floor(diffMs / 1000);
+      const hours = Math.floor(totalSecs / 3600);
+      const minutes = Math.floor((totalSecs % 3600) / 60);
+      const seconds = totalSecs % 60;
+      const pad = (n) => String(n).padStart(2, '0');
+
+      if (hours >= 24) {
+        const days = Math.floor(hours / 24);
+        const remH = hours % 24;
+        return `${days}d ${pad(remH)}h ${pad(minutes)}m`;
+      }
+      return `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+    }
+
+    // ─── SLA & METRICS ───
+    function updateMetrics(tickets) {
+      document.getElementById('statTotal').textContent = tickets.length;
+      document.getElementById('statPending').textContent = tickets.filter(t => t.status === 'Pendiente').length;
+      document.getElementById('statProgress').textContent = tickets.filter(t => t.status === 'En Revisión').length;
+      
+      const resolved = tickets.filter(t => t.status === 'Resuelto');
+      document.getElementById('statResolved').textContent = resolved.length;
+
+      // Calcular promedio de tiempo de resolución (SLA)
+      if (resolved.length > 0) {
+        let totalElapsedMs = 0;
+        let validCount = 0;
+        resolved.forEach(r => {
+          const start = r.createdAtMillis;
+          const end = r.resolvedAtMillis;
+          if (start && end && end >= start) {
+            totalElapsedMs += (end - start);
+            validCount++;
+          }
+        });
+
+        if (validCount > 0) {
+          const avgMs = totalElapsedMs / validCount;
+          const avgMins = Math.floor(avgMs / (1000 * 60));
+          const avgHours = Math.floor(avgMins / 60);
+          const remM = avgMins % 60;
+          document.getElementById('statAvgElapsed').textContent = `${String(avgHours).padStart(2, '0')}h ${String(remM).padStart(2, '0')}m`;
+        } else {
+          document.getElementById('statAvgElapsed').textContent = '--:--';
+        }
+      } else {
+        document.getElementById('statAvgElapsed').textContent = '--:--';
+      }
+    }
+
+    // ─── MODAL DETAIL & RESOLUTION ───
+    window.openDetailModal = function(folio) {
+      const ticket = allTickets.find(t => t.folio === folio);
+      if (!ticket) return;
+
+      currentEditingTicket = ticket;
+
+      document.getElementById('modalFolio').textContent = ticket.folio;
+      document.getElementById('modalStudent').textContent = `${ticket.fullName} ${ticket.nickname ? `(${ticket.nickname})` : ''}`;
+      document.getElementById('modalEmails').textContent = `${ticket.email} ${ticket.altEmail ? `| ${ticket.altEmail}` : ''}`;
+      document.getElementById('modalSchool').textContent = ticket.school;
+      document.getElementById('modalIssue').textContent = ticket.issueType;
+      document.getElementById('modalBookCode').textContent = ticket.bookCode;
+
+      const createdAt = ticket.createdAtMillis || Date.now();
+      const resolvedAt = ticket.resolvedAtMillis || null;
+      document.getElementById('modalElapsed').textContent = calculateElapsedString(createdAt, resolvedAt, ticket.status === 'Resuelto');
+
+      const notesWrap = document.getElementById('modalNotesWrap');
+      if (ticket.notes) {
+        notesWrap.style.display = 'block';
+        document.getElementById('modalNotes').textContent = ticket.notes;
+      } else {
+        notesWrap.style.display = 'none';
+      }
+
+      document.getElementById('modalStatusSelect').value = ticket.status || 'Pendiente';
+      document.getElementById('modalAdvisorSelect').value = ticket.assignedAdvisor || 'Alberto Yépiz';
+      document.getElementById('modalSolutionNote').value = ticket.solutionNote || '';
+
+      // Configurar botón WhatsApp al alumno
+      const waBtn = document.getElementById('btnContactStudentWA');
+      waBtn.onclick = () => {
+        const msg = `Hola ${ticket.fullName}, te contacto de Richmond Pro respecto a tu solicitud de soporte con Folio ${ticket.folio} de ${ticket.school}.`;
+        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+      };
+
+      document.getElementById('detailModal').classList.add('active');
+    };
+
+    window.closeDetailModal = function() {
+      document.getElementById('detailModal').classList.remove('active');
+      currentEditingTicket = null;
+    };
+
+    window.saveAdvisorResolution = async function(e) {
+      e.preventDefault();
+      if (!currentEditingTicket) return;
+
+      const newStatus = document.getElementById('modalStatusSelect').value;
+      const newAdvisor = document.getElementById('modalAdvisorSelect').value;
+      const newSolutionNote = document.getElementById('modalSolutionNote').value.trim();
+
+      const wasResolved = currentEditingTicket.status === 'Resuelto';
+      let resolvedAtMillis = currentEditingTicket.resolvedAtMillis;
+
+      // Si recién pasa a Resuelto, estampar resolvedAt
+      if (newStatus === 'Resuelto' && !wasResolved) {
+        resolvedAtMillis = Date.now();
+      } else if (newStatus !== 'Resuelto') {
+        resolvedAtMillis = null;
+      }
+
+      const updates = {
+        status: newStatus,
+        assignedAdvisor: newAdvisor,
+        solutionNote: newSolutionNote,
+        resolvedAtMillis: resolvedAtMillis
+      };
+
+      // 1. Actualizar en Firestore
+      if (db && currentEditingTicket.id) {
+        try {
+          const docRef = doc(db, "help_tickets", currentEditingTicket.id);
+          await updateDoc(docRef, updates);
+          console.log('[Admin] Firestore ticket updated:', currentEditingTicket.folio);
+        } catch (err) {
+          console.warn('[Admin] Firestore update err:', err);
+        }
+      }
+
+      // 2. Actualizar en allTickets en memoria
+      Object.assign(currentEditingTicket, updates);
+
+      // 3. Actualizar en localStorage
+      const local = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
+      const idx = local.findIndex(t => t.folio === currentEditingTicket.folio);
+      if (idx !== -1) {
+        local[idx] = { ...local[idx], ...updates };
+        localStorage.setItem('richmond_help_tickets', JSON.stringify(local));
+      }
+
+      closeDetailModal();
+      applyFilters();
+      alert(`¡Solicitud ${currentEditingTicket.folio} actualizada con éxito!`);
+    };
+
+    // ─── EXPORT TO CSV ───
+    window.exportTicketsToCSV = function() {
+      if (!allTickets.length) {
+        alert('No hay solicitudes para exportar.');
+        return;
+      }
+
+      const headers = ['Folio', 'Fecha Registro', 'Escuela', 'Incidencia', 'Alumno', 'Apodo', 'Correo Principal', 'Segundo Correo', 'Codigo Libro', 'Asesor', 'Estatus', 'Tiempo SLA (min)', 'Solucion'];
+      const rows = allTickets.map(t => [
+        t.folio,
+        t.createdAtDateStr || '',
+        `"${(t.school || '').replace(/"/g, '""')}"`,
+        `"${(t.issueType || '').replace(/"/g, '""')}"`,
+        `"${(t.fullName || '').replace(/"/g, '""')}"`,
+        `"${(t.nickname || '').replace(/"/g, '""')}"`,
+        t.email || '',
+        t.altEmail || '',
+        t.bookCode || '',
+        t.assignedAdvisor || 'Alberto Yépiz',
+        t.status || 'Pendiente',
+        t.resolvedAtMillis && t.createdAtMillis ? Math.round((t.resolvedAtMillis - t.createdAtMillis)/(1000*60)) : '',
+        `"${(t.solutionNote || '').replace(/"/g, '""')}"`
+      ]);
+
+      const csvContent = "data:text/csv;charset=utf-8,\uFEFF" 
+        + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `Richmond_Pro_Help_Tickets_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Richmond Pro · Centro de Ayuda e Incidencias</title>
+  <meta name="description" content="Portal oficial de atención a incidencias técnicas comunes de Richmond Studio: Invalid Credentials, Invalid Code y recuperación de correos." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+</head>
+<body>
+
+  <!-- AMBIENT GLOW ORBS -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <main class="portal-wrap">
+
+    <!-- HEADER & BRANDING -->
+    <header class="portal-header">
+      <a href="./" class="logo-badge" title="Richmond Pro Help">
+        <span class="logo-text">Richmond <strong>Pro</strong></span>
+      </a>
+      <p class="portal-tagline">Centro de Soporte Técnico · Richmond Studio</p>
+    </header>
+
+    <!-- TOP NAVIGATION TABS -->
+    <nav class="top-nav" aria-label="Navegación del portal">
+      <button type="button" class="nav-tab active" id="tabForm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+        Levantar Solicitud
+      </button>
+      <button type="button" class="nav-tab" id="tabStatus">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        Consultar Estatus
+      </button>
+    </nav>
+
+    <a href="admin.html" class="nav-admin-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+      Acceso Exclusivo para Asesores Comerciales & Técnicos
+    </a>
+
+    <!-- ─────────────────────────────────────────────
+         VIEW 1: FORMULARIO PASO A PASO
+    ───────────────────────────────────────────── -->
+    <section class="view-panel active" id="viewForm">
+
+      <!-- PRE-FILL WARNING / SELF-DIAGNOSTIC BANNER -->
+      <div class="warning-box">
+        <div class="warning-header">
+          <span class="warning-badge">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            Importante
+          </span>
+          <h2 class="warning-title">¡Lee esto antes de enviar tu solicitud!</h2>
+        </div>
+        <p class="warning-intro">
+          La mayoría de los errores comunes tienen solución inmediata. Revisa estos 2 casos frecuentes antes de llenar el formulario:
+        </p>
+
+        <div class="diagnostics-grid">
+          <!-- DIAGNOSTIC 1: Invalid Credentials -->
+          <details class="diag-card" open>
+            <summary class="diag-summary">
+              <div class="diag-summary-left">
+                <span class="diag-tag top1">Top 1</span>
+                <span class="diag-title">No puedo entrar: "Invalid Credentials"</span>
+              </div>
+              <svg class="diag-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </summary>
+            <div class="diag-content">
+              <div class="diag-item">
+                <span class="diag-bullet">✦</span>
+                <div>
+                  <strong>Sensibilidad a mayúsculas:</strong> La plataforma es sensible a mayúsculas y minúsculas. Prueba poniendo la <strong>primera letra de tu contraseña en mayúscula</strong> o revisa si tu teclado tenía Bloq Mayús activo; es muy frecuente haberla escrito así al registrarte.
+                </div>
+              </div>
+              <div class="diag-item">
+                <span class="diag-bullet">✦</span>
+                <div>
+                  <strong>¿Pusiste mal tu correo al registrarte?</strong> ¡Aún puedes entrar! Ingresa con ese <strong>correo erróneo y la contraseña que creaste</strong>. Una vez dentro de Richmond Studio, ve a la sección <strong>"My Profile"</strong> y ahí podrás corregirlo de forma definitiva.
+                </div>
+              </div>
+              <div class="diag-item">
+                <span class="diag-bullet">✦</span>
+                <div>
+                  <strong>¿Olvidaste tu contraseña?</strong> Richmond Studio actualmente no cuenta con botón nativo de <em>"Forgot Password"</em> (esta función oficial será lanzada a <strong>finales de Octubre</strong>). Si la olvidaste por completo, procede a llenar este formulario para asignarte una clave provisional.
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- DIAGNOSTIC 2: Invalid Code -->
+          <details class="diag-card" open>
+            <summary class="diag-summary">
+              <div class="diag-summary-left">
+                <span class="diag-tag top2">Top 2</span>
+                <span class="diag-title">"Invalid Code" / Mi código no funciona</span>
+              </div>
+              <svg class="diag-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </summary>
+            <div class="diag-content">
+              <div class="diag-item">
+                <span class="diag-bullet">✦</span>
+                <div>
+                  <strong>Tu código probablemente ya fue canjeado:</strong> Si la plataforma muestra <em>"Invalid Code"</em>, busca en tu correo (incluyendo carpeta de Spam/No deseados) si tienes un mensaje con el asunto <strong>"Welcome to Richmond Studio"</strong>.
+                </div>
+              </div>
+              <div class="diag-item">
+                <span class="diag-bullet">✦</span>
+                <div>
+                  Si tienes ese correo, significa que <strong>tu cuenta ya está activa y ya utilizaste tu código</strong>. Por seguridad el código no puede volver a canjearse, por lo que únicamente debes iniciar sesión en lugar de registrarte nuevamente.
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <!-- MAIN GLASS CARD WIZARD -->
+      <div class="glass-card">
+
+        <!-- PROGRESS BAR -->
+        <div class="stepper-progress" aria-hidden="true">
+          <div class="progress-line-bg"></div>
+          <div class="progress-line-fill" id="progressFill"></div>
+
+          <div class="step-node active" data-step="1">
+            <div class="node-circle">1</div>
+            <span class="node-label">Incidencia</span>
+          </div>
+          <div class="step-node" data-step="2">
+            <div class="node-circle">2</div>
+            <span class="node-label">Correo</span>
+          </div>
+          <div class="step-node" data-step="3">
+            <div class="node-circle">3</div>
+            <span class="node-label">Nombre</span>
+          </div>
+          <div class="step-node" data-step="4">
+            <div class="node-circle">4</div>
+            <span class="node-label">Libro</span>
+          </div>
+        </div>
+
+        <!-- STEP 1: Tipo de Incidencia & Escuela -->
+        <div class="form-step active" id="step-1">
+          <div class="step-title-wrap">
+            <span class="step-subhead">Paso 1 de 4</span>
+            <h1 class="step-title">¿Qué incidencia presentas?</h1>
+            <p class="step-desc">Selecciona el problema y tu escuela para canalizar tu caso con tu asesor de zona.</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tipo de Solicitud:</label>
+            <div class="issue-chips">
+              <div class="issue-card" data-value="NO PUEDO ENTRAR, INVALID CREDENTIALS, APOYO CON CAMBIO DE CONTRASEÑA">
+                <div class="issue-indicator"></div>
+                <div class="issue-info">
+                  <div class="issue-name">No puedo entrar / Invalid Credentials</div>
+                  <div class="issue-caption">Olvidé mi contraseña o mis credenciales marcan error al ingresar.</div>
+                </div>
+              </div>
+
+              <div class="issue-card" data-value="INVALID CODE, CODIGO NO VALIDO">
+                <div class="issue-indicator"></div>
+                <div class="issue-info">
+                  <div class="issue-name">Invalid Code / Código no válido</div>
+                  <div class="issue-caption">El código de mi libro marca error al intentar activarlo en la plataforma.</div>
+                </div>
+              </div>
+
+              <div class="issue-card" data-value="SI ME REGISTRE PERO NO RECUERDO QUE CORREO PUSE">
+                <div class="issue-indicator"></div>
+                <div class="issue-info">
+                  <div class="issue-name">Sí me registré pero no recuerdo qué correo puse</div>
+                  <div class="issue-caption">Ya tengo cuenta registrada pero no logro recordar con qué email la creé.</div>
+                </div>
+              </div>
+            </div>
+            <div class="err-msg" id="err-issueType"></div>
+          </div>
+
+          <div class="form-group" style="margin-top: 1.2rem;">
+            <label class="form-label" for="schoolSelect">
+              Escuela o Institución:
+            </label>
+            <select class="select-custom" id="schoolSelect">
+              <option value="" disabled selected>-- Selecciona tu institución --</option>
+              <option value="UTH">UTH - Universidad Tecnológica de Hermosillo</option>
+              <option value="ITESCA">ITESCA - Inst. Tecnológico Superior de Cajeme</option>
+              <option value="ITLM">ITLM - Instituto Tecnológico de Los Mochis</option>
+              <option value="ITH">ITH - Instituto Tecnológico de Hermosillo</option>
+              <option value="IT MXL">IT MXL - Instituto Tecnológico de Mexicali</option>
+              <option value="UNIVAFU">UNIVAFU - Universidad del Valle del Fuerte</option>
+              <option value="OTRA">Otra institución educativa…</option>
+            </select>
+            <div class="err-msg" id="err-school"></div>
+          </div>
+
+          <div class="form-group" id="schoolOtherWrap" style="display: none;">
+            <label class="form-label" for="schoolOtherInput">Escribe el nombre de tu escuela:</label>
+            <input type="text" class="input-text" id="schoolOtherInput" placeholder="Ej. Universidad de Sonora" />
+            <div class="err-msg" id="err-schoolOther"></div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-primary" onclick="validateStep1()">
+              Siguiente Paso
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: Correo Electrónico -->
+        <div class="form-step" id="step-2">
+          <div class="step-title-wrap">
+            <span class="step-subhead">Paso 2 de 4</span>
+            <h2 class="step-title">Correo electrónico registrado</h2>
+            <p class="step-desc">Ingresa el correo que usaste o intentaste usar en Richmond Studio.</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="emailInput">Correo Principal:</label>
+            <input type="email" class="input-text" id="emailInput" placeholder="alumno@institucion.edu.mx" />
+            <div class="err-msg" id="err-email"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="altEmailInput">
+              Segundo Correo de respaldo:
+              <span class="label-hint">(Opcional si dudas qué correo usaste)</span>
+            </label>
+            <input type="email" class="input-text" id="altEmailInput" placeholder="correo.personal@gmail.com" />
+            <div class="err-msg" id="err-altEmail"></div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-back" onclick="goStep(1)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+              </svg>
+              Regresar
+            </button>
+            <button type="button" class="btn-primary" onclick="validateStep2()">
+              Siguiente Paso
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Nombre Completo -->
+        <div class="form-step" id="step-3">
+          <div class="step-title-wrap">
+            <span class="step-subhead">Paso 3 de 4</span>
+            <h2 class="step-title">¿Cuál es tu nombre?</h2>
+            <p class="step-desc">Permite al asesor identificarte en la base de datos de tu escuela.</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="fullNameInput">Nombre Completo:</label>
+            <input type="text" class="input-text" id="fullNameInput" placeholder="Ej. Carlos Alberto Mendoza Vega" />
+            <div class="err-msg" id="err-fullName"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="nicknameInput">
+              Nombre Corto, Alias o Apodo:
+              <span class="label-hint">(Opcional, si te registraste con diminutivo)</span>
+            </label>
+            <input type="text" class="input-text" id="nicknameInput" placeholder="Ej. Charlie Mendoza" />
+            <div class="err-msg" id="err-nickname"></div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-back" onclick="goStep(2)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+              </svg>
+              Regresar
+            </button>
+            <button type="button" class="btn-primary" onclick="validateStep3()">
+              Siguiente Paso
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 4: Código del Libro -->
+        <div class="form-step" id="step-4">
+          <div class="step-title-wrap">
+            <span class="step-subhead">Paso 4 de 4</span>
+            <h2 class="step-title">Ingresa el código de tu libro</h2>
+            <p class="step-desc">Lo encuentras al abrir tu libro en la primera página interior izquierda.</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="bookCodeInput">Código de Acceso del Libro:</label>
+            <input type="text" class="input-text" id="bookCodeInput" placeholder="Ej. RPR-4892-KLA-9921" style="text-transform: uppercase; font-family: monospace; font-size: 1.05rem;" />
+            <div class="err-msg" id="err-bookCode"></div>
+
+            <div class="book-tip-box">
+              <svg class="book-tip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg>
+              <div class="book-tip-text">
+                <strong>¿Dónde está mi código?</strong> Abre la portada de tu libro. En la página blanca izquierda encontrarás una etiqueta o recuadro con el código alfanumérico para activar tu acceso.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 1rem;">
+            <label class="form-label" for="notesInput">
+              Comentarios adicionales o detalles extras:
+              <span class="label-hint">(Opcional)</span>
+            </label>
+            <textarea class="input-text" id="notesInput" rows="2" placeholder="Explica cualquier otro detalle que le ayude al asesor…"></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-back" onclick="goStep(3)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+              </svg>
+              Regresar
+            </button>
+            <button type="button" class="btn-primary" id="btnSubmitTicket" onclick="validateStep4()">
+              Enviar Solicitud
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 5: Éxito / Folio Generado -->
+        <div class="form-step" id="step-5">
+          <div class="success-wrap">
+            <div class="success-icon-badge">
+              <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+
+            <div>
+              <h2 style="font-size: 1.6rem; font-weight: 800; color: #fff; margin-bottom: 0.35rem;">¡Solicitud Registrada!</h2>
+              <p style="font-size: 0.88rem; color: var(--c-muted); line-height: 1.45;">
+                Tu reporte ha sido asignado a tu asesor técnico de zona. Guarda tu folio para dar seguimiento en tiempo real.
+              </p>
+            </div>
+
+            <div class="folio-card">
+              <span class="folio-label">Tu Folio de Seguimiento</span>
+              <div class="folio-code" id="successFolioCode">HELP-00000</div>
+              <button type="button" class="btn-copy-folio" onclick="copyFolioCode()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                Copiar Folio
+              </button>
+            </div>
+
+            <div style="font-size: 0.83rem; color: var(--c-muted); line-height: 1.5; max-width: 440px;">
+              Escuela: <strong id="successSchool" style="color: #fff;">-</strong> · 
+              Asesor: <strong id="successAdvisor" style="color: var(--c-accent2);">-</strong><br />
+              El tiempo promedio de respuesta es de <strong>2 a 24 horas hábiles</strong>.
+            </div>
+
+            <button type="button" class="btn-primary" style="margin: 0.5rem auto 0;" onclick="viewMyNewTicket()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              Ver Estatus y Tiempo Transcurrido
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────
+         VIEW 2: CONSULTAR ESTATUS (ALUMNO)
+    ───────────────────────────────────────────── -->
+    <section class="view-panel" id="viewStatus">
+      <div class="glass-card lookup-card">
+        <div class="step-title-wrap" style="margin-bottom: 0.8rem;">
+          <span class="step-subhead">Monitoreo en Tiempo Real</span>
+          <h2 class="step-title">Consulta el Estatus de tu Solicitud</h2>
+          <p class="step-desc">Ingresa tu número de Folio o tu correo para conocer el avance y el tiempo transcurrido.</p>
+        </div>
+
+        <div class="lookup-search-bar">
+          <input type="text" class="input-text" id="lookupInput" placeholder="Ej. HELP-84920 o tu correo registrado" />
+          <button type="button" class="lookup-btn" onclick="searchTicketStatus()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            Consultar
+          </button>
+        </div>
+        <div class="err-msg" id="lookupError"></div>
+
+        <div id="lookupResultContainer">
+          <div style="text-align: center; padding: 2.5rem 1rem; color: var(--c-muted); background: rgba(255,255,255,0.02); border: 1px dashed var(--c-border); border-radius: 18px;">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 0.5rem; opacity: 0.6;">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <p style="font-size: 0.88rem; color: #fff; font-weight: 600;">Escribe tu folio o correo arriba para consultar</p>
+            <p style="font-size: 0.78rem; color: var(--c-muted); margin-top: 0.2rem;">
+              Podrás ver el tiempo transcurrido en vivo (Elapsed Time) y la respuesta del asesor en cuanto esté resuelta.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="portal-footer">
+      <p>© 2026 Richmond Pro · México · Soporte Académico y Comercial</p>
+      <p style="margin-top: 0.3rem;">
+        <a href="https://richmond.com.mx/aviso-de-privacidad/" target="_blank" rel="noopener noreferrer">Aviso de Privacidad</a> · 
+        <a href="https://richmondpro.global/" target="_blank" rel="noopener noreferrer">richmondpro.global</a> · 
+        <a href="admin.html">Portal de Asesores</a>
+      </p>
+    </footer>
+
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

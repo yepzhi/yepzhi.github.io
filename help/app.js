@@ -1,0 +1,695 @@
+/* ───────────────────────────────────────────────
+   RICHMOND PRO · Help & Support Client Logic
+   yepzhi.com/help
+──────────────────────────────────────────────── */
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  getDocs, 
+  query, 
+  where, 
+  orderBy, 
+  serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// Firebase Configuration (Same project as Richmond Pro leadgen & proreport)
+const firebaseConfig = {
+  apiKey:            "AIzaSyCdszta7w3yg1zLeHDrPlo4Kln63K2Ftks",
+  authDomain:        "leadgen-ca3c9.firebaseapp.com",
+  projectId:         "leadgen-ca3c9",
+  storageBucket:     "leadgen-ca3c9.firebasestorage.app",
+  messagingSenderId: "436445053383",
+  appId:             "1:436445053383:web:e7c99ece8753f6a56d59e2"
+};
+
+let db = null;
+try {
+  const app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+  console.log('[RichmondPro Help] Firebase connected');
+} catch (err) {
+  console.warn('[RichmondPro Help] Firebase init note:', err);
+}
+
+// Google Sheets Webhook URL (Pega aquí la URL de tu Apps Script implementado)
+export const SHEETS_WEBHOOK_URL = '';
+
+// Asesores de México (leadgen/team.js sin gerentes)
+export const ADVISORS = [
+  { id: 'noroeste',  nombre: 'Alberto Yépiz',   zona: 'Noroeste (Sonora, Sinaloa, BC, BCS, Chih)', wa: '5216621147374' },
+  { id: 'norte',     nombre: 'Luis Franco',     zona: 'Norte (Durango, Coahuila, NL, Tamps, Zac)',  wa: '5218119905772' },
+  { id: 'occidente', nombre: 'Fabiola Martinez',zona: 'Occidente (Jal, Col, Mich, Ags, Gto, Nay)', wa: '5213316025928' },
+  { id: 'sureste',   nombre: 'Arturo Mendoza',  zona: 'Sureste (Oax, Chis, Tab, Camp, Yuc, QRoo)',  wa: '5215537339886' },
+  { id: 'puebla',    nombre: 'Joel Navor',      zona: 'Puebla / Veracruz / Mor / Gro / Tlax',       wa: '522211057576' },
+  { id: 'toluca',    nombre: 'Edgar Espinoza',  zona: 'Toluca / EdoMex / Hgo / Qro / SLP',         wa: '526641234572' },
+  { id: 'cdmx1',     nombre: 'Miguel Campero',  zona: 'CDMX / EdoMex',                              wa: '5218116318251' },
+  { id: 'cdmx2',     nombre: 'Daniel Morales',  zona: 'CDMX / EdoMex',                              wa: '5215537339631' },
+  { id: 'cdmx3',     nombre: 'Yanzer Rebollo',  zona: 'Académico Richmond Pro / CDMX',              wa: '5215666689003' }
+];
+
+// Estado de la Solicitud
+const STATE = {
+  currentStep: 1,
+  data: {
+    issueType: '',
+    school: '',
+    schoolOther: '',
+    email: '',
+    altEmail: '',
+    fullName: '',
+    nickname: '',
+    bookCode: '',
+    notes: ''
+  },
+  activeTicket: null,
+  activeTimerInterval: null
+};
+
+// ─── INIT ─────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initIssueSelectors();
+  initSchoolSelect();
+  initNavTabs();
+  initLookupEnterKey();
+
+  // Revisar si viene folio en URL (?folio=HELP-XXXXX)
+  const urlParams = new URLSearchParams(window.location.search);
+  const qFolio = urlParams.get('folio');
+  if (qFolio) {
+    switchTab('status');
+    const input = document.getElementById('lookupInput');
+    if (input) input.value = qFolio;
+    searchTicketStatus(qFolio);
+  }
+});
+
+// ─── NAV TABS ─────────────────────────────────────
+function initNavTabs() {
+  const tabForm = document.getElementById('tabForm');
+  const tabStatus = document.getElementById('tabStatus');
+
+  if (tabForm) {
+    tabForm.addEventListener('click', () => switchTab('form'));
+  }
+  if (tabStatus) {
+    tabStatus.addEventListener('click', () => switchTab('status'));
+  }
+}
+
+export function switchTab(tab) {
+  const tabForm = document.getElementById('tabForm');
+  const tabStatus = document.getElementById('tabStatus');
+  const viewForm = document.getElementById('viewForm');
+  const viewStatus = document.getElementById('viewStatus');
+
+  if (tab === 'form') {
+    tabForm?.classList.add('active');
+    tabStatus?.classList.remove('active');
+    viewForm?.classList.add('active');
+    viewStatus?.classList.remove('active');
+  } else {
+    tabStatus?.classList.add('active');
+    tabForm?.classList.remove('active');
+    viewStatus?.classList.add('active');
+    viewForm?.classList.remove('active');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+window.switchTab = switchTab;
+
+// ─── ISSUE SELECTOR CHIPS ─────────────────────────
+function initIssueSelectors() {
+  const cards = document.querySelectorAll('.issue-card');
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      cards.forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      const val = card.dataset.value;
+      STATE.data.issueType = val;
+      clearError('err-issueType');
+    });
+  });
+}
+
+// ─── SCHOOL DROPDOWN HANDLER ──────────────────────
+function initSchoolSelect() {
+  const schoolSelect = document.getElementById('schoolSelect');
+  const otherWrap = document.getElementById('schoolOtherWrap');
+
+  if (schoolSelect) {
+    schoolSelect.addEventListener('change', (e) => {
+      const val = e.target.value;
+      STATE.data.school = val;
+      clearError('err-school');
+      if (val === 'OTRA') {
+        if (otherWrap) otherWrap.style.display = 'block';
+      } else {
+        if (otherWrap) otherWrap.style.display = 'none';
+        STATE.data.schoolOther = '';
+      }
+    });
+  }
+}
+
+// ─── STEPPER NAVIGATION ───────────────────────────
+export function goStep(stepNumber) {
+  const currentStepEl = document.getElementById(`step-${STATE.currentStep}`);
+  const nextStepEl = document.getElementById(`step-${stepNumber}`);
+
+  if (!nextStepEl) return;
+
+  currentStepEl?.classList.remove('active');
+  nextStepEl.classList.add('active');
+
+  STATE.currentStep = stepNumber;
+  updateStepperProgress(stepNumber);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+window.goStep = goStep;
+
+function updateStepperProgress(current) {
+  const fill = document.getElementById('progressFill');
+  const nodes = document.querySelectorAll('.step-node');
+
+  // Máximo 4 pasos en la barra
+  const pct = Math.min(100, Math.max(0, (current - 1) / 3 * 100));
+  if (fill) fill.style.width = `${pct}%`;
+
+  nodes.forEach(node => {
+    const step = parseInt(node.dataset.step, 10);
+    node.classList.remove('active', 'completed');
+    if (step === current) {
+      node.classList.add('active');
+    } else if (step < current) {
+      node.classList.add('completed');
+    }
+  });
+}
+
+// ─── VALIDATIONS ──────────────────────────────────
+export function validateStep1() {
+  let ok = true;
+
+  if (!STATE.data.issueType) {
+    setError('err-issueType', 'Por favor selecciona el tipo de incidencia que presentas.');
+    ok = false;
+  } else {
+    clearError('err-issueType');
+  }
+
+  const school = document.getElementById('schoolSelect').value;
+  if (!school) {
+    setError('err-school', 'Por favor selecciona tu escuela o institución.');
+    markInput('schoolSelect', true);
+    ok = false;
+  } else {
+    clearError('err-school');
+    markInput('schoolSelect', false);
+    STATE.data.school = school;
+
+    if (school === 'OTRA') {
+      const otherVal = document.getElementById('schoolOtherInput').value.trim();
+      if (!otherVal) {
+        setError('err-schoolOther', 'Indica el nombre de tu institución.');
+        markInput('schoolOtherInput', true);
+        ok = false;
+      } else {
+        clearError('err-schoolOther');
+        markInput('schoolOtherInput', false);
+        STATE.data.schoolOther = otherVal;
+      }
+    }
+  }
+
+  if (ok) goStep(2);
+}
+window.validateStep1 = validateStep1;
+
+export function validateStep2() {
+  let ok = true;
+  const email = document.getElementById('emailInput').value.trim();
+  const altEmail = document.getElementById('altEmailInput').value.trim();
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!email || !re.test(email)) {
+    setError('err-email', 'Ingresa el correo electrónico que usaste para registrarte.');
+    markInput('emailInput', true);
+    ok = false;
+  } else {
+    clearError('err-email');
+    markInput('emailInput', false);
+    STATE.data.email = email;
+  }
+
+  if (altEmail && !re.test(altEmail)) {
+    setError('err-altEmail', 'Ingresa un correo con formato válido (ej. usuario@dominio.com).');
+    markInput('altEmailInput', true);
+    ok = false;
+  } else {
+    clearError('err-altEmail');
+    markInput('altEmailInput', false);
+    STATE.data.altEmail = altEmail;
+  }
+
+  if (ok) goStep(3);
+}
+window.validateStep2 = validateStep2;
+
+export function validateStep3() {
+  let ok = true;
+  const fullName = document.getElementById('fullNameInput').value.trim();
+  const nickname = document.getElementById('nicknameInput').value.trim();
+
+  if (!fullName || fullName.length < 3) {
+    setError('err-fullName', 'Por favor ingresa tu nombre completo.');
+    markInput('fullNameInput', true);
+    ok = false;
+  } else {
+    clearError('err-fullName');
+    markInput('fullNameInput', false);
+    STATE.data.fullName = fullName;
+    STATE.data.nickname = nickname;
+  }
+
+  if (ok) goStep(4);
+}
+window.validateStep3 = validateStep3;
+
+export function validateStep4() {
+  let ok = true;
+  const bookCode = document.getElementById('bookCodeInput').value.trim();
+  const notes = document.getElementById('notesInput').value.trim();
+
+  if (!bookCode || bookCode.length < 4) {
+    setError('err-bookCode', 'Por favor ingresa el código de tu libro (página izquierda).');
+    markInput('bookCodeInput', true);
+    ok = false;
+  } else {
+    clearError('err-bookCode');
+    markInput('bookCodeInput', false);
+    STATE.data.bookCode = bookCode.toUpperCase();
+    STATE.data.notes = notes;
+  }
+
+  if (ok) {
+    submitTicket();
+  }
+}
+window.validateStep4 = validateStep4;
+
+// ─── ERROR HELPERS ────────────────────────────────
+function setError(id, msg) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = msg;
+}
+function clearError(id) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = '';
+}
+function markInput(id, isError) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('error', isError);
+}
+
+// ─── SUBMIT TICKET ────────────────────────────────
+async function submitTicket() {
+  const submitBtn = document.getElementById('btnSubmitTicket');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite;">
+        <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+        <path d="M12 2a10 10 0 0 1 10 10"/>
+      </svg>
+      Registrando solicitud…`;
+  }
+
+  // Generar Folio Único (ej. HELP-84920)
+  const randomNum = Math.floor(10000 + Math.random() * 90000);
+  const folio = `HELP-${randomNum}`;
+
+  // Determinación de Asesor:
+  // Escuelas del Noroeste (UTH, ITESCA, ITLM, ITH, IT MXL, UNIVAFU) -> Alberto Yépiz
+  const schoolKey = STATE.data.school;
+  let assignedAdvisor = 'Alberto Yépiz';
+  let advisorWA = '5216621147374';
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('es-MX', {
+    timeZone: 'America/Hermosillo',
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  const payload = {
+    folio: folio,
+    issueType: STATE.data.issueType,
+    school: schoolKey === 'OTRA' ? STATE.data.schoolOther : schoolKey,
+    schoolCode: schoolKey,
+    email: STATE.data.email.toLowerCase(),
+    altEmail: STATE.data.altEmail ? STATE.data.altEmail.toLowerCase() : '',
+    fullName: STATE.data.fullName,
+    nickname: STATE.data.nickname || '',
+    bookCode: STATE.data.bookCode,
+    notes: STATE.data.notes || '',
+    status: 'Pendiente', // 'Pendiente' | 'En Revisión' | 'Resuelto'
+    assignedAdvisor: assignedAdvisor,
+    advisorWA: advisorWA,
+    solutionNote: '',
+    createdAtMillis: Date.now(),
+    createdAtDateStr: dateStr,
+    resolvedAtMillis: null,
+    elapsedMinutes: 0
+  };
+
+  let firestoreDocId = null;
+
+  // Guardar en Firebase Firestore
+  if (db) {
+    try {
+      const docRef = await addDoc(collection(db, "help_tickets"), {
+        ...payload,
+        createdAt: serverTimestamp()
+      });
+      firestoreDocId = docRef.id;
+      console.log('[RichmondPro Help] Ticket saved to Firestore with ID:', docRef.id);
+    } catch (err) {
+      console.warn('[RichmondPro Help] Firestore save error:', err);
+    }
+  }
+
+  // Guardar en LocalStorage como fallback garantizado
+  const localTickets = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
+  localTickets.unshift({ ...payload, firestoreId: firestoreDocId });
+  localStorage.setItem('richmond_help_tickets', JSON.stringify(localTickets.slice(0, 100)));
+
+  // Enviar a Google Sheets Webhook si está configurado
+  if (SHEETS_WEBHOOK_URL && SHEETS_WEBHOOK_URL.startsWith('http')) {
+    fetch(SHEETS_WEBHOOK_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...payload,
+        firestoreId: firestoreDocId,
+        dateStr: dateStr
+      })
+    }).catch(err => console.warn('[Sheets Webhook] notice:', err));
+  }
+
+  // Renderizar Pantalla de Éxito
+  renderSuccessScreen(payload);
+}
+
+function renderSuccessScreen(ticket) {
+  const folioCodeEl = document.getElementById('successFolioCode');
+  const schoolEl = document.getElementById('successSchool');
+  const advisorEl = document.getElementById('successAdvisor');
+
+  if (folioCodeEl) folioCodeEl.textContent = ticket.folio;
+  if (schoolEl) schoolEl.textContent = ticket.school;
+  if (advisorEl) advisorEl.textContent = ticket.assignedAdvisor;
+
+  goStep(5);
+  showToast('¡Tu solicitud ha sido recibida con éxito!');
+}
+
+// ─── COPY FOLIO ───────────────────────────────────
+export function copyFolioCode() {
+  const code = document.getElementById('successFolioCode')?.textContent?.trim();
+  if (code) {
+    navigator.clipboard.writeText(code).then(() => {
+      showToast(`Folio ${code} copiado al portapapeles`);
+    });
+  }
+}
+window.copyFolioCode = copyFolioCode;
+
+export function viewMyNewTicket() {
+  const code = document.getElementById('successFolioCode')?.textContent?.trim();
+  if (code) {
+    switchTab('status');
+    const input = document.getElementById('lookupInput');
+    if (input) input.value = code;
+    searchTicketStatus(code);
+  }
+}
+window.viewMyNewTicket = viewMyNewTicket;
+
+// ─── LOOKUP / CONSULTAR ESTATUS ───────────────────
+function initLookupEnterKey() {
+  const input = document.getElementById('lookupInput');
+  if (input) {
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        searchTicketStatus();
+      }
+    });
+  }
+}
+
+export async function searchTicketStatus(explicitQuery = null) {
+  const input = document.getElementById('lookupInput');
+  const rawQ = (explicitQuery || input?.value || '').trim();
+  const errEl = document.getElementById('lookupError');
+  const resultContainer = document.getElementById('lookupResultContainer');
+
+  if (!rawQ) {
+    if (errEl) errEl.textContent = 'Ingresa tu Folio (ej. HELP-12345) o tu correo registrado.';
+    return;
+  }
+  if (errEl) errEl.textContent = '';
+
+  resultContainer.innerHTML = `
+    <div style="text-align: center; padding: 2.5rem 1rem; color: var(--c-muted);">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c-accent2)" stroke-width="2" style="animation: spin 1s linear infinite; margin-bottom: 0.5rem;">
+        <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+        <path d="M12 2a10 10 0 0 1 10 10"/>
+      </svg>
+      <p style="font-size: 0.88rem;">Consultando estatus de tu solicitud…</p>
+    </div>
+  `;
+
+  let foundTicket = null;
+
+  // 1. Buscar en Firestore
+  if (db) {
+    try {
+      // Buscar por Folio
+      let q = query(collection(db, "help_tickets"), where("folio", "==", rawQ.toUpperCase()));
+      let snapshot = await getDocs(q);
+
+      if (!snapshot.empty) {
+        foundTicket = { id: snapshot.docs[0].id, ...snapshot.docs[0].data() };
+      } else {
+        // Buscar por email
+        q = query(collection(db, "help_tickets"), where("email", "==", rawQ.toLowerCase()));
+        snapshot = await getDocs(q);
+        if (!snapshot.empty) {
+          foundTicket = { id: snapshot.docs[0].id, ...snapshot.docs[0].data() };
+        }
+      }
+    } catch (e) {
+      console.warn('[Lookup] Firestore error, trying local cache:', e);
+    }
+  }
+
+  // 2. Fallback a LocalStorage si no se halló en Firestore
+  if (!foundTicket) {
+    const local = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
+    foundTicket = local.find(t => 
+      (t.folio && t.folio.toUpperCase() === rawQ.toUpperCase()) || 
+      (t.email && t.email.toLowerCase() === rawQ.toLowerCase())
+    );
+  }
+
+  if (!foundTicket) {
+    resultContainer.innerHTML = `
+      <div style="text-align:center; padding: 2rem 1.5rem; background: rgba(255,95,95,0.06); border: 1px dashed rgba(255,95,95,0.3); border-radius: 18px;">
+        <p style="color: #fff; font-weight: 700; font-size: 1rem; margin-bottom: 0.4rem;">No encontramos una solicitud con ese dato</p>
+        <p style="color: var(--c-muted); font-size: 0.84rem; line-height: 1.45;">
+          Verifica que el folio esté escrito exactamente (ej. <strong>HELP-12345</strong>) o ingresa el correo que utilizaste.
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  STATE.activeTicket = foundTicket;
+  renderStatusCard(foundTicket);
+}
+window.searchTicketStatus = searchTicketStatus;
+
+// ─── RENDER STATUS CARD WITH ELAPSED TIME ──────────
+function renderStatusCard(ticket) {
+  const container = document.getElementById('lookupResultContainer');
+  if (!container) return;
+
+  // Limpiar timer anterior
+  if (STATE.activeTimerInterval) {
+    clearInterval(STATE.activeTimerInterval);
+    STATE.activeTimerInterval = null;
+  }
+
+  const isResolved = ticket.status === 'Resuelto';
+  const isProgress = ticket.status === 'En Revisión';
+
+  let badgeClass = 'pending';
+  let badgeText = '🟡 En Espera de Revisión';
+  if (isResolved) {
+    badgeClass = 'resolved';
+    badgeText = '🟢 Solicitud Resuelta';
+  } else if (isProgress) {
+    badgeClass = 'progress';
+    badgeText = '🔵 En Proceso de Atención';
+  }
+
+  const createdAt = ticket.createdAtMillis || (ticket.createdAt?.toDate ? ticket.createdAt.toDate().getTime() : Date.now());
+  const resolvedAt = ticket.resolvedAtMillis || null;
+
+  container.innerHTML = `
+    <div class="status-card">
+      <div class="status-card-header">
+        <div>
+          <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-accent2); font-weight: 700;">Folio Oficial</span>
+          <h3 style="font-size: 1.45rem; font-weight: 900; color: #fff; font-family: monospace;">${ticket.folio}</h3>
+        </div>
+        <div class="status-badge ${badgeClass}">
+          ${badgeText}
+        </div>
+      </div>
+
+      <!-- Live Elapsed Time Ticker -->
+      <div class="elapsed-box">
+        <div class="elapsed-label">
+          <span class="elapsed-pulse-dot" style="${isResolved ? 'background:#34d399; box-shadow:0 0 10px #34d399; animation:none;' : ''}"></span>
+          <span>${isResolved ? 'Tiempo Total de Resolución:' : 'Tiempo Transcurrido (Elapsed Time):'}</span>
+        </div>
+        <div class="elapsed-time-val" id="liveElapsedTimer">
+          Calculando…
+        </div>
+      </div>
+
+      <!-- Solution box if resolved -->
+      ${ticket.solutionNote ? `
+        <div class="advisor-solution-box">
+          <div class="solution-header">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            Respuesta & Solución del Asesor:
+          </div>
+          <div class="solution-text">${escapeHtml(ticket.solutionNote)}</div>
+        </div>
+      ` : ''}
+
+      <div class="status-details-grid">
+        <div class="status-detail-item">
+          <span class="label">Alumno</span>
+          <span class="val">${escapeHtml(ticket.fullName)} ${ticket.nickname ? `(${escapeHtml(ticket.nickname)})` : ''}</span>
+        </div>
+        <div class="status-detail-item">
+          <span class="label">Institución</span>
+          <span class="val">${escapeHtml(ticket.school)}</span>
+        </div>
+        <div class="status-detail-item">
+          <span class="label">Tipo de Incidencia</span>
+          <span class="val">${escapeHtml(ticket.issueType)}</span>
+        </div>
+        <div class="status-detail-item">
+          <span class="label">Asesor Asignado</span>
+          <span class="val" style="color: var(--c-accent2);">${escapeHtml(ticket.assignedAdvisor || 'Alberto Yépiz')}</span>
+        </div>
+        <div class="status-detail-item">
+          <span class="label">Fecha de Registro</span>
+          <span class="val">${ticket.createdAtDateStr || 'Reciente'}</span>
+        </div>
+        <div class="status-detail-item">
+          <span class="label">Código de Libro</span>
+          <span class="val" style="font-family: monospace;">${escapeHtml(ticket.bookCode)}</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 0.5rem; text-align: center;">
+        <a href="https://wa.me/${ticket.advisorWA || '5216621147374'}?text=${encodeURIComponent(`Hola, tengo una duda sobre mi solicitud con Folio: ${ticket.folio} (${ticket.fullName})`)}" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           style="display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; color: var(--c-success); text-decoration: none; font-weight: 600;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/>
+          </svg>
+          Contactar directamente al asesor por WhatsApp
+        </a>
+      </div>
+    </div>
+  `;
+
+  // Arrancar temporizador
+  updateElapsedTimeDisplay(createdAt, resolvedAt, isResolved);
+  if (!isResolved) {
+    STATE.activeTimerInterval = setInterval(() => {
+      updateElapsedTimeDisplay(createdAt, resolvedAt, false);
+    }, 1000);
+  }
+}
+
+function updateElapsedTimeDisplay(createdAtMillis, resolvedAtMillis, isResolved) {
+  const el = document.getElementById('liveElapsedTimer');
+  if (!el) return;
+
+  const targetEnd = (isResolved && resolvedAtMillis) ? resolvedAtMillis : Date.now();
+  const diffMs = Math.max(0, targetEnd - createdAtMillis);
+
+  const totalSecs = Math.floor(diffMs / 1000);
+  const hours = Math.floor(totalSecs / 3600);
+  const minutes = Math.floor((totalSecs % 3600) / 60);
+  const seconds = totalSecs % 60;
+
+  const pad = (n) => String(n).padStart(2, '0');
+
+  if (hours >= 24) {
+    const days = Math.floor(hours / 24);
+    const remHours = hours % 24;
+    el.textContent = `${days}d ${pad(remHours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+  } else {
+    el.textContent = `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+  }
+}
+
+// ─── TOAST NOTIFICATION ───────────────────────────
+export function showToast(msg) {
+  let toast = document.getElementById('helpToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'helpToast';
+    toast.className = 'toast';
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = `
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--c-success)" stroke-width="2.5">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+    <span>${msg}</span>
+  `;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3800);
+}
+window.showToast = showToast;
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
