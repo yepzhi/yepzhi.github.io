@@ -1553,7 +1553,7 @@
       const emailVal = diffEmailInput ? diffEmailInput.value.trim() : '';
       const emailTarget = emailVal || '[pega.aqui.el.correo@registrado.com]';
       if (noteEl) {
-        noteEl.value = `Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura). Intenta ingresar con tu correo registrado: ${emailTarget} y la contraseña que definiste en tu registro (no se modificó tu contraseña). Si no recuerdas tu contraseña, levanta otro ticket seleccionando la opción "No puedo entrar / Invalid Credentials" y en la solicitud coloca este correo, que es el correo oficial que tenemos en el sistema (NO atendemos cambios de contraseña por WhatsApp).`;
+        noteEl.value = `Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura). Hemos revisado la base de datos y tu correo registrado es: ${emailTarget} y la contraseña que definiste en tu registro (no se modificó tu contraseña). Si no recuerdas tu contraseña, levanta otro ticket seleccionando la opción "No puedo entrar / Invalid Credentials" y en la solicitud coloca este correo, que es el correo oficial que tenemos en el sistema (NO atendemos cambios de contraseña por WhatsApp).`;
       }
     };
 
