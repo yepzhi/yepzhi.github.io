@@ -663,101 +663,111 @@
 
       <hr style="border: none; border-top: 1px solid var(--c-border); margin: 1.2rem 0;" />
 
-      <!-- Formulario de Acción del Asesor -->
+      <!-- Formulario Simplificado de Acción del Asesor -->
       <form id="advisorActionForm" onsubmit="saveAdvisorResolution(event)">
         
-        <!-- Quick 1-click Resolution Toggle / Button -->
-        <div class="quick-resolve-bar" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 14px; padding: 0.95rem 1.15rem; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: space-between; gap: 0.9rem; flex-wrap: wrap;">
-          <div>
-            <div style="font-weight: 800; font-size: 0.9rem; color: #166534; display: flex; align-items: center; gap: 0.45rem;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>¿Incidencia Solucionada?</span>
-            </div>
-            <div style="font-size: 0.78rem; color: #15803d; margin-top: 0.2rem;">
-              Marcar como <strong>Resuelto</strong> y asignar clave convención <strong>Mexico26*</strong>
-            </div>
+        <!-- 3 Opciones Claras de 1-Clic -->
+        <div style="margin-bottom: 1.25rem;">
+          <div style="font-size: 0.78rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 0.6rem;">
+            1. Elige cómo resolver la solicitud:
           </div>
-          <button type="button" class="btn-primary" style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); border-color: #15803d; font-size: 0.82rem; font-weight: 800; padding: 0.55rem 1.1rem; box-shadow: 0 3px 10px rgba(22, 163, 74, 0.3);" onclick="quickResolveWithDefaultPassword()">
-            Resolver con la contraseña Mexico26*
-          </button>
-        </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.65rem;">
+            <!-- Opción 1: Clave Mexico26* -->
+            <button type="button" class="preset-action-card" id="cardPresetPass" onclick="selectPresetAction('pass')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #86efac; background: #f0fdf4; cursor: pointer; transition: all 0.2s;">
+              <div style="font-weight: 800; font-size: 0.86rem; color: #166534; display: flex; align-items: center; gap: 0.4rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Resolver: Mexico26*
+              </div>
+              <div style="font-size: 0.74rem; color: #15803d; margin-top: 0.25rem; line-height: 1.35;">
+                Asigna clave provisional para entrar a Richmond Studio.
+              </div>
+            </button>
 
-        <div class="form-group">
-          <label class="form-label" for="modalStatusSelect">Actualizar Estatus:</label>
-          <select class="select-custom" id="modalStatusSelect" onchange="handleModalStatusChange()">
-            <option value="Pendiente">Pendiente / En Espera</option>
-            <option value="En Revisión">En Revisión por Asesor</option>
-            <option value="Resuelto">Resuelto</option>
-          </select>
-        </div>
+            <!-- Opción 2: No encontrado (Sin clave) -->
+            <button type="button" class="preset-action-card" id="cardPresetNoUser" onclick="selectPresetAction('no_user')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #fed7aa; background: #fffaf5; cursor: pointer; transition: all 0.2s;">
+              <div style="font-weight: 800; font-size: 0.86rem; color: #9a3412; display: flex; align-items: center; gap: 0.4rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                No Encontrado (Sin clave)
+              </div>
+              <div style="font-size: 0.74rem; color: #c2410c; margin-top: 0.25rem; line-height: 1.35;">
+                Resuelve indicando que registre su código de nuevo.
+              </div>
+            </button>
 
-        <!-- Password Assignment Box (Shown when resolved) -->
-        <div id="modalPasswordGroup" style="display: none; background: #faf5ff; border: 1.5px solid #d8b4fe; border-radius: 14px; padding: 0.95rem 1.1rem; margin-bottom: 1.1rem;">
-          <label class="form-label" for="modalAssignedPassword" style="color: #6b21a8; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">
-            Contraseña asignada / restablecida al alumno:
-          </label>
-          <div style="display: flex; gap: 0.5rem; align-items: center; margin-top: 0.35rem;">
-            <input type="text" class="input-text" id="modalAssignedPassword" placeholder="Mexico26*" value="Mexico26*" style="font-family: monospace; font-weight: 800; font-size: 1.05rem; background: #ffffff; color: #1e40af;" />
-            <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem; font-weight: 700;" onclick="document.getElementById('modalAssignedPassword').value='Mexico26*'">
-              Poner Mexico26*
+            <!-- Opción 3: En Revisión -->
+            <button type="button" class="preset-action-card" id="cardPresetReview" onclick="selectPresetAction('review')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #bae6fd; background: #f0f9ff; cursor: pointer; transition: all 0.2s;">
+              <div style="font-weight: 800; font-size: 0.86rem; color: #0369a1; display: flex; align-items: center; gap: 0.4rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                En Revisión
+              </div>
+              <div style="font-size: 0.74rem; color: #0284c7; margin-top: 0.25rem; line-height: 1.35;">
+                Solicita foto del código por WhatsApp al alumno.
+              </div>
             </button>
           </div>
-          <p style="font-size: 0.74rem; color: #7e22ce; margin-top: 0.4rem; line-height: 1.4;">
-            Esta contraseña se mostrará en grande en la pantalla del alumno junto al botón directo de ingreso a Richmond Studio.
+        </div>
+
+        <!-- Estatus y Asesor -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" for="modalStatusSelect" style="font-size: 0.78rem;">Estatus de la solicitud:</label>
+            <select class="select-custom" id="modalStatusSelect" onchange="handleModalStatusChange()">
+              <option value="Pendiente">Pendiente / En Espera</option>
+              <option value="En Revisión">En Revisión por Asesor</option>
+              <option value="Resuelto">Resuelto</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" for="modalAdvisorSelect" style="font-size: 0.78rem;">Asesor Responsable:</label>
+            <select class="select-custom" id="modalAdvisorSelect">
+              <option value="Alberto Yépiz">Alberto Yépiz (Noroeste)</option>
+              <option value="Luis Franco">Luis Franco (Norte)</option>
+              <option value="Fabiola Martinez">Fabiola Martinez (Occidente)</option>
+              <option value="Arturo Mendoza">Arturo Mendoza (Sureste)</option>
+              <option value="Joel Navor">Joel Navor (Puebla / Veracruz)</option>
+              <option value="Edgar Espinoza">Edgar Espinoza (Toluca / CDMX)</option>
+              <option value="Miguel Campero">Miguel Campero (CDMX)</option>
+              <option value="Daniel Morales">Daniel Morales (CDMX)</option>
+              <option value="Yanzer Rebollo">Yanzer Rebollo (Académico)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Password Assignment Box (Visible solo si es Resuelto y lleva clave) -->
+        <div id="modalPasswordGroup" style="display: none; background: #faf5ff; border: 1.5px solid #d8b4fe; border-radius: 12px; padding: 0.85rem 1rem; margin-bottom: 0.9rem;">
+          <label class="form-label" for="modalAssignedPassword" style="color: #6b21a8; font-weight: 800; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem;">
+            Contraseña restablecida para el alumno:
+          </label>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <input type="text" class="input-text" id="modalAssignedPassword" placeholder="Mexico26*" value="Mexico26*" style="font-family: monospace; font-weight: 800; font-size: 1rem; background: #ffffff; color: #1e40af;" />
+            <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem; font-weight: 700;" onclick="document.getElementById('modalAssignedPassword').value='Mexico26*'">
+              Mexico26*
+            </button>
+            <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem;" onclick="document.getElementById('modalAssignedPassword').value=''; document.getElementById('modalPasswordGroup').style.display='none';">
+              Sin Clave
+            </button>
+          </div>
+          <p style="font-size: 0.72rem; color: #7e22ce; margin-top: 0.35rem; margin-bottom: 0;">
+            El alumno la verá destacada en grande en su pantalla con un botón directo a Richmond Studio.
           </p>
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="modalAdvisorSelect">Reasignar Asesor:</label>
-          <select class="select-custom" id="modalAdvisorSelect">
-            <option value="Alberto Yépiz">Alberto Yépiz (Noroeste)</option>
-            <option value="Luis Franco">Luis Franco (Norte)</option>
-            <option value="Fabiola Martinez">Fabiola Martinez (Occidente)</option>
-            <option value="Arturo Mendoza">Arturo Mendoza (Sureste)</option>
-            <option value="Joel Navor">Joel Navor (Puebla / Veracruz)</option>
-            <option value="Edgar Espinoza">Edgar Espinoza (Toluca / CDMX)</option>
-            <option value="Miguel Campero">Miguel Campero (CDMX)</option>
-            <option value="Daniel Morales">Daniel Morales (CDMX)</option>
-            <option value="Yanzer Rebollo">Yanzer Rebollo (Académico)</option>
-          </select>
+        <!-- Mensaje final al alumno -->
+        <div class="form-group" style="margin-bottom: 1.2rem;">
+          <label class="form-label" for="modalSolutionNote" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+            <span>2. Mensaje que verá el alumno en su portal de consulta:</span>
+            <span style="font-size: 0.72rem; color: var(--primary); font-weight: 700;">Mensaje directo al alumno</span>
+          </label>
+          <textarea class="input-text" id="modalSolutionNote" rows="3" placeholder="Escribe el mensaje claro para el alumno o selecciona una opción rápida arriba..."></textarea>
         </div>
 
-        <div class="form-group">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-            <label class="form-label" for="modalSolutionNote" style="margin-bottom: 0;">
-              Respuesta / Solución para el Alumno:
-              <span class="label-hint">(El alumno la verá en su portal de consulta)</span>
-            </label>
-          </div>
-
-          <!-- Opciones Rápidas de Solución -->
-          <div style="display: flex; flex-direction: column; gap: 0.45rem; margin-bottom: 0.75rem;">
-            <span style="font-size: 0.74rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em;">Plantillas rápidas de solución:</span>
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-              <button type="button" class="btn-preset-solution" onclick="applySolutionPreset('resolved_pass')" title="Marcar como Resuelto y asignar contraseña Mexico26*">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                Resolver: Clave Mexico26*
-              </button>
-              <button type="button" class="btn-preset-solution warning" onclick="applySolutionPreset('no_user_found_resolved')" title="Marcar como Resuelto SIN asignar contraseña porque no existe el usuario">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                Resolver: No se encontró usuario (Sin clave)
-              </button>
-              <button type="button" class="btn-preset-solution secondary" onclick="applySolutionPreset('no_user_found_review')" title="Dejar En Revisión">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                En Revisión: No se encontró usuario
-              </button>
-            </div>
-          </div>
-
-          <textarea class="input-text" id="modalSolutionNote" rows="3" placeholder="Escribe la respuesta o selecciona una plantilla rápida arriba..."></textarea>
-        </div>
-
-        <div style="display: flex; gap: 0.8rem; margin-top: 1.4rem;">
-          <button type="submit" class="btn-primary" style="flex: 1; justify-content: center;">
-            Guardar Cambios
+        <div style="display: flex; gap: 0.8rem;">
+          <button type="submit" class="btn-primary" id="btnSaveResolution" style="flex: 1; justify-content: center; font-size: 0.92rem; padding: 0.75rem;">
+            Guardar Cambios y Notificar
           </button>
-          <button type="button" class="btn-action" id="btnContactStudentWA" style="background: rgba(52,211,153,0.15); color: var(--c-success); border-color: rgba(52,211,153,0.3);">
-            WhatsApp
+          <button type="button" class="btn-action" id="btnContactStudentWA" style="background: rgba(52,211,153,0.15); color: var(--c-success); border-color: rgba(52,211,153,0.3); font-weight: 700; padding: 0.75rem 1rem;">
+            WhatsApp Alumno
           </button>
         </div>
       </form>
@@ -770,21 +780,25 @@
     import { 
       getFirestore, 
       collection, 
+      addDoc,
       getDocs, 
       doc, 
       updateDoc, 
       query, 
+      where,
+      limit,
       orderBy,
+      serverTimestamp,
       onSnapshot 
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey:            "AIzaSyCdszta7w3yg1zLeHDrPlo4Kln63K2Ftks",
-      authDomain:        "leadgen-ca3c9.firebaseapp.com",
-      projectId:         "leadgen-ca3c9",
-      storageBucket:     "leadgen-ca3c9.firebasestorage.app",
-      messagingSenderId: "436445053383",
-      appId:             "1:436445053383:web:e7c99ece8753f6a56d59e2"
+      apiKey:            "AIzaSyCCyhX69gadotGWr_ahCSZbRF7CAdeMe1E",
+      authDomain:        "rprodash.firebaseapp.com",
+      projectId:         "rprodash",
+      storageBucket:     "rprodash.firebasestorage.app",
+      messagingSenderId: "116659616322",
+      appId:             "1:116659616322:web:a422259da3034e71654bdb"
     };
 
     let db = null;
@@ -830,7 +844,7 @@
       if (e.key === 'Enter') window.checkAdminGate();
     });
 
-    // ─── LOAD DATA (ROBUSTO CON TIEMPO REAL) ───
+    // ─── LOAD DATA (ROBUSTO CON TIEMPO REAL Y MIGRACIÓN) ───
     window.loadAdminTickets = async function() {
       const tbody = document.getElementById('ticketsTableBody');
       if (tbody && (!allTickets || allTickets.length === 0)) {
@@ -853,11 +867,13 @@
         try {
           let snapshot = null;
           try {
-            const q = query(collection(db, "help_tickets"), orderBy("createdAtMillis", "desc"));
+            // Optimizado para Free Tier (Spark Plan): limitar a los 50 más recientes
+            const q = query(collection(db, "help_tickets"), orderBy("createdAtMillis", "desc"), limit(50));
             snapshot = await getDocs(q);
           } catch (orderErr) {
-            console.warn('[Admin] Fallback a colección directa por ordenación:', orderErr);
-            snapshot = await getDocs(collection(db, "help_tickets"));
+            console.warn('[Admin] Fallback a colección directa con límite 50:', orderErr);
+            const qFallback = query(collection(db, "help_tickets"), limit(50));
+            snapshot = await getDocs(qFallback);
           }
           if (snapshot && !snapshot.empty) {
             snapshot.forEach((docSnapshot) => {
@@ -869,13 +885,32 @@
         }
       }
 
-      // Merge local storage fallback
+      // Merge y auto-migración de tickets locales hacia Firestore
       const local = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
-      local.forEach(loc => {
+      let localUpdated = false;
+      for (const loc of local) {
         if (!tickets.some(t => t.folio === loc.folio)) {
           tickets.push(loc);
+          // Si no estaba en Firestore, subirlo ahora
+          if (db && !loc.syncedToRPro) {
+            try {
+              const docRef = await addDoc(collection(db, "help_tickets"), {
+                ...loc,
+                createdAt: serverTimestamp()
+              });
+              loc.syncedToRPro = true;
+              loc.firestoreId = docRef.id;
+              localUpdated = true;
+              console.log('[Admin] Ticket local auto-migrado a la nube:', loc.folio);
+            } catch (syncErr) {
+              console.warn('[Admin] Auto-sync local ticket notice:', syncErr);
+            }
+          }
         }
-      });
+      }
+      if (localUpdated) {
+        localStorage.setItem('richmond_help_tickets', JSON.stringify(local));
+      }
 
       // Ordenar de más reciente a más antiguo en memoria
       tickets.sort((a, b) => {
@@ -887,12 +922,22 @@
       allTickets = tickets;
       applyFilters();
 
-      // Listener de Firestore en Tiempo Real (onSnapshot)
+      // Listener de Firestore en Tiempo Real (optimizado con limit 50 para cuota gratuita)
       if (db && !window.adminUnsubListener) {
         try {
-          window.adminUnsubListener = onSnapshot(collection(db, "help_tickets"), (snapshot) => {
+          const qLive = query(collection(db, "help_tickets"), orderBy("createdAtMillis", "desc"), limit(50));
+          window.adminUnsubListener = onSnapshot(qLive, (snapshot) => {
             const rt = [];
             snapshot.forEach(d => rt.push({ id: d.id, ...d.data() }));
+
+            // Preservar tickets locales en caso de que aún no sincronicen
+            const curLocal = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
+            curLocal.forEach(loc => {
+              if (!rt.some(t => t.folio === loc.folio)) {
+                rt.push(loc);
+              }
+            });
+
             rt.sort((a, b) => {
               const timeA = a.createdAtMillis || (a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt?.seconds ? a.createdAt.seconds * 1000 : 0));
               const timeB = b.createdAtMillis || (b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt?.seconds ? b.createdAt.seconds * 1000 : 0));
@@ -1117,12 +1162,19 @@
       
       const passGroup = document.getElementById('modalPasswordGroup');
       const passInput = document.getElementById('modalAssignedPassword');
+      const hasPass = Boolean(ticket.assignedPassword);
       if (passInput) {
-        passInput.value = ticket.assignedPassword || 'Mexico26*';
+        passInput.value = ticket.assignedPassword || '';
       }
       if (passGroup) {
-        passGroup.style.display = (currentStatus === 'Resuelto') ? 'block' : 'none';
+        passGroup.style.display = (currentStatus === 'Resuelto' && hasPass) ? 'block' : 'none';
       }
+
+      // Limpiar resaltado de tarjetas rápidas
+      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetReview'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.boxShadow = 'none';
+      });
 
       // Configurar botón WhatsApp al alumno
       const waBtn = document.getElementById('btnContactStudentWA');
@@ -1146,44 +1198,39 @@
       }
     };
 
-    window.quickResolveWithDefaultPassword = function() {
-      if (!currentEditingTicket) return;
-      document.getElementById('modalStatusSelect').value = 'Resuelto';
-      const passGroup = document.getElementById('modalPasswordGroup');
-      const passInput = document.getElementById('modalAssignedPassword');
-      if (passGroup) passGroup.style.display = 'block';
-      if (passInput) passInput.value = 'Mexico26*';
-
-      const noteEl = document.getElementById('modalSolutionNote');
-      if (noteEl && !noteEl.value.trim()) {
-        noteEl.value = 'Se asignó tu contraseña provisional a: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio.';
-      }
-
-      // Guardar de inmediato
-      saveAdvisorResolution(new Event('submit'));
-    };
-
-    window.applySolutionPreset = function(presetType) {
+    window.selectPresetAction = function(actionType) {
       const noteEl = document.getElementById('modalSolutionNote');
       const statusSelect = document.getElementById('modalStatusSelect');
       const passGroup = document.getElementById('modalPasswordGroup');
       const passInput = document.getElementById('modalAssignedPassword');
 
-      if (presetType === 'no_user_found_resolved') {
-        noteEl.value = 'No se encontró ningún usuario con esos datos. Favor de revisar e intentar registrar su código de nuevo en la plataforma; mandar foto al asesor vía WhatsApp. Si sigue saliendo inválido, se le proporcionará un código de repuesto nuevo.';
-        statusSelect.value = 'Resuelto';
-        if (passInput) passInput.value = '';
-        if (passGroup) passGroup.style.display = 'none';
-      } else if (presetType === 'no_user_found_review') {
-        noteEl.value = 'No se encontró ningún usuario con esos datos. Favor de revisar e intentar registrar su código de nuevo en la plataforma; mandar foto al asesor vía WhatsApp. Si sigue saliendo inválido, se le proporcionará un código de repuesto nuevo.';
-        statusSelect.value = 'En Revisión';
-        if (passInput) passInput.value = '';
-        if (passGroup) passGroup.style.display = 'none';
-      } else if (presetType === 'resolved_pass') {
-        noteEl.value = 'Se asignó tu contraseña a: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio con tu correo y esta clave.';
+      // Resaltar visualmente la tarjeta activa
+      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetReview'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.boxShadow = 'none';
+      });
+
+      if (actionType === 'pass') {
+        const c = document.getElementById('cardPresetPass');
+        if (c) c.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.45)';
         statusSelect.value = 'Resuelto';
         if (passGroup) passGroup.style.display = 'block';
         if (passInput) passInput.value = 'Mexico26*';
+        noteEl.value = 'Se restableció tu contraseña a: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio con tu correo registrado y esta clave.';
+      } else if (actionType === 'no_user') {
+        const c = document.getElementById('cardPresetNoUser');
+        if (c) c.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.45)';
+        statusSelect.value = 'Resuelto';
+        if (passInput) passInput.value = '';
+        if (passGroup) passGroup.style.display = 'none';
+        noteEl.value = 'No se encontró ningún usuario registrado con tus datos en el sistema. Favor de registrar tu código nuevamente en la plataforma y enviar fotografía al WhatsApp de tu asesor si persiste el error.';
+      } else if (actionType === 'review') {
+        const c = document.getElementById('cardPresetReview');
+        if (c) c.style.boxShadow = '0 0 0 3px rgba(14, 165, 233, 0.45)';
+        statusSelect.value = 'En Revisión';
+        if (passInput) passInput.value = '';
+        if (passGroup) passGroup.style.display = 'none';
+        noteEl.value = 'Tu solicitud se encuentra en revisión por el asesor técnico. Por favor envía foto clara de tu código de libro por WhatsApp para verificarlo en el sistema.';
       }
     };
 
@@ -1192,9 +1239,47 @@
       currentEditingTicket = null;
     };
 
+    function showAdminToast(msg) {
+      let toast = document.getElementById('adminToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'adminToast';
+        toast.style.position = 'fixed';
+        toast.style.bottom = '1.8rem';
+        toast.style.right = '1.8rem';
+        toast.style.zIndex = '99999';
+        toast.style.background = '#0f172a';
+        toast.style.color = '#ffffff';
+        toast.style.padding = '0.9rem 1.4rem';
+        toast.style.borderRadius = '14px';
+        toast.style.boxShadow = '0 12px 30px rgba(0,0,0,0.35)';
+        toast.style.fontWeight = '700';
+        toast.style.fontSize = '0.9rem';
+        toast.style.display = 'flex';
+        toast.style.alignItems = 'center';
+        toast.style.gap = '0.6rem';
+        toast.style.transition = 'all 0.3s ease';
+        toast.style.border = '1px solid rgba(255,255,255,0.1)';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span>${msg}</span>`;
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(12px)';
+      }, 3000);
+    }
+
     window.saveAdvisorResolution = async function(e) {
       if (e && e.preventDefault) e.preventDefault();
       if (!currentEditingTicket) return;
+
+      const saveBtn = document.getElementById('btnSaveResolution');
+      if (saveBtn) {
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Guardando en la nube…';
+      }
 
       const newStatus = document.getElementById('modalStatusSelect').value;
       const newAdvisor = document.getElementById('modalAdvisorSelect').value;
@@ -1243,12 +1328,33 @@
         resolvedAtMillis: resolvedAtMillis
       };
 
-      // 1. Actualizar en Firestore
-      if (db && currentEditingTicket.id) {
+      // 1. Actualizar en Firestore con recuperación garantizada
+      if (db) {
         try {
-          const docRef = doc(db, "help_tickets", currentEditingTicket.id);
-          await updateDoc(docRef, updates);
-          console.log('[Admin] Firestore ticket updated:', currentEditingTicket.folio);
+          if (currentEditingTicket.id) {
+            const docRef = doc(db, "help_tickets", currentEditingTicket.id);
+            await updateDoc(docRef, updates);
+            console.log('[Admin] Firestore ticket updated by id:', currentEditingTicket.folio);
+          } else {
+            // Si el ticket no tenía id directo (ej. vino de localStorage), buscarlo por folio en Firestore
+            const qF = query(collection(db, "help_tickets"), where("folio", "==", currentEditingTicket.folio));
+            const snapF = await getDocs(qF);
+            if (!snapF.empty) {
+              const docId = snapF.docs[0].id;
+              currentEditingTicket.id = docId;
+              await updateDoc(doc(db, "help_tickets", docId), updates);
+              console.log('[Admin] Firestore ticket found and updated:', currentEditingTicket.folio);
+            } else {
+              // Si aún no estaba en Firestore, crearlo con el folio y estatus
+              const newDoc = await addDoc(collection(db, "help_tickets"), {
+                ...currentEditingTicket,
+                ...updates,
+                createdAt: serverTimestamp()
+              });
+              currentEditingTicket.id = newDoc.id;
+              console.log('[Admin] Firestore ticket created on-demand:', currentEditingTicket.folio);
+            }
+          }
         } catch (err) {
           console.warn('[Admin] Firestore update err:', err);
         }
@@ -1261,13 +1367,18 @@
       const local = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
       const idx = local.findIndex(t => t.folio === currentEditingTicket.folio);
       if (idx !== -1) {
-        local[idx] = { ...local[idx], ...updates };
+        local[idx] = { ...local[idx], ...updates, firestoreId: currentEditingTicket.id };
         localStorage.setItem('richmond_help_tickets', JSON.stringify(local));
+      }
+
+      if (saveBtn) {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Guardar Cambios y Notificar';
       }
 
       closeDetailModal();
       applyFilters();
-      alert(`¡Solicitud ${currentEditingTicket.folio} actualizada con éxito!`);
+      showAdminToast(`Solicitud ${currentEditingTicket.folio} guardada como ${newStatus}`);
     };
 
     // ─── EXPORT TO CSV ───

@@ -17,14 +17,14 @@ import {
   serverTimestamp 
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// Firebase Configuration (Same project as Richmond Pro leadgen & proreport)
+// Firebase Configuration (RProDash cloud project - yepzhi.com)
 const firebaseConfig = {
-  apiKey:            "AIzaSyCdszta7w3yg1zLeHDrPlo4Kln63K2Ftks",
-  authDomain:        "leadgen-ca3c9.firebaseapp.com",
-  projectId:         "leadgen-ca3c9",
-  storageBucket:     "leadgen-ca3c9.firebasestorage.app",
-  messagingSenderId: "436445053383",
-  appId:             "1:436445053383:web:e7c99ece8753f6a56d59e2"
+  apiKey:            "AIzaSyCCyhX69gadotGWr_ahCSZbRF7CAdeMe1E",
+  authDomain:        "rprodash.firebaseapp.com",
+  projectId:         "rprodash",
+  storageBucket:     "rprodash.firebasestorage.app",
+  messagingSenderId: "116659616322",
+  appId:             "1:116659616322:web:a422259da3034e71654bdb"
 };
 
 let db = null;
@@ -505,23 +505,47 @@ async function submitTicket() {
     elapsedMinutes: 0
   };
 
+  // Ocultar error previo si existe
+  const errCloudBox = document.getElementById('err-submit-cloud');
+  const errCloudMsg = document.getElementById('err-submit-cloud-msg');
+  if (errCloudBox) errCloudBox.style.display = 'none';
+
   let firestoreDocId = null;
 
-  // Guardar en Firebase Firestore
-  if (db) {
-    try {
-      const docRef = await addDoc(collection(db, "help_tickets"), {
-        ...payload,
-        createdAt: serverTimestamp()
-      });
-      firestoreDocId = docRef.id;
-      console.log('[RichmondPro Help] Ticket saved to Firestore with ID:', docRef.id);
-    } catch (err) {
-      console.warn('[RichmondPro Help] Firestore save error:', err);
+  // Guardar en Firebase Firestore (REQUERIDO)
+  if (!db) {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `Enviar Solicitud <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`;
     }
+    if (errCloudBox) {
+      errCloudBox.style.display = 'block';
+      if (errCloudMsg) errCloudMsg.textContent = 'No hay conexión activa con la base de datos de Richmond Pro. Verifica tu conexión a internet e intenta nuevamente.';
+    }
+    return;
   }
 
-  // Guardar en LocalStorage como fallback garantizado
+  try {
+    const docRef = await addDoc(collection(db, "help_tickets"), {
+      ...payload,
+      createdAt: serverTimestamp()
+    });
+    firestoreDocId = docRef.id;
+    console.log('[RichmondPro Help] Ticket saved to Firestore with ID:', docRef.id);
+  } catch (err) {
+    console.error('[RichmondPro Help] Firestore save error:', err);
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `Reintentar Envío de Solicitud <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`;
+    }
+    if (errCloudBox) {
+      errCloudBox.style.display = 'block';
+      if (errCloudMsg) errCloudMsg.textContent = `No se pudo completar el registro en la base de datos (${err.code || err.message || 'Error de conexión'}). Por favor presiona "Reintentar Envío de Solicitud".`;
+    }
+    return; // <-- Si no se guarda bien en Firestore, muestra el error y no completa el ticket
+  }
+
+  // Guardar en LocalStorage como respaldo
   const localTickets = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
   localTickets.unshift({ ...payload, firestoreId: firestoreDocId });
   localStorage.setItem('richmond_help_tickets', JSON.stringify(localTickets.slice(0, 100)));
