@@ -506,10 +506,6 @@
         <span class="metric-val" id="statPending">0</span>
         <span class="metric-label">En Espera / Pendientes</span>
       </div>
-      <div class="metric-card accent">
-        <span class="metric-val" id="statProgress">0</span>
-        <span class="metric-label">En Revisión</span>
-      </div>
       <div class="metric-card green">
         <span class="metric-val" id="statResolved">0</span>
         <span class="metric-label">Resueltas</span>
@@ -595,7 +591,6 @@
         <select class="select-custom" id="filterStatus" onchange="applyFilters()">
           <option value="ALL">Todos los Estatus</option>
           <option value="Pendiente">Pendiente / En Espera</option>
-          <option value="En Revisión">En Revisión</option>
           <option value="Resuelto">Resuelto</option>
         </select>
       </div>
@@ -649,12 +644,41 @@
         <button type="button" class="btn-action" onclick="closeDetailModal()">Cerrar</button>
       </div>
 
-      <div style="display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 1.5rem; font-size: 0.88rem;">
-        <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Alumno:</strong> <span id="modalStudent" style="font-weight: 700; color: var(--text-main);">-</span></div>
-        <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Correo(s):</strong> <span id="modalEmails" style="color: var(--primary); font-weight: 600;">-</span></div>
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.35rem; font-size: 0.88rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
+          <div>
+            <strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Alumno:</strong> 
+            <span id="modalStudent" onclick="copyStudentName()" title="Clic para copiar nombre" style="font-weight: 800; color: var(--text-main); cursor: pointer; padding: 0.15rem 0.45rem; border-radius: 6px; background: #f1f5f9; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; gap: 0.35rem;">
+              <span id="modalStudentText">-</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </span>
+          </div>
+          <span style="font-size: 0.72rem; color: var(--primary); font-weight: 700;">(Clic en datos para copiar)</span>
+        </div>
+
+        <div>
+          <strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Correo(s):</strong> 
+          <span id="modalEmailsContainer" style="display: inline-flex; gap: 0.45rem; flex-wrap: wrap; vertical-align: middle;">
+            <span id="modalEmailMain" onclick="copyEmailMain()" title="Clic para copiar correo principal" style="color: var(--primary); font-weight: 700; cursor: pointer; padding: 0.15rem 0.45rem; border-radius: 6px; background: #eff6ff; border: 1px solid #bfdbfe; display: inline-flex; align-items: center; gap: 0.35rem;">
+              <span id="modalEmailMainText">-</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </span>
+            <span id="modalEmailAlt" onclick="copyEmailAlt()" title="Clic para copiar correo alterno" style="color: #6366f1; font-weight: 700; cursor: pointer; padding: 0.15rem 0.45rem; border-radius: 6px; background: #eef2ff; border: 1px solid #c7d2fe; display: none; align-items: center; gap: 0.35rem;">
+              <span id="modalEmailAltText">-</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </span>
+          </span>
+        </div>
+
         <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Escuela:</strong> <span id="modalSchool" style="font-weight: 600;">-</span></div>
         <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Incidencia:</strong> <span id="modalIssue" style="color: #334155;">-</span></div>
-        <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Código del Libro:</strong> <code id="modalBookCode" style="color: #b45309; font-weight: 800; font-size: 0.95rem; background: #fffbeb; padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid #fef08a;">-</code></div>
+        <div>
+          <strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Código del Libro:</strong> 
+          <code id="modalBookCode" onclick="copyBookCode()" title="Clic para copiar código de libro" style="color: #b45309; font-weight: 800; font-size: 0.95rem; background: #fffbeb; padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid #fef08a; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <span id="modalBookCodeText">-</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </code>
+        </div>
         <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Registrado hace:</strong> <span id="modalElapsed" style="font-weight: 800; color: var(--text-main); font-family: monospace;">-</span></div>
         <div id="modalNotesWrap" style="display: none; background: #f8fafc; padding: 0.75rem 0.9rem; border-radius: 10px; border: 1px solid var(--border);">
           <strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Notas del Alumno:</strong> <span id="modalNotes" style="color: #334155;">-</span>
@@ -666,42 +690,42 @@
       <!-- Formulario Simplificado de Acción del Asesor -->
       <form id="advisorActionForm" onsubmit="saveAdvisorResolution(event)">
         
-        <!-- 3 Opciones Claras de 1-Clic -->
+        <!-- 3 Opciones Claras de Resolución -->
         <div style="margin-bottom: 1.25rem;">
           <div style="font-size: 0.78rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 0.6rem;">
             1. Elige cómo resolver la solicitud:
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.65rem;">
-            <!-- Opción 1: Clave Mexico26* -->
+            <!-- Opción 1: Resolver: Mexico26* -->
             <button type="button" class="preset-action-card" id="cardPresetPass" onclick="selectPresetAction('pass')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #86efac; background: #f0fdf4; cursor: pointer; transition: all 0.2s;">
               <div style="font-weight: 800; font-size: 0.86rem; color: #166534; display: flex; align-items: center; gap: 0.4rem;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                 Resolver: Mexico26*
               </div>
               <div style="font-size: 0.74rem; color: #15803d; margin-top: 0.25rem; line-height: 1.35;">
-                Asigna clave provisional para entrar a Richmond Studio.
+                Ya se cambió la clave para entrar a Richmond Studio.
               </div>
             </button>
 
-            <!-- Opción 2: No encontrado (Sin clave) -->
+            <!-- Opción 2: Alumno No Encontrado (Sin clave) -->
             <button type="button" class="preset-action-card" id="cardPresetNoUser" onclick="selectPresetAction('no_user')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #fed7aa; background: #fffaf5; cursor: pointer; transition: all 0.2s;">
               <div style="font-weight: 800; font-size: 0.86rem; color: #9a3412; display: flex; align-items: center; gap: 0.4rem;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                No Encontrado (Sin clave)
+                Alumno No Encontrado (Sin clave)
               </div>
               <div style="font-size: 0.74rem; color: #c2410c; margin-top: 0.25rem; line-height: 1.35;">
-                Resuelve indicando que registre su código de nuevo.
+                Resuelve indicando que envíe foto de su código o se registre.
               </div>
             </button>
 
-            <!-- Opción 3: En Revisión -->
-            <button type="button" class="preset-action-card" id="cardPresetReview" onclick="selectPresetAction('review')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #bae6fd; background: #f0f9ff; cursor: pointer; transition: all 0.2s;">
-              <div style="font-weight: 800; font-size: 0.86rem; color: #0369a1; display: flex; align-items: center; gap: 0.4rem;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                En Revisión
+            <!-- Opción 3: Correo Diferente -->
+            <button type="button" class="preset-action-card" id="cardPresetDiffEmail" onclick="selectPresetAction('diff_email')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #bfdbfe; background: #eff6ff; cursor: pointer; transition: all 0.2s;">
+              <div style="font-weight: 800; font-size: 0.86rem; color: #1d4ed8; display: flex; align-items: center; gap: 0.4rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                Correo Diferente
               </div>
-              <div style="font-size: 0.74rem; color: #0284c7; margin-top: 0.25rem; line-height: 1.35;">
-                Solicita foto del código por WhatsApp al alumno.
+              <div style="font-size: 0.74rem; color: #2563eb; margin-top: 0.25rem; line-height: 1.35;">
+                Te diste de alta con otro correo. Tu usuario es ese correo tal cual.
               </div>
             </button>
           </div>
@@ -713,7 +737,6 @@
             <label class="form-label" for="modalStatusSelect" style="font-size: 0.78rem;">Estatus de la solicitud:</label>
             <select class="select-custom" id="modalStatusSelect" onchange="handleModalStatusChange()">
               <option value="Pendiente">Pendiente / En Espera</option>
-              <option value="En Revisión">En Revisión por Asesor</option>
               <option value="Resuelto">Resuelto</option>
             </select>
           </div>
@@ -764,10 +787,10 @@
 
         <div style="display: flex; gap: 0.8rem;">
           <button type="submit" class="btn-primary" id="btnSaveResolution" style="flex: 1; justify-content: center; font-size: 0.92rem; padding: 0.75rem;">
-            Guardar Cambios y Notificar
+            Guardar Cambios
           </button>
-          <button type="button" class="btn-action" id="btnContactStudentWA" style="background: rgba(52,211,153,0.15); color: var(--c-success); border-color: rgba(52,211,153,0.3); font-weight: 700; padding: 0.75rem 1rem;">
-            WhatsApp Alumno
+          <button type="button" class="btn-action" id="btnContactStudentWA" onclick="sendStudentWhatsApp()" style="background: rgba(52,211,153,0.15); color: var(--c-success); border-color: rgba(52,211,153,0.3); font-weight: 700; padding: 0.75rem 1rem;">
+            Enviar WhatsApp al Alumno
           </button>
         </div>
       </form>
@@ -1015,12 +1038,8 @@
 
       tbody.innerHTML = tickets.map(t => {
         const isResolved = t.status === 'Resuelto';
-        const isProgress = t.status === 'En Revisión';
-
-        let badgeClass = 'pending';
-        let badgeLabel = 'En Espera';
-        if (isResolved) { badgeClass = 'resolved'; badgeLabel = 'Resuelto'; }
-        else if (isProgress) { badgeClass = 'progress'; badgeLabel = 'En Revisión'; }
+        let badgeClass = isResolved ? 'resolved' : 'pending';
+        let badgeLabel = isResolved ? 'Resuelto' : 'En Espera';
 
         const createdAt = t.createdAtMillis || (t.createdAt?.toDate ? t.createdAt.toDate().getTime() : Date.now());
         const resolvedAt = t.resolvedAtMillis || null;
@@ -1028,17 +1047,33 @@
 
         return `
           <tr data-ticket-id="${t.id || t.folio}">
-            <td style="font-family: monospace; font-weight: 800; color: var(--text-main);">${escapeHtml(t.folio)}</td>
+            <td style="white-space: nowrap;">
+              <button type="button" onclick="openDetailModal('${t.folio}')" title="Clic para revisar y editar estatus de ${escapeHtml(t.folio)}" style="background: none; border: none; padding: 0; font-family: monospace; font-weight: 800; font-size: 0.94rem; color: var(--primary); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;">
+                <span>${escapeHtml(t.folio)}</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              </button>
+            </td>
             <td style="white-space: nowrap; font-size: 0.78rem; color: var(--text-muted);">${t.createdAtDateStr || 'Reciente'}</td>
             <td><strong>${escapeHtml(t.school)}</strong></td>
             <td>
-              <div style="font-weight: 700; color: var(--text-main);">${escapeHtml(t.fullName)}</div>
-              <div style="font-size: 0.76rem; color: var(--text-muted);">${escapeHtml(t.email)}</div>
+              <div onclick="copyTextToClipboard('${escapeHtml(t.fullName)}', 'Nombre copiado')" title="Clic para copiar nombre" style="font-weight: 700; color: var(--text-main); cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
+                <span>${escapeHtml(t.fullName)}</span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </div>
+              <div onclick="copyTextToClipboard('${escapeHtml(t.email)}', 'Correo copiado')" title="Clic para copiar correo" style="font-size: 0.76rem; color: var(--primary); cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
+                <span>${escapeHtml(t.email)}</span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </div>
             </td>
             <td style="max-width: 220px; font-size: 0.8rem;">
               <span style="color: #334155;">${escapeHtml(t.issueType)}</span>
             </td>
-            <td><code style="color: #b45309; font-weight: 700; font-size: 0.82rem; background: #fffbeb; padding: 0.15rem 0.45rem; border-radius: 6px; border: 1px solid #fef08a;">${escapeHtml(t.bookCode)}</code></td>
+            <td>
+              <code onclick="copyTextToClipboard('${escapeHtml(t.bookCode)}', 'Código de libro copiado')" title="Clic para copiar código de libro" style="color: #b45309; font-weight: 700; font-size: 0.82rem; background: #fffbeb; padding: 0.15rem 0.45rem; border-radius: 6px; border: 1px solid #fef08a; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
+                <span>${escapeHtml(t.bookCode)}</span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </code>
+            </td>
             <td style="color: var(--primary); font-weight: 700; white-space: nowrap;">${escapeHtml(t.assignedAdvisor || 'Alberto Yépiz')}</td>
             <td class="table-elapsed-cell" data-created="${createdAt}" data-resolved="${resolvedAt || ''}" data-status="${t.status}" style="font-family: monospace; font-weight: 800; white-space: nowrap; color: ${isResolved ? '#15803d' : '#0f172a'};">
               ${elapsedFormatted}
@@ -1096,8 +1131,7 @@
     // ─── SLA & METRICS ───
     function updateMetrics(tickets) {
       document.getElementById('statTotal').textContent = tickets.length;
-      document.getElementById('statPending').textContent = tickets.filter(t => t.status === 'Pendiente').length;
-      document.getElementById('statProgress').textContent = tickets.filter(t => t.status === 'En Revisión').length;
+      document.getElementById('statPending').textContent = tickets.filter(t => t.status !== 'Resuelto').length;
       
       const resolved = tickets.filter(t => t.status === 'Resuelto');
       document.getElementById('statResolved').textContent = resolved.length;
@@ -1129,6 +1163,52 @@
       }
     }
 
+    // ─── CLIPBOARD COPY HELPERS ───
+    window.copyTextToClipboard = async function(text, label = 'Dato copiado') {
+      if (!text) return;
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        }
+        showAdminToast(`${label}: ${text}`);
+      } catch (err) {
+        console.warn('Error al copiar:', err);
+      }
+    };
+
+    window.copyStudentName = function() {
+      if (currentEditingTicket?.fullName) {
+        copyTextToClipboard(currentEditingTicket.fullName, 'Nombre copiado');
+      }
+    };
+
+    window.copyEmailMain = function() {
+      if (currentEditingTicket?.email) {
+        copyTextToClipboard(currentEditingTicket.email, 'Correo copiado');
+      }
+    };
+
+    window.copyEmailAlt = function() {
+      if (currentEditingTicket?.altEmail) {
+        copyTextToClipboard(currentEditingTicket.altEmail, 'Correo alterno copiado');
+      }
+    };
+
+    window.copyBookCode = function() {
+      if (currentEditingTicket?.bookCode) {
+        copyTextToClipboard(currentEditingTicket.bookCode, 'Código copiado');
+      }
+    };
+
     // ─── MODAL DETAIL & RESOLUTION ───
     window.openDetailModal = function(folio) {
       const ticket = allTickets.find(t => t.folio === folio);
@@ -1137,11 +1217,34 @@
       currentEditingTicket = ticket;
 
       document.getElementById('modalFolio').textContent = ticket.folio;
-      document.getElementById('modalStudent').textContent = `${ticket.fullName} ${ticket.nickname ? `(${ticket.nickname})` : ''}`;
-      document.getElementById('modalEmails').textContent = `${ticket.email} ${ticket.altEmail ? `| ${ticket.altEmail}` : ''}`;
+      
+      const stEl = document.getElementById('modalStudentText');
+      if (stEl) {
+        stEl.textContent = `${ticket.fullName} ${ticket.nickname ? `(${ticket.nickname})` : ''}`;
+      } else {
+        document.getElementById('modalStudent').textContent = `${ticket.fullName} ${ticket.nickname ? `(${ticket.nickname})` : ''}`;
+      }
+
+      const emMain = document.getElementById('modalEmailMainText');
+      if (emMain) emMain.textContent = ticket.email || '-';
+
+      const emAlt = document.getElementById('modalEmailAltText');
+      const emAltWrap = document.getElementById('modalEmailAlt');
+      if (emAlt && emAltWrap) {
+        if (ticket.altEmail) {
+          emAlt.textContent = ticket.altEmail;
+          emAltWrap.style.display = 'inline-flex';
+        } else {
+          emAltWrap.style.display = 'none';
+        }
+      }
+
       document.getElementById('modalSchool').textContent = ticket.school;
       document.getElementById('modalIssue').textContent = ticket.issueType;
-      document.getElementById('modalBookCode').textContent = ticket.bookCode;
+      
+      const bkText = document.getElementById('modalBookCodeText');
+      if (bkText) bkText.textContent = ticket.bookCode;
+      else document.getElementById('modalBookCode').textContent = ticket.bookCode;
 
       const createdAt = ticket.createdAtMillis || Date.now();
       const resolvedAt = ticket.resolvedAtMillis || null;
@@ -1155,7 +1258,7 @@
         notesWrap.style.display = 'none';
       }
 
-      const currentStatus = ticket.status || 'Pendiente';
+      const currentStatus = ticket.status === 'Resuelto' ? 'Resuelto' : 'Pendiente';
       document.getElementById('modalStatusSelect').value = currentStatus;
       document.getElementById('modalAdvisorSelect').value = ticket.assignedAdvisor || 'Alberto Yépiz';
       document.getElementById('modalSolutionNote').value = ticket.solutionNote || '';
@@ -1171,17 +1274,10 @@
       }
 
       // Limpiar resaltado de tarjetas rápidas
-      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetReview'].forEach(id => {
+      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.boxShadow = 'none';
       });
-
-      // Configurar botón WhatsApp al alumno
-      const waBtn = document.getElementById('btnContactStudentWA');
-      waBtn.onclick = () => {
-        const msg = `Hola ${ticket.fullName}, te contacto de Richmond Pro respecto a tu solicitud de soporte con Folio ${ticket.folio} de ${ticket.school}.`;
-        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-      };
 
       document.getElementById('detailModal').classList.add('active');
     };
@@ -1205,7 +1301,7 @@
       const passInput = document.getElementById('modalAssignedPassword');
 
       // Resaltar visualmente la tarjeta activa
-      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetReview'].forEach(id => {
+      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.boxShadow = 'none';
       });
@@ -1223,15 +1319,37 @@
         statusSelect.value = 'Resuelto';
         if (passInput) passInput.value = '';
         if (passGroup) passGroup.style.display = 'none';
-        noteEl.value = 'No se encontró ningún usuario registrado con tus datos en el sistema. Favor de registrar tu código nuevamente en la plataforma y enviar fotografía al WhatsApp de tu asesor si persiste el error.';
-      } else if (actionType === 'review') {
-        const c = document.getElementById('cardPresetReview');
-        if (c) c.style.boxShadow = '0 0 0 3px rgba(14, 165, 233, 0.45)';
-        statusSelect.value = 'En Revisión';
-        if (passInput) passInput.value = '';
-        if (passGroup) passGroup.style.display = 'none';
-        noteEl.value = 'Tu solicitud se encuentra en revisión por el asesor técnico. Por favor envía foto clara de tu código de libro por WhatsApp para verificarlo en el sistema.';
+        noteEl.value = 'No se encontró ningún usuario con tus datos en el sistema. Favor de registrarte en la plataforma con tu código. Si el sistema te indica que tu código es inválido, envíanos foto clara de tu código de libro por WhatsApp para la asignación de un código nuevo de repuesto.';
+      } else if (actionType === 'diff_email') {
+        const c = document.getElementById('cardPresetDiffEmail');
+        if (c) c.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.45)';
+        statusSelect.value = 'Resuelto';
+        if (passGroup) passGroup.style.display = 'block';
+        if (passInput && !passInput.value.trim()) passInput.value = 'Mexico26*';
+        const detectedEmail = (currentEditingTicket?.email || '').trim();
+        noteEl.value = `Te diste de alta con un correo diferente en la plataforma. Tu usuario de acceso es tu correo tal cual lo registraste (aunque contenga algún error tipográfico). Intenta entrar con tu correo que es este: ${detectedEmail || '[PEGA AQUÍ EL CORREO DETECTADO]'} y la clave provisional Mexico26*. Si persiste el error, contáctanos por WhatsApp.`;
       }
+    };
+
+    window.sendStudentWhatsApp = function() {
+      if (!currentEditingTicket) return;
+      const ticket = currentEditingTicket;
+      const currentNote = document.getElementById('modalSolutionNote')?.value.trim() || ticket.solutionNote || '';
+      const currentPass = document.getElementById('modalAssignedPassword')?.value.trim() || ticket.assignedPassword || '';
+      const currentStatus = document.getElementById('modalStatusSelect')?.value || ticket.status || 'Resuelto';
+
+      let msg = `Hola ${ticket.fullName}, te contacto de Richmond Pro respecto a tu solicitud de soporte ${ticket.folio} (${ticket.school}).\n\n`;
+      msg += `Estatus: ${currentStatus}\n`;
+
+      if (currentNote) {
+        msg += `Resolución:\n${currentNote}\n\n`;
+      }
+      if (currentPass && currentStatus === 'Resuelto') {
+        msg += `Contraseña asignada: ${currentPass}\n\n`;
+      }
+      msg += `Puedes revisar el detalle oficial de tu ticket en el enlace directo del sistema:\nhttps://yepzhi.com/help/?folio=${ticket.folio}`;
+
+      window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
     };
 
     window.closeDetailModal = function() {
