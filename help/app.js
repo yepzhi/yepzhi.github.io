@@ -1007,6 +1007,15 @@ function renderStatusCard(ticket) {
         <div class="elapsed-time-val" id="liveElapsedTimer">
           Calculando…
         </div>
+        ${!isResolved ? `
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.35rem; display: flex; align-items: center; justify-content: center; gap: 0.35rem;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>Tiempo de resolución: máximo 72 horas (3 días hábiles)</span>
+          </div>
+        ` : ''}
       </div>
 
       <!-- Indicaciones Generales del Asesor si no es caso de "No Usuario" -->
