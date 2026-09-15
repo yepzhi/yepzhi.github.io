@@ -81,7 +81,10 @@
       this.canvas.height = h * dpr;
       this.canvas.style.width  = w + 'px';
       this.canvas.style.height = h + 'px';
-      this.ctx.scale(dpr, dpr);
+      if (this.ctx && typeof this.ctx.setTransform === 'function') {
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+        this.ctx.scale(dpr, dpr);
+      }
       this.W = w;
       this.H = h;
     }
@@ -122,107 +125,111 @@
         this.raf = null;
         return;
       }
-      this.time += 0.007;
-      const { ctx, W, H, time, mouse } = this;
-      ctx.clearRect(0, 0, W, H);
+      try {
+        this.time += 0.007;
+        const { ctx, W, H, time, mouse } = this;
+        ctx.clearRect(0, 0, W, H);
 
-      // — Draw Rich Gradient Mesh Orbs (Auras) —
-      for (const orb of this.orbs) {
-        orb.x += orb.vx + Math.sin(time + orb.phase) * 0.45;
-        orb.y += orb.vy + Math.cos(time * 0.7 + orb.phase) * 0.3;
-        if (orb.x < -orb.r) orb.x = W + orb.r;
-        if (orb.x > W + orb.r) orb.x = -orb.r;
-        if (orb.y < -orb.r) orb.y = H + orb.r;
-        if (orb.y > H + orb.r) orb.y = -orb.r;
+        // — Draw Rich Gradient Mesh Orbs (Auras) —
+        for (const orb of this.orbs) {
+          orb.x += orb.vx + Math.sin(time + orb.phase) * 0.45;
+          orb.y += orb.vy + Math.cos(time * 0.7 + orb.phase) * 0.3;
+          if (orb.x < -orb.r) orb.x = W + orb.r;
+          if (orb.x > W + orb.r) orb.x = -orb.r;
+          if (orb.y < -orb.r) orb.y = H + orb.r;
+          if (orb.y > H + orb.r) orb.y = -orb.r;
 
-        const t = (Math.sin(time * 0.6 + orb.phase) + 1) / 2;
-        const [r1, g1, b1] = lerpColor(orb.colors[0], orb.colors[1], t);
-        const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.r);
-        grad.addColorStop(0,    `rgba(${r1},${g1},${b1},0.42)`);
-        grad.addColorStop(0.45, `rgba(${r1},${g1},${b1},0.20)`);
-        grad.addColorStop(0.8,  `rgba(${r1},${g1},${b1},0.06)`);
-        grad.addColorStop(1,    `rgba(${r1},${g1},${b1},0)`);
-        ctx.beginPath();
-        ctx.arc(orb.x, orb.y, orb.r, 0, Math.PI * 2);
-        ctx.fillStyle = grad;
-        ctx.fill();
-      }
-
-      // — Interactive Target Focus (Mouse or Smooth Lissajous Wandering) —
-      const isTouchDevice = ('ontouchstart' in window) || (window.innerWidth < 768);
-      const isUserActive = (Date.now() - (this.lastUserInteraction || 0)) < 3000 && mouse.x > 0 && mouse.y > 0;
-
-      let targetX = mouse.x;
-      let targetY = mouse.y;
-
-      if (!isUserActive || (isTouchDevice && (mouse.x <= 0 || mouse.y <= 0))) {
-        targetX = (W * 0.5) + (W * 0.35) * Math.sin(time * 0.85) * Math.cos(time * 0.4);
-        targetY = (H * 0.45) + (H * 0.28) * Math.sin(time * 0.7 + 1.2);
-      }
-
-      const node2X = (W * 0.5) + (W * 0.28) * Math.cos(time * 0.65 + 2.2);
-      const node2Y = (H * 0.5) + (H * 0.22) * Math.sin(time * 0.8 + 0.5);
-
-      // — Interactive Constellation Mesh & Dot Grid —
-      const dotRadius = 1.6;
-      const influenceR = isTouchDevice ? 110 : 145;
-      const nearDots = [];
-      const nearDots2 = [];
-
-      for (const dot of this.dots) {
-        const dx = dot.x - targetX;
-        const dy = dot.y - targetY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const prox = Math.max(0, 1 - dist / influenceR);
-
-        const dx2 = dot.x - node2X;
-        const dy2 = dot.y - node2Y;
-        const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-        const prox2 = Math.max(0, 1 - dist2 / (influenceR * 0.85));
-
-        const maxProx = Math.max(prox, prox2 * 0.7);
-
-        // Base dot
-        const baseAlpha = 0.14 + 0.05 * Math.sin(time * 1.3 + dot.x * 0.02 + dot.y * 0.015);
-        ctx.beginPath();
-        ctx.arc(dot.x, dot.y, dotRadius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(30,122,255,${baseAlpha})`;
-        ctx.fill();
-
-        // Proximity Glow
-        if (maxProx > 0) {
-          if (prox > 0) nearDots.push({ x: dot.x, y: dot.y, proximity: prox });
-          if (prox2 > 0) nearDots2.push({ x: dot.x, y: dot.y, proximity: prox2 });
-
+          const t = (Math.sin(time * 0.6 + orb.phase) + 1) / 2;
+          const [r1, g1, b1] = lerpColor(orb.colors[0], orb.colors[1], t);
+          const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.r);
+          grad.addColorStop(0,    `rgba(${r1},${g1},${b1},0.42)`);
+          grad.addColorStop(0.45, `rgba(${r1},${g1},${b1},0.20)`);
+          grad.addColorStop(0.8,  `rgba(${r1},${g1},${b1},0.06)`);
+          grad.addColorStop(1,    `rgba(${r1},${g1},${b1},0)`);
           ctx.beginPath();
-          ctx.arc(dot.x, dot.y, dotRadius + maxProx * 3, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(56,182,255,${maxProx * 0.85})`;
+          ctx.arc(orb.x, orb.y, orb.r, 0, Math.PI * 2);
+          ctx.fillStyle = grad;
           ctx.fill();
         }
-      }
 
-      // — Constellation lines to Target Node —
-      if (nearDots.length > 0) {
-        for (const nd of nearDots) {
-          ctx.beginPath();
-          ctx.moveTo(targetX, targetY);
-          ctx.lineTo(nd.x, nd.y);
-          ctx.strokeStyle = `rgba(30,122,255,${nd.proximity * 0.32})`;
-          ctx.lineWidth = nd.proximity * 1.4;
-          ctx.stroke();
-        }
-      }
+        // — Interactive Target Focus (Mouse or Smooth Lissajous Wandering) —
+        const isTouchDevice = ('ontouchstart' in window) || (window.innerWidth < 768);
+        const isUserActive = (Date.now() - (this.lastUserInteraction || 0)) < 3000 && mouse.x > 0 && mouse.y > 0;
 
-      // — Constellation lines to Secondary Node —
-      if (nearDots2.length > 0) {
-        for (const nd of nearDots2) {
-          ctx.beginPath();
-          ctx.moveTo(node2X, node2Y);
-          ctx.lineTo(nd.x, nd.y);
-          ctx.strokeStyle = `rgba(56,182,255,${nd.proximity * 0.22})`;
-          ctx.lineWidth = nd.proximity * 1.1;
-          ctx.stroke();
+        let targetX = mouse.x;
+        let targetY = mouse.y;
+
+        if (!isUserActive || (isTouchDevice && (mouse.x <= 0 || mouse.y <= 0))) {
+          targetX = (W * 0.5) + (W * 0.35) * Math.sin(time * 0.85) * Math.cos(time * 0.4);
+          targetY = (H * 0.45) + (H * 0.28) * Math.sin(time * 0.7 + 1.2);
         }
+
+        const node2X = (W * 0.5) + (W * 0.28) * Math.cos(time * 0.65 + 2.2);
+        const node2Y = (H * 0.5) + (H * 0.22) * Math.sin(time * 0.8 + 0.5);
+
+        // — Interactive Constellation Mesh & Dot Grid —
+        const dotRadius = 1.6;
+        const influenceR = isTouchDevice ? 110 : 145;
+        const nearDots = [];
+        const nearDots2 = [];
+
+        for (const dot of this.dots) {
+          const dx = dot.x - targetX;
+          const dy = dot.y - targetY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const prox = Math.max(0, 1 - dist / influenceR);
+
+          const dx2 = dot.x - node2X;
+          const dy2 = dot.y - node2Y;
+          const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+          const prox2 = Math.max(0, 1 - dist2 / (influenceR * 0.85));
+
+          const maxProx = Math.max(prox, prox2 * 0.7);
+
+          // Base dot
+          const baseAlpha = 0.14 + 0.05 * Math.sin(time * 1.3 + dot.x * 0.02 + dot.y * 0.015);
+          ctx.beginPath();
+          ctx.arc(dot.x, dot.y, dotRadius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(30,122,255,${baseAlpha})`;
+          ctx.fill();
+
+          // Proximity Glow
+          if (maxProx > 0) {
+            if (prox > 0) nearDots.push({ x: dot.x, y: dot.y, proximity: prox });
+            if (prox2 > 0) nearDots2.push({ x: dot.x, y: dot.y, proximity: prox2 });
+
+            ctx.beginPath();
+            ctx.arc(dot.x, dot.y, dotRadius + maxProx * 3, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(56,182,255,${maxProx * 0.85})`;
+            ctx.fill();
+          }
+        }
+
+        // — Constellation lines to Target Node —
+        if (nearDots.length > 0) {
+          for (const nd of nearDots) {
+            ctx.beginPath();
+            ctx.moveTo(targetX, targetY);
+            ctx.lineTo(nd.x, nd.y);
+            ctx.strokeStyle = `rgba(30,122,255,${nd.proximity * 0.32})`;
+            ctx.lineWidth = nd.proximity * 1.4;
+            ctx.stroke();
+          }
+        }
+
+        // — Constellation lines to Secondary Node —
+        if (nearDots2.length > 0) {
+          for (const nd of nearDots2) {
+            ctx.beginPath();
+            ctx.moveTo(node2X, node2Y);
+            ctx.lineTo(nd.x, nd.y);
+            ctx.strokeStyle = `rgba(56,182,255,${nd.proximity * 0.22})`;
+            ctx.lineWidth = nd.proximity * 1.1;
+            ctx.stroke();
+          }
+        }
+      } catch (e) {
+        // Silently recover if frame fails
       }
 
       this.raf = requestAnimationFrame(() => this._tick());

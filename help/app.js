@@ -174,9 +174,10 @@ function initPhoneValidation() {
 
   phoneInput.addEventListener('input', sanitizeAndValidate);
   phoneInput.addEventListener('paste', () => setTimeout(sanitizeAndValidate, 0));
-  phoneInput.addEventListener('keypress', (e) => {
-    if (e.key && !/^\d$/.test(e.key)) {
+  phoneInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
       e.preventDefault();
+      validateStep2();
     }
   });
 }
@@ -227,22 +228,15 @@ export function goStep(stepNumber) {
   STATE.currentStep = stepNumber;
   updateStepperProgress(stepNumber);
 
-  // Al avanzar más allá del paso 1, colapsar con estilo el anuncio de errores comunes
+  // Al avanzar más allá del paso 1, colapsar el aviso de soluciones frecuentes
   if (stepNumber > 1) {
     setWarningBoxCollapsed(true);
   } else {
     setWarningBoxCollapsed(false);
   }
 
-  // Desplazamiento fluido hacia la tarjeta para una experiencia impecable
-  const wizardCard = document.querySelector('.glass-card');
-  if (wizardCard && stepNumber > 1) {
-    const yOffset = -24;
-    const y = wizardCard.getBoundingClientRect().top + window.pageYOffset + yOffset;
-    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-  } else {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  // Desplazamiento seguro y fluido al inicio para mantener el formulario perfectamente centrado en pantalla
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 window.goStep = goStep;
 
