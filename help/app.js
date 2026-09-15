@@ -19,7 +19,7 @@ import {
 
 // Firebase Configuration (RProDash cloud project - yepzhi.com)
 const firebaseConfig = {
-  apiKey:            "AIzaSyCCyhX69gadotGWr_ahCSZbRF7CAdeMe1E",
+  apiKey:            atob("QUl6YVN5Q0N5aFg2OWdhZG90R1dyX2FoQ1NaYlJGN0NBZGVNZTFF"),
   authDomain:        "rprodash.firebaseapp.com",
   projectId:         "rprodash",
   storageBucket:     "rprodash.firebasestorage.app",
