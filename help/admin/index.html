@@ -706,11 +706,13 @@
         <div>
           <strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Correo(s):</strong> 
           <span id="modalEmailsContainer" style="display: inline-flex; gap: 0.45rem; flex-wrap: wrap; vertical-align: middle;">
-            <span id="modalEmailMain" onclick="copyEmailMain()" title="Clic para copiar correo principal" style="color: var(--primary); font-weight: 700; cursor: pointer; padding: 0.15rem 0.45rem; border-radius: 6px; background: #eff6ff; border: 1px solid #bfdbfe; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <span id="modalEmailMain" onclick="copyEmailMain()" title="Clic para copiar correo institucional o personal ingresado" style="color: var(--primary); font-weight: 700; cursor: pointer; padding: 0.15rem 0.5rem; border-radius: 6px; background: #eff6ff; border: 1px solid #bfdbfe; display: inline-flex; align-items: center; gap: 0.35rem;">
+              <span style="font-size: 0.68rem; text-transform: uppercase; color: var(--text-muted); font-weight: 800;">Principal:</span>
               <span id="modalEmailMainText">-</span>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             </span>
-            <span id="modalEmailAlt" onclick="copyEmailAlt()" title="Clic para copiar correo alterno" style="color: #6366f1; font-weight: 700; cursor: pointer; padding: 0.15rem 0.45rem; border-radius: 6px; background: #eef2ff; border: 1px solid #c7d2fe; display: none; align-items: center; gap: 0.35rem;">
+            <span id="modalEmailAlt" onclick="copyEmailAlt()" title="Clic para copiar correo opcional/secundario ingresado por el alumno" style="color: #4f46e5; font-weight: 700; cursor: pointer; padding: 0.15rem 0.5rem; border-radius: 6px; background: #eef2ff; border: 1px solid #c7d2fe; display: none; align-items: center; gap: 0.35rem;">
+              <span style="font-size: 0.68rem; text-transform: uppercase; color: #6366f1; font-weight: 800;">Alterno (Opcional):</span>
               <span id="modalEmailAltText">-</span>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             </span>
@@ -1509,6 +1511,10 @@
         if (passInput) passInput.value = 'Mexico26*';
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (diffEmailInput) diffEmailInput.value = '';
+        if (currentEditingTicket) {
+          currentEditingTicket.assignedPassword = 'Mexico26*';
+          currentEditingTicket.assignedCorrectEmail = '';
+        }
         noteEl.value = 'Se restableció tu contraseña a: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio con tu correo registrado y esta clave.';
       } else if (actionType === 'no_user') {
         const c = document.getElementById('cardPresetNoUser');
@@ -1518,6 +1524,10 @@
         if (passGroup) passGroup.style.display = 'none';
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (diffEmailInput) diffEmailInput.value = '';
+        if (currentEditingTicket) {
+          currentEditingTicket.assignedPassword = '';
+          currentEditingTicket.assignedCorrectEmail = '';
+        }
         noteEl.value = 'No se encontró ningún usuario con tus datos en el sistema. Favor de registrarte en la plataforma con tu código. Si el sistema te indica que tu código es inválido, envíanos foto clara de tu código de libro por WhatsApp para la asignación de un código nuevo de repuesto.';
       } else if (actionType === 'diff_email') {
         const c = document.getElementById('cardPresetDiffEmail');
@@ -1561,9 +1571,9 @@
       if (!currentEditingTicket) return;
       const diffEmailInput = document.getElementById('modalAssignedEmail');
       if (diffEmailInput) {
-        diffEmailInput.value = currentEditingTicket.altEmail || currentEditingTicket.email || '';
+        diffEmailInput.value = currentEditingTicket.email || currentEditingTicket.altEmail || '';
         updateDiffEmailNote();
-        showAdminToast('Correo del ticket insertado en el campo');
+        showAdminToast('Correo del alumno insertado en el campo');
       }
     };
 
@@ -1574,16 +1584,20 @@
       const diffEmailInput = document.getElementById('modalAssignedEmail');
       const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
       const noteLower = (currentNote || '').toLowerCase();
-      const currentDiffEmail = (diffEmailInput && diffEmailInput.value.trim()) || ticket.assignedCorrectEmail || '';
       
-      const isDiffEmail = (diffEmailGroup && diffEmailGroup.style.display !== 'none') || 
-                          Boolean(currentDiffEmail) || 
-                          noteLower.includes('correo diferente') || 
-                          noteLower.includes('diste de alta con un correo');
+      const isNoUser = noteLower.includes('no se encontró') || noteLower.includes('no se encontro') || noteLower.includes('ningún usuario') || noteLower.includes('ningun usuario');
+      const isPassReset = noteLower.includes('se restableció tu contraseña') || noteLower.includes('se restablecio tu contrasena') || noteLower.includes('mexico26');
+      
+      const isDiffEmailVisible = diffEmailGroup && diffEmailGroup.style.display !== 'none';
+      const isDiffEmail = !isNoUser && !isPassReset && (
+        isDiffEmailVisible || 
+        noteLower.includes('correo diferente') || 
+        noteLower.includes('diste de alta con un correo')
+      );
 
       const currentStatus = document.getElementById('modalStatusSelect')?.value || ticket.status || 'Resuelto';
-      // Cuando es correo diferente, la contraseña NUNCA es Mexico26*, es la que puso el alumno en su registro
-      const currentPass = isDiffEmail ? '' : (document.getElementById('modalAssignedPassword')?.value.trim() || ticket.assignedPassword || '');
+      const currentDiffEmail = isDiffEmailVisible && diffEmailInput ? diffEmailInput.value.trim() : (ticket.assignedCorrectEmail || '');
+      const currentPass = (isDiffEmail || isNoUser) ? '' : (document.getElementById('modalAssignedPassword')?.value.trim() || ticket.assignedPassword || '');
 
       let msg = `Hola ${ticket.fullName}, te contacto de Richmond Pro respecto a tu solicitud de soporte ${ticket.folio} (${ticket.school}).\n\n`;
       msg += `Estatus: ${currentStatus}\n\n`;
@@ -1591,11 +1605,15 @@
       if (currentNote) {
         msg += `Resolucion:\n${currentNote}\n\n`;
       }
+      
+      // Correo registrado SOLO se agrega si es resolución de correo diferente y NO es Alumno No Encontrado
       if (isDiffEmail && currentStatus === 'Resuelto') {
-        const emailToShow = currentDiffEmail || ticket.altEmail || ticket.email;
-        msg += `Correo registrado para ingresar: ${emailToShow}\n`;
-        msg += `Contrasena: La que tu pusiste en tu registro original (no se modifico tu contrasena).\n\n`;
-      } else if (currentPass && currentStatus === 'Resuelto') {
+        const emailToShow = currentDiffEmail || ticket.email;
+        if (emailToShow) {
+          msg += `Correo registrado para ingresar: ${emailToShow}\n`;
+          msg += `Contrasena: La que tu pusiste en tu registro original (no se modifico tu contrasena).\n\n`;
+        }
+      } else if (currentPass && currentStatus === 'Resuelto' && !isNoUser) {
         msg += `Contrasena asignada: ${currentPass}\n\n`;
       }
       msg += `Puedes revisar el detalle oficial de tu ticket en el enlace directo del sistema:\nhttps://yepzhi.com/help/?folio=${ticket.folio}`;
