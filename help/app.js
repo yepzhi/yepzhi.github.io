@@ -930,9 +930,11 @@ function renderStatusCard(ticket) {
             </a>
           </div>
 
-          <p class="resolved-tip" style="color: #1e40af;">
-            Si no recuerdas la contraseña que definiste en tu registro, contáctanos por WhatsApp para apoyarte a restablecerla.
-          </p>
+          <div class="resolved-tip" style="color: #1e40af; background: #ffffff; border: 1.5px solid #bfdbfe; border-radius: 10px; padding: 0.85rem 1rem; margin-top: 1rem; font-size: 0.88rem; line-height: 1.5; text-align: left;">
+            <strong style="color: #1e3a8a; display: block; margin-bottom: 0.25rem;">¿No recuerdas tu contraseña?</strong>
+            Levanta un nuevo ticket seleccionando la opción <strong>"No puedo entrar / Invalid Credentials"</strong> y en la solicitud coloca este correo, que es el correo oficial que tenemos en el sistema.
+            <span style="display: block; margin-top: 0.4rem; color: #dc2626; font-weight: 700;">(Importante: NO atendemos cambios ni restablecimiento de contraseña por WhatsApp).</span>
+          </div>
         </div>
       ` : ''}
 
@@ -1019,7 +1021,7 @@ function renderStatusCard(ticket) {
           </div>
           <div class="solution-text">${escapeHtml(ticket.solutionNote)}</div>
 
-          ${(ticket.solutionNote.toLowerCase().includes('whatsapp') || ticket.solutionNote.toLowerCase().includes('foto') || ticket.solutionNote.toLowerCase().includes('código') || ticket.solutionNote.toLowerCase().includes('codigo') || ticket.solutionNote.toLowerCase().includes('asesor')) ? `
+          ${(!isDiffEmail && (ticket.solutionNote.toLowerCase().includes('whatsapp') || ticket.solutionNote.toLowerCase().includes('foto') || ticket.solutionNote.toLowerCase().includes('código') || ticket.solutionNote.toLowerCase().includes('codigo') || ticket.solutionNote.toLowerCase().includes('asesor'))) ? `
             <div style="margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px dashed rgba(22, 163, 74, 0.35); display: flex; flex-direction: column; gap: 0.45rem;">
               <span style="font-size: 0.78rem; color: #166534; font-weight: 700;">Envía la foto de tu código directamente a tu asesor aquí:</span>
               <a href="https://wa.me/${ticket.advisorWA || '5216621147374'}?text=${encodeURIComponent(`Hola, envío la foto de mi código respecto a mi solicitud con Folio: ${ticket.folio} (${ticket.fullName})`)}" 
