@@ -6,7 +6,7 @@
   <title>Richmond Pro · Panel de Asesores & SLA</title>
   <meta name="color-scheme" content="light">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../style.css?v=2.3.0" />
+  <link rel="stylesheet" href="../style.css?v=2.3.1" />
   <style>
     /* Admin specific styling */
     /* Admin specific styling - Clean Light Theme */
@@ -825,11 +825,8 @@
           <label class="form-label" for="modalAssignedEmail" style="color: #1d4ed8; font-weight: 800; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem;">
             Correo registrado en Richmond Studio con el que debe ingresar el alumno:
           </label>
-          <div style="display: flex; gap: 0.5rem; align-items: center;">
-            <input type="email" class="input-text" id="modalAssignedEmail" oninput="updateDiffEmailNote()" placeholder="pega.aqui.el.correo@registrado.com" style="font-family: 'Outfit', -apple-system, sans-serif !important; font-weight: 700; font-size: 1.05rem; background: #ffffff; color: #1d4ed8; letter-spacing: 0 !important; word-spacing: normal !important;" />
-            <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem; font-weight: 700;" onclick="pasteTicketEmailIntoAssigned()">
-              Pegar del Ticket
-            </button>
+          <div>
+            <input type="email" class="input-text" id="modalAssignedEmail" oninput="updateDiffEmailNote()" placeholder="pega.aqui.el.correo@registrado.com" style="width: 100%; font-family: 'Outfit', -apple-system, sans-serif !important; font-weight: 700; font-size: 1.05rem; background: #ffffff; color: #1d4ed8; letter-spacing: 0 !important; word-spacing: normal !important;" />
           </div>
           <p style="font-size: 0.74rem; color: #2563eb; margin-top: 0.35rem; margin-bottom: 0; line-height: 1.4;">
             A estos alumnos NO se les cambió la contraseña (la contraseña es la que puso en su registro). Este correo se le mostrará destacado en grande en su pantalla con un botón directo a Richmond Studio.
@@ -1524,16 +1521,13 @@
         if (passInput) passInput.value = '';
         if (currentEditingTicket) currentEditingTicket.assignedPassword = '';
 
-        // 2. ABRIR EL CAMPO DE CORREO DIFERENTE
+        // 2. ABRIR EL CAMPO DE CORREO DIFERENTE (LIMPIO PARA PEGAR DEL SISTEMA EXTERNO)
         if (diffEmailGroup) diffEmailGroup.style.display = 'block';
 
-        // Pre-cargar con el correo del ticket o altEmail si está vacío
         if (diffEmailInput) {
-          if (!diffEmailInput.value.trim() && currentEditingTicket) {
-            diffEmailInput.value = currentEditingTicket.assignedCorrectEmail || currentEditingTicket.altEmail || currentEditingTicket.email || '';
-          }
+          // El espacio de correo debe estar limpio para pegar el que se sacó del sistema externo
+          diffEmailInput.value = currentEditingTicket?.assignedCorrectEmail || '';
           diffEmailInput.focus();
-          diffEmailInput.select();
         }
 
         updateDiffEmailNote();
@@ -1549,7 +1543,7 @@
       }
       const noteEl = document.getElementById('modalSolutionNote');
       const emailVal = diffEmailInput ? diffEmailInput.value.trim() : '';
-      const emailTarget = emailVal || currentEditingTicket?.altEmail || currentEditingTicket?.email || '[CORREO REGISTRADO]';
+      const emailTarget = emailVal || '[pega.aqui.el.correo@registrado.com]';
       if (noteEl) {
         noteEl.value = `Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura). Intenta ingresar con tu correo registrado: ${emailTarget} y la contraseña que definiste en tu registro (no se modificó tu contraseña). Si no recuerdas tu contraseña, contáctanos por WhatsApp.`;
       }
