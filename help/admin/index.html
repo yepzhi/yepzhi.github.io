@@ -670,6 +670,11 @@
           </span>
         </div>
 
+        <div id="modalStudentWAWrap" style="display: none;">
+          <strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">WhatsApp Alumno:</strong>
+          <span id="modalStudentWA" style="color: #16a34a; font-weight: 700; font-family: monospace; padding: 0.15rem 0.45rem; border-radius: 6px; background: #f0fdf4; border: 1px solid #bbf7d0;">-</span>
+        </div>
+
         <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Escuela:</strong> <span id="modalSchool" style="font-weight: 600;">-</span></div>
         <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Incidencia:</strong> <span id="modalIssue" style="color: #334155;">-</span></div>
         <div>
@@ -1270,6 +1275,17 @@
         }
       }
 
+      const waEl = document.getElementById('modalStudentWA');
+      const waWrap = document.getElementById('modalStudentWAWrap');
+      if (waEl && waWrap) {
+        if (ticket.studentWhatsApp) {
+          waEl.textContent = '+' + ticket.studentWhatsApp;
+          waWrap.style.display = 'inline-flex';
+        } else {
+          waWrap.style.display = 'none';
+        }
+      }
+
       document.getElementById('modalSchool').textContent = ticket.school;
       document.getElementById('modalIssue').textContent = ticket.issueType;
       
@@ -1459,17 +1475,22 @@
       msg += `Estatus: ${currentStatus}\n\n`;
 
       if (currentNote) {
-        msg += `Resolución:\n${currentNote}\n\n`;
+        msg += `Resolucion:\n${currentNote}\n\n`;
       }
       if (isDiffEmail && currentStatus === 'Resuelto') {
         msg += `Correo registrado para ingresar: ${currentDiffEmail}\n`;
-        msg += `Contraseña: La que tú definiste al registrarte en Richmond Studio (no se modificó tu contraseña).\n\n`;
+        msg += `Contrasena: La que tu definiste al registrarte en Richmond Studio (no se modifico tu contrasena).\n\n`;
       } else if (currentPass && currentStatus === 'Resuelto') {
-        msg += `Contraseña asignada: ${currentPass}\n\n`;
+        msg += `Contrasena asignada: ${currentPass}\n\n`;
       }
       msg += `Puedes revisar el detalle oficial de tu ticket en el enlace directo del sistema:\nhttps://yepzhi.com/help/?folio=${ticket.folio}`;
 
-      window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+      const studentNum = ticket.studentWhatsApp || '';
+      if (studentNum) {
+        window.open(`https://wa.me/${studentNum}?text=${encodeURIComponent(msg)}`, '_blank');
+      } else {
+        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+      }
     };
 
     window.closeDetailModal = function() {

@@ -61,6 +61,7 @@ const STATE = {
     schoolOther: '',
     email: '',
     altEmail: '',
+    studentWhatsApp: '',
     fullName: '',
     nickname: '',
     bookCode: '',
@@ -306,6 +307,22 @@ export function validateStep2() {
     STATE.data.altEmail = altEmail;
   }
 
+  // Validar WhatsApp: 10 digitos obligatorio, solo MEX o USA
+  const phoneInput = document.getElementById('studentPhoneInput');
+  const phoneCountry = document.getElementById('studentPhoneCountry');
+  const phoneVal = phoneInput ? phoneInput.value.replace(/\D/g, '') : '';
+  const countryCode = phoneCountry ? phoneCountry.value : '52';
+
+  if (!phoneVal || phoneVal.length !== 10) {
+    setError('err-studentPhone', 'Ingresa tu número de WhatsApp a 10 dígitos (sin código de país).');
+    if (phoneInput) markInput('studentPhoneInput', true);
+    ok = false;
+  } else {
+    clearError('err-studentPhone');
+    if (phoneInput) markInput('studentPhoneInput', false);
+    STATE.data.studentWhatsApp = countryCode + phoneVal;
+  }
+
   if (ok) goStep(3);
 }
 window.validateStep2 = validateStep2;
@@ -491,11 +508,12 @@ async function submitTicket() {
     schoolCode: schoolKey,
     email: STATE.data.email.toLowerCase(),
     altEmail: STATE.data.altEmail ? STATE.data.altEmail.toLowerCase() : '',
+    studentWhatsApp: STATE.data.studentWhatsApp || '',
     fullName: STATE.data.fullName,
     nickname: STATE.data.nickname || '',
     bookCode: STATE.data.bookCode,
     notes: STATE.data.notes || '',
-    status: 'Pendiente', // 'Pendiente' | 'En Revisión' | 'Resuelto'
+    status: 'Pendiente',
     assignedAdvisor: assignedAdvisor,
     advisorWA: advisorWA,
     solutionNote: '',
