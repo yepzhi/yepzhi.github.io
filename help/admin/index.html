@@ -752,7 +752,7 @@
           <div style="font-size: 0.78rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 0.6rem;">
             1. Elige cómo resolver la solicitud:
           </div>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.65rem;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.65rem;">
             <!-- Opción 1: Resolver: Mexico26* -->
             <button type="button" class="preset-action-card" id="cardPresetPass" onclick="selectPresetAction('pass')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #86efac; background: #f0fdf4; cursor: pointer; transition: all 0.2s;">
               <div style="font-weight: 800; font-size: 0.86rem; color: #166534; display: flex; align-items: center; gap: 0.4rem;">
@@ -783,6 +783,17 @@
               </div>
               <div style="font-size: 0.74rem; color: #2563eb; margin-top: 0.25rem; line-height: 1.35;">
                 Te diste de alta con otro correo. Tu usuario es ese correo tal cual.
+              </div>
+            </button>
+
+            <!-- Opción 4: Código ya Utilizado (Cuenta encontrada) -->
+            <button type="button" class="preset-action-card" id="cardPresetCodeUsed" onclick="selectPresetAction('code_used')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #c7d2fe; background: #eef2ff; cursor: pointer; transition: all 0.2s;">
+              <div style="font-weight: 800; font-size: 0.86rem; color: #4338ca; display: flex; align-items: center; gap: 0.4rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Código ya Utilizado (Cuenta Encontrada)
+              </div>
+              <div style="font-size: 0.74rem; color: #4f46e5; margin-top: 0.25rem; line-height: 1.35;">
+                Invalid Code: el código ya se usó. Se indica el correo de su cuenta.
               </div>
             </button>
           </div>
@@ -833,15 +844,20 @@
           </p>
         </div>
 
-        <!-- Campo para Correo Diferente (Visible cuando se selecciona Correo Diferente, quita el de contraseña) -->
+        <!-- Campo para Correo (Visible para Correo Diferente o Código ya Usado) -->
         <div id="modalDiffEmailGroup" style="display: none; background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 12px; padding: 0.85rem 1rem; margin-bottom: 0.9rem;">
-          <label class="form-label" for="modalAssignedEmail" style="color: #1d4ed8; font-weight: 800; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem;">
-            Correo registrado en Richmond Studio con el que debe ingresar el alumno:
-          </label>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.4rem;">
+            <label class="form-label" id="modalAssignedEmailLabel" for="modalAssignedEmail" style="color: #1d4ed8; font-weight: 800; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0;">
+              Correo registrado en Richmond Studio con el que debe ingresar el alumno:
+            </label>
+            <button type="button" class="btn-action" style="font-size: 0.72rem; padding: 0.2rem 0.6rem; color: #1d4ed8; background: #dbeafe; border: 1px solid #bfdbfe; border-radius: 6px; font-weight: 700;" onclick="pasteTicketEmailIntoAssigned()" title="Pegar el correo principal del alumno">
+              Pegar correo del ticket
+            </button>
+          </div>
           <div>
             <input type="email" class="input-text" id="modalAssignedEmail" oninput="updateDiffEmailNote()" placeholder="pega.aqui.el.correo@registrado.com" style="width: 100%; font-family: 'Outfit', -apple-system, sans-serif !important; font-weight: 700; font-size: 1.05rem; background: #ffffff; color: #1d4ed8; letter-spacing: 0 !important; word-spacing: normal !important;" />
           </div>
-          <p style="font-size: 0.74rem; color: #2563eb; margin-top: 0.35rem; margin-bottom: 0; line-height: 1.4;">
+          <p id="modalAssignedEmailHint" style="font-size: 0.74rem; color: #2563eb; margin-top: 0.35rem; margin-bottom: 0; line-height: 1.4;">
             A estos alumnos NO se les cambió la contraseña (la contraseña es la que puso en su registro). Este correo se le mostrará destacado en grande en su pantalla con un botón directo a Richmond Studio.
           </p>
         </div>
@@ -1457,9 +1473,11 @@
       const passInput = document.getElementById('modalAssignedPassword');
       const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
       const diffEmailInput = document.getElementById('modalAssignedEmail');
+      const diffEmailLabel = document.getElementById('modalAssignedEmailLabel');
       const hasPass = Boolean(ticket.assignedPassword);
       const noteLower = (ticket.solutionNote || '').toLowerCase();
-      const hasDiffEmail = Boolean(ticket.assignedCorrectEmail) || (currentStatus === 'Resuelto' && noteLower.includes('correo diferente') && !hasPass);
+      const isCodeUsed = noteLower.includes('encontramos tu cuenta') || noteLower.includes('utilizaste tu código') || noteLower.includes('utilizaste tu codigo');
+      const hasDiffEmail = !isCodeUsed && (Boolean(ticket.assignedCorrectEmail) || (currentStatus === 'Resuelto' && noteLower.includes('correo diferente') && !hasPass));
 
       if (passInput) {
         passInput.value = ticket.assignedPassword || '';
@@ -1469,26 +1487,39 @@
       }
 
       // Limpiar resaltado de tarjetas rápidas
-      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail'].forEach(id => {
+      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail', 'cardPresetCodeUsed'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.boxShadow = 'none';
       });
 
-      if (hasDiffEmail) {
+      if (isCodeUsed) {
+        window.currentResolutionPreset = 'code_used';
         if (diffEmailGroup) diffEmailGroup.style.display = 'block';
         if (passGroup) passGroup.style.display = 'none';
         if (passInput) passInput.value = '';
+        if (diffEmailLabel) diffEmailLabel.textContent = 'Correo con el que está creada la cuenta encontrada en Richmond Studio:';
+        const c = document.getElementById('cardPresetCodeUsed');
+        if (c) c.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.45)';
+      } else if (hasDiffEmail) {
+        window.currentResolutionPreset = 'diff_email';
+        if (diffEmailGroup) diffEmailGroup.style.display = 'block';
+        if (passGroup) passGroup.style.display = 'none';
+        if (passInput) passInput.value = '';
+        if (diffEmailLabel) diffEmailLabel.textContent = 'Correo registrado en Richmond Studio con el que debe ingresar el alumno:';
         const c = document.getElementById('cardPresetDiffEmail');
         if (c) c.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.45)';
       } else if (currentStatus === 'Resuelto' && hasPass) {
+        window.currentResolutionPreset = 'pass';
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (passGroup) passGroup.style.display = 'block';
         const c = document.getElementById('cardPresetPass');
         if (c) c.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.45)';
       } else {
+        window.currentResolutionPreset = null;
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (passGroup) passGroup.style.display = 'none';
         if (noteLower.includes('no se encontró') || noteLower.includes('no se encontro')) {
+          window.currentResolutionPreset = 'no_user';
           const c = document.getElementById('cardPresetNoUser');
           if (c) c.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.45)';
         }
@@ -1514,9 +1545,12 @@
       const passInput = document.getElementById('modalAssignedPassword');
       const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
       const diffEmailInput = document.getElementById('modalAssignedEmail');
+      const diffEmailLabel = document.getElementById('modalAssignedEmailLabel');
+
+      window.currentResolutionPreset = actionType;
 
       // Resaltar visualmente la tarjeta activa
-      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail'].forEach(id => {
+      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail', 'cardPresetCodeUsed'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.boxShadow = 'none';
       });
@@ -1559,9 +1593,29 @@
 
         // 2. ABRIR EL CAMPO DE CORREO DIFERENTE (LIMPIO PARA PEGAR DEL SISTEMA EXTERNO)
         if (diffEmailGroup) diffEmailGroup.style.display = 'block';
+        if (diffEmailLabel) diffEmailLabel.textContent = 'Correo registrado en Richmond Studio con el que debe ingresar el alumno:';
 
         if (diffEmailInput) {
-          // El espacio de correo debe estar limpio para pegar el que se sacó del sistema externo
+          diffEmailInput.value = currentEditingTicket?.assignedCorrectEmail || '';
+          diffEmailInput.focus();
+        }
+
+        updateDiffEmailNote();
+      } else if (actionType === 'code_used') {
+        const c = document.getElementById('cardPresetCodeUsed');
+        if (c) c.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.45)';
+        statusSelect.value = 'Resuelto';
+
+        // 1. QUITAR EL CAMPO DE CONTRASEÑA (la contraseña es la suya original)
+        if (passGroup) passGroup.style.display = 'none';
+        if (passInput) passInput.value = '';
+        if (currentEditingTicket) currentEditingTicket.assignedPassword = '';
+
+        // 2. ABRIR CAMPO DE CORREO DE CUENTA ENCONTRADA
+        if (diffEmailGroup) diffEmailGroup.style.display = 'block';
+        if (diffEmailLabel) diffEmailLabel.textContent = 'Correo con el que está creada la cuenta encontrada en Richmond Studio:';
+
+        if (diffEmailInput) {
           diffEmailInput.value = currentEditingTicket?.assignedCorrectEmail || '';
           diffEmailInput.focus();
         }
@@ -1580,7 +1634,11 @@
       const noteEl = document.getElementById('modalSolutionNote');
       const emailVal = diffEmailInput ? diffEmailInput.value.trim() : '';
       const emailTarget = emailVal || '[pega.aqui.el.correo@registrado.com]';
-      if (noteEl) {
+      if (!noteEl) return;
+
+      if (window.currentResolutionPreset === 'code_used' || noteEl.value.toLowerCase().includes('utilizaste tu código') || noteEl.value.toLowerCase().includes('utilizaste tu codigo') || noteEl.value.toLowerCase().includes('encontramos tu cuenta')) {
+        noteEl.value = `Encontramos tu cuenta, tu registro ya lo completaste y utilizaste tu código, por eso tu código dice inválido, es decir, ya lo utilizaste y solo se puede una vez. Tu cuenta está creada con el correo: ${emailTarget}. La contraseña es la misma que pusiste cuando hiciste tu registro. En caso de que no la recuerdes o no te deje entrar aun así, levanta otro ticket seleccionando la opción "No puedo entrar / Invalid Credentials".`;
+      } else {
         noteEl.value = `Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura). Hemos revisado la base de datos y tu correo registrado es: ${emailTarget} y la contraseña que definiste en tu registro (no se modificó tu contraseña). Si no recuerdas tu contraseña, levanta otro ticket seleccionando la opción "No puedo entrar / Invalid Credentials" y en la solicitud coloca este correo, que es el correo oficial que tenemos en el sistema (NO atendemos cambios de contraseña por WhatsApp).`;
       }
     };
@@ -1605,10 +1663,12 @@
       
       const isNoUser = noteLower.includes('no se encontró') || noteLower.includes('no se encontro') || noteLower.includes('ningún usuario') || noteLower.includes('ningun usuario');
       const isPassReset = noteLower.includes('se restableció tu contraseña') || noteLower.includes('se restablecio tu contrasena') || noteLower.includes('mexico26');
+      const isCodeUsed = noteLower.includes('encontramos tu cuenta') || noteLower.includes('utilizaste tu código') || noteLower.includes('utilizaste tu codigo');
       
       const isDiffEmailVisible = diffEmailGroup && diffEmailGroup.style.display !== 'none';
       const isDiffEmail = !isNoUser && !isPassReset && (
         isDiffEmailVisible || 
+        isCodeUsed ||
         noteLower.includes('correo diferente') || 
         noteLower.includes('diste de alta con un correo')
       );
@@ -1624,7 +1684,7 @@
         msg += `Resolucion:\n${currentNote}\n\n`;
       }
       
-      // Correo registrado SOLO se agrega si es resolución de correo diferente y NO es Alumno No Encontrado
+      // Correo registrado se agrega si es resolución de correo diferente o cuenta encontrada (y NO es Alumno No Encontrado)
       if (isDiffEmail && currentStatus === 'Resuelto') {
         const emailToShow = currentDiffEmail || ticket.email;
         if (emailToShow) {

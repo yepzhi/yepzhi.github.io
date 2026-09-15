@@ -803,11 +803,18 @@ function renderStatusCard(ticket) {
   const assignedCorrectEmail = (ticket.assignedCorrectEmail || '').trim();
   const noteText = (ticket.solutionNote || '').toLowerCase();
 
+  const isCodeUsed = isResolved && (
+    noteText.includes('encontramos tu cuenta') || 
+    noteText.includes('utilizaste tu código') || 
+    noteText.includes('utilizaste tu codigo')
+  );
+
   const isDiffEmail = isResolved && (
     assignedCorrectEmail.length > 0 || 
     noteText.includes('correo diferente') || 
     noteText.includes('diste de alta con un correo') ||
-    noteText.includes('correo registrado')
+    noteText.includes('correo registrado') ||
+    isCodeUsed
   );
 
   const isNoUserFound = isResolved && !isDiffEmail && (
@@ -887,7 +894,7 @@ function renderStatusCard(ticket) {
         </div>
       ` : ''}
 
-      <!-- CASO: CORREO DIFERENTE DETECTADO (SIN CAMBIO DE CONTRASEÑA) -->
+      <!-- CASO: CORREO DIFERENTE O CUENTA ENCONTRADA (SIN CAMBIO DE CONTRASEÑA) -->
       ${isDiffEmail ? `
         <div class="resolved-hero-card" style="background: #eff6ff; border: 2px solid #60a5fa; box-shadow: 0 4px 20px rgba(37, 99, 235, 0.12);">
           <div class="resolved-hero-header">
@@ -899,14 +906,18 @@ function renderStatusCard(ticket) {
             </span>
             <div>
               <h4 class="resolved-hero-title" style="color: #1e3a8a;">¡Tu cuenta fue localizada en Richmond Studio!</h4>
-              <p class="resolved-hero-subtitle" style="color: #1d4ed8;">Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura):</p>
+              <p class="resolved-hero-subtitle" style="color: #1d4ed8;">
+                ${isCodeUsed 
+                  ? 'Encontramos tu cuenta, tu registro ya lo completaste y utilizaste tu código (por eso tu código dice inválido, ya que solo se puede usar una vez). Tu cuenta está creada con el correo:' 
+                  : 'Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura):'}
+              </p>
             </div>
           </div>
 
           <div class="resolved-credentials-box" style="background: #ffffff; border: 1.5px solid #bfdbfe;">
             <div class="cred-row" style="flex-direction: column; align-items: flex-start; gap: 0.4rem;">
               <span class="cred-label" style="color: #1d4ed8; font-weight: 800; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em;">
-                Correo registrado en Richmond Studio:
+                ${isCodeUsed ? 'Correo con el que está creada tu cuenta:' : 'Correo registrado en Richmond Studio:'}
               </span>
               <div class="cred-val-wrap" style="width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;">
                 <span class="cred-val highlight" id="credDiffEmailText" style="font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 800; color: #1e40af; background: #eff6ff; border: 2px solid #60a5fa; padding: 0.65rem 0.95rem; border-radius: 10px; flex: 1; word-break: break-all; letter-spacing: 0;">${escapeHtml(displayRegisteredEmail)}</span>
@@ -932,7 +943,7 @@ function renderStatusCard(ticket) {
 
           <div class="resolved-tip" style="color: #1e40af; background: #ffffff; border: 1.5px solid #bfdbfe; border-radius: 10px; padding: 0.85rem 1rem; margin-top: 1rem; font-size: 0.88rem; line-height: 1.5; text-align: left;">
             <strong style="color: #1e3a8a; display: block; margin-bottom: 0.25rem;">¿No recuerdas tu contraseña?</strong>
-            Levanta un nuevo ticket seleccionando la opción <strong>"No puedo entrar / Invalid Credentials"</strong> y en la solicitud coloca este correo, que es el correo oficial que tenemos en el sistema.
+            La contraseña es la misma que pusiste cuando hiciste tu registro. En caso de que no la recuerdes o no te deje entrar aun así, levanta un nuevo ticket seleccionando la opción <strong>"No puedo entrar / Invalid Credentials"</strong> y en la solicitud coloca este correo, que es el correo oficial que tenemos en el sistema.
             <span style="display: block; margin-top: 0.4rem; color: #dc2626; font-weight: 700;">(Importante: NO atendemos cambios ni restablecimiento de contraseña por WhatsApp).</span>
           </div>
         </div>
