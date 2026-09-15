@@ -721,7 +721,10 @@
 
         <div id="modalStudentWAWrap" style="display: none;">
           <strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">WhatsApp Alumno:</strong>
-          <span id="modalStudentWA" style="color: #16a34a; font-weight: 700; font-family: monospace; padding: 0.15rem 0.45rem; border-radius: 6px; background: #f0fdf4; border: 1px solid #bbf7d0;">-</span>
+          <span id="modalStudentWA" onclick="copyStudentWA()" title="Clic para copiar número de WhatsApp" style="color: #16a34a; font-weight: 700; font-family: monospace; padding: 0.15rem 0.5rem; border-radius: 6px; background: #f0fdf4; border: 1px solid #bbf7d0; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <span id="modalStudentWAText">-</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </span>
         </div>
 
         <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Escuela:</strong> <span id="modalSchool" style="font-weight: 600;">-</span></div>
@@ -1326,6 +1329,21 @@
       }
     };
 
+    window.copyStudentWA = function() {
+      if (currentEditingTicket?.studentWhatsApp) {
+        copyTextToClipboard(currentEditingTicket.studentWhatsApp, 'WhatsApp copiado');
+      }
+    };
+
+    function formatPhonePretty(raw) {
+      if (!raw) return '-';
+      const digits = String(raw).replace(/\D/g, '');
+      if (digits.startsWith('52') && digits.length === 12) {
+        return `+52 (${digits.slice(2, 5)}) ${digits.slice(5, 8)}-${digits.slice(8)}`;
+      }
+      return '+' + digits;
+    }
+
     // ─── MODAL DETAIL & RESOLUTION ───
     window.openDetailModal = function(folio) {
       const ticket = allTickets.find(t => t.folio === folio);
@@ -1380,11 +1398,11 @@
         }
       }
 
-      const waEl = document.getElementById('modalStudentWA');
+      const waEl = document.getElementById('modalStudentWAText') || document.getElementById('modalStudentWA');
       const waWrap = document.getElementById('modalStudentWAWrap');
       if (waEl && waWrap) {
         if (ticket.studentWhatsApp) {
-          waEl.textContent = '+' + ticket.studentWhatsApp;
+          waEl.textContent = formatPhonePretty(ticket.studentWhatsApp);
           waWrap.style.display = 'inline-flex';
         } else {
           waWrap.style.display = 'none';
