@@ -199,6 +199,20 @@
       border-color: #34d399;
       color: #047857;
     }
+    .btn-action.btn-modal-close {
+      background: #dc2626;
+      border-color: #b91c1c;
+      color: #ffffff;
+      font-weight: 800;
+      box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25);
+    }
+    .btn-action.btn-modal-close:hover {
+      background: #b91c1c;
+      border-color: #991b1b;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(185, 28, 28, 0.35);
+      transform: translateY(-1px);
+    }
 
     /* Primary Row Action Button in Table */
     .btn-table-action {
@@ -641,16 +655,41 @@
           <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); font-weight: 800; font-family: 'Outfit', sans-serif;">Gestión de Solicitud</span>
           <h2 id="modalFolio" style="font-size: 1.55rem; font-weight: 900; color: var(--text-main); font-family: monospace;">HELP-00000</h2>
         </div>
-        <button type="button" class="btn-action" onclick="closeDetailModal()">Cerrar</button>
+        <button type="button" class="btn-action btn-modal-close" onclick="closeDetailModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          Cerrar
+        </button>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.35rem; font-size: 0.88rem;">
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
-          <div>
+          <div style="display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;">
             <strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Alumno:</strong> 
-            <span id="modalStudent" onclick="copyStudentName()" title="Clic para copiar nombre" style="font-weight: 800; color: var(--text-main); cursor: pointer; padding: 0.15rem 0.45rem; border-radius: 6px; background: #f1f5f9; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <!-- Nombre Completo Oficial -->
+            <span id="modalStudent" onclick="copyStudentName()" title="Clic para copiar nombre completo" style="font-weight: 800; color: var(--text-main); cursor: pointer; padding: 0.15rem 0.45rem; border-radius: 6px; background: #f1f5f9; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; gap: 0.35rem;">
               <span id="modalStudentText">-</span>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </span>
+
+            <!-- Nombre Corto / Alias (separado para copiar) -->
+            <span id="modalStudentNick" onclick="copyStudentNickname()" title="Clic para copiar nombre corto o alias" style="color: #0284c7; font-weight: 700; cursor: pointer; padding: 0.15rem 0.45rem; border-radius: 6px; background: #e0f2fe; border: 1px solid #bae6fd; display: none; align-items: center; gap: 0.35rem;">
+              <span style="font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #0369a1;">Alias:</span>
+              <span id="modalStudentNickText">-</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </span>
+
+            <!-- Nombres y Apellidos desglosados para copiar de forma individual -->
+            <span id="modalStudentSplitWrap" style="display: inline-flex; gap: 0.35rem; align-items: center;">
+              <span id="modalStudentFirstName" onclick="copyStudentFirstName()" title="Clic para copiar solo Nombre(s)" style="color: #334155; font-weight: 700; font-size: 0.82rem; cursor: pointer; padding: 0.15rem 0.45rem; border-radius: 6px; background: #f8fafc; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; gap: 0.3rem;">
+                <span style="font-size: 0.68rem; text-transform: uppercase; color: var(--text-muted); font-weight: 800;">Nom:</span>
+                <span id="modalStudentFirstNameText">-</span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </span>
+              <span id="modalStudentLastName" onclick="copyStudentLastName()" title="Clic para copiar solo Apellido(s)" style="color: #334155; font-weight: 700; font-size: 0.82rem; cursor: pointer; padding: 0.15rem 0.45rem; border-radius: 6px; background: #f8fafc; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; gap: 0.3rem;">
+                <span style="font-size: 0.68rem; text-transform: uppercase; color: var(--text-muted); font-weight: 800;">Apell:</span>
+                <span id="modalStudentLastNameText">-</span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </span>
             </span>
           </div>
           <span style="font-size: 0.72rem; color: var(--primary); font-weight: 700;">(Clic en datos para copiar)</span>
@@ -668,6 +707,11 @@
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             </span>
           </span>
+        </div>
+
+        <div id="modalStudentWAWrap" style="display: none;">
+          <strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">WhatsApp Alumno:</strong>
+          <span id="modalStudentWA" style="color: #16a34a; font-weight: 700; font-family: monospace; padding: 0.15rem 0.45rem; border-radius: 6px; background: #f0fdf4; border: 1px solid #bbf7d0;">-</span>
         </div>
 
         <div><strong style="color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">Escuela:</strong> <span id="modalSchool" style="font-weight: 600;">-</span></div>
@@ -1216,9 +1260,44 @@
       }
     };
 
+    function splitFullName(fullName) {
+      if (!fullName) return { first: '', last: '' };
+      const parts = fullName.trim().split(/\s+/);
+      if (parts.length <= 1) {
+        return { first: parts[0] || '', last: '' };
+      } else if (parts.length === 2) {
+        return { first: parts[0], last: parts[1] };
+      } else if (parts.length === 3) {
+        return { first: parts[0], last: parts.slice(1).join(' ') };
+      } else {
+        const mid = Math.floor(parts.length / 2);
+        return { first: parts.slice(0, mid).join(' '), last: parts.slice(mid).join(' ') };
+      }
+    }
+
     window.copyStudentName = function() {
       if (currentEditingTicket?.fullName) {
-        copyTextToClipboard(currentEditingTicket.fullName, 'Nombre copiado');
+        copyTextToClipboard(currentEditingTicket.fullName, 'Nombre completo copiado');
+      }
+    };
+
+    window.copyStudentNickname = function() {
+      if (currentEditingTicket?.nickname) {
+        copyTextToClipboard(currentEditingTicket.nickname, 'Alias / Apodo copiado');
+      }
+    };
+
+    window.copyStudentFirstName = function() {
+      if (currentEditingTicket?.fullName) {
+        const parts = splitFullName(currentEditingTicket.fullName);
+        if (parts.first) copyTextToClipboard(parts.first, 'Nombre(s) copiado');
+      }
+    };
+
+    window.copyStudentLastName = function() {
+      if (currentEditingTicket?.fullName) {
+        const parts = splitFullName(currentEditingTicket.fullName);
+        if (parts.last) copyTextToClipboard(parts.last, 'Apellido(s) copiado');
       }
     };
 
@@ -1249,11 +1328,35 @@
 
       document.getElementById('modalFolio').textContent = ticket.folio;
       
+      // Nombre completo oficial
       const stEl = document.getElementById('modalStudentText');
-      if (stEl) {
-        stEl.textContent = `${ticket.fullName} ${ticket.nickname ? `(${ticket.nickname})` : ''}`;
-      } else {
-        document.getElementById('modalStudent').textContent = `${ticket.fullName} ${ticket.nickname ? `(${ticket.nickname})` : ''}`;
+      if (stEl) stEl.textContent = ticket.fullName || '-';
+
+      // Nombre corto / Alias separado
+      const nickEl = document.getElementById('modalStudentNickText');
+      const nickWrap = document.getElementById('modalStudentNick');
+      if (nickEl && nickWrap) {
+        if (ticket.nickname) {
+          nickEl.textContent = ticket.nickname;
+          nickWrap.style.display = 'inline-flex';
+        } else {
+          nickWrap.style.display = 'none';
+        }
+      }
+
+      // Nombre(s) y Apellido(s) desglosados en campos separados
+      const split = splitFullName(ticket.fullName || '');
+      const fnEl = document.getElementById('modalStudentFirstNameText');
+      const lnEl = document.getElementById('modalStudentLastNameText');
+      const splitWrap = document.getElementById('modalStudentSplitWrap');
+      if (fnEl && lnEl && splitWrap) {
+        if (split.first && split.last) {
+          fnEl.textContent = split.first;
+          lnEl.textContent = split.last;
+          splitWrap.style.display = 'inline-flex';
+        } else {
+          splitWrap.style.display = 'none';
+        }
       }
 
       const emMain = document.getElementById('modalEmailMainText');
@@ -1267,6 +1370,17 @@
           emAltWrap.style.display = 'inline-flex';
         } else {
           emAltWrap.style.display = 'none';
+        }
+      }
+
+      const waEl = document.getElementById('modalStudentWA');
+      const waWrap = document.getElementById('modalStudentWAWrap');
+      if (waEl && waWrap) {
+        if (ticket.studentWhatsApp) {
+          waEl.textContent = '+' + ticket.studentWhatsApp;
+          waWrap.style.display = 'inline-flex';
+        } else {
+          waWrap.style.display = 'none';
         }
       }
 
@@ -1405,9 +1519,10 @@
         if (c) c.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.45)';
         statusSelect.value = 'Resuelto';
 
-        // 1. QUITAR EL CAMPO DE CONTRASEÑA (porque la contraseña es la que puso en su registro)
+        // 1. QUITAR EL CAMPO DE CONTRASEÑA COMPLETAMENTE (porque la contraseña es la que puso en su registro)
         if (passGroup) passGroup.style.display = 'none';
         if (passInput) passInput.value = '';
+        if (currentEditingTicket) currentEditingTicket.assignedPassword = '';
 
         // 2. ABRIR EL CAMPO DE CORREO DIFERENTE
         if (diffEmailGroup) diffEmailGroup.style.display = 'block';
@@ -1429,9 +1544,9 @@
       const diffEmailInput = document.getElementById('modalAssignedEmail');
       const noteEl = document.getElementById('modalSolutionNote');
       const emailVal = diffEmailInput ? diffEmailInput.value.trim() : '';
-      const emailTarget = emailVal || '[PEGA AQUÍ EL CORREO DETECTADO]';
+      const emailTarget = emailVal || (currentEditingTicket?.altEmail || currentEditingTicket?.email || '[PEGA AQUÍ EL CORREO DETECTADO]');
       if (noteEl) {
-        noteEl.value = `Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura). Intenta ingresar con tu correo registrado: ${emailTarget} y la contraseña que definiste en tu registro (no se modificó tu contraseña). Si no recuerdas tu contraseña, contáctanos por WhatsApp.`;
+        noteEl.value = `Te diste de alta con un correo diferente en la plataforma. Tu usuario de acceso es tu correo tal cual lo registraste (aunque contenga algún error tipográfico). Intenta entrar con tu correo que es este: ${emailTarget} y la contraseña que tú pusiste en tu registro original (no se modificó tu contraseña). Si persiste el error, contáctanos por WhatsApp.`;
       }
     };
 
@@ -1449,27 +1564,41 @@
       if (!currentEditingTicket) return;
       const ticket = currentEditingTicket;
       const currentNote = document.getElementById('modalSolutionNote')?.value.trim() || ticket.solutionNote || '';
-      const currentPass = document.getElementById('modalAssignedPassword')?.value.trim() || ticket.assignedPassword || '';
-      const currentDiffEmail = document.getElementById('modalAssignedEmail')?.value.trim() || ticket.assignedCorrectEmail || '';
+      const diffEmailInput = document.getElementById('modalAssignedEmail');
       const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
-      const isDiffEmail = (diffEmailGroup && diffEmailGroup.style.display !== 'none' && currentDiffEmail) || Boolean(currentDiffEmail);
+      const noteLower = (currentNote || '').toLowerCase();
+      const currentDiffEmail = (diffEmailInput && diffEmailInput.value.trim()) || ticket.assignedCorrectEmail || '';
+      
+      const isDiffEmail = (diffEmailGroup && diffEmailGroup.style.display !== 'none') || 
+                          Boolean(currentDiffEmail) || 
+                          noteLower.includes('correo diferente') || 
+                          noteLower.includes('diste de alta con un correo');
+
       const currentStatus = document.getElementById('modalStatusSelect')?.value || ticket.status || 'Resuelto';
+      // Cuando es correo diferente, la contraseña NUNCA es Mexico26*, es la que puso el alumno en su registro
+      const currentPass = isDiffEmail ? '' : (document.getElementById('modalAssignedPassword')?.value.trim() || ticket.assignedPassword || '');
 
       let msg = `Hola ${ticket.fullName}, te contacto de Richmond Pro respecto a tu solicitud de soporte ${ticket.folio} (${ticket.school}).\n\n`;
       msg += `Estatus: ${currentStatus}\n\n`;
 
       if (currentNote) {
-        msg += `Resolución:\n${currentNote}\n\n`;
+        msg += `Resolucion:\n${currentNote}\n\n`;
       }
       if (isDiffEmail && currentStatus === 'Resuelto') {
-        msg += `Correo registrado para ingresar: ${currentDiffEmail}\n`;
-        msg += `Contraseña: La que tú definiste al registrarte en Richmond Studio (no se modificó tu contraseña).\n\n`;
+        const emailToShow = currentDiffEmail || ticket.altEmail || ticket.email;
+        msg += `Correo registrado para ingresar: ${emailToShow}\n`;
+        msg += `Contrasena: La que tu pusiste en tu registro original (no se modifico tu contrasena).\n\n`;
       } else if (currentPass && currentStatus === 'Resuelto') {
-        msg += `Contraseña asignada: ${currentPass}\n\n`;
+        msg += `Contrasena asignada: ${currentPass}\n\n`;
       }
       msg += `Puedes revisar el detalle oficial de tu ticket en el enlace directo del sistema:\nhttps://yepzhi.com/help/?folio=${ticket.folio}`;
 
-      window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+      const studentNum = ticket.studentWhatsApp || '';
+      if (studentNum) {
+        window.open(`https://wa.me/${studentNum}?text=${encodeURIComponent(msg)}`, '_blank');
+      } else {
+        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+      }
     };
 
     window.closeDetailModal = function() {

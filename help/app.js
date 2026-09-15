@@ -868,7 +868,7 @@ function renderStatusCard(ticket) {
             </span>
             <div>
               <h4 class="resolved-hero-title" style="color: #1e3a8a;">¡Tu cuenta fue localizada en Richmond Studio!</h4>
-              <p class="resolved-hero-subtitle" style="color: #1d4ed8;">Te diste de alta con un correo diferente. Debes ingresar con este correo tal cual lo registraste:</p>
+              <p class="resolved-hero-subtitle" style="color: #1d4ed8;">Te diste de alta con un correo diferente en la plataforma. Tu usuario de acceso es tu correo tal cual lo registraste (aunque contenga algún error tipográfico):</p>
             </div>
           </div>
 
@@ -885,7 +885,7 @@ function renderStatusCard(ticket) {
 
             <div style="margin-top: 0.85rem; padding: 0.75rem 0.95rem; background: #f8fafc; border-radius: 10px; border-left: 4px solid #2563eb; font-size: 0.86rem; color: #1e293b; line-height: 1.5;">
               <strong style="color: #1e3a8a;">Información de tu Contraseña:</strong><br/>
-              Tu contraseña de acceso es la que tú definiste al registrarte en Richmond Studio (<strong>no se modificó tu contraseña</strong>).
+              Tu contraseña de acceso es la que tú pusiste en tu registro original (<strong>no es Mexico26*, no se modificó tu contraseña</strong>).
             </div>
           </div>
 
