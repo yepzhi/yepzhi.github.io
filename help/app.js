@@ -387,6 +387,7 @@ async function submitTicket() {
   // Noroeste -> Alberto Yépiz (UTH, ITESCA, ITLM, ITH, IT MXL, UNIVAFU)
   // Norte    -> Luis Franco (UAZ PEUL, UJED, ICEST TAMPICO, CI 22 UANL)
   // Occidente -> Fabiola Martinez (UTNA, IT CUL, BACH TEPIC, UPSIN, CETI COLOMOS, LAMAR, CAI)
+  // Toluca / EdoMex / Mich -> Edgar Espinoza (UTZIN, UPOTEC, UAEM, ENES, UMSNH, SIRIUS, IBIM, UTSEM, TESJI, UIEM)
   const schoolKey = STATE.data.school;
   let assignedAdvisor = 'Alberto Yépiz';
   let advisorWA = '5216621147374';
@@ -408,6 +409,23 @@ async function submitTicket() {
     'CAI'
   ];
 
+  const TOLUCA_SCHOOLS = [
+    'UTZIN',
+    'UPOTEC',
+    'UAEM ENFERMERIA',
+    'UAEM CS EXACTAS',
+    'ENES MORELIA',
+    'UMSNH',
+    'SIRIUS',
+    'IBIM ATLACOMULCO',
+    'IBIM TOLUCA',
+    'UTSEM',
+    'TESJI',
+    'UIEM',
+    'UAEM QUIMICA',
+    'UAEM ODONTOLOGIA'
+  ];
+
   const SCHOOL_NAMES = {
     'UTH': 'UTH - Univ. Tecnológica de Hermosillo',
     'ITESCA': 'ITESCA - Inst. Tecnológico Superior de Cajeme',
@@ -425,10 +443,27 @@ async function submitTicket() {
     'UPSIN': 'UPSIN - Univ. Politécnica de Sinaloa',
     'CETI COLOMOS': 'CETI Colomos - Centro de Enseñanza Técnica Industrial',
     'LAMAR': 'LAMAR - Univ. Guadalajara LAMAR',
-    'CAI': 'CAI - Coordinación de Asuntos Internacionales'
+    'CAI': 'CAI - Coordinación de Asuntos Internacionales',
+    'UTZIN': 'UTZIN - Universidad Tecnológica de Zinacantepec',
+    'UPOTEC': 'UPOTEC - Universidad Politécnica de Otzolotepec',
+    'UAEM ENFERMERIA': 'UAEM - Facultad de Enfermería',
+    'UAEM CS EXACTAS': 'UAEM - Facultad de Ciencias Exactas',
+    'ENES MORELIA': 'ENES Campus Morelia',
+    'UMSNH': 'UMSNH - Univ. Michoacana de San Nicolás de Hidalgo',
+    'SIRIUS': 'Sirius Campus Universitario',
+    'IBIM ATLACOMULCO': 'IBIM Atlacomulco',
+    'IBIM TOLUCA': 'IBIM Toluca',
+    'UTSEM': 'UTSEM - Univ. Tecnológica del Sur del Edo. de México',
+    'TESJI': 'TESJI - Tec. de Estudios Superiores de Jilotepec',
+    'UIEM': 'UIEM - Univ. Intercultural del Edo. de México',
+    'UAEM QUIMICA': 'UAEM - Facultad de Química',
+    'UAEM ODONTOLOGIA': 'UAEM - Facultad de Odontología'
   };
 
-  if (NORTE_SCHOOLS.includes(schoolKey)) {
+  if (TOLUCA_SCHOOLS.includes(schoolKey)) {
+    assignedAdvisor = 'Edgar Espinoza';
+    advisorWA = '526641234572';
+  } else if (NORTE_SCHOOLS.includes(schoolKey)) {
     assignedAdvisor = 'Luis Franco';
     advisorWA = '5218119905772';
   } else if (OCCIDENTE_SCHOOLS.includes(schoolKey)) {
@@ -580,22 +615,39 @@ export async function searchTicketStatus(explicitQuery = null) {
   `;
 
   let foundTicket = null;
+  const cleanQ = rawQ.trim();
+  let folioCandidate = cleanQ.toUpperCase();
+  if (/^\d{4,6}$/.test(cleanQ)) {
+    folioCandidate = `HELP-${cleanQ}`;
+  }
 
   // 1. Buscar en Firestore
   if (db) {
     try {
-      // Buscar por Folio
-      let q = query(collection(db, "help_tickets"), where("folio", "==", rawQ.toUpperCase()));
+      // Buscar por Folio (con o sin prefijo HELP-)
+      let q = query(collection(db, "help_tickets"), where("folio", "==", folioCandidate));
       let snapshot = await getDocs(q);
+
+      if (snapshot.empty && folioCandidate !== cleanQ.toUpperCase()) {
+        q = query(collection(db, "help_tickets"), where("folio", "==", cleanQ.toUpperCase()));
+        snapshot = await getDocs(q);
+      }
 
       if (!snapshot.empty) {
         foundTicket = { id: snapshot.docs[0].id, ...snapshot.docs[0].data() };
       } else {
-        // Buscar por email
-        q = query(collection(db, "help_tickets"), where("email", "==", rawQ.toLowerCase()));
+        // Buscar por email principal
+        q = query(collection(db, "help_tickets"), where("email", "==", cleanQ.toLowerCase()));
         snapshot = await getDocs(q);
         if (!snapshot.empty) {
           foundTicket = { id: snapshot.docs[0].id, ...snapshot.docs[0].data() };
+        } else {
+          // Buscar por email alternativo
+          q = query(collection(db, "help_tickets"), where("altEmail", "==", cleanQ.toLowerCase()));
+          snapshot = await getDocs(q);
+          if (!snapshot.empty) {
+            foundTicket = { id: snapshot.docs[0].id, ...snapshot.docs[0].data() };
+          }
         }
       }
     } catch (e) {
@@ -607,8 +659,9 @@ export async function searchTicketStatus(explicitQuery = null) {
   if (!foundTicket) {
     const local = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
     foundTicket = local.find(t => 
-      (t.folio && t.folio.toUpperCase() === rawQ.toUpperCase()) || 
-      (t.email && t.email.toLowerCase() === rawQ.toLowerCase())
+      (t.folio && (t.folio.toUpperCase() === folioCandidate || t.folio.toUpperCase() === cleanQ.toUpperCase())) || 
+      (t.email && t.email.toLowerCase() === cleanQ.toLowerCase()) ||
+      (t.altEmail && t.altEmail.toLowerCase() === cleanQ.toLowerCase())
     );
   }
 

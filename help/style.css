@@ -473,25 +473,43 @@ body {
   color: var(--primary);
 }
 @media (max-width: 640px) {
+  .diag-card {
+    border-radius: 12px;
+  }
   .diag-summary {
     align-items: flex-start;
-    padding: 0.85rem 1rem;
-    gap: 0.75rem;
+    padding: 0.65rem 0.85rem;
+    gap: 0.5rem;
   }
   .diag-summary-left {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.4rem;
+    gap: 0.28rem;
     flex: 1;
     min-width: 0;
   }
+  .diag-tag {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 5px;
+    letter-spacing: 0.03em;
+  }
   .diag-title {
-    font-size: 0.92rem;
-    line-height: 1.35;
+    font-size: 0.84rem;
+    line-height: 1.3;
+    font-weight: 700;
     word-break: break-word;
   }
   .diag-chevron {
-    margin-top: 0.25rem;
+    width: 16px;
+    height: 16px;
+    margin-top: 0.2rem;
+  }
+  .diag-content {
+    padding: 0.75rem 0.85rem 0.9rem;
+    font-size: 0.80rem;
+    line-height: 1.5;
+    gap: 0.65rem;
   }
 }
 .diag-content {
@@ -1444,11 +1462,26 @@ body {
 }
 
 /* Responsive Tweaks */
-@media (max-width: 480px) {
+@media (max-width: 640px) {
+  .portal-wrap { padding: 1.2rem 0.85rem 2.5rem; }
+  .portal-header { margin-bottom: 1.2rem; }
   .logo-text { font-size: 1.45rem; }
-  .step-title { font-size: 1.35rem; }
-  .top-nav { padding: 0.25rem; }
-  .nav-tab { padding: 0.65rem 0.8rem; font-size: 0.84rem; }
-  .form-actions { flex-direction: column-reverse; }
-  .btn-primary, .btn-back { width: 100%; justify-content: center; }
+  .portal-title { font-size: 1.35rem; letter-spacing: -0.02em; }
+  .portal-subtitle { font-size: 0.82rem; }
+  .top-nav { padding: 0.22rem; gap: 0.35rem; margin-bottom: 1.3rem; }
+  .nav-tab { padding: 0.52rem 0.7rem; font-size: 0.80rem; border-radius: 9px; }
+  .warning-collapsible-wrapper { margin-bottom: 1.2rem; }
+  .warning-intro { font-size: 0.80rem; margin-bottom: 0.75rem !important; }
+  .glass-card { padding: 1.4rem 1rem; border-radius: 18px; }
+  .stepper-progress { margin-bottom: 1.5rem; }
+  .node-circle { width: 30px; height: 30px; font-size: 0.80rem; }
+  .progress-line-bg { top: 14px; }
+  .node-label { font-size: 0.66rem; margin-top: 0.25rem; }
+  .step-title { font-size: 1.2rem; }
+  .step-subtitle { font-size: 0.78rem; }
+  .form-group { margin-bottom: 0.95rem; }
+  .form-label { font-size: 0.80rem; margin-bottom: 0.3rem; }
+  .input-text, .select-custom, .textarea-custom { padding: 0.65rem 0.8rem; font-size: 0.86rem; border-radius: 10px; }
+  .form-actions { flex-direction: column-reverse; gap: 0.55rem; }
+  .btn-primary, .btn-back { width: 100%; justify-content: center; padding: 0.75rem 1rem; font-size: 0.88rem; }
 }

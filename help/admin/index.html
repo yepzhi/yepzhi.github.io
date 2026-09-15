@@ -335,6 +335,97 @@
       text-align: center;
       box-shadow: var(--shadow-lg);
     }
+
+    /* Mobile Responsive Optimizations */
+    @media (max-width: 768px) {
+      body {
+        padding: 0.9rem 0.65rem 3rem;
+      }
+      .admin-header-bar {
+        gap: 0.6rem;
+        margin-bottom: 1.1rem;
+      }
+      .admin-title-area {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.35rem;
+      }
+      .logo-text {
+        font-size: 1.35rem;
+      }
+      .admin-badge {
+        font-size: 0.64rem;
+        padding: 0.2rem 0.5rem;
+      }
+      .admin-header-actions {
+        width: 100%;
+        display: flex;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+      }
+      .admin-header-actions .btn-action {
+        flex: 1;
+        justify-content: center;
+        padding: 0.5rem 0.65rem;
+        font-size: 0.76rem;
+      }
+      .stats-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.55rem;
+        margin-bottom: 1.1rem;
+      }
+      .metric-card {
+        padding: 0.75rem 0.85rem;
+        border-radius: 13px;
+      }
+      .metric-val {
+        font-size: 1.4rem;
+      }
+      .metric-label {
+        font-size: 0.64rem;
+      }
+      .filters-bar {
+        padding: 0.8rem 0.85rem;
+        border-radius: 14px;
+        gap: 0.6rem;
+        margin-bottom: 1rem;
+      }
+      .filter-item {
+        min-width: 100%;
+      }
+      .filter-item label {
+        font-size: 0.66rem;
+      }
+      .filter-item select, .filter-item input {
+        padding: 0.55rem 0.75rem;
+        font-size: 0.82rem;
+      }
+      .table-container {
+        border-radius: 14px;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .admin-table th, .admin-table td {
+        padding: 0.65rem 0.6rem;
+        font-size: 0.76rem;
+      }
+      .btn-table-action {
+        padding: 0.35rem 0.6rem;
+        font-size: 0.72rem;
+      }
+      .modal-card {
+        padding: 1.4rem 1.1rem;
+        max-width: 95vw;
+        border-radius: 18px;
+      }
+      .modal-title {
+        font-size: 1.15rem;
+      }
+      .presets-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -435,8 +526,8 @@
       <div class="filter-item">
         <label for="filterAdvisor">Asesor Responsable:</label>
         <select class="select-custom" id="filterAdvisor" onchange="applyFilters()">
-          <option value="ALL">Todos los Asesores de México</option>
-          <option value="Alberto Yépiz" selected>Alberto Yépiz (Noroeste)</option>
+          <option value="ALL" selected>Todos los Asesores de México</option>
+          <option value="Alberto Yépiz">Alberto Yépiz (Noroeste)</option>
           <option value="Luis Franco">Luis Franco (Norte)</option>
           <option value="Fabiola Martinez">Fabiola Martinez (Occidente)</option>
           <option value="Arturo Mendoza">Arturo Mendoza (Sureste)</option>
@@ -475,6 +566,22 @@
             <option value="CETI COLOMOS">CETI Colomos (Guadalajara)</option>
             <option value="LAMAR">LAMAR (Guadalajara)</option>
             <option value="CAI">CAI (Internacionales)</option>
+          </optgroup>
+          <optgroup label="ZONA TOLUCA / EDOMEX / MICH (Edgar Espinoza)">
+            <option value="UTZIN">UTZIN (Zinacantepec)</option>
+            <option value="UPOTEC">UPOTEC (Otzolotepec)</option>
+            <option value="UAEM ENFERMERIA">UAEM Enfermería</option>
+            <option value="UAEM CS EXACTAS">UAEM Ciencias Exactas</option>
+            <option value="ENES MORELIA">ENES Morelia</option>
+            <option value="UMSNH">UMSNH (Michoacán)</option>
+            <option value="SIRIUS">Sirius Universitario</option>
+            <option value="IBIM ATLACOMULCO">IBIM Atlacomulco</option>
+            <option value="IBIM TOLUCA">IBIM Toluca</option>
+            <option value="UTSEM">UTSEM (EdoMex)</option>
+            <option value="TESJI">TESJI (Jilotepec)</option>
+            <option value="UIEM">UIEM (EdoMex)</option>
+            <option value="UAEM QUIMICA">UAEM Química</option>
+            <option value="UAEM ODONTOLOGIA">UAEM Odontología</option>
           </optgroup>
           <optgroup label="OTRAS">
             <option value="OTRA">Otras instituciones</option>
@@ -667,7 +774,8 @@
       doc, 
       updateDoc, 
       query, 
-      orderBy 
+      orderBy,
+      onSnapshot 
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -691,48 +799,73 @@
     let currentEditingTicket = null;
     let liveTickInterval = null;
 
-    // ─── GATE LOGIN ───
+    // ─── GATE LOGIN CON PERSISTENCIA ───
     window.checkAdminGate = function() {
       const input = document.getElementById('gatePassInput');
       const err = document.getElementById('gateErr');
-      const val = input.value.trim();
+      const val = input ? input.value.trim() : '';
 
       if (val === 'Pro26' || val === 'pro26') {
+        localStorage.setItem('richmond_help_admin_auth', 'true');
+        sessionStorage.setItem('richmond_help_admin_auth', 'true');
         document.getElementById('gateOverlay').style.display = 'none';
         document.getElementById('adminApp').style.display = 'block';
         loadAdminTickets();
       } else {
-        err.textContent = 'Clave incorrecta. Intenta nuevamente.';
+        if (err) err.textContent = 'Clave incorrecta. Intenta nuevamente.';
       }
     };
+
+    // Auto-login si ya se autenticó previamente
+    if (localStorage.getItem('richmond_help_admin_auth') === 'true' || sessionStorage.getItem('richmond_help_admin_auth') === 'true') {
+      const gate = document.getElementById('gateOverlay');
+      const appEl = document.getElementById('adminApp');
+      if (gate) gate.style.display = 'none';
+      if (appEl) appEl.style.display = 'block';
+      setTimeout(() => { loadAdminTickets(); }, 60);
+    }
 
     // Enter key on pass input
     document.getElementById('gatePassInput')?.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') window.checkAdminGate();
     });
 
-    // ─── LOAD DATA ───
+    // ─── LOAD DATA (ROBUSTO CON TIEMPO REAL) ───
     window.loadAdminTickets = async function() {
       const tbody = document.getElementById('ticketsTableBody');
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="10" style="text-align: center; padding: 2.5rem; color: var(--c-muted);">
-            Sincronizando solicitudes en tiempo real desde Firestore…
-          </td>
-        </tr>
-      `;
+      if (tbody && (!allTickets || allTickets.length === 0)) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="10" style="text-align: center; padding: 2.5rem; color: var(--c-muted);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite; vertical-align: middle; margin-right: 6px;">
+                <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+                <path d="M12 2a10 10 0 0 1 10 10"/>
+              </svg>
+              Sincronizando solicitudes en tiempo real desde Firestore…
+            </td>
+          </tr>
+        `;
+      }
 
       let tickets = [];
 
       if (db) {
         try {
-          const q = query(collection(db, "help_tickets"), orderBy("createdAtMillis", "desc"));
-          const snapshot = await getDocs(q);
-          snapshot.forEach((docSnapshot) => {
-            tickets.push({ id: docSnapshot.id, ...docSnapshot.data() });
-          });
+          let snapshot = null;
+          try {
+            const q = query(collection(db, "help_tickets"), orderBy("createdAtMillis", "desc"));
+            snapshot = await getDocs(q);
+          } catch (orderErr) {
+            console.warn('[Admin] Fallback a colección directa por ordenación:', orderErr);
+            snapshot = await getDocs(collection(db, "help_tickets"));
+          }
+          if (snapshot && !snapshot.empty) {
+            snapshot.forEach((docSnapshot) => {
+              tickets.push({ id: docSnapshot.id, ...docSnapshot.data() });
+            });
+          }
         } catch (err) {
-          console.warn('[Admin Firestore fetch error]:', err);
+          console.error('[Admin Firestore fetch error]:', err);
         }
       }
 
@@ -744,8 +877,34 @@
         }
       });
 
+      // Ordenar de más reciente a más antiguo en memoria
+      tickets.sort((a, b) => {
+        const timeA = a.createdAtMillis || (a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt?.seconds ? a.createdAt.seconds * 1000 : 0));
+        const timeB = b.createdAtMillis || (b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt?.seconds ? b.createdAt.seconds * 1000 : 0));
+        return timeB - timeA;
+      });
+
       allTickets = tickets;
       applyFilters();
+
+      // Listener de Firestore en Tiempo Real (onSnapshot)
+      if (db && !window.adminUnsubListener) {
+        try {
+          window.adminUnsubListener = onSnapshot(collection(db, "help_tickets"), (snapshot) => {
+            const rt = [];
+            snapshot.forEach(d => rt.push({ id: d.id, ...d.data() }));
+            rt.sort((a, b) => {
+              const timeA = a.createdAtMillis || (a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt?.seconds ? a.createdAt.seconds * 1000 : 0));
+              const timeB = b.createdAtMillis || (b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt?.seconds ? b.createdAt.seconds * 1000 : 0));
+              return timeB - timeA;
+            });
+            allTickets = rt;
+            applyFilters();
+          }, (err) => console.warn('[Admin Realtime Warning]:', err));
+        } catch (e) {
+          console.warn('[Admin onSnapshot error]:', e);
+        }
+      }
 
       // Arrancar intervalo de cálculo en vivo de Elapsed Time
       if (liveTickInterval) clearInterval(liveTickInterval);
@@ -771,7 +930,10 @@
           const KNOWN_CODES = [
             'UTH', 'ITESCA', 'ITLM', 'ITH', 'IT MXL', 'UNIVAFU',
             'UAZ PEUL', 'UJED', 'ICEST TAMPICO', 'CI 22 UANL',
-            'UTNA', 'IT CUL', 'BACH TEPIC', 'UPSIN', 'CETI COLOMOS', 'LAMAR', 'CAI'
+            'UTNA', 'IT CUL', 'BACH TEPIC', 'UPSIN', 'CETI COLOMOS', 'LAMAR', 'CAI',
+            'UTZIN', 'UPOTEC', 'UAEM ENFERMERIA', 'UAEM CS EXACTAS', 'ENES MORELIA',
+            'UMSNH', 'SIRIUS', 'IBIM ATLACOMULCO', 'IBIM TOLUCA', 'UTSEM', 'TESJI',
+            'UIEM', 'UAEM QUIMICA', 'UAEM ODONTOLOGIA'
           ];
           if (fSchool === 'OTRA') {
             if (KNOWN_CODES.includes(t.schoolCode)) return false;
