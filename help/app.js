@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSchoolSelect();
   initNavTabs();
   initLookupEnterKey();
+  initPhoneValidation();
 
   // Revisar si viene folio en URL (?folio=HELP-XXXXX)
   const urlParams = new URLSearchParams(window.location.search);
@@ -156,6 +157,28 @@ function initSchoolSelect() {
       }
     });
   }
+}
+
+// ─── PHONE VALIDATION REALTIME ─────────────────────
+function initPhoneValidation() {
+  const phoneInput = document.getElementById('studentPhoneInput');
+  if (!phoneInput) return;
+
+  const sanitizeAndValidate = () => {
+    phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 10);
+    if (phoneInput.value.length === 10) {
+      clearError('err-studentPhone');
+      markInput('studentPhoneInput', false);
+    }
+  };
+
+  phoneInput.addEventListener('input', sanitizeAndValidate);
+  phoneInput.addEventListener('paste', () => setTimeout(sanitizeAndValidate, 0));
+  phoneInput.addEventListener('keypress', (e) => {
+    if (e.key && !/^\d$/.test(e.key)) {
+      e.preventDefault();
+    }
+  });
 }
 
 // ─── WARNING BOX COLLAPSE (CON ESTILO) ────────────
@@ -307,14 +330,18 @@ export function validateStep2() {
     STATE.data.altEmail = altEmail;
   }
 
-  // Validar WhatsApp: 10 digitos obligatorio, solo MEX o USA
+  // Validar WhatsApp: exactamente 10 dígitos numéricos
   const phoneInput = document.getElementById('studentPhoneInput');
   const phoneCountry = document.getElementById('studentPhoneCountry');
-  const phoneVal = phoneInput ? phoneInput.value.replace(/\D/g, '') : '';
+  const phoneVal = phoneInput ? phoneInput.value.replace(/\D/g, '').trim() : '';
   const countryCode = phoneCountry ? phoneCountry.value : '52';
 
-  if (!phoneVal || phoneVal.length !== 10) {
-    setError('err-studentPhone', 'Ingresa tu número de WhatsApp a 10 dígitos (sin código de país).');
+  if (!phoneVal) {
+    setError('err-studentPhone', 'Por favor ingresa tu número de WhatsApp a 10 dígitos.');
+    if (phoneInput) markInput('studentPhoneInput', true);
+    ok = false;
+  } else if (phoneVal.length !== 10 || !/^\d{10}$/.test(phoneVal)) {
+    setError('err-studentPhone', `El número de WhatsApp debe tener exactamente 10 dígitos (has ingresado ${phoneVal.length} de 10).`);
     if (phoneInput) markInput('studentPhoneInput', true);
     ok = false;
   } else {

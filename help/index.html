@@ -340,12 +340,12 @@
               Tu numero de WhatsApp:
               <span class="label-hint">(Te enviaremos un mensaje cuando tu solicitud sea resuelta)</span>
             </label>
-            <div style="display: flex; gap: 0.5rem; align-items: stretch;">
-              <select class="select-custom" id="studentPhoneCountry" style="flex: 0 0 auto; min-width: 110px; font-size: 0.88rem; font-weight: 700;">
+            <div style="display: flex; flex-direction: column; gap: 0.55rem;">
+              <select class="select-custom" id="studentPhoneCountry" style="width: 100%; font-size: 0.92rem; font-weight: 700;">
                 <option value="52" selected>MEX +52</option>
                 <option value="1">USA +1</option>
               </select>
-              <input type="tel" class="input-text" id="studentPhoneInput" placeholder="6621234567" maxlength="10" inputmode="numeric" pattern="[0-9]{10}" style="flex: 1; font-family: monospace; font-size: 1rem; letter-spacing: 0.08em;" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10)" />
+              <input type="tel" class="input-text" id="studentPhoneInput" placeholder="Número celular a 10 dígitos (ej. 6621234567)" maxlength="10" inputmode="numeric" pattern="[0-9]{10}" style="width: 100%; font-family: inherit; font-size: 1.02rem; font-weight: 600;" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10)" />
             </div>
             <div class="err-msg" id="err-studentPhone"></div>
           </div>
@@ -563,6 +563,6 @@
     </footer>
 
   <script src="aurora.js?v=2.2.0"></script>
-  <script type="module" src="app.js?v=2.5.1"></script>
+  <script type="module" src="app.js?v=2.5.2"></script>
 </body>
 </html>
