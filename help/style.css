@@ -738,6 +738,16 @@ body {
   padding: 0.5rem;
   font-weight: 500;
   font-family: 'Inter', sans-serif;
+.phone-stack {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.65rem !important;
+  width: 100% !important;
+}
+.phone-stack .select-custom,
+.phone-stack .input-text {
+  width: 100% !important;
+  display: block !important;
 }
 
 /* ── INCIDENCE SELECTOR (CHIPS / CARDS) ── */

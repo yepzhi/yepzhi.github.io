@@ -311,7 +311,7 @@ export function validateStep2() {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!email || !re.test(email)) {
-    setError('err-email', 'Ingresa el correo electrónico que usaste para registrarte.');
+    setError('err-email', 'Ingresa tu correo institucional o personal.');
     markInput('emailInput', true);
     ok = false;
   } else {

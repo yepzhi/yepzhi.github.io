@@ -6,7 +6,10 @@
   <title>Richmond Pro · Centro de Ayuda e Incidencias</title>
   <meta name="description" content="Portal oficial de atención a incidencias técnicas comunes de Richmond Studio: Invalid Credentials, Invalid Code y recuperación de correos." />
   <meta name="color-scheme" content="light">
-  <link rel="stylesheet" href="style.css?v=2.3.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" href="style.css?v=2.4.0" />
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 </head>
 <body>
@@ -317,18 +320,20 @@
           <div class="step-title-wrap">
             <span class="step-subhead">Paso 2 de 4</span>
             <h2 class="step-title">Correo electrónico registrado</h2>
-            <p class="step-desc">Ingresa el correo que usaste o intentaste usar en Richmond Studio.</p>
+            <p class="step-desc">Ingresa el correo que usaste o intentaste usar en Richmond Studio. Entre más datos nos des, más fácil será ayudarte a encontrar tu cuenta.</p>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="emailInput">Correo Principal:</label>
-            <input type="email" class="input-text" id="emailInput" placeholder="alumno@institucion.edu.mx" />
+            <label class="form-label" for="emailInput">
+              Correo institucional o personal:
+            </label>
+            <input type="email" class="input-text" id="emailInput" placeholder="alumno@institucion.edu.mx o personal@gmail.com" />
             <div class="err-msg" id="err-email"></div>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="altEmailInput">
-              Segundo Correo de respaldo:
+              Correo personal opcional:
               <span class="label-hint">(Opcional si dudas qué correo usaste)</span>
             </label>
             <input type="email" class="input-text" id="altEmailInput" placeholder="correo.personal@gmail.com" />
@@ -340,12 +345,12 @@
               Tu numero de WhatsApp:
               <span class="label-hint">(Te enviaremos un mensaje cuando tu solicitud sea resuelta)</span>
             </label>
-            <div style="display: flex; flex-direction: column; gap: 0.55rem;">
-              <select class="select-custom" id="studentPhoneCountry" style="width: 100%; font-size: 0.92rem; font-weight: 700;">
+            <div class="phone-stack">
+              <select class="select-custom" id="studentPhoneCountry" style="font-size: 0.95rem; font-weight: 700;">
                 <option value="52" selected>MEX +52</option>
                 <option value="1">USA +1</option>
               </select>
-              <input type="tel" class="input-text" id="studentPhoneInput" placeholder="Número celular a 10 dígitos (ej. 6621234567)" maxlength="10" inputmode="numeric" pattern="[0-9]{10}" style="width: 100%; font-family: inherit; font-size: 1.02rem; font-weight: 600;" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10)" />
+              <input type="tel" class="input-text" id="studentPhoneInput" placeholder="Número celular a 10 dígitos (ej. 6621234567)" maxlength="10" inputmode="numeric" pattern="[0-9]{10}" style="font-family: inherit; font-size: 1.02rem; font-weight: 600;" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10)" />
             </div>
             <div class="err-msg" id="err-studentPhone"></div>
           </div>
@@ -563,6 +568,6 @@
     </footer>
 
   <script src="aurora.js?v=2.2.0"></script>
-  <script type="module" src="app.js?v=2.5.2"></script>
+  <script type="module" src="app.js?v=2.6.0"></script>
 </body>
 </html>
