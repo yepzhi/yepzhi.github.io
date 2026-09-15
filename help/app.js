@@ -751,15 +751,31 @@ function renderStatusCard(ticket) {
     badgeText = 'En Proceso de Atención';
   }
 
-  const createdAt = ticket.createdAtMillis || (ticket.createdAt?.toDate ? ticket.createdAt.toDate().getTime() : Date.now());
+  let createdAt = ticket.createdAtMillis;
+  if (!createdAt && ticket.createdAt) {
+    if (typeof ticket.createdAt.toDate === 'function') createdAt = ticket.createdAt.toDate().getTime();
+    else if (ticket.createdAt.seconds) createdAt = ticket.createdAt.seconds * 1000;
+    else if (typeof ticket.createdAt === 'number') createdAt = ticket.createdAt;
+  }
+  if (!createdAt) createdAt = Date.now();
+
   const resolvedAt = ticket.resolvedAtMillis || null;
   const assignedPassword = (ticket.assignedPassword || '').trim();
+  const assignedCorrectEmail = (ticket.assignedCorrectEmail || '').trim();
   const noteText = (ticket.solutionNote || '').toLowerCase();
   const isNoUserFound = noteText.includes('no se encontró') || 
                         noteText.includes('no se encontro') || 
                         noteText.includes('ningún usuario') || 
                         noteText.includes('ningun usuario');
-  const hasPasswordAssigned = isResolved && assignedPassword.length > 0 && !isNoUserFound;
+
+  const isDiffEmail = isResolved && !isNoUserFound && (
+    assignedCorrectEmail.length > 0 || 
+    noteText.includes('correo diferente') || 
+    noteText.includes('diste de alta con un correo')
+  );
+
+  const hasPasswordAssigned = isResolved && assignedPassword.length > 0 && !isNoUserFound && !isDiffEmail;
+  const displayRegisteredEmail = assignedCorrectEmail || (ticket.altEmail || ticket.email || '').trim();
 
   container.innerHTML = `
     <div class="status-card">
@@ -818,6 +834,55 @@ function renderStatusCard(ticket) {
 
           <p class="resolved-tip">
             Una vez dentro, podrás actualizar tu contraseña si lo deseas en la sección <strong>"My Profile"</strong>.
+          </p>
+        </div>
+      ` : ''}
+
+      <!-- CASO: CORREO DIFERENTE DETECTADO (SIN CAMBIO DE CONTRASEÑA) -->
+      ${isDiffEmail ? `
+        <div class="resolved-hero-card" style="background: #eff6ff; border: 2px solid #60a5fa; box-shadow: 0 4px 20px rgba(37, 99, 235, 0.12);">
+          <div class="resolved-hero-header">
+            <span class="resolved-check-icon" style="background: #2563eb; box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </span>
+            <div>
+              <h4 class="resolved-hero-title" style="color: #1e3a8a;">¡Tu cuenta fue localizada en Richmond Studio!</h4>
+              <p class="resolved-hero-subtitle" style="color: #1d4ed8;">Te diste de alta con un correo diferente. Debes ingresar con este correo tal cual lo registraste:</p>
+            </div>
+          </div>
+
+          <div class="resolved-credentials-box" style="background: #ffffff; border: 1.5px solid #bfdbfe;">
+            <div class="cred-row" style="flex-direction: column; align-items: flex-start; gap: 0.4rem;">
+              <span class="cred-label" style="color: #1d4ed8; font-weight: 800; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                Correo registrado en Richmond Studio:
+              </span>
+              <div class="cred-val-wrap" style="width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;">
+                <code class="cred-val highlight" id="credDiffEmailText" style="font-size: 1.1rem; color: #1e40af; background: #eff6ff; border: 1.5px solid #93c5fd; padding: 0.5rem 0.8rem; border-radius: 8px; flex: 1; word-break: break-all;">${escapeHtml(displayRegisteredEmail)}</code>
+                <button type="button" class="btn-copy" style="background: #2563eb; color: #ffffff; font-weight: 700;" onclick="copyToClipboard('${escapeHtml(displayRegisteredEmail)}', this)">Copiar Correo</button>
+              </div>
+            </div>
+
+            <div style="margin-top: 0.85rem; padding: 0.75rem 0.95rem; background: #f8fafc; border-radius: 10px; border-left: 4px solid #2563eb; font-size: 0.86rem; color: #1e293b; line-height: 1.5;">
+              <strong style="color: #1e3a8a;">Información de tu Contraseña:</strong><br/>
+              Tu contraseña de acceso es la que tú definiste al registrarte en Richmond Studio (<strong>no se modificó tu contraseña</strong>).
+            </div>
+          </div>
+
+          <div class="resolved-action-bar">
+            <a href="https://www.richmondlp.com" target="_blank" rel="noopener noreferrer" class="btn-access-studio" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);" title="Ingresar a la plataforma Richmond Studio">
+              <span>Ingresar a mi portal Richmond Studio</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <p class="resolved-tip" style="color: #1e40af;">
+            Si no recuerdas la contraseña que definiste en tu registro, contáctanos por WhatsApp para apoyarte a restablecerla.
           </p>
         </div>
       ` : ''}
@@ -964,6 +1029,10 @@ function renderStatusCard(ticket) {
   `;
 
   // Arrancar temporizador
+  if (STATE.activeTimerInterval) {
+    clearInterval(STATE.activeTimerInterval);
+    STATE.activeTimerInterval = null;
+  }
   updateElapsedTimeDisplay(createdAt, resolvedAt, isResolved);
   if (!isResolved) {
     STATE.activeTimerInterval = setInterval(() => {
@@ -1025,12 +1094,19 @@ function updateElapsedTimeDisplay(createdAtMillis, resolvedAtMillis, isResolved)
   const el = document.getElementById('liveElapsedTimer');
   if (!el) return;
 
+  if (!createdAtMillis || isNaN(createdAtMillis)) {
+    el.textContent = '00m 00s';
+    return;
+  }
+
   const targetEnd = (isResolved && resolvedAtMillis) ? resolvedAtMillis : Date.now();
   const diffMs = Math.max(0, targetEnd - createdAtMillis);
 
-  const totalMinutes = Math.floor(diffMs / 60000);
+  const totalSeconds = Math.floor(diffMs / 1000);
+  const totalMinutes = Math.floor(totalSeconds / 60);
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
+  const seconds = totalSeconds % 60;
   const pad = (n) => String(n).padStart(2, '0');
 
   if (hours >= 24) {
@@ -1038,9 +1114,9 @@ function updateElapsedTimeDisplay(createdAtMillis, resolvedAtMillis, isResolved)
     const remHours = hours % 24;
     el.textContent = `${days}d ${pad(remHours)}h ${pad(minutes)}m`;
   } else if (hours > 0) {
-    el.textContent = `${hours}h ${pad(minutes)}m`;
+    el.textContent = `${hours}h ${pad(minutes)}m ${pad(seconds)}s`;
   } else {
-    el.textContent = `${minutes} min`;
+    el.textContent = `${pad(minutes)}m ${pad(seconds)}s`;
   }
 }
 

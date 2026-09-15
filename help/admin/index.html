@@ -609,6 +609,7 @@
           <thead>
             <tr>
               <th>Folio</th>
+              <th>Estatus</th>
               <th>Fecha</th>
               <th>Escuela</th>
               <th>Alumno</th>
@@ -616,7 +617,6 @@
               <th>Código Libro</th>
               <th>Asesor</th>
               <th>Elapsed Time</th>
-              <th>Estatus</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -773,6 +773,22 @@
           </div>
           <p style="font-size: 0.72rem; color: #7e22ce; margin-top: 0.35rem; margin-bottom: 0;">
             El alumno la verá destacada en grande en su pantalla con un botón directo a Richmond Studio.
+          </p>
+        </div>
+
+        <!-- Campo para Correo Diferente (Visible cuando se selecciona Correo Diferente, quita el de contraseña) -->
+        <div id="modalDiffEmailGroup" style="display: none; background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 12px; padding: 0.85rem 1rem; margin-bottom: 0.9rem;">
+          <label class="form-label" for="modalAssignedEmail" style="color: #1d4ed8; font-weight: 800; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem;">
+            Correo registrado en Richmond Studio con el que debe ingresar el alumno:
+          </label>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <input type="email" class="input-text" id="modalAssignedEmail" oninput="updateDiffEmailNote()" placeholder="pega.aqui.el.correo@registrado.com" style="font-family: monospace; font-weight: 800; font-size: 1rem; background: #ffffff; color: #1d4ed8;" />
+            <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem; font-weight: 700;" onclick="pasteTicketEmailIntoAssigned()">
+              Pegar del Ticket
+            </button>
+          </div>
+          <p style="font-size: 0.74rem; color: #2563eb; margin-top: 0.35rem; margin-bottom: 0; line-height: 1.4;">
+            A estos alumnos NO se les cambió la contraseña (la contraseña es la que puso en su registro). Este correo se le mostrará destacado en grande en su pantalla con un botón directo a Richmond Studio.
           </p>
         </div>
 
@@ -1041,9 +1057,16 @@
         let badgeClass = isResolved ? 'resolved' : 'pending';
         let badgeLabel = isResolved ? 'Resuelto' : 'En Espera';
 
-        const createdAt = t.createdAtMillis || (t.createdAt?.toDate ? t.createdAt.toDate().getTime() : Date.now());
+        let ticketCreated = t.createdAtMillis;
+        if (!ticketCreated && t.createdAt) {
+          if (typeof t.createdAt.toDate === 'function') ticketCreated = t.createdAt.toDate().getTime();
+          else if (t.createdAt.seconds) ticketCreated = t.createdAt.seconds * 1000;
+          else if (typeof t.createdAt === 'number') ticketCreated = t.createdAt;
+        }
+        if (!ticketCreated) ticketCreated = Date.now();
+
         const resolvedAt = t.resolvedAtMillis || null;
-        const elapsedFormatted = calculateElapsedString(createdAt, resolvedAt, isResolved);
+        const elapsedFormatted = calculateElapsedString(ticketCreated, resolvedAt, isResolved);
 
         return `
           <tr data-ticket-id="${t.id || t.folio}">
@@ -1052,6 +1075,11 @@
                 <span>${escapeHtml(t.folio)}</span>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
               </button>
+            </td>
+            <td style="white-space: nowrap;">
+              <span class="status-badge ${badgeClass}" style="font-size: 0.76rem; padding: 0.25rem 0.65rem; font-weight: 800; display: inline-flex; align-items: center; gap: 0.3rem;">
+                ${badgeLabel}
+              </span>
             </td>
             <td style="white-space: nowrap; font-size: 0.78rem; color: var(--text-muted);">${t.createdAtDateStr || 'Reciente'}</td>
             <td><strong>${escapeHtml(t.school)}</strong></td>
@@ -1075,10 +1103,9 @@
               </code>
             </td>
             <td style="color: var(--primary); font-weight: 700; white-space: nowrap;">${escapeHtml(t.assignedAdvisor || 'Alberto Yépiz')}</td>
-            <td class="table-elapsed-cell" data-created="${createdAt}" data-resolved="${resolvedAt || ''}" data-status="${t.status}" style="font-family: monospace; font-weight: 800; white-space: nowrap; color: ${isResolved ? '#15803d' : '#0f172a'};">
+            <td class="table-elapsed-cell" data-created="${ticketCreated}" data-resolved="${resolvedAt || ''}" data-status="${t.status}" style="font-family: monospace; font-weight: 800; white-space: nowrap; color: ${isResolved ? '#15803d' : '#0f172a'};">
               ${elapsedFormatted}
             </td>
-            <td><span class="status-badge ${badgeClass}" style="font-size: 0.72rem; padding: 0.2rem 0.6rem;">${badgeLabel}</span></td>
             <td style="white-space: nowrap;">
               ${isResolved ? `
                 <button type="button" class="btn-table-action resolved" onclick="openDetailModal('${t.folio}')">
@@ -1104,17 +1131,21 @@
         const status = c.dataset.status;
         if (status === 'Resuelto') return; // Ya está congelado
         const created = parseInt(c.dataset.created, 10);
+        if (!created || isNaN(created)) return;
         c.textContent = calculateElapsedString(created, null, false);
       });
     }
 
     function calculateElapsedString(startMs, endMs, isResolved) {
+      if (!startMs || isNaN(startMs)) return '00m 00s';
       const target = (isResolved && endMs) ? endMs : Date.now();
       const diffMs = Math.max(0, target - startMs);
 
-      const totalMinutes = Math.floor(diffMs / 60000);
+      const totalSeconds = Math.floor(diffMs / 1000);
+      const totalMinutes = Math.floor(totalSeconds / 60);
       const hours = Math.floor(totalMinutes / 60);
       const minutes = totalMinutes % 60;
+      const seconds = totalSeconds % 60;
       const pad = (n) => String(n).padStart(2, '0');
 
       if (hours >= 24) {
@@ -1122,9 +1153,9 @@
         const remH = hours % 24;
         return `${days}d ${pad(remH)}h ${pad(minutes)}m`;
       } else if (hours > 0) {
-        return `${hours}h ${pad(minutes)}m`;
+        return `${hours}h ${pad(minutes)}m ${pad(seconds)}s`;
       } else {
-        return `${minutes} min`;
+        return `${pad(minutes)}m ${pad(seconds)}s`;
       }
     }
 
@@ -1246,9 +1277,29 @@
       if (bkText) bkText.textContent = ticket.bookCode;
       else document.getElementById('modalBookCode').textContent = ticket.bookCode;
 
-      const createdAt = ticket.createdAtMillis || Date.now();
+      if (window.modalTimerInterval) {
+        clearInterval(window.modalTimerInterval);
+        window.modalTimerInterval = null;
+      }
+
+      let ticketCreated = ticket.createdAtMillis;
+      if (!ticketCreated && ticket.createdAt) {
+        if (typeof ticket.createdAt.toDate === 'function') ticketCreated = ticket.createdAt.toDate().getTime();
+        else if (ticket.createdAt.seconds) ticketCreated = ticket.createdAt.seconds * 1000;
+        else if (typeof ticket.createdAt === 'number') ticketCreated = ticket.createdAt;
+      }
+      if (!ticketCreated) ticketCreated = Date.now();
+
       const resolvedAt = ticket.resolvedAtMillis || null;
-      document.getElementById('modalElapsed').textContent = calculateElapsedString(createdAt, resolvedAt, ticket.status === 'Resuelto');
+      const isResolved = ticket.status === 'Resuelto';
+      document.getElementById('modalElapsed').textContent = calculateElapsedString(ticketCreated, resolvedAt, isResolved);
+
+      if (!isResolved) {
+        window.modalTimerInterval = setInterval(() => {
+          const el = document.getElementById('modalElapsed');
+          if (el) el.textContent = calculateElapsedString(ticketCreated, null, false);
+        }, 1000);
+      }
 
       const notesWrap = document.getElementById('modalNotesWrap');
       if (ticket.notes) {
@@ -1265,12 +1316,17 @@
       
       const passGroup = document.getElementById('modalPasswordGroup');
       const passInput = document.getElementById('modalAssignedPassword');
+      const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
+      const diffEmailInput = document.getElementById('modalAssignedEmail');
       const hasPass = Boolean(ticket.assignedPassword);
+      const noteLower = (ticket.solutionNote || '').toLowerCase();
+      const hasDiffEmail = Boolean(ticket.assignedCorrectEmail) || (currentStatus === 'Resuelto' && noteLower.includes('correo diferente') && !hasPass);
+
       if (passInput) {
         passInput.value = ticket.assignedPassword || '';
       }
-      if (passGroup) {
-        passGroup.style.display = (currentStatus === 'Resuelto' && hasPass) ? 'block' : 'none';
+      if (diffEmailInput) {
+        diffEmailInput.value = ticket.assignedCorrectEmail || '';
       }
 
       // Limpiar resaltado de tarjetas rápidas
@@ -1279,18 +1335,36 @@
         if (el) el.style.boxShadow = 'none';
       });
 
+      if (hasDiffEmail) {
+        if (diffEmailGroup) diffEmailGroup.style.display = 'block';
+        if (passGroup) passGroup.style.display = 'none';
+        if (passInput) passInput.value = '';
+        const c = document.getElementById('cardPresetDiffEmail');
+        if (c) c.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.45)';
+      } else if (currentStatus === 'Resuelto' && hasPass) {
+        if (diffEmailGroup) diffEmailGroup.style.display = 'none';
+        if (passGroup) passGroup.style.display = 'block';
+        const c = document.getElementById('cardPresetPass');
+        if (c) c.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.45)';
+      } else {
+        if (diffEmailGroup) diffEmailGroup.style.display = 'none';
+        if (passGroup) passGroup.style.display = 'none';
+        if (noteLower.includes('no se encontró') || noteLower.includes('no se encontro')) {
+          const c = document.getElementById('cardPresetNoUser');
+          if (c) c.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.45)';
+        }
+      }
+
       document.getElementById('detailModal').classList.add('active');
     };
 
     window.handleModalStatusChange = function() {
       const status = document.getElementById('modalStatusSelect').value;
       const passGroup = document.getElementById('modalPasswordGroup');
-      const passInput = document.getElementById('modalAssignedPassword');
-      if (passGroup) {
-        passGroup.style.display = (status === 'Resuelto') ? 'block' : 'none';
-      }
-      if (status === 'Resuelto' && passInput && !passInput.value.trim()) {
-        passInput.value = 'Mexico26*';
+      const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
+      if (status !== 'Resuelto') {
+        if (passGroup) passGroup.style.display = 'none';
+        if (diffEmailGroup) diffEmailGroup.style.display = 'none';
       }
     };
 
@@ -1299,6 +1373,8 @@
       const statusSelect = document.getElementById('modalStatusSelect');
       const passGroup = document.getElementById('modalPasswordGroup');
       const passInput = document.getElementById('modalAssignedPassword');
+      const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
+      const diffEmailInput = document.getElementById('modalAssignedEmail');
 
       // Resaltar visualmente la tarjeta activa
       ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail'].forEach(id => {
@@ -1312,6 +1388,8 @@
         statusSelect.value = 'Resuelto';
         if (passGroup) passGroup.style.display = 'block';
         if (passInput) passInput.value = 'Mexico26*';
+        if (diffEmailGroup) diffEmailGroup.style.display = 'none';
+        if (diffEmailInput) diffEmailInput.value = '';
         noteEl.value = 'Se restableció tu contraseña a: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio con tu correo registrado y esta clave.';
       } else if (actionType === 'no_user') {
         const c = document.getElementById('cardPresetNoUser');
@@ -1319,15 +1397,51 @@
         statusSelect.value = 'Resuelto';
         if (passInput) passInput.value = '';
         if (passGroup) passGroup.style.display = 'none';
+        if (diffEmailGroup) diffEmailGroup.style.display = 'none';
+        if (diffEmailInput) diffEmailInput.value = '';
         noteEl.value = 'No se encontró ningún usuario con tus datos en el sistema. Favor de registrarte en la plataforma con tu código. Si el sistema te indica que tu código es inválido, envíanos foto clara de tu código de libro por WhatsApp para la asignación de un código nuevo de repuesto.';
       } else if (actionType === 'diff_email') {
         const c = document.getElementById('cardPresetDiffEmail');
         if (c) c.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.45)';
         statusSelect.value = 'Resuelto';
-        if (passGroup) passGroup.style.display = 'block';
-        if (passInput && !passInput.value.trim()) passInput.value = 'Mexico26*';
-        const detectedEmail = (currentEditingTicket?.email || '').trim();
-        noteEl.value = `Te diste de alta con un correo diferente en la plataforma. Tu usuario de acceso es tu correo tal cual lo registraste (aunque contenga algún error tipográfico). Intenta entrar con tu correo que es este: ${detectedEmail || '[PEGA AQUÍ EL CORREO DETECTADO]'} y la clave provisional Mexico26*. Si persiste el error, contáctanos por WhatsApp.`;
+
+        // 1. QUITAR EL CAMPO DE CONTRASEÑA (porque la contraseña es la que puso en su registro)
+        if (passGroup) passGroup.style.display = 'none';
+        if (passInput) passInput.value = '';
+
+        // 2. ABRIR EL CAMPO DE CORREO DIFERENTE
+        if (diffEmailGroup) diffEmailGroup.style.display = 'block';
+
+        // Pre-cargar con el correo del ticket o altEmail si está vacío
+        if (diffEmailInput) {
+          if (!diffEmailInput.value.trim() && currentEditingTicket) {
+            diffEmailInput.value = currentEditingTicket.assignedCorrectEmail || currentEditingTicket.altEmail || currentEditingTicket.email || '';
+          }
+          diffEmailInput.focus();
+          diffEmailInput.select();
+        }
+
+        updateDiffEmailNote();
+      }
+    };
+
+    window.updateDiffEmailNote = function() {
+      const diffEmailInput = document.getElementById('modalAssignedEmail');
+      const noteEl = document.getElementById('modalSolutionNote');
+      const emailVal = diffEmailInput ? diffEmailInput.value.trim() : '';
+      const emailTarget = emailVal || '[PEGA AQUÍ EL CORREO DETECTADO]';
+      if (noteEl) {
+        noteEl.value = `Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura). Intenta ingresar con tu correo registrado: ${emailTarget} y la contraseña que definiste en tu registro (no se modificó tu contraseña). Si no recuerdas tu contraseña, contáctanos por WhatsApp.`;
+      }
+    };
+
+    window.pasteTicketEmailIntoAssigned = function() {
+      if (!currentEditingTicket) return;
+      const diffEmailInput = document.getElementById('modalAssignedEmail');
+      if (diffEmailInput) {
+        diffEmailInput.value = currentEditingTicket.altEmail || currentEditingTicket.email || '';
+        updateDiffEmailNote();
+        showAdminToast('Correo del ticket insertado en el campo');
       }
     };
 
@@ -1336,15 +1450,21 @@
       const ticket = currentEditingTicket;
       const currentNote = document.getElementById('modalSolutionNote')?.value.trim() || ticket.solutionNote || '';
       const currentPass = document.getElementById('modalAssignedPassword')?.value.trim() || ticket.assignedPassword || '';
+      const currentDiffEmail = document.getElementById('modalAssignedEmail')?.value.trim() || ticket.assignedCorrectEmail || '';
+      const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
+      const isDiffEmail = (diffEmailGroup && diffEmailGroup.style.display !== 'none' && currentDiffEmail) || Boolean(currentDiffEmail);
       const currentStatus = document.getElementById('modalStatusSelect')?.value || ticket.status || 'Resuelto';
 
       let msg = `Hola ${ticket.fullName}, te contacto de Richmond Pro respecto a tu solicitud de soporte ${ticket.folio} (${ticket.school}).\n\n`;
-      msg += `Estatus: ${currentStatus}\n`;
+      msg += `Estatus: ${currentStatus}\n\n`;
 
       if (currentNote) {
         msg += `Resolución:\n${currentNote}\n\n`;
       }
-      if (currentPass && currentStatus === 'Resuelto') {
+      if (isDiffEmail && currentStatus === 'Resuelto') {
+        msg += `Correo registrado para ingresar: ${currentDiffEmail}\n`;
+        msg += `Contraseña: La que tú definiste al registrarte en Richmond Studio (no se modificó tu contraseña).\n\n`;
+      } else if (currentPass && currentStatus === 'Resuelto') {
         msg += `Contraseña asignada: ${currentPass}\n\n`;
       }
       msg += `Puedes revisar el detalle oficial de tu ticket en el enlace directo del sistema:\nhttps://yepzhi.com/help/?folio=${ticket.folio}`;
@@ -1353,6 +1473,10 @@
     };
 
     window.closeDetailModal = function() {
+      if (window.modalTimerInterval) {
+        clearInterval(window.modalTimerInterval);
+        window.modalTimerInterval = null;
+      }
       document.getElementById('detailModal').classList.remove('active');
       currentEditingTicket = null;
     };
@@ -1404,20 +1528,34 @@
       const newSolutionNote = document.getElementById('modalSolutionNote').value.trim();
       const passGroup = document.getElementById('modalPasswordGroup');
       const passInput = document.getElementById('modalAssignedPassword');
+      const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
+      const diffEmailInput = document.getElementById('modalAssignedEmail');
+
       const isPassVisible = passGroup && passGroup.style.display !== 'none';
+      const isDiffEmailVisible = diffEmailGroup && diffEmailGroup.style.display !== 'none';
       const noteLower = newSolutionNote.toLowerCase();
       const isNoUser = noteLower.includes('no se encontró') || noteLower.includes('no se encontro') || noteLower.includes('ningún usuario') || noteLower.includes('ningun usuario');
 
-      // Solo asignar contraseña si es Resuelto, el panel de clave está visible, NO es caso de "no se encontró usuario" y el input no está vacío
       let assignedPass = '';
-      if (newStatus === 'Resuelto' && isPassVisible && !isNoUser && passInput) {
-        assignedPass = passInput.value.trim();
+      let assignedCorrectEmail = '';
+
+      if (newStatus === 'Resuelto') {
+        if (isDiffEmailVisible) {
+          // Opcion Correo Diferente: la contraseña es la que puso en su registro (NO se cambia contraseña)
+          assignedPass = '';
+          assignedCorrectEmail = diffEmailInput ? diffEmailInput.value.trim() : '';
+        } else if (isPassVisible && !isNoUser && passInput) {
+          assignedPass = passInput.value.trim();
+          assignedCorrectEmail = '';
+        } else {
+          assignedPass = '';
+          assignedCorrectEmail = '';
+        }
       }
 
       const wasResolved = currentEditingTicket.status === 'Resuelto';
       let resolvedAtMillis = currentEditingTicket.resolvedAtMillis;
 
-      // Si recién pasa a Resuelto, estampar resolvedAt
       if (newStatus === 'Resuelto' && !wasResolved) {
         resolvedAtMillis = Date.now();
       } else if (newStatus !== 'Resuelto') {
@@ -1442,6 +1580,7 @@
         assignedAdvisor: newAdvisor,
         advisorWA: newAdvisorWA,
         assignedPassword: assignedPass,
+        assignedCorrectEmail: assignedCorrectEmail,
         solutionNote: newSolutionNote,
         resolvedAtMillis: resolvedAtMillis
       };
