@@ -781,19 +781,29 @@ function renderStatusCard(ticket) {
   const assignedPassword = (ticket.assignedPassword || '').trim();
   const assignedCorrectEmail = (ticket.assignedCorrectEmail || '').trim();
   const noteText = (ticket.solutionNote || '').toLowerCase();
-  const isNoUserFound = noteText.includes('no se encontró') || 
-                        noteText.includes('no se encontro') || 
-                        noteText.includes('ningún usuario') || 
-                        noteText.includes('ningun usuario');
 
-  const isDiffEmail = isResolved && !isNoUserFound && (
+  const isDiffEmail = isResolved && (
     assignedCorrectEmail.length > 0 || 
     noteText.includes('correo diferente') || 
-    noteText.includes('diste de alta con un correo')
+    noteText.includes('diste de alta con un correo') ||
+    noteText.includes('correo registrado')
+  );
+
+  const isNoUserFound = isResolved && !isDiffEmail && (
+    noteText.includes('no se encontró') || 
+    noteText.includes('no se encontro') || 
+    noteText.includes('ningún usuario') || 
+    noteText.includes('ningun usuario')
   );
 
   const hasPasswordAssigned = isResolved && assignedPassword.length > 0 && !isNoUserFound && !isDiffEmail;
-  const displayRegisteredEmail = assignedCorrectEmail || (ticket.altEmail || ticket.email || '').trim();
+  
+  let displayRegisteredEmail = assignedCorrectEmail;
+  if (!displayRegisteredEmail) {
+    const match = (ticket.solutionNote || '').match(/([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/);
+    if (match) displayRegisteredEmail = match[1];
+    else displayRegisteredEmail = (ticket.altEmail || ticket.email || '').trim();
+  }
 
   container.innerHTML = `
     <div class="status-card">
@@ -868,7 +878,7 @@ function renderStatusCard(ticket) {
             </span>
             <div>
               <h4 class="resolved-hero-title" style="color: #1e3a8a;">¡Tu cuenta fue localizada en Richmond Studio!</h4>
-              <p class="resolved-hero-subtitle" style="color: #1d4ed8;">Te diste de alta con un correo diferente en la plataforma. Tu usuario de acceso es tu correo tal cual lo registraste (aunque contenga algún error tipográfico):</p>
+              <p class="resolved-hero-subtitle" style="color: #1d4ed8;">Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura):</p>
             </div>
           </div>
 
@@ -878,19 +888,19 @@ function renderStatusCard(ticket) {
                 Correo registrado en Richmond Studio:
               </span>
               <div class="cred-val-wrap" style="width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;">
-                <code class="cred-val highlight" id="credDiffEmailText" style="font-size: 1.1rem; color: #1e40af; background: #eff6ff; border: 1.5px solid #93c5fd; padding: 0.5rem 0.8rem; border-radius: 8px; flex: 1; word-break: break-all;">${escapeHtml(displayRegisteredEmail)}</code>
-                <button type="button" class="btn-copy" style="background: #2563eb; color: #ffffff; font-weight: 700;" onclick="copyToClipboard('${escapeHtml(displayRegisteredEmail)}', this)">Copiar Correo</button>
+                <span class="cred-val highlight" id="credDiffEmailText" style="font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 800; color: #1e40af; background: #eff6ff; border: 2px solid #60a5fa; padding: 0.65rem 0.95rem; border-radius: 10px; flex: 1; word-break: break-all; letter-spacing: 0;">${escapeHtml(displayRegisteredEmail)}</span>
+                <button type="button" class="btn-copy" style="background: #2563eb; color: #ffffff; font-weight: 700; padding: 0.65rem 1.1rem;" onclick="copyToClipboard('${escapeHtml(displayRegisteredEmail)}', this)">Copiar Correo</button>
               </div>
             </div>
 
             <div style="margin-top: 0.85rem; padding: 0.75rem 0.95rem; background: #f8fafc; border-radius: 10px; border-left: 4px solid #2563eb; font-size: 0.86rem; color: #1e293b; line-height: 1.5;">
               <strong style="color: #1e3a8a;">Información de tu Contraseña:</strong><br/>
-              Tu contraseña de acceso es la que tú pusiste en tu registro original (<strong>no es Mexico26*, no se modificó tu contraseña</strong>).
+              A estos alumnos <strong>NO se les cambió la contraseña</strong> (tu contraseña de acceso es la que definiste en tu registro original, no se modificó tu contraseña).
             </div>
           </div>
 
           <div class="resolved-action-bar">
-            <a href="https://www.richmondlp.com" target="_blank" rel="noopener noreferrer" class="btn-access-studio" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);" title="Ingresar a la plataforma Richmond Studio">
+            <a href="https://www.richmondlp.com" target="_blank" rel="noopener noreferrer" class="btn-access-studio" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); font-size: 0.95rem; font-weight: 800; padding: 0.85rem 1.4rem; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);" title="Ingresar a la plataforma Richmond Studio">
               <span>Ingresar a mi portal Richmond Studio</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <line x1="5" y1="12" x2="19" y2="12"></line>

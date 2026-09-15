@@ -6,7 +6,7 @@
   <title>Richmond Pro · Panel de Asesores & SLA</title>
   <meta name="color-scheme" content="light">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../style.css?v=2.2.0" />
+  <link rel="stylesheet" href="../style.css?v=2.3.0" />
   <style>
     /* Admin specific styling */
     /* Admin specific styling - Clean Light Theme */
@@ -655,7 +655,7 @@
           <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); font-weight: 800; font-family: 'Outfit', sans-serif;">Gestión de Solicitud</span>
           <h2 id="modalFolio" style="font-size: 1.55rem; font-weight: 900; color: var(--text-main); font-family: monospace;">HELP-00000</h2>
         </div>
-        <button type="button" class="btn-action btn-modal-close" onclick="closeDetailModal()">
+        <button type="button" class="btn-action btn-modal-close" style="background: #dc2626 !important; border-color: #b91c1c !important; color: #ffffff !important;" onclick="closeDetailModal()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           Cerrar
         </button>
@@ -826,7 +826,7 @@
             Correo registrado en Richmond Studio con el que debe ingresar el alumno:
           </label>
           <div style="display: flex; gap: 0.5rem; align-items: center;">
-            <input type="email" class="input-text" id="modalAssignedEmail" oninput="updateDiffEmailNote()" placeholder="pega.aqui.el.correo@registrado.com" style="font-family: monospace; font-weight: 800; font-size: 1rem; background: #ffffff; color: #1d4ed8;" />
+            <input type="email" class="input-text" id="modalAssignedEmail" oninput="updateDiffEmailNote()" placeholder="pega.aqui.el.correo@registrado.com" style="font-family: 'Outfit', -apple-system, sans-serif !important; font-weight: 700; font-size: 1.05rem; background: #ffffff; color: #1d4ed8; letter-spacing: 0 !important; word-spacing: normal !important;" />
             <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem; font-weight: 700;" onclick="pasteTicketEmailIntoAssigned()">
               Pegar del Ticket
             </button>
@@ -1542,11 +1542,16 @@
 
     window.updateDiffEmailNote = function() {
       const diffEmailInput = document.getElementById('modalAssignedEmail');
+      if (diffEmailInput) {
+        diffEmailInput.style.fontFamily = "'Outfit', -apple-system, sans-serif";
+        diffEmailInput.style.letterSpacing = "0";
+        diffEmailInput.style.wordSpacing = "normal";
+      }
       const noteEl = document.getElementById('modalSolutionNote');
       const emailVal = diffEmailInput ? diffEmailInput.value.trim() : '';
-      const emailTarget = emailVal || (currentEditingTicket?.altEmail || currentEditingTicket?.email || '[PEGA AQUÍ EL CORREO DETECTADO]');
+      const emailTarget = emailVal || currentEditingTicket?.altEmail || currentEditingTicket?.email || '[CORREO REGISTRADO]';
       if (noteEl) {
-        noteEl.value = `Te diste de alta con un correo diferente en la plataforma. Tu usuario de acceso es tu correo tal cual lo registraste (aunque contenga algún error tipográfico). Intenta entrar con tu correo que es este: ${emailTarget} y la contraseña que tú pusiste en tu registro original (no se modificó tu contraseña). Si persiste el error, contáctanos por WhatsApp.`;
+        noteEl.value = `Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura). Intenta ingresar con tu correo registrado: ${emailTarget} y la contraseña que definiste en tu registro (no se modificó tu contraseña). Si no recuerdas tu contraseña, contáctanos por WhatsApp.`;
       }
     };
 
