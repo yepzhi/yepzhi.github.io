@@ -879,7 +879,7 @@ function renderStatusCard(ticket) {
           </div>
 
           <div class="resolved-action-bar">
-            <a href="https://www.richmondlp.com" target="_blank" rel="noopener noreferrer" class="btn-access-studio" title="Ingresar a la plataforma Richmond Studio">
+            <a href="https://richmondstudio.global/login" target="_blank" rel="noopener noreferrer" class="btn-access-studio" title="Ingresar a la plataforma Richmond Studio">
               <span>Ingresar a mi portal Richmond Studio</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -932,7 +932,7 @@ function renderStatusCard(ticket) {
           </div>
 
           <div class="resolved-action-bar">
-            <a href="https://www.richmondlp.com" target="_blank" rel="noopener noreferrer" class="btn-access-studio" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); font-size: 0.95rem; font-weight: 800; padding: 0.85rem 1.4rem; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);" title="Ingresar a la plataforma Richmond Studio">
+            <a href="https://richmondstudio.global/login" target="_blank" rel="noopener noreferrer" class="btn-access-studio" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); font-size: 0.95rem; font-weight: 800; padding: 0.85rem 1.4rem; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);" title="Ingresar a la plataforma Richmond Studio">
               <span>Ingresar a mi portal Richmond Studio</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
