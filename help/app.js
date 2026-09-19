@@ -481,7 +481,7 @@ async function submitTicket() {
     'UPSIN': 'UPSIN - Univ. Politécnica de Sinaloa',
     'CETI COLOMOS': 'CETI Colomos - Centro de Enseñanza Técnica Industrial',
     'LAMAR': 'LAMAR - Univ. Guadalajara LAMAR',
-    'CAI': 'CAI - Coordinación de Asuntos Internacionales',
+    'CAI': 'UAN, CAI - Universidad Autónoma de Nayarit (Coord. de Asuntos Internacionales)',
     'UTZIN': 'UTZIN - Universidad Tecnológica de Zinacantepec',
     'UPOTEC': 'UPOTEC - Universidad Politécnica de Otzolotepec',
     'UAEM ENFERMERIA': 'UAEM - Facultad de Enfermería',
