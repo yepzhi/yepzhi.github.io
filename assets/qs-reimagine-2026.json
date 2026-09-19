@@ -1,0 +1,49 @@
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://purl.imsglobal.org/spec/ob/v3p0/context.json"
+  ],
+  "id": "https://www.credential.net/profile/albertoyepiz150339/wallet",
+  "type": [
+    "VerifiableCredential",
+    "OpenBadgeCredential"
+  ],
+  "name": "QS Reimagine Education 2026 Shortlisted",
+  "issuer": {
+    "id": "https://www.qs.com/?aad=BAhJIkF7InR5cGUiOiJpc3N1ZXIiLCJ1cmwiOiJodHRwczovL3d3dy5xcy5jb20vIiwiaWQiOjE5NDQ5Njk2M30GOgZFVA%3D%3D--cc3ed1213378819ee00717a571dee18215e6c7f6",
+    "type": "Profile",
+    "name": "QS Quacquarelli Symonds",
+    "url": "https://www.qs.com/"
+  },
+  "issuanceDate": "2026-09-18T00:00:00Z",
+  "credentialSubject": {
+    "id": "https://www.credential.net/profile/albertoyepiz150339/wallet",
+    "type": "AchievementSubject",
+    "name": "Alberto Yépiz",
+    "achievement": {
+      "id": "https://www.credential.net/profile/albertoyepiz150339/wallet",
+      "type": "Achievement",
+      "name": "QS Reimagine Education 2026 Shortlisted",
+      "description": "This project has achieved world-class recognition in educational innovation, being selected as one of the top applications from a pool of 2,226 submissions in the QS Reimagine Education Awards 2026. This shortlisted application demonstrated exceptional innovation, impact, and scalability, successfully progressing through four rigorous evaluation rounds conducted by a panel of 1634 international higher education and edtech experts.",
+      "criteria": {
+        "narrative": "Learning Design Excellence Award - Rigorous 4-round evaluation by 1,634 international experts."
+      },
+      "image": {
+        "id": "https://jovenesstem.com/assets/qs-reimagine-2026.png",
+        "type": "Image"
+      }
+    }
+  },
+  "evidence": [
+    {
+      "id": "https://jovenesstem.com/",
+      "type": "Evidence",
+      "narrative": "Official website of JovenesSTEM Web AI Platform, the project shortlisted for the Learning Design Excellence Award at the 2026 QS Reimagine Education Awards."
+    },
+    {
+      "id": "https://s3.us-east-1.amazonaws.com/accredible_api_evidence_items/files/2729520/original/17897487909951315382933704006642.png",
+      "type": "Evidence",
+      "narrative": "Screenshot of the official JovenesSTEM Web AI Platform homepage."
+    }
+  ]
+}
