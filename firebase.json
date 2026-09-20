@@ -85,6 +85,15 @@
       {
         "source": "/personal-best/**",
         "destination": "/PB2/**"
+      },
+      {
+        "source": "/jobs",
+        "destination": "/jobs/index.html",
+        "type": 301
+      },
+      {
+        "source": "/jobs/**",
+        "destination": "/jobs/**"
       }
     ]
   }

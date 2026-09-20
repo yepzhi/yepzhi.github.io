@@ -8,5 +8,7 @@
 /PB2.0/* /PB2/:splat 301
 /pb2.0 /PB2/index.html 301
 /pb2.0/* /PB2/:splat 301
+/jobs /jobs/index.html 200
+/jobs/* /jobs/:splat 200
 /personal-best /PB2/index.html 301
 /personal-best/* /PB2/:splat 301

@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobSync — Asistente Inteligente de Búsqueda Laboral | yepzhi.com</title>
+  <meta name="description" content="JobSync: Rastreador de postulaciones de empleo, gestor de CVs, evaluación de compatibilidad con IA (ATS Matching), cartas de presentación y preparación de entrevistas. Integrado en el ecosistema yepzhi.com.">
+  <meta name="author" content="Alberto Yépiz">
+  <meta name="robots" content="index, follow">
+
+  <!-- Favicon & Icons -->
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg?v=3">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png?v=3">
+
+  <!-- Typography matching yepzhi.com -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css?v=1.0">
+</head>
+<body>
+
+  <!-- Ambient Glow Background -->
+  <div class="ambient-glow bg-glow-1"></div>
+  <div class="ambient-glow bg-glow-2"></div>
+  <div class="ambient-glow bg-glow-3"></div>
+
+  <!-- Header Navigation -->
+  <header class="app-header">
+    <div class="header-left">
+      <a href="https://yepzhi.com" class="brand-back" title="Volver a yepzhi.com">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <span>yepzhi.com</span>
+      </a>
+      <div class="brand-divider"></div>
+      <div class="brand-title-wrap">
+        <div class="brand-badge">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          <span>JobSync</span>
+        </div>
+        <span class="brand-tagline">AI Career Hub</span>
+      </div>
+    </div>
+
+    <!-- Desktop Navigation Tabs -->
+    <nav class="nav-tabs" id="navTabs">
+      <button class="nav-tab active" data-view="dashboard">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-tab" data-view="applications">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="m9 14 2 2 4-4"/></svg>
+        <span>Postulaciones</span>
+        <span class="nav-counter" id="navAppCount">0</span>
+      </button>
+      <button class="nav-tab" data-view="resumes">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
+        <span>CVs & Perfil</span>
+      </button>
+      <button class="nav-tab" data-view="match">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6Z"/></svg>
+        <span>Match IA & ATS</span>
+      </button>
+      <button class="nav-tab" data-view="coverletter">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        <span>Carta Presentación</span>
+      </button>
+      <button class="nav-tab" data-view="interviews">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>Entrevistas STAR</span>
+      </button>
+      <button class="nav-tab" data-view="companies">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v8h4"/><path d="M18 9h2a2 2 0 0 1 2 2v11h-4"/></svg>
+        <span>Empresas & Red</span>
+      </button>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <button class="btn btn-primary" onclick="openJobModal()" title="Agregar nueva postulación">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+        <span class="btn-text">Nueva Vacante</span>
+      </button>
+      <button class="btn btn-ai-toggle" id="aiDrawerToggleBtn" onclick="toggleAiDrawer()" title="Abrir Asistente IA">
+        <span class="ai-pulse-dot"></span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        <span>Asistente IA</span>
+      </button>
+      <button class="btn btn-icon" onclick="openSettingsModal()" title="Configuración y Respaldo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-content" id="mainContent">
+
+    <!-- ======================================================== -->
+    <!-- VIEW 1: DASHBOARD -->
+    <!-- ======================================================== -->
+    <section class="view-panel active" id="view-dashboard">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Panel de Control & Progreso</h1>
+          <p class="view-subtitle">Métricas en tiempo real de tu búsqueda de empleo, entrevistas activas y compatibilidad de CV.</p>
+        </div>
+        <div class="view-actions">
+          <button class="btn btn-secondary" onclick="exportDataBackup()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            <span>Descargar Respaldo</span>
+          </button>
+          <button class="btn btn-primary" onclick="openJobModal()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+            <span>Registrar Postulación</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Metric Stat Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">Total Postulaciones</span>
+            <div class="stat-icon icon-blue">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+          </div>
+          <div class="stat-value" id="statTotalApps">0</div>
+          <div class="stat-desc"><span class="trend-up" id="statActiveApps">0</span> en proceso activo</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">En Entrevistas</span>
+            <div class="stat-icon icon-amber">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+          </div>
+          <div class="stat-value" id="statInterviewApps">0</div>
+          <div class="stat-desc">Fase final y técnica</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">Ofertas Recibidas</span>
+            <div class="stat-icon icon-emerald">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+            </div>
+          </div>
+          <div class="stat-value text-emerald" id="statOfferApps">0</div>
+          <div class="stat-desc">Propuestas económicas listas</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">Tasa de Respuesta</span>
+            <div class="stat-icon icon-purple">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            </div>
+          </div>
+          <div class="stat-value" id="statResponseRate">0%</div>
+          <div class="stat-desc">Ratio contacto / aplicación</div>
+        </div>
+      </div>
+
+      <!-- Dashboard Secondary Grid -->
+      <div class="dashboard-grid">
+        <!-- Pipeline Breakdown -->
+        <div class="card card-pipeline">
+          <div class="card-header">
+            <h2 class="card-title">Distribución del Pipeline</h2>
+            <button class="btn-link" onclick="switchView('applications')">Ver Tablero &rarr;</button>
+          </div>
+          <div class="pipeline-bars" id="pipelineBars">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Upcoming Interviews & Next Steps -->
+        <div class="card card-interviews-preview">
+          <div class="card-header">
+            <h2 class="card-title">Próximos Pasos & Entrevistas</h2>
+            <button class="btn-link" onclick="switchView('interviews')">Banco STAR &rarr;</button>
+          </div>
+          <div class="upcoming-list" id="upcomingList">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick AI Match Hero Banner -->
+      <div class="ai-hero-banner">
+        <div class="ai-hero-content">
+          <div class="ai-hero-badge">JobSync AI Assistant</div>
+          <h2 class="ai-hero-title">Optimiza tu CV para cualquier vacante en 5 segundos</h2>
+          <p class="ai-hero-desc">Pega una descripción de puesto y nuestro motor ATS extraerá palabras clave, calculará tu score de afinidad y redactará tu carta de presentación personalizada.</p>
+          <div class="ai-hero-actions">
+            <button class="btn btn-primary btn-glow" onclick="switchView('match')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6Z"/></svg>
+              <span>Escanear con Match IA</span>
+            </button>
+            <button class="btn btn-secondary" onclick="openPasteJobPrompt()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/></svg>
+              <span>Pegar vacante rápida</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 2: APPLICATIONS (KANBAN + TABLE) -->
+    <!-- ======================================================== -->
+    <section class="view-panel" id="view-applications">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Mis Postulaciones</h1>
+          <p class="view-subtitle">Gestiona y mueve tus procesos de selección a través del embudo de contratación.</p>
+        </div>
+        <div class="view-actions">
+          <!-- View switch buttons -->
+          <div class="toggle-group">
+            <button class="toggle-btn active" id="viewModeKanbanBtn" onclick="setAppViewMode('kanban')" title="Vista Tablero Kanban">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="6" height="18" x="3" y="3" rx="1"/><rect width="6" height="12" x="15" y="3" rx="1"/></svg>
+              <span>Kanban</span>
+            </button>
+            <button class="toggle-btn" id="viewModeTableBtn" onclick="setAppViewMode('table')" title="Vista Tabla Detallada">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
+              <span>Tabla</span>
+            </button>
+          </div>
+          <button class="btn btn-primary" onclick="openJobModal()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+            <span>Nueva Vacante</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filters & Search Toolbar -->
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/></svg>
+          <input type="text" id="appSearchInput" placeholder="Buscar por puesto, empresa o tecnología..." oninput="renderApplications()">
+        </div>
+        <div class="filter-wrap">
+          <select id="appStatusFilter" onchange="renderApplications()" class="select-control">
+            <option value="ALL">Todos los Estados</option>
+            <option value="WISHLIST">📌 Guardados</option>
+            <option value="APPLIED">📝 Postulados</option>
+            <option value="INTERVIEWING">🎯 En Entrevista</option>
+            <option value="OFFER">🏆 Oferta Recibida</option>
+            <option value="REJECTED">❌ Rechazados</option>
+          </select>
+          <select id="appPriorityFilter" onchange="renderApplications()" class="select-control">
+            <option value="ALL">Todas las Prioridades</option>
+            <option value="HIGH">🔥 Alta Prioridad</option>
+            <option value="MEDIUM">⚡ Media Prioridad</option>
+            <option value="LOW">🌱 Baja Prioridad</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- KANBAN CONTAINER -->
+      <div class="kanban-board" id="kanbanBoard">
+        <!-- Columns rendered dynamically -->
+      </div>
+
+      <!-- TABLE CONTAINER (Hidden by default) -->
+      <div class="table-container" id="tableContainer" style="display: none;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Puesto & Empresa</th>
+              <th>Estado</th>
+              <th>Ubicación</th>
+              <th>Salario Estimado</th>
+              <th>Match ATS</th>
+              <th>Fecha Aplicación</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="applicationsTableBody">
+            <!-- Rendered dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 3: RESUMES & PROFILE -->
+    <!-- ======================================================== -->
+    <section class="view-panel" id="view-resumes">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Gestor de Currículums & Perfiles</h1>
+          <p class="view-subtitle">Administra distintas versiones de tu CV adaptadas a perfiles técnicos, liderazgo o educación.</p>
+        </div>
+        <div class="view-actions">
+          <button class="btn btn-secondary" onclick="exportResumePDF()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
+            <span>Imprimir / Exportar PDF</span>
+          </button>
+          <button class="btn btn-primary" onclick="openResumeModal()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+            <span>Editar Perfil</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Resume Selector Pills -->
+      <div class="resume-tabs-bar" id="resumeTabsBar">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Resume ATS Paper Preview -->
+      <div class="resume-paper" id="resumePreview">
+        <!-- Dynamic resume content -->
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 4: MATCH IA & ATS SCORING -->
+    <!-- ======================================================== -->
+    <section class="view-panel" id="view-match">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Match IA & Calificación ATS</h1>
+          <p class="view-subtitle">Analiza la afinidad exacta entre tu currículum y la descripción de un puesto de trabajo.</p>
+        </div>
+        <div class="view-actions">
+          <button class="btn btn-secondary" onclick="openAIAssistantWithPrompt('Evalúa mi CV contra esta vacante y dime qué habilidades faltan')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+            <span>Analizar con Asistente</span>
+          </button>
+          <button class="btn btn-primary" onclick="generateCoverLetterFromMatch()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <span>Redactar Carta para este Puesto</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="match-grid">
+        <!-- Left: Inputs -->
+        <div class="match-col-inputs">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">1. Seleccionar o Pegar Vacante</h2>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="matchJobSelect">Vincular a Postulación Guardada</label>
+              <select id="matchJobSelect" class="select-control" onchange="onMatchJobSelectChange()">
+                <option value="">-- O escribe/pega un nuevo puesto abajo --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="matchJobTitle">Título del Puesto</label>
+              <input type="text" id="matchJobTitle" class="input-control" placeholder="ej. Senior Frontend Engineer / AI Tech Lead">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="matchJobDesc">Descripción Completa del Puesto (Job Description)</label>
+              <textarea id="matchJobDesc" class="textarea-control" rows="10" placeholder="Pega aquí los requisitos, responsabilidades y tecnologías de la vacante..."></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="matchResumeSelect">2. Seleccionar Currículum a Comparar</label>
+              <select id="matchResumeSelect" class="select-control" onchange="runAtsMatching()">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+            <button class="btn btn-primary btn-block btn-lg" onclick="runAtsMatching()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+              <span>Calcular Match & Brechas ATS</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Results -->
+        <div class="match-col-results">
+          <div class="card match-results-card" id="matchResultsCard">
+            <!-- Dynamic Match Results Screen -->
+            <div class="match-empty-state" id="matchEmptyState">
+              <div class="empty-icon">🎯</div>
+              <h3>Listo para evaluar</h3>
+              <p>Pega los requisitos de la vacante a la izquierda y presiona <strong>Calcular Match</strong> para obtener tu porcentaje de compatibilidad ATS, palabras clave faltantes y recomendaciones.</p>
+            </div>
+
+            <div class="match-content" id="matchContent" style="display:none;">
+              <div class="match-score-header">
+                <div class="gauge-wrap">
+                  <svg class="radial-gauge" viewBox="0 0 120 120">
+                    <circle class="gauge-bg" cx="60" cy="60" r="50"></circle>
+                    <circle class="gauge-fill" id="gaugeCircle" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="314"></circle>
+                  </svg>
+                  <div class="gauge-label">
+                    <span class="gauge-number" id="gaugeScore">0%</span>
+                    <span class="gauge-sub">Match ATS</span>
+                  </div>
+                </div>
+                <div class="match-verdict">
+                  <h3 class="verdict-title" id="matchVerdictTitle">Evaluando...</h3>
+                  <p class="verdict-desc" id="matchVerdictDesc">Calculando correlación semántica y palabras clave requeridas.</p>
+                </div>
+              </div>
+
+              <!-- Keyword pills -->
+              <div class="match-section">
+                <h4 class="section-badge badge-success">✓ Palabras Clave Coincidentes (<span id="matchedCount">0</span>)</h4>
+                <div class="keywords-wrap" id="matchedKeywordsWrap"></div>
+              </div>
+
+              <div class="match-section">
+                <h4 class="section-badge badge-danger">⚠ Palabras Clave Faltantes en tu CV (<span id="missingCount">0</span>)</h4>
+                <div class="keywords-wrap" id="missingKeywordsWrap"></div>
+              </div>
+
+              <div class="match-section">
+                <h4 class="section-badge badge-primary">💡 Recomendaciones Estratégicas ATS</h4>
+                <ul class="rec-list" id="matchRecList"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 5: COVER LETTER GENERATOR -->
+    <!-- ======================================================== -->
+    <section class="view-panel" id="view-coverletter">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Generador de Cartas de Presentación</h1>
+          <p class="view-subtitle">Redacta cartas profesionales personalizadas que enlacen tus logros con las necesidades del empleador.</p>
+        </div>
+        <div class="view-actions">
+          <button class="btn btn-secondary" onclick="copyCoverLetter()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            <span>Copiar al Portapapeles</span>
+          </button>
+          <button class="btn btn-primary" onclick="generateCoverLetterAI()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+            <span>Generar con IA</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="cover-grid">
+        <div class="cover-params card">
+          <div class="card-header">
+            <h2 class="card-title">Parámetros de la Carta</h2>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="clCompany">Nombre de la Empresa</label>
+            <input type="text" id="clCompany" class="input-control" placeholder="ej. Globant / Microsoft / JóvenesSTEM">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="clRole">Puesto al que Postulas</label>
+            <input type="text" id="clRole" class="input-control" placeholder="ej. Senior Full Stack & AI Architect">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="clRecruiter">Nombre del Reclutador / Contratante (Opcional)</label>
+            <input type="text" id="clRecruiter" class="input-control" placeholder="ej. Estimado Comité de Selección">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="clTone">Tono de la Carta</label>
+            <select id="clTone" class="select-control">
+              <option value="EXECUTIVE">👔 Ejecutivo & Riguroso (Liderazgo y Resultados)</option>
+              <option value="PASSIONATE">🚀 Moderno & Entusiasta (Startups y Tech)</option>
+              <option value="DIRECT">🎯 Conciso & Directo (Enfoque en métricas)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="clHighlights">Énfasis Especial / Logro Clave a Resaltar</label>
+            <textarea id="clHighlights" class="textarea-control" rows="3" placeholder="ej. Experiencia escalando plataformas a 50,000 usuarios y reduciendo latencia un 40%..."></textarea>
+          </div>
+          <button class="btn btn-primary btn-block" onclick="generateCoverLetterAI()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+            <span>Redactar Carta</span>
+          </button>
+        </div>
+
+        <div class="cover-preview card">
+          <div class="card-header">
+            <h2 class="card-title">Vista Previa & Edición</h2>
+            <div class="word-counter"><span id="clWordCount">0</span> palabras</div>
+          </div>
+          <textarea id="coverLetterOutput" class="cover-letter-paper" placeholder="Tu carta de presentación aparecerá aquí. Podrás editarla libremente antes de copiarla o enviarla."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 6: INTERVIEW QUESTION BANK (STAR) -->
+    <!-- ======================================================== -->
+    <section class="view-panel" id="view-interviews">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Banco de Entrevistas & Respuestas STAR</h1>
+          <p class="view-subtitle">Domina preguntas conductuales, de arquitectura técnica y de liderazgo con la metodología STAR (Situación, Tarea, Acción, Resultado).</p>
+        </div>
+        <div class="view-actions">
+          <button class="btn btn-primary" onclick="openNewQuestionModal()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+            <span>Nueva Pregunta</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Categories Filter -->
+      <div class="category-pills" id="interviewCategories">
+        <button class="cat-pill active" onclick="filterQuestions('ALL')">Todas (12)</button>
+        <button class="cat-pill" onclick="filterQuestions('BEHAVIORAL')">💡 Conductuales (STAR)</button>
+        <button class="cat-pill" onclick="filterQuestions('TECHNICAL')">💻 Técnicas & Arquitectura</button>
+        <button class="cat-pill" onclick="filterQuestions('LEADERSHIP')">👑 Liderazgo & Conflictos</button>
+        <button class="cat-pill" onclick="filterQuestions('QUESTIONS_TO_ASK')">❓ Preguntas para el Reclutador</button>
+      </div>
+
+      <div class="questions-grid" id="questionsGrid">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 7: COMPANIES & NETWORK -->
+    <!-- ======================================================== -->
+    <section class="view-panel" id="view-companies">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Empresas & Directorio de Contactos</h1>
+          <p class="view-subtitle">Registra reclutadores, contactos clave y empresas objetivo para networking efectivo.</p>
+        </div>
+        <div class="view-actions">
+          <button class="btn btn-primary" onclick="openContactModal()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+            <span>Nuevo Contacto</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="companies-layout">
+        <!-- Target Companies Watchlist -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Empresas en Watchlist</h2>
+            <button class="btn-sm btn-secondary" onclick="openCompanyModal()">+ Empresa</button>
+          </div>
+          <div class="companies-list" id="companiesList">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Professional Network CRM -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Red de Contactos & Reclutadores</h2>
+          </div>
+          <div class="contacts-list" id="contactsList">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- DOCKED AI ASSISTANT DRAWER -->
+  <!-- ======================================================== -->
+  <aside class="ai-drawer" id="aiDrawer">
+    <div class="ai-drawer-header">
+      <div class="ai-drawer-title">
+        <span class="ai-status-pulse"></span>
+        <div>
+          <h3>JobSync Copilot</h3>
+          <span class="ai-model-tag" id="aiModelTag">Ollama / Gemini / ATS Heuristics</span>
+        </div>
+      </div>
+      <button class="btn-close" onclick="toggleAiDrawer()" title="Cerrar Asistente">&times;</button>
+    </div>
+
+    <!-- Suggested Quick Prompts -->
+    <div class="ai-quick-prompts">
+      <button class="quick-prompt-btn" onclick="sendQuickPrompt('📋 Pegué una vacante, ayúdame a extraer los requisitos clave')">📋 Extraer Vacante</button>
+      <button class="quick-prompt-btn" onclick="sendQuickPrompt('💡 Simula una pregunta de entrevista técnica para mi puesto actual')">🎯 Simular Entrevista</button>
+      <button class="quick-prompt-btn" onclick="sendQuickPrompt('✍️ ¿Cómo puedo mejorar el resumen profesional de mi CV?')">📄 Mejorar Resumen CV</button>
+    </div>
+
+    <div class="ai-drawer-messages" id="aiMessages">
+      <div class="ai-msg ai-msg-bot">
+        <div class="msg-avatar">🤖</div>
+        <div class="msg-body">
+          <p>¡Hola! Soy tu asistente de carrera en <strong>JobSync</strong>. Puedo ayudarte a:</p>
+          <ul>
+            <li>Analizar vacantes y extraer datos para agregarlas a tu tablero.</li>
+            <li>Calcular la afinidad de tu currículum contra cualquier oferta.</li>
+            <li>Redactar cartas de presentación y simular entrevistas conductuales.</li>
+          </ul>
+          <p class="text-muted">Pega una vacante o hazme una consulta para comenzar.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-drawer-footer">
+      <form id="aiChatForm" onsubmit="handleAiChatSubmit(event)" class="ai-input-wrap">
+        <textarea id="aiChatInput" placeholder="Escribe o pega una vacante aquí..." rows="2" onkeydown="handleAiInputKeydown(event)"></textarea>
+        <button type="submit" class="btn btn-primary btn-send" id="aiSendBtn" title="Enviar mensaje">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" x2="11" y1="2" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </form>
+    </div>
+  </aside>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: AGREGAR / EDITAR POSTULACIÓN -->
+  <!-- ======================================================== -->
+  <div class="modal-backdrop" id="jobModalBackdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title" id="jobModalTitle">Nueva Postulación</h2>
+        <button class="btn-close" onclick="closeJobModal()">&times;</button>
+      </div>
+      <form id="jobForm" onsubmit="handleJobFormSubmit(event)">
+        <input type="hidden" id="jobId">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label class="form-label" for="jobTitle">Título del Puesto *</label>
+              <input type="text" id="jobTitle" class="input-control" required placeholder="ej. Senior Full Stack Engineer">
+            </div>
+            <div class="form-group flex-1">
+              <label class="form-label" for="jobCompany">Empresa *</label>
+              <input type="text" id="jobCompany" class="input-control" required placeholder="ej. Globant / Microsoft">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label class="form-label" for="jobStatus">Estado *</label>
+              <select id="jobStatus" class="select-control">
+                <option value="WISHLIST">📌 Guardado / Wishlist</option>
+                <option value="APPLIED">📝 Postulado / Applied</option>
+                <option value="INTERVIEWING">🎯 En Entrevistas</option>
+                <option value="OFFER">🏆 Oferta Recibida</option>
+                <option value="REJECTED">❌ Rechazado</option>
+              </select>
+            </div>
+            <div class="form-group flex-1">
+              <label class="form-label" for="jobPriority">Prioridad</label>
+              <select id="jobPriority" class="select-control">
+                <option value="HIGH">🔥 Alta</option>
+                <option value="MEDIUM" selected>⚡ Media</option>
+                <option value="LOW">🌱 Baja</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label class="form-label" for="jobLocation">Ubicación / Modalidad</label>
+              <input type="text" id="jobLocation" class="input-control" placeholder="ej. Remoto (México / LATAM) o Híbrido CDMX">
+            </div>
+            <div class="form-group flex-1">
+              <label class="form-label" for="jobSalary">Rango Salarial</label>
+              <input type="text" id="jobSalary" class="input-control" placeholder="ej. $65,000 - $85,000 MXN / mes">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label class="form-label" for="jobUrl">URL de la Vacante</label>
+              <input type="url" id="jobUrl" class="input-control" placeholder="https://linkedin.com/jobs/...">
+            </div>
+            <div class="form-group flex-1">
+              <label class="form-label" for="jobDate">Fecha de Aplicación</label>
+              <input type="date" id="jobDate" class="input-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="jobDescription">Descripción del Puesto / Requisitos Clave</label>
+            <textarea id="jobDescription" class="textarea-control" rows="4" placeholder="Requisitos técnicos, tecnologías deseadas y detalles del rol..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="jobNotes">Notas Personales / Contacto</label>
+            <input type="text" id="jobNotes" class="input-control" placeholder="ej. Contactado por Sarah Connor en LinkedIn, pendiente prueba técnica.">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeJobModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar Postulación</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: EDITAR CV / PERFIL -->
+  <!-- ======================================================== -->
+  <div class="modal-backdrop" id="resumeModalBackdrop">
+    <div class="modal-card modal-lg">
+      <div class="modal-header">
+        <h2 class="modal-title">Editar Perfil de Currículum</h2>
+        <button class="btn-close" onclick="closeResumeModal()">&times;</button>
+      </div>
+      <form id="resumeEditForm" onsubmit="handleResumeEditSubmit(event)">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label class="form-label" for="resFullName">Nombre Completo</label>
+              <input type="text" id="resFullName" class="input-control" required>
+            </div>
+            <div class="form-group flex-1">
+              <label class="form-label" for="resHeadline">Título Profesional</label>
+              <input type="text" id="resHeadline" class="input-control" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label class="form-label" for="resEmail">Correo Electrónico</label>
+              <input type="email" id="resEmail" class="input-control">
+            </div>
+            <div class="form-group flex-1">
+              <label class="form-label" for="resPhone">Teléfono / Ubicación</label>
+              <input type="text" id="resPhone" class="input-control">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label class="form-label" for="resLinkedIn">LinkedIn URL</label>
+              <input type="text" id="resLinkedIn" class="input-control">
+            </div>
+            <div class="form-group flex-1">
+              <label class="form-label" for="resGitHub">GitHub / Portafolio</label>
+              <input type="text" id="resGitHub" class="input-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="resSummary">Resumen Profesional (Executive Summary)</label>
+            <textarea id="resSummary" class="textarea-control" rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="resSkills">Habilidades Técnicas (Separadas por comas)</label>
+            <input type="text" id="resSkills" class="input-control" placeholder="TypeScript, React, Node.js, Python, Docker, PyTorch, SQL...">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="resExperienceJson">Experiencia Laboral (Formato simplificado o JSON)</label>
+            <textarea id="resExperienceJson" class="textarea-control" rows="5" placeholder="Puesto | Empresa | Período | Logro principal..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeResumeModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Actualizar Currículum</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: AJUSTES, IA & RESPALDO -->
+  <!-- ======================================================== -->
+  <div class="modal-backdrop" id="settingsModalBackdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">Configuración & Respaldo</h2>
+        <button class="btn-close" onclick="closeSettingsModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3 class="settings-subtitle">Proveedor de Inteligencia Artificial</h3>
+        <p class="text-sm text-muted">JobSync funciona 100% de manera autónoma con su motor ATS local integrado. Si deseas conectar un LLM para explicaciones profundas, configura tu proveedor preferido:</p>
+
+        <div class="form-group mt-3">
+          <label class="form-label" for="settingAiProvider">Motor de IA Activo</label>
+          <select id="settingAiProvider" class="select-control" onchange="toggleAiSettingsFields()">
+            <option value="OLLAMA_LOCAL">🖥️ yZAI / Ollama Local (100% Privado)</option>
+            <option value="GEMINI">✨ Google Gemini API</option>
+            <option value="OPENAI">🤖 OpenAI / DeepSeek Compatible</option>
+            <option value="HEURISTIC">⚡ Motor ATS Integrado (Sin API Keys)</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="settingOllamaGroup">
+          <label class="form-label" for="settingOllamaEndpoint">Endpoint de Ollama / yZAI</label>
+          <input type="text" id="settingOllamaEndpoint" class="input-control" value="http://localhost:11434" placeholder="http://localhost:11434">
+          <small class="text-muted">Asegúrate de haber ejecutado con <code>OLLAMA_ORIGINS=*</code> para permitir CORS desde la web.</small>
+        </div>
+
+        <div class="form-group" id="settingApiKeyGroup" style="display:none;">
+          <label class="form-label" for="settingApiKey">API Key del Proveedor</label>
+          <input type="password" id="settingApiKey" class="input-control" placeholder="AIzaSy... o sk-...">
+          <small class="text-muted">Tu clave se guarda únicamente en el almacenamiento local de tu navegador.</small>
+        </div>
+
+        <hr class="divider">
+
+        <h3 class="settings-subtitle">Soberanía de Datos & Respaldo</h3>
+        <p class="text-sm text-muted">Tus postulaciones, currículums y notas te pertenecen. Puedes descargar un archivo JSON completo o restaurarlo en cualquier momento.</p>
+
+        <div class="backup-actions mt-3">
+          <button class="btn btn-secondary flex-1" onclick="exportDataBackup()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            <span>Exportar JSON</span>
+          </button>
+          <label class="btn btn-secondary flex-1">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+            <span>Importar JSON</span>
+            <input type="file" accept=".json" style="display:none;" onchange="importDataBackup(event)">
+          </label>
+          <button class="btn btn-danger-outline" onclick="resetToSampleData()" title="Restaura los datos de demostración">
+            <span>Restablecer Demo</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="saveSettings()">Guardar Ajustes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- App Script -->
+  <script src="app.js?v=1.0"></script>
+</body>
+</html>
