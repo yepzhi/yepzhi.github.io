@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JóvenesSTEM — Resultados del Estudio | Hermosillo, Sonora</title>
+    <title>JóvenesSTEM — Diagnóstico de Competencias STEM | LATAM, México & EUA</title>
     <meta name="description"
-        content="Diagnóstico de competencias STEM basado en PISA 2025 (OCDE), IMCO Compara Carreras 2025, PLANEA EMS y Hermosillo ¿Cómo Vamos? Datos que justifican el programa JóvenesSTEM en Sonora.">
+        content="Diagnóstico hemisférico de competencias STEM basado en PISA 2025 (OCDE), US BLS/NSF, IMCO y Hermosillo ¿Cómo Vamos? Brecha de ciencias en LATAM, déficit de talento en EE. UU. y la solución JóvenesSTEM.">
     <link rel="icon" type="image/png" href="logo_small.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -756,54 +756,93 @@
             transform: scale(1.1);
         }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .slide {
-                padding: 100px 24px 40px;
-            }
+        /* ===== CHALLENGE & IMPACT CARDS (JOVENESSTEM STYLE) ===== */
+        .challenge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 32px 0 20px;
+            text-align: left;
+        }
 
-            .split {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
+        .challenge-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 28px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            position: relative;
+            overflow: hidden;
+        }
 
-            .big-stat {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-            }
+        .challenge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--cyan), var(--blue));
+            opacity: 0.7;
+        }
 
-            .compare-label {
-                min-width: 80px;
-                font-size: 0.75rem;
-            }
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--cyan);
+            box-shadow: 0 16px 40px rgba(0, 245, 212, 0.15);
+        }
 
-            nav {
-                padding: 14px 20px;
-            }
+        .challenge-card .stat-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--cyan);
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
 
-            .nav-arrows {
-                right: 10px;
-            }
+        .challenge-card .stat-val {
+            font-family: 'Sora', sans-serif;
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
 
-            .nav-arrow {
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
-            }
+        .challenge-card .stat-val-sub {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.6);
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.6);
+            margin-left: 6px;
+        }
 
-            .hero-stats {
-                gap: 20px;
-            }
+        .challenge-card .stat-desc {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.6;
+            margin-bottom: 16px;
+            font-weight: 400;
+        }
 
-            .callout {
-                padding: 30px;
-                font-size: 1.1rem;
-            }
-
-            .metrics-grid {
-                grid-template-columns: 1fr 1fr;
-            }
+        .challenge-card .stat-context {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 12px;
+            margin-top: auto;
         }
 
         /* ===== COUNTER ANIMATION ===== */
@@ -832,31 +871,167 @@
         /* ===== LANGUAGE SWITCHER ===== */
         .lang-switcher {
             display: flex;
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
-            border: 1px solid var(--glass-border);
+            border: 1.5px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.03);
         }
 
         .lang-btn {
-            padding: 5px 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
+            min-height: 44px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            font-weight: 700;
             font-family: 'Outfit', sans-serif;
             background: transparent;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.5);
             border: none;
             cursor: pointer;
             transition: all 0.3s;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
         }
 
         .lang-btn.active {
             background: var(--glass-hover);
             color: var(--cyan);
+            box-shadow: inset 0 0 12px rgba(0, 245, 212, 0.15);
         }
 
         .lang-btn:hover {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* ===== RESPONSIVE & MOBILE ACCESSIBILITY ===== */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 85px 18px 80px;
+                min-height: 100vh;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .split {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+
+            .big-stat {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .compare-label {
+                min-width: 90px;
+                font-size: 0.78rem;
+            }
+
+            nav {
+                padding: 10px 14px;
+                gap: 8px;
+            }
+
+            .nav-brand {
+                font-size: 0.9rem;
+                max-width: 140px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .nav-dots {
+                display: none !important; /* Hide dot rail on mobile so language switcher is never squeezed */
+            }
+
+            .lang-switcher {
+                display: flex !important;
+                border-radius: 10px;
+            }
+
+            .lang-btn {
+                min-height: 44px; /* WCAG 44x44px accessible touch target */
+                min-width: 44px;
+                padding: 8px 12px;
+                font-size: 0.8rem;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                touch-action: manipulation;
+            }
+
+            .slide-counter {
+                font-size: 0.8rem;
+                min-width: 44px;
+                text-align: center;
+            }
+
+            .nav-arrows {
+                right: 12px;
+                bottom: 20px;
+                z-index: 998;
+                gap: 12px;
+            }
+
+            .nav-arrow {
+                width: 46px; /* Accessible touch target >= 44px */
+                height: 46px;
+                font-size: 1.25rem;
+                touch-action: manipulation;
+                background: rgba(11, 13, 23, 0.85);
+                border: 1.5px solid var(--glass-border);
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+            }
+
+            .hero-stats {
+                gap: 16px;
+                grid-template-columns: 1fr 1fr;
+                display: grid;
+            }
+
+            .hero-stat {
+                min-width: unset;
+                padding: 12px;
+            }
+
+            .callout {
+                padding: 24px;
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .challenge-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .challenge-card {
+                padding: 22px;
+                border-radius: 18px;
+            }
+
+            .challenge-card .stat-val {
+                font-size: 2.2rem;
+            }
+
+            .cta-btn {
+                min-height: 48px; /* Accessible CTA touch target */
+                padding: 14px 20px;
+                font-size: 0.95rem;
+                width: 100%;
+                justify-content: center;
+                display: inline-flex;
+                align-items: center;
+                touch-action: manipulation;
+            }
         }
     </style>
 </head>
@@ -892,30 +1067,28 @@
             <div class="blob"></div>
         </div>
         <div class="hero-content">
-            <div class="hero-tag" data-i18n="hero_tag">Reporte de Investigación Educación Superior</div>
+            <div class="hero-tag" data-i18n="hero_tag">Reporte de Investigación Educación Superior · LATAM & Norteamérica</div>
             <h1 class="hero-title">
-                <span data-i18n="hero_title1">El futuro STEM de</span><br><span class="gradient-text"
-                    data-i18n="hero_title2">México en números</span>
+                <span data-i18n="hero_title1">El futuro STEM en</span><br><span class="gradient-text"
+                    data-i18n="hero_title2">LATAM y Norteamérica</span>
             </h1>
-            <p class="hero-sub" data-i18n="hero_sub">Diagnóstico de competencias STEM basado en el análisis de PISA 2025
-                (OCDE), MEJOREDU/PLANEA y Hermosillo ¿Cómo Vamos? Los datos que justifican la necesidad de programas de
-                intervención STEM como JóvenesSTEM.</p>
+            <p class="hero-sub" data-i18n="hero_sub">Diagnóstico hemisférico de competencias STEM basado en el análisis de PISA 2025 (OCDE), US BLS/NSF, MEJOREDU/PLANEA y Hermosillo ¿Cómo Vamos? Los datos que justifican la urgencia de programas de intervención STEM como JóvenesSTEM.</p>
             <div class="hero-stats">
                 <div class="hero-stat">
-                    <div class="hero-stat-num count-up" data-target="3">0</div>
-                    <div class="hero-stat-label" data-i18n="stat_students">Estudios Institucionales</div>
+                    <div class="hero-stat-num count-up" data-target="4">0</div>
+                    <div class="hero-stat-label" data-i18n="stat_studies">Regiones & Estudios Clave</div>
                 </div>
                 <div class="hero-stat">
                     <div class="hero-stat-num count-up" data-target="91">0</div>
-                    <div class="hero-stat-label" data-i18n="stat_institutions">Países en PISA</div>
+                    <div class="hero-stat-label" data-i18n="stat_institutions">Países en PISA 2025</div>
                 </div>
                 <div class="hero-stat">
-                    <div class="hero-stat-num count-up" data-target="6000" data-suffix="+">0</div>
-                    <div class="hero-stat-label" data-i18n="stat_items">Estudiantes MX evaluados</div>
+                    <div class="hero-stat-num count-up" data-target="50" data-suffix="%">0</div>
+                    <div class="hero-stat-label" data-i18n="stat_science_gap">Rezago Ciencias LATAM/MX</div>
                 </div>
                 <div class="hero-stat">
-                    <div class="hero-stat-num count-up" data-target="4">0</div>
-                    <div class="hero-stat-label" data-i18n="stat_dimensions">Hipótesis respaldadas</div>
+                    <div class="hero-stat-num count-up" data-target="2" data-suffix="M+">0</div>
+                    <div class="hero-stat-label" data-i18n="stat_us_vacancies">Déficit Plazas STEM EUA</div>
                 </div>
             </div>
         </div>
@@ -927,72 +1100,62 @@
         </div>
     </section>
 
-    <!-- ===== SLIDE 2: EL PROBLEMA GLOBAL ===== -->
+    <!-- ===== SLIDE 2: EL DÉFICIT EN ESTADOS UNIDOS ===== -->
     <section class="slide" data-slide="1">
         <div class="slide-accent" style="background:var(--pink);top:-100px;left:-100px;"></div>
         <div class="slide-inner">
-            <span class="section-tag tag-pink" data-i18n="s2_tag">El Problema Global</span>
-            <h2 class="section-title" data-i18n="s2_title">La crisis STEM no es<br>solo de México</h2>
-            <p class="section-desc" data-i18n="s2_desc">Incluso Estados Unidos — la economía más grande del mundo —
-                enfrenta un déficit
-                masivo de talento STEM.</p>
+            <span class="section-tag tag-pink" data-i18n="s2_tag">Norteamérica & Déficit Global</span>
+            <h2 class="section-title" data-i18n="s2_title">La crisis de talento STEM:<br>El desafío en EE. UU.</h2>
+            <p class="section-desc" data-i18n="s2_desc">Incluso Estados Unidos — la economía más grande del mundo — enfrenta una escasez crítica de talento técnico y docente que solo puede resolverse mediante integración hemisférica con LATAM y México.</p>
             <div class="metrics-grid">
                 <div class="metric-card">
                     <div class="metric-icon" style="color:var(--red);">▲</div>
-                    <div class="metric-value color-red count-up" data-target="2" data-suffix="M">0</div>
-                    <div class="metric-label" data-i18n="s2_m1">Posiciones STEM vacantes proyectadas para 2025 en EUA
-                    </div>
+                    <div class="metric-value color-red count-up" data-target="2" data-suffix="M+">0</div>
+                    <div class="metric-label" data-i18n="s2_m1">Posiciones STEM vacantes proyectadas en EUA (US BLS)</div>
                 </div>
                 <div class="metric-card">
                     <div class="metric-icon" style="color:var(--orange);">◆</div>
                     <div class="metric-value color-orange count-up" data-target="411" data-suffix="K">0</div>
-                    <div class="metric-label" data-i18n="s2_m2">Posiciones docentes STEM vacantes en EUA</div>
+                    <div class="metric-label" data-i18n="s2_m2">Posiciones docentes STEM vacantes en EUA (NSF)</div>
                 </div>
                 <div class="metric-card">
                     <div class="metric-icon" style="color:var(--pink);">●</div>
                     <div class="metric-value color-pink count-up" data-target="20" data-suffix="%">0</div>
-                    <div class="metric-label" data-i18n="s2_m3">Egresados de High School listos para carreras STEM</div>
+                    <div class="metric-label" data-i18n="s2_m3">Egresados de High School en EUA listos para STEM</div>
                 </div>
                 <div class="metric-card">
                     <div class="metric-icon" style="color:var(--green);">◈</div>
                     <div class="metric-value color-green">2.2×</div>
-                    <div class="metric-label" data-i18n="s2_m4">Diferencia salarial STEM vs no-STEM ($101K vs $46K USD)
-                    </div>
+                    <div class="metric-label" data-i18n="s2_m4">Prima salarial STEM vs no-STEM ($101K vs $46K USD)</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== SLIDE 3: MÉXICO EN PISA ===== -->
+    <!-- ===== SLIDE 3: CIENCIAS Y TECNOLOGÍA EN PISA 2025 ===== -->
     <section class="slide" data-slide="2">
         <div class="slide-accent" style="background:var(--blue);bottom:-100px;right:-100px;"></div>
         <div class="slide-inner">
-            <span class="section-tag tag-blue" data-i18n="s3_tag">PISA 2025</span>
-            <h2 class="section-title" data-i18n="s3_title">México por debajo del mínimo</h2>
-            <p class="section-desc" data-i18n="s3_desc">Los resultados PISA 2025 revelan una brecha de 75 puntos con el promedio OCDE en matemáticas.</p>
+            <span class="section-tag tag-blue" data-i18n="s3_tag">PISA 2025 · Ciencias y Tecnología</span>
+            <h2 class="section-title" data-i18n="s3_title">La brecha hemisférica en Ciencias y Tecnología</h2>
+            <p class="section-desc" data-i18n="s3_desc">PISA 2025 evalúa el pensamiento científico como motor de innovación: mientras el este asiático lidera con solvencia, América Latina y México enfrentan una brecha crítica frente a la OCDE y la alta demanda de Norteamérica.</p>
             <div class="compare-bars">
-                <div class="compare-item">
-                    <div class="compare-label" data-i18n="s3_mx_math">México<br>Matemáticas</div>
-                    <div class="compare-bar-track">
-                        <div class="compare-bar-fill bar-pink" style="--target-width:55%">388 pts</div>
-                    </div>
-                </div>
-                <div class="compare-item">
-                    <div class="compare-label" data-i18n="s3_us_math">EUA<br>Matemáticas</div>
-                    <div class="compare-bar-track">
-                        <div class="compare-bar-fill bar-blue" style="--target-width:66%">465 pts</div>
-                    </div>
-                </div>
-                <div class="compare-item">
-                    <div class="compare-label" data-i18n="s3_oecd_math">OCDE<br>Matemáticas</div>
-                    <div class="compare-bar-track">
-                        <div class="compare-bar-fill bar-cyan" style="--target-width:66%">463 pts</div>
-                    </div>
-                </div>
                 <div class="compare-item">
                     <div class="compare-label" data-i18n="s3_mx_sci">México<br>Ciencias</div>
                     <div class="compare-bar-track">
                         <div class="compare-bar-fill bar-orange" style="--target-width:59%">414 pts</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <div class="compare-label" data-i18n="s3_latam_sci">LATAM Prom.<br>Ciencias</div>
+                    <div class="compare-bar-track">
+                        <div class="compare-bar-fill bar-pink" style="--target-width:58%">~405 pts</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <div class="compare-label" data-i18n="s3_oecd_sci">OCDE Prom.<br>Ciencias</div>
+                    <div class="compare-bar-track">
+                        <div class="compare-bar-fill bar-cyan" style="--target-width:69%">482 pts</div>
                     </div>
                 </div>
                 <div class="compare-item">
@@ -1002,22 +1165,53 @@
                     </div>
                 </div>
                 <div class="compare-item">
-                    <div class="compare-label" data-i18n="s3_oecd_sci">OCDE<br>Ciencias</div>
+                    <div class="compare-label" data-i18n="s3_asia_sci">Japón / Taiwán<br>Ciencias</div>
                     <div class="compare-bar-track">
-                        <div class="compare-bar-fill bar-green" style="--target-width:69%">482 pts</div>
+                        <div class="compare-bar-fill bar-green" style="--target-width:78%">~545 pts</div>
                     </div>
                 </div>
             </div>
-            <div class="callout" style="margin-top:40px;" data-i18n="s3_callout">
-                En PISA 2025, <strong>7 de cada 10</strong> estudiantes mexicanos no alcanzan el nivel 2 en matemáticas (OCDE: 35%). En ciencias y lectura, <strong>1 de cada 2</strong>. Además, <strong>41.8%</strong> quedó por debajo del nivel 2 en las tres áreas a la vez, más del doble del promedio OCDE (19.7%).
+
+            <!-- JOVENESSTEM CHALLENGE CARDS -->
+            <div class="challenge-grid">
+                <div class="challenge-card">
+                    <div>
+                        <span class="stat-badge" data-i18n="card_sci_badge">EVALUACIÓN OCDE PISA 2025</span>
+                        <div class="stat-val"><span class="count-up" data-target="50" data-suffix="%">0</span><span class="stat-val-sub" data-i18n="card_sci_sub">1 de cada 2</span></div>
+                        <p class="stat-desc" data-i18n="card_sci_desc">«En América Latina y México, el 50% (1 de cada 2 jóvenes de 15 años) no alcanza el nivel mínimo en ciencias en PISA 2025, mientras que en países como Japón o Taiwán el 90% posee estas habilidades; una brecha que les impide interpretar evidencia científica, validar datos y comprender el entorno tecnológico.»</p>
+                    </div>
+                    <div class="stat-context" data-i18n="card_sci_source">*Fuente: OCDE, Resultados PISA 2025 (Ciencias)</div>
+                </div>
+
+                <div class="challenge-card">
+                    <div>
+                        <span class="stat-badge" style="color:var(--pink);" data-i18n="card_us_badge">CADENA DE TALENTO TRANSFRONTERIZA</span>
+                        <div class="stat-val"><span class="count-up" data-target="2" data-suffix="M+">0</span><span class="stat-val-sub" data-i18n="card_us_sub">Déficit en EE. UU.</span></div>
+                        <p class="stat-desc" data-i18n="card_us_desc">Estados Unidos proyecta más de 2 millones de vacantes STEM sin cubrir y una escasez de 411,000 docentes en ciencias. Sin una alianza de talento regional con México y LATAM, la frontera tecnológica de Norteamérica pierde tracción frente a Asia.</p>
+                    </div>
+                    <div class="stat-context" data-i18n="card_us_source">*Fuente: US Bureau of Labor Statistics (BLS) & NSF</div>
+                </div>
+
+                <div class="challenge-card">
+                    <div>
+                        <span class="stat-badge" style="color:var(--green);" data-i18n="card_stem_badge">VOCACIONES Y NEARSHORING LATAM</span>
+                        <div class="stat-val">&lt; 9%<span class="stat-val-sub" data-i18n="card_stem_sub">Egresados STEM</span></div>
+                        <p class="stat-desc" data-i18n="card_stem_desc">En América Latina, menos del 9% de los graduados eligen carreras científicas o técnicas, mientras que la demanda de capital humano especializado para nearshoring, semiconductores y software crecerá 2.4× hacia 2050.</p>
+                    </div>
+                    <div class="stat-context" data-i18n="card_stem_source">*Fuente: UNESCO, BID & IMCO Capital Humano 2025</div>
+                </div>
+            </div>
+
+            <div class="callout" style="margin-top:28px;" data-i18n="s3_callout">
+                En PISA 2025, <strong>el 50% de los estudiantes en América Latina y México</strong> no alcanza el nivel básico en ciencias (frente a solo el 10% en economías avanzadas de Asia y 24% en la OCDE). En matemáticas, <strong>7 de cada 10</strong> quedan rezagados. La brecha científica frena el desarrollo de pensamiento crítico e inteligencia tecnológica en toda la región.
             </div>
             <div style="margin-top:20px; font-size:0.85rem; color:rgba(255,255,255,0.7); display:flex; justify-content:center; gap:20px; flex-wrap:wrap; text-align:center;">
-                <span>Matemáticas: <strong>388 pts</strong> (vs 395 en 2022 · OCDE 463 · Brecha −75)</span>
-                <span>Ciencias: <strong>414 pts</strong> (vs 410 en 2022 · OCDE 482 · Brecha −68)</span>
-                <span>Lectura: <strong>408 pts</strong> (vs 415 en 2022 · OCDE 461 · Brecha −53)</span>
+                <span>Ciencias LATAM/MX: <strong>414 pts</strong> (OCDE 482 · Brecha −68 · Asia ~545)</span>
+                <span>Matemáticas LATAM/MX: <strong>388 pts</strong> (OCDE 463 · Brecha −75)</span>
+                <span>EE. UU. Ciencias: <strong>499 pts</strong> (OCDE 482 · Math 465)</span>
             </div>
             <div style="margin-top:12px; text-align:center;">
-                <a href="https://www.oecd.org/en/publications/pisa-2025-results-volume-i-country-notes_2d4ff9ea-en/mexico_85702d30-en.html" target="_blank" rel="noopener noreferrer" style="color:var(--cyan); font-size:0.8rem; text-decoration:underline;">*Fuente: OCDE, PISA 2025 Results — Country Note México (Septiembre 2026)</a>
+                <a href="https://www.oecd.org/en/publications/pisa-2025-results-volume-i-country-notes_2d4ff9ea-en/mexico_85702d30-en.html" target="_blank" rel="noopener noreferrer" style="color:var(--cyan); font-size:0.8rem; text-decoration:underline;">*Fuente: OCDE, PISA 2025 Results — Country Note México & Latin America Regional Insights (Septiembre 2026)</a>
             </div>
         </div>
     </section>
@@ -1236,29 +1430,29 @@
                 <div class="glass-card" style="display:flex;align-items:center;gap:20px;">
                     <span style="font-size:2rem;color:var(--green);font-weight:800;">✓</span>
                     <div>
-                        <h4 style="margin-bottom:6px;color:var(--green);" data-i18n="s8_h1t">H1 — Los jóvenes no están preparados</h4>
-                        <p style="color:rgba(255,255,255,0.65);" data-i18n="s8_h1d">7 de cada 10 jóvenes no alcanzan el nivel 2 en matemáticas (PISA 2025); 75 puntos por debajo del promedio OCDE. En Sonora (PLANEA), 7 de cada 10 reprueban.</p>
+                        <h4 style="margin-bottom:6px;color:var(--green);" data-i18n="s8_h1t">H1 — Jóvenes sin dominio en ciencias y matemáticas</h4>
+                        <p style="color:rgba(255,255,255,0.65);" data-i18n="s8_h1d">El 50% de los jóvenes en LATAM y México no alcanza el nivel mínimo en ciencias en PISA 2025 (vs 90% de dominio en Asia); en matemáticas, 7 de cada 10 reprueban (75 pts por debajo de la OCDE). En Sonora (PLANEA), 68% en nivel insuficiente.</p>
                     </div>
                 </div>
                 <div class="glass-card" style="display:flex;align-items:center;gap:20px;">
                     <span style="font-size:2rem;color:var(--green);font-weight:800;">✓</span>
                     <div>
-                        <h4 style="margin-bottom:6px;color:var(--green);" data-i18n="s8_h2t">H2 — Brecha por sector y nivel socioeconómico</h4>
-                        <p style="color:rgba(255,255,255,0.65);" data-i18n="s8_h2d">La diferencia público/privado refleja en gran parte la composición socioeconómica. En PISA 2025, el 30% de estudiantes MX está en el cuartil más bajo internacional (387 pts en ciencias). 80% de la matrícula de Sonora es pública.</p>
+                        <h4 style="margin-bottom:6px;color:var(--green);" data-i18n="s8_h2t">H2 — Brecha socioeconómica y sectorial hemisférica</h4>
+                        <p style="color:rgba(255,255,255,0.65);" data-i18n="s8_h2d">El 30% de los estudiantes de la región se ubica en el cuartil socioeconómico más vulnerable internacional. Las brechas público-privadas superan los 40 puntos en ciencias y matemáticas en PISA.</p>
                     </div>
                 </div>
                 <div class="glass-card" style="display:flex;align-items:center;gap:20px;">
                     <span style="font-size:2rem;color:var(--green);font-weight:800;">✓</span>
                     <div>
-                        <h4 style="margin-bottom:6px;color:var(--green);" data-i18n="s8_h3t">H3 — Acceso a tecnología</h4>
-                        <p style="color:rgba(255,255,255,0.65);" data-i18n="s8_h3d">El acceso a computadora e internet se asocia con hasta 40 puntos más en PISA. La brecha digital acentúa la brecha educativa.</p>
+                        <h4 style="margin-bottom:6px;color:var(--green);" data-i18n="s8_h3t">H3 — Brecha digital y acceso tecnológico</h4>
+                        <p style="color:rgba(255,255,255,0.65);" data-i18n="s8_h3d">El acceso a computadora e internet se asocia con hasta 40 puntos adicionales en PISA. La falta de laboratorios escolares y herramientas de cómputo perpetúa la desigualdad formativa.</p>
                     </div>
                 </div>
                 <div class="glass-card" style="display:flex;align-items:center;gap:20px;">
                     <span style="font-size:2rem;color:var(--green);font-weight:800;">✓</span>
                     <div>
-                        <h4 style="margin-bottom:6px;color:var(--green);" data-i18n="s8_h4t">H4 — Orientación y referentes STEM</h4>
-                        <p style="color:rgba(255,255,255,0.65);" data-i18n="s8_h4d">3 de cada 10 jóvenes de 15 años carecen de plan de carrera definido (IMCO/OCDE); aspiraciones STEM sin cambio en 20 años y UNICEF documenta que 4 de cada 10 mujeres no perciben refuerzo familiar hacia STEM.</p>
+                        <h4 style="margin-bottom:6px;color:var(--green);" data-i18n="s8_h4t">H4 — Escasez vocacional frente al déficit en Norteamérica</h4>
+                        <p style="color:rgba(255,255,255,0.65);" data-i18n="s8_h4d">Menos del 9% egresa en áreas STEM en LATAM y 3 de cada 10 jóvenes carecen de orientación vocacional, mientras Estados Unidos enfrenta 2M+ de vacantes sin cubrir y demanda talento transfronterizo.</p>
                     </div>
                 </div>
             </div>
@@ -1360,10 +1554,11 @@
             <div style="margin-top:40px; padding:22px; background:var(--glass); border:1px solid var(--glass-border); border-radius:18px; max-width:850px; margin-left:auto; margin-right:auto; text-align:left; backdrop-filter:blur(10px);">
                 <h4 style="font-size:0.95rem; color:var(--cyan); margin-bottom:12px; font-family:'Sora',sans-serif; letter-spacing:0.5px;" data-i18n="s10_sources_title">Fuentes Primarias & Referencias Oficiales</h4>
                 <ul style="font-size:0.82rem; color:rgba(255,255,255,0.7); line-height:1.75; padding-left:20px; margin:0;" data-i18n="s10_sources_list">
-                    <li><strong>OCDE PISA 2025:</strong> <a href="https://www.oecd.org/en/publications/pisa-2025-results-volume-i-country-notes_2d4ff9ea-en/mexico_85702d30-en.html" target="_blank" rel="noopener noreferrer" style="color:var(--cyan); text-decoration:underline;">Country Note México</a> y <a href="https://www.oecd.org/en/publications/pisa-2025-results-volume-i_73451bc5-en.html" target="_blank" rel="noopener noreferrer" style="color:var(--cyan); text-decoration:underline;">PISA 2025 Results Vol. I</a>.</li>
+                    <li><strong>OCDE PISA 2025:</strong> <a href="https://www.oecd.org/en/publications/pisa-2025-results-volume-i-country-notes_2d4ff9ea-en/mexico_85702d30-en.html" target="_blank" rel="noopener noreferrer" style="color:var(--cyan); text-decoration:underline;">Country Note México</a>, Latin America Insights y <a href="https://www.oecd.org/en/publications/pisa-2025-results-volume-i_73451bc5-en.html" target="_blank" rel="noopener noreferrer" style="color:var(--cyan); text-decoration:underline;">PISA 2025 Results Vol. I</a>.</li>
+                    <li><strong>US BLS & NSF:</strong> Bureau of Labor Statistics STEM Projections & National Science Foundation Science and Engineering Indicators (Déficit de talento docente y técnico en EUA).</li>
+                    <li><strong>UNESCO & BID:</strong> Informes de vocaciones científicas, capital humano y demanda de tecnología en América Latina.</li>
                     <li><strong>IMCO:</strong> <a href="https://imco.org.mx/compara-carreras-2025/" target="_blank" rel="noopener noreferrer" style="color:var(--cyan); text-decoration:underline;">Compara Carreras 2025</a> y reporte de brechas de capital humano STEM hacia 2050.</li>
-                    <li><strong>OCDE Education at a Glance 2025:</strong> <a href="https://www.oecd.org/en/publications/education-at-a-glance-2025_1a3543e2-en/mexico_3b36a6f6-en.html" target="_blank" rel="noopener noreferrer" style="color:var(--cyan); text-decoration:underline;">Reporte México sobre egresados universitarios</a>.</li>
-                    <li><strong>Diagnósticos Estatales:</strong> Evaluación PLANEA EMS Sonora 2017 e informes de Hermosillo ¿Cómo Vamos? (HCV).</li>
+                    <li><strong>Diagnósticos Estatales:</strong> Evaluación PLANEA EMS Sonora e informes de Hermosillo ¿Cómo Vamos? (HCV).</li>
                 </ul>
             </div>
             <div style="margin-top:36px;display:flex;align-items:center;justify-content:center;gap:16px;">
@@ -1483,32 +1678,43 @@
         const translations = {
             es: {
                 nav_title: 'Reporte de Investigación Educación Superior',
-                hero_tag: 'Reporte de Investigación Educación Superior',
-                hero_title1: 'El futuro STEM de',
-                hero_title2: 'México en números',
-                hero_sub: 'Diagnóstico de competencias STEM basado en el análisis de PISA 2025 (OCDE), Compara Carreras 2025 (IMCO), PLANEA EMS y Hermosillo ¿Cómo Vamos? Los datos primarios que respaldan la necesidad de programas de intervención STEM como JóvenesSTEM.',
-                stat_students: 'Estudios Institucionales',
-                stat_institutions: 'Países en PISA',
-                stat_items: 'Estudiantes MX evaluados',
-                stat_dimensions: 'Hipótesis respaldadas',
+                hero_tag: 'Reporte de Investigación Educación Superior · LATAM & Norteamérica',
+                hero_title1: 'El futuro STEM en',
+                hero_title2: 'LATAM y Norteamérica',
+                hero_sub: 'Diagnóstico hemisférico de competencias STEM basado en el análisis de PISA 2025 (OCDE), US BLS/NSF, MEJOREDU/PLANEA y Hermosillo ¿Cómo Vamos? Los datos que justifican la urgencia de programas de intervención STEM como JóvenesSTEM.',
+                stat_studies: 'Regiones & Estudios Clave',
+                stat_institutions: 'Países en PISA 2025',
+                stat_science_gap: 'Rezago Ciencias LATAM/MX',
+                stat_us_vacancies: 'Déficit Plazas STEM EUA',
                 scroll_hint: 'Desliza para explorar',
-                s2_desc: 'Incluso Estados Unidos — la economía más grande del mundo — enfrenta un déficit masivo de talento STEM.',
-                s2_tag: 'El Problema Global',
-                s2_title: 'La crisis STEM no es<br>solo de México',
-                s2_m1: 'Posiciones STEM vacantes proyectadas para 2025 en EUA',
-                s2_m2: 'Posiciones docentes STEM vacantes en EUA',
-                s2_m3: 'Egresados de High School listos para carreras STEM',
-                s2_m4: 'Diferencia salarial STEM vs no-STEM ($101K vs $46K USD)',
-                s3_tag: 'PISA 2025',
-                s3_title: 'México por debajo del mínimo',
-                s3_desc: 'Los resultados oficiales PISA 2025 (publicados sept 2026) revelan brechas de 75 puntos en matemáticas con el promedio OCDE y un retroceso acumulado de 31 puntos desde 2009.',
-                s3_callout: 'En PISA 2025, <strong>7 de cada 10</strong> estudiantes mexicanos no alcanzan el Nivel 2 en matemáticas (OCDE: 35%). En ciencias y lectura, <strong>1 de cada 2</strong>. Además, el <strong>41.8%</strong> quedó por debajo del nivel 2 en las tres áreas a la vez (más del doble de la OCDE: 19.7%).',
-                s3_mx_math: 'México<br>Matemáticas (388)',
-                s3_us_math: 'EUA<br>Matemáticas',
-                s3_oecd_math: 'OCDE<br>Matemáticas (463)',
+                s2_tag: 'Norteamérica & Déficit Global',
+                s2_title: 'La crisis de talento STEM:<br>El desafío en EE. UU.',
+                s2_desc: 'Incluso Estados Unidos — la economía más grande del mundo — enfrenta una escasez crítica de talento técnico y docente que solo puede resolverse mediante integración hemisférica con LATAM y México.',
+                s2_m1: 'Posiciones STEM vacantes proyectadas en EUA (US BLS)',
+                s2_m2: 'Posiciones docentes STEM vacantes en EUA (NSF)',
+                s2_m3: 'Egresados de High School en EUA listos para STEM',
+                s2_m4: 'Prima salarial STEM vs no-STEM ($101K vs $46K USD)',
+                s3_tag: 'PISA 2025 · Ciencias y Tecnología',
+                s3_title: 'La brecha hemisférica en Ciencias y Tecnología',
+                s3_desc: 'PISA 2025 evalúa el pensamiento científico como motor de innovación: mientras el este asiático lidera con solvencia, América Latina y México enfrentan una brecha crítica frente a la OCDE y la alta demanda de Norteamérica.',
                 s3_mx_sci: 'México<br>Ciencias (414)',
-                s3_us_sci: 'EUA<br>Ciencias',
-                s3_oecd_sci: 'OCDE<br>Ciencias (482)',
+                s3_latam_sci: 'LATAM Prom.<br>Ciencias (~405)',
+                s3_oecd_sci: 'OCDE Prom.<br>Ciencias (482)',
+                s3_us_sci: 'EUA<br>Ciencias (499)',
+                s3_asia_sci: 'Japón / Taiwán<br>Ciencias (~545)',
+                card_sci_badge: 'EVALUACIÓN OCDE PISA 2025',
+                card_sci_sub: '1 de cada 2',
+                card_sci_desc: '«En América Latina y México, el 50% (1 de cada 2 jóvenes de 15 años) no alcanza el nivel mínimo en ciencias en PISA 2025, mientras que en países como Japón o Taiwán el 90% posee estas habilidades; una brecha que les impide interpretar evidencia científica, validar datos y comprender el entorno tecnológico.»',
+                card_sci_source: '*Fuente: OCDE, Resultados PISA 2025 (Ciencias)',
+                card_us_badge: 'CADENA DE TALENTO TRANSFRONTERIZA',
+                card_us_sub: 'Déficit en EE. UU.',
+                card_us_desc: 'Estados Unidos proyecta más de 2 millones de vacantes STEM sin cubrir y una escasez de 411,000 docentes en ciencias. Sin una alianza de talento regional con México y LATAM, la frontera tecnológica de Norteamérica pierde tracción frente a Asia.',
+                card_us_source: '*Fuente: US Bureau of Labor Statistics (BLS) & NSF',
+                card_stem_badge: 'VOCACIONES Y NEARSHORING LATAM',
+                card_stem_sub: 'Egresados STEM',
+                card_stem_desc: 'En América Latina, menos del 9% de los graduados eligen carreras científicas o técnicas, mientras que la demanda de capital humano especializado para nearshoring, semiconductores y software crecerá 2.4× hacia 2050.',
+                card_stem_source: '*Fuente: UNESCO, BID & IMCO Capital Humano 2025',
+                s3_callout: 'En PISA 2025, <strong>el 50% de los estudiantes en América Latina y México</strong> no alcanza el nivel básico en ciencias (frente a solo el 10% en economías avanzadas de Asia y 24% en la OCDE). En matemáticas, <strong>7 de cada 10</strong> quedan rezagados. La brecha científica frena el desarrollo de pensamiento crítico e inteligencia tecnológica en toda la región.',
                 s4_tag: 'Diagnóstico Convergente',
                 s4_title: 'Tres fuentes, un mismo<br><span style="color:var(--pink)">diagnóstico alarmante</span>',
                 s4_subtitle: 'Triangulación de 3 estudios',
@@ -1548,14 +1754,14 @@
                 s7_latest: '2025',
                 s8_tag: 'Verificación',
                 s8_title: '4 hipótesis. <span style="color:var(--green);">Respaldadas por la evidencia.</span>',
-                s8_h1t: 'H1 — Los jóvenes no están preparados',
-                s8_h1d: '7 de cada 10 no alcanzan el nivel 2 en matemáticas (PISA 2025); México está 75 puntos por debajo del promedio OCDE (388 vs 463).',
-                s8_h2t: 'H2 — Brecha por sector y nivel socioeconómico',
-                s8_h2d: 'La diferencia público/privado refleja en gran parte la composición socioeconómica. En PISA 2025, el 30% de estudiantes MX está en el cuartil más bajo internacional (387 pts en ciencias). 80% de la matrícula de Sonora es pública.',
-                s8_h3t: 'H3 — Acceso a tecnología',
-                s8_h3d: 'El acceso a computadora e internet se asocia con hasta 40 puntos más en PISA. La brecha digital acentúa la brecha educativa.',
-                s8_h4t: 'H4 — Orientación y referentes STEM',
-                s8_h4d: '3 de cada 10 jóvenes de 15 años carecen de plan de carrera definido (IMCO/OCDE); aspiraciones STEM sin cambio en 20 años y UNICEF documenta que 4 de cada 10 mujeres no perciben refuerzo familiar hacia STEM.',
+                s8_h1t: 'H1 — Jóvenes sin dominio en ciencias y matemáticas',
+                s8_h1d: 'El 50% de los jóvenes en LATAM y México no alcanza el nivel mínimo en ciencias en PISA 2025 (vs 90% de dominio en Asia); en matemáticas, 7 de cada 10 reprueban (75 pts por debajo de la OCDE). En Sonora (PLANEA), 68% en nivel insuficiente.',
+                s8_h2t: 'H2 — Brecha socioeconómica y sectorial hemisférica',
+                s8_h2d: 'El 30% de los estudiantes de la región se ubica en el cuartil socioeconómico más vulnerable internacional. Las brechas público-privadas superan los 40 puntos en ciencias y matemáticas en PISA.',
+                s8_h3t: 'H3 — Brecha digital y acceso tecnológico',
+                s8_h3d: 'El acceso a computadora e internet se asocia con hasta 40 puntos adicionales en PISA. La falta de laboratorios escolares y herramientas de cómputo perpetúa la desigualdad formativa.',
+                s8_h4t: 'H4 — Escasez vocacional frente al déficit en Norteamérica',
+                s8_h4d: 'Menos del 9% egresa en áreas STEM en LATAM y 3 de cada 10 jóvenes carecen de orientación vocacional, mientras Estados Unidos enfrenta 2M+ de vacantes sin cubrir y demanda talento transfronterizo.',
                 s9_tag: 'La Solución',
                 s9_title: 'JóvenesSTEM:<br><span class="gradient-text" style="background:linear-gradient(135deg,var(--cyan),var(--green),var(--pink));-webkit-background-clip:text;">El programa que Sonora necesita</span>',
                 s9_desc: 'Acreditación de aprovechamiento alineada al estándar EC0049 · CONOCER · SEP<br>Basada en el modelo didáctico SIIP NextGEN',
@@ -1577,36 +1783,48 @@
                 s10_desc: 'Sonora está invirtiendo miles de millones en tecnología e industria avanzada. Pero sin capital humano STEM, esa inversión no alcanzará su potencial. JóvenesSTEM es la respuesta.',
                 s10_author: 'Investigación realizada por <strong>Alberto Yépiz</strong><br>Universidad de Sonora · Maestría en Administración y Experto edTech · 2025',
                 s10_sources_title: 'Fuentes Primarias & Referencias Oficiales',
+                s10_sources_list: '<li><strong>OCDE PISA 2025:</strong> Country Note México, Latin America Insights y Results Vol. I.</li><li><strong>US BLS & NSF:</strong> Bureau of Labor Statistics STEM Projections & National Science Foundation Science and Engineering Indicators (Déficit de talento docente y técnico en EUA).</li><li><strong>UNESCO & BID:</strong> Informes de vocaciones científicas, capital humano y demanda de tecnología en América Latina.</li><li><strong>IMCO:</strong> Compara Carreras 2025 y reporte de brechas de capital humano STEM hacia 2050.</li><li><strong>Diagnósticos Estatales:</strong> Evaluación PLANEA EMS Sonora e informes de Hermosillo ¿Cómo Vamos? (HCV).</li>',
                 footer: 'JóvenesSTEM © 2025 · Diseñado por <a href="https://yepzhi.com" target="_blank">yepzhi</a> · Datos del estudio de tesis, Universidad de Sonora'
             },
             en: {
                 nav_title: 'Higher Ed Research Report',
-                hero_tag: 'Higher Ed Research Report',
-                hero_title1: "Mexico's STEM future",
-                hero_title2: 'in numbers',
-                hero_sub: 'STEM competency diagnosis based on PISA 2025 (OECD), Compara Carreras 2025 (IMCO), PLANEA EMS, and Hermosillo ¿Cómo Vamos? Primary evidence justifying STEM intervention programs like JóvenesSTEM.',
-                stat_students: 'Institutional Studies',
-                stat_institutions: 'Countries in PISA',
-                stat_items: 'MX Students Evaluated',
-                stat_dimensions: 'Supported Hypotheses',
+                hero_tag: 'Higher Ed Research Report · LATAM & North America',
+                hero_title1: 'The STEM future of',
+                hero_title2: 'LATAM & North America',
+                hero_sub: 'Hemispheric STEM competency diagnosis based on PISA 2025 (OECD), US BLS/NSF, MEJOREDU/PLANEA, and regional assessments. Primary evidence justifying the urgency of STEM intervention programs like JóvenesSTEM.',
+                stat_studies: 'Regions & Key Studies',
+                stat_institutions: 'Countries in PISA 2025',
+                stat_science_gap: 'LATAM/MX Science Gap',
+                stat_us_vacancies: 'US STEM Vacancies Deficit',
                 scroll_hint: 'Scroll to explore',
-                s2_desc: 'Even the United States — the world\'s largest economy — faces a massive STEM talent shortage.',
-                s2_tag: 'The Global Problem',
-                s2_title: "The STEM crisis isn't<br>just Mexico's problem",
-                s2_m1: 'Projected unfilled STEM positions by 2025 in the US',
-                s2_m2: 'Unfilled STEM teaching positions in the US',
-                s2_m3: 'High school graduates ready for STEM careers',
-                s2_m4: 'STEM vs non-STEM salary gap ($101K vs $46K USD)',
-                s3_tag: 'PISA 2025',
-                s3_title: 'Mexico below the threshold',
-                s3_desc: 'Official PISA 2025 results (published Sept 2026) reveal a 75-point mathematics gap against the OECD average and a 31-point drop since 2009.',
-                s3_callout: 'In PISA 2025, <strong>7 in 10</strong> Mexican students do not reach Level 2 in mathematics (OECD: 35%). In science and reading, <strong>1 in 2</strong>. Furthermore, <strong>41.8%</strong> fell below Level 2 across all three domains simultaneously (more than double the OECD rate: 19.7%).',
-                s3_mx_math: 'Mexico<br>Mathematics (388)',
-                s3_us_math: 'USA<br>Mathematics',
-                s3_oecd_math: 'OECD<br>Mathematics (463)',
+                s2_tag: 'North America & Global Deficit',
+                s2_title: 'The STEM Talent Crisis:<br>The Challenge in the US',
+                s2_desc: 'Even the United States — the world\'s largest economy — faces a critical shortage of technical and teaching talent that can only be resolved through hemispheric integration with LATAM and Mexico.',
+                s2_m1: 'Projected unfilled STEM positions in the US (US BLS)',
+                s2_m2: 'Unfilled STEM teaching positions in the US (NSF)',
+                s2_m3: 'US high school graduates ready for STEM coursework',
+                s2_m4: 'STEM vs non-STEM wage premium ($101K vs $46K USD)',
+                s3_tag: 'PISA 2025 · Science & Technology',
+                s3_title: 'The Hemispheric Gap in Science & Technology',
+                s3_desc: 'PISA 2025 assesses scientific thinking as a driver of innovation: while East Asia leads decisively, Latin America and Mexico face a critical deficit relative to the OECD and North American high-tech demand.',
                 s3_mx_sci: 'Mexico<br>Sciences (414)',
-                s3_us_sci: 'USA<br>Sciences',
-                s3_oecd_sci: 'OECD<br>Sciences (482)',
+                s3_latam_sci: 'LATAM Avg.<br>Sciences (~405)',
+                s3_oecd_sci: 'OECD Avg.<br>Sciences (482)',
+                s3_us_sci: 'USA<br>Sciences (499)',
+                s3_asia_sci: 'Japan / Taiwan<br>Sciences (~545)',
+                card_sci_badge: 'OECD PISA 2025 EVALUATION',
+                card_sci_sub: '1 in 2 students',
+                card_sci_desc: '«In Latin America and Mexico, 50% (1 in 2 15-year-olds) do not reach baseline proficiency in science in PISA 2025, whereas in economies such as Japan or Taiwan 90% possess these skills; a critical gap that prevents them from interpreting scientific evidence, validating data, and navigating modern technological environments.»',
+                card_sci_source: '*Source: OECD, PISA 2025 Results (Science)',
+                card_us_badge: 'CROSS-BORDER TALENT PIPELINE',
+                card_us_sub: 'Shortage in the US',
+                card_us_desc: 'The United States projects over 2 million unfilled STEM positions and an acute deficit of 411,000 science and tech educators. Without a regional talent alliance with Mexico and LATAM, North America\'s technological edge weakens against Asia.',
+                card_us_source: '*Source: US Bureau of Labor Statistics (BLS) & NSF',
+                card_stem_badge: 'VOCATIONS & LATAM NEARSHORING',
+                card_stem_sub: 'STEM Graduates',
+                card_stem_desc: 'In Latin America, less than 9% of college graduates pursue STEM disciplines, even as regional demand for specialized talent in nearshoring, semiconductors, and AI software is projected to grow 2.4× through 2050.',
+                card_stem_source: '*Source: UNESCO, IDB & IMCO Human Capital 2025',
+                s3_callout: 'In PISA 2025, <strong>50% of students across Latin America and Mexico</strong> fail to reach baseline proficiency in science (compared to just 10% in leading East Asian economies and 24% in the OECD). In mathematics, <strong>7 in 10</strong> fall behind. This scientific deficit limits critical reasoning and technical innovation throughout the hemisphere.',
                 s4_tag: 'Convergent Diagnosis',
                 s4_title: 'Three sources, one<br><span style="color:var(--pink)">alarming diagnosis</span>',
                 s4_subtitle: 'Triangulation of 3 studies',
@@ -1646,14 +1864,14 @@
                 s7_latest: '2025',
                 s8_tag: 'Verification',
                 s8_title: '4 hypotheses. <span style="color:var(--green);">Supported by evidence.</span>',
-                s8_h1t: 'H1 — Students are not adequately prepared',
-                s8_h1d: '7 in 10 students fail to reach Level 2 in mathematics (PISA 2025); Mexico sits 75 points below the OECD average (388 vs 463).',
-                s8_h2t: 'H2 — Sector and socioeconomic gap',
-                s8_h2d: 'The public/private gap reflects socioeconomic disparities. In PISA 2025, 30% of Mexican students are in the lowest international SES quartile (scoring 387 pts in science). 80% of Sonora enrollment is in public schools.',
-                s8_h3t: 'H3 — Technology access',
-                s8_h3d: 'Computer and internet access is associated with up to 40 higher points in PISA. The digital divide amplifies educational inequity.',
-                s8_h4t: 'H4 — Career guidance and STEM role models',
-                s8_h4d: '3 in 10 15-year-olds lack a defined career plan (IMCO/OECD); STEM aspirations have stagnated for 20 years and UNICEF reports 4 in 10 girls perceive no positive family encouragement toward STEM.',
+                s8_h1t: 'H1 — Students lack mastery in science and math',
+                s8_h1d: '50% of students in LATAM and Mexico fail to reach minimum science proficiency in PISA 2025 (vs 90% mastery in Asia); in mathematics, 7 in 10 fail to achieve Level 2 (75 points below OECD average).',
+                s8_h2t: 'H2 — Hemispheric socioeconomic and sector divide',
+                s8_h2d: '30% of students in the region fall within the most vulnerable socioeconomic quartile internationally. Public-private gaps exceed 40 points in science and mathematics.',
+                s8_h3t: 'H3 — Digital divide and tech access',
+                s8_h3d: 'Access to a computer and reliable internet correlates with up to 40 additional PISA points. Deficits in lab infrastructure and digital tools reinforce regional inequality.',
+                s8_h4t: 'H4 — Vocational deficit vs North American demand',
+                s8_h4d: 'Less than 9% of graduates in LATAM are in STEM and 3 in 10 youth lack career guidance, even as the United States confronts 2M+ unfilled technical roles and urgent cross-border demand.',
                 s9_tag: 'The Solution',
                 s9_title: 'JóvenesSTEM:<br><span class="gradient-text" style="background:linear-gradient(135deg,var(--cyan),var(--green),var(--pink));-webkit-background-clip:text;">The program Sonora needs</span>',
                 s9_desc: 'Achievement accreditation aligned with EC0049 standard · CONOCER · SEP<br>Built upon the SIIP NextGEN instructional model',
@@ -1675,6 +1893,7 @@
                 s10_desc: 'Sonora is investing billions in technology and advanced industry. But without STEM human capital, that investment won\'t reach its potential. JóvenesSTEM is the answer.',
                 s10_author: 'Research conducted by <strong>Alberto Yépiz</strong><br>Universidad de Sonora · Master in Administration & edTech Expert · 2025',
                 s10_sources_title: 'Primary Sources & Official References',
+                s10_sources_list: '<li><strong>OECD PISA 2025:</strong> Country Note Mexico, Latin America Regional Insights & Results Vol. I.</li><li><strong>US BLS & NSF:</strong> Bureau of Labor Statistics STEM Projections & National Science Foundation Science and Engineering Indicators (US technical & teaching shortage).</li><li><strong>UNESCO & IDB:</strong> Regional reports on STEM vocations, human capital, and technology demand.</li><li><strong>IMCO:</strong> Compara Carreras 2025 & Human Capital projections toward 2050.</li><li><strong>State & Local Assessments:</strong> PLANEA EMS Sonora and Hermosillo ¿Cómo Vamos? (HCV) reports.</li>',
                 footer: 'JóvenesSTEM © 2025 · Designed by <a href="https://yepzhi.com" target="_blank">yepzhi</a> · Thesis research data, Universidad de Sonora'
             }
         };
@@ -1693,10 +1912,48 @@
             localStorage.setItem('jovenesstem-lang', lang);
         };
 
-        // Restore saved language preference
-        (function () {
+        // ===== SMART GEO & LOCALE AUTO-DETECTION =====
+        (function initLanguage() {
             const saved = localStorage.getItem('jovenesstem-lang');
-            if (saved && saved !== 'es') window.setLang(saved);
+            if (saved && (saved === 'es' || saved === 'en')) {
+                window.setLang(saved);
+                return;
+            }
+
+            // 1. Browser language detection
+            const browserLanguages = navigator.languages || [navigator.language || navigator.userLanguage || ''];
+            const firstLang = browserLanguages.length > 0 ? browserLanguages[0].toLowerCase() : '';
+            const isEnglishBrowser = firstLang.startsWith('en');
+
+            // 2. Timezone heuristics
+            let tz = '';
+            try {
+                tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+            } catch(e) {}
+            const englishTzIndicators = ['America/New_York', 'America/Chicago', 'America/Denver', 'America/Los_Angeles', 'America/Phoenix', 'America/Anchorage', 'America/Honolulu', 'Europe/London', 'US/', 'Canada/', 'Australia/'];
+            const isEnglishTz = englishTzIndicators.some(ind => tz.includes(ind));
+
+            if (isEnglishBrowser || isEnglishTz) {
+                window.setLang('en');
+            } else {
+                window.setLang('es');
+            }
+
+            // 3. Asynchronous Geo-IP verification (non-blocking fallback)
+            try {
+                fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(1500) })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!localStorage.getItem('jovenesstem-lang')) {
+                            const country = data && data.country_code;
+                            const enCountries = ['US', 'CA', 'GB', 'AU', 'NZ', 'IE'];
+                            if (enCountries.includes(country)) {
+                                window.setLang('en');
+                            }
+                        }
+                    })
+                    .catch(() => {});
+            } catch (err) {}
         })();
     </script>
 </body>
