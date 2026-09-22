@@ -90,7 +90,7 @@
             filter: blur(90px);
             opacity: 0.45;
             will-change: transform;
-            animation: orbFloat 80s ease-in-out infinite alternate;
+            animation: orbFloat 32s ease-in-out infinite alternate;
         }
 
         .aurora-orb-1 {
@@ -99,6 +99,7 @@
             top: -120px;
             left: -140px;
             background: radial-gradient(circle, rgba(39, 126, 255, 0.12) 0%, rgba(37, 99, 235, 0.05) 50%, transparent 75%);
+            animation-duration: 28s;
         }
 
         .aurora-orb-2 {
@@ -107,8 +108,8 @@
             top: 35%;
             right: -160px;
             background: radial-gradient(circle, rgba(0, 168, 150, 0.10) 0%, rgba(2, 132, 199, 0.05) 50%, transparent 75%);
-            animation-duration: 95s;
-            animation-delay: -15s;
+            animation-duration: 34s;
+            animation-delay: -10s;
         }
 
         .aurora-orb-3 {
@@ -117,8 +118,8 @@
             bottom: -100px;
             left: 20%;
             background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, rgba(39, 126, 255, 0.04) 50%, transparent 75%);
-            animation-duration: 110s;
-            animation-delay: -30s;
+            animation-duration: 38s;
+            animation-delay: -18s;
         }
 
         @keyframes orbFloat {
@@ -2189,7 +2190,7 @@
             document.getElementById('statusModal').classList.remove('active');
         }
 
-        // ── DYNAMIC BACKGROUND CANVAS: ULTRA LOW RESOURCE LIGHT AURORA & MATH FX ────
+        // ── DYNAMIC BACKGROUND CANVAS: FLUID LIGHT AURORA & MATH PARTICLES ────
         function initBackgroundCanvas() {
             const canvas = document.getElementById('bgCanvas');
             if (!canvas) return;
@@ -2213,8 +2214,7 @@
             let mouse = { x: -9999, y: -9999 };
             let time = 0;
             let isVisible = true;
-            let lastFrameTime = 0;
-            const targetFrameInterval = 1000 / 30; // 30 FPS cap: saves ~50% CPU/GPU cycles
+            let lastTimestamp = 0;
 
             function resize() {
                 const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -2227,17 +2227,15 @@
             }
 
             function initOrbs() {
-                // 30% speed multipliers applied to velocity
                 orbs = [
-                    { x: W * 0.25, y: H * 0.25, vx: 0.035, vy: 0.024, r: 350, colors: [BRAND.primary, BRAND.mid], phase: 0 },
-                    { x: W * 0.8,  y: H * 0.45, vx: -0.026, vy: 0.030, r: 380, colors: [BRAND.teal, BRAND.mid], phase: Math.PI * 0.6 }
+                    { x: W * 0.25, y: H * 0.25, vx: 7.0, vy: 4.5, r: 360, colors: [BRAND.primary, BRAND.mid], phase: 0 },
+                    { x: W * 0.8,  y: H * 0.45, vx: -5.5, vy: 6.0, r: 400, colors: [BRAND.teal, BRAND.mid], phase: Math.PI * 0.6 }
                 ];
             }
 
             function initDots() {
                 dots = [];
-                // Wider spacing (60px) reduces draw calls by over 55%
-                const spacing = W < 768 ? 72 : 58;
+                const spacing = W < 768 ? 68 : 52;
                 const cols = Math.ceil(W / spacing) + 1;
                 const rows = Math.ceil(H / spacing) + 1;
                 for (let r = 0; r < rows; r++) {
@@ -2249,18 +2247,16 @@
 
             function initMathGlyphs() {
                 mathGlyphs = [];
-                // Reduced count for ultra-lightweight execution
-                const count = W < 768 ? 8 : 14;
+                const count = W < 768 ? 10 : 16;
                 for (let i = 0; i < count; i++) {
                     mathGlyphs.push({
                         x: Math.random() * W,
                         y: Math.random() * H,
                         symbol: MATH_SYMBOLS[Math.floor(Math.random() * MATH_SYMBOLS.length)],
                         size: 13 + Math.random() * 8,
-                        // 30% speed: 0.05 to 0.12 px per frame
-                        speed: 0.05 + Math.random() * 0.07,
+                        speed: 16 + Math.random() * 20, // 16-36 px/sec: smooth, clearly perceptible floating
                         swayOffset: Math.random() * Math.PI * 2,
-                        opacity: 0.07 + Math.random() * 0.06
+                        opacity: 0.08 + Math.random() * 0.08
                     });
                 }
             }
@@ -2282,33 +2278,35 @@
 
             document.addEventListener('visibilitychange', () => {
                 isVisible = !document.hidden;
-                if (isVisible) requestAnimationFrame(tick);
+                if (isVisible) {
+                    lastTimestamp = 0;
+                    requestAnimationFrame(tick);
+                }
             });
 
-            function tick(timestamp) {
+            function tick(now) {
                 if (!isVisible) return;
                 requestAnimationFrame(tick);
 
-                // Throttle to 30 FPS for battery saving & ultra-low CPU utilization
-                if (timestamp - lastFrameTime < targetFrameInterval) return;
-                lastFrameTime = timestamp;
+                if (!lastTimestamp) lastTimestamp = now;
+                const dt = Math.min((now - lastTimestamp) / 1000, 0.1);
+                lastTimestamp = now;
 
-                // Time increment reduced to 30% speed (0.0010 vs 0.0035)
-                time += 0.0010;
+                time += dt * 0.75;
                 ctx.clearRect(0, 0, W, H);
 
-                // 1. Draw 2 soft ambient orbs (30% velocity)
+                // 1. Draw 2 soft ambient orbs (fluid, elegant motion)
                 for (let i = 0; i < orbs.length; i++) {
                     const orb = orbs[i];
-                    orb.x += orb.vx + Math.sin(time + orb.phase) * 0.06;
-                    orb.y += orb.vy + Math.cos(time * 0.8 + orb.phase) * 0.045;
+                    orb.x += (orb.vx + Math.sin(time * 0.7 + orb.phase) * 10) * dt;
+                    orb.y += (orb.vy + Math.cos(time * 0.5 + orb.phase) * 8) * dt;
                     if (orb.x < -orb.r) orb.x = W + orb.r;
                     if (orb.x > W + orb.r) orb.x = -orb.r;
                     if (orb.y < -orb.r) orb.y = H + orb.r;
                     if (orb.y > H + orb.r) orb.y = -orb.r;
 
                     const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.r);
-                    grad.addColorStop(0, `rgba(${orb.colors[0][0]}, ${orb.colors[0][1]}, ${orb.colors[0][2]}, 0.11)`);
+                    grad.addColorStop(0, `rgba(${orb.colors[0][0]}, ${orb.colors[0][1]}, ${orb.colors[0][2]}, 0.12)`);
                     grad.addColorStop(0.6, `rgba(${orb.colors[1][0]}, ${orb.colors[1][1]}, ${orb.colors[1][2]}, 0.04)`);
                     grad.addColorStop(1, 'rgba(255,255,255,0)');
 
@@ -2318,7 +2316,7 @@
                     ctx.fill();
                 }
 
-                // 2. High performance dot grid (fillRect is 10x faster than beginPath + arc)
+                // 2. High performance dot grid
                 ctx.fillStyle = 'rgba(39, 126, 255, 0.08)';
                 for (let i = 0; i < dots.length; i++) {
                     const dot = dots[i];
@@ -2342,21 +2340,19 @@
                     }
                 }
 
-                // 3. Floating Math Glyphs (30% speed, calm and peaceful)
+                // 3. Floating Math Glyphs (fluid and gracefully rising upward)
                 for (let i = 0; i < mathGlyphs.length; i++) {
                     const g = mathGlyphs[i];
-                    g.y -= g.speed;
-                    g.x += Math.sin(time + g.swayOffset) * 0.07;
+                    g.y -= g.speed * dt;
+                    g.x += Math.sin(time + g.swayOffset) * 0.35;
                     if (g.y < -30) {
-                        g.y = H + 20;
+                        g.y = H + 25;
                         g.x = Math.random() * W;
                     }
                     ctx.font = `600 ${g.size}px "JetBrains Mono", monospace`;
                     ctx.fillStyle = `rgba(39, 126, 255, ${g.opacity})`;
                     ctx.fillText(g.symbol, g.x, g.y);
                 }
-
-                requestAnimationFrame(tick);
             }
 
             requestAnimationFrame(tick);
