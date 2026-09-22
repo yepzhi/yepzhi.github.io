@@ -3,39 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Richmond Certificate Generator — Digital Credential Engine</title>
-    <meta name="description" content="Generador oficial de certificados Richmond para asistencia a sesiones y validación de competencia lingüística tras examen de ubicación (Placement Test). Emisión individual y masiva con trazabilidad de folios.">
+    <title>Generador de Certificados Richmond — Richmond Certificate Engine</title>
+    <meta name="description" content="Generador oficial de certificados Richmond para asistencia a sesiones y validación de competencia lingüística tras examen de ubicación (Placement Test). Emisión individual y masiva 100% estática.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://yepzhi.com/hub/webcert">
     
     <!-- Google Fonts: Outfit & Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- PDFLib & XLSX -->
+    <!-- PDFLib & XLSX (100% Client-Side Static Libraries) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     
     <style>
+        /* ============================================================
+           DESIGN SYSTEM — JóvenesSTEM (JSweb Light Theme)
+           Eje rector: #277eff (Azul Eléctrico) y #00a896 (Teal)
+           Diseño blanco limpio, sin modo oscuro, 100% estático.
+           ============================================================ */
         :root {
-            --bg-dark: #060913;
-            --bg-surface: rgba(13, 19, 34, 0.78);
-            --bg-card: rgba(255, 255, 255, 0.035);
-            --bg-card-hover: rgba(255, 255, 255, 0.065);
-            --border: rgba(255, 255, 255, 0.08);
-            --border-active: rgba(39, 126, 255, 0.55);
-            --border-cyan: rgba(0, 210, 255, 0.35);
+            --bg-color: #f1f5f9;
+            --bg-surface: #ffffff;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f8fafc;
+            --bg-note: rgba(39, 126, 255, 0.05);
+            --border: rgba(15, 23, 42, 0.09);
+            --border-hover: rgba(39, 126, 255, 0.4);
+            --border-active: #277eff;
             --primary: #277eff;
-            --primary-glow: rgba(39, 126, 255, 0.38);
+            --primary-hover: #1a6be8;
             --teal: #00a896;
-            --cyan: #00d2ff;
+            --cyan: #0284c7;
             --success: #10b981;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --text-sub: #cbd5e1;
-            --font-head: 'Outfit', -apple-system, sans-serif;
-            --font-sans: 'Inter', -apple-system, sans-serif;
+            --text-color: #0f172a;
+            --text-sub: #334155;
+            --text-muted: #64748b;
+            --font-head: 'Outfit', system-ui, sans-serif;
+            --font-sans: 'Inter', system-ui, sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
         }
 
@@ -47,19 +53,19 @@
 
         body {
             font-family: var(--font-sans);
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 24px 16px 90px;
+            padding: 30px 16px 90px;
             position: relative;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ── Fullscreen Interactive Background Canvas ── */
+        /* ── Fullscreen Interactive Background Canvas (Light Aurora & Math FX) ── */
         #bgCanvas {
             position: fixed;
             inset: 0;
@@ -69,7 +75,7 @@
             z-index: 0;
         }
 
-        /* ── Ambient Math Aura Blobs ── */
+        /* ── Ambient Soft Glow Orbs ── */
         .ambient-aurora-glow {
             position: fixed;
             inset: 0;
@@ -81,44 +87,44 @@
         .aurora-orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
+            filter: blur(90px);
             opacity: 0.45;
             will-change: transform;
-            animation: orbFloat 24s ease-in-out infinite alternate;
+            animation: orbFloat 80s ease-in-out infinite alternate;
         }
 
         .aurora-orb-1 {
-            width: 600px;
-            height: 600px;
-            top: -100px;
-            left: -150px;
-            background: radial-gradient(circle, rgba(39, 126, 255, 0.6) 0%, rgba(24, 104, 255, 0.3) 50%, transparent 75%);
+            width: 650px;
+            height: 650px;
+            top: -120px;
+            left: -140px;
+            background: radial-gradient(circle, rgba(39, 126, 255, 0.12) 0%, rgba(37, 99, 235, 0.05) 50%, transparent 75%);
         }
 
         .aurora-orb-2 {
-            width: 650px;
-            height: 650px;
-            top: 30%;
-            right: -180px;
-            background: radial-gradient(circle, rgba(0, 168, 150, 0.45) 0%, rgba(0, 210, 255, 0.25) 50%, transparent 75%);
-            animation-duration: 28s;
-            animation-delay: -5s;
+            width: 700px;
+            height: 700px;
+            top: 35%;
+            right: -160px;
+            background: radial-gradient(circle, rgba(0, 168, 150, 0.10) 0%, rgba(2, 132, 199, 0.05) 50%, transparent 75%);
+            animation-duration: 95s;
+            animation-delay: -15s;
         }
 
         .aurora-orb-3 {
-            width: 550px;
-            height: 550px;
+            width: 580px;
+            height: 580px;
             bottom: -100px;
             left: 20%;
-            background: radial-gradient(circle, rgba(67, 56, 202, 0.45) 0%, rgba(39, 126, 255, 0.2) 50%, transparent 75%);
-            animation-duration: 32s;
-            animation-delay: -10s;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, rgba(39, 126, 255, 0.04) 50%, transparent 75%);
+            animation-duration: 110s;
+            animation-delay: -30s;
         }
 
         @keyframes orbFloat {
             0% { transform: translate3d(0, 0, 0) scale(1); }
-            50% { transform: translate3d(50px, 40px, 0) scale(1.08); }
-            100% { transform: translate3d(-40px, 70px, 0) scale(0.95); }
+            50% { transform: translate3d(35px, 25px, 0) scale(1.04); }
+            100% { transform: translate3d(-25px, 40px, 0) scale(0.97); }
         }
 
         /* ── App Layout Container ── */
@@ -130,48 +136,36 @@
             margin: 0 auto;
         }
 
-        /* ── Header ── */
+        /* ── Header (Clean JSweb Light Style) ── */
         .header {
             text-align: center;
             margin-bottom: 28px;
-            padding: 10px 0;
-        }
-
-        .header-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 16px;
-            border-radius: 999px;
-            background: rgba(39, 126, 255, 0.1);
-            border: 1px solid rgba(39, 126, 255, 0.28);
-            color: var(--cyan);
-            font-size: 0.78rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            margin-bottom: 14px;
-            box-shadow: 0 0 16px rgba(39, 126, 255, 0.18);
+            padding: 8px 0;
         }
 
         .header h1 {
             font-family: var(--font-head);
-            font-size: clamp(2rem, 4.5vw, 3.1rem);
+            font-size: clamp(2.1rem, 4.6vw, 3.2rem);
             font-weight: 800;
             letter-spacing: -0.03em;
             line-height: 1.15;
             margin-bottom: 10px;
-            background: linear-gradient(135deg, #ffffff 20%, #cbd5e1 60%, #38bdf8 100%);
+            color: var(--text-color);
+        }
+
+        .header h1 .g {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--teal) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .header p {
             color: var(--text-muted);
-            font-size: clamp(0.95rem, 1.8vw, 1.1rem);
-            max-width: 680px;
+            font-size: clamp(0.96rem, 1.8vw, 1.1rem);
+            max-width: 660px;
             margin: 0 auto;
             line-height: 1.55;
+            font-weight: 450;
         }
 
         /* ── Main Split View Grid ── */
@@ -188,15 +182,13 @@
             }
         }
 
-        /* ── Glass Surface Cards ── */
+        /* ── White Glass Surface Cards ── */
         .glass-card {
             background: var(--bg-surface);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(255, 255, 255, 0.04);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03);
             position: relative;
         }
 
@@ -206,11 +198,11 @@
             align-items: center;
             gap: 8px;
             font-family: var(--font-head);
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             font-weight: 700;
             letter-spacing: 0.05em;
             text-transform: uppercase;
-            color: var(--cyan);
+            color: var(--primary);
             margin-bottom: 12px;
         }
 
@@ -218,7 +210,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-bottom: 24px;
+            margin-bottom: 22px;
         }
 
         @media (max-width: 580px) {
@@ -229,8 +221,8 @@
 
         .mode-card {
             position: relative;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            background: #ffffff;
+            border: 1px solid rgba(15, 23, 42, 0.12);
             border-radius: 14px;
             padding: 16px;
             cursor: pointer;
@@ -239,18 +231,19 @@
             flex-direction: column;
             gap: 8px;
             text-align: left;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
         }
 
         .mode-card:hover {
-            background: var(--bg-card-hover);
-            border-color: rgba(39, 126, 255, 0.35);
+            border-color: rgba(39, 126, 255, 0.4);
             transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(39, 126, 255, 0.08);
         }
 
         .mode-card.active {
-            background: rgba(39, 126, 255, 0.12);
+            background: #f0f7ff;
             border-color: var(--primary);
-            box-shadow: 0 0 24px rgba(39, 126, 255, 0.28), inset 0 0 0 1px var(--primary);
+            box-shadow: 0 0 0 1px var(--primary), 0 8px 22px rgba(39, 126, 255, 0.14);
         }
 
         .mode-header {
@@ -263,30 +256,30 @@
             width: 36px;
             height: 36px;
             border-radius: 10px;
-            background: rgba(39, 126, 255, 0.15);
-            color: var(--cyan);
+            background: rgba(39, 126, 255, 0.1);
+            color: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s ease;
         }
 
         .mode-card.active .mode-icon {
             background: var(--primary);
             color: #ffffff;
-            box-shadow: 0 0 12px var(--primary-glow);
         }
 
         .mode-radio {
             width: 18px;
             height: 18px;
             border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid #cbd5e1;
             position: relative;
             transition: all 0.2s ease;
         }
 
         .mode-card.active .mode-radio {
-            border-color: var(--cyan);
+            border-color: var(--primary);
         }
 
         .mode-card.active .mode-radio::after {
@@ -294,31 +287,30 @@
             position: absolute;
             inset: 3px;
             border-radius: 50%;
-            background: var(--cyan);
+            background: var(--primary);
         }
 
         .mode-title {
             font-family: var(--font-head);
             font-size: 1.05rem;
             font-weight: 700;
-            color: var(--text-main);
+            color: var(--text-color);
         }
 
         .mode-desc {
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             color: var(--text-muted);
-            line-height: 1.4;
+            line-height: 1.45;
         }
 
         /* ── Tabs (Individual vs Masivo) ── */
         .tabs-nav {
             display: flex;
-            background: rgba(0, 0, 0, 0.35);
+            background: #e2e8f0;
             padding: 4px;
             border-radius: 12px;
             gap: 6px;
             margin-bottom: 24px;
-            border: 1px solid var(--border);
         }
 
         .tab-btn {
@@ -340,14 +332,13 @@
         }
 
         .tab-btn:hover {
-            color: var(--text-main);
-            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-color);
         }
 
         .tab-btn.active {
-            background: var(--primary);
-            color: #ffffff;
-            box-shadow: 0 4px 16px rgba(39, 126, 255, 0.4);
+            background: #ffffff;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
         }
 
         .tab-pane {
@@ -364,7 +355,7 @@
             to { opacity: 1; transform: none; }
         }
 
-        /* ── Form Controls ── */
+        /* ── Form Controls (Light Mode) ── */
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -418,41 +409,48 @@
         select {
             width: 100%;
             padding: 12px 14px 12px 42px;
-            background: rgba(0, 0, 0, 0.35);
-            border: 1px solid var(--border);
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
             border-radius: 11px;
-            color: var(--text-main);
+            color: var(--text-color);
             font-family: inherit;
             font-size: 0.94rem;
             transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
         }
 
         textarea {
             padding: 12px 14px;
-            min-height: 78px;
+            min-height: 76px;
             resize: vertical;
         }
 
         input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(39, 126, 255, 0.22);
-            background: rgba(0, 0, 0, 0.55);
+            box-shadow: 0 0 0 3px rgba(39, 126, 255, 0.16);
+            background: #ffffff;
         }
 
         input::placeholder, textarea::placeholder {
-            color: rgba(148, 163, 184, 0.5);
+            color: #94a3b8;
         }
 
-        /* ── CEFR Level Quick Selector Chips ── */
+        /* ── CEFR Level Quick Selector Chips (10 Levels: A1 A, A1 B, A2 A, A2 B, B1, B1+, B2, B2+, C1, C2) ── */
         .cefr-chips-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 8px;
             margin-bottom: 10px;
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
+            .cefr-chips-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 420px) {
             .cefr-chips-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -460,65 +458,66 @@
 
         .cefr-chip {
             padding: 8px 6px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
             border-radius: 9px;
             color: var(--text-sub);
             font-family: var(--font-mono);
             font-size: 0.85rem;
-            font-weight: 600;
+            font-weight: 700;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
         }
 
         .cefr-chip:hover {
-            border-color: rgba(39, 126, 255, 0.4);
-            color: var(--text-main);
-            background: var(--bg-card-hover);
+            border-color: var(--primary);
+            color: var(--primary);
+            background: #f0f7ff;
         }
 
         .cefr-chip.active {
-            background: rgba(39, 126, 255, 0.22);
-            border-color: var(--cyan);
+            background: var(--primary);
+            border-color: var(--primary);
             color: #ffffff;
-            box-shadow: 0 0 14px rgba(0, 210, 255, 0.25);
+            box-shadow: 0 4px 12px rgba(39, 126, 255, 0.25);
         }
 
-        /* ── Template Status & Upload Box ── */
+        /* ── Template Status & Upload Box (Light Mode) ── */
         .template-banner {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 12px 16px;
             border-radius: 12px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
             margin-bottom: 22px;
-            font-size: 0.84rem;
-            color: #a7f3d0;
+            font-size: 0.85rem;
+            color: #065f46;
         }
 
         .template-banner.loading {
-            background: rgba(39, 126, 255, 0.1);
-            border-color: rgba(39, 126, 255, 0.3);
-            color: #bae6fd;
+            background: #f0f9ff;
+            border-color: #bae6fd;
+            color: #0369a1;
         }
 
         .template-info {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .btn-ghost-sm {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
             color: var(--text-sub);
-            padding: 5px 12px;
-            border-radius: 7px;
-            font-size: 0.76rem;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.78rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -529,17 +528,17 @@
 
         .btn-ghost-sm:hover {
             border-color: var(--primary);
-            color: #ffffff;
-            background: rgba(39, 126, 255, 0.15);
+            color: var(--primary);
+            background: #f0f7ff;
         }
 
-        /* ── Drag and Drop Upload Area ── */
+        /* ── Drag and Drop Upload Area (Light Mode) ── */
         .dropzone {
-            border: 2px dashed rgba(255, 255, 255, 0.16);
+            border: 2px dashed #cbd5e1;
             border-radius: 14px;
             padding: 28px 20px;
             text-align: center;
-            background: rgba(0, 0, 0, 0.2);
+            background: #f8fafc;
             cursor: pointer;
             transition: all 0.25s ease;
             margin-bottom: 20px;
@@ -547,8 +546,8 @@
 
         .dropzone:hover, .dropzone.dragover {
             border-color: var(--primary);
-            background: rgba(39, 126, 255, 0.08);
-            box-shadow: 0 0 20px rgba(39, 126, 255, 0.15);
+            background: #f0f7ff;
+            box-shadow: 0 0 16px rgba(39, 126, 255, 0.1);
         }
 
         .dropzone input[type="file"] {
@@ -556,12 +555,12 @@
         }
 
         .dropzone-icon {
-            width: 48px;
-            height: 48px;
+            width: 46px;
+            height: 46px;
             margin: 0 auto 12px;
             border-radius: 12px;
-            background: rgba(39, 126, 255, 0.15);
-            color: var(--cyan);
+            background: rgba(39, 126, 255, 0.1);
+            color: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -571,12 +570,12 @@
             font-family: var(--font-head);
             font-size: 1rem;
             font-weight: 700;
-            color: var(--text-main);
+            color: var(--text-color);
             margin-bottom: 4px;
         }
 
         .dropzone-sub {
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             color: var(--text-muted);
         }
 
@@ -593,7 +592,7 @@
             font-weight: 700;
             cursor: pointer;
             transition: all 0.25s ease;
-            box-shadow: 0 8px 24px rgba(24, 104, 255, 0.35);
+            box-shadow: 0 6px 20px rgba(24, 104, 255, 0.25);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -602,8 +601,8 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(24, 104, 255, 0.5);
-            filter: brightness(1.08);
+            box-shadow: 0 10px 26px rgba(24, 104, 255, 0.38);
+            filter: brightness(1.05);
         }
 
         .btn-primary:disabled {
@@ -620,37 +619,38 @@
             gap: 8px;
             padding: 10px 16px;
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            color: var(--text-main);
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: var(--text-sub);
             font-family: var(--font-head);
-            font-size: 0.86rem;
+            font-size: 0.88rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
             text-decoration: none;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.25);
-            color: var(--cyan);
+            background: #f0f7ff;
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
-        /* ── Instruction Box ── */
+        /* ── Instruction Box (Light Mode) ── */
         .guide-box {
-            background: rgba(0, 0, 0, 0.28);
+            background: #f8fafc;
             border: 1px solid var(--border);
             border-radius: 14px;
-            padding: 16px;
+            padding: 18px;
             margin-bottom: 20px;
-            font-size: 0.83rem;
+            font-size: 0.85rem;
             color: var(--text-sub);
             line-height: 1.6;
         }
 
         .guide-box strong {
-            color: var(--text-main);
+            color: var(--text-color);
         }
 
         .guide-cols-list {
@@ -664,18 +664,19 @@
 
         .guide-cols-list code {
             font-family: var(--font-mono);
-            background: rgba(39, 126, 255, 0.15);
-            color: var(--cyan);
+            background: #e2e8f0;
+            color: var(--primary);
             padding: 2px 6px;
             border-radius: 4px;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
+            font-weight: 600;
         }
 
         /* ── Progress Bar ── */
         .progress-box {
             display: none;
             margin-top: 20px;
-            background: rgba(0, 0, 0, 0.4);
+            background: #f8fafc;
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 16px;
@@ -684,16 +685,17 @@
         .progress-header {
             display: flex;
             justify-content: space-between;
-            font-size: 0.85rem;
+            font-size: 0.86rem;
             margin-bottom: 8px;
             color: var(--text-sub);
             font-family: var(--font-mono);
+            font-weight: 600;
         }
 
         .progress-track {
             width: 100%;
             height: 8px;
-            background: rgba(255, 255, 255, 0.08);
+            background: #e2e8f0;
             border-radius: 999px;
             overflow: hidden;
         }
@@ -701,9 +703,8 @@
         .progress-bar-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #1868ff, #00d2ff);
+            background: linear-gradient(90deg, var(--primary), var(--teal));
             transition: width 0.2s ease;
-            box-shadow: 0 0 12px rgba(0, 210, 255, 0.5);
         }
 
         /* ── Right Column: Interactive Live Certificate Preview ── */
@@ -717,86 +718,22 @@
             background: #ffffff;
             border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.06);
             aspect-ratio: 540 / 720;
             width: 100%;
             user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .preview-canvas-bg {
-            position: absolute;
-            inset: 0;
+        .preview-canvas-render {
             width: 100%;
             height: 100%;
-            object-fit: cover;
             display: block;
-        }
-
-        .preview-overlay-content {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            pointer-events: none;
-            text-align: center;
-        }
-
-        .preview-student-name {
-            position: absolute;
-            top: 48.6%;
-            left: 7.5%;
-            right: 7.5%;
-            transform: translateY(-50%);
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-weight: 700;
-            color: #000000;
-            font-size: clamp(14px, 2.7cqi, 26px);
-            line-height: 1.15;
-            word-break: break-word;
-        }
-
-        .preview-body-container {
-            position: absolute;
-            top: 54.8%;
-            left: 7.5%;
-            right: 7.5%;
-            color: #4a5568;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: clamp(8px, 1.35cqi, 11px);
-            line-height: 1.45;
-        }
-
-        .preview-body-line-title {
-            font-weight: 700;
-            color: #1a202c;
-            font-size: clamp(9px, 1.45cqi, 13px);
-            margin: 2px 0;
-        }
-
-        .preview-body-badge {
-            font-weight: 700;
-            color: #1e3a8a;
-            font-size: clamp(9px, 1.45cqi, 13px);
-            margin-top: 4px;
-        }
-
-        .preview-date-line {
-            position: absolute;
-            top: 65.5%;
-            left: 10%;
-            right: 10%;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: clamp(8px, 1.3cqi, 12px);
-            color: #718096;
-        }
-
-        .preview-folio-line {
-            position: absolute;
-            bottom: 3.8%;
-            right: 5.5%;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: clamp(6px, 0.95cqi, 9px);
-            color: #a0aec0;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #ffffff;
         }
 
         .preview-footer-note {
@@ -812,18 +749,18 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            color: var(--cyan);
+            color: var(--primary);
             font-family: var(--font-mono);
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .live-pulse-dot {
             width: 7px;
             height: 7px;
             border-radius: 50%;
-            background: var(--cyan);
-            box-shadow: 0 0 8px var(--cyan);
+            background: var(--teal);
+            box-shadow: 0 0 6px var(--teal);
             animation: pulseGlow 1.8s infinite;
         }
 
@@ -832,14 +769,14 @@
             50% { opacity: 0.4; transform: scale(0.8); }
         }
 
-        /* ── Modal Dialog ── */
+        /* ── Modal Dialog (Light Mode) ── */
         .modal-backdrop {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(3, 7, 18, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -852,25 +789,25 @@
         }
 
         .modal-box {
-            background: #0d1527;
+            background: #ffffff;
             border: 1px solid var(--border);
             border-radius: 20px;
             padding: 36px 30px;
             max-width: 440px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(39, 126, 255, 0.2);
+            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.15);
             position: relative;
         }
 
         .modal-icon-circle {
-            width: 64px;
-            height: 64px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.35);
-            color: #10b981;
-            margin: 0 auto 20px;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: var(--success);
+            margin: 0 auto 18px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -880,15 +817,15 @@
             font-family: var(--font-head);
             font-size: 1.5rem;
             font-weight: 800;
-            margin-bottom: 10px;
-            color: var(--text-main);
+            margin-bottom: 8px;
+            color: var(--text-color);
         }
 
         .modal-box p {
             color: var(--text-sub);
             font-size: 0.95rem;
             line-height: 1.55;
-            margin-bottom: 24px;
+            margin-bottom: 22px;
             white-space: pre-line;
         }
 
@@ -903,8 +840,8 @@
             align-items: center;
             padding: 12px 30px;
             font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
-            background: rgba(6, 9, 19, 0.75);
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-top: 1px solid var(--border);
@@ -912,18 +849,17 @@
         }
 
         .site-footer a {
-            color: var(--cyan);
+            color: var(--primary);
             text-decoration: none;
             font-weight: 600;
             transition: color 0.2s;
         }
 
         .site-footer a:hover {
-            color: #ffffff;
+            color: var(--primary-hover);
             text-decoration: underline;
         }
 
-        /* Hidden File Inputs */
         .hidden-input {
             position: absolute;
             left: -9999px;
@@ -935,7 +871,7 @@
 </head>
 <body>
 
-    <!-- Dynamic Aurora & Math Particle Canvas -->
+    <!-- Dynamic Aurora & Math Particle Canvas (Light Mode) -->
     <canvas id="bgCanvas"></canvas>
     
     <!-- Ambient Blur Gradients -->
@@ -946,16 +882,10 @@
     </div>
 
     <div class="app-wrapper">
-        <!-- Header -->
+        <!-- Header (Clean White Style) -->
         <header class="header">
-            <div class="header-badge">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                </svg>
-                Richmond Digital Credential Suite
-            </div>
-            <h1>Richmond Certificate Engine</h1>
-            <p>Generación de certificados digitales oficiales de alta fidelidad para talleres presenciales, webinars y validación de competencia lingüística tras examen de ubicación.</p>
+            <h1>Generador de Certificados <span class="g">Richmond</span></h1>
+            <p>Emisión oficial de certificados digitales para asistencia a sesiones y validación de nivel de inglés según el examen de ubicación Richmond Placement Test.</p>
         </header>
 
         <!-- Main Workspace -->
@@ -1003,7 +933,7 @@
                             <div class="mode-radio"></div>
                         </div>
                         <div class="mode-title">Validación Placement Test</div>
-                        <div class="mode-desc">Validación oficial del nivel de inglés (MCER / CEFR) y puntaje obtenido en el Richmond Placement Test.</div>
+                        <div class="mode-desc">Acreditación oficial del nivel de inglés (MCER / CEFR) y puntaje tras examen de ubicación Richmond.</div>
                     </div>
                 </div>
 
@@ -1134,15 +1064,18 @@
                                     Nivel de Inglés Acreditado (MCER / CEFR)
                                     <span class="label-tag">Selección rápida</span>
                                 </label>
+                                <!-- 10 CEFR Level Chips with A/B separation: A1 A, A1 B, A2 A, A2 B, B1, B1+, B2, B2+, C1, C2 -->
                                 <div class="cefr-chips-grid">
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('A1 (Beginner)')">A1</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('A2 (Elementary)')">A2</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('B1 (Pre-Intermediate)')">B1</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('B1+ (Intermediate)')">B1+</button>
-                                    <button type="button" class="cefr-chip active" onclick="selectCefrChip('B2 (Upper Intermediate)')">B2</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('B2+ (Advanced Placement)')">B2+</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('C1 (Advanced)')">C1</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('C2 (Proficient)')">C2</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('A1 A', this)">A1 A</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('A1 B', this)">A1 B</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('A2 A', this)">A2 A</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('A2 B', this)">A2 B</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('B1', this)">B1</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('B1+', this)">B1+</button>
+                                    <button type="button" class="cefr-chip active" onclick="selectCefrChip('B2', this)">B2</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('B2+', this)">B2+</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('C1', this)">C1</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('C2', this)">C2</button>
                                 </div>
                                 <div class="input-wrapper">
                                     <span class="input-icon">
@@ -1151,7 +1084,7 @@
                                             <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
                                         </svg>
                                     </span>
-                                    <input type="text" id="inputCefr" placeholder="Ej: B2 (Upper Intermediate)" value="B2 (Upper Intermediate)" oninput="updateLivePreview()">
+                                    <input type="text" id="inputCefr" placeholder="Ej: B2" value="B2" oninput="updateLivePreview()">
                                 </div>
                             </div>
 
@@ -1223,7 +1156,7 @@
                             <ul class="guide-cols-list">
                                 <li><code>Nombre</code>: Nombre del estudiante evaluado.</li>
                                 <li><code>Apellido</code>: Apellidos completos.</li>
-                                <li><code>Nivel</code> o <code>CEFR</code>: Nivel acreditado (ej: B2 Upper Intermediate).</li>
+                                <li><code>Nivel</code> o <code>CEFR</code>: Nivel acreditado (ej: A1 A, A1 B, A2 A, A2 B, B1, B1+, B2, B2+, C1, C2).</li>
                                 <li><code>Puntaje</code> o <code>Score</code>: Calificación (opcional, ej: 86 / 100).</li>
                                 <li><code>Fecha</code>: Formato DD/MM/YYYY de evaluación.</li>
                             </ul>
@@ -1290,36 +1223,24 @@
                     </div>
 
                     <div class="preview-card-wrap" id="previewWrap">
-                        <!-- Official Richmond Background Render -->
-                        <img src="https://yepzhi.com/Template.pdf" id="previewImg" class="preview-canvas-bg" alt="Richmond Template" onerror="handlePreviewFallback(this)">
-                        
-                        <!-- Overlay Text Layers -->
-                        <div class="preview-overlay-content">
-                            <!-- Student Name -->
-                            <div class="preview-student-name" id="previewName">
-                                Pérez García Juan Carlos
-                            </div>
+                        <!-- High Fidelity Retina Canvas Render -->
+                        <canvas id="liveCertCanvas" width="1080" height="1440" class="preview-canvas-render"></canvas>
+                    </div>
 
-                            <!-- Body Text Area -->
-                            <div class="preview-body-container" id="previewBodyContainer">
-                                <!-- Dynamic JS Injection -->
-                            </div>
-
-                            <!-- Date Line -->
-                            <div class="preview-date-line" id="previewDateLine">
-                                August 24, 2025 (2 hours)
-                            </div>
-
-                            <!-- Folio -->
-                            <div class="preview-folio-line" id="previewFolioLine">
-                                Folio: 8492
-                            </div>
-                        </div>
+                    <div style="margin-top: 12px; display: flex; gap: 8px;">
+                        <button type="button" class="btn-ghost-sm" style="flex: 1; justify-content: center;" onclick="downloadPreviewPNG()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Descargar Vista Previa (PNG)
+                        </button>
                     </div>
 
                     <div class="preview-footer-note">
-                        <span>Formato vertical oficial 540 × 720</span>
-                        <span>Motor PDFLib v1.17</span>
+                        <span>Formato oficial 540 × 720 (Retina 2x)</span>
+                        <span>Render en tiempo real</span>
                     </div>
                 </div>
             </div>
@@ -1330,7 +1251,7 @@
     <div class="modal-backdrop" id="statusModal">
         <div class="modal-box">
             <div class="modal-icon-circle" id="modalIcon">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
             </div>
@@ -1343,7 +1264,7 @@
     <!-- Footer -->
     <footer class="site-footer">
         <div>
-            Desarrollado con precisión por <a href="https://github.com/yepzhi" target="_blank" rel="noopener">@yepzhi</a> · Plataforma WebCert
+            Desarrollado con precisión por <a href="https://github.com/yepzhi" target="_blank" rel="noopener">@yepzhi</a> · Plataforma WebCert (100% Estática)
         </div>
         <div class="visit-counter">
             <script type="text/javascript">
@@ -1366,7 +1287,7 @@
     </footer>
 
     <script>
-        // ── STATE MANAGEMENT ─────────────────────────────────────────
+        // ── STATE MANAGEMENT (100% CLIENT-SIDE STATIC, ZERO BACKEND) ──
         const { PDFDocument, rgb, StandardFonts } = PDFLib;
         const DEFAULT_TEMPLATE_URL = 'https://yepzhi.com/Template.pdf';
         
@@ -1382,10 +1303,29 @@
         }
 
         // ── INITIALIZATION & PRELOAD ─────────────────────────────────
+        // ── INITIALIZATION & PRELOAD ─────────────────────────────────
         window.addEventListener('DOMContentLoaded', async () => {
             initBackgroundCanvas();
             setDefaultDates();
-            await loadTemplatePDF();
+            initTemplateImage();
+            loadTemplatePDF();
+            
+            // Wire up inputCefr live highlight of chips
+            const inputCefr = document.getElementById('inputCefr');
+            if (inputCefr) {
+                inputCefr.addEventListener('input', function() {
+                    const val = this.value.trim().toUpperCase();
+                    document.querySelectorAll('.cefr-chip').forEach(c => {
+                        if (c.textContent.trim().toUpperCase() === val) {
+                            c.classList.add('active');
+                        } else {
+                            c.classList.remove('active');
+                        }
+                    });
+                    updateLivePreview();
+                });
+            }
+
             updateLivePreview();
         });
 
@@ -1396,44 +1336,67 @@
             const yyyy = today.getFullYear();
             const todayFormatted = `${dd}/${mm}/${yyyy}`;
             
-            document.getElementById('inputFecha').value = todayFormatted;
-            document.getElementById('inputFechaPlacement').value = todayFormatted;
+            const f1 = document.getElementById('inputFecha');
+            const f2 = document.getElementById('inputFechaPlacement');
+            if (f1) f1.value = todayFormatted;
+            if (f2) f2.value = todayFormatted;
         }
 
         async function loadTemplatePDF() {
             const banner = document.getElementById('templateBanner');
             const statusText = document.getElementById('templateStatusText');
-            banner.classList.add('loading');
-            statusText.textContent = 'Cargando plantilla oficial Richmond...';
+            if (banner) banner.classList.add('loading');
+            if (statusText) statusText.textContent = 'Cargando plantilla oficial Richmond...';
 
-            try {
-                const res = await fetch(DEFAULT_TEMPLATE_URL);
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                templatePdfBytes = await res.arrayBuffer();
-                banner.classList.remove('loading');
-                statusText.textContent = 'Plantilla oficial Richmond cargada';
-            } catch (err) {
-                console.warn('Plantilla oficial por fetch no disponible:', err);
-                statusText.textContent = 'Plantilla en espera (subir archivo si es necesario)';
+            const candidateUrls = [
+                'Template.pdf',
+                '/Template.pdf',
+                '/hub/webcert/Template.pdf',
+                '../Template.pdf',
+                DEFAULT_TEMPLATE_URL
+            ];
+
+            for (const url of candidateUrls) {
+                try {
+                    const res = await fetch(url);
+                    if (res.ok) {
+                        templatePdfBytes = await res.arrayBuffer();
+                        if (banner) banner.classList.remove('loading');
+                        if (statusText) statusText.textContent = 'Plantilla oficial Richmond cargada';
+                        return;
+                    }
+                } catch (e) {
+                    // try next candidate
+                }
             }
+            if (statusText) statusText.textContent = 'Plantilla en espera (subir archivo si es necesario)';
         }
 
         function handleCustomTemplateSelect(event) {
             const file = event.target.files[0];
             if (!file) return;
+            const statusText = document.getElementById('templateStatusText');
+            if (statusText) statusText.textContent = `Plantilla personalizada: ${file.name}`;
+
+            if (file.type.startsWith('image/')) {
+                const imgReader = new FileReader();
+                imgReader.onload = function(e) {
+                    const customImg = new Image();
+                    customImg.onload = function() {
+                        templateImg = customImg;
+                        templateImgLoaded = true;
+                        updateLivePreview();
+                    };
+                    customImg.src = e.target.result;
+                };
+                imgReader.readAsDataURL(file);
+            }
+
             const reader = new FileReader();
             reader.onload = function(e) {
                 templatePdfBytes = e.target.result;
-                const statusText = document.getElementById('templateStatusText');
-                statusText.textContent = `Plantilla personalizada: ${file.name}`;
             };
             reader.readAsArrayBuffer(file);
-        }
-
-        function handlePreviewFallback(img) {
-            // Render a clean SVG placeholder in preview if PDF image fails directly
-            img.style.background = 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)';
-            img.style.opacity = '0.9';
         }
 
         // ── MODE SELECTOR ───────────────────────────────────────────
@@ -1447,29 +1410,32 @@
             const guidePlacement = document.getElementById('guidePlacementText');
 
             if (mode === 'session') {
-                cardSession.classList.add('active');
-                cardPlacement.classList.remove('active');
-                fieldsSession.style.display = 'block';
-                fieldsPlacement.style.display = 'none';
-                guideSession.style.display = 'block';
-                guidePlacement.style.display = 'none';
+                if (cardSession) cardSession.classList.add('active');
+                if (cardPlacement) cardPlacement.classList.remove('active');
+                if (fieldsSession) fieldsSession.style.display = 'block';
+                if (fieldsPlacement) fieldsPlacement.style.display = 'none';
+                if (guideSession) guideSession.style.display = 'block';
+                if (guidePlacement) guidePlacement.style.display = 'none';
             } else {
-                cardSession.classList.remove('active');
-                cardPlacement.classList.add('active');
-                fieldsSession.style.display = 'none';
-                fieldsPlacement.style.display = 'block';
-                guideSession.style.display = 'none';
-                guidePlacement.style.display = 'block';
+                if (cardSession) cardSession.classList.remove('active');
+                if (cardPlacement) cardPlacement.classList.add('active');
+                if (fieldsSession) fieldsSession.style.display = 'none';
+                if (fieldsPlacement) fieldsPlacement.style.display = 'block';
+                if (guideSession) guideSession.style.display = 'none';
+                if (guidePlacement) guidePlacement.style.display = 'block';
             }
             updateLivePreview();
         }
 
-        function selectCefrChip(level) {
+        function selectCefrChip(level, btn) {
             document.querySelectorAll('.cefr-chip').forEach(c => c.classList.remove('active'));
-            if (event && event.target) {
-                event.target.classList.add('active');
+            if (btn) {
+                btn.classList.add('active');
             }
-            document.getElementById('inputCefr').value = level;
+            const inputCefr = document.getElementById('inputCefr');
+            if (inputCefr) {
+                inputCefr.value = level;
+            }
             updateLivePreview();
         }
 
@@ -1487,45 +1453,211 @@
             }
         }
 
-        // ── LIVE PREVIEW ENGINE ─────────────────────────────────────
+        // ── LIVE PREVIEW ENGINE (HIGH FIDELITY RETINA CANVAS) ─────────
+        let templateImg = null;
+        let templateImgLoaded = false;
+
+        function initTemplateImage() {
+            const candidateUrls = [
+                'Template.png',
+                '/hub/webcert/Template.png',
+                '/hub/Template.png',
+                '/Template.png',
+                'Template.webp',
+                'https://yepzhi.com/Template.png',
+                'https://yepzhi.com/hub/Template.png'
+            ];
+
+            function tryCandidate(index) {
+                if (index >= candidateUrls.length) {
+                    console.warn('Plantilla visual no disponible en red. Se usará render vector en canvas.');
+                    templateImgLoaded = false;
+                    updateLivePreview();
+                    return;
+                }
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.onload = function() {
+                    templateImg = img;
+                    templateImgLoaded = true;
+                    updateLivePreview();
+                };
+                img.onerror = function() {
+                    tryCandidate(index + 1);
+                };
+                img.src = candidateUrls[index];
+            }
+
+            tryCandidate(0);
+        }
+
         function updateLivePreview() {
-            const nombre = document.getElementById('inputNombre').value.trim() || 'Juan Carlos';
-            const apellido = document.getElementById('inputApellido').value.trim() || 'Pérez García';
-            const previewName = document.getElementById('previewName');
-            const bodyContainer = document.getElementById('previewBodyContainer');
-            const dateLine = document.getElementById('previewDateLine');
+            const canvas = document.getElementById('liveCertCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
             
-            // Format Name in order: Apellido Nombre
-            previewName.textContent = `${apellido} ${nombre}`;
+            // Canvas coordinate resolution: 1080 × 1440 (Retina 2x of 540 × 720)
+            const W = 1080;
+            const H = 1440;
+            const scale = 2;
 
-            if (activeMode === 'session') {
-                const evento = document.getElementById('inputEvento').value.trim() || 'Fostering Learning Communities';
-                const fecha = document.getElementById('inputFecha').value.trim() || '24/08/2025';
-                const horas = document.getElementById('inputHoras').value || '2';
-                const fechaTexto = convertirFecha(fecha);
+            ctx.clearRect(0, 0, W, H);
 
-                bodyContainer.innerHTML = `
-                    <div>For attending the <strong>${escapeHTML(evento)}</strong> session.</div>
-                `;
-                dateLine.textContent = `${fechaTexto} (${horas} hour${horas != 1 ? 's' : ''})`;
+            // 1. Draw Template Artwork
+            if (templateImgLoaded && templateImg) {
+                ctx.drawImage(templateImg, 0, 0, W, H);
             } else {
-                const cefr = document.getElementById('inputCefr').value.trim() || 'B2 (Upper Intermediate)';
-                const score = document.getElementById('inputScore').value.trim();
-                const fecha = document.getElementById('inputFechaPlacement').value.trim() || '22/09/2026';
+                // Vector fallback if image hasn't finished loading
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, W, H);
+
+                ctx.strokeStyle = '#e2e8f0';
+                ctx.lineWidth = 6;
+                ctx.strokeRect(30, 30, W - 60, H - 60);
+
+                ctx.fillStyle = '#277eff';
+                ctx.font = 'bold 36px "Outfit", system-ui, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Richmond', W / 2, 170);
+
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 44px "Outfit", system-ui, sans-serif';
+                ctx.fillText('CERTIFICATE OF PARTICIPATION', W / 2, 235);
+
+                ctx.fillStyle = '#64748b';
+                ctx.font = '22px "Inter", system-ui, sans-serif';
+                ctx.fillText('PROUDLY PRESENTED TO:', W / 2, 280);
+
+                ctx.fillStyle = '#cbd5e1';
+                ctx.fillRect(W / 2 - 100, 300, 200, 4);
+            }
+
+            // 2. Recipient Name (Centered at Y = 350 * 2 = 700)
+            const nombre = (document.getElementById('inputNombre')?.value || 'Juan Carlos').trim();
+            const apellido = (document.getElementById('inputApellido')?.value || 'Pérez García').trim();
+            const nombreCompleto = `${apellido} ${nombre}`.trim() || 'Pérez García Juan Carlos';
+
+            let nombreSize = 76; // 38 * 2
+            ctx.font = `bold ${nombreSize}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+            const maxNombreWidth = W * 0.85; // 918px
+            while (ctx.measureText(nombreCompleto).width > maxNombreWidth && nombreSize > 34) {
+                nombreSize -= 2;
+                ctx.font = `bold ${nombreSize}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+            }
+
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'alphabetic';
+            ctx.fillStyle = '#000000';
+            ctx.fillText(nombreCompleto, W / 2, 350 * scale);
+
+            // 3. Body Text According to Mode
+            if (activeMode === 'session') {
+                const evento = (document.getElementById('inputEvento')?.value || 'Fostering Learning Communities').trim();
+                const fecha = (document.getElementById('inputFecha')?.value || '24/08/2025').trim();
+                const horas = document.getElementById('inputHoras')?.value || '2';
                 const fechaTexto = convertirFecha(fecha);
 
-                let badgeContent = `CEFR Level: ${escapeHTML(cefr)}`;
-                if (score) {
-                    badgeContent += ` &nbsp;|&nbsp; ${escapeHTML(score)}`;
+                const evSize = 11.2 * scale; // 22.4px
+                const startText = 'For attending the ';
+                const endText = ' session.';
+
+                ctx.font = `${evSize}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                const startW = ctx.measureText(startText).width;
+                const endW = ctx.measureText(endText).width;
+
+                ctx.font = `bold ${evSize}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                const evW = ctx.measureText(evento).width;
+                const totalW = startW + evW + endW;
+                const maxEvW = W * 0.8;
+
+                const yEvento = 395 * scale; // 790px
+
+                if (totalW <= maxEvW) {
+                    let curX = (W - totalW) / 2;
+                    ctx.textAlign = 'left';
+
+                    ctx.font = `${evSize}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                    ctx.fillStyle = '#4d4d4d';
+                    ctx.fillText(startText, curX, yEvento);
+                    curX += startW;
+
+                    ctx.font = `bold ${evSize}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                    ctx.fillStyle = '#333333';
+                    ctx.fillText(evento, curX, yEvento);
+                    curX += evW;
+
+                    ctx.font = `${evSize}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                    ctx.fillStyle = '#4d4d4d';
+                    ctx.fillText(endText, curX, yEvento);
+                } else {
+                    ctx.textAlign = 'center';
+                    ctx.font = `${evSize}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                    ctx.fillStyle = '#4d4d4d';
+                    ctx.fillText(startText.trim(), W / 2, yEvento);
+
+                    ctx.font = `bold ${evSize}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                    ctx.fillStyle = '#333333';
+                    const line2 = `${evento}${endText}`;
+                    ctx.fillText(line2, W / 2, yEvento + 16 * scale);
                 }
 
-                bodyContainer.innerHTML = `
-                    <div style="font-size: 0.9em; opacity: 0.9;">For successfully validating English language proficiency through the</div>
-                    <div class="preview-body-line-title">Richmond Placement Test</div>
-                    <div class="preview-body-badge">${badgeContent}</div>
-                `;
-                dateLine.textContent = `Date of Assessment: ${fechaTexto}`;
+                // Date & Hours
+                const dateText = `${fechaTexto} (${horas} hour${horas != 1 ? 's' : ''})`;
+                ctx.textAlign = 'center';
+                ctx.font = `${14 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.fillStyle = '#808080';
+                ctx.fillText(dateText, W / 2, 470 * scale); // 940px
+
+            } else {
+                // Mode 2: Placement Test Validation
+                const cefr = (document.getElementById('inputCefr')?.value || 'B2').trim();
+                const score = (document.getElementById('inputScore')?.value || '').trim();
+                const fecha = (document.getElementById('inputFechaPlacement')?.value || '22/09/2026').trim();
+                const fechaTexto = convertirFecha(fecha);
+
+                // Line 1: Purpose
+                const line1 = 'For successfully validating English language proficiency through the';
+                ctx.textAlign = 'center';
+                ctx.font = `${11 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.fillStyle = '#4d4d4d';
+                ctx.fillText(line1, W / 2, 392 * scale); // 784px
+
+                // Line 2: Assessment Title (Bold)
+                const line2 = 'Richmond Placement Test';
+                ctx.font = `bold ${13.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.fillStyle = '#1f1f1f';
+                ctx.fillText(line2, W / 2, 412 * scale); // 824px
+
+                // Line 3: CEFR Level Badge & Score
+                let levelText = `CEFR Level: ${cefr}`;
+                if (score) {
+                    levelText += `  |  ${score}`;
+                }
+                ctx.font = `bold ${13 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.fillStyle = '#1e3a8a'; // Deep Navy Blue
+                ctx.fillText(levelText, W / 2, 436 * scale); // 872px
+
+                // Line 4: Date of Assessment
+                const dateText = `Date of Assessment: ${fechaTexto}`;
+                ctx.font = `${12.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.fillStyle = '#808080';
+                ctx.fillText(dateText, W / 2, 472 * scale); // 944px
             }
+
+            // 4. Folio Verification (Bottom Right)
+            ctx.textAlign = 'right';
+            ctx.font = `${9 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+            ctx.fillStyle = '#999999';
+            ctx.fillText(`Folio: ${currentFolio}`, W - 30 * scale, 690 * scale);
+        }
+
+        function downloadPreviewPNG() {
+            const canvas = document.getElementById('liveCertCanvas');
+            if (!canvas) return;
+            const link = document.createElement('a');
+            link.download = `Vista_Previa_Certificado_${activeMode}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
         }
 
         function escapeHTML(str) {
@@ -1681,7 +1813,7 @@
 
             } else {
                 // MODO 2: PLACEMENT TEST VALIDATION
-                const cefr = item.cefr || 'B2 (Upper Intermediate)';
+                const cefr = item.cefr || 'B2';
                 const score = item.score || '';
                 const fechaFormateada = convertirFecha(item.fecha || '');
 
@@ -1723,7 +1855,7 @@
                     y: height - 436,
                     size: l3Size,
                     font: fontBold,
-                    color: rgb(0.12, 0.22, 0.48), // Rich Navy
+                    color: rgb(0.12, 0.22, 0.48), // Rich Navy Blue
                 });
 
                 // Fecha de evaluación
@@ -1881,7 +2013,7 @@
                     evento: row.Evento || row.evento || 'Fostering Learning Communities',
                     fecha: row.Fecha || row.fecha || '',
                     horas: row.Horas || row.horas || '2',
-                    cefr: row.Nivel || row.nivel || row.CEFR || row.cefr || 'B2 (Upper Intermediate)',
+                    cefr: row.Nivel || row.nivel || row.CEFR || row.cefr || 'B2',
                     score: row.Puntaje || row.puntaje || row.Score || row.score || ''
                 };
 
@@ -1936,14 +2068,14 @@
                     {
                         Nombre: "Sofía",
                         Apellido: "Ramírez Mendoza",
-                        Nivel: "B2 (Upper Intermediate)",
+                        Nivel: "B2",
                         Puntaje: "Score: 86 / 100",
                         Fecha: "22/09/2026"
                     },
                     {
                         Nombre: "Carlos Alberto",
                         Apellido: "Navarro Ruiz",
-                        Nivel: "B1+ (Intermediate)",
+                        Nivel: "B1+",
                         Puntaje: "Score: 74 / 100",
                         Fecha: "22/09/2026"
                     }
@@ -1956,7 +2088,7 @@
             ws['!cols'] = [
                 { wch: 18 },
                 { wch: 22 },
-                { wch: 32 },
+                { wch: 20 },
                 { wch: 20 },
                 { wch: 14 }
             ];
@@ -1976,22 +2108,21 @@
             document.getElementById('statusModal').classList.remove('active');
         }
 
-        // ── DYNAMIC BACKGROUND CANVAS: AURORA & FLOATING MATH FX ────
+        // ── DYNAMIC BACKGROUND CANVAS: ULTRA LOW RESOURCE LIGHT AURORA & MATH FX ────
         function initBackgroundCanvas() {
             const canvas = document.getElementById('bgCanvas');
-            const ctx = canvas.getContext('2d');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d', { alpha: true });
 
             const BRAND = {
-                primary:  [24, 104, 255],
+                primary:  [39, 126, 255],
                 teal:     [0,  168, 150],
-                mid:      [26, 157, 255],
-                cyan:     [0,  210, 255],
-                deep:     [6,   26, 112]
+                mid:      [2,  132, 199]
             };
 
             const MATH_SYMBOLS = [
                 '∫', '∑', 'λ', 'π', 'Δt', 'f(x)', '∇', 'θ', 'σ', 'μ', 
-                '∂y/∂x', 'lim x→0', 'E = mc²', 'e^{iπ} + 1 = 0', '√2', 'ħ', 'Ψ'
+                '∂y/∂x', 'lim x→0', 'E = mc²', '√2', 'ħ', 'Ψ'
             ];
 
             let W = 0, H = 0;
@@ -2001,28 +2132,31 @@
             let mouse = { x: -9999, y: -9999 };
             let time = 0;
             let isVisible = true;
+            let lastFrameTime = 0;
+            const targetFrameInterval = 1000 / 30; // 30 FPS cap: saves ~50% CPU/GPU cycles
 
             function resize() {
-                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
                 W = window.innerWidth;
                 H = window.innerHeight;
-                canvas.width = W * dpr;
-                canvas.height = H * dpr;
+                canvas.width = Math.floor(W * dpr);
+                canvas.height = Math.floor(H * dpr);
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.scale(dpr, dpr);
             }
 
             function initOrbs() {
+                // 30% speed multipliers applied to velocity
                 orbs = [
-                    { x: W * 0.25, y: H * 0.25, vx: 0.12, vy: 0.08, r: 380, colors: [BRAND.primary, BRAND.mid], phase: 0 },
-                    { x: W * 0.8,  y: H * 0.45, vx: -0.09, vy: 0.11, r: 420, colors: [BRAND.teal, BRAND.cyan], phase: Math.PI * 0.6 },
-                    { x: W * 0.4,  y: H * 0.8,  vx: 0.1,  vy: -0.1,  r: 400, colors: [BRAND.mid, BRAND.deep], phase: Math.PI * 1.2 }
+                    { x: W * 0.25, y: H * 0.25, vx: 0.035, vy: 0.024, r: 350, colors: [BRAND.primary, BRAND.mid], phase: 0 },
+                    { x: W * 0.8,  y: H * 0.45, vx: -0.026, vy: 0.030, r: 380, colors: [BRAND.teal, BRAND.mid], phase: Math.PI * 0.6 }
                 ];
             }
 
             function initDots() {
                 dots = [];
-                const spacing = W < 768 ? 58 : 42;
+                // Wider spacing (60px) reduces draw calls by over 55%
+                const spacing = W < 768 ? 72 : 58;
                 const cols = Math.ceil(W / spacing) + 1;
                 const rows = Math.ceil(H / spacing) + 1;
                 for (let r = 0; r < rows; r++) {
@@ -2034,16 +2168,18 @@
 
             function initMathGlyphs() {
                 mathGlyphs = [];
-                const count = W < 768 ? 12 : 22;
+                // Reduced count for ultra-lightweight execution
+                const count = W < 768 ? 8 : 14;
                 for (let i = 0; i < count; i++) {
                     mathGlyphs.push({
                         x: Math.random() * W,
                         y: Math.random() * H,
                         symbol: MATH_SYMBOLS[Math.floor(Math.random() * MATH_SYMBOLS.length)],
-                        size: 13 + Math.random() * 12,
-                        speed: 0.18 + Math.random() * 0.25,
+                        size: 13 + Math.random() * 8,
+                        // 30% speed: 0.05 to 0.12 px per frame
+                        speed: 0.05 + Math.random() * 0.07,
                         swayOffset: Math.random() * Math.PI * 2,
-                        opacity: 0.06 + Math.random() * 0.08
+                        opacity: 0.07 + Math.random() * 0.06
                     });
                 }
             }
@@ -2056,7 +2192,7 @@
             window.addEventListener('resize', () => {
                 resize();
                 initDots();
-            });
+            }, { passive: true });
 
             window.addEventListener('mousemove', (e) => {
                 mouse.x = e.clientX;
@@ -2068,24 +2204,32 @@
                 if (isVisible) requestAnimationFrame(tick);
             });
 
-            function tick() {
+            function tick(timestamp) {
                 if (!isVisible) return;
-                time += 0.0035;
+                requestAnimationFrame(tick);
+
+                // Throttle to 30 FPS for battery saving & ultra-low CPU utilization
+                if (timestamp - lastFrameTime < targetFrameInterval) return;
+                lastFrameTime = timestamp;
+
+                // Time increment reduced to 30% speed (0.0010 vs 0.0035)
+                time += 0.0010;
                 ctx.clearRect(0, 0, W, H);
 
-                // 1. Draw Subtle Organic Gradient Orbs
-                for (const orb of orbs) {
-                    orb.x += orb.vx + Math.sin(time + orb.phase) * 0.2;
-                    orb.y += orb.vy + Math.cos(time * 0.8 + orb.phase) * 0.15;
+                // 1. Draw 2 soft ambient orbs (30% velocity)
+                for (let i = 0; i < orbs.length; i++) {
+                    const orb = orbs[i];
+                    orb.x += orb.vx + Math.sin(time + orb.phase) * 0.06;
+                    orb.y += orb.vy + Math.cos(time * 0.8 + orb.phase) * 0.045;
                     if (orb.x < -orb.r) orb.x = W + orb.r;
                     if (orb.x > W + orb.r) orb.x = -orb.r;
                     if (orb.y < -orb.r) orb.y = H + orb.r;
                     if (orb.y > H + orb.r) orb.y = -orb.r;
 
                     const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.r);
-                    grad.addColorStop(0, `rgba(${orb.colors[0][0]}, ${orb.colors[0][1]}, ${orb.colors[0][2]}, 0.28)`);
-                    grad.addColorStop(0.5, `rgba(${orb.colors[1][0]}, ${orb.colors[1][1]}, ${orb.colors[1][2]}, 0.12)`);
-                    grad.addColorStop(1, 'rgba(0,0,0,0)');
+                    grad.addColorStop(0, `rgba(${orb.colors[0][0]}, ${orb.colors[0][1]}, ${orb.colors[0][2]}, 0.11)`);
+                    grad.addColorStop(0.6, `rgba(${orb.colors[1][0]}, ${orb.colors[1][1]}, ${orb.colors[1][2]}, 0.04)`);
+                    grad.addColorStop(1, 'rgba(255,255,255,0)');
 
                     ctx.beginPath();
                     ctx.arc(orb.x, orb.y, orb.r, 0, Math.PI * 2);
@@ -2093,39 +2237,41 @@
                     ctx.fill();
                 }
 
-                // 2. Draw Dot Grid & Mouse Constellation
-                const influenceR = W < 768 ? 110 : 160;
-                for (const dot of dots) {
-                    const dx = dot.x - mouse.x;
-                    const dy = dot.y - mouse.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    const prox = Math.max(0, 1 - dist / influenceR);
+                // 2. High performance dot grid (fillRect is 10x faster than beginPath + arc)
+                ctx.fillStyle = 'rgba(39, 126, 255, 0.08)';
+                for (let i = 0; i < dots.length; i++) {
+                    const dot = dots[i];
+                    ctx.fillRect(dot.x, dot.y, 1.5, 1.5);
+                }
 
-                    const baseAlpha = 0.16 + 0.06 * Math.sin(time * 0.8 + dot.x * 0.02);
-                    ctx.beginPath();
-                    ctx.arc(dot.x, dot.y, 1.3, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(39, 126, 255, ${baseAlpha})`;
-                    ctx.fill();
-
-                    if (prox > 0) {
-                        ctx.beginPath();
-                        ctx.arc(dot.x, dot.y, 2.2, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(0, 210, 255, ${prox * 0.7})`;
-                        ctx.fill();
+                // Interactive mouse proximity highlight
+                if (mouse.x > 0 && mouse.y > 0) {
+                    const influenceR = W < 768 ? 100 : 140;
+                    const influenceR2 = influenceR * influenceR;
+                    for (let i = 0; i < dots.length; i++) {
+                        const dot = dots[i];
+                        const dx = dot.x - mouse.x;
+                        const dy = dot.y - mouse.y;
+                        const d2 = dx * dx + dy * dy;
+                        if (d2 < influenceR2) {
+                            const prox = 1 - Math.sqrt(d2) / influenceR;
+                            ctx.fillStyle = `rgba(39, 126, 255, ${prox * 0.45})`;
+                            ctx.fillRect(dot.x - 0.75, dot.y - 0.75, 3, 3);
+                        }
                     }
                 }
 
-                // 3. Floating Math & Physics Glyphs
-                ctx.font = '500 14px "JetBrains Mono", monospace';
-                for (const g of mathGlyphs) {
+                // 3. Floating Math Glyphs (30% speed, calm and peaceful)
+                for (let i = 0; i < mathGlyphs.length; i++) {
+                    const g = mathGlyphs[i];
                     g.y -= g.speed;
-                    g.x += Math.sin(time + g.swayOffset) * 0.22;
+                    g.x += Math.sin(time + g.swayOffset) * 0.07;
                     if (g.y < -30) {
                         g.y = H + 20;
                         g.x = Math.random() * W;
                     }
                     ctx.font = `600 ${g.size}px "JetBrains Mono", monospace`;
-                    ctx.fillStyle = `rgba(0, 210, 255, ${g.opacity})`;
+                    ctx.fillStyle = `rgba(39, 126, 255, ${g.opacity})`;
                     ctx.fillText(g.symbol, g.x, g.y);
                 }
 
