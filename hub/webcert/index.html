@@ -437,12 +437,12 @@
             color: #94a3b8;
         }
 
-        /* ── CEFR Level Quick Selector Chips (12 Levels: A1 A, A1 B, A2 A, A2 B, B1 A, B1 B, B2 A, B2 B, C1 A, C1 B, C2 A, C2 B) ── */
+        /* ── Richmond Young Adults Rating Chips (11 Levels) ── */
         .cefr-chips-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 7px;
+            margin-bottom: 12px;
         }
 
         @media (max-width: 768px) {
@@ -457,25 +457,34 @@
             }
         }
 
-        @media (max-width: 360px) {
-            .cefr-chips-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
         .cefr-chip {
-            padding: 8px 6px;
+            padding: 7px 4px;
             background: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: 9px;
             color: var(--text-sub);
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-align: center;
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+        }
+
+        .cefr-chip .chip-main {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .cefr-chip .chip-range {
+            font-size: 0.65rem;
+            color: #64748b;
+            font-weight: 600;
+            letter-spacing: -0.02em;
         }
 
         .cefr-chip:hover {
@@ -484,11 +493,23 @@
             background: #f0f7ff;
         }
 
+        .cefr-chip:hover .chip-range {
+            color: var(--primary);
+        }
+
         .cefr-chip.active {
-            background: var(--primary);
-            border-color: var(--primary);
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            border-color: #1e3a8a;
             color: #ffffff;
-            box-shadow: 0 4px 12px rgba(39, 126, 255, 0.25);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+        }
+
+        .cefr-chip.active .chip-main {
+            color: #ffffff;
+        }
+
+        .cefr-chip.active .chip-range {
+            color: #bfdbfe;
         }
 
         /* ── Template Status & Upload Box (Light Mode) ── */
@@ -1146,20 +1167,52 @@
                                     Nivel de Inglés Acreditado (MCER / CEFR)
                                     <span class="label-tag">Selección rápida</span>
                                 </label>
-                                <!-- 12 CEFR Level Chips with A/B separation across entire MCER: A1 A, A1 B, A2 A, A2 B, B1 A, B1 B, B2 A, B2 B, C1 A, C1 B, C2 A, C2 B -->
+                                <!-- Richmond Young Adults 11 Rating Chips with exact percentage ranges (0 to 100%, sin decimales) -->
                                 <div class="cefr-chips-grid">
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('A1 A', this)">A1 A</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('A1 B', this)">A1 B</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('A2 A', this)">A2 A</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('A2 B', this)">A2 B</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('B1 A', this)">B1 A</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('B1 B', this)">B1 B</button>
-                                    <button type="button" class="cefr-chip active" onclick="selectCefrChip('B2 A', this)">B2 A</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('B2 B', this)">B2 B</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('C1 A', this)">C1 A</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('C1 B', this)">C1 B</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('C2 A', this)">C2 A</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('C2 B', this)">C2 B</button>
+                                    <button type="button" class="cefr-chip" data-level="A0 (True Beginner)" data-short="A0" onclick="selectCefrChip('A0 (True Beginner)', this, 4)">
+                                        <span class="chip-main">A0</span>
+                                        <span class="chip-range">0-4%</span>
+                                    </button>
+                                    <button type="button" class="cefr-chip" data-level="Pre-A1" data-short="Pre-A1" onclick="selectCefrChip('Pre-A1', this, 10)">
+                                        <span class="chip-main">Pre-A1</span>
+                                        <span class="chip-range">5-10%</span>
+                                    </button>
+                                    <button type="button" class="cefr-chip" data-level="A1" data-short="A1" onclick="selectCefrChip('A1', this, 18)">
+                                        <span class="chip-main">A1</span>
+                                        <span class="chip-range">11-20%</span>
+                                    </button>
+                                    <button type="button" class="cefr-chip" data-level="A1+" data-short="A1+" onclick="selectCefrChip('A1+', this, 28)">
+                                        <span class="chip-main">A1+</span>
+                                        <span class="chip-range">21-30%</span>
+                                    </button>
+                                    <button type="button" class="cefr-chip" data-level="A2" data-short="A2" onclick="selectCefrChip('A2', this, 38)">
+                                        <span class="chip-main">A2</span>
+                                        <span class="chip-range">31-40%</span>
+                                    </button>
+                                    <button type="button" class="cefr-chip" data-level="A2+" data-short="A2+" onclick="selectCefrChip('A2+', this, 48)">
+                                        <span class="chip-main">A2+</span>
+                                        <span class="chip-range">41-50%</span>
+                                    </button>
+                                    <button type="button" class="cefr-chip" data-level="B1" data-short="B1" onclick="selectCefrChip('B1', this, 58)">
+                                        <span class="chip-main">B1</span>
+                                        <span class="chip-range">51-60%</span>
+                                    </button>
+                                    <button type="button" class="cefr-chip" data-level="B1+" data-short="B1+" onclick="selectCefrChip('B1+', this, 68)">
+                                        <span class="chip-main">B1+</span>
+                                        <span class="chip-range">61-70%</span>
+                                    </button>
+                                    <button type="button" class="cefr-chip" data-level="B2" data-short="B2" onclick="selectCefrChip('B2', this, 78)">
+                                        <span class="chip-main">B2</span>
+                                        <span class="chip-range">71-80%</span>
+                                    </button>
+                                    <button type="button" class="cefr-chip active" data-level="B2+" data-short="B2+" onclick="selectCefrChip('B2+', this, 86)">
+                                        <span class="chip-main">B2+</span>
+                                        <span class="chip-range">81-90%</span>
+                                    </button>
+                                    <button type="button" class="cefr-chip" data-level="C1" data-short="C1" onclick="selectCefrChip('C1', this, 96)">
+                                        <span class="chip-main">C1</span>
+                                        <span class="chip-range">91-100%</span>
+                                    </button>
                                 </div>
                                 <div class="input-wrapper">
                                     <span class="input-icon">
@@ -1168,7 +1221,7 @@
                                             <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
                                         </svg>
                                     </span>
-                                    <input type="text" id="inputCefr" placeholder="Ej: B2 A" value="B2 A" oninput="updateLivePreview()">
+                                    <input type="text" id="inputCefr" placeholder="Ej: B2+" value="B2+" oninput="onCefrInputChange(this)">
                                 </div>
                             </div>
 
@@ -1176,7 +1229,7 @@
                                 <div class="form-group">
                                     <label for="inputScore">
                                         Puntaje / Calificación
-                                        <span class="label-tag">Opcional</span>
+                                        <span class="label-tag">Auto-calcula nivel</span>
                                     </label>
                                     <div class="input-wrapper">
                                         <span class="input-icon">
@@ -1186,7 +1239,7 @@
                                                 <line x1="6" y1="20" x2="6" y2="14"></line>
                                             </svg>
                                         </span>
-                                        <input type="text" id="inputScore" placeholder="Ej: Score: 86 / 100" value="Score: 86 / 100" oninput="updateLivePreview()">
+                                        <input type="text" id="inputScore" placeholder="Ej: Score: 86%" value="Score: 86%" oninput="onScoreInputChange(this)">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1236,14 +1289,18 @@
                             </ul>
                         </div>
                         <div id="guidePlacementText" style="display: none;">
-                            Para <strong>Validación Placement Test</strong>, incluye las siguientes columnas:
+                            Para <strong>Validación Placement Test (Richmond Young Adults)</strong>, incluye las siguientes columnas:
                             <ul class="guide-cols-list">
                                 <li><code>Nombre</code>: Nombre del estudiante evaluado.</li>
                                 <li><code>Apellido</code>: Apellidos completos.</li>
-                                <li><code>Nivel</code> o <code>CEFR</code>: Nivel acreditado del MCER (ej: A1 A, A1 B, A2 A, A2 B, B1 A, B1 B, B2 A, B2 B, C1 A, C1 B, C2 A, C2 B).</li>
-                                <li><code>Puntaje</code> o <code>Score</code>: Calificación (opcional, ej: 86 / 100).</li>
+                                <li><code>Puntaje</code> o <code>Score</code>: Calificación o porcentaje (ej: 86%). ¡El nivel se calcula automáticamente si se omite!</li>
+                                <li><code>Nivel</code> o <code>CEFR</code>: Nivel acreditado (A0, Pre-A1, A1, A1+, A2, A2+, B1, B1+, B2, B2+, C1).</li>
                                 <li><code>Fecha</code>: Formato DD/MM/YYYY de evaluación.</li>
                             </ul>
+                            <div style="margin-top: 8px; font-size: 0.76rem; color: #475569; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid #e2e8f0; line-height: 1.4;">
+                                <strong>Escala Young Adults oficial:</strong><br>
+                                0-4%: A0 · 5-10%: Pre-A1 · 11-20%: A1 · 21-30%: A1+ · 31-40%: A2 · 41-50%: A2+ · 51-60%: B1 · 61-70%: B1+ · 71-80%: B2 · 81-90%: B2+ · 91-100%: C1
+                            </div>
                         </div>
                     </div>
 
@@ -1393,33 +1450,108 @@
             return f;
         }
 
-        // ── INITIALIZATION & PRELOAD ─────────────────────────────────
+        // ── RICHMOND YOUNG ADULTS RATING ENGINE ─────────────────────
+        const RICHMOND_YOUNG_ADULTS_SCALE = [
+            { min: 0,  max: 4.99,  level: 'A0 (True Beginner)', shortLevel: 'A0', tag: '0-4%' },
+            { min: 5,  max: 10.99, level: 'Pre-A1',            shortLevel: 'Pre-A1', tag: '5-10%' },
+            { min: 11, max: 20.99, level: 'A1',                shortLevel: 'A1', tag: '11-20%' },
+            { min: 21, max: 30.99, level: 'A1+',               shortLevel: 'A1+', tag: '21-30%' },
+            { min: 31, max: 40.99, level: 'A2',                shortLevel: 'A2', tag: '31-40%' },
+            { min: 41, max: 50.99, level: 'A2+',               shortLevel: 'A2+', tag: '41-50%' },
+            { min: 51, max: 60.99, level: 'B1',                shortLevel: 'B1', tag: '51-60%' },
+            { min: 61, max: 70.99, level: 'B1+',               shortLevel: 'B1+', tag: '61-70%' },
+            { min: 71, max: 80.99, level: 'B2',                shortLevel: 'B2', tag: '71-80%' },
+            { min: 81, max: 90.99, level: 'B2+',               shortLevel: 'B2+', tag: '81-90%' },
+            { min: 91, max: 100,   level: 'C1',                shortLevel: 'C1', tag: '91-100%' }
+        ];
+
+        function parseScoreNumber(raw) {
+            if (raw === null || raw === undefined || raw === '') return null;
+            const match = String(raw).match(/(\d+(?:\.\d+)?)/);
+            if (!match) return null;
+            const num = parseFloat(match[1]);
+            return isNaN(num) ? null : Math.round(num);
+        }
+
+        // Formats score to exactly two whole numbers without decimals (e.g. Score: 86%)
+        function formatCleanScore(raw) {
+            if (!raw) return '';
+            const num = parseScoreNumber(raw);
+            if (num === null) return String(raw).trim();
+            return `Score: ${num}%`;
+        }
+
+        function calculateCefrFromScore(scoreValue) {
+            if (scoreValue === null || scoreValue === undefined || scoreValue === '') return null;
+            const match = String(scoreValue).match(/(\d+(?:\.\d+)?)/);
+            if (!match) return null;
+            const num = parseFloat(match[1]);
+            if (isNaN(num)) return null;
+
+            for (const tier of RICHMOND_YOUNG_ADULTS_SCALE) {
+                if (num >= tier.min && num <= (tier.max + 0.009)) {
+                    return tier;
+                }
+            }
+            if (num > 100) return RICHMOND_YOUNG_ADULTS_SCALE[RICHMOND_YOUNG_ADULTS_SCALE.length - 1];
+            if (num < 0) return RICHMOND_YOUNG_ADULTS_SCALE[0];
+            return null;
+        }
+
+        function highlightCefrChip(val) {
+            if (!val) return;
+            const clean = val.trim().toUpperCase();
+            document.querySelectorAll('.cefr-chip').forEach(c => {
+                const chipLevel = (c.dataset.level || c.textContent).trim().toUpperCase();
+                const shortLevel = (c.dataset.short || '').trim().toUpperCase();
+                if (chipLevel === clean || shortLevel === clean || clean.startsWith(shortLevel + ' ') || clean === chipLevel.replace(/\s*\(.*\)/, '')) {
+                    c.classList.add('active');
+                } else {
+                    c.classList.remove('active');
+                }
+            });
+        }
+
+        function selectCefrChip(level, btn, defaultScore) {
+            document.querySelectorAll('.cefr-chip').forEach(c => c.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            const inputCefr = document.getElementById('inputCefr');
+            if (inputCefr) inputCefr.value = level;
+            
+            const inputScore = document.getElementById('inputScore');
+            if (inputScore && (!inputScore.value.trim() || inputScore.dataset.autofilled === 'true')) {
+                if (defaultScore !== undefined) {
+                    inputScore.value = `Score: ${defaultScore}%`;
+                    inputScore.dataset.autofilled = 'true';
+                }
+            }
+            updateLivePreview();
+        }
+
+        function onScoreInputChange(input) {
+            input.dataset.autofilled = 'false';
+            const tier = calculateCefrFromScore(input.value);
+            if (tier) {
+                const inputCefr = document.getElementById('inputCefr');
+                if (inputCefr) {
+                    inputCefr.value = tier.level;
+                }
+                highlightCefrChip(tier.level);
+            }
+            updateLivePreview();
+        }
+
+        function onCefrInputChange(input) {
+            highlightCefrChip(input.value);
+            updateLivePreview();
+        }
+
         // ── INITIALIZATION & PRELOAD ─────────────────────────────────
         window.addEventListener('DOMContentLoaded', async () => {
             initBackgroundCanvas();
             setDefaultDates();
             initTemplateImage();
             loadTemplatePDF();
-            
-            // Wire up inputCefr live highlight of chips
-            const inputCefr = document.getElementById('inputCefr');
-            if (inputCefr) {
-                inputCefr.addEventListener('input', function() {
-                    const val = this.value.trim().toUpperCase().replace(/\s+/g, ' ');
-                    const compactVal = val.replace(/\s+/g, '');
-                    document.querySelectorAll('.cefr-chip').forEach(c => {
-                        const chipVal = c.textContent.trim().toUpperCase();
-                        const compactChip = chipVal.replace(/\s+/g, '');
-                        if (chipVal === val || compactChip === compactVal) {
-                            c.classList.add('active');
-                        } else {
-                            c.classList.remove('active');
-                        }
-                    });
-                    updateLivePreview();
-                });
-            }
-
             updateLivePreview();
         });
 
@@ -1703,9 +1835,10 @@
                 ctx.fillText(dateText, W / 2, 470 * scale); // 940px
 
             } else {
-                // Mode 2: Placement Test Validation
-                const cefr = (document.getElementById('inputCefr')?.value || 'B2 A').trim();
-                const score = (document.getElementById('inputScore')?.value || '').trim();
+                // Mode 2: Placement Test Validation (Richmond Young Adults)
+                const cefr = (document.getElementById('inputCefr')?.value || 'B2+').trim();
+                const rawScore = (document.getElementById('inputScore')?.value || '').trim();
+                const scoreFormatted = formatCleanScore(rawScore);
                 const fecha = (document.getElementById('inputFechaPlacement')?.value || '22/09/2026').trim();
                 const fechaTexto = convertirFecha(fecha);
 
@@ -1722,10 +1855,10 @@
                 ctx.fillStyle = '#1f1f1f';
                 ctx.fillText(line2, W / 2, 412 * scale); // 824px
 
-                // Line 3: CEFR Level Badge & Score
+                // Line 3: CEFR Level Badge & Clean Score (sin decimales)
                 let levelText = `CEFR Level: ${cefr}`;
-                if (score) {
-                    levelText += `  |  ${score}`;
+                if (scoreFormatted) {
+                    levelText += `  |  ${scoreFormatted}`;
                 }
                 ctx.font = `bold ${13 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#1e3a8a'; // Deep Navy Blue
@@ -1906,11 +2039,19 @@
                 });
 
             } else {
-                // MODO 2: PLACEMENT TEST VALIDATION
-                const cefr = item.cefr || 'B2 A';
-                const score = item.score || '';
-                const fechaFormateada = convertirFecha(item.fecha || '');
+                // MODO 2: PLACEMENT TEST VALIDATION (Richmond Young Adults)
+                let cefr = item.cefr || '';
+                const rawScore = item.score || '';
+                const scoreFormatted = formatCleanScore(rawScore);
 
+                // If level is not set, calculate automatically from score
+                if (!cefr && rawScore) {
+                    const tier = calculateCefrFromScore(rawScore);
+                    if (tier) cefr = tier.level;
+                }
+                if (!cefr) cefr = 'B2+';
+
+                const fechaFormateada = convertirFecha(item.fecha || '');
                 const baseColor = rgb(0.3, 0.3, 0.3);
                 
                 // Línea 1: Propósito de validación
@@ -1937,10 +2078,10 @@
                     color: rgb(0.12, 0.12, 0.12),
                 });
 
-                // Línea 3: Nivel CEFR y Puntaje
+                // Línea 3: Nivel CEFR y Puntaje (sin decimales)
                 let levelText = `CEFR Level: ${cefr}`;
-                if (score) {
-                    levelText += `  |  ${score}`;
+                if (scoreFormatted) {
+                    levelText += `  |  ${scoreFormatted}`;
                 }
                 const l3Size = 13;
                 const l3Width = fontBold.widthOfTextAtSize(levelText, l3Size);
@@ -2107,7 +2248,7 @@
                     evento: row.Evento || row.evento || 'Fostering Learning Communities',
                     fecha: row.Fecha || row.fecha || '',
                     horas: row.Horas || row.horas || '2',
-                    cefr: row.Nivel || row.nivel || row.CEFR || row.cefr || 'B2',
+                    cefr: row.Nivel || row.nivel || row.CEFR || row.cefr || '',
                     score: row.Puntaje || row.puntaje || row.Score || row.score || ''
                 };
 
@@ -2162,15 +2303,15 @@
                     {
                         Nombre: "Sofía",
                         Apellido: "Ramírez Mendoza",
-                        Nivel: "B2 A",
-                        Puntaje: "Score: 86 / 100",
+                        Nivel: "B2+",
+                        Puntaje: "Score: 86%",
                         Fecha: "22/09/2026"
                     },
                     {
                         Nombre: "Carlos Alberto",
                         Apellido: "Navarro Ruiz",
-                        Nivel: "B1 B",
-                        Puntaje: "Score: 74 / 100",
+                        Nivel: "B1+",
+                        Puntaje: "Score: 68%",
                         Fecha: "22/09/2026"
                     }
                 ];
