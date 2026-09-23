@@ -521,7 +521,7 @@
             border-radius: 12px;
             background: #ecfdf5;
             border: 1px solid #a7f3d0;
-            margin-bottom: 22px;
+            margin-bottom: 12px;
             font-size: 0.85rem;
             color: #065f46;
         }
@@ -558,6 +558,163 @@
             border-color: var(--primary);
             color: var(--primary);
             background: #f0f7ff;
+        }
+
+        /* ── Institutional Logo Upload Banner ── */
+        .logo-upload-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 18px;
+            border-radius: 14px;
+            background: #ffffff;
+            border: 1px solid rgba(15, 23, 42, 0.12);
+            margin-bottom: 22px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .logo-upload-banner:hover {
+            border-color: rgba(39, 126, 255, 0.4);
+            box-shadow: 0 4px 14px rgba(39, 126, 255, 0.07);
+        }
+
+        .logo-upload-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .logo-thumb-container {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            padding: 3px;
+        }
+
+        .logo-thumb-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .logo-icon-placeholder {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: #f0f7ff;
+            border: 1px solid #bfdbfe;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .logo-info-text {
+            min-width: 0;
+        }
+
+        .logo-info-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-info-badge {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 2px 7px;
+            border-radius: 6px;
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .logo-info-desc {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            line-height: 1.35;
+        }
+
+        .logo-upload-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .btn-logo-upload {
+            background: var(--primary);
+            border: 1px solid var(--primary);
+            color: #ffffff;
+            padding: 9px 16px;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 3px 10px rgba(39, 126, 255, 0.22);
+            user-select: none;
+        }
+
+        .btn-logo-upload:hover {
+            background: #1d6fe6;
+            border-color: #1d6fe6;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(39, 126, 255, 0.3);
+        }
+
+        .btn-ghost-danger-sm {
+            background: #fff;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 8px 13px;
+            border-radius: 9px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-ghost-danger-sm:hover {
+            background: #fef2f2;
+            border-color: #dc2626;
+        }
+
+        @media (max-width: 640px) {
+            .logo-upload-banner {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .logo-upload-actions {
+                justify-content: stretch;
+            }
+            .btn-logo-upload {
+                width: 100%;
+                justify-content: center;
+            }
         }
 
         /* ── Drag and Drop Upload Area (Light Mode) ── */
@@ -1059,6 +1216,44 @@
                     <input type="file" id="templateFileInput" class="hidden-input" accept=".pdf" onchange="handleCustomTemplateSelect(event)">
                 </div>
 
+                <!-- Institutional Logo Banner -->
+                <div class="logo-upload-banner" id="logoUploadBanner">
+                    <div class="logo-upload-left">
+                        <div class="logo-thumb-container" id="logoThumbContainer" style="display: none;">
+                            <img id="logoPreviewThumb" src="" alt="Logo Institucional">
+                        </div>
+                        <div class="logo-icon-placeholder" id="logoIconPlaceholder">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                        </div>
+                        <div class="logo-info-text">
+                            <div class="logo-info-title" id="logoInfoTitle">
+                                Logo Institucional <span class="logo-info-badge">Opcional</span>
+                            </div>
+                            <div class="logo-info-desc" id="logoInfoDesc">Se colocará automáticamente en la esquina superior derecha del certificado.</div>
+                        </div>
+                    </div>
+                    <div class="logo-upload-actions">
+                        <label for="logoFileInput" class="btn-logo-upload" id="btnLogoUploadLabel">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            + Agregar logo institucional, PNG (solo)
+                        </label>
+                        <button type="button" class="btn-ghost-danger-sm" id="btnRemoveLogo" style="display: none;" onclick="removeInstitutionalLogo()" title="Quitar logo">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                            Quitar
+                        </button>
+                        <input type="file" id="logoFileInput" class="hidden-input" accept="image/png" onchange="handleInstitutionalLogoSelect(event)">
+                    </div>
+                </div>
+
                 <!-- Tabs Navigation -->
                 <div class="tabs-nav">
                     <button type="button" class="tab-btn active" id="tabBtnIndividual" onclick="switchMainTab('individual')">
@@ -1519,17 +1714,13 @@
             if (inputCefr) inputCefr.value = level;
             
             const inputScore = document.getElementById('inputScore');
-            if (inputScore && (!inputScore.value.trim() || inputScore.dataset.autofilled === 'true')) {
-                if (defaultScore !== undefined) {
-                    inputScore.value = `Score: ${defaultScore}`;
-                    inputScore.dataset.autofilled = 'true';
-                }
+            if (inputScore && defaultScore !== undefined) {
+                inputScore.value = `Score: ${defaultScore}`;
             }
             updateLivePreview();
         }
 
         function onScoreInputChange(input) {
-            input.dataset.autofilled = 'false';
             const tier = calculateCefrFromScore(input.value);
             if (tier) {
                 const inputCefr = document.getElementById('inputCefr');
@@ -1671,6 +1862,113 @@
         let templateImg = null;
         let templateImgLoaded = false;
 
+        // Institutional Logo State (Optional school PNG logo)
+        let institutionalLogoImg = null;
+        let institutionalLogoLoaded = false;
+        let institutionalLogoBytes = null; // ArrayBuffer for PDFLib PNG embedding
+        let institutionalLogoFilename = '';
+
+        function handleInstitutionalLogoSelect(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            if (file.type !== 'image/png' && !file.name.toLowerCase().endsWith('.png')) {
+                alert('Formato no válido: Por favor selecciona una imagen exclusivamente en formato PNG (.png).');
+                event.target.value = '';
+                return;
+            }
+
+            institutionalLogoFilename = file.name;
+
+            // 1. Read as ArrayBuffer for PDF-Lib vector embedding
+            const arrayReader = new FileReader();
+            arrayReader.onload = function(e) {
+                institutionalLogoBytes = e.target.result;
+            };
+            arrayReader.readAsArrayBuffer(file);
+
+            // 2. Read as DataURL for Canvas live preview and UI thumbnail
+            const dataUrlReader = new FileReader();
+            dataUrlReader.onload = function(e) {
+                const dataUrl = e.target.result;
+                const img = new Image();
+                img.onload = function() {
+                    institutionalLogoImg = img;
+                    institutionalLogoLoaded = true;
+
+                    // Update UI elements
+                    const thumb = document.getElementById('logoPreviewThumb');
+                    const thumbContainer = document.getElementById('logoThumbContainer');
+                    const placeholder = document.getElementById('logoIconPlaceholder');
+                    const title = document.getElementById('logoInfoTitle');
+                    const desc = document.getElementById('logoInfoDesc');
+                    const btnRemove = document.getElementById('btnRemoveLogo');
+                    const btnLabel = document.getElementById('btnLogoUploadLabel');
+
+                    if (thumb) thumb.src = dataUrl;
+                    if (thumbContainer) thumbContainer.style.display = 'flex';
+                    if (placeholder) placeholder.style.display = 'none';
+                    if (title) {
+                        title.innerHTML = `Logo Institucional <span class="logo-info-badge" style="background:#dcfce7;color:#15803d;">Cargado</span>`;
+                    }
+                    if (desc) desc.textContent = `${file.name} — Auto-ajustado en esquina superior derecha`;
+                    if (btnRemove) btnRemove.style.display = 'inline-flex';
+                    if (btnLabel) {
+                        btnLabel.innerHTML = `
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            Cambiar logo PNG
+                        `;
+                    }
+
+                    updateLivePreview();
+                };
+                img.src = dataUrl;
+            };
+            dataUrlReader.readAsDataURL(file);
+        }
+
+        function removeInstitutionalLogo() {
+            institutionalLogoImg = null;
+            institutionalLogoLoaded = false;
+            institutionalLogoBytes = null;
+            institutionalLogoFilename = '';
+
+            const input = document.getElementById('logoFileInput');
+            if (input) input.value = '';
+
+            const thumb = document.getElementById('logoPreviewThumb');
+            const thumbContainer = document.getElementById('logoThumbContainer');
+            const placeholder = document.getElementById('logoIconPlaceholder');
+            const title = document.getElementById('logoInfoTitle');
+            const desc = document.getElementById('logoInfoDesc');
+            const btnRemove = document.getElementById('btnRemoveLogo');
+            const btnLabel = document.getElementById('btnLogoUploadLabel');
+
+            if (thumb) thumb.src = '';
+            if (thumbContainer) thumbContainer.style.display = 'none';
+            if (placeholder) placeholder.style.display = 'flex';
+            if (title) {
+                title.innerHTML = `Logo Institucional <span class="logo-info-badge">Opcional</span>`;
+            }
+            if (desc) desc.textContent = 'Se colocará automáticamente en la esquina superior derecha del certificado.';
+            if (btnRemove) btnRemove.style.display = 'none';
+            if (btnLabel) {
+                btnLabel.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    + Agregar logo institucional, PNG (solo)
+                `;
+            }
+
+            updateLivePreview();
+        }
+
         function initTemplateImage() {
             const candidateUrls = [
                 'Template.png',
@@ -1736,7 +2034,8 @@
 
                 ctx.fillStyle = '#1e293b';
                 ctx.font = 'bold 44px "Outfit", system-ui, sans-serif';
-                ctx.fillText('CERTIFICATE OF PARTICIPATION', W / 2, 235);
+                const fallbackTitle = activeMode === 'placement' ? 'CERTIFICATE OF ACHIEVEMENT' : 'CERTIFICATE OF PARTICIPATION';
+                ctx.fillText(fallbackTitle, W / 2, 235);
 
                 ctx.fillStyle = '#64748b';
                 ctx.font = '22px "Inter", system-ui, sans-serif';
@@ -1744,6 +2043,51 @@
 
                 ctx.fillStyle = '#cbd5e1';
                 ctx.fillRect(W / 2 - 100, 300, 200, 4);
+            }
+
+            // 2. Institutional Logo (Top Right Header with local aspect resizing)
+            if (institutionalLogoLoaded && institutionalLogoImg) {
+                const origW = institutionalLogoImg.naturalWidth || institutionalLogoImg.width;
+                const origH = institutionalLogoImg.naturalHeight || institutionalLogoImg.height;
+                if (origW > 0 && origH > 0) {
+                    const aspect = origW / origH;
+                    // Bounding Box in 540x720: x=353, y=40, maxW=112, maxH=48
+                    const maxW = 112 * scale;
+                    const maxH = 48 * scale;
+                    const boxX = 353 * scale;
+                    const boxY = 40 * scale;
+
+                    let drawW = maxW;
+                    let drawH = maxW / aspect;
+                    if (drawH > maxH) {
+                        drawH = maxH;
+                        drawW = maxH * aspect;
+                    }
+
+                    const drawX = boxX + (maxW - drawW) / 2;
+                    const drawY = boxY + (maxH - drawH) / 2;
+
+                    ctx.drawImage(institutionalLogoImg, drawX, drawY, drawW, drawH);
+                }
+            }
+
+            // 3. Option B: Placement Test Title Patch (Replace PARTICIPATION cleanly with ACHIEVEMENT)
+            if (activeMode === 'placement') {
+                // Completely cover PARTICIPATION with clean white patch (no residual characters)
+                const patchX = 110 * scale;
+                const patchY = 189 * scale;
+                const patchW = 320 * scale;
+                const patchH = 28 * scale;
+
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(patchX, patchY, patchW, patchH);
+
+                // Render "ACHIEVEMENT" with tracking matching template style
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.font = `300 ${17.5 * scale}px "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.fillStyle = '#1e1b18';
+                ctx.fillText('A  C  H  I  E  V  E  M  E  N  T', W / 2, (patchY + patchH / 2));
             }
 
             // 2. Recipient Name (Centered at Y = 350 * 2 = 700)
@@ -1911,6 +2255,66 @@
             const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
             const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
+            // A. Institutional Logo (Top Right Header with aspect fit)
+            if (institutionalLogoBytes) {
+                try {
+                    const logoImage = await pdfDoc.embedPng(institutionalLogoBytes);
+                    const origW = logoImage.width;
+                    const origH = logoImage.height;
+                    if (origW > 0 && origH > 0) {
+                        const aspect = origW / origH;
+                        const maxW = 112;
+                        const maxH = 48;
+                        const boxX = 353;
+                        const boxY = 632; // In 540x720: height (720) - 40 - 48 = 632
+
+                        let drawW = maxW;
+                        let drawH = maxW / aspect;
+                        if (drawH > maxH) {
+                            drawH = maxH;
+                            drawW = maxH * aspect;
+                        }
+
+                        const drawX = boxX + (maxW - drawW) / 2;
+                        const drawY = boxY + (maxH - drawH) / 2;
+
+                        firstPage.drawImage(logoImage, {
+                            x: drawX,
+                            y: drawY,
+                            width: drawW,
+                            height: drawH,
+                        });
+                    }
+                } catch (logoErr) {
+                    console.warn('Error incrustando logo institucional en PDF:', logoErr);
+                }
+            }
+
+            // B. Option B: Placement Test Title Patch (Replace PARTICIPATION cleanly with ACHIEVEMENT)
+            const isPlacement = item.mode === 'placement';
+            if (isPlacement) {
+                // Completely cover PARTICIPATION with clean white patch (no residual characters)
+                firstPage.drawRectangle({
+                    x: 110,
+                    y: 503,
+                    width: 320,
+                    height: 28,
+                    color: rgb(1, 1, 1),
+                });
+
+                // Centered tracked text "ACHIEVEMENT"
+                const achText = 'A  C  H  I  E  V  E  M  E  N  T';
+                const achSize = 17.5;
+                const achWidth = fontRegular.widthOfTextAtSize(achText, achSize);
+                firstPage.drawText(achText, {
+                    x: (width - achWidth) / 2,
+                    y: 512,
+                    size: achSize,
+                    font: fontRegular,
+                    color: rgb(0.12, 0.11, 0.1),
+                });
+            }
+
             // 1. NOMBRE COMPLETO
             const nombreCompleto = `${item.apellido || ''} ${item.nombre || ''}`.trim();
             const nombreYPosition = height - 350;
@@ -1932,8 +2336,6 @@
             });
 
             // 2. TEXTO ESPECÍFICO DE MODO
-            const isPlacement = item.mode === 'placement';
-
             if (!isPlacement) {
                 // MODO 1: ATTENDING A SESSION
                 const evento = item.evento || 'Fostering Learning Communities';
