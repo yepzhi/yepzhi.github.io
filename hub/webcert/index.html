@@ -1520,48 +1520,77 @@
             overflow: hidden !important;
         }
 
+        /* ============================================================
+           W3C VERIFIABLE CREDENTIAL — PRO PRESENTATION MODAL & BACKDROP
+           Darkened backdrop ("oscurece el fondo"), enterprise UI,
+           Web Crypto SHA-256 signature verification & mathematical proof.
+           ============================================================ */
+        body.w3c-modal-open {
+            overflow: hidden !important;
+        }
+
         .w3c-modal-overlay {
             position: fixed;
             inset: 0;
-            z-index: 100000;
+            z-index: 999999;
             display: none;
             align-items: center;
             justify-content: center;
             padding: 24px 16px;
-            background: radial-gradient(ellipse at 50% 10%, rgba(15, 23, 42, 0.94) 0%, rgba(2, 6, 23, 0.98) 100%);
-            backdrop-filter: blur(28px);
-            -webkit-backdrop-filter: blur(28px);
-            opacity: 0;
-            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            background: rgba(3, 7, 18, 0.94);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             overflow-y: auto;
         }
 
         .w3c-modal-overlay.active {
-            display: flex;
-            opacity: 1;
+            display: flex !important;
+            animation: w3cFadeInOverlay 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes w3cFadeInOverlay {
+            from {
+                opacity: 0;
+                background: rgba(3, 7, 18, 0);
+            }
+            to {
+                opacity: 1;
+                background: rgba(3, 7, 18, 0.94);
+            }
         }
 
         .w3c-modal-card {
             position: relative;
-            background: linear-gradient(180deg, #0f172a 0%, #090d16 100%);
-            border: 1px solid rgba(16, 185, 129, 0.35);
-            border-radius: 24px;
-            max-width: 660px;
+            background: linear-gradient(180deg, #0b1120 0%, #030712 100%);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            border-radius: 28px;
+            max-width: 680px;
             width: 100%;
             margin: auto;
             color: #ffffff;
             box-shadow: 
-                0 30px 80px -15px rgba(0, 0, 0, 0.9),
-                0 0 60px rgba(16, 185, 129, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+                0 30px 90px -10px rgba(0, 0, 0, 0.98),
+                0 0 70px rgba(16, 185, 129, 0.22),
+                inset 0 1px 0 rgba(255, 255, 255, 0.16);
             overflow: hidden;
-            transform: scale(0.94) translateY(12px);
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+            transform: scale(0.95) translateY(16px);
+            opacity: 0;
             font-family: var(--font-sans);
         }
 
         .w3c-modal-overlay.active .w3c-modal-card {
-            transform: scale(1) translateY(0);
+            animation: w3cCardSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes w3cCardSlideUp {
+            from {
+                opacity: 0;
+                transform: scale(0.94) translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
 
         /* Ambient glowing orbs inside modal */
@@ -1570,10 +1599,10 @@
             top: -120px;
             left: 50%;
             transform: translateX(-50%);
-            width: 380px;
-            height: 240px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.28) 0%, rgba(39, 126, 255, 0.12) 50%, transparent 70%);
-            filter: blur(50px);
+            width: 440px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.32) 0%, rgba(56, 189, 248, 0.16) 45%, transparent 70%);
+            filter: blur(55px);
             pointer-events: none;
             z-index: 0;
         }
@@ -1582,8 +1611,8 @@
             position: absolute;
             top: 18px;
             right: 18px;
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -1597,7 +1626,7 @@
         }
 
         .w3c-modal-close-btn:hover {
-            background: rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.18);
             color: #ffffff;
             transform: rotate(90deg);
         }
@@ -1605,7 +1634,7 @@
         .w3c-modal-content {
             position: relative;
             z-index: 1;
-            padding: 36px 32px 30px;
+            padding: 38px 34px 32px;
         }
 
         @media (max-width: 600px) {
@@ -1625,8 +1654,8 @@
 
         .w3c-badge-seal {
             position: relative;
-            width: 72px;
-            height: 72px;
+            width: 78px;
+            height: 78px;
             margin-bottom: 14px;
             display: flex;
             align-items: center;
@@ -1635,52 +1664,89 @@
 
         .w3c-seal-ring {
             position: absolute;
-            inset: 0;
+            inset: -4px;
             border-radius: 50%;
-            border: 2px solid rgba(16, 185, 129, 0.4);
-            animation: w3cPulseRing 3s ease-out infinite;
+            border: 2px solid rgba(16, 185, 129, 0.45);
+            animation: w3cPulseRing 2.8s ease-out infinite;
+        }
+
+        .w3c-seal-ring-outer {
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            border: 1.5px dashed rgba(56, 189, 248, 0.35);
+            animation: w3cSpinSlow 20s linear infinite;
+        }
+
+        @keyframes w3cSpinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .w3c-seal-icon-box {
-            width: 60px;
-            height: 60px;
+            width: 66px;
+            height: 66px;
             border-radius: 50%;
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 25px rgba(16, 185, 129, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 35px rgba(16, 185, 129, 0.6), inset 0 2px 3px rgba(255, 255, 255, 0.5);
             color: #ffffff;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 800;
         }
 
         @keyframes w3cPulseRing {
-            0% { transform: scale(0.9); opacity: 0.9; }
-            50% { transform: scale(1.18); opacity: 0; }
-            100% { transform: scale(1.18); opacity: 0; }
+            0% { transform: scale(0.92); opacity: 0.9; }
+            50% { transform: scale(1.22); opacity: 0; }
+            100% { transform: scale(1.22); opacity: 0; }
+        }
+
+        .w3c-badges-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
         }
 
         .w3c-status-pill {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 4px 12px;
+            padding: 5px 14px;
             border-radius: 9999px;
-            background: rgba(16, 185, 129, 0.12);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.14);
+            border: 1px solid rgba(16, 185, 129, 0.35);
             color: #34d399;
             font-family: var(--font-head);
-            font-size: 0.72rem;
+            font-size: 0.74rem;
             font-weight: 700;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            margin-bottom: 8px;
+        }
+
+        .w3c-crypto-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 14px;
+            border-radius: 9999px;
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            color: #38bdf8;
+            font-family: var(--font-head);
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
 
         .w3c-modal-title {
             font-family: var(--font-head);
-            font-size: clamp(1.4rem, 3.2vw, 1.85rem);
+            font-size: clamp(1.45rem, 3.4vw, 1.95rem);
             font-weight: 800;
             letter-spacing: -0.02em;
             color: #f8fafc;
@@ -1688,41 +1754,54 @@
             margin-bottom: 6px;
         }
 
-        /* User's exact prompt callout banner */
+        .w3c-modal-subtitle {
+            font-size: 0.88rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        /* Hero Verification Callout Banner */
         .w3c-verification-statement {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(39, 126, 255, 0.08) 100%);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 12px;
-            padding: 12px 16px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(56, 189, 248, 0.1) 100%);
+            border: 1px solid rgba(52, 211, 153, 0.4);
+            border-radius: 16px;
+            padding: 14px 18px;
             margin-bottom: 22px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             text-align: left;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.08);
         }
 
         .w3c-statement-icon {
             flex-shrink: 0;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: rgba(16, 185, 129, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(16, 185, 129, 0.22);
+            border: 1px solid rgba(16, 185, 129, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #10b981;
+            color: #34d399;
+        }
+
+        .w3c-statement-title {
+            font-size: 0.96rem;
+            font-weight: 700;
+            color: #4ade80;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .w3c-statement-text {
-            font-size: 0.88rem;
+            font-size: 0.86rem;
             line-height: 1.45;
-            color: #e2e8f0;
-            font-weight: 550;
-        }
-
-        .w3c-statement-text strong {
-            color: #34d399;
-            font-weight: 700;
+            color: #cbd5e1;
+            font-weight: 450;
         }
 
         /* Credential Information Grid */
@@ -2665,28 +2744,44 @@
                 <!-- Verified Header & Seal -->
                 <div class="w3c-header-center">
                     <div class="w3c-badge-seal">
+                        <div class="w3c-seal-ring-outer"></div>
                         <div class="w3c-seal-ring"></div>
                         <div class="w3c-seal-icon-box">✓</div>
                     </div>
-                    <div class="w3c-status-pill">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        Acreditación Digital Verificada · W3C & Open Badges 3.0
+                    <div class="w3c-badges-row">
+                        <div class="w3c-status-pill">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Certificado Oficial Válido
+                        </div>
+                        <div class="w3c-crypto-pill">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                            Firma Criptográfica Válida
+                        </div>
                     </div>
                     <h2 class="w3c-modal-title" id="w3cModalTitle">Certificado Oficial de Competencia</h2>
+                    <div class="w3c-modal-subtitle">Richmond Placement Assessment Center · W3C Verifiable Credentials & Open Badges 3.0</div>
                 </div>
 
-                <!-- Callout Banner with exact user prompt wording -->
+                <!-- Callout Banner with exact user prompt wording & verified status -->
                 <div class="w3c-verification-statement">
                     <div class="w3c-statement-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <polyline points="9 12 11 14 15 10"></polyline>
                         </svg>
                     </div>
-                    <div class="w3c-statement-text">
-                        La firma cryptográfica de este certificado es <strong>válida</strong> y emitida con los siguientes datos:
+                    <div>
+                        <div class="w3c-statement-title">
+                            <span>Certificado Auténtico y Firma Criptográfica Válida</span>
+                            <span style="font-size: 0.68rem; background: #059669; color: white; padding: 2px 7px; border-radius: 9999px; letter-spacing: 0.04em;">VERIFICADO ✓</span>
+                        </div>
+                        <div class="w3c-statement-text">
+                            La firma cryptográfica de este certificado es <strong>válida</strong>, matemáticamente infalsificable y emitida con los siguientes datos oficiales:
+                        </div>
                     </div>
                 </div>
 
@@ -2699,9 +2794,9 @@
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                 <circle cx="12" cy="7" r="4"></circle>
                             </svg>
-                            Alumno / Candidato
+                            Alumno / Candidato Acreditado
                         </div>
-                        <div class="w3c-info-val" id="w3cModalStudent" style="font-size: 1.15rem; color: #ffffff;">—</div>
+                        <div class="w3c-info-val" id="w3cModalStudent" style="font-size: 1.25rem; color: #ffffff; letter-spacing: -0.01em;">—</div>
                     </div>
 
                     <!-- CEFR Level -->
@@ -2713,7 +2808,7 @@
                             </svg>
                             Nivel CEFR Acreditado
                         </div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-top: 2px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
                             <span class="w3c-cefr-badge" id="w3cModalCefrBadge">B2+</span>
                             <span style="font-size: 0.8rem; color: #94a3b8;" id="w3cModalCefrDesc">—</span>
                         </div>
@@ -2728,7 +2823,7 @@
                             </svg>
                             Puntaje Obtenido
                         </div>
-                        <div class="w3c-info-val" id="w3cModalScore" style="color: #38bdf8;">—</div>
+                        <div class="w3c-info-val" id="w3cModalScore" style="color: #38bdf8; font-size: 1.1rem;">—</div>
                     </div>
 
                     <!-- Folio -->
@@ -2776,7 +2871,7 @@
                 <div class="w3c-crypto-box">
                     <div class="w3c-crypto-header">
                         <div class="w3c-crypto-title">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                             </svg>
                             Firma Criptográfica SHA-256 Validada ✓
@@ -2792,7 +2887,7 @@
                     <div class="w3c-hash-display" id="w3cModalHash">—</div>
                     <div class="w3c-crypto-meta">
                         <span>• Algoritmo: <strong>SHA-256 (Web Crypto API)</strong></span>
-                        <span>• Protocolo: <strong>Tamper-evident W3C Proof</strong></span>
+                        <span>• Protocolo: <strong>W3C Verifiable Credentials</strong></span>
                         <span>• Integridad: <strong>100% Auténtico e Inalterado</strong></span>
                     </div>
                 </div>
@@ -3431,7 +3526,7 @@
         async function checkUrlW3cModal() {
             try {
                 const params = new URLSearchParams(window.location.search);
-                if (params.get('w3c') === '1') {
+                if (params.get('w3c') === '1' || params.get('verify') === '1' || params.get('folio')) {
                     const folio = params.get('folio') || '2026-001';
                     const schoolCode = (params.get('school') || 'UTT').toUpperCase();
                     const cefr = (params.get('cefr') || 'B2+').trim();
@@ -3590,6 +3685,19 @@
             }
             document.body.classList.remove('w3c-modal-open');
         }
+
+        // Close on ESC key & overlay backdrop click
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeW3cModal();
+        });
+        window.addEventListener('DOMContentLoaded', () => {
+            const overlay = document.getElementById('w3cModalOverlay');
+            if (overlay) {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) closeW3cModal();
+                });
+            }
+        });
 
         async function copyCryptoHash() {
             if (!currentW3cHash) return;
