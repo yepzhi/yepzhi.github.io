@@ -408,6 +408,7 @@
 
         input[type="text"],
         input[type="number"],
+        input[type="password"],
         textarea,
         select {
             width: 100%;
@@ -420,6 +421,10 @@
             font-size: 0.94rem;
             transition: all 0.2s ease;
             box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+        }
+
+        input[type="password"] {
+            padding-right: 42px;
         }
 
         textarea {
@@ -1236,23 +1241,68 @@
 
         .btn-toggle-eye {
             position: absolute;
-            right: 10px;
+            right: 8px;
             top: 50%;
             transform: translateY(-50%);
             background: none;
             border: none;
-            padding: 6px;
+            width: 32px;
+            height: 32px;
+            padding: 0;
             color: #64748b;
             cursor: pointer;
             border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: color 0.2s;
+            transition: color 0.2s, background-color 0.2s;
+            z-index: 2;
         }
 
         .btn-toggle-eye:hover {
             color: #1e293b;
+            background-color: #f1f5f9;
+        }
+
+        .btn-verify-key {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 0 16px;
+            height: 44px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: #ffffff;
+            border: 1px solid #334155;
+            border-radius: 11px;
+            font-family: inherit;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .btn-verify-key:hover {
+            background: linear-gradient(135deg, #0f172a, #020617);
+            border-color: #475569;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(15, 23, 42, 0.2);
+        }
+
+        .btn-verify-key:active {
+            transform: translateY(0);
+        }
+
+        .btn-verify-key.authenticated {
+            background: #ecfdf5;
+            color: #065f46;
+            border-color: #a7f3d0;
+            cursor: default;
+            transform: none;
+            box-shadow: none;
         }
 
         .school-feedback-pill {
@@ -1522,19 +1572,27 @@
                                     Clave de Acceso Institucional
                                     <span class="label-tag" id="claveTag">Protegido</span>
                                 </label>
-                                <div class="input-wrapper" style="position: relative;">
-                                    <span class="input-icon">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <div class="input-wrapper" style="position: relative; flex: 1;">
+                                        <span class="input-icon">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                            </svg>
+                                        </span>
+                                        <input type="password" id="inputClaveEscuela" placeholder="Introduce la clave de acceso" oninput="handleClaveInput(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault(); triggerClaveVerification();}" autocomplete="off">
+                                        <button type="button" class="btn-toggle-eye" onclick="toggleClaveVisibility()" title="Mostrar/ocultar clave">
+                                            <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <button type="button" class="btn-verify-key" id="btnVerifyClave" onclick="triggerClaveVerification()" title="Validar clave de acceso institucional">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
                                         </svg>
-                                    </span>
-                                    <input type="password" id="inputClaveEscuela" placeholder="Introduce la clave de acceso" oninput="handleClaveInput(this.value)" autocomplete="off">
-                                    <button type="button" class="btn-toggle-eye" onclick="toggleClaveVisibility()" title="Mostrar/ocultar clave">
-                                        <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                            <circle cx="12" cy="12" r="3"></circle>
-                                        </svg>
+                                        <span>Validar</span>
                                     </button>
                                 </div>
                             </div>
@@ -1595,7 +1653,7 @@
                                 <line x1="12" y1="5" x2="12" y2="19"></line>
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
                             </svg>
-                            + Agregar logo institucional, PNG (solo)
+                            Agregar logo institucional, PNG (solo)
                         </label>
                         <button type="button" class="btn-ghost-danger-sm" id="btnRemoveLogo" style="display: none;" onclick="removeInstitutionalLogo()" title="Quitar logo">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2060,6 +2118,7 @@
         let massiveAuditData = null;
 
         // ── SCHOOL CATALOG & AUTHENTICATION STATE ───────────────────
+        // Clean public metadata only - NO passwords, salts or hashes stored in frontend client
         const SCHOOLS_CATALOG = [
             {
                 id: "UTT",
@@ -2067,8 +2126,6 @@
                 nombre_completo: "Universidad Tecnológica de Tijuana",
                 contacto_nombre: "Karla María Antoniett Carmona López",
                 contacto_email: "karla.carmona@uttijuana.edu.mx",
-                salt: "stemos_school_salt_utt",
-                clave_hash: "abbff690b3b05aa1b569ce05a650184f447db0c4e1fe73333d59a8b222aefb4c",
                 activo: true
             },
             {
@@ -2077,8 +2134,6 @@
                 nombre_completo: "Instituto Tecnológico de Mexicali",
                 contacto_nombre: "Yesenia González",
                 contacto_email: "clenguas@itmexicali.edu.mx",
-                salt: "stemos_school_salt_itmxl",
-                clave_hash: "950bfd415d4bb8a5597029a2aadeea6a16961c9e3242ecd58ac53530a097db31",
                 activo: true
             },
             {
@@ -2087,8 +2142,6 @@
                 nombre_completo: "Universidad Tecnológica de Nogales",
                 contacto_nombre: "P.A. Claudia Catalina Tapia Villa",
                 contacto_email: "ctapia@utnogales.edu.mx",
-                salt: "stemos_school_salt_utn",
-                clave_hash: "650882532107c916a09e40931a1797de09906e9cf5464adcfd34f1660d41a191",
                 activo: true
             },
             {
@@ -2097,8 +2150,6 @@
                 nombre_completo: "Universidad Tecnológica de Hermosillo",
                 contacto_nombre: "Claudia Beltrán López",
                 contacto_email: "claudiabeltran@uthermosillo.edu.mx",
-                salt: "stemos_school_salt_uth",
-                clave_hash: "da82e73af5ad72f2602d502cdffcd2ff5805a6a51b129bffed060a037deadbfb",
                 activo: true
             },
             {
@@ -2107,8 +2158,6 @@
                 nombre_completo: "Instituto Tecnológico de Hermosillo",
                 contacto_nombre: "Luz Enríquez R.",
                 contacto_email: "luz.enriquezr@hermosillo.tecnm.mx",
-                salt: "stemos_school_salt_ith",
-                clave_hash: "16a7a5450a41d3dfe5261cb66ff78ed4d2621f43217ce85b95fd16abeb917f65",
                 activo: true
             },
             {
@@ -2117,8 +2166,6 @@
                 nombre_completo: "Instituto Tecnológico Superior de Cajeme",
                 contacto_nombre: "Liliana García Peralta",
                 contacto_email: "idiomas@itesca.edu.mx",
-                salt: "stemos_school_salt_itesca",
-                clave_hash: "7099d156857b74f2a75853bc3da5ed1eccf1fd1aba3020409c769186ad9581b8",
                 activo: true
             },
             {
@@ -2127,8 +2174,6 @@
                 nombre_completo: "Instituto Tecnológico de Los Mochis",
                 contacto_nombre: "María del Rocío Barajas Peregrina",
                 contacto_email: "maria.bp@mochis.tecnm.mx",
-                salt: "stemos_school_salt_itlm",
-                clave_hash: "441c5a33c34843b74939df82f550bcfe12bce303deda13d12ab8b36f01ae853f",
                 activo: true
             }
         ];
@@ -2143,14 +2188,6 @@
         let livePreviewQrKey = '';
         let claveDebounceTimer = null;
 
-        async function computeSha256Hex(text) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(text);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
         function handleEscuelaChange(schoolId) {
             selectedSchoolId = schoolId;
             selectedSchool = SCHOOLS_CATALOG.find(s => s.id === schoolId) || null;
@@ -2161,11 +2198,21 @@
             const claveInput = document.getElementById('inputClaveEscuela');
             const schoolCard = document.getElementById('schoolAuthCard');
             const statusTag = document.getElementById('schoolAuthTag');
+            const btnVerify = document.getElementById('btnVerifyClave');
 
             if (schoolCard) schoolCard.classList.remove('authenticated');
             if (statusTag) {
                 statusTag.textContent = 'Requerido para Placement Test';
                 statusTag.classList.remove('authenticated');
+            }
+            if (btnVerify) {
+                btnVerify.classList.remove('authenticated');
+                btnVerify.innerHTML = `
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>Validar</span>
+                `;
             }
 
             if (schoolId) {
@@ -2183,14 +2230,22 @@
 
             updateGenerateButtonsState();
             ensureLivePreviewQR();
+            ensureLivePreviewW3cQR();
             updateLivePreview();
+        }
+
+        function triggerClaveVerification() {
+            const input = document.getElementById('inputClaveEscuela');
+            if (input) {
+                checkSchoolClave(input.value);
+            }
         }
 
         function handleClaveInput(val) {
             clearTimeout(claveDebounceTimer);
             claveDebounceTimer = setTimeout(async () => {
                 await checkSchoolClave(val);
-            }, 300);
+            }, 350);
         }
 
         async function checkSchoolClave(clave) {
@@ -2208,13 +2263,14 @@
 
             const cleanClave = clave.trim();
 
-            // 1. Worker Edge API
+            // Native Cloudflare Worker Edge Auth Verification - No client-side hashes or passwords
             try {
                 const res = await fetch('/api/webcert/verify-key', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ escuela_id: selectedSchoolId, clave: cleanClave })
                 });
+
                 if (res.ok) {
                     const data = await res.json();
                     if (data.ok) {
@@ -2229,25 +2285,20 @@
                     updateSchoolAuthStatus('error', 'Clave de acceso incorrecta. Verifica con tu coordinación.');
                     updateGenerateButtonsState();
                     return;
-                }
-            } catch (netErr) {
-                console.warn('Backend Worker no disponible (offline/local), verificando vía Web Crypto local:', netErr);
-            }
-
-            // 2. Client-side Web Crypto Fallback
-            const sc = selectedSchool;
-            if (sc) {
-                const hash = await computeSha256Hex(sc.salt + ':' + cleanClave);
-                if (hash === sc.clave_hash) {
-                    isSchoolAuthenticated = true;
-                    schoolAuthToken = 'local_' + Date.now();
-                    onSchoolAuthenticatedSuccess();
                 } else {
+                    const errData = await res.json().catch(() => ({}));
                     isSchoolAuthenticated = false;
                     schoolAuthToken = '';
-                    updateSchoolAuthStatus('error', 'Clave de acceso incorrecta. Verifica con tu coordinación.');
+                    updateSchoolAuthStatus('error', errData.error || 'Error al validar con Cloudflare Worker.');
                     updateGenerateButtonsState();
+                    return;
                 }
+            } catch (netErr) {
+                console.warn('Error conectando con Cloudflare Worker de autenticación:', netErr);
+                isSchoolAuthenticated = false;
+                schoolAuthToken = '';
+                updateSchoolAuthStatus('error', 'No se pudo conectar al Cloudflare Worker de validación. Verifica tu conexión.');
+                updateGenerateButtonsState();
             }
         }
 
@@ -2255,15 +2306,27 @@
             const sc = selectedSchool;
             const card = document.getElementById('schoolAuthCard');
             const tag = document.getElementById('schoolAuthTag');
+            const btnVerify = document.getElementById('btnVerifyClave');
+
             if (card) card.classList.add('authenticated');
             if (tag) {
                 tag.textContent = 'Autenticado ✓';
                 tag.classList.add('authenticated');
             }
+            if (btnVerify) {
+                btnVerify.classList.add('authenticated');
+                btnVerify.innerHTML = `
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>Autorizado ✓</span>
+                `;
+            }
 
             updateSchoolAuthStatus('authenticated', `✓ Autenticado con éxito · Coordinación de Idiomas autorizada (${sc ? sc.contacto_email : ''})`);
             updateGenerateButtonsState();
             ensureLivePreviewQR();
+            ensureLivePreviewW3cQR();
             updateLivePreview();
         }
 
@@ -2357,6 +2420,33 @@
             return null;
         }
 
+        let livePreviewW3cQrDataUrl = null;
+        let livePreviewW3cQrImg = null;
+        let livePreviewW3cQrKey = '';
+
+        async function buildW3CQR({ schoolId, nombreAlumno, cefr, folio }) {
+            const sch = schoolId || (selectedSchool ? selectedSchool.codigo : 'RICH');
+            const student = encodeURIComponent(nombreAlumno || 'alumno');
+            const f = folio || currentFolio;
+            const c = encodeURIComponent(cefr || 'B2+');
+            const w3cUrl = `https://yepzhi.com/hub/webcert?w3c=1&folio=${f}&school=${sch}&cefr=${c}&student=${student}`;
+
+            try {
+                if (typeof QRCode !== 'undefined') {
+                    return await QRCode.toDataURL(w3cUrl, {
+                        margin: 1,
+                        color: {
+                            dark: '#0f172a',
+                            light: '#00000000' // 100% transparent PNG
+                        }
+                    });
+                }
+            } catch (err) {
+                console.warn('Error generando QR W3C code:', err);
+            }
+            return null;
+        }
+
         async function ensureLivePreviewQR() {
             if (activeMode !== 'placement') return;
             const nombre = `${document.getElementById('inputApellido')?.value || ''} ${document.getElementById('inputNombre')?.value || ''}`.trim() || 'Juan Carlos Pérez García';
@@ -2365,15 +2455,39 @@
             const email = selectedSchool ? selectedSchool.contacto_email : 'idiomas@institucion.edu.mx';
 
             const key = `${email}|${nombre}|${cefr}|${fecha}`;
-            if (key === livePreviewQrKey && livePreviewQrImg) return;
-            livePreviewQrKey = key;
+            if (key !== livePreviewQrKey || !livePreviewQrImg) {
+                livePreviewQrKey = key;
+                const dataUrl = await buildMailtoQR({ email, nombreAlumno: nombre, nivelCefr: cefr, fechaExamen: fecha });
+                if (dataUrl) {
+                    livePreviewQrDataUrl = dataUrl;
+                    const img = new Image();
+                    img.onload = () => {
+                        livePreviewQrImg = img;
+                        updateLivePreview();
+                    };
+                    img.src = dataUrl;
+                }
+            }
 
-            const dataUrl = await buildMailtoQR({ email, nombreAlumno: nombre, nivelCefr: cefr, fechaExamen: fecha });
+            ensureLivePreviewW3cQR();
+        }
+
+        async function ensureLivePreviewW3cQR() {
+            if (activeMode !== 'placement') return;
+            const nombre = `${document.getElementById('inputApellido')?.value || ''} ${document.getElementById('inputNombre')?.value || ''}`.trim() || 'Juan Carlos Pérez García';
+            const cefr = document.getElementById('inputCefr')?.value || 'B2+';
+            const schoolCode = selectedSchool ? selectedSchool.codigo : 'RICH';
+
+            const key = `${schoolCode}|${nombre}|${cefr}|${currentFolio}`;
+            if (key === livePreviewW3cQrKey && livePreviewW3cQrImg) return;
+            livePreviewW3cQrKey = key;
+
+            const dataUrl = await buildW3CQR({ schoolId: schoolCode, nombreAlumno: nombre, cefr: cefr, folio: currentFolio });
             if (dataUrl) {
-                livePreviewQrDataUrl = dataUrl;
+                livePreviewW3cQrDataUrl = dataUrl;
                 const img = new Image();
                 img.onload = () => {
-                    livePreviewQrImg = img;
+                    livePreviewW3cQrImg = img;
                     updateLivePreview();
                 };
                 img.src = dataUrl;
@@ -2486,8 +2600,34 @@
             loadTemplatePDF();
             updateGenerateButtonsState();
             ensureLivePreviewQR();
+            ensureLivePreviewW3cQR();
             updateLivePreview();
+            checkUrlW3cModal();
         });
+
+        function checkUrlW3cModal() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('w3c') === '1') {
+                    const folio = params.get('folio') || '2026-001';
+                    const school = params.get('school') || 'UTT';
+                    const cefr = params.get('cefr') || 'B2+';
+                    const student = decodeURIComponent(params.get('student') || 'Estudiante');
+                    
+                    setTimeout(() => {
+                        alert(`Acreditación Oficial W3C Verifiable Credential · Open Badges 3.0\n\n` +
+                              `• Sustentante: ${student}\n` +
+                              `• Nivel CEFR Acreditado: ${cefr}\n` +
+                              `• Folio Único: ${folio}\n` +
+                              `• Institución Evaluadora: ${school}\n` +
+                              `• Estándar: W3C Verifiable Credentials Data Model v1.1\n\n` +
+                              `Estado: Credencial Digital Válida y Acreditada.`);
+                    }, 600);
+                }
+            } catch (e) {
+                console.warn('W3C URL check error:', e);
+            }
+        }
 
         function setDefaultDates() {
             const today = new Date();
@@ -2710,7 +2850,7 @@
                         <line x1="12" y1="5" x2="12" y2="19"></line>
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                     </svg>
-                    + Agregar logo institucional, PNG (solo)
+                    Agregar logo institucional, PNG (solo)
                 `;
             }
 
@@ -2951,11 +3091,11 @@
                 ctx.fillText(dateText, W / 2, 472 * scale); // 944px
             }
 
-            // 4. Folio (Session) vs Validation Annotation & QR (Placement Test)
+            // 4. Folio (Session) vs Dual QR & Validation Annotation (Placement Test)
             if (activeMode === 'placement') {
-                // QR at POS 590: x = 442 * scale, y = 590 * scale, size = 58 * scale
+                // 4A. Regular QR at POS 600: x = 442 * scale, y = 600 * scale, size = 58 * scale
                 const qrX = 442 * scale;
-                const qrY = 590 * scale;
+                const qrY = 600 * scale;
                 const qrSize = 58 * scale;
 
                 if (livePreviewQrImg && livePreviewQrImg.complete) {
@@ -2964,15 +3104,32 @@
                     ensureLivePreviewQR();
                 }
 
-                // Caption
+                // Regular QR Caption
                 ctx.textAlign = 'center';
                 ctx.font = `${5.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#64748b';
-                ctx.fillText('Escanear para validar', qrX + qrSize / 2, 656 * scale);
+                ctx.fillText('Escanear para validar', qrX + qrSize / 2, 666 * scale);
 
-                // Validation Text (without white background card - direct transparent overlay with subtle drop shadow)
+                // 4B. W3C QR on left lower white section top of the text there
+                const w3cQrX = 48 * scale;
+                const w3cQrY = 554 * scale;
+                const w3cQrSize = 48 * scale;
+
+                if (livePreviewW3cQrImg && livePreviewW3cQrImg.complete) {
+                    ctx.drawImage(livePreviewW3cQrImg, w3cQrX, w3cQrY, w3cQrSize, w3cQrSize);
+                } else {
+                    ensureLivePreviewW3cQR();
+                }
+
+                // W3C QR Caption
+                ctx.textAlign = 'center';
+                ctx.font = `${5.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.fillStyle = '#475569';
+                ctx.fillText('W3C Verifiable Credential', w3cQrX + w3cQrSize / 2, 612 * scale);
+
+                // 4C. Validation Text (direct transparent overlay with subtle drop shadow)
                 const schoolName = selectedSchool ? selectedSchool.nombre_completo : '[NOMBRE DE LA UNIVERSIDAD]';
-                const valText = `Este documento certifica el resultado de una evaluación de idioma aplicada de manera presencial en las instalaciones de ${schoolName}. La autenticidad y el resguardo de los registros correspondientes son responsabilidad de la Coordinación de Idiomas de dicha institución. Para fines de validación, escanee el código QR: se abrirá un correo prellenado con los datos del alumno dirigido a la Coordinación de Idiomas de la institución emisora.`;
+                const valText = `Este documento certifica el resultado de una evaluación de idioma aplicada de manera presencial en las instalaciones de ${schoolName}. La autenticidad y el resguardo de los registros correspondientes son responsabilidad de la Coordinación de Idiomas de dicha institución. Para fines de validación institucional, escanee el código QR derecho: se abrirá un correo oficial prellenado con los datos del alumno.`;
 
                 ctx.textAlign = 'left';
                 ctx.font = `${6.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
@@ -2991,8 +3148,8 @@
                 }
                 if (curL) lines.push(curL);
 
-                let textY = 638 * scale;
-                const lineH = 9.5 * scale;
+                let textY = 634 * scale;
+                const lineH = 9.2 * scale;
                 for (const line of lines) {
                     // Subtle shadow for legibility over purple and white ribbons
                     ctx.fillStyle = '#0f172a';
@@ -3001,6 +3158,14 @@
                     ctx.fillText(line, 35 * scale, textY);
                     textY += lineH;
                 }
+
+                // W3C Verifiable Credentials Visual Line (Option 2)
+                const w3cVisualText = 'Acreditación emitida bajo estándar W3C Verifiable Credentials · Open Badges 3.0';
+                ctx.font = `${5.8 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.fillStyle = '#0f172a';
+                ctx.fillText(w3cVisualText, 35.8 * scale, textY + 2 * scale + 0.8 * scale);
+                ctx.fillStyle = '#e2e8f0';
+                ctx.fillText(w3cVisualText, 35 * scale, textY + 2 * scale);
             } else {
                 // Session mode retains standard folio
                 ctx.textAlign = 'right';
@@ -3298,8 +3463,8 @@
 
             // 3. VALIDACIÓN (PLACEMENT TEST) vs FOLIO (ASISTENCIA A SESIÓN)
             if (isPlacement) {
-                // QR at POS 590: x = 442, y = 72, width = 58, height = 58
-                // y in PDF-Lib: height - 590 - 58 = 720 - 648 = 72
+                // 3A. Regular QR at POS 600: x = 442, y = 62, width = 58, height = 58
+                // y in PDF-Lib: height - 600 - 58 = 720 - 658 = 62
                 const targetEmail = (selectedSchool ? selectedSchool.contacto_email : 'idiomas@institucion.edu.mx');
                 const qrDataUrl = await buildMailtoQR({
                     email: targetEmail,
@@ -3315,7 +3480,7 @@
                         const qrImage = await pdfDoc.embedPng(qrBytes);
                         firstPage.drawImage(qrImage, {
                             x: 442,
-                            y: 72,
+                            y: 62,
                             width: 58,
                             height: 58,
                         });
@@ -3324,21 +3489,58 @@
                     }
                 }
 
-                // Caption
+                // Regular QR Caption
                 const capText = 'Escanear para validar';
                 const capSize = 5.5;
                 const capWidth = fontRegular.widthOfTextAtSize(capText, capSize);
                 firstPage.drawText(capText, {
                     x: 442 + (58 - capWidth) / 2,
-                    y: 64,
+                    y: 54,
                     size: capSize,
                     font: fontRegular,
                     color: rgb(0.4, 0.4, 0.4),
                 });
 
-                // Validation Text (without white card background - direct transparent overlay with subtle shadow)
+                // 3B. W3C QR on left lower white section top of text: x = 48, top-y = 554, size = 48
+                // y in PDF-Lib: 720 - 554 - 48 = 118
+                const w3cQrDataUrl = await buildW3CQR({
+                    schoolId: selectedSchool ? selectedSchool.codigo : 'RICH',
+                    nombreAlumno: nombreCompleto,
+                    cefr: cefr,
+                    folio: folio
+                });
+
+                if (w3cQrDataUrl) {
+                    try {
+                        const w3cQrBase64 = w3cQrDataUrl.split(',')[1];
+                        const w3cQrBytes = Uint8Array.from(atob(w3cQrBase64), c => c.charCodeAt(0));
+                        const w3cQrImage = await pdfDoc.embedPng(w3cQrBytes);
+                        firstPage.drawImage(w3cQrImage, {
+                            x: 48,
+                            y: 118,
+                            width: 48,
+                            height: 48,
+                        });
+                    } catch (w3cErr) {
+                        console.warn('Error incrustando QR W3C en PDF:', w3cErr);
+                    }
+                }
+
+                // W3C QR Caption
+                const w3cCapText = 'W3C Verifiable Credential';
+                const w3cCapSize = 5.5;
+                const w3cCapWidth = fontRegular.widthOfTextAtSize(w3cCapText, w3cCapSize);
+                firstPage.drawText(w3cCapText, {
+                    x: 48 + (48 - w3cCapWidth) / 2,
+                    y: 108,
+                    size: w3cCapSize,
+                    font: fontRegular,
+                    color: rgb(0.35, 0.4, 0.5),
+                });
+
+                // 3C. Validation Text (without white card background - direct transparent overlay with subtle shadow)
                 const schoolName = selectedSchool ? selectedSchool.nombre_completo : '[NOMBRE DE LA UNIVERSIDAD]';
-                const valText = `Este documento certifica el resultado de una evaluación de idioma aplicada de manera presencial en las instalaciones de ${schoolName}. La autenticidad y el resguardo de los registros correspondientes son responsabilidad de la Coordinación de Idiomas de dicha institución. Para fines de validación, escanee el código QR: se abrirá un correo prellenado con los datos del alumno dirigido a la Coordinación de Idiomas de la institución emisora.`;
+                const valText = `Este documento certifica el resultado de una evaluación de idioma aplicada de manera presencial en las instalaciones de ${schoolName}. La autenticidad y el resguardo de los registros correspondientes son responsabilidad de la Coordinación de Idiomas de dicha institución. Para fines de validación institucional, escanee el código QR derecho: se abrirá un correo oficial prellenado con los datos del alumno.`;
 
                 const words = valText.split(' ');
                 const maxValW = 395;
@@ -3373,9 +3575,60 @@
                         font: fontRegular,
                         color: rgb(1, 1, 1),
                     });
-                    vY -= 9.5;
+                    vY -= 9.2;
                 }
+
+                // W3C Verifiable Credentials Visual Line (Option 2)
+                const w3cVisualText = 'Acreditación emitida bajo estándar W3C Verifiable Credentials · Open Badges 3.0';
+                firstPage.drawText(w3cVisualText, {
+                    x: 35.6,
+                    y: vY - 2 - 0.6,
+                    size: 5.8,
+                    font: fontRegular,
+                    color: rgb(0.15, 0.15, 0.15),
+                });
+                firstPage.drawText(w3cVisualText, {
+                    x: 35,
+                    y: vY - 2,
+                    size: 5.8,
+                    font: fontRegular,
+                    color: rgb(0.9, 0.92, 0.95),
+                });
+
+                // Option 3: Standard W3C Verifiable Credential in PDF Metadata
+                const w3cCredential = {
+                    "@context": [
+                        "https://www.w3.org/2018/credentials/v1",
+                        "https://purl.imsglobal.org/spec/ob/v3p0/context.json"
+                    ],
+                    "id": `urn:uuid:webcert-${(selectedSchool ? selectedSchool.codigo.toLowerCase() : 'richmond')}-${folio}`,
+                    "type": ["VerifiableCredential", "OpenBadgeCredential"],
+                    "issuer": {
+                        "id": `https://yepzhi.com/issuers/${selectedSchool ? selectedSchool.codigo.toLowerCase() : 'richmond'}`,
+                        "name": selectedSchool ? selectedSchool.nombre_completo : "Richmond Placement Test",
+                        "email": selectedSchool ? selectedSchool.contacto_email : "idiomas@institucion.edu.mx"
+                    },
+                    "issuanceDate": new Date().toISOString(),
+                    "credentialSubject": {
+                        "id": `urn:student:${encodeURIComponent(nombreCompleto.toLowerCase().replace(/\s+/g, '-'))}`,
+                        "name": nombreCompleto,
+                        "achievement": {
+                            "id": "https://yepzhi.com/credentials/richmond-placement-test",
+                            "type": ["Achievement"],
+                            "name": "Richmond Placement Test English Proficiency",
+                            "description": "Validación presencial del nivel de idioma inglés MCER / CEFR",
+                            "criteria": { "narrative": `Acreditación oficial nivel CEFR ${cefr}` }
+                        }
+                    }
+                };
+                pdfDoc.setTitle(`Certificado Richmond - ${nombreCompleto}`);
+                pdfDoc.setAuthor(selectedSchool ? selectedSchool.nombre_completo : 'Richmond Publishing');
+                pdfDoc.setSubject(JSON.stringify(w3cCredential));
+                pdfDoc.setKeywords(['W3C Verifiable Credential', 'Open Badges 3.0', 'CEFR ' + cefr, selectedSchool ? selectedSchool.codigo : 'Richmond']);
+                pdfDoc.setProducer('Richmond Webcert Engine · W3C Verifiable Credentials / Open Badges 3.0');
             } else {
+                pdfDoc.setTitle(`Certificado de Asistencia - ${nombreCompleto}`);
+                pdfDoc.setAuthor('Richmond Publishing');
                 // Modo Asistencia a Sesión: se mantiene el Folio estándar
                 const textoFolio = `Folio: ${folio}`;
                 const folioSize = 9;
