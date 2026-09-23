@@ -2395,12 +2395,12 @@
         // ── DYNAMIC MAILTO QR GENERATOR (TRANSPARENT PNG) ───────────
         async function buildMailtoQR({ email, nombreAlumno, nivelCefr, fechaExamen }) {
             const mail = email || (selectedSchool ? selectedSchool.contacto_email : 'idiomas@institucion.edu.mx');
-            const student = nombreAlumno || 'el sustentante';
+            const student = nombreAlumno || 'the candidate';
             const cefr = nivelCefr || 'B2+';
-            const date = fechaExamen || '22/09/2026';
+            const date = fechaExamen || 'September 22, 2026';
 
-            const subject = `Validación de certificado - ${student}`;
-            const body = `Hola, escribo dado que nos presentaron este certificado y queríamos validar si el nivel de este alumno ${student} se encuentra con nivel CEFR ${cefr} en sus registros con fecha del ${date}. Favor de responder confirmando dicha información.`;
+            const subject = `Certificate Verification - ${student}`;
+            const body = `Hello,\n\nWe were presented with this certificate and would like to confirm whether student ${student} achieved CEFR Level ${cefr} in your official institutional records dated ${date}.\n\nPlease reply confirming this information.\n\nThank you.`;
 
             const mailtoUri = `mailto:${mail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
@@ -2597,6 +2597,7 @@
             initBackgroundCanvas();
             setDefaultDates();
             initTemplateImage();
+            initPlacementLogo();
             loadTemplatePDF();
             updateGenerateButtonsState();
             ensureLivePreviewQR();
@@ -2612,16 +2613,16 @@
                     const folio = params.get('folio') || '2026-001';
                     const school = params.get('school') || 'UTT';
                     const cefr = params.get('cefr') || 'B2+';
-                    const student = decodeURIComponent(params.get('student') || 'Estudiante');
+                    const student = decodeURIComponent(params.get('student') || 'Candidate');
                     
                     setTimeout(() => {
-                        alert(`Acreditación Oficial W3C Verifiable Credential · Open Badges 3.0\n\n` +
-                              `• Sustentante: ${student}\n` +
-                              `• Nivel CEFR Acreditado: ${cefr}\n` +
-                              `• Folio Único: ${folio}\n` +
-                              `• Institución Evaluadora: ${school}\n` +
-                              `• Estándar: W3C Verifiable Credentials Data Model v1.1\n\n` +
-                              `Estado: Credencial Digital Válida y Acreditada.`);
+                        alert(`Official W3C Verifiable Credential · Open Badges 3.0 Accreditation\n\n` +
+                              `• Candidate: ${student}\n` +
+                              `• Accredited CEFR Level: ${cefr}\n` +
+                              `• Unique Folio: ${folio}\n` +
+                              `• Issuing Institution: ${school}\n` +
+                              `• Standard: W3C Verifiable Credentials Data Model v1.1\n\n` +
+                              `Status: Verified & Authenticated Digital Credential.`);
                     }, 600);
                 }
             } catch (e) {
@@ -2755,6 +2756,49 @@
         let institutionalLogoLoaded = false;
         let institutionalLogoBytes = null; // ArrayBuffer for PDFLib PNG embedding
         let institutionalLogoFilename = '';
+
+        // Placement Test Logo State (SVG/PNG vector badge)
+        let placementLogoImg = null;
+        let placementLogoLoaded = false;
+        let placementLogoBytes = null;
+
+        function initPlacementLogo() {
+            const candidateUrls = [
+                'placement_logo.png',
+                '/hub/placement_logo.png',
+                'hub/placement_logo.png',
+                '/hub/webcert/placement_logo.png',
+                '/placement_logo.png'
+            ];
+
+            function tryCandidate(index) {
+                if (index >= candidateUrls.length) return;
+                const img = new Image();
+                img.onload = function() {
+                    placementLogoImg = img;
+                    placementLogoLoaded = true;
+                    if (activeMode === 'placement') updateLivePreview();
+                };
+                img.onerror = function() {
+                    tryCandidate(index + 1);
+                };
+                img.src = candidateUrls[index];
+            }
+            tryCandidate(0);
+
+            async function tryFetchBytes(index) {
+                if (index >= candidateUrls.length) return;
+                try {
+                    const res = await fetch(candidateUrls[index]);
+                    if (res.ok) {
+                        placementLogoBytes = await res.arrayBuffer();
+                        return;
+                    }
+                } catch (e) {}
+                tryFetchBytes(index + 1);
+            }
+            tryFetchBytes(0);
+        }
 
         function handleInstitutionalLogoSelect(event) {
             const file = event.target.files && event.target.files[0];
@@ -3075,25 +3119,30 @@
                 ctx.fillStyle = '#1f1f1f';
                 ctx.fillText(line2, W / 2, 412 * scale); // 824px
 
-                // Line 3: CEFR Level Badge & Clean Score (sin decimales)
+                // Line 3: CEFR Level Badge & Clean Score (sin decimales) - 30% larger (17pt)
                 let levelText = `CEFR Level: ${cefr}`;
                 if (scoreFormatted) {
                     levelText += `  |  ${scoreFormatted}`;
                 }
-                ctx.font = `bold ${13 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.font = `bold ${17 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#1e3a8a'; // Deep Navy Blue
-                ctx.fillText(levelText, W / 2, 436 * scale); // 872px
+                ctx.fillText(levelText, W / 2, 438 * scale); // 876px
 
                 // Line 4: Date of Assessment
                 const dateText = `Date of Assessment: ${fechaTexto}`;
                 ctx.font = `${12.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#808080';
-                ctx.fillText(dateText, W / 2, 472 * scale); // 944px
+                ctx.fillText(dateText, W / 2, 474 * scale); // 948px
             }
 
             // 4. Folio (Session) vs Dual QR & Validation Annotation (Placement Test)
             if (activeMode === 'placement') {
-                // 4A. Regular QR at POS 600: x = 442 * scale, y = 600 * scale, size = 58 * scale
+                // 4A. Placement Test Official Logo (Left white section above purple wave, aligned with W3C QR)
+                if (placementLogoLoaded && placementLogoImg) {
+                    ctx.drawImage(placementLogoImg, 55 * scale, 440 * scale, 86 * scale, 33 * scale);
+                }
+
+                // 4B. Regular QR at POS 600: x = 442 * scale, y = 600 * scale, size = 58 * scale
                 const qrX = 442 * scale;
                 const qrY = 600 * scale;
                 const qrSize = 58 * scale;
@@ -3104,13 +3153,13 @@
                     ensureLivePreviewQR();
                 }
 
-                // Regular QR Caption
+                // Regular QR Caption (English)
                 ctx.textAlign = 'center';
                 ctx.font = `${5.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#64748b';
-                ctx.fillText('Escanear para validar', qrX + qrSize / 2, 666 * scale);
+                ctx.fillText('Scan to validate', qrX + qrSize / 2, 666 * scale);
 
-                // 4B. W3C QR centered in left lower white section top of the text there
+                // 4C. W3C QR centered in left lower white section top of the text there
                 const w3cQrX = 74 * scale;
                 const w3cQrY = 554 * scale;
                 const w3cQrSize = 48 * scale;
@@ -3127,9 +3176,9 @@
                 ctx.fillStyle = '#475569';
                 ctx.fillText('W3C Verifiable Credential', w3cQrX + w3cQrSize / 2, 612 * scale);
 
-                // 4C. Validation Text (direct transparent overlay with subtle drop shadow)
-                const schoolName = selectedSchool ? selectedSchool.nombre_completo : '[NOMBRE DE LA UNIVERSIDAD]';
-                const valText = `Este documento certifica el resultado de una evaluación de idioma aplicada de manera presencial en las instalaciones de ${schoolName}. La autenticidad y el resguardo de los registros correspondientes son responsabilidad de la Coordinación de Idiomas de dicha institución. Para fines de validación institucional, escanee el código QR derecho: se abrirá un correo oficial prellenado con los datos del alumno.`;
+                // 4D. Validation Text (English - direct transparent overlay with subtle drop shadow)
+                const schoolName = selectedSchool ? selectedSchool.nombre_completo : '[INSTITUTION NAME]';
+                const valText = `This document certifies the official language assessment result administered on-site at the premises of ${schoolName}. The authenticity and formal safeguarding of assessment records are under the direct jurisdiction of the Language Department of the issuing institution. For institutional validation purposes, scan the right QR code to open an official verification inquiry directed to the Language Department.`;
 
                 ctx.textAlign = 'left';
                 ctx.font = `${6.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
@@ -3159,8 +3208,8 @@
                     textY += lineH;
                 }
 
-                // W3C Verifiable Credentials Visual Line (Option 2)
-                const w3cVisualText = 'Acreditación emitida bajo estándar W3C Verifiable Credentials · Open Badges 3.0';
+                // W3C Verifiable Credentials Visual Line (English)
+                const w3cVisualText = 'Accreditation issued under the international W3C Verifiable Credentials · Open Badges 3.0 standard.';
                 ctx.font = `${5.8 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#0f172a';
                 ctx.fillText(w3cVisualText, 35.8 * scale, textY + 2 * scale + 0.8 * scale);
@@ -3433,16 +3482,16 @@
                     color: rgb(0.12, 0.12, 0.12),
                 });
 
-                // Línea 3: Nivel CEFR y Puntaje (sin decimales)
+                // Línea 3: Nivel CEFR y Puntaje (sin decimales) - 30% larger (17pt)
                 let levelText = `CEFR Level: ${cefr}`;
                 if (scoreFormatted) {
                     levelText += `  |  ${scoreFormatted}`;
                 }
-                const l3Size = 13;
+                const l3Size = 17;
                 const l3Width = fontBold.widthOfTextAtSize(levelText, l3Size);
                 firstPage.drawText(levelText, {
                     x: (width - l3Width) / 2,
-                    y: height - 436,
+                    y: height - 438,
                     size: l3Size,
                     font: fontBold,
                     color: rgb(0.12, 0.22, 0.48), // Rich Navy Blue
@@ -3454,7 +3503,7 @@
                 const fechaWidth = fontRegular.widthOfTextAtSize(textoFecha, fechaSize);
                 firstPage.drawText(textoFecha, {
                     x: (width - fechaWidth) / 2,
-                    y: height - 472,
+                    y: height - 474,
                     size: fechaSize,
                     font: fontRegular,
                     color: rgb(0.5, 0.5, 0.5),
@@ -3463,6 +3512,29 @@
 
             // 3. VALIDACIÓN (PLACEMENT TEST) vs FOLIO (ASISTENCIA A SESIÓN)
             if (isPlacement) {
+                // 3-Logo. Placement Test Official Logo (Left side white section above purple wave, aligned with W3C QR)
+                if (!placementLogoBytes) {
+                    try {
+                        const res = await fetch('placement_logo.png').catch(() => fetch('/hub/placement_logo.png'));
+                        if (res && res.ok) {
+                            placementLogoBytes = await res.arrayBuffer();
+                        }
+                    } catch (e) {}
+                }
+                if (placementLogoBytes) {
+                    try {
+                        const placementLogoPdfImage = await pdfDoc.embedPng(placementLogoBytes);
+                        firstPage.drawImage(placementLogoPdfImage, {
+                            x: 55,
+                            y: 247, // height (720) - 440 - 33
+                            width: 86,
+                            height: 33,
+                        });
+                    } catch (plErr) {
+                        console.warn('Error embedding placement logo in PDF:', plErr);
+                    }
+                }
+
                 // 3A. Regular QR at POS 600: x = 442, y = 62, width = 58, height = 58
                 // y in PDF-Lib: height - 600 - 58 = 720 - 658 = 62
                 const targetEmail = (selectedSchool ? selectedSchool.contacto_email : 'idiomas@institucion.edu.mx');
@@ -3489,8 +3561,8 @@
                     }
                 }
 
-                // Regular QR Caption
-                const capText = 'Escanear para validar';
+                // Regular QR Caption (English)
+                const capText = 'Scan to validate';
                 const capSize = 5.5;
                 const capWidth = fontRegular.widthOfTextAtSize(capText, capSize);
                 firstPage.drawText(capText, {
@@ -3538,9 +3610,9 @@
                     color: rgb(0.35, 0.4, 0.5),
                 });
 
-                // 3C. Validation Text (without white card background - direct transparent overlay with subtle shadow)
-                const schoolName = selectedSchool ? selectedSchool.nombre_completo : '[NOMBRE DE LA UNIVERSIDAD]';
-                const valText = `Este documento certifica el resultado de una evaluación de idioma aplicada de manera presencial en las instalaciones de ${schoolName}. La autenticidad y el resguardo de los registros correspondientes son responsabilidad de la Coordinación de Idiomas de dicha institución. Para fines de validación institucional, escanee el código QR derecho: se abrirá un correo oficial prellenado con los datos del alumno.`;
+                // 3C. Validation Text (English - direct transparent overlay with subtle shadow)
+                const schoolName = selectedSchool ? selectedSchool.nombre_completo : '[INSTITUTION NAME]';
+                const valText = `This document certifies the official language assessment result administered on-site at the premises of ${schoolName}. The authenticity and formal safeguarding of assessment records are under the direct jurisdiction of the Language Department of the issuing institution. For institutional validation purposes, scan the right QR code to open an official verification inquiry directed to the Language Department.`;
 
                 const words = valText.split(' ');
                 const maxValW = 395;
@@ -3578,8 +3650,8 @@
                     vY -= 9.2;
                 }
 
-                // W3C Verifiable Credentials Visual Line (Option 2)
-                const w3cVisualText = 'Acreditación emitida bajo estándar W3C Verifiable Credentials · Open Badges 3.0';
+                // W3C Verifiable Credentials Visual Line (English)
+                const w3cVisualText = 'Accreditation issued under the international W3C Verifiable Credentials · Open Badges 3.0 standard.';
                 firstPage.drawText(w3cVisualText, {
                     x: 35.6,
                     y: vY - 2 - 0.6,
@@ -3616,18 +3688,18 @@
                             "id": "https://yepzhi.com/credentials/richmond-placement-test",
                             "type": ["Achievement"],
                             "name": "Richmond Placement Test English Proficiency",
-                            "description": "Validación presencial del nivel de idioma inglés MCER / CEFR",
-                            "criteria": { "narrative": `Acreditación oficial nivel CEFR ${cefr}` }
+                            "description": "On-site assessment of English language proficiency (CEFR)",
+                            "criteria": { "narrative": `Official CEFR Level ${cefr} accreditation` }
                         }
                     }
                 };
-                pdfDoc.setTitle(`Certificado Richmond - ${nombreCompleto}`);
+                pdfDoc.setTitle(`Richmond Certificate - ${nombreCompleto}`);
                 pdfDoc.setAuthor(selectedSchool ? selectedSchool.nombre_completo : 'Richmond Publishing');
                 pdfDoc.setSubject(JSON.stringify(w3cCredential));
                 pdfDoc.setKeywords(['W3C Verifiable Credential', 'Open Badges 3.0', 'CEFR ' + cefr, selectedSchool ? selectedSchool.codigo : 'Richmond']);
                 pdfDoc.setProducer('Richmond Webcert Engine · W3C Verifiable Credentials / Open Badges 3.0');
             } else {
-                pdfDoc.setTitle(`Certificado de Asistencia - ${nombreCompleto}`);
+                pdfDoc.setTitle(`Certificate of Attendance - ${nombreCompleto}`);
                 pdfDoc.setAuthor('Richmond Publishing');
                 // Modo Asistencia a Sesión: se mantiene el Folio estándar
                 const textoFolio = `Folio: ${folio}`;
