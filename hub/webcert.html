@@ -3371,10 +3371,19 @@
             });
 
             // 2. TEXTO ESPECÍFICO DE MODO
+            const fechaFormateada = convertirFecha(item.fecha || '');
+            let cefr = item.cefr || '';
+            const rawScore = item.score || '';
+            const scoreFormatted = formatCleanScore(rawScore);
+            if (!cefr && rawScore) {
+                const tier = calculateCefrFromScore(rawScore);
+                if (tier) cefr = tier.level;
+            }
+            if (!cefr) cefr = 'B2+';
+
             if (!isPlacement) {
                 // MODO 1: ATTENDING A SESSION
                 const evento = item.evento || 'Fostering Learning Communities';
-                const fechaFormateada = convertirFecha(item.fecha || '');
                 const horas = item.horas || '2';
                 
                 const eventoSize = 11.2;
@@ -3465,18 +3474,6 @@
 
             } else {
                 // MODO 2: PLACEMENT TEST VALIDATION (Richmond Young Adults)
-                let cefr = item.cefr || '';
-                const rawScore = item.score || '';
-                const scoreFormatted = formatCleanScore(rawScore);
-
-                // If level is not set, calculate automatically from score
-                if (!cefr && rawScore) {
-                    const tier = calculateCefrFromScore(rawScore);
-                    if (tier) cefr = tier.level;
-                }
-                if (!cefr) cefr = 'B2+';
-
-                const fechaFormateada = convertirFecha(item.fecha || '');
                 const baseColor = rgb(0.3, 0.3, 0.3);
                 
                 // Línea 1: Propósito de validación (elevado arriba de la línea de template a y=369)
