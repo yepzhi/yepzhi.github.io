@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventajas del Certificado Richmond vs Oxford Placement Test</title>
+    <meta name="description" content="Comparativa de ventajas: Certificado Oficial Richmond con triple verificación vs Oxford Placement Test">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #a21caf 0%, #c026d3 35%, #db2777 68%, #9333ea 100%);
+            --richmond-pink: #db2777;
+            --richmond-dark-pink: #be185d;
+            --emerald-green: #10b981;
+            --danger-red: #ef4444;
+            --slate-dark: #0f172a;
+            --slate-body: #334155;
+            --slate-muted: #64748b;
+            --slate-border: #e2e8f0;
+            --bg-page: #f8fafc;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--slate-body);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding-bottom: 50px;
+        }
+
+        /* Top Bar - Claude Artifact Style */
+        .top-nav {
+            background-color: #1e293b;
+            color: #f1f5f9;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13.5px;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .top-nav-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .top-nav-left span {
+            color: #e2e8f0;
+        }
+
+        .top-nav-left svg {
+            width: 14px;
+            height: 14px;
+            fill: #94a3b8;
+        }
+
+        .top-nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn-action.btn-primary {
+            background: #db2777;
+            border-color: #db2777;
+        }
+
+        .btn-action.btn-primary:hover {
+            background: #be185d;
+        }
+
+        /* Document Container */
+        .doc-wrapper {
+            max-width: 960px;
+            margin: 28px auto;
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 0 1px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Hero Header */
+        .hero-banner {
+            position: relative;
+            background: var(--primary-gradient);
+            padding: 54px 32px 48px;
+            text-align: center;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        /* Diagonal faceted highlight matching Claude design */
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            right: -25%;
+            width: 85%;
+            height: 240%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 60%);
+            transform: rotate(-28deg);
+            pointer-events: none;
+        }
+
+        .hero-title {
+            font-size: clamp(26px, 3.8vw, 36px);
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            line-height: 1.18;
+            margin-bottom: 14px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(15px, 1.8vw, 17px);
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 720px;
+            margin: 0 auto 22px;
+            line-height: 1.5;
+        }
+
+        .hero-badge-pill {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 7px 22px;
+            border-radius: 9999px;
+            font-size: 13.5px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            color: #ffffff;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Comparison Section */
+        .comparison-content {
+            padding: 36px 36px 30px;
+            background: #ffffff;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .comparison-content {
+                padding: 24px 20px;
+            }
+            .hero-banner {
+                padding: 40px 20px;
+            }
+        }
+
+        /* Individual Comparison Card */
+        .comp-card {
+            border-radius: 18px;
+            padding: 28px 24px 24px;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+
+        .comp-card.card-richmond {
+            border: 2px solid var(--richmond-pink);
+            background: #ffffff;
+        }
+
+        .comp-card.card-oxford {
+            border: 1px solid var(--slate-border);
+            background: #ffffff;
+        }
+
+        .card-header {
+            font-size: 14.5px;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-richmond .card-header {
+            color: var(--richmond-pink);
+        }
+
+        .card-oxford .card-header {
+            color: var(--slate-muted);
+        }
+
+        /* Features List */
+        .features-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .feature-item:last-child {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .feature-icon-box {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+        }
+
+        .icon-check {
+            color: var(--emerald-green);
+            font-size: 19px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .icon-cross {
+            color: var(--danger-red);
+            font-size: 19px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .feature-text {
+            flex: 1;
+        }
+
+        .feature-title {
+            font-size: 14.8px;
+            font-weight: 700;
+            color: var(--slate-dark);
+            line-height: 1.35;
+            margin-bottom: 4px;
+        }
+
+        .feature-desc {
+            font-size: 13.5px;
+            color: var(--slate-muted);
+            line-height: 1.45;
+        }
+
+        /* Footnote / Callout Box */
+        .footnote-box {
+            background-color: #faf5ff;
+            border: 1px solid #ede9fe;
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-top: 10px;
+            color: #4b5563;
+            font-size: 13px;
+            line-height: 1.55;
+            box-shadow: 0 2px 6px rgba(147, 51, 234, 0.03);
+        }
+
+        /* PRINT STYLES - PIXEL PERFECT LETTER / A4 ON 1 SINGLE PAGE */
+        @media print {
+            body {
+                background: #ffffff !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .top-nav {
+                display: none !important;
+            }
+
+            .doc-wrapper {
+                max-width: 100% !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+
+            .hero-banner {
+                padding: 30px 24px 24px !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .hero-title {
+                font-size: 24px !important;
+                color: #ffffff !important;
+                text-shadow: none !important;
+                margin-bottom: 8px !important;
+            }
+
+            .hero-subtitle {
+                font-size: 13px !important;
+                color: #ffffff !important;
+                margin-bottom: 14px !important;
+                text-shadow: none !important;
+            }
+
+            .hero-badge-pill {
+                padding: 4px 14px !important;
+                font-size: 11px !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .comparison-content {
+                padding: 20px 16px 14px !important;
+            }
+
+            /* FORCE 2 COLUMNS IN PRINT TO MATCH CLAUDE ARTIFACT */
+            .cards-grid {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 16px !important;
+                margin-bottom: 14px !important;
+            }
+
+            .comp-card {
+                padding: 16px 14px 12px !important;
+                border-radius: 12px !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .comp-card.card-richmond {
+                border: 2px solid #db2777 !important;
+            }
+
+            .comp-card.card-oxford {
+                border: 1px solid #cbd5e1 !important;
+            }
+
+            .card-header {
+                font-size: 13px !important;
+                margin-bottom: 14px !important;
+            }
+
+            .features-list {
+                gap: 12px !important;
+            }
+
+            .feature-item {
+                padding-bottom: 10px !important;
+                gap: 10px !important;
+            }
+
+            .feature-title {
+                font-size: 12.5px !important;
+            }
+
+            .feature-desc {
+                font-size: 11px !important;
+                line-height: 1.35 !important;
+            }
+
+            .footnote-box {
+                padding: 10px 14px !important;
+                font-size: 10.5px !important;
+                line-height: 1.4 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+
+        @page {
+            size: letter portrait;
+            margin: 0.4in;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar (Claude Artifact Navigation) -->
+    <header class="top-nav">
+        <div class="top-nav-left" onclick="window.history.back()">
+            <span>Ventajas del Certificado Richmond</span>
+            <svg viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <div class="top-nav-right">
+            <a href="webcert" class="btn-action">
+                Ir a WebCert
+            </a>
+            <a href="Ventajas_Certificado_Richmond.pdf" download class="btn-action" title="Descargar archivo PDF pregenerado">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                PDF Directo
+            </a>
+            <button onclick="window.print()" class="btn-action btn-primary" title="Imprimir o guardar como PDF">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
+                    <path d="M6 14h12v8H6z"/>
+                </svg>
+                Imprimir / Guardar
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Document -->
+    <main class="doc-wrapper">
+        
+        <!-- Hero Header -->
+        <section class="hero-banner">
+            <h1 class="hero-title">Un certificado que se puede confiar, no solo leer</h1>
+            <p class="hero-subtitle">El nuevo certificado Richmond agrega tres capas de verificación real que ningún reporte de resultados tradicional tiene.</p>
+            <div class="hero-badge-pill">QR institucional · W3C Verifiable Credentials · Open Badges 3.0</div>
+        </section>
+
+        <!-- Comparison Cards -->
+        <section class="comparison-content">
+            <div class="cards-grid">
+                
+                <!-- Richmond Card (New) -->
+                <article class="comp-card card-richmond">
+                    <h2 class="card-header">✓ CERTIFICADO RICHMOND (NUEVO)</h2>
+                    <ul class="features-list">
+                        
+                        <li class="feature-item">
+                            <div class="feature-icon-box" aria-hidden="true">
+                                <span class="icon-check">✓</span>
+                            </div>
+                            <div class="feature-text">
+                                <h3 class="feature-title">QR institucional personalizado que abre un correo prellenado directo a la coordinación de idiomas</h3>
+                                <p class="feature-desc">Para confirmar validez en caso de ser necesario.</p>
+                            </div>
+                        </li>
+
+                        <li class="feature-item">
+                            <div class="feature-icon-box" aria-hidden="true">
+                                <span class="icon-check">✓</span>
+                            </div>
+                            <div class="feature-text">
+                                <h3 class="feature-title">Firma criptográfica (SHA-256) verificable en línea</h3>
+                                <p class="feature-desc">Asegura la integridad del registro y su sello institucional que son matemáticamente infalsificables e inalterables bajo estándares W3C 3.0.</p>
+                            </div>
+                        </li>
+
+                        <li class="feature-item">
+                            <div class="feature-icon-box" aria-hidden="true">
+                                <span class="icon-check">✓</span>
+                            </div>
+                            <div class="feature-text">
+                                <h3 class="feature-title">Transparencia técnica</h3>
+                                <p class="feature-desc">Huella SHA-256 visible, infalsificable.</p>
+                            </div>
+                        </li>
+
+                        <li class="feature-item">
+                            <div class="feature-icon-box" aria-hidden="true">
+                                <span class="icon-check">✓</span>
+                            </div>
+                            <div class="feature-text">
+                                <h3 class="feature-title">Control Total de emisiones</h3>
+                                <p class="feature-desc">Clave de acceso obligatoria para generar certificados — solo el personal autorizado, incluso si alguien más entra al portal por accidente.</p>
+                            </div>
+                        </li>
+
+                    </ul>
+                </article>
+
+                <!-- Oxford Card (Traditional) -->
+                <article class="comp-card card-oxford">
+                    <h2 class="card-header">✕ OXFORD PLACEMENT TEST (REPORTE)</h2>
+                    <ul class="features-list">
+                        
+                        <li class="feature-item">
+                            <div class="feature-icon-box" aria-hidden="true">
+                                <span class="icon-cross">✕</span>
+                            </div>
+                            <div class="feature-text">
+                                <h3 class="feature-title">Sin QR ni mecanismo de validación</h3>
+                                <p class="feature-desc">Es un PDF plano — nadie puede confirmarlo con la institución.</p>
+                            </div>
+                        </li>
+
+                        <li class="feature-item">
+                            <div class="feature-icon-box" aria-hidden="true">
+                                <span class="icon-cross">✕</span>
+                            </div>
+                            <div class="feature-text">
+                                <h3 class="feature-title">Sin firma digital ni estándar de credencial verificable</h3>
+                                <p class="feature-desc">Nada distingue un documento real de uno editado.</p>
+                            </div>
+                        </li>
+
+                        <li class="feature-item">
+                            <div class="feature-icon-box" aria-hidden="true">
+                                <span class="icon-cross">✕</span>
+                            </div>
+                            <div class="feature-text">
+                                <h3 class="feature-title">Sin control de quién lo emite</h3>
+                                <p class="feature-desc">Cualquiera con el archivo puede alterarlo y reutilizarlo.</p>
+                            </div>
+                        </li>
+
+                        <li class="feature-item">
+                            <div class="feature-icon-box" aria-hidden="true">
+                                <span class="icon-cross">✕</span>
+                            </div>
+                            <div class="feature-text">
+                                <h3 class="feature-title">Descripciones genéricas por rango de puntaje</h3>
+                                <p class="feature-desc">La misma redacción para todos dentro del mismo bracket.</p>
+                            </div>
+                        </li>
+
+                    </ul>
+                </article>
+
+            </div>
+
+            <!-- Footnote Callout Box -->
+            <footer class="footnote-box">
+                * Para falsificar esta firma criptográfica (SHA-256). La integridad del registro y su sello institucional son matemáticamente infalsificables e inalterables.
+            </footer>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
