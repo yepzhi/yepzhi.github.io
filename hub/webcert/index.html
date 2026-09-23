@@ -391,6 +391,38 @@
             font-weight: 400;
         }
 
+        .name-lock-tag.locked {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .name-lock-tag.unlocked {
+            background: #ecfdf5;
+            color: #059669;
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        input.input-locked {
+            background: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+            color: #94a3b8 !important;
+            cursor: not-allowed !important;
+            user-select: none;
+        }
+
         .input-wrapper {
             position: relative;
         }
@@ -2190,7 +2222,7 @@
                             <div class="form-group">
                                 <label for="inputNombre">
                                     Nombre
-                                    <span class="label-tag">Requerido</span>
+                                    <span class="label-tag name-lock-tag locked" id="lockTagNombre">🔒 Requiere clave</span>
                                 </label>
                                 <div class="input-wrapper">
                                     <span class="input-icon">
@@ -2199,13 +2231,13 @@
                                             <circle cx="12" cy="7" r="4"></circle>
                                         </svg>
                                     </span>
-                                    <input type="text" id="inputNombre" required placeholder="Ej: Juan Carlos" oninput="updateLivePreview()">
+                                    <input type="text" id="inputNombre" required disabled class="input-locked" placeholder="🔒 Ingresa la clave para editar" oninput="updateLivePreview()">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputApellido">
                                     Apellido(s)
-                                    <span class="label-tag">Requerido</span>
+                                    <span class="label-tag name-lock-tag locked" id="lockTagApellido">🔒 Requiere clave</span>
                                 </label>
                                 <div class="input-wrapper">
                                     <span class="input-icon">
@@ -2214,7 +2246,7 @@
                                             <circle cx="9" cy="7" r="4"></circle>
                                         </svg>
                                     </span>
-                                    <input type="text" id="inputApellido" required placeholder="Ej: Pérez García" oninput="updateLivePreview()">
+                                    <input type="text" id="inputApellido" required disabled class="input-locked" placeholder="🔒 Ingresa la clave para editar" oninput="updateLivePreview()">
                                 </div>
                             </div>
                         </div>
@@ -3051,10 +3083,65 @@
             }
         }
 
+        function updateNameFieldsLockState() {
+            const isPlacement = activeMode === 'placement';
+            const isUnlocked = !isPlacement || isSchoolAuthenticated;
+
+            const inputNom = document.getElementById('inputNombre');
+            const inputApe = document.getElementById('inputApellido');
+            const tagNom = document.getElementById('lockTagNombre');
+            const tagApe = document.getElementById('lockTagApellido');
+
+            if (inputNom) {
+                inputNom.disabled = !isUnlocked;
+                if (!isUnlocked) {
+                    inputNom.classList.add('input-locked');
+                    inputNom.placeholder = '🔒 Ingresa la clave para editar';
+                } else {
+                    inputNom.classList.remove('input-locked');
+                    inputNom.placeholder = 'Ej: Juanito';
+                }
+            }
+
+            if (inputApe) {
+                inputApe.disabled = !isUnlocked;
+                if (!isUnlocked) {
+                    inputApe.classList.add('input-locked');
+                    inputApe.placeholder = '🔒 Ingresa la clave para editar';
+                } else {
+                    inputApe.classList.remove('input-locked');
+                    inputApe.placeholder = 'Ej: Pérez';
+                }
+            }
+
+            if (tagNom) {
+                if (!isUnlocked) {
+                    tagNom.textContent = '🔒 Requiere clave';
+                    tagNom.className = 'label-tag name-lock-tag locked';
+                } else {
+                    tagNom.textContent = 'Requerido';
+                    tagNom.className = 'label-tag name-lock-tag unlocked';
+                }
+            }
+
+            if (tagApe) {
+                if (!isUnlocked) {
+                    tagApe.textContent = '🔒 Requiere clave';
+                    tagApe.className = 'label-tag name-lock-tag locked';
+                } else {
+                    tagApe.textContent = 'Requerido';
+                    tagApe.className = 'label-tag name-lock-tag unlocked';
+                }
+            }
+        }
+
         function updateGenerateButtonsState() {
             const isPlacement = activeMode === 'placement';
             // Session certificates do not need school auth; Placement Test certificates require it
             const isAuthOk = !isPlacement || isSchoolAuthenticated;
+
+            // Synchronize name fields lock state
+            updateNameFieldsLockState();
 
             const btnInd = document.getElementById('btnGenerateIndividual');
             if (btnInd) {
@@ -3139,7 +3226,7 @@
 
         async function ensureLivePreviewQR() {
             if (activeMode !== 'placement') return;
-            const nombre = `${document.getElementById('inputApellido')?.value || ''} ${document.getElementById('inputNombre')?.value || ''}`.trim() || 'Juan Carlos Pérez García';
+            const nombre = `${document.getElementById('inputNombre')?.value || ''} ${document.getElementById('inputApellido')?.value || ''}`.trim() || 'Juanito Pérez';
             const cefr = document.getElementById('inputCefr')?.value || 'B2+';
             const fecha = convertirFecha(document.getElementById('inputFechaPlacement')?.value || '22/09/2026');
             const email = selectedSchool ? selectedSchool.contacto_email : 'idiomas@institucion.edu.mx';
@@ -3164,7 +3251,7 @@
 
         async function ensureLivePreviewW3cQR() {
             if (activeMode !== 'placement') return;
-            const nombre = `${document.getElementById('inputApellido')?.value || ''} ${document.getElementById('inputNombre')?.value || ''}`.trim() || 'Juan Carlos Pérez García';
+            const nombre = `${document.getElementById('inputNombre')?.value || ''} ${document.getElementById('inputApellido')?.value || ''}`.trim() || 'Juanito Pérez';
             const cefr = document.getElementById('inputCefr')?.value || 'B2+';
             const schoolCode = selectedSchool ? selectedSchool.codigo : 'RICH';
             const scoreRaw = document.getElementById('inputScore')?.value || '';
@@ -3907,9 +3994,11 @@
             }
 
             // 2. Recipient Name (Centered at Y = 350 * 2 = 700)
-            const nombre = (document.getElementById('inputNombre')?.value || 'Juan Carlos').trim();
-            const apellido = (document.getElementById('inputApellido')?.value || 'Pérez García').trim();
-            const nombreCompleto = `${apellido} ${nombre}`.trim() || 'Pérez García Juan Carlos';
+            const inputNomVal = (document.getElementById('inputNombre')?.value || '').trim();
+            const inputApeVal = (document.getElementById('inputApellido')?.value || '').trim();
+            const nombreCompleto = (inputNomVal || inputApeVal)
+                ? `${inputNomVal} ${inputApeVal}`.trim()
+                : 'Juanito Pérez';
 
             let nombreSize = 76; // 38 * 2
             ctx.font = `bold ${nombreSize}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
@@ -4140,6 +4229,66 @@
                 ctx.fillStyle = '#999999';
                 ctx.fillText(`Folio: ${currentFolio}`, W - 30 * scale, 690 * scale);
             }
+
+            // ── PREVIEW WATERMARK ("PREVIEW NO VÁLIDO" - Translucent Red) ──
+            ctx.save();
+            ctx.translate(W / 2, H / 2 - 10 * scale);
+            ctx.rotate(-22 * Math.PI / 180);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            const wmText = 'PREVIEW NO VÁLIDO';
+            const wmSub = 'DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN';
+
+            ctx.font = `900 ${44 * scale}px "Montserrat", "Helvetica Neue", Arial, sans-serif`;
+            const mainW = ctx.measureText(wmText).width;
+            const boxW = Math.max(mainW + 64 * scale, 560 * scale);
+            const boxH = 92 * scale;
+            const boxR = 12 * scale;
+
+            // Background translucent red tint
+            ctx.fillStyle = 'rgba(239, 68, 68, 0.08)';
+            if (ctx.roundRect) {
+                ctx.beginPath();
+                ctx.roundRect(-boxW / 2, -boxH / 2, boxW, boxH, boxR);
+                ctx.fill();
+            } else {
+                ctx.fillRect(-boxW / 2, -boxH / 2, boxW, boxH);
+            }
+
+            // Outer border
+            ctx.strokeStyle = 'rgba(220, 38, 38, 0.38)';
+            ctx.lineWidth = 3.5 * scale;
+            if (ctx.roundRect) {
+                ctx.beginPath();
+                ctx.roundRect(-boxW / 2, -boxH / 2, boxW, boxH, boxR);
+                ctx.stroke();
+            } else {
+                ctx.strokeRect(-boxW / 2, -boxH / 2, boxW, boxH);
+            }
+
+            // Inner subtle border
+            ctx.strokeStyle = 'rgba(239, 68, 68, 0.22)';
+            ctx.lineWidth = 1.2 * scale;
+            if (ctx.roundRect) {
+                ctx.beginPath();
+                ctx.roundRect(-boxW / 2 - 5 * scale, -boxH / 2 - 5 * scale, boxW + 10 * scale, boxH + 10 * scale, boxR + 4 * scale);
+                ctx.stroke();
+            } else {
+                ctx.strokeRect(-boxW / 2 - 5 * scale, -boxH / 2 - 5 * scale, boxW + 10 * scale, boxH + 10 * scale);
+            }
+
+            // Main text: PREVIEW NO VÁLIDO
+            ctx.font = `900 ${44 * scale}px "Montserrat", "Helvetica Neue", Arial, sans-serif`;
+            ctx.fillStyle = 'rgba(220, 38, 38, 0.35)';
+            ctx.fillText(wmText, 0, -10 * scale);
+
+            // Sub text: DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN
+            ctx.font = `700 ${11.5 * scale}px "Montserrat", "Helvetica Neue", Arial, sans-serif`;
+            ctx.fillStyle = 'rgba(220, 38, 38, 0.45)';
+            ctx.fillText(wmSub, 0, 24 * scale);
+
+            ctx.restore();
         }
 
         function downloadPreviewPNG() {
