@@ -13,9 +13,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- PDFLib & XLSX (100% Client-Side Static Libraries) -->
+    <!-- PDFLib, XLSX, QRCode & JSZip (100% Client-Side Static Libraries) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     
     <style>
         /* ============================================================
@@ -1127,6 +1129,279 @@
             height: 1px;
             opacity: 0;
         }
+
+        /* ── School Auth Card (Placement Test Only) ── */
+        .school-auth-card {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 16px 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .school-auth-card.authenticated {
+            border-color: #10b981;
+            background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.12);
+        }
+
+        .school-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .school-card-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: #eef4ff;
+            color: #1868ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.25s ease;
+        }
+
+        .school-auth-card.authenticated .school-card-icon {
+            background: #dcfce7;
+            color: #10b981;
+        }
+
+        .school-card-text {
+            flex: 1;
+        }
+
+        .school-card-title {
+            font-family: var(--font-head);
+            font-size: 0.96rem;
+            font-weight: 700;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .school-tag {
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .school-auth-card.authenticated .school-tag {
+            background: #dcfce7;
+            color: #15803d;
+            border-color: #86efac;
+        }
+
+        .school-card-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            line-height: 1.35;
+        }
+
+        .school-select {
+            width: 100%;
+            padding: 11px 14px 11px 38px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--text-color);
+            background: #ffffff;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.2s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+        }
+
+        .school-select:focus {
+            border-color: #1868ff;
+            box-shadow: 0 0 0 3px rgba(24, 104, 255, 0.15);
+        }
+
+        .btn-toggle-eye {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            padding: 6px;
+            color: #64748b;
+            cursor: pointer;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .btn-toggle-eye:hover {
+            color: #1e293b;
+        }
+
+        .school-feedback-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            line-height: 1.3;
+            transition: all 0.25s ease;
+        }
+
+        .school-feedback-pill.locked {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .school-feedback-pill.authenticated {
+            background: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .school-feedback-pill.error {
+            background: #fff1f2;
+            color: #be123c;
+            border: 1px solid #fecdd3;
+        }
+
+        /* ── Bulk Pre-Confirmation Modal ── */
+        .bulk-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .bulk-modal-backdrop.active {
+            display: flex;
+        }
+
+        .bulk-modal-card {
+            background: #ffffff;
+            border-radius: 16px;
+            max-width: 620px;
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .bulk-modal-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .bulk-modal-title {
+            font-family: var(--font-head);
+            font-size: 1.12rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .bulk-modal-body {
+            padding: 20px 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .bulk-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .bulk-stat-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .bulk-stat-value {
+            font-family: var(--font-head);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .bulk-stat-card.valid .bulk-stat-value {
+            color: #10b981;
+        }
+
+        .bulk-stat-card.invalid .bulk-stat-value {
+            color: #ef4444;
+        }
+
+        .bulk-stat-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .bulk-issues-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            padding: 12px;
+            max-height: 140px;
+            overflow-y: auto;
+            font-size: 0.78rem;
+            color: #991b1b;
+            margin-bottom: 16px;
+        }
+
+        .bulk-issues-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .bulk-modal-actions {
+            padding: 16px 24px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            background: #f8fafc;
+        }
     </style>
 </head>
 <body>
@@ -1194,6 +1469,85 @@
                         </div>
                         <div class="mode-title">Asistencia a Sesión</div>
                         <div class="mode-desc">Acreditación de participación en talleres pedagógicos, conferencias o webinars con conteo de horas.</div>
+                    </div>
+                </div>
+
+                <!-- School Auth Card (Exclusive for Placement Test Validation) -->
+                <div class="school-auth-card" id="schoolAuthCard">
+                    <div class="school-card-header">
+                        <div class="school-card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                            </svg>
+                        </div>
+                        <div class="school-card-text">
+                            <div class="school-card-title">
+                                2. Escuela Emisora
+                                <span class="school-tag" id="schoolAuthTag">Requerido para Placement Test</span>
+                            </div>
+                            <div class="school-card-desc">Selecciona la institución donde se aplicó el examen presencial y valida con su clave de acceso.</div>
+                        </div>
+                    </div>
+
+                    <div class="school-card-body">
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label for="selectEscuela">
+                                Institución Educativa Asociada
+                                <span class="label-tag">Catálogo oficial</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4"></path>
+                                    </svg>
+                                </span>
+                                <select id="selectEscuela" class="school-select" onchange="handleEscuelaChange(this.value)">
+                                    <option value="">-- Selecciona una institución emisora --</option>
+                                    <option value="UTT">UTT — Universidad Tecnológica de Tijuana</option>
+                                    <option value="ITMXL">ITMXL — Instituto Tecnológico de Mexicali</option>
+                                    <option value="UTN">UTN — Universidad Tecnológica de Nogales</option>
+                                    <option value="UTH">UTH — Universidad Tecnológica de Hermosillo</option>
+                                    <option value="ITH">ITH — Instituto Tecnológico de Hermosillo</option>
+                                    <option value="ITESCA">ITESCA — Instituto Tecnológico Superior de Cajeme</option>
+                                    <option value="ITLM">ITLM — Instituto Tecnológico de Los Mochis</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Password input (displayed when school is selected) -->
+                        <div id="schoolClaveContainer" style="display: none;">
+                            <div class="form-group" style="margin-bottom: 8px;">
+                                <label for="inputClaveEscuela">
+                                    Clave de Acceso Institucional
+                                    <span class="label-tag" id="claveTag">Protegido</span>
+                                </label>
+                                <div class="input-wrapper" style="position: relative;">
+                                    <span class="input-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                        </svg>
+                                    </span>
+                                    <input type="password" id="inputClaveEscuela" placeholder="Introduce la clave de acceso" oninput="handleClaveInput(this.value)" autocomplete="off">
+                                    <button type="button" class="btn-toggle-eye" onclick="toggleClaveVisibility()" title="Mostrar/ocultar clave">
+                                        <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Feedback Badge -->
+                            <div class="school-feedback-pill locked" id="schoolFeedbackPill">
+                                <svg class="status-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                                <span id="schoolFeedbackText">Ingresa la clave de acceso institucional para autorizar la emisión.</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1629,6 +1983,71 @@
         </div>
     </div>
 
+    <!-- Bulk Pre-Confirmation Modal -->
+    <div class="bulk-modal-backdrop" id="bulkPreviewModal">
+        <div class="bulk-modal-card">
+            <div class="bulk-modal-header">
+                <div class="bulk-modal-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1868ff" stroke-width="2" style="vertical-align: -3px; margin-right: 6px;">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                    </svg>
+                    Confirmación de Generación Masiva
+                </div>
+                <button type="button" class="btn-ghost-sm" onclick="closeBulkPreviewModal()" style="padding: 4px 8px;">✕</button>
+            </div>
+            <div class="bulk-modal-body">
+                <div style="font-size: 0.88rem; color: #475569; margin-bottom: 14px;">
+                    Resumen de auditoría previa para la emisión en lote. Se procesarán únicamente los registros con datos válidos.
+                </div>
+
+                <div class="bulk-stats-grid">
+                    <div class="bulk-stat-card">
+                        <div class="bulk-stat-value" id="bulkStatTotal">0</div>
+                        <div class="bulk-stat-label">Total Registros</div>
+                    </div>
+                    <div class="bulk-stat-card valid">
+                        <div class="bulk-stat-value" id="bulkStatValid">0</div>
+                        <div class="bulk-stat-label">Listos para Emitir</div>
+                    </div>
+                    <div class="bulk-stat-card invalid">
+                        <div class="bulk-stat-value" id="bulkStatErrors">0</div>
+                        <div class="bulk-stat-label">Omitidos / Error</div>
+                    </div>
+                </div>
+
+                <div id="bulkDuplicatesBox" style="display: none; background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; font-size: 0.8rem; color: #92400e;">
+                    <strong>Aviso de duplicados:</strong> <span id="bulkDuplicatesText"></span>
+                </div>
+
+                <div id="bulkIssuesBox" class="bulk-issues-box" style="display: none;">
+                    <div class="bulk-issues-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        Detalle de filas no válidas:
+                    </div>
+                    <ul id="bulkIssuesList" style="margin: 0; padding-left: 18px; line-height: 1.5;"></ul>
+                </div>
+
+                <div style="font-size: 0.78rem; color: #64748b; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px;">
+                    <strong>Escuela Emisora:</strong> <span id="bulkModalSchoolName">No especificada</span><br>
+                    <strong>Límite de seguridad:</strong> Máximo 100 certificados por ejecución. Cada certificado incluirá su propio código QR de validación dinámico.
+                </div>
+            </div>
+            <div class="bulk-modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeBulkPreviewModal()">Cancelar</button>
+                <button type="button" class="btn-primary" id="btnConfirmBulkProcess" onclick="executeConfirmedBulkProcess()" style="width: auto; padding: 10px 22px;">
+                    Confirmar y Generar Lote
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ── STATE MANAGEMENT (100% CLIENT-SIDE STATIC, ZERO BACKEND) ──
         const { PDFDocument, rgb, StandardFonts } = PDFLib;
@@ -1638,6 +2057,328 @@
         let activeMode = 'placement'; // 'placement' (DEFAULT) | 'session'
         let currentFolio = 1001 + Math.floor(Math.random() * 9000);
         let selectedExcelData = null;
+        let massiveAuditData = null;
+
+        // ── SCHOOL CATALOG & AUTHENTICATION STATE ───────────────────
+        const SCHOOLS_CATALOG = [
+            {
+                id: "UTT",
+                codigo: "UTT",
+                nombre_completo: "Universidad Tecnológica de Tijuana",
+                contacto_nombre: "Karla María Antoniett Carmona López",
+                contacto_email: "karla.carmona@uttijuana.edu.mx",
+                salt: "stemos_school_salt_utt",
+                clave_hash: "abbff690b3b05aa1b569ce05a650184f447db0c4e1fe73333d59a8b222aefb4c",
+                activo: true
+            },
+            {
+                id: "ITMXL",
+                codigo: "ITMXL",
+                nombre_completo: "Instituto Tecnológico de Mexicali",
+                contacto_nombre: "Yesenia González",
+                contacto_email: "clenguas@itmexicali.edu.mx",
+                salt: "stemos_school_salt_itmxl",
+                clave_hash: "950bfd415d4bb8a5597029a2aadeea6a16961c9e3242ecd58ac53530a097db31",
+                activo: true
+            },
+            {
+                id: "UTN",
+                codigo: "UTN",
+                nombre_completo: "Universidad Tecnológica de Nogales",
+                contacto_nombre: "P.A. Claudia Catalina Tapia Villa",
+                contacto_email: "ctapia@utnogales.edu.mx",
+                salt: "stemos_school_salt_utn",
+                clave_hash: "650882532107c916a09e40931a1797de09906e9cf5464adcfd34f1660d41a191",
+                activo: true
+            },
+            {
+                id: "UTH",
+                codigo: "UTH",
+                nombre_completo: "Universidad Tecnológica de Hermosillo",
+                contacto_nombre: "Claudia Beltrán López",
+                contacto_email: "claudiabeltran@uthermosillo.edu.mx",
+                salt: "stemos_school_salt_uth",
+                clave_hash: "da82e73af5ad72f2602d502cdffcd2ff5805a6a51b129bffed060a037deadbfb",
+                activo: true
+            },
+            {
+                id: "ITH",
+                codigo: "ITH",
+                nombre_completo: "Instituto Tecnológico de Hermosillo",
+                contacto_nombre: "Luz Enríquez R.",
+                contacto_email: "luz.enriquezr@hermosillo.tecnm.mx",
+                salt: "stemos_school_salt_ith",
+                clave_hash: "16a7a5450a41d3dfe5261cb66ff78ed4d2621f43217ce85b95fd16abeb917f65",
+                activo: true
+            },
+            {
+                id: "ITESCA",
+                codigo: "ITESCA",
+                nombre_completo: "Instituto Tecnológico Superior de Cajeme",
+                contacto_nombre: "Liliana García Peralta",
+                contacto_email: "idiomas@itesca.edu.mx",
+                salt: "stemos_school_salt_itesca",
+                clave_hash: "7099d156857b74f2a75853bc3da5ed1eccf1fd1aba3020409c769186ad9581b8",
+                activo: true
+            },
+            {
+                id: "ITLM",
+                codigo: "ITLM",
+                nombre_completo: "Instituto Tecnológico de Los Mochis",
+                contacto_nombre: "María del Rocío Barajas Peregrina",
+                contacto_email: "maria.bp@mochis.tecnm.mx",
+                salt: "stemos_school_salt_itlm",
+                clave_hash: "441c5a33c34843b74939df82f550bcfe12bce303deda13d12ab8b36f01ae853f",
+                activo: true
+            }
+        ];
+
+        let selectedSchoolId = '';
+        let selectedSchool = null;
+        let isSchoolAuthenticated = false;
+        let schoolAuthToken = '';
+
+        let livePreviewQrDataUrl = null;
+        let livePreviewQrImg = null;
+        let livePreviewQrKey = '';
+        let claveDebounceTimer = null;
+
+        async function computeSha256Hex(text) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(text);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function handleEscuelaChange(schoolId) {
+            selectedSchoolId = schoolId;
+            selectedSchool = SCHOOLS_CATALOG.find(s => s.id === schoolId) || null;
+            isSchoolAuthenticated = false;
+            schoolAuthToken = '';
+
+            const claveContainer = document.getElementById('schoolClaveContainer');
+            const claveInput = document.getElementById('inputClaveEscuela');
+            const schoolCard = document.getElementById('schoolAuthCard');
+            const statusTag = document.getElementById('schoolAuthTag');
+
+            if (schoolCard) schoolCard.classList.remove('authenticated');
+            if (statusTag) {
+                statusTag.textContent = 'Requerido para Placement Test';
+                statusTag.classList.remove('authenticated');
+            }
+
+            if (schoolId) {
+                if (claveContainer) claveContainer.style.display = 'block';
+                if (claveInput) {
+                    claveInput.value = '';
+                    claveInput.focus();
+                }
+                updateSchoolAuthStatus('locked', 'Ingresa la clave de acceso institucional para autorizar la emisión.');
+            } else {
+                if (claveContainer) claveContainer.style.display = 'none';
+                if (claveInput) claveInput.value = '';
+                updateSchoolAuthStatus('locked', 'Selecciona una escuela e introduce su clave de acceso.');
+            }
+
+            updateGenerateButtonsState();
+            ensureLivePreviewQR();
+            updateLivePreview();
+        }
+
+        function handleClaveInput(val) {
+            clearTimeout(claveDebounceTimer);
+            claveDebounceTimer = setTimeout(async () => {
+                await checkSchoolClave(val);
+            }, 300);
+        }
+
+        async function checkSchoolClave(clave) {
+            if (!selectedSchoolId) {
+                updateSchoolAuthStatus('locked', 'Primero selecciona una institución emisora.');
+                return;
+            }
+            if (!clave || clave.trim().length === 0) {
+                isSchoolAuthenticated = false;
+                schoolAuthToken = '';
+                updateSchoolAuthStatus('locked', 'Ingresa la clave de acceso institucional.');
+                updateGenerateButtonsState();
+                return;
+            }
+
+            const cleanClave = clave.trim();
+
+            // 1. Worker Edge API
+            try {
+                const res = await fetch('/api/webcert/verify-key', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ escuela_id: selectedSchoolId, clave: cleanClave })
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.ok) {
+                        isSchoolAuthenticated = true;
+                        schoolAuthToken = data.token || 'token_' + Date.now();
+                        onSchoolAuthenticatedSuccess();
+                        return;
+                    }
+                } else if (res.status === 401) {
+                    isSchoolAuthenticated = false;
+                    schoolAuthToken = '';
+                    updateSchoolAuthStatus('error', 'Clave de acceso incorrecta. Verifica con tu coordinación.');
+                    updateGenerateButtonsState();
+                    return;
+                }
+            } catch (netErr) {
+                console.warn('Backend Worker no disponible (offline/local), verificando vía Web Crypto local:', netErr);
+            }
+
+            // 2. Client-side Web Crypto Fallback
+            const sc = selectedSchool;
+            if (sc) {
+                const hash = await computeSha256Hex(sc.salt + ':' + cleanClave);
+                if (hash === sc.clave_hash) {
+                    isSchoolAuthenticated = true;
+                    schoolAuthToken = 'local_' + Date.now();
+                    onSchoolAuthenticatedSuccess();
+                } else {
+                    isSchoolAuthenticated = false;
+                    schoolAuthToken = '';
+                    updateSchoolAuthStatus('error', 'Clave de acceso incorrecta. Verifica con tu coordinación.');
+                    updateGenerateButtonsState();
+                }
+            }
+        }
+
+        function onSchoolAuthenticatedSuccess() {
+            const sc = selectedSchool;
+            const card = document.getElementById('schoolAuthCard');
+            const tag = document.getElementById('schoolAuthTag');
+            if (card) card.classList.add('authenticated');
+            if (tag) {
+                tag.textContent = 'Autenticado ✓';
+                tag.classList.add('authenticated');
+            }
+
+            updateSchoolAuthStatus('authenticated', `✓ Autenticado con éxito · Coordinación de Idiomas autorizada (${sc ? sc.contacto_email : ''})`);
+            updateGenerateButtonsState();
+            ensureLivePreviewQR();
+            updateLivePreview();
+        }
+
+        function updateSchoolAuthStatus(type, msg) {
+            const pill = document.getElementById('schoolFeedbackPill');
+            const txt = document.getElementById('schoolFeedbackText');
+            if (!pill || !txt) return;
+
+            pill.className = `school-feedback-pill ${type}`;
+            txt.textContent = msg;
+        }
+
+        function toggleClaveVisibility() {
+            const input = document.getElementById('inputClaveEscuela');
+            const icon = document.getElementById('eyeIcon');
+            if (!input) return;
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                if (icon) {
+                    icon.innerHTML = `
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                    `;
+                }
+            } else {
+                input.type = 'password';
+                if (icon) {
+                    icon.innerHTML = `
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    `;
+                }
+            }
+        }
+
+        function updateGenerateButtonsState() {
+            const isPlacement = activeMode === 'placement';
+            // Session certificates do not need school auth; Placement Test certificates require it
+            const isAuthOk = !isPlacement || isSchoolAuthenticated;
+
+            const btnInd = document.getElementById('btnGenerateIndividual');
+            if (btnInd) {
+                btnInd.disabled = !isAuthOk;
+                if (!isAuthOk) {
+                    btnInd.title = 'Requiere autenticar la escuela emisora con su clave de acceso para Placement Test';
+                } else {
+                    btnInd.removeAttribute('title');
+                }
+            }
+
+            const btnMass = document.getElementById('btnGenerateMassive');
+            if (btnMass) {
+                const hasValidData = massiveAuditData && massiveAuditData.validRows && massiveAuditData.validRows.length > 0;
+                btnMass.disabled = !hasValidData || !isAuthOk;
+                if (!hasValidData) {
+                    btnMass.title = 'Carga un archivo Excel válido primero';
+                } else if (!isAuthOk) {
+                    btnMass.title = 'Requiere autenticar la escuela emisora con su clave de acceso para Placement Test';
+                } else {
+                    btnMass.removeAttribute('title');
+                }
+            }
+        }
+
+        // ── DYNAMIC MAILTO QR GENERATOR (TRANSPARENT PNG) ───────────
+        async function buildMailtoQR({ email, nombreAlumno, nivelCefr, fechaExamen }) {
+            const mail = email || (selectedSchool ? selectedSchool.contacto_email : 'idiomas@institucion.edu.mx');
+            const student = nombreAlumno || 'el sustentante';
+            const cefr = nivelCefr || 'B2+';
+            const date = fechaExamen || '22/09/2026';
+
+            const subject = `Validación de certificado - ${student}`;
+            const body = `Hola, escribo dado que nos presentaron este certificado y queríamos validar si el nivel de este alumno ${student} se encuentra con nivel CEFR ${cefr} en sus registros con fecha del ${date}. Favor de responder confirmando dicha información.`;
+
+            const mailtoUri = `mailto:${mail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+            try {
+                if (typeof QRCode !== 'undefined') {
+                    return await QRCode.toDataURL(mailtoUri, {
+                        margin: 1,
+                        color: {
+                            dark: '#111827',
+                            light: '#00000000' // 100% transparent PNG
+                        }
+                    });
+                }
+            } catch (err) {
+                console.warn('Error generando QR code:', err);
+            }
+            return null;
+        }
+
+        async function ensureLivePreviewQR() {
+            if (activeMode !== 'placement') return;
+            const nombre = `${document.getElementById('inputApellido')?.value || ''} ${document.getElementById('inputNombre')?.value || ''}`.trim() || 'Juan Carlos Pérez García';
+            const cefr = document.getElementById('inputCefr')?.value || 'B2+';
+            const fecha = convertirFecha(document.getElementById('inputFechaPlacement')?.value || '22/09/2026');
+            const email = selectedSchool ? selectedSchool.contacto_email : 'idiomas@institucion.edu.mx';
+
+            const key = `${email}|${nombre}|${cefr}|${fecha}`;
+            if (key === livePreviewQrKey && livePreviewQrImg) return;
+            livePreviewQrKey = key;
+
+            const dataUrl = await buildMailtoQR({ email, nombreAlumno: nombre, nivelCefr: cefr, fechaExamen: fecha });
+            if (dataUrl) {
+                livePreviewQrDataUrl = dataUrl;
+                const img = new Image();
+                img.onload = () => {
+                    livePreviewQrImg = img;
+                    updateLivePreview();
+                };
+                img.src = dataUrl;
+            }
+        }
 
         function getNextFolio() {
             const f = currentFolio;
@@ -1743,6 +2484,8 @@
             setDefaultDates();
             initTemplateImage();
             loadTemplatePDF();
+            updateGenerateButtonsState();
+            ensureLivePreviewQR();
             updateLivePreview();
         });
 
@@ -1825,6 +2568,7 @@
             const fieldsPlacement = document.getElementById('fieldsModePlacement');
             const guideSession = document.getElementById('guideSessionText');
             const guidePlacement = document.getElementById('guidePlacementText');
+            const schoolAuthCard = document.getElementById('schoolAuthCard');
 
             if (mode === 'session') {
                 if (cardSession) cardSession.classList.add('active');
@@ -1833,6 +2577,7 @@
                 if (fieldsPlacement) fieldsPlacement.style.display = 'none';
                 if (guideSession) guideSession.style.display = 'block';
                 if (guidePlacement) guidePlacement.style.display = 'none';
+                if (schoolAuthCard) schoolAuthCard.style.display = 'none';
             } else {
                 if (cardSession) cardSession.classList.remove('active');
                 if (cardPlacement) cardPlacement.classList.add('active');
@@ -1840,7 +2585,10 @@
                 if (fieldsPlacement) fieldsPlacement.style.display = 'block';
                 if (guideSession) guideSession.style.display = 'none';
                 if (guidePlacement) guidePlacement.style.display = 'block';
+                if (schoolAuthCard) schoolAuthCard.style.display = 'block';
             }
+            updateGenerateButtonsState();
+            ensureLivePreviewQR();
             updateLivePreview();
         }
 
@@ -2203,11 +2951,63 @@
                 ctx.fillText(dateText, W / 2, 472 * scale); // 944px
             }
 
-            // 4. Folio Verification (Bottom Right)
-            ctx.textAlign = 'right';
-            ctx.font = `${9 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
-            ctx.fillStyle = '#999999';
-            ctx.fillText(`Folio: ${currentFolio}`, W - 30 * scale, 690 * scale);
+            // 4. Folio (Session) vs Validation Annotation & QR (Placement Test)
+            if (activeMode === 'placement') {
+                // QR at POS 590: x = 442 * scale, y = 590 * scale, size = 58 * scale
+                const qrX = 442 * scale;
+                const qrY = 590 * scale;
+                const qrSize = 58 * scale;
+
+                if (livePreviewQrImg && livePreviewQrImg.complete) {
+                    ctx.drawImage(livePreviewQrImg, qrX, qrY, qrSize, qrSize);
+                } else {
+                    ensureLivePreviewQR();
+                }
+
+                // Caption
+                ctx.textAlign = 'center';
+                ctx.font = `${5.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.fillStyle = '#64748b';
+                ctx.fillText('Escanear para validar', qrX + qrSize / 2, 656 * scale);
+
+                // Validation Text (without white background card - direct transparent overlay with subtle drop shadow)
+                const schoolName = selectedSchool ? selectedSchool.nombre_completo : '[NOMBRE DE LA UNIVERSIDAD]';
+                const valText = `Este documento certifica el resultado de una evaluación de idioma aplicada de manera presencial en las instalaciones de ${schoolName}. La autenticidad y el resguardo de los registros correspondientes son responsabilidad de la Coordinación de Idiomas de dicha institución. Para fines de validación, escanee el código QR: se abrirá un correo prellenado con los datos del alumno dirigido a la Coordinación de Idiomas de la institución emisora.`;
+
+                ctx.textAlign = 'left';
+                ctx.font = `${6.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                const maxTextW = 395 * scale;
+                const words = valText.split(' ');
+                const lines = [];
+                let curL = '';
+                for (const w of words) {
+                    const test = curL ? (curL + ' ' + w) : w;
+                    if (ctx.measureText(test).width > maxTextW) {
+                        lines.push(curL);
+                        curL = w;
+                    } else {
+                        curL = test;
+                    }
+                }
+                if (curL) lines.push(curL);
+
+                let textY = 638 * scale;
+                const lineH = 9.5 * scale;
+                for (const line of lines) {
+                    // Subtle shadow for legibility over purple and white ribbons
+                    ctx.fillStyle = '#0f172a';
+                    ctx.fillText(line, 35.8 * scale, textY + 0.8 * scale);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillText(line, 35 * scale, textY);
+                    textY += lineH;
+                }
+            } else {
+                // Session mode retains standard folio
+                ctx.textAlign = 'right';
+                ctx.font = `${9 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.fillStyle = '#999999';
+                ctx.fillText(`Folio: ${currentFolio}`, W - 30 * scale, 690 * scale);
+            }
         }
 
         function downloadPreviewPNG() {
@@ -2496,17 +3296,98 @@
                 });
             }
 
-            // 3. FOLIO DE VERIFICACIÓN
-            const textoFolio = `Folio: ${folio}`;
-            const folioSize = 9;
-            const folioWidth = fontRegular.widthOfTextAtSize(textoFolio, folioSize);
-            firstPage.drawText(textoFolio, {
-                x: width - folioWidth - 30,
-                y: 30,
-                size: folioSize,
-                font: fontRegular,
-                color: rgb(0.6, 0.6, 0.6),
-            });
+            // 3. VALIDACIÓN (PLACEMENT TEST) vs FOLIO (ASISTENCIA A SESIÓN)
+            if (isPlacement) {
+                // QR at POS 590: x = 442, y = 72, width = 58, height = 58
+                // y in PDF-Lib: height - 590 - 58 = 720 - 648 = 72
+                const targetEmail = (selectedSchool ? selectedSchool.contacto_email : 'idiomas@institucion.edu.mx');
+                const qrDataUrl = await buildMailtoQR({
+                    email: targetEmail,
+                    nombreAlumno: nombreCompleto,
+                    nivelCefr: cefr,
+                    fechaExamen: fechaFormateada || item.fecha
+                });
+
+                if (qrDataUrl) {
+                    try {
+                        const qrBase64 = qrDataUrl.split(',')[1];
+                        const qrBytes = Uint8Array.from(atob(qrBase64), c => c.charCodeAt(0));
+                        const qrImage = await pdfDoc.embedPng(qrBytes);
+                        firstPage.drawImage(qrImage, {
+                            x: 442,
+                            y: 72,
+                            width: 58,
+                            height: 58,
+                        });
+                    } catch (qrErr) {
+                        console.warn('Error incrustando QR en PDF:', qrErr);
+                    }
+                }
+
+                // Caption
+                const capText = 'Escanear para validar';
+                const capSize = 5.5;
+                const capWidth = fontRegular.widthOfTextAtSize(capText, capSize);
+                firstPage.drawText(capText, {
+                    x: 442 + (58 - capWidth) / 2,
+                    y: 64,
+                    size: capSize,
+                    font: fontRegular,
+                    color: rgb(0.4, 0.4, 0.4),
+                });
+
+                // Validation Text (without white card background - direct transparent overlay with subtle shadow)
+                const schoolName = selectedSchool ? selectedSchool.nombre_completo : '[NOMBRE DE LA UNIVERSIDAD]';
+                const valText = `Este documento certifica el resultado de una evaluación de idioma aplicada de manera presencial en las instalaciones de ${schoolName}. La autenticidad y el resguardo de los registros correspondientes son responsabilidad de la Coordinación de Idiomas de dicha institución. Para fines de validación, escanee el código QR: se abrirá un correo prellenado con los datos del alumno dirigido a la Coordinación de Idiomas de la institución emisora.`;
+
+                const words = valText.split(' ');
+                const maxValW = 395;
+                const valLines = [];
+                let curLine = '';
+                for (const w of words) {
+                    const testLine = curLine ? (curLine + ' ' + w) : w;
+                    if (fontRegular.widthOfTextAtSize(testLine, 6.5) > maxValW) {
+                        valLines.push(curLine);
+                        curLine = w;
+                    } else {
+                        curLine = testLine;
+                    }
+                }
+                if (curLine) valLines.push(curLine);
+
+                let vY = 82;
+                for (const line of valLines) {
+                    // Subtle shadow
+                    firstPage.drawText(line, {
+                        x: 35.6,
+                        y: vY - 0.6,
+                        size: 6.5,
+                        font: fontRegular,
+                        color: rgb(0.15, 0.15, 0.15),
+                    });
+                    // White text
+                    firstPage.drawText(line, {
+                        x: 35,
+                        y: vY,
+                        size: 6.5,
+                        font: fontRegular,
+                        color: rgb(1, 1, 1),
+                    });
+                    vY -= 9.5;
+                }
+            } else {
+                // Modo Asistencia a Sesión: se mantiene el Folio estándar
+                const textoFolio = `Folio: ${folio}`;
+                const folioSize = 9;
+                const folioWidth = fontRegular.widthOfTextAtSize(textoFolio, folioSize);
+                firstPage.drawText(textoFolio, {
+                    x: width - folioWidth - 30,
+                    y: 30,
+                    size: folioSize,
+                    font: fontRegular,
+                    color: rgb(0.6, 0.6, 0.6),
+                });
+            }
 
             // Guardar bytes finales
             const pdfBytesResult = await pdfDoc.save();
@@ -2518,6 +3399,13 @@
             e.preventDefault();
             if (!templatePdfBytes) {
                 alert('La plantilla se está sincronizando. Por favor espera 2 segundos y vuelve a intentar.');
+                return;
+            }
+
+            if (activeMode === 'placement' && !isSchoolAuthenticated) {
+                alert('Por favor selecciona una institución emisora e ingresa su clave de acceso para autorizar la emisión de certificados de Placement Test.');
+                const claveInput = document.getElementById('inputClaveEscuela');
+                if (claveInput) claveInput.focus();
                 return;
             }
 
@@ -2564,7 +3452,7 @@
             }
         }
 
-        // ── MASSIVE EXCEL PROCESSING ─────────────────────────────────
+        // ── MASSIVE EXCEL PROCESSING (HARDENED: MAX 100 CERTS + PRE-CONFIRMATION MODAL) ──
         function handleExcelSelect(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -2578,16 +3466,109 @@
                     const data = new Uint8Array(e.target.result);
                     const workbook = XLSX.read(data, { type: 'array' });
                     const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                    selectedExcelData = XLSX.utils.sheet_to_json(firstSheet);
+                    const rawRows = XLSX.utils.sheet_to_json(firstSheet);
 
-                    if (!selectedExcelData || selectedExcelData.length === 0) {
+                    if (!rawRows || rawRows.length === 0) {
                         alert('La hoja de cálculo seleccionada no contiene registros.');
-                        document.getElementById('btnGenerateMassive').disabled = true;
+                        massiveAuditData = null;
+                        updateGenerateButtonsState();
                         return;
                     }
 
-                    document.getElementById('btnGenerateMassive').disabled = false;
-                    document.getElementById('btnGenerateMassive').textContent = `Generar ${selectedExcelData.length} Certificados en Lote`;
+                    // 1. LIMIT: 100 certificates maximum per batch
+                    if (rawRows.length > 100) {
+                        alert(`Límite de seguridad excedido: El archivo contiene ${rawRows.length} registros.\n\nEl límite máximo permitido para generación masiva en lote es de 100 certificados.\nPor favor divide tu archivo en bloques de hasta 100 sustentantes.`);
+                        event.target.value = '';
+                        dropzoneLabel.textContent = 'Haz clic o arrastra tu archivo Excel aquí';
+                        massiveAuditData = null;
+                        updateGenerateButtonsState();
+                        return;
+                    }
+
+                    // 2. Validate columns, data types & duplicates
+                    const validLevels = ['A0', 'PRE-A1', 'A1', 'A1+', 'A2', 'A2+', 'B1', 'B1+', 'B2', 'B2+', 'C1'];
+                    const validRows = [];
+                    const invalidRows = [];
+                    const seenKeys = new Set();
+                    const duplicateRows = [];
+
+                    rawRows.forEach((row, idx) => {
+                        const rowNum = idx + 2; // Excel row numbering
+                        const nombre = (row.Nombre || row.nombre || '').trim();
+                        const apellido = (row.Apellido || row.apellido || '').trim();
+                        const rowHasPlacement = (row.Nivel !== undefined || row.nivel !== undefined || row.CEFR !== undefined || row.cefr !== undefined || row.Puntaje !== undefined || row.puntaje !== undefined || row.Score !== undefined || row.score !== undefined);
+                        const isPlacementRow = activeMode === 'placement' || rowHasPlacement;
+
+                        const errors = [];
+                        if (!nombre) errors.push('Falta el Nombre');
+                        if (!apellido) errors.push('Falta el Apellido');
+                        if (nombre.length > 100 || apellido.length > 100) errors.push('Nombre o Apellido excede 100 caracteres');
+
+                        let cefr = (row.Nivel || row.nivel || row.CEFR || row.cefr || '').trim();
+                        let score = (row.Puntaje || row.puntaje || row.Score || row.score || '').toString().trim();
+
+                        if (isPlacementRow) {
+                            if (!cefr && !score) {
+                                errors.push('Falta Nivel CEFR o Puntaje');
+                            } else if (score && !cefr) {
+                                const numericScore = parseFloat(score.replace(/[^0-9.]/g, ''));
+                                if (!isNaN(numericScore)) {
+                                    const tier = RICHMOND_SCORE_TIERS.find(t => numericScore >= t.min && numericScore <= t.max);
+                                    if (tier) cefr = tier.level;
+                                }
+                            }
+                            if (cefr) {
+                                const cleanCefr = cefr.split(' ')[0].toUpperCase();
+                                if (!validLevels.includes(cleanCefr)) {
+                                    errors.push(`Nivel CEFR '${cefr}' no reconocido`);
+                                }
+                            }
+                        }
+
+                        // Duplicate check
+                        const dupKey = `${nombre} ${apellido} ${(row.Fecha || row.fecha || '').trim()}`.toLowerCase();
+                        if (seenKeys.has(dupKey)) {
+                            duplicateRows.push({ rowNum, name: `${nombre} ${apellido}` });
+                        } else {
+                            seenKeys.add(dupKey);
+                        }
+
+                        if (errors.length > 0) {
+                            invalidRows.push({ rowNum, errors, raw: row });
+                        } else {
+                            validRows.push({
+                                mode: isPlacementRow ? 'placement' : 'session',
+                                nombre,
+                                apellido,
+                                cefr,
+                                score,
+                                fecha: (row.Fecha || row.fecha || '').trim() || '22/09/2026',
+                                evento: (row.Evento || row.evento || 'Fostering Learning Communities').trim(),
+                                horas: (row.Horas || row.horas || '2').toString().trim(),
+                                rowNum
+                            });
+                        }
+                    });
+
+                    massiveAuditData = {
+                        fileName: file.name,
+                        totalRows: rawRows.length,
+                        validRows,
+                        invalidRows,
+                        duplicateRows
+                    };
+
+                    const btnMass = document.getElementById('btnGenerateMassive');
+                    if (validRows.length === 0) {
+                        alert('No se encontraron registros válidos en el archivo Excel.');
+                        if (btnMass) btnMass.disabled = true;
+                        return;
+                    }
+
+                    if (btnMass) {
+                        btnMass.textContent = `Revisar y Generar ${validRows.length} Certificados`;
+                    }
+                    updateGenerateButtonsState();
                 } catch (err) {
                     alert('Error al interpretar el archivo Excel: ' + err.message);
                     console.error(err);
@@ -2598,14 +3579,96 @@
 
         async function handleMassiveSubmit(e) {
             e.preventDefault();
-            if (!selectedExcelData || selectedExcelData.length === 0) {
+            if (!massiveAuditData || massiveAuditData.validRows.length === 0) {
                 alert('Por favor selecciona un archivo Excel válido primero.');
                 return;
             }
+            if (activeMode === 'placement' && !isSchoolAuthenticated) {
+                alert('Debes autenticar la escuela emisora con su clave de acceso para autorizar certificados de Placement Test.');
+                const claveInput = document.getElementById('inputClaveEscuela');
+                if (claveInput) claveInput.focus();
+                return;
+            }
+
+            openBulkPreviewModal();
+        }
+
+        function openBulkPreviewModal() {
+            if (!massiveAuditData) return;
+            const modal = document.getElementById('bulkPreviewModal');
+            const statTotal = document.getElementById('bulkStatTotal');
+            const statValid = document.getElementById('bulkStatValid');
+            const statErrors = document.getElementById('bulkStatErrors');
+            const issuesBox = document.getElementById('bulkIssuesBox');
+            const issuesList = document.getElementById('bulkIssuesList');
+            const dupBox = document.getElementById('bulkDuplicatesBox');
+            const dupText = document.getElementById('bulkDuplicatesText');
+            const schoolNameSpan = document.getElementById('bulkModalSchoolName');
+
+            statTotal.textContent = massiveAuditData.totalRows;
+            statValid.textContent = massiveAuditData.validRows.length;
+            statErrors.textContent = massiveAuditData.invalidRows.length;
+
+            if (selectedSchool) {
+                schoolNameSpan.textContent = `${selectedSchool.codigo} — ${selectedSchool.nombre_completo}`;
+            } else {
+                schoolNameSpan.textContent = activeMode === 'session' ? 'Asistencia a Sesión (Sin escuela requerida)' : 'No especificada';
+            }
+
+            if (massiveAuditData.invalidRows.length > 0) {
+                issuesBox.style.display = 'block';
+                issuesList.innerHTML = massiveAuditData.invalidRows.map(r => `<li><strong>Fila ${r.rowNum}:</strong> ${r.errors.join(', ')}</li>`).join('');
+            } else {
+                issuesBox.style.display = 'none';
+                issuesList.innerHTML = '';
+            }
+
+            if (massiveAuditData.duplicateRows.length > 0) {
+                dupBox.style.display = 'block';
+                dupText.textContent = `Se detectaron ${massiveAuditData.duplicateRows.length} posibles sustentantes repetidos en el archivo (${massiveAuditData.duplicateRows.map(d => d.name).slice(0, 3).join(', ')}${massiveAuditData.duplicateRows.length > 3 ? '...' : ''}).`;
+            } else {
+                dupBox.style.display = 'none';
+                dupText.textContent = '';
+            }
+
+            const btnConfirm = document.getElementById('btnConfirmBulkProcess');
+            btnConfirm.textContent = `Confirmar y Generar ${massiveAuditData.validRows.length} Certificados`;
+
+            modal.classList.add('active');
+        }
+
+        function closeBulkPreviewModal() {
+            const modal = document.getElementById('bulkPreviewModal');
+            if (modal) modal.classList.remove('active');
+        }
+
+        async function executeConfirmedBulkProcess() {
+            closeBulkPreviewModal();
+            if (!massiveAuditData || massiveAuditData.validRows.length === 0) return;
             if (!templatePdfBytes) {
                 alert('La plantilla PDF se está cargando. Intenta de nuevo en unos momentos.');
                 return;
             }
+
+            const validRows = massiveAuditData.validRows;
+            const total = validRows.length;
+
+            // Audit batch call to Cloudflare Worker
+            try {
+                fetch('/api/webcert/validate-batch', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${schoolAuthToken}`
+                    },
+                    body: JSON.stringify({
+                        escuela_id: selectedSchoolId || 'SESSION',
+                        total_filas: total,
+                        archivo_nombre: massiveAuditData.fileName,
+                        modo: activeMode
+                    })
+                }).catch(() => {});
+            } catch (e) {}
 
             const progressBox = document.getElementById('massiveProgressBox');
             const progressFill = document.getElementById('progressBarFill');
@@ -2617,43 +3680,46 @@
             btn.disabled = true;
 
             const foliosGenerados = [];
-            const total = selectedExcelData.length;
+            const zip = (typeof JSZip !== 'undefined') ? new JSZip() : null;
 
             for (let i = 0; i < total; i++) {
-                const row = selectedExcelData[i];
+                const item = validRows[i];
                 const pct = Math.round(((i + 1) / total) * 100);
                 
                 progressFill.style.width = `${pct}%`;
                 progressPercent.textContent = `${pct}%`;
-                progressStatus.textContent = `Generando ${i + 1} de ${total}...`;
+                progressStatus.textContent = `Generando ${i + 1} de ${total}: ${item.apellido} ${item.nombre}...`;
 
-                // Auto-detect mode per row or follow active mode
-                const rowHasPlacement = (row.Nivel !== undefined || row.nivel !== undefined || row.CEFR !== undefined || row.cefr !== undefined);
-                const isPlacement = activeMode === 'placement' || rowHasPlacement;
-
-                const item = {
-                    mode: isPlacement ? 'placement' : 'session',
-                    nombre: row.Nombre || row.nombre || '',
-                    apellido: row.Apellido || row.apellido || '',
-                    evento: row.Evento || row.evento || 'Fostering Learning Communities',
-                    fecha: row.Fecha || row.fecha || '',
-                    horas: row.Horas || row.horas || '2',
-                    cefr: row.Nivel || row.nivel || row.CEFR || row.cefr || '',
-                    score: row.Puntaje || row.puntaje || row.Score || row.score || ''
-                };
-
+                // Build certificate with unique dynamic QR
                 const result = await buildCertificatePDF(item, templatePdfBytes);
                 foliosGenerados.push(result.folio);
 
-                // Auto-download individual PDF
-                const blob = new Blob([result.bytes], { type: 'application/pdf' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = `Certificate_${item.apellido}_${item.nombre}.pdf`;
-                link.click();
+                const cleanName = `${item.apellido}_${item.nombre}`.replace(/[^a-zA-Z0-9áéíóúñÁÉÍÓÚÑ_-]/g, '_');
+                const certFilename = `Certificado_${cleanName}.pdf`;
 
-                // Small breath to avoid browser thread lock
-                await new Promise(r => setTimeout(r, 90));
+                if (zip) {
+                    zip.file(certFilename, result.bytes);
+                } else {
+                    const blob = new Blob([result.bytes], { type: 'application/pdf' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = certFilename;
+                    link.click();
+                }
+
+                // Smooth execution
+                await new Promise(r => setTimeout(r, 60));
+            }
+
+            // If JSZip is active, trigger single download
+            if (zip) {
+                progressStatus.textContent = 'Empaquetando archivo ZIP...';
+                const zipBlob = await zip.generateAsync({ type: 'blob' });
+                const zipLink = document.createElement('a');
+                zipLink.href = URL.createObjectURL(zipBlob);
+                const schoolCode = selectedSchool ? selectedSchool.codigo : 'Richmond';
+                zipLink.download = `Certificados_${schoolCode}_${total}_alumnos.zip`;
+                zipLink.click();
             }
 
             progressBox.style.display = 'none';
@@ -2662,7 +3728,7 @@
 
             const minFolio = Math.min(...foliosGenerados);
             const maxFolio = Math.max(...foliosGenerados);
-            showStatusModal('¡Lote Completado con Éxito!', `Se generaron y descargaron ${total} certificados digitales.\nRango de folios asignados: ${minFolio} — ${maxFolio}`);
+            showStatusModal('¡Lote Completado con Éxito!', `Se generaron ${total} certificados digitales con código QR de validación dinámico.\nFolios asignados: ${minFolio} — ${maxFolio}\nDescarga completada.`);
         }
 
         // ── EXCEL TEMPLATE DOWNLOAD GENERATOR ────────────────────────
