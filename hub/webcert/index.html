@@ -1962,12 +1962,8 @@
             <!-- Right Column: Interactive Live Certificate Preview -->
             <div class="preview-sticky">
                 <div class="glass-card" style="padding: 20px;">
-                    <div class="section-label" style="justify-content: space-between;">
+                    <div class="section-label">
                         <span>Vista Previa en Vivo</span>
-                        <span class="preview-live-indicator">
-                            <span class="live-pulse-dot"></span>
-                            SINCRONIZADO
-                        </span>
                     </div>
 
                     <div class="preview-card-wrap" id="previewWrap">
@@ -1984,11 +1980,6 @@
                             </svg>
                             Descargar Vista Previa (PNG)
                         </button>
-                    </div>
-
-                    <div class="preview-footer-note">
-                        <span>Formato oficial 540 × 720 (Retina 2x)</span>
-                        <span>Render en tiempo real</span>
                     </div>
                 </div>
             </div>
@@ -3137,9 +3128,9 @@
 
             // 4. Folio (Session) vs Dual QR & Validation Annotation (Placement Test)
             if (activeMode === 'placement') {
-                // 4A. Placement Test Official Logo (Left white section above purple wave, aligned with W3C QR)
+                // 4A. Placement Test Official Logo (Aligned with Richmond Placement Test & CEFR Level)
                 if (placementLogoLoaded && placementLogoImg) {
-                    ctx.drawImage(placementLogoImg, 55 * scale, 440 * scale, 86 * scale, 33 * scale);
+                    ctx.drawImage(placementLogoImg, 40 * scale, 410 * scale, 84 * scale, 32 * scale);
                 }
 
                 // 4B. Regular QR at POS 600: x = 442 * scale, y = 600 * scale, size = 58 * scale
@@ -3526,10 +3517,10 @@
                     try {
                         const placementLogoPdfImage = await pdfDoc.embedPng(placementLogoBytes);
                         firstPage.drawImage(placementLogoPdfImage, {
-                            x: 55,
-                            y: 247, // height (720) - 440 - 33
-                            width: 86,
-                            height: 33,
+                            x: 40,
+                            y: 278, // height (720) - 410 - 32
+                            width: 84,
+                            height: 32,
                         });
                     } catch (plErr) {
                         console.warn('Error embedding placement logo in PDF:', plErr);
