@@ -1970,17 +1970,6 @@
                         <!-- High Fidelity Retina Canvas Render -->
                         <canvas id="liveCertCanvas" width="1080" height="1440" class="preview-canvas-render"></canvas>
                     </div>
-
-                    <div style="margin-top: 12px; display: flex; gap: 8px;">
-                        <button type="button" class="btn-ghost-sm" style="flex: 1; justify-content: center;" onclick="downloadPreviewPNG()">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="7 10 12 15 17 10"></polyline>
-                                <line x1="12" y1="15" x2="12" y2="3"></line>
-                            </svg>
-                            Descargar Vista Previa (PNG)
-                        </button>
-                    </div>
                 </div>
             </div>
         </main>
@@ -3029,7 +3018,7 @@
             ctx.textAlign = 'center';
             ctx.textBaseline = 'alphabetic';
             ctx.fillStyle = '#000000';
-            ctx.fillText(nombreCompleto, W / 2, 350 * scale);
+            ctx.fillText(nombreCompleto, W / 2, 332 * scale);
 
             // 3. Body Text According to Mode
             if (activeMode === 'session') {
@@ -3051,7 +3040,7 @@
                 const totalW = startW + evW + endW;
                 const maxEvW = W * 0.8;
 
-                const yEvento = 395 * scale; // 790px
+                const yEvento = 368 * scale; // Elevated above wave
 
                 if (totalW <= maxEvW) {
                     let curX = (W - totalW) / 2;
@@ -3087,7 +3076,7 @@
                 ctx.textAlign = 'center';
                 ctx.font = `${14 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#808080';
-                ctx.fillText(dateText, W / 2, 470 * scale); // 940px
+                ctx.fillText(dateText, W / 2, 430 * scale);
 
             } else {
                 // Mode 2: Placement Test Validation (Richmond Young Adults)
@@ -3097,41 +3086,66 @@
                 const fecha = (document.getElementById('inputFechaPlacement')?.value || '22/09/2026').trim();
                 const fechaTexto = convertirFecha(fecha);
 
-                // Line 1: Purpose
+                // Line 1: Purpose (elevated strictly ABOVE the line at y=369)
                 const line1 = 'For successfully validating English language proficiency through the';
                 ctx.textAlign = 'center';
                 ctx.font = `${11 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#4d4d4d';
-                ctx.fillText(line1, W / 2, 392 * scale); // 784px
+                ctx.fillText(line1, W / 2, 352 * scale); // 704px
 
-                // Line 2: Assessment Title (Bold)
+                // Line 2: Assessment Title (Bold) + Placement Logo (Centered as a unified lockup)
                 const line2 = 'Richmond Placement Test';
-                ctx.font = `bold ${13.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                const l2FontSize = 16.5; // Bigger title font size (was 13.5)
+                ctx.font = `bold ${l2FontSize * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#1f1f1f';
-                ctx.fillText(line2, W / 2, 412 * scale); // 824px
 
-                // Line 3: CEFR Level Badge & Clean Score (sin decimales) - 30% larger (17pt)
+                // Logo dimensions: ~25% larger than original 63.4x24 (aspect ratio 2.646:1)
+                const logoH = 29.5;
+                const logoW = 78;
+                const gap = 12;
+                const yCenter = 396; // Center Y for logo and text lockup
+
+                if (placementLogoLoaded && placementLogoImg) {
+                    const line2Width = ctx.measureText(line2).width; // in canvas px
+                    const totalWidth = (logoW + gap) * scale + line2Width;
+                    const startX = (W - totalWidth) / 2;
+                    
+                    // Draw logo
+                    const logoY = (yCenter - logoH / 2) * scale;
+                    ctx.drawImage(placementLogoImg, startX, logoY, logoW * scale, logoH * scale);
+
+                    // Draw text next to logo (vertically centered with logo)
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'middle';
+                    const textX = startX + (logoW + gap) * scale;
+                    ctx.fillText(line2, textX, yCenter * scale);
+                } else {
+                    // Fallback if logo not loaded yet
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(line2, W / 2, yCenter * scale);
+                }
+
+                // Line 3: CEFR Level Badge & Clean Score (25% larger: was 17pt -> 21.25pt)
                 let levelText = `CEFR Level: ${cefr}`;
                 if (scoreFormatted) {
                     levelText += `  |  ${scoreFormatted}`;
                 }
-                ctx.font = `bold ${17 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'alphabetic';
+                ctx.font = `bold ${21.25 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#1e3a8a'; // Deep Navy Blue
-                ctx.fillText(levelText, W / 2, 438 * scale); // 876px
+                ctx.fillText(levelText, W / 2, 436 * scale);
 
-                // Line 4: Date of Assessment
+                // Line 4: Date of Assessment (well distributed)
                 const dateText = `Date of Assessment: ${fechaTexto}`;
                 ctx.font = `${12.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#808080';
-                ctx.fillText(dateText, W / 2, 474 * scale); // 948px
+                ctx.fillText(dateText, W / 2, 468 * scale);
             }
 
             // 4. Folio (Session) vs Dual QR & Validation Annotation (Placement Test)
             if (activeMode === 'placement') {
-                // 4A. Placement Test Official Logo (Aligned with Richmond Placement Test & CEFR Level)
-                if (placementLogoLoaded && placementLogoImg) {
-                    ctx.drawImage(placementLogoImg, 40 * scale, 410 * scale, 84 * scale, 32 * scale);
-                }
 
                 // 4B. Regular QR at POS 600: x = 442 * scale, y = 600 * scale, size = 58 * scale
                 const qrX = 442 * scale;
@@ -3323,7 +3337,7 @@
 
             // 1. NOMBRE COMPLETO
             const nombreCompleto = `${item.apellido || ''} ${item.nombre || ''}`.trim();
-            const nombreYPosition = height - 350;
+            const nombreYPosition = height - 332;
             const maxNombreWidth = width * 0.85;
             
             let nombreSize = 45;
@@ -3360,7 +3374,7 @@
                 const endWidth = fontRegular.widthOfTextAtSize(endText, eventoSize);
                 const totalWidth = startWidth + eventoWidth + endWidth;
                 
-                let yEventoPosition = height - 395;
+                let yEventoPosition = height - 368;
 
                 if (totalWidth <= maxEventoWidth) {
                     let currentX = (width - totalWidth) / 2;
@@ -3428,7 +3442,7 @@
                 const fechaWidth = fontRegular.widthOfTextAtSize(textoFecha, fechaSize);
                 firstPage.drawText(textoFecha, {
                     x: (width - fechaWidth) / 2,
-                    y: height - 470,
+                    y: height - 430,
                     size: fechaSize,
                     font: fontRegular,
                     color: rgb(0.5, 0.5, 0.5),
@@ -3450,61 +3464,30 @@
                 const fechaFormateada = convertirFecha(item.fecha || '');
                 const baseColor = rgb(0.3, 0.3, 0.3);
                 
-                // Línea 1: Propósito de validación
+                // Línea 1: Propósito de validación (elevado arriba de la línea de template a y=369)
                 const line1Text = 'For successfully validating English language proficiency through the';
                 const l1Size = 11;
                 const l1Width = fontRegular.widthOfTextAtSize(line1Text, l1Size);
                 firstPage.drawText(line1Text, {
                     x: (width - l1Width) / 2,
-                    y: height - 392,
+                    y: height - 352,
                     size: l1Size,
                     font: fontRegular,
                     color: baseColor,
                 });
 
-                // Línea 2: Título de la evaluación (Bold)
+                // Línea 2: Título de la evaluación (Bold) + Placement Logo (Centered lockup)
                 const line2Text = 'Richmond Placement Test';
-                const l2Size = 13.5;
+                const l2Size = 16.5;
                 const l2Width = fontBold.widthOfTextAtSize(line2Text, l2Size);
-                firstPage.drawText(line2Text, {
-                    x: (width - l2Width) / 2,
-                    y: height - 412,
-                    size: l2Size,
-                    font: fontBold,
-                    color: rgb(0.12, 0.12, 0.12),
-                });
 
-                // Línea 3: Nivel CEFR y Puntaje (sin decimales) - 30% larger (17pt)
-                let levelText = `CEFR Level: ${cefr}`;
-                if (scoreFormatted) {
-                    levelText += `  |  ${scoreFormatted}`;
-                }
-                const l3Size = 17;
-                const l3Width = fontBold.widthOfTextAtSize(levelText, l3Size);
-                firstPage.drawText(levelText, {
-                    x: (width - l3Width) / 2,
-                    y: height - 438,
-                    size: l3Size,
-                    font: fontBold,
-                    color: rgb(0.12, 0.22, 0.48), // Rich Navy Blue
-                });
+                const logoH = 29.5;
+                const logoW = 78;
+                const gap = 12;
+                const yCenter = 396;
+                const yCenterPdf = height - yCenter; // 324 pt
 
-                // Fecha de evaluación
-                const textoFecha = `Date of Assessment: ${fechaFormateada}`;
-                const fechaSize = 12.5;
-                const fechaWidth = fontRegular.widthOfTextAtSize(textoFecha, fechaSize);
-                firstPage.drawText(textoFecha, {
-                    x: (width - fechaWidth) / 2,
-                    y: height - 474,
-                    size: fechaSize,
-                    font: fontRegular,
-                    color: rgb(0.5, 0.5, 0.5),
-                });
-            }
-
-            // 3. VALIDACIÓN (PLACEMENT TEST) vs FOLIO (ASISTENCIA A SESIÓN)
-            if (isPlacement) {
-                // 3-Logo. Placement Test Official Logo (Left side white section above purple wave, aligned with W3C QR)
+                // Ensure placement logo bytes are loaded
                 if (!placementLogoBytes) {
                     try {
                         const res = await fetch('placement_logo.png').catch(() => fetch('/hub/placement_logo.png'));
@@ -3513,21 +3496,80 @@
                         }
                     } catch (e) {}
                 }
+
                 if (placementLogoBytes) {
                     try {
                         const placementLogoPdfImage = await pdfDoc.embedPng(placementLogoBytes);
+                        const totalGroupWidth = logoW + gap + l2Width;
+                        const startX = (width - totalGroupWidth) / 2;
+
+                        // Logo in PDF (y is bottom-left corner)
                         firstPage.drawImage(placementLogoPdfImage, {
-                            x: 40,
-                            y: 278, // height (720) - 410 - 32
-                            width: 84,
-                            height: 32,
+                            x: startX,
+                            y: yCenterPdf - logoH / 2,
+                            width: logoW,
+                            height: logoH,
+                        });
+
+                        // Text next to logo (y is baseline)
+                        const textBaselineY = yCenterPdf - (l2Size * 0.35);
+                        firstPage.drawText(line2Text, {
+                            x: startX + logoW + gap,
+                            y: textBaselineY,
+                            size: l2Size,
+                            font: fontBold,
+                            color: rgb(0.12, 0.12, 0.12),
                         });
                     } catch (plErr) {
                         console.warn('Error embedding placement logo in PDF:', plErr);
+                        firstPage.drawText(line2Text, {
+                            x: (width - l2Width) / 2,
+                            y: yCenterPdf - (l2Size * 0.35),
+                            size: l2Size,
+                            font: fontBold,
+                            color: rgb(0.12, 0.12, 0.12),
+                        });
                     }
+                } else {
+                    firstPage.drawText(line2Text, {
+                        x: (width - l2Width) / 2,
+                        y: yCenterPdf - (l2Size * 0.35),
+                        size: l2Size,
+                        font: fontBold,
+                        color: rgb(0.12, 0.12, 0.12),
+                    });
                 }
 
-                // 3A. Regular QR at POS 600: x = 442, y = 62, width = 58, height = 58
+                // Línea 3: Nivel CEFR y Puntaje (25% larger: 21.25pt)
+                let levelText = `CEFR Level: ${cefr}`;
+                if (scoreFormatted) {
+                    levelText += `  |  ${scoreFormatted}`;
+                }
+                const l3Size = 21.25;
+                const l3Width = fontBold.widthOfTextAtSize(levelText, l3Size);
+                firstPage.drawText(levelText, {
+                    x: (width - l3Width) / 2,
+                    y: height - 436,
+                    size: l3Size,
+                    font: fontBold,
+                    color: rgb(0.12, 0.22, 0.48), // Rich Navy Blue
+                });
+
+                // Línea 4: Fecha de evaluación
+                const textoFecha = `Date of Assessment: ${fechaFormateada}`;
+                const fechaSize = 12.5;
+                const fechaWidth = fontRegular.widthOfTextAtSize(textoFecha, fechaSize);
+                firstPage.drawText(textoFecha, {
+                    x: (width - fechaWidth) / 2,
+                    y: height - 468,
+                    size: fechaSize,
+                    font: fontRegular,
+                    color: rgb(0.5, 0.5, 0.5),
+                });
+            }
+
+            // 3. VALIDACIÓN (PLACEMENT TEST) vs FOLIO (ASISTENCIA A SESIÓN)
+            if (isPlacement) {
                 // y in PDF-Lib: height - 600 - 58 = 720 - 658 = 62
                 const targetEmail = (selectedSchool ? selectedSchool.contacto_email : 'idiomas@institucion.edu.mx');
                 const qrDataUrl = await buildMailtoQR({
