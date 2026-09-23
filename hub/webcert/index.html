@@ -3153,11 +3153,11 @@
                     ensureLivePreviewQR();
                 }
 
-                // Regular QR Caption (English)
+                // Regular QR Micro-label (English)
                 ctx.textAlign = 'center';
-                ctx.font = `${5.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.font = `${5.2 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#64748b';
-                ctx.fillText('Scan to validate', qrX + qrSize / 2, 666 * scale);
+                ctx.fillText('Validate with institution', qrX + qrSize / 2, 666 * scale);
 
                 // 4C. W3C QR centered in left lower white section top of the text there
                 const w3cQrX = 74 * scale;
@@ -3170,15 +3170,16 @@
                     ensureLivePreviewW3cQR();
                 }
 
-                // W3C QR Caption (centered under QR)
+                // W3C QR Micro-label (centered under QR)
                 ctx.textAlign = 'center';
-                ctx.font = `${5.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.font = `${4.8 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#475569';
-                ctx.fillText('W3C Verifiable Credential', w3cQrX + w3cQrSize / 2, 612 * scale);
+                ctx.fillText('Verify digital credential', w3cQrX + w3cQrSize / 2, 610 * scale);
+                ctx.fillText('(W3C / Open Badges)', w3cQrX + w3cQrSize / 2, 618 * scale);
 
                 // 4D. Validation Text (English - direct transparent overlay with subtle drop shadow)
                 const schoolName = selectedSchool ? selectedSchool.nombre_completo : '[INSTITUTION NAME]';
-                const valText = `This document certifies the official language assessment result administered on-site at the premises of ${schoolName}. The authenticity and formal safeguarding of assessment records are under the direct jurisdiction of the Language Department of the issuing institution. For institutional validation purposes, scan the right QR code to open an official verification inquiry directed to the Language Department.`;
+                const valText = `This document certifies the result of a language assessment administered on-site at the premises of ${schoolName}. The administration of the assessment and the formal safeguarding of corresponding records are under the responsibility of the Language Department of said institution. For institutional validation purposes, scan the QR code: a pre-filled email with student details will open, ready to be sent to the corresponding department.`;
 
                 ctx.textAlign = 'left';
                 ctx.font = `${6.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
@@ -3209,7 +3210,7 @@
                 }
 
                 // W3C Verifiable Credentials Visual Line (English)
-                const w3cVisualText = 'Accreditation issued under the international W3C Verifiable Credentials · Open Badges 3.0 standard.';
+                const w3cVisualText = 'Accreditation issued under W3C Verifiable Credentials and Open Badges standards.';
                 ctx.font = `${5.8 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#0f172a';
                 ctx.fillText(w3cVisualText, 35.8 * scale, textY + 2 * scale + 0.8 * scale);
@@ -3561,16 +3562,16 @@
                     }
                 }
 
-                // Regular QR Caption (English)
-                const capText = 'Scan to validate';
-                const capSize = 5.5;
+                // Regular QR Micro-label (English)
+                const capText = 'Validate with institution';
+                const capSize = 5.2;
                 const capWidth = fontRegular.widthOfTextAtSize(capText, capSize);
                 firstPage.drawText(capText, {
                     x: 442 + (58 - capWidth) / 2,
                     y: 54,
                     size: capSize,
                     font: fontRegular,
-                    color: rgb(0.4, 0.4, 0.4),
+                    color: rgb(0.4, 0.45, 0.5),
                 });
 
                 // 3B. W3C QR centered in left lower white section top of text: x = 74, top-y = 554, size = 48
@@ -3598,13 +3599,22 @@
                     }
                 }
 
-                // W3C QR Caption (centered under QR)
-                const w3cCapText = 'W3C Verifiable Credential';
-                const w3cCapSize = 5.5;
-                const w3cCapWidth = fontRegular.widthOfTextAtSize(w3cCapText, w3cCapSize);
-                firstPage.drawText(w3cCapText, {
-                    x: 74 + (48 - w3cCapWidth) / 2,
-                    y: 108,
+                // W3C QR Micro-label (centered under QR)
+                const w3cCapLine1 = 'Verify digital credential';
+                const w3cCapLine2 = '(W3C / Open Badges)';
+                const w3cCapSize = 4.8;
+                const w3cCapW1 = fontRegular.widthOfTextAtSize(w3cCapLine1, w3cCapSize);
+                const w3cCapW2 = fontRegular.widthOfTextAtSize(w3cCapLine2, w3cCapSize);
+                firstPage.drawText(w3cCapLine1, {
+                    x: 74 + (48 - w3cCapW1) / 2,
+                    y: 110,
+                    size: w3cCapSize,
+                    font: fontRegular,
+                    color: rgb(0.35, 0.4, 0.5),
+                });
+                firstPage.drawText(w3cCapLine2, {
+                    x: 74 + (48 - w3cCapW2) / 2,
+                    y: 102,
                     size: w3cCapSize,
                     font: fontRegular,
                     color: rgb(0.35, 0.4, 0.5),
@@ -3612,7 +3622,7 @@
 
                 // 3C. Validation Text (English - direct transparent overlay with subtle shadow)
                 const schoolName = selectedSchool ? selectedSchool.nombre_completo : '[INSTITUTION NAME]';
-                const valText = `This document certifies the official language assessment result administered on-site at the premises of ${schoolName}. The authenticity and formal safeguarding of assessment records are under the direct jurisdiction of the Language Department of the issuing institution. For institutional validation purposes, scan the right QR code to open an official verification inquiry directed to the Language Department.`;
+                const valText = `This document certifies the result of a language assessment administered on-site at the premises of ${schoolName}. The administration of the assessment and the formal safeguarding of corresponding records are under the responsibility of the Language Department of said institution. For institutional validation purposes, scan the QR code: a pre-filled email with student details will open, ready to be sent to the corresponding department.`;
 
                 const words = valText.split(' ');
                 const maxValW = 395;
@@ -3651,7 +3661,7 @@
                 }
 
                 // W3C Verifiable Credentials Visual Line (English)
-                const w3cVisualText = 'Accreditation issued under the international W3C Verifiable Credentials · Open Badges 3.0 standard.';
+                const w3cVisualText = 'Accreditation issued under W3C Verifiable Credentials and Open Badges standards.';
                 firstPage.drawText(w3cVisualText, {
                     x: 35.6,
                     y: vY - 2 - 0.6,
