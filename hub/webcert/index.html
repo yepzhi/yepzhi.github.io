@@ -10,17 +10,25 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+
+    <!-- Security & Hardening Meta Tags (Cloudflare & Modern Web Guidance) -->
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
+    <meta name="theme-color" content="#277eff">
+    <meta name="color-scheme" content="light">
+    <meta name="format-detection" content="telephone=no">
     
     <!-- Google Fonts: Outfit & Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- PDFLib, XLSX, QRCode & JSZip (100% Client-Side Static Libraries) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- PDFLib, XLSX, QRCode & JSZip (100% Client-Side Static Libraries with Subresource Integrity) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js" integrity="sha384-weMABwrltA6jWR8DDe9Jp5blk+tZQh7ugpCsF3JwSA53WZM9/14PjS5LAJNHNjAI" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" integrity="sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js" integrity="sha384-HGmnkDZJy7mRkoARekrrj0VjEFSh9a0Z8qxGri/kTTAJkgR8hqD1lHsYSh3JdzRi" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG" crossorigin="anonymous"></script>
     
     <style>
         /* ============================================================
@@ -977,6 +985,52 @@
             white-space: nowrap;
         }
 
+        /* ── Diagonal Watermark Overlay: "PREVIEW NO VÁLIDO" ── */
+        .preview-watermark-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 15;
+            overflow: hidden;
+        }
+
+        .watermark-diagonal-stripe {
+            transform: rotate(-30deg);
+            width: 145%;
+            background: rgba(239, 68, 68, 0.08);
+            border-top: 2.5px dashed rgba(220, 38, 38, 0.42);
+            border-bottom: 2.5px dashed rgba(220, 38, 38, 0.42);
+            padding: 14px 0;
+            text-align: center;
+            backdrop-filter: blur(0.4px);
+            box-shadow: 0 0 25px rgba(220, 38, 38, 0.08);
+            user-select: none;
+        }
+
+        .watermark-main-text {
+            font-family: 'Montserrat', 'Outfit', 'Inter', system-ui, sans-serif;
+            font-size: clamp(20px, 3.8vw, 34px);
+            font-weight: 900;
+            letter-spacing: 0.16em;
+            color: rgba(220, 38, 38, 0.45);
+            text-transform: uppercase;
+            line-height: 1.1;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+        }
+
+        .watermark-sub-text {
+            font-family: 'Montserrat', 'Inter', system-ui, sans-serif;
+            font-size: clamp(9px, 1.3vw, 12px);
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            color: rgba(220, 38, 38, 0.48);
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
         .preview-canvas-render {
             width: 100%;
             height: 100%;
@@ -1516,15 +1570,7 @@
            Darkened backdrop ("oscurece el fondo"), enterprise UI,
            Web Crypto SHA-256 signature verification & mathematical proof.
            ============================================================ */
-        body.w3c-modal-open {
-            overflow: hidden !important;
-        }
-
-        /* ============================================================
-           W3C VERIFIABLE CREDENTIAL — PRO PRESENTATION MODAL & BACKDROP
-           Darkened backdrop ("oscurece el fondo"), enterprise UI,
-           Web Crypto SHA-256 signature verification & mathematical proof.
-           ============================================================ */
+        html.w3c-modal-open,
         body.w3c-modal-open {
             overflow: hidden !important;
         }
@@ -2600,14 +2646,25 @@
             <!-- Right Column: Interactive Live Certificate Preview -->
             <div class="preview-sticky">
                 <div class="glass-card" style="padding: 20px;">
-                    <div class="section-label">
+                    <div class="section-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         <span>Vista Previa en Vivo</span>
+                        <button type="button" onclick="previewCurrentW3CValidation()" style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.4); color: #10b981; font-size: 0.76rem; font-weight: 600; padding: 4px 10px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s ease;" title="Ver cómo se visualiza el modal cuando se escanea el QR">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            Ver Validación QR W3C
+                        </button>
                     </div>
 
                     <div class="preview-card-wrap" id="previewWrap">
                         <!-- Preview Only Badge -->
                         <div class="preview-stamp-badge" id="previewStampBadge">
                             <span style="font-size: 13px;">⚠️</span> PREVIEW NO VÁLIDO · MUESTRA
+                        </div>
+                        <!-- Diagonal Watermark Overlay: Translucent Red Across Entire Preview -->
+                        <div class="preview-watermark-overlay" id="previewWatermarkOverlay" aria-hidden="true">
+                            <div class="watermark-diagonal-stripe">
+                                <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                            </div>
                         </div>
                         <!-- High Fidelity Retina Canvas Render -->
                         <canvas id="liveCertCanvas" width="1080" height="1440" class="preview-canvas-render"></canvas>
@@ -2629,14 +2686,18 @@
                 </a>
             </div>
             <div class="visit-counter">
-                <script type="text/javascript">
+                <script>
                     var sc_project=13182229; 
                     var sc_invisible=0; 
                     var sc_security="0cd44f01"; 
-                    var scJsHost = "https://";
-                    document.write("<sc"+"ript type='text/javascript' src='" +
-                    scJsHost +
-                    "statcounter.com/counter/counter.js'></"+"script>");
+                    (function() {
+                        var sc = document.createElement('script');
+                        sc.type = 'text/javascript';
+                        sc.async = true;
+                        sc.src = 'https://www.statcounter.com/counter/counter.js';
+                        var s = document.getElementsByTagName('script')[0];
+                        s.parentNode.insertBefore(sc, s);
+                    })();
                 </script>
                 <noscript>
                     <div class="statcounter">
@@ -2658,7 +2719,7 @@
                 </svg>
             </div>
             <h2 id="modalTitle">¡Certificado Generado!</h2>
-            <p id="modalMessage">La descarga se ha iniciado correctamente.</p>
+            <p id="modalMessage">El certificado PDF se ha generado correctamente.</p>
             <button type="button" class="btn-primary" onclick="closeStatusModal()">Aceptar</button>
         </div>
     </div>
@@ -3526,7 +3587,38 @@
         async function checkUrlW3cModal() {
             try {
                 const params = new URLSearchParams(window.location.search);
-                if (params.get('w3c') === '1' || params.get('verify') === '1' || params.get('folio')) {
+                if (params.has('w3c') || params.has('verify') || params.has('folio')) {
+                    await renderW3cVerificationModal(params);
+                }
+            } catch (e) {
+                console.warn('W3C URL check error:', e);
+            }
+        }
+
+        async function previewCurrentW3CValidation() {
+            const nombre = `${document.getElementById('inputNombre')?.value || ''} ${document.getElementById('inputApellido')?.value || ''}`.trim() || 'Juanito Pérez';
+            const cefr = document.getElementById('inputCefr')?.value || 'B2+';
+            const score = document.getElementById('inputScore')?.value || '86';
+            const folio = document.getElementById('previewFolioVal')?.textContent || 'RPT-2026-0042';
+            const fecha = document.getElementById('inputFechaPlacement')?.value || '22/09/2026';
+            const sch = selectedSchool ? selectedSchool.codigo : 'UTT';
+
+            const params = new URLSearchParams({
+                w3c: '1',
+                folio: folio,
+                student: nombre,
+                cefr: cefr,
+                score: score,
+                date: fecha,
+                school: sch
+            });
+
+            await renderW3cVerificationModal(params);
+        }
+
+        async function renderW3cVerificationModal(params) {
+            try {
+                if (params.has('w3c') || params.has('verify') || params.has('folio')) {
                     const folio = params.get('folio') || '2026-001';
                     const schoolCode = (params.get('school') || 'UTT').toUpperCase();
                     const cefr = (params.get('cefr') || 'B2+').trim();
@@ -4372,63 +4464,51 @@
                 ctx.fillText(`Folio: ${currentFolio}`, W - 30 * scale, 690 * scale);
             }
 
-            // ── PREVIEW WATERMARK ("PREVIEW NO VÁLIDO" - Translucent Red) ──
+            // ── PREVIEW WATERMARK ("PREVIEW NO VÁLIDO" - Translucent Red Diagonal) ──
             ctx.save();
-            ctx.translate(W / 2, H / 2 - 10 * scale);
-            ctx.rotate(-22 * Math.PI / 180);
+            ctx.translate(W / 2, H / 2);
+            ctx.rotate(-30 * Math.PI / 180);
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
 
-            const wmText = 'PREVIEW NO VÁLIDO';
-            const wmSub = 'DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN';
+            const wmBandW = 2200;
+            const wmBandH = 110 * scale; // 220px
 
-            ctx.font = `900 ${44 * scale}px "Montserrat", "Helvetica Neue", Arial, sans-serif`;
-            const mainW = ctx.measureText(wmText).width;
-            const boxW = Math.max(mainW + 64 * scale, 560 * scale);
-            const boxH = 92 * scale;
-            const boxR = 12 * scale;
+            // Background translucent red tint across diagonal
+            ctx.fillStyle = 'rgba(239, 68, 68, 0.085)';
+            ctx.fillRect(-wmBandW / 2, -wmBandH / 2, wmBandW, wmBandH);
 
-            // Background translucent red tint
-            ctx.fillStyle = 'rgba(239, 68, 68, 0.08)';
-            if (ctx.roundRect) {
-                ctx.beginPath();
-                ctx.roundRect(-boxW / 2, -boxH / 2, boxW, boxH, boxR);
-                ctx.fill();
-            } else {
-                ctx.fillRect(-boxW / 2, -boxH / 2, boxW, boxH);
-            }
+            // Top & Bottom dashed security borders
+            ctx.strokeStyle = 'rgba(220, 38, 38, 0.42)';
+            ctx.lineWidth = 4 * scale;
+            ctx.setLineDash([16 * scale, 12 * scale]);
+            ctx.beginPath();
+            ctx.moveTo(-wmBandW / 2, -wmBandH / 2);
+            ctx.lineTo(wmBandW / 2, -wmBandH / 2);
+            ctx.moveTo(-wmBandW / 2, wmBandH / 2);
+            ctx.lineTo(wmBandW / 2, wmBandH / 2);
+            ctx.stroke();
 
-            // Outer border
-            ctx.strokeStyle = 'rgba(220, 38, 38, 0.38)';
-            ctx.lineWidth = 3.5 * scale;
-            if (ctx.roundRect) {
-                ctx.beginPath();
-                ctx.roundRect(-boxW / 2, -boxH / 2, boxW, boxH, boxR);
-                ctx.stroke();
-            } else {
-                ctx.strokeRect(-boxW / 2, -boxH / 2, boxW, boxH);
-            }
+            // Inner subtle solid accent lines
+            ctx.setLineDash([]);
+            ctx.strokeStyle = 'rgba(220, 38, 38, 0.22)';
+            ctx.lineWidth = 1.5 * scale;
+            ctx.beginPath();
+            ctx.moveTo(-wmBandW / 2, -wmBandH / 2 + 8 * scale);
+            ctx.lineTo(wmBandW / 2, -wmBandH / 2 + 8 * scale);
+            ctx.moveTo(-wmBandW / 2, wmBandH / 2 - 8 * scale);
+            ctx.lineTo(wmBandW / 2, wmBandH / 2 - 8 * scale);
+            ctx.stroke();
 
-            // Inner subtle border
-            ctx.strokeStyle = 'rgba(239, 68, 68, 0.22)';
-            ctx.lineWidth = 1.2 * scale;
-            if (ctx.roundRect) {
-                ctx.beginPath();
-                ctx.roundRect(-boxW / 2 - 5 * scale, -boxH / 2 - 5 * scale, boxW + 10 * scale, boxH + 10 * scale, boxR + 4 * scale);
-                ctx.stroke();
-            } else {
-                ctx.strokeRect(-boxW / 2 - 5 * scale, -boxH / 2 - 5 * scale, boxW + 10 * scale, boxH + 10 * scale);
-            }
-
-            // Main text: PREVIEW NO VÁLIDO
-            ctx.font = `900 ${44 * scale}px "Montserrat", "Helvetica Neue", Arial, sans-serif`;
-            ctx.fillStyle = 'rgba(220, 38, 38, 0.35)';
-            ctx.fillText(wmText, 0, -10 * scale);
+            // Main text: PREVIEW NO VÁLIDO (Bold, prominent, translucent red)
+            ctx.font = `900 ${52 * scale}px "Montserrat", "Outfit", "Helvetica Neue", Arial, sans-serif`;
+            ctx.fillStyle = 'rgba(220, 38, 38, 0.42)';
+            ctx.fillText('PREVIEW NO VÁLIDO', 0, -14 * scale);
 
             // Sub text: DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN
-            ctx.font = `700 ${11.5 * scale}px "Montserrat", "Helvetica Neue", Arial, sans-serif`;
-            ctx.fillStyle = 'rgba(220, 38, 38, 0.45)';
-            ctx.fillText(wmSub, 0, 24 * scale);
+            ctx.font = `700 ${14 * scale}px "Montserrat", "Inter", "Helvetica Neue", Arial, sans-serif`;
+            ctx.fillStyle = 'rgba(220, 38, 38, 0.48)';
+            ctx.fillText('DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN', 0, 28 * scale);
 
             ctx.restore();
         }
@@ -4999,7 +5079,7 @@
 
             const btn = document.getElementById('btnGenerateIndividual');
             btn.disabled = true;
-            btn.textContent = 'Generando archivo PDF...';
+            btn.textContent = 'Generando Certificado PDF...';
 
             try {
                 const item = {
@@ -5023,7 +5103,7 @@
                 link.click();
 
                 // Mostrar modal de éxito
-                showStatusModal('¡Certificado Generado!', `Certificado descargado con éxito.\nFolio asignado: ${result.folio}`);
+                showStatusModal('¡Certificado Generado!', `Certificado PDF generado con éxito.\nFolio asignado: ${result.folio}`);
             } catch (error) {
                 alert('Error al generar el certificado: ' + error.message);
                 console.error(error);
@@ -5205,7 +5285,7 @@
 
             if (massiveAuditData.invalidRows.length > 0) {
                 issuesBox.style.display = 'block';
-                issuesList.innerHTML = massiveAuditData.invalidRows.map(r => `<li><strong>Fila ${r.rowNum}:</strong> ${r.errors.join(', ')}</li>`).join('');
+                issuesList.innerHTML = massiveAuditData.invalidRows.map(r => `<li><strong>Fila ${r.rowNum}:</strong> ${r.errors.map(escapeHTML).join(', ')}</li>`).join('');
             } else {
                 issuesBox.style.display = 'none';
                 issuesList.innerHTML = '';
@@ -5302,7 +5382,7 @@
 
             const minFolio = Math.min(...foliosGenerados);
             const maxFolio = Math.max(...foliosGenerados);
-            showStatusModal('¡Lote Completado con Éxito!', `Se generaron ${total} certificados digitales con código QR de validación dinámico.\nFolios asignados: ${minFolio} — ${maxFolio}\nDescarga completada.`);
+            showStatusModal('¡Lote Completado con Éxito!', `Se generaron ${total} certificados digitales con código QR de validación dinámico.\nFolios asignados: ${minFolio} — ${maxFolio}\nGeneración de certificados completada.`);
         }
 
         // ── EXCEL TEMPLATE DOWNLOAD GENERATOR ────────────────────────
