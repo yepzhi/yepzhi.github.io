@@ -91,7 +91,10 @@ function getCorsHeaders() {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Webcert-Token",
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
   };
 }
 
@@ -237,7 +240,18 @@ export default {
 
     // Serve static asset if inside Cloudflare Pages
     if (env && env.ASSETS && typeof env.ASSETS.fetch === "function") {
-      return env.ASSETS.fetch(request);
+      const response = await env.ASSETS.fetch(request);
+      const secureHeaders = new Headers(response.headers);
+      secureHeaders.set("X-Content-Type-Options", "nosniff");
+      secureHeaders.set("X-Frame-Options", "SAMEORIGIN");
+      secureHeaders.set("Referrer-Policy", "strict-origin-when-cross-origin");
+      secureHeaders.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=()");
+      secureHeaders.set("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+      return new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: secureHeaders
+      });
     }
 
     return new Response("Not found", { status: 404 });
