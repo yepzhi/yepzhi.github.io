@@ -7,6 +7,9 @@
     <meta name="description" content="Generador de certificados Richmond para asistencia a sesiones y validación de competencia lingüística tras examen de ubicación (Placement Test). Emisión individual y masiva 100% estática.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://yepzhi.com/hub/webcert">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     
     <!-- Google Fonts: Outfit & Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -949,6 +952,29 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .preview-stamp-badge {
+            position: absolute;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background: rgba(220, 38, 38, 0.94);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: 999px;
+            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);
+            pointer-events: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            white-space: nowrap;
         }
 
         .preview-canvas-render {
@@ -2231,7 +2257,7 @@
                                             <circle cx="12" cy="7" r="4"></circle>
                                         </svg>
                                     </span>
-                                    <input type="text" id="inputNombre" required disabled class="input-locked" placeholder="🔒 Ingresa la clave para editar" oninput="updateLivePreview()">
+                                    <input type="text" id="inputNombre" value="Juanito" required disabled class="input-locked" placeholder="Ej: Juanito" oninput="updateLivePreview()">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -2246,9 +2272,13 @@
                                             <circle cx="9" cy="7" r="4"></circle>
                                         </svg>
                                     </span>
-                                    <input type="text" id="inputApellido" required disabled class="input-locked" placeholder="🔒 Ingresa la clave para editar" oninput="updateLivePreview()">
+                                    <input type="text" id="inputApellido" value="Pérez" required disabled class="input-locked" placeholder="Ej: Pérez" oninput="updateLivePreview()">
                                 </div>
                             </div>
+                        </div>
+                        <div id="nameLockNotice" style="margin: -6px 0 16px 0; padding: 7px 12px; background: rgba(220, 38, 38, 0.06); border: 1px dashed rgba(220, 38, 38, 0.3); border-radius: 8px; font-size: 11.5px; color: #dc2626; font-weight: 500; display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 14px;">🔒</span>
+                            <span>Campos protegidos con datos demo <strong>Juanito Pérez</strong>. Para editar y emitir certificados oficiales, autentica la institución con su clave.</span>
                         </div>
 
                         <!-- DYNAMIC FIELDS: MODE 1 (PLACEMENT TEST - DEFAULT) -->
@@ -2405,7 +2435,7 @@
                                 <polyline points="7 10 12 15 17 10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
                             </svg>
-                            Descargar Certificado PDF
+                            Generar Certificado PDF
                         </button>
                     </form>
                 </div>
@@ -2496,6 +2526,10 @@
                     </div>
 
                     <div class="preview-card-wrap" id="previewWrap">
+                        <!-- Preview Only Badge -->
+                        <div class="preview-stamp-badge" id="previewStampBadge">
+                            <span style="font-size: 13px;">⚠️</span> PREVIEW NO VÁLIDO · MUESTRA
+                        </div>
                         <!-- High Fidelity Retina Canvas Render -->
                         <canvas id="liveCertCanvas" width="1080" height="1440" class="preview-canvas-render"></canvas>
                     </div>
@@ -4893,7 +4927,7 @@
                         <polyline points="7 10 12 15 17 10"></polyline>
                         <line x1="12" y1="15" x2="12" y2="3"></line>
                     </svg>
-                    Descargar Certificado PDF
+                    Generar Certificado PDF
                 `;
             }
         }
