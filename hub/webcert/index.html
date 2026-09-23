@@ -437,21 +437,27 @@
             color: #94a3b8;
         }
 
-        /* ── CEFR Level Quick Selector Chips (10 Levels: A1 A, A1 B, A2 A, A2 B, B1, B1+, B2, B2+, C1, C2) ── */
+        /* ── CEFR Level Quick Selector Chips (12 Levels: A1 A, A1 B, A2 A, A2 B, B1 A, B1 B, B2 A, B2 B, C1 A, C1 B, C2 A, C2 B) ── */
         .cefr-chips-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 8px;
             margin-bottom: 10px;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+            .cefr-chips-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
             .cefr-chips-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
 
-        @media (max-width: 420px) {
+        @media (max-width: 360px) {
             .cefr-chips-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -1140,18 +1146,20 @@
                                     Nivel de Inglés Acreditado (MCER / CEFR)
                                     <span class="label-tag">Selección rápida</span>
                                 </label>
-                                <!-- 10 CEFR Level Chips with A/B separation: A1 A, A1 B, A2 A, A2 B, B1, B1+, B2, B2+, C1, C2 -->
+                                <!-- 12 CEFR Level Chips with A/B separation across entire MCER: A1 A, A1 B, A2 A, A2 B, B1 A, B1 B, B2 A, B2 B, C1 A, C1 B, C2 A, C2 B -->
                                 <div class="cefr-chips-grid">
                                     <button type="button" class="cefr-chip" onclick="selectCefrChip('A1 A', this)">A1 A</button>
                                     <button type="button" class="cefr-chip" onclick="selectCefrChip('A1 B', this)">A1 B</button>
                                     <button type="button" class="cefr-chip" onclick="selectCefrChip('A2 A', this)">A2 A</button>
                                     <button type="button" class="cefr-chip" onclick="selectCefrChip('A2 B', this)">A2 B</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('B1', this)">B1</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('B1+', this)">B1+</button>
-                                    <button type="button" class="cefr-chip active" onclick="selectCefrChip('B2', this)">B2</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('B2+', this)">B2+</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('C1', this)">C1</button>
-                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('C2', this)">C2</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('B1 A', this)">B1 A</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('B1 B', this)">B1 B</button>
+                                    <button type="button" class="cefr-chip active" onclick="selectCefrChip('B2 A', this)">B2 A</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('B2 B', this)">B2 B</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('C1 A', this)">C1 A</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('C1 B', this)">C1 B</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('C2 A', this)">C2 A</button>
+                                    <button type="button" class="cefr-chip" onclick="selectCefrChip('C2 B', this)">C2 B</button>
                                 </div>
                                 <div class="input-wrapper">
                                     <span class="input-icon">
@@ -1160,7 +1168,7 @@
                                             <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
                                         </svg>
                                     </span>
-                                    <input type="text" id="inputCefr" placeholder="Ej: B2" value="B2" oninput="updateLivePreview()">
+                                    <input type="text" id="inputCefr" placeholder="Ej: B2 A" value="B2 A" oninput="updateLivePreview()">
                                 </div>
                             </div>
 
@@ -1232,7 +1240,7 @@
                             <ul class="guide-cols-list">
                                 <li><code>Nombre</code>: Nombre del estudiante evaluado.</li>
                                 <li><code>Apellido</code>: Apellidos completos.</li>
-                                <li><code>Nivel</code> o <code>CEFR</code>: Nivel acreditado (ej: A1 A, A1 B, A2 A, A2 B, B1, B1+, B2, B2+, C1, C2).</li>
+                                <li><code>Nivel</code> o <code>CEFR</code>: Nivel acreditado del MCER (ej: A1 A, A1 B, A2 A, A2 B, B1 A, B1 B, B2 A, B2 B, C1 A, C1 B, C2 A, C2 B).</li>
                                 <li><code>Puntaje</code> o <code>Score</code>: Calificación (opcional, ej: 86 / 100).</li>
                                 <li><code>Fecha</code>: Formato DD/MM/YYYY de evaluación.</li>
                             </ul>
@@ -1397,9 +1405,12 @@
             const inputCefr = document.getElementById('inputCefr');
             if (inputCefr) {
                 inputCefr.addEventListener('input', function() {
-                    const val = this.value.trim().toUpperCase();
+                    const val = this.value.trim().toUpperCase().replace(/\s+/g, ' ');
+                    const compactVal = val.replace(/\s+/g, '');
                     document.querySelectorAll('.cefr-chip').forEach(c => {
-                        if (c.textContent.trim().toUpperCase() === val) {
+                        const chipVal = c.textContent.trim().toUpperCase();
+                        const compactChip = chipVal.replace(/\s+/g, '');
+                        if (chipVal === val || compactChip === compactVal) {
                             c.classList.add('active');
                         } else {
                             c.classList.remove('active');
@@ -1693,7 +1704,7 @@
 
             } else {
                 // Mode 2: Placement Test Validation
-                const cefr = (document.getElementById('inputCefr')?.value || 'B2').trim();
+                const cefr = (document.getElementById('inputCefr')?.value || 'B2 A').trim();
                 const score = (document.getElementById('inputScore')?.value || '').trim();
                 const fecha = (document.getElementById('inputFechaPlacement')?.value || '22/09/2026').trim();
                 const fechaTexto = convertirFecha(fecha);
@@ -1896,7 +1907,7 @@
 
             } else {
                 // MODO 2: PLACEMENT TEST VALIDATION
-                const cefr = item.cefr || 'B2';
+                const cefr = item.cefr || 'B2 A';
                 const score = item.score || '';
                 const fechaFormateada = convertirFecha(item.fecha || '');
 
@@ -2151,14 +2162,14 @@
                     {
                         Nombre: "Sofía",
                         Apellido: "Ramírez Mendoza",
-                        Nivel: "B2",
+                        Nivel: "B2 A",
                         Puntaje: "Score: 86 / 100",
                         Fecha: "22/09/2026"
                     },
                     {
                         Nombre: "Carlos Alberto",
                         Apellido: "Navarro Ruiz",
-                        Nivel: "B1+",
+                        Nivel: "B1 B",
                         Puntaje: "Score: 74 / 100",
                         Fecha: "22/09/2026"
                     }
