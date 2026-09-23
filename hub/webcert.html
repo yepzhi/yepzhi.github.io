@@ -4081,10 +4081,12 @@
 
                 // W3C QR Micro-label (centered under QR)
                 ctx.textAlign = 'center';
-                ctx.font = `${4.8 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.font = `${4.6 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#475569';
-                ctx.fillText('Verify digital credential', w3cQrX + w3cQrSize / 2, 610 * scale);
-                ctx.fillText('(W3C / Open Badges)', w3cQrX + w3cQrSize / 2, 618 * scale);
+                ctx.fillText('Verify digital credential', w3cQrX + w3cQrSize / 2, 609 * scale);
+                ctx.fillText('(W3C / Open Badges 3.0)', w3cQrX + w3cQrSize / 2, 616 * scale);
+                ctx.fillStyle = '#334155';
+                ctx.fillText('Firma Criptográfica (SHA-256)', w3cQrX + w3cQrSize / 2, 623 * scale);
 
                 // 4D. Validation Text (English - direct transparent overlay with subtle drop shadow)
                 const schoolName = selectedSchool ? selectedSchool.nombre_completo : '[INSTITUTION NAME]';
@@ -4118,13 +4120,21 @@
                     textY += lineH;
                 }
 
-                // W3C Verifiable Credentials Visual Line (English)
-                const w3cVisualText = 'Accreditation issued under W3C Verifiable Credentials and Open Badges standards.';
-                ctx.font = `${5.8 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                // W3C Verifiable Credentials Visual Line (Open Badges 3.0)
+                const w3cVisualText = 'Accreditation issued under W3C Verifiable Credentials · Open Badges 3.0 standard.';
+                ctx.font = `${5.6 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#0f172a';
                 ctx.fillText(w3cVisualText, 35.8 * scale, textY + 2 * scale + 0.8 * scale);
                 ctx.fillStyle = '#e2e8f0';
                 ctx.fillText(w3cVisualText, 35 * scale, textY + 2 * scale);
+
+                // Cryptographic tamper-evident proof note requested by user
+                const cryptoProofNote = '* Para falsificar esta firma criptográfica (SHA-256). La integridad del registro y su sello institucional son matemáticamente infalsificables e inalterables.';
+                ctx.font = `${4.9 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.fillStyle = '#0f172a';
+                ctx.fillText(cryptoProofNote, 35.8 * scale, textY + 9 * scale + 0.8 * scale);
+                ctx.fillStyle = '#cbd5e1';
+                ctx.fillText(cryptoProofNote, 35 * scale, textY + 9 * scale);
             } else {
                 // Session mode retains standard folio
                 ctx.textAlign = 'right';
@@ -4537,10 +4547,12 @@
 
                 // W3C QR Micro-label (centered under QR)
                 const w3cCapLine1 = 'Verify digital credential';
-                const w3cCapLine2 = '(W3C / Open Badges)';
-                const w3cCapSize = 4.8;
+                const w3cCapLine2 = '(W3C / Open Badges 3.0)';
+                const w3cCapLine3 = 'Firma Criptográfica (SHA-256)';
+                const w3cCapSize = 4.6;
                 const w3cCapW1 = fontRegular.widthOfTextAtSize(w3cCapLine1, w3cCapSize);
                 const w3cCapW2 = fontRegular.widthOfTextAtSize(w3cCapLine2, w3cCapSize);
+                const w3cCapW3 = fontRegular.widthOfTextAtSize(w3cCapLine3, w3cCapSize);
                 firstPage.drawText(w3cCapLine1, {
                     x: 74 + (48 - w3cCapW1) / 2,
                     y: 110,
@@ -4550,10 +4562,17 @@
                 });
                 firstPage.drawText(w3cCapLine2, {
                     x: 74 + (48 - w3cCapW2) / 2,
-                    y: 102,
+                    y: 103,
                     size: w3cCapSize,
                     font: fontRegular,
                     color: rgb(0.35, 0.4, 0.5),
+                });
+                firstPage.drawText(w3cCapLine3, {
+                    x: 74 + (48 - w3cCapW3) / 2,
+                    y: 96,
+                    size: w3cCapSize,
+                    font: fontRegular,
+                    color: rgb(0.25, 0.3, 0.4),
                 });
 
                 // 3C. Validation Text (English - direct transparent overlay with subtle shadow)
@@ -4596,21 +4615,39 @@
                     vY -= 9.2;
                 }
 
-                // W3C Verifiable Credentials Visual Line (English)
-                const w3cVisualText = 'Accreditation issued under W3C Verifiable Credentials and Open Badges standards.';
+                // W3C Verifiable Credentials Visual Line (Open Badges 3.0)
+                const w3cVisualText = 'Accreditation issued under W3C Verifiable Credentials · Open Badges 3.0 standard.';
                 firstPage.drawText(w3cVisualText, {
                     x: 35.6,
                     y: vY - 2 - 0.6,
-                    size: 5.8,
+                    size: 5.6,
                     font: fontRegular,
                     color: rgb(0.15, 0.15, 0.15),
                 });
                 firstPage.drawText(w3cVisualText, {
                     x: 35,
                     y: vY - 2,
-                    size: 5.8,
+                    size: 5.6,
                     font: fontRegular,
                     color: rgb(0.9, 0.92, 0.95),
+                });
+
+                // Cryptographic tamper-evident proof note requested by user
+                const cryptoProofNote = '* Para falsificar esta firma criptográfica (SHA-256). La integridad del registro y su sello institucional son matemáticamente infalsificables e inalterables.';
+                const cryptoNoteSize = 4.9;
+                firstPage.drawText(cryptoProofNote, {
+                    x: 35.6,
+                    y: vY - 2 - 8.2 - 0.6,
+                    size: cryptoNoteSize,
+                    font: fontRegular,
+                    color: rgb(0.15, 0.15, 0.15),
+                });
+                firstPage.drawText(cryptoProofNote, {
+                    x: 35,
+                    y: vY - 2 - 8.2,
+                    size: cryptoNoteSize,
+                    font: fontRegular,
+                    color: rgb(0.82, 0.85, 0.9),
                 });
 
                 // Option 3: Standard W3C Verifiable Credential in PDF Metadata
