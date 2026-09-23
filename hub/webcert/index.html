@@ -1007,8 +1007,23 @@
                 </div>
                 
                 <div class="mode-selector">
-                    <!-- Mode 1: Attending a Session -->
-                    <div class="mode-card active" id="modeCardSession" onclick="setCertificateMode('session')">
+                    <!-- Mode 1 (DEFAULT): Validation Placement Test (First / Left / On Top) -->
+                    <div class="mode-card active" id="modeCardPlacement" onclick="setCertificateMode('placement')">
+                        <div class="mode-header">
+                            <div class="mode-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="8" r="7"></circle>
+                                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                                </svg>
+                            </div>
+                            <div class="mode-radio"></div>
+                        </div>
+                        <div class="mode-title">Validación Placement Test</div>
+                        <div class="mode-desc">Acreditación del nivel de inglés (MCER / CEFR) y puntaje tras examen de ubicación Richmond.</div>
+                    </div>
+
+                    <!-- Mode 2: Attending a Session (Second / Right) -->
+                    <div class="mode-card" id="modeCardSession" onclick="setCertificateMode('session')">
                         <div class="mode-header">
                             <div class="mode-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1022,21 +1037,6 @@
                         </div>
                         <div class="mode-title">Asistencia a Sesión</div>
                         <div class="mode-desc">Acreditación de participación en talleres pedagógicos, conferencias o webinars con conteo de horas.</div>
-                    </div>
-
-                    <!-- Mode 2: Placement Test Validation -->
-                    <div class="mode-card" id="modeCardPlacement" onclick="setCertificateMode('placement')">
-                        <div class="mode-header">
-                            <div class="mode-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="8" r="7"></circle>
-                                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-                                </svg>
-                            </div>
-                            <div class="mode-radio"></div>
-                        </div>
-                        <div class="mode-title">Validación Placement Test</div>
-                        <div class="mode-desc">Acreditación del nivel de inglés (MCER / CEFR) y puntaje tras examen de ubicación Richmond.</div>
                     </div>
                 </div>
 
@@ -1115,53 +1115,8 @@
                             </div>
                         </div>
 
-                        <!-- DYNAMIC FIELDS: MODE 1 (SESSION) -->
-                        <div id="fieldsModeSession">
-                            <div class="form-group">
-                                <label for="inputEvento">
-                                    Nombre del Evento o Taller
-                                    <span class="label-tag">Requerido</span>
-                                </label>
-                                <textarea id="inputEvento" placeholder="Ej: Fostering Learning Communities" oninput="updateLivePreview()">Fostering Learning Communities</textarea>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="inputFecha">
-                                        Fecha (DD/MM/YYYY)
-                                        <span class="label-tag">Formato DD/MM/YYYY</span>
-                                    </label>
-                                    <div class="input-wrapper">
-                                        <span class="input-icon">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                                            </svg>
-                                        </span>
-                                        <input type="text" id="inputFecha" placeholder="24/08/2025" pattern="\d{2}/\d{2}/\d{4}" oninput="updateLivePreview()">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputHoras">
-                                        Duración (Horas)
-                                        <span class="label-tag">Mín. 0.5 hrs</span>
-                                    </label>
-                                    <div class="input-wrapper">
-                                        <span class="input-icon">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <circle cx="12" cy="12" r="10"></circle>
-                                                <polyline points="12 6 12 12 16 14"></polyline>
-                                            </svg>
-                                        </span>
-                                        <input type="number" id="inputHoras" placeholder="2" min="0.5" step="0.5" value="2" oninput="updateLivePreview()">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- DYNAMIC FIELDS: MODE 2 (PLACEMENT TEST) -->
-                        <div id="fieldsModePlacement" style="display: none;">
+                        <!-- DYNAMIC FIELDS: MODE 1 (PLACEMENT TEST - DEFAULT) -->
+                        <div id="fieldsModePlacement" style="display: block;">
                             <div class="form-group">
                                 <label>
                                     Nivel de Inglés Acreditado (MCER / CEFR)
@@ -1262,6 +1217,51 @@
                             </div>
                         </div>
 
+                        <!-- DYNAMIC FIELDS: MODE 2 (SESSION) -->
+                        <div id="fieldsModeSession" style="display: none;">
+                            <div class="form-group">
+                                <label for="inputEvento">
+                                    Nombre del Evento o Taller
+                                    <span class="label-tag">Requerido</span>
+                                </label>
+                                <textarea id="inputEvento" placeholder="Ej: Fostering Learning Communities" oninput="updateLivePreview()">Fostering Learning Communities</textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="inputFecha">
+                                        Fecha (DD/MM/YYYY)
+                                        <span class="label-tag">Formato DD/MM/YYYY</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                                            </svg>
+                                        </span>
+                                        <input type="text" id="inputFecha" placeholder="24/08/2025" pattern="\d{2}/\d{2}/\d{4}" oninput="updateLivePreview()">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputHoras">
+                                        Duración (Horas)
+                                        <span class="label-tag">Mín. 0.5 hrs</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <polyline points="12 6 12 12 16 14"></polyline>
+                                            </svg>
+                                        </span>
+                                        <input type="number" id="inputHoras" placeholder="2" min="0.5" step="0.5" value="2" oninput="updateLivePreview()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Action Submit -->
                         <button type="submit" class="btn-primary" id="btnGenerateIndividual">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -1278,17 +1278,7 @@
                 <div class="tab-pane" id="paneMassive">
                     <div class="guide-box">
                         <strong>Estructura requerida del archivo Excel:</strong>
-                        <div id="guideSessionText">
-                            Para <strong>Asistencia a Sesión</strong>, asegúrate de incluir las siguientes columnas:
-                            <ul class="guide-cols-list">
-                                <li><code>Nombre</code>: Primer nombre del asistente.</li>
-                                <li><code>Apellido</code>: Apellidos completos.</li>
-                                <li><code>Evento</code>: Nombre del taller o conferencia.</li>
-                                <li><code>Fecha</code>: Formato DD/MM/YYYY (ej: 24/08/2025).</li>
-                                <li><code>Horas</code>: Duración en horas (ej: 2).</li>
-                            </ul>
-                        </div>
-                        <div id="guidePlacementText" style="display: none;">
+                        <div id="guidePlacementText" style="display: block;">
                             Para <strong>Validación Placement Test (Richmond Young Adults)</strong>, incluye las siguientes columnas:
                             <ul class="guide-cols-list">
                                 <li><code>Nombre</code>: Nombre del estudiante evaluado.</li>
@@ -1301,6 +1291,16 @@
                                 <strong>Escala Young Adults oficial:</strong><br>
                                 0-4: A0 · 5-10: Pre-A1 · 11-20: A1 · 21-30: A1+ · 31-40: A2 · 41-50: A2+ · 51-60: B1 · 61-70: B1+ · 71-80: B2 · 81-90: B2+ · 91-100: C1
                             </div>
+                        </div>
+                        <div id="guideSessionText" style="display: none;">
+                            Para <strong>Asistencia a Sesión</strong>, asegúrate de incluir las siguientes columnas:
+                            <ul class="guide-cols-list">
+                                <li><code>Nombre</code>: Primer nombre del asistente.</li>
+                                <li><code>Apellido</code>: Apellidos completos.</li>
+                                <li><code>Evento</code>: Nombre del taller o conferencia.</li>
+                                <li><code>Fecha</code>: Formato DD/MM/YYYY (ej: 24/08/2025).</li>
+                                <li><code>Horas</code>: Duración en horas (ej: 2).</li>
+                            </ul>
                         </div>
                     </div>
 
@@ -1440,7 +1440,7 @@
         const DEFAULT_TEMPLATE_URL = 'https://yepzhi.com/Template.pdf';
         
         let templatePdfBytes = null;
-        let activeMode = 'session'; // 'session' | 'placement'
+        let activeMode = 'placement'; // 'placement' (DEFAULT) | 'session'
         let currentFolio = 1001 + Math.floor(Math.random() * 9000);
         let selectedExcelData = null;
 
@@ -1649,18 +1649,6 @@
                 if (fieldsPlacement) fieldsPlacement.style.display = 'block';
                 if (guideSession) guideSession.style.display = 'none';
                 if (guidePlacement) guidePlacement.style.display = 'block';
-            }
-            updateLivePreview();
-        }
-
-        function selectCefrChip(level, btn) {
-            document.querySelectorAll('.cefr-chip').forEach(c => c.classList.remove('active'));
-            if (btn) {
-                btn.classList.add('active');
-            }
-            const inputCefr = document.getElementById('inputCefr');
-            if (inputCefr) {
-                inputCefr.value = level;
             }
             updateLivePreview();
         }
