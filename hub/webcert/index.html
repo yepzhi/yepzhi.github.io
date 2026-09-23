@@ -2733,7 +2733,7 @@
 
                 <!-- Asterisk Footnote required by user -->
                 <div class="w3c-footnote">
-                    <strong>*</strong> Para falsificar esta firma criptográfica (SHA-256) se necesitarían más de <strong>10<sup>38</sup> operaciones de cómputo de alta entropía</strong>, superando los recursos tecnológicos del planeta y la edad estimada del universo. La integridad del registro y su sello institucional son matemáticamente infalsificables e inalterables.
+                    <strong>*</strong> Para falsificar esta firma criptográfica (SHA-256). La integridad del registro y su sello institucional son matemáticamente infalsificables e inalterables.
                 </div>
 
                 <!-- Collapsible Technical JSON-LD Details -->
@@ -4081,12 +4081,10 @@
 
                 // W3C QR Micro-label (centered under QR)
                 ctx.textAlign = 'center';
-                ctx.font = `${4.6 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.font = `${4.8 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#475569';
-                ctx.fillText('Verify digital credential', w3cQrX + w3cQrSize / 2, 609 * scale);
-                ctx.fillText('(W3C / Open Badges 3.0)', w3cQrX + w3cQrSize / 2, 616 * scale);
-                ctx.fillStyle = '#334155';
-                ctx.fillText('Firma Criptográfica (SHA-256)', w3cQrX + w3cQrSize / 2, 623 * scale);
+                ctx.fillText('Verify digital credential', w3cQrX + w3cQrSize / 2, 610 * scale);
+                ctx.fillText('(W3C / Open Badges 3.0)', w3cQrX + w3cQrSize / 2, 618 * scale);
 
                 // 4D. Validation Text (English - direct transparent overlay with subtle drop shadow)
                 const schoolName = selectedSchool ? selectedSchool.nombre_completo : '[INSTITUTION NAME]';
@@ -4548,11 +4546,9 @@
                 // W3C QR Micro-label (centered under QR)
                 const w3cCapLine1 = 'Verify digital credential';
                 const w3cCapLine2 = '(W3C / Open Badges 3.0)';
-                const w3cCapLine3 = 'Firma Criptográfica (SHA-256)';
-                const w3cCapSize = 4.6;
+                const w3cCapSize = 4.8;
                 const w3cCapW1 = fontRegular.widthOfTextAtSize(w3cCapLine1, w3cCapSize);
                 const w3cCapW2 = fontRegular.widthOfTextAtSize(w3cCapLine2, w3cCapSize);
-                const w3cCapW3 = fontRegular.widthOfTextAtSize(w3cCapLine3, w3cCapSize);
                 firstPage.drawText(w3cCapLine1, {
                     x: 74 + (48 - w3cCapW1) / 2,
                     y: 110,
@@ -4562,17 +4558,10 @@
                 });
                 firstPage.drawText(w3cCapLine2, {
                     x: 74 + (48 - w3cCapW2) / 2,
-                    y: 103,
+                    y: 102,
                     size: w3cCapSize,
                     font: fontRegular,
                     color: rgb(0.35, 0.4, 0.5),
-                });
-                firstPage.drawText(w3cCapLine3, {
-                    x: 74 + (48 - w3cCapW3) / 2,
-                    y: 96,
-                    size: w3cCapSize,
-                    font: fontRegular,
-                    color: rgb(0.25, 0.3, 0.4),
                 });
 
                 // 3C. Validation Text (English - direct transparent overlay with subtle shadow)
