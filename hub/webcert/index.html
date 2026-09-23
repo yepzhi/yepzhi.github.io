@@ -3110,8 +3110,8 @@
                 ctx.fillStyle = '#64748b';
                 ctx.fillText('Escanear para validar', qrX + qrSize / 2, 666 * scale);
 
-                // 4B. W3C QR on left lower white section top of the text there
-                const w3cQrX = 48 * scale;
+                // 4B. W3C QR centered in left lower white section top of the text there
+                const w3cQrX = 74 * scale;
                 const w3cQrY = 554 * scale;
                 const w3cQrSize = 48 * scale;
 
@@ -3121,7 +3121,7 @@
                     ensureLivePreviewW3cQR();
                 }
 
-                // W3C QR Caption
+                // W3C QR Caption (centered under QR)
                 ctx.textAlign = 'center';
                 ctx.font = `${5.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#475569';
@@ -3501,7 +3501,7 @@
                     color: rgb(0.4, 0.4, 0.4),
                 });
 
-                // 3B. W3C QR on left lower white section top of text: x = 48, top-y = 554, size = 48
+                // 3B. W3C QR centered in left lower white section top of text: x = 74, top-y = 554, size = 48
                 // y in PDF-Lib: 720 - 554 - 48 = 118
                 const w3cQrDataUrl = await buildW3CQR({
                     schoolId: selectedSchool ? selectedSchool.codigo : 'RICH',
@@ -3516,7 +3516,7 @@
                         const w3cQrBytes = Uint8Array.from(atob(w3cQrBase64), c => c.charCodeAt(0));
                         const w3cQrImage = await pdfDoc.embedPng(w3cQrBytes);
                         firstPage.drawImage(w3cQrImage, {
-                            x: 48,
+                            x: 74,
                             y: 118,
                             width: 48,
                             height: 48,
@@ -3526,12 +3526,12 @@
                     }
                 }
 
-                // W3C QR Caption
+                // W3C QR Caption (centered under QR)
                 const w3cCapText = 'W3C Verifiable Credential';
                 const w3cCapSize = 5.5;
                 const w3cCapWidth = fontRegular.widthOfTextAtSize(w3cCapText, w3cCapSize);
                 firstPage.drawText(w3cCapText, {
-                    x: 48 + (48 - w3cCapWidth) / 2,
+                    x: 74 + (48 - w3cCapWidth) / 2,
                     y: 108,
                     size: w3cCapSize,
                     font: fontRegular,
