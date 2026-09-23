@@ -1167,51 +1167,51 @@
                                     Nivel de Inglés Acreditado (MCER / CEFR)
                                     <span class="label-tag">Selección rápida</span>
                                 </label>
-                                <!-- Richmond Young Adults 11 Rating Chips with exact percentage ranges (0 to 100%, sin decimales) -->
+                                <!-- Richmond Young Adults 11 Rating Chips with exact score ranges (sin porcentajes ni decimales) -->
                                 <div class="cefr-chips-grid">
                                     <button type="button" class="cefr-chip" data-level="A0 (True Beginner)" data-short="A0" onclick="selectCefrChip('A0 (True Beginner)', this, 4)">
                                         <span class="chip-main">A0</span>
-                                        <span class="chip-range">0-4%</span>
+                                        <span class="chip-range">0 - 4</span>
                                     </button>
                                     <button type="button" class="cefr-chip" data-level="Pre-A1" data-short="Pre-A1" onclick="selectCefrChip('Pre-A1', this, 10)">
                                         <span class="chip-main">Pre-A1</span>
-                                        <span class="chip-range">5-10%</span>
+                                        <span class="chip-range">5 - 10</span>
                                     </button>
                                     <button type="button" class="cefr-chip" data-level="A1" data-short="A1" onclick="selectCefrChip('A1', this, 18)">
                                         <span class="chip-main">A1</span>
-                                        <span class="chip-range">11-20%</span>
+                                        <span class="chip-range">11 - 20</span>
                                     </button>
                                     <button type="button" class="cefr-chip" data-level="A1+" data-short="A1+" onclick="selectCefrChip('A1+', this, 28)">
                                         <span class="chip-main">A1+</span>
-                                        <span class="chip-range">21-30%</span>
+                                        <span class="chip-range">21 - 30</span>
                                     </button>
                                     <button type="button" class="cefr-chip" data-level="A2" data-short="A2" onclick="selectCefrChip('A2', this, 38)">
                                         <span class="chip-main">A2</span>
-                                        <span class="chip-range">31-40%</span>
+                                        <span class="chip-range">31 - 40</span>
                                     </button>
                                     <button type="button" class="cefr-chip" data-level="A2+" data-short="A2+" onclick="selectCefrChip('A2+', this, 48)">
                                         <span class="chip-main">A2+</span>
-                                        <span class="chip-range">41-50%</span>
+                                        <span class="chip-range">41 - 50</span>
                                     </button>
                                     <button type="button" class="cefr-chip" data-level="B1" data-short="B1" onclick="selectCefrChip('B1', this, 58)">
                                         <span class="chip-main">B1</span>
-                                        <span class="chip-range">51-60%</span>
+                                        <span class="chip-range">51 - 60</span>
                                     </button>
                                     <button type="button" class="cefr-chip" data-level="B1+" data-short="B1+" onclick="selectCefrChip('B1+', this, 68)">
                                         <span class="chip-main">B1+</span>
-                                        <span class="chip-range">61-70%</span>
+                                        <span class="chip-range">61 - 70</span>
                                     </button>
                                     <button type="button" class="cefr-chip" data-level="B2" data-short="B2" onclick="selectCefrChip('B2', this, 78)">
                                         <span class="chip-main">B2</span>
-                                        <span class="chip-range">71-80%</span>
+                                        <span class="chip-range">71 - 80</span>
                                     </button>
                                     <button type="button" class="cefr-chip active" data-level="B2+" data-short="B2+" onclick="selectCefrChip('B2+', this, 86)">
                                         <span class="chip-main">B2+</span>
-                                        <span class="chip-range">81-90%</span>
+                                        <span class="chip-range">81 - 90</span>
                                     </button>
                                     <button type="button" class="cefr-chip" data-level="C1" data-short="C1" onclick="selectCefrChip('C1', this, 96)">
                                         <span class="chip-main">C1</span>
-                                        <span class="chip-range">91-100%</span>
+                                        <span class="chip-range">91 - 100</span>
                                     </button>
                                 </div>
                                 <div class="input-wrapper">
@@ -1239,7 +1239,7 @@
                                                 <line x1="6" y1="20" x2="6" y2="14"></line>
                                             </svg>
                                         </span>
-                                        <input type="text" id="inputScore" placeholder="Ej: Score: 86%" value="Score: 86%" oninput="onScoreInputChange(this)">
+                                        <input type="text" id="inputScore" placeholder="Ej: Score: 86" value="Score: 86" oninput="onScoreInputChange(this)">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1293,13 +1293,13 @@
                             <ul class="guide-cols-list">
                                 <li><code>Nombre</code>: Nombre del estudiante evaluado.</li>
                                 <li><code>Apellido</code>: Apellidos completos.</li>
-                                <li><code>Puntaje</code> o <code>Score</code>: Calificación o porcentaje (ej: 86%). ¡El nivel se calcula automáticamente si se omite!</li>
+                                <li><code>Puntaje</code> o <code>Score</code>: Calificación numérica (ej: 86). ¡El nivel se calcula automáticamente si se omite!</li>
                                 <li><code>Nivel</code> o <code>CEFR</code>: Nivel acreditado (A0, Pre-A1, A1, A1+, A2, A2+, B1, B1+, B2, B2+, C1).</li>
                                 <li><code>Fecha</code>: Formato DD/MM/YYYY de evaluación.</li>
                             </ul>
                             <div style="margin-top: 8px; font-size: 0.76rem; color: #475569; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid #e2e8f0; line-height: 1.4;">
                                 <strong>Escala Young Adults oficial:</strong><br>
-                                0-4%: A0 · 5-10%: Pre-A1 · 11-20%: A1 · 21-30%: A1+ · 31-40%: A2 · 41-50%: A2+ · 51-60%: B1 · 61-70%: B1+ · 71-80%: B2 · 81-90%: B2+ · 91-100%: C1
+                                0-4: A0 · 5-10: Pre-A1 · 11-20: A1 · 21-30: A1+ · 31-40: A2 · 41-50: A2+ · 51-60: B1 · 61-70: B1+ · 71-80: B2 · 81-90: B2+ · 91-100: C1
                             </div>
                         </div>
                     </div>
@@ -1473,12 +1473,12 @@
             return isNaN(num) ? null : Math.round(num);
         }
 
-        // Formats score to exactly two whole numbers without decimals (e.g. Score: 86%)
+        // Formats score strictly to two whole numbers without decimals, no percentage sign (e.g. Score: 86)
         function formatCleanScore(raw) {
             if (!raw) return '';
             const num = parseScoreNumber(raw);
             if (num === null) return String(raw).trim();
-            return `Score: ${num}%`;
+            return `Score: ${num}`;
         }
 
         function calculateCefrFromScore(scoreValue) {
@@ -1521,7 +1521,7 @@
             const inputScore = document.getElementById('inputScore');
             if (inputScore && (!inputScore.value.trim() || inputScore.dataset.autofilled === 'true')) {
                 if (defaultScore !== undefined) {
-                    inputScore.value = `Score: ${defaultScore}%`;
+                    inputScore.value = `Score: ${defaultScore}`;
                     inputScore.dataset.autofilled = 'true';
                 }
             }
@@ -2304,14 +2304,14 @@
                         Nombre: "Sofía",
                         Apellido: "Ramírez Mendoza",
                         Nivel: "B2+",
-                        Puntaje: "Score: 86%",
+                        Puntaje: "Score: 86",
                         Fecha: "22/09/2026"
                     },
                     {
                         Nombre: "Carlos Alberto",
                         Apellido: "Navarro Ruiz",
                         Nivel: "B1+",
-                        Puntaje: "Score: 68%",
+                        Puntaje: "Score: 68",
                         Fecha: "22/09/2026"
                     }
                 ];
