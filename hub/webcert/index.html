@@ -2553,7 +2553,7 @@
                         </div>
                     </div>
 
-                    <!-- 2. Logo Secundario / Local (Superior Izquierda) -->
+                    <!-- 2. Logo Secundario / Local (Junto al Principal) -->
                     <div class="logo-upload-banner" id="secondaryLogoUploadBanner">
                         <div class="logo-upload-left">
                             <div class="logo-thumb-container" id="secondaryLogoThumbContainer" style="display: none;">
@@ -2568,7 +2568,7 @@
                             </div>
                             <div class="logo-info-text">
                                 <div class="logo-info-title" id="secondaryLogoInfoTitle">
-                                    Logo Local <span class="logo-info-badge" style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0;">Sup. Izquierda</span>
+                                    Logo Local <span class="logo-info-badge" style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0;">Junto al Principal</span>
                                 </div>
                                 <div class="logo-info-desc" id="secondaryLogoInfoDesc">Plantel, Campus o Patrocinador (PNG)</div>
                             </div>
@@ -4442,7 +4442,7 @@
                     if (title) {
                         title.innerHTML = `Logo Local <span class="logo-info-badge" style="background:#dcfce7;color:#15803d;">Cargado</span>`;
                     }
-                    if (desc) desc.textContent = `${file.name} — Auto-ajustado en esquina superior izquierda`;
+                    if (desc) desc.textContent = `${file.name} — Auto-ajustado junto al logo principal`;
                     if (btnRemove) btnRemove.style.display = 'inline-flex';
                     if (btnLabel) {
                         btnLabel.innerHTML = `
@@ -4483,7 +4483,7 @@
             if (thumbContainer) thumbContainer.style.display = 'none';
             if (placeholder) placeholder.style.display = 'flex';
             if (title) {
-                title.innerHTML = `Logo Local <span class="logo-info-badge" style="background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;">Sup. Izquierda</span>`;
+                title.innerHTML = `Logo Local <span class="logo-info-badge" style="background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;">Junto al Principal</span>`;
             }
             if (desc) desc.textContent = 'Plantel, Campus o Patrocinador (PNG)';
             if (btnRemove) btnRemove.style.display = 'none';
@@ -4602,16 +4602,16 @@
                 }
             }
 
-            // 2b. Secondary / Local Logo (Top Left Header with aspect fit)
+            // 2b. Secondary / Local Logo (Paired next to Institutional Logo)
             if (secondaryLogoLoaded && secondaryLogoImg) {
                 const origW = secondaryLogoImg.naturalWidth || secondaryLogoImg.width;
                 const origH = secondaryLogoImg.naturalHeight || secondaryLogoImg.height;
                 if (origW > 0 && origH > 0) {
                     const aspect = origW / origH;
-                    // Bounding Box in 540x720: x=115, y=40, maxW=105, maxH=48
-                    const maxW = 105 * scale;
+                    // Bounding Box in 540x720: x=235, y=40, maxW=104, maxH=48
+                    const maxW = 104 * scale;
                     const maxH = 48 * scale;
-                    const boxX = 115 * scale;
+                    const boxX = 235 * scale;
                     const boxY = 40 * scale;
 
                     let drawW = maxW;
@@ -5005,7 +5005,7 @@
                 }
             }
 
-            // Ab. Secondary / Local Logo (Top Left Header with aspect fit)
+            // Ab. Secondary / Local Logo (Paired next to Institutional Logo)
             if (secondaryLogoBytes) {
                 try {
                     const secLogoImage = await pdfDoc.embedPng(secondaryLogoBytes);
@@ -5013,9 +5013,9 @@
                     const origH = secLogoImage.height;
                     if (origW > 0 && origH > 0) {
                         const aspect = origW / origH;
-                        const maxW = 105;
+                        const maxW = 104;
                         const maxH = 48;
-                        const boxX = 115;
+                        const boxX = 235;
                         const boxY = 632; // In 540x720: height (720) - 40 - 48 = 632
 
                         let drawW = maxW;
