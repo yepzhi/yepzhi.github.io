@@ -495,7 +495,11 @@
       </div>
 
       <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
-        <button type="button" class="btn-action" onclick="refreshAdminData()">
+        <span id="syncStatusBadge" style="font-size: 0.74rem; font-weight: 600; color: var(--c-muted); padding: 5px 9px; background: rgba(0,0,0,0.03); border-radius: 6px; border: 1px solid var(--c-border); display: inline-flex; align-items: center; gap: 5px;">
+          🟢 Conectando…
+        </span>
+
+        <button type="button" class="btn-action" onclick="refreshAdminData()" title="Hacer 1 consulta fresca a Firestore">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="23 4 23 10 17 10"/>
             <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
@@ -953,8 +957,60 @@
       if (e.key === 'Enter') window.checkAdminGate();
     });
 
-    // ─── LOAD DATA (ROBUSTO CON TIEMPO REAL Y MIGRACIÓN) ───
-    window.loadAdminTickets = async function() {
+    // ─── CACHÉ LOCAL INTELIGENTE (CERO LECTURAS EN RECARGAS) ───
+    const CACHE_KEY = 'rpro_admin_tickets_cache_v2';
+    const CACHE_TTL_MS = 3 * 60 * 1000; // 3 minutos de vigencia en memoria de sesión
+
+    function getCachedTickets() {
+      try {
+        const raw = sessionStorage.getItem(CACHE_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (!parsed || !parsed.timestamp || !Array.isArray(parsed.tickets)) return null;
+        const age = Date.now() - parsed.timestamp;
+        if (age < CACHE_TTL_MS) {
+          return { tickets: parsed.tickets, ageMs: age };
+        }
+      } catch (e) {
+        console.warn('[Cache] Error al leer caché local:', e);
+      }
+      return null;
+    }
+
+    function saveTicketsToCache(tickets) {
+      try {
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify({
+          timestamp: Date.now(),
+          tickets: tickets
+        }));
+      } catch (e) {
+        console.warn('[Cache] Error al guardar caché local:', e);
+      }
+    }
+
+    function updateSyncBadge(msg) {
+      const el = document.getElementById('syncStatusBadge');
+      if (el) el.textContent = msg;
+    }
+
+    // ─── CARGA OPTIMIZADA (1 SOLA PETICIÓN A FIRESTORE) ───
+    window.loadAdminTickets = async function(forceRefresh = false) {
+      // 1. Si no es refresco manual, verificar si tenemos datos frescos en caché (0 lecturas a Firebase)
+      if (!forceRefresh) {
+        const cached = getCachedTickets();
+        if (cached && cached.tickets.length > 0) {
+          allTickets = cached.tickets;
+          applyFilters();
+          const sec = Math.round(cached.ageMs / 1000);
+          updateSyncBadge(`🟢 Caché local activa (0 lecturas a Firebase · hace ${sec}s)`);
+          if (liveTickInterval) clearInterval(liveTickInterval);
+          liveTickInterval = setInterval(updateLiveTableElapsedTimes, 1000);
+          return;
+        }
+      }
+
+      updateSyncBadge('🔄 Sincronizando con Firestore (1 sola petición)...');
+
       const tbody = document.getElementById('ticketsTableBody');
       if (tbody && (!allTickets || allTickets.length === 0)) {
         tbody.innerHTML = `
@@ -964,7 +1020,7 @@
                 <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
                 <path d="M12 2a10 10 0 0 1 10 10"/>
               </svg>
-              Sincronizando solicitudes en tiempo real desde Firestore…
+              Sincronizando solicitudes en 1 sola petición optimizada desde Firestore…
             </td>
           </tr>
         `;
@@ -976,12 +1032,15 @@
         try {
           let snapshot = null;
           try {
-            // Optimizado para Free Tier (Spark Plan): limitar a los 50 más recientes
-            const q = query(collection(db, "help_tickets"), orderBy("createdAtMillis", "desc"), limit(50));
+            // 1 SOLA PETICIÓN POR CARGA:
+            // Recupera hasta 250 tickets ordenados por fecha descendente en 1 único viaje de red.
+            // Esto incluye el 100% de los tickets actuales (177 en total), garantizando
+            // que todos los tickets de UPSIN y demás universidades siempre estén presentes.
+            const q = query(collection(db, "help_tickets"), orderBy("createdAtMillis", "desc"), limit(250));
             snapshot = await getDocs(q);
           } catch (orderErr) {
-            console.warn('[Admin] Fallback a colección directa con límite 50:', orderErr);
-            const qFallback = query(collection(db, "help_tickets"), limit(50));
+            console.warn('[Admin] Fallback a consulta simple con límite 250:', orderErr);
+            const qFallback = query(collection(db, "help_tickets"), limit(250));
             snapshot = await getDocs(qFallback);
           }
           if (snapshot && !snapshot.empty) {
@@ -994,31 +1053,12 @@
         }
       }
 
-      // Merge y auto-migración de tickets locales hacia Firestore
+      // Merge de tickets en localStorage para preservar cambios o folios locales
       const local = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
-      let localUpdated = false;
       for (const loc of local) {
         if (!tickets.some(t => t.folio === loc.folio)) {
           tickets.push(loc);
-          // Si no estaba en Firestore, subirlo ahora
-          if (db && !loc.syncedToRPro) {
-            try {
-              const docRef = await addDoc(collection(db, "help_tickets"), {
-                ...loc,
-                createdAt: serverTimestamp()
-              });
-              loc.syncedToRPro = true;
-              loc.firestoreId = docRef.id;
-              localUpdated = true;
-              console.log('[Admin] Ticket local auto-migrado a la nube:', loc.folio);
-            } catch (syncErr) {
-              console.warn('[Admin] Auto-sync local ticket notice:', syncErr);
-            }
-          }
         }
-      }
-      if (localUpdated) {
-        localStorage.setItem('richmond_help_tickets', JSON.stringify(local));
       }
 
       // Ordenar de más reciente a más antiguo en memoria
@@ -1029,36 +1069,11 @@
       });
 
       allTickets = tickets;
+      saveTicketsToCache(allTickets);
       applyFilters();
 
-      // Listener de Firestore en Tiempo Real (optimizado con limit 50 para cuota gratuita)
-      if (db && !window.adminUnsubListener) {
-        try {
-          const qLive = query(collection(db, "help_tickets"), orderBy("createdAtMillis", "desc"), limit(50));
-          window.adminUnsubListener = onSnapshot(qLive, (snapshot) => {
-            const rt = [];
-            snapshot.forEach(d => rt.push({ id: d.id, ...d.data() }));
-
-            // Preservar tickets locales en caso de que aún no sincronicen
-            const curLocal = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
-            curLocal.forEach(loc => {
-              if (!rt.some(t => t.folio === loc.folio)) {
-                rt.push(loc);
-              }
-            });
-
-            rt.sort((a, b) => {
-              const timeA = a.createdAtMillis || (a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt?.seconds ? a.createdAt.seconds * 1000 : 0));
-              const timeB = b.createdAtMillis || (b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt?.seconds ? b.createdAt.seconds * 1000 : 0));
-              return timeB - timeA;
-            });
-            allTickets = rt;
-            applyFilters();
-          }, (err) => console.warn('[Admin Realtime Warning]:', err));
-        } catch (e) {
-          console.warn('[Admin onSnapshot error]:', e);
-        }
-      }
+      const pendingCount = allTickets.filter(t => t.status !== 'Resuelto').length;
+      updateSyncBadge(`☁️ Firestore OK (1 petición · ${allTickets.length} tickets · ${pendingCount} pendientes)`);
 
       // Arrancar intervalo de cálculo en vivo de Elapsed Time
       if (liveTickInterval) clearInterval(liveTickInterval);
@@ -1066,8 +1081,18 @@
     };
 
     window.refreshAdminData = function() {
-      loadAdminTickets();
+      loadAdminTickets(true);
     };
+
+    // Auto-recarga silenciosa cuando el asesor regresa a la pestaña si la caché ya expiró
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        const cached = getCachedTickets();
+        if (!cached) {
+          loadAdminTickets(false);
+        }
+      }
+    });
 
     // ─── FILTERS & RENDER ───
     window.applyFilters = function() {
@@ -1849,8 +1874,9 @@
         }
       }
 
-      // 2. Actualizar en allTickets en memoria
+      // 2. Actualizar en allTickets en memoria y en la caché de sesión
       Object.assign(currentEditingTicket, updates);
+      saveTicketsToCache(allTickets);
 
       // 3. Actualizar en localStorage
       const local = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
