@@ -64,81 +64,131 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
         body {
             font-family: var(--font-sans);
             background-color: var(--bg-color);
             color: var(--text-color);
-            min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 30px 16px 50px;
+            padding: max(20px, env(safe-area-inset-top)) 16px max(40px, env(safe-area-inset-bottom));
             position: relative;
-            overflow-x: hidden;
+            overflow-x: clip;
             -webkit-font-smoothing: antialiased;
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* ── Fullscreen Interactive Background Canvas (Light Aurora & Math FX) ── */
-        #bgCanvas {
-            position: fixed;
-            inset: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 0;
+        /* ── JSweb Dynamic Ambient Aurora System (Living organic movements) ── */
+        @keyframes auraFloat1 {
+            0% { transform: translate3d(0, 0, 0) scale(1); }
+            33% { transform: translate3d(70px, -45px, 0) scale(1.14); }
+            66% { transform: translate3d(-50px, 55px, 0) scale(0.92); }
+            100% { transform: translate3d(55px, 35px, 0) scale(1.08); }
         }
 
-        /* ── Ambient Soft Glow Orbs ── */
-        .ambient-aurora-glow {
+        @keyframes auraFloat2 {
+            0% { transform: translate3d(0, 0, 0) scale(1); }
+            33% { transform: translate3d(-75px, 65px, 0) scale(1.16); }
+            66% { transform: translate3d(60px, -45px, 0) scale(0.94); }
+            100% { transform: translate3d(-55px, -35px, 0) scale(1.12); }
+        }
+
+        @keyframes auraFloat3 {
+            0% { transform: translate3d(0, 0, 0) scale(1); }
+            50% { transform: translate3d(90px, -75px, 0) scale(1.2); }
+            100% { transform: translate3d(-70px, 45px, 0) scale(0.92); }
+        }
+
+        @keyframes auraFloat4 {
+            0% { transform: translate3d(0, 0, 0) scale(0.95); }
+            50% { transform: translate3d(-85px, 65px, 0) scale(1.15); }
+            100% { transform: translate3d(65px, -55px, 0) scale(1.04); }
+        }
+
+        .site-ambient-aurora {
             position: fixed;
             inset: 0;
             pointer-events: none;
             z-index: 0;
             overflow: hidden;
+            contain: strict;
         }
 
-        .aurora-orb {
+        .aurora-blob {
             position: absolute;
             border-radius: 50%;
-            filter: blur(90px);
-            opacity: 0.45;
+            filter: blur(48px);
+            -webkit-filter: blur(48px);
+            pointer-events: none;
+            opacity: 0.52;
             will-change: transform;
-            animation: orbFloat 32s ease-in-out infinite alternate;
         }
 
-        .aurora-orb-1 {
-            width: 650px;
-            height: 650px;
-            top: -120px;
-            left: -140px;
-            background: radial-gradient(circle, rgba(39, 126, 255, 0.12) 0%, rgba(37, 99, 235, 0.05) 50%, transparent 75%);
-            animation-duration: 28s;
-        }
-
-        .aurora-orb-2 {
+        .site-ambient-aurora .aurora-blob.blob-1 {
+            top: 5%;
+            left: -130px;
             width: 700px;
             height: 700px;
-            top: 35%;
-            right: -160px;
-            background: radial-gradient(circle, rgba(0, 168, 150, 0.10) 0%, rgba(2, 132, 199, 0.05) 50%, transparent 75%);
-            animation-duration: 34s;
-            animation-delay: -10s;
+            background: radial-gradient(circle, rgba(29, 104, 255, 0.25) 0%, rgba(37, 99, 235, 0.14) 45%, rgba(2, 132, 199, 0.06) 70%, transparent 85%);
+            animation: auraFloat1 24s ease-in-out infinite alternate;
         }
 
-        .aurora-orb-3 {
-            width: 580px;
-            height: 580px;
-            bottom: -100px;
-            left: 20%;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, rgba(39, 126, 255, 0.04) 50%, transparent 75%);
-            animation-duration: 38s;
-            animation-delay: -18s;
+        .site-ambient-aurora .aurora-blob.blob-2 {
+            top: 36%;
+            right: -150px;
+            width: 740px;
+            height: 740px;
+            background: radial-gradient(circle, rgba(0, 168, 150, 0.20) 0%, rgba(39, 126, 255, 0.22) 45%, rgba(0, 210, 255, 0.08) 70%, transparent 85%);
+            animation: auraFloat2 28s ease-in-out infinite alternate;
         }
 
-        @keyframes orbFloat {
-            0% { transform: translate3d(0, 0, 0) scale(1); }
-            50% { transform: translate3d(35px, 25px, 0) scale(1.04); }
-            100% { transform: translate3d(-25px, 40px, 0) scale(0.97); }
+        .site-ambient-aurora .aurora-blob.blob-3 {
+            top: 68%;
+            left: -110px;
+            width: 720px;
+            height: 720px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(29, 104, 255, 0.15) 50%, rgba(56, 189, 248, 0.06) 75%, transparent 85%);
+            animation: auraFloat3 32s ease-in-out infinite alternate;
+        }
+
+        .site-ambient-aurora .aurora-blob.blob-4 {
+            top: 18%;
+            right: 22%;
+            width: 530px;
+            height: 530px;
+            background: radial-gradient(circle, rgba(39, 126, 255, 0.16) 0%, rgba(14, 165, 233, 0.10) 50%, transparent 80%);
+            animation: auraFloat4 22s ease-in-out infinite alternate;
+        }
+
+        /* Mobile & Touch Performance Optimization:
+           Drop heavy CSS blur on low-power devices, hide secondary blobs 3 and 4,
+           fit primary blobs to mobile screens, eliminating compositor stalls */
+        @media (max-width: 768px), (pointer: coarse) {
+            .site-ambient-aurora .aurora-blob.blob-3,
+            .site-ambient-aurora .aurora-blob.blob-4 {
+                display: none !important;
+            }
+            .aurora-blob {
+                filter: blur(28px) !important;
+                -webkit-filter: blur(28px) !important;
+                opacity: 0.38;
+            }
+            .site-ambient-aurora .aurora-blob.blob-1 {
+                width: 320px !important;
+                height: 320px !important;
+                left: -70px !important;
+            }
+            .site-ambient-aurora .aurora-blob.blob-2 {
+                width: 340px !important;
+                height: 340px !important;
+                right: -70px !important;
+            }
         }
 
         /* ── App Layout Container ── */
@@ -948,6 +998,12 @@
             top: 24px;
         }
 
+        @media (max-width: 1024px) {
+            .preview-sticky {
+                position: static;
+            }
+        }
+
         .preview-card-wrap {
             position: relative;
             background: #ffffff;
@@ -990,14 +1046,17 @@
             display: flex;
             align-items: center;
             justify-content: space-around;
-            gap: 20px;
+            gap: 16px;
             font-family: 'Montserrat', 'Outfit', system-ui, sans-serif;
-            font-size: clamp(13px, 2.3vw, 19px);
+            font-size: clamp(10px, 1.6vw, 14px);
             font-weight: 900;
-            letter-spacing: 0.16em;
-            color: rgba(220, 38, 38, 0.22);
+            letter-spacing: 0.14em;
+            color: rgba(220, 38, 38, 0.20);
             text-transform: uppercase;
             white-space: nowrap;
+            padding: 3px 0;
+            border-top: 1px dashed rgba(220, 38, 38, 0.10);
+            border-bottom: 1px dashed rgba(220, 38, 38, 0.10);
         }
 
         .watermark-band .wm-sep {
@@ -1544,9 +1603,15 @@
            Light Glassmorphism theme matching MAIN page, compact scale,
            progressive blurry-to-clear appear animation & SVG-only icons.
            ============================================================ */
-        html.w3c-modal-open,
+        html.w3c-modal-open {
+            overflow: hidden;
+            height: 100%;
+        }
+
         body.w3c-modal-open {
-            overflow: hidden !important;
+            overflow: hidden;
+            height: 100%;
+            overscroll-behavior: none;
         }
 
         .w3c-modal-overlay {
@@ -1554,18 +1619,20 @@
             inset: 0;
             z-index: 999999;
             display: none;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
-            padding: 24px 16px;
+            padding: max(24px, env(safe-area-inset-top)) 16px max(48px, env(safe-area-inset-bottom));
             background: rgba(15, 23, 42, 0.52);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: contain;
         }
 
         .w3c-modal-overlay.active {
             display: flex !important;
-            animation: w3cFadeInOverlay 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: w3cFadeInOverlay 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes w3cFadeInOverlay {
@@ -1586,24 +1653,33 @@
             border-radius: 22px;
             max-width: 570px;
             width: 100%;
-            margin: auto;
+            margin: auto 0;
             color: #0f172a;
             box-shadow: 
                 0 25px 70px -10px rgba(15, 23, 42, 0.22),
                 0 0 0 1px rgba(15, 23, 42, 0.05);
-            overflow: hidden;
-            opacity: 0;
             font-family: var(--font-sans);
         }
 
+        @media (max-width: 640px) {
+            .w3c-modal-overlay {
+                padding: max(16px, env(safe-area-inset-top)) 12px max(55px, env(safe-area-inset-bottom));
+                align-items: flex-start;
+            }
+            .w3c-modal-card {
+                margin: 0 auto;
+                border-radius: 18px;
+            }
+        }
+
         .w3c-modal-overlay.active .w3c-modal-card {
-            animation: w3cCardSoftPop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: w3cCardSoftPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes w3cCardSoftPop {
             from {
                 opacity: 0;
-                transform: scale(0.96) translateY(18px);
+                transform: scale(0.96) translateY(24px);
             }
             to {
                 opacity: 1;
@@ -1611,16 +1687,20 @@
             }
         }
 
-        /* ── Progressive Blurry-to-Clear Construction Animation (stemOS style) ── */
+        /* ── Progressive Blurry-to-Clear Construction Animation (stemOS style 50% slower premium) ── */
         @keyframes w3cSoftConstruct {
             0% {
                 opacity: 0;
-                transform: translateY(20px) scale(0.97);
-                filter: blur(12px);
+                transform: translateY(28px) scale(0.96);
+                filter: blur(18px);
             }
-            50% {
-                opacity: 0.85;
-                filter: blur(3px);
+            40% {
+                opacity: 0.65;
+                filter: blur(8px);
+            }
+            75% {
+                opacity: 0.95;
+                filter: blur(2px);
             }
             100% {
                 opacity: 1;
@@ -1634,8 +1714,9 @@
         }
 
         .w3c-modal-overlay.active .w3c-soft-step {
-            animation: w3cSoftConstruct 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            animation-delay: var(--delay, 0.1s);
+            animation: w3cSoftConstruct 1.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: var(--delay, 0.15s);
+            will-change: transform, opacity, filter;
         }
 
         /* Ambient subtle light glow */
@@ -2147,14 +2228,12 @@
 </head>
 <body>
 
-    <!-- Dynamic Aurora & Math Particle Canvas (Light Mode) -->
-    <canvas id="bgCanvas"></canvas>
-    
-    <!-- Ambient Blur Gradients -->
-    <div class="ambient-aurora-glow" aria-hidden="true">
-        <div class="aurora-orb aurora-orb-1"></div>
-        <div class="aurora-orb aurora-orb-2"></div>
-        <div class="aurora-orb aurora-orb-3"></div>
+    <!-- JSweb Living Ambient Aurora System -->
+    <div class="site-ambient-aurora theme-blue" aria-hidden="true">
+        <div class="aurora-blob blob-1"></div>
+        <div class="aurora-blob blob-2"></div>
+        <div class="aurora-blob blob-3"></div>
+        <div class="aurora-blob blob-4"></div>
     </div>
 
     <div class="app-wrapper">
@@ -2685,6 +2764,22 @@
                                     <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
                                     <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
                                 </div>
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
                             </div>
                         </div>
                         <!-- High Fidelity Retina Canvas Render -->
@@ -2804,7 +2899,7 @@
 
             <div class="w3c-modal-content">
                 <!-- Verified Header & Seal -->
-                <div class="w3c-header-center w3c-soft-step" style="--delay: 0.04s;">
+                <div class="w3c-header-center w3c-soft-step" style="--delay: 0.08s;">
                     <div class="w3c-badge-seal">
                         <div class="w3c-seal-ring-outer"></div>
                         <div class="w3c-seal-ring"></div>
@@ -2833,7 +2928,7 @@
                 </div>
 
                 <!-- Callout Banner with verified status -->
-                <div class="w3c-verification-statement w3c-soft-step" style="--delay: 0.12s;">
+                <div class="w3c-verification-statement w3c-soft-step" style="--delay: 0.22s;">
                     <div class="w3c-statement-icon">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
@@ -2855,7 +2950,7 @@
                 </div>
 
                 <!-- Credential Data Grid -->
-                <div class="w3c-grid w3c-soft-step" style="--delay: 0.20s;">
+                <div class="w3c-grid w3c-soft-step" style="--delay: 0.38s;">
                     <!-- Candidate -->
                     <div class="w3c-info-card" style="grid-column: 1 / -1;">
                         <div class="w3c-info-label">
@@ -2937,7 +3032,7 @@
                 </div>
 
                 <!-- Cryptographic Signature Verification Box -->
-                <div class="w3c-crypto-box w3c-soft-step" style="--delay: 0.28s;">
+                <div class="w3c-crypto-box w3c-soft-step" style="--delay: 0.52s;">
                     <div class="w3c-crypto-header">
                         <div class="w3c-crypto-title">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -2962,12 +3057,12 @@
                 </div>
 
                 <!-- Asterisk Footnote required by user -->
-                <div class="w3c-footnote w3c-soft-step" style="--delay: 0.35s;">
+                <div class="w3c-footnote w3c-soft-step" style="--delay: 0.64s;">
                     <strong>*</strong> Signed by SHA-256. The integrity of this signature and record is mathematically tamper-proof and unalterable.
                 </div>
 
                 <!-- Collapsible Technical JSON-LD Details -->
-                <button type="button" class="w3c-json-toggle w3c-soft-step" style="--delay: 0.40s;" id="btnToggleW3cJson" onclick="toggleW3cJson()">
+                <button type="button" class="w3c-json-toggle w3c-soft-step" style="--delay: 0.74s;" id="btnToggleW3cJson" onclick="toggleW3cJson()">
                     <svg id="toggleJsonIcon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transition: transform 0.2s ease; vertical-align: -1px; margin-right: 4px;">
                         <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
@@ -2976,7 +3071,7 @@
                 <div class="w3c-json-container" id="w3cJsonContainer"></div>
 
                 <!-- Modal Actions -->
-                <div class="w3c-modal-actions w3c-soft-step" style="--delay: 0.46s;">
+                <div class="w3c-modal-actions w3c-soft-step" style="--delay: 0.84s;">
                     <button type="button" class="w3c-btn-secondary" onclick="copyVerificationLink()">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
@@ -4484,20 +4579,21 @@
             ctx.textBaseline = 'middle';
 
             const wmBandW = 2600;
-            const yOffsets = [-380, -120, 140, 400];
+            // 8 evenly-spaced bands covering the spaces in between previous marks
+            const yOffsets = [-455, -325, -195, -65, 65, 195, 325, 455];
 
             for (const yOff of yOffsets) {
                 const curY = yOff * scale;
-                const bandH = 50 * scale;
+                const bandH = 36 * scale;
 
                 // Translucent red band background
-                ctx.fillStyle = 'rgba(239, 68, 68, 0.04)';
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.035)';
                 ctx.fillRect(-wmBandW / 2, curY - bandH / 2, wmBandW, bandH);
 
                 // Dashed border lines
-                ctx.strokeStyle = 'rgba(220, 38, 38, 0.22)';
-                ctx.lineWidth = 1.5 * scale;
-                ctx.setLineDash([12 * scale, 10 * scale]);
+                ctx.strokeStyle = 'rgba(220, 38, 38, 0.18)';
+                ctx.lineWidth = 1.2 * scale;
+                ctx.setLineDash([10 * scale, 8 * scale]);
                 ctx.beginPath();
                 ctx.moveTo(-wmBandW / 2, curY - bandH / 2);
                 ctx.lineTo(wmBandW / 2, curY - bandH / 2);
@@ -4507,8 +4603,8 @@
 
                 // Distributed watermark text
                 ctx.setLineDash([]);
-                ctx.font = `800 ${26 * scale}px "Montserrat", "Outfit", "Helvetica Neue", Arial, sans-serif`;
-                ctx.fillStyle = 'rgba(220, 38, 38, 0.25)';
+                ctx.font = `800 ${20 * scale}px "Montserrat", "Outfit", "Helvetica Neue", Arial, sans-serif`;
+                ctx.fillStyle = 'rgba(220, 38, 38, 0.22)';
                 ctx.fillText('PREVIEW NO VÁLIDO   ·   DOCUMENTO NO OFICIAL', 0, curY);
             }
 
@@ -5464,173 +5560,9 @@
             document.getElementById('statusModal').classList.remove('active');
         }
 
-        // ── DYNAMIC BACKGROUND CANVAS: FLUID LIGHT AURORA & MATH PARTICLES ────
-        function initBackgroundCanvas() {
-            const canvas = document.getElementById('bgCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d', { alpha: true });
-
-            const BRAND = {
-                primary:  [39, 126, 255],
-                teal:     [0,  168, 150],
-                mid:      [2,  132, 199]
-            };
-
-            const MATH_SYMBOLS = [
-                '∫', '∑', 'λ', 'π', 'Δt', 'f(x)', '∇', 'θ', 'σ', 'μ', 
-                '∂y/∂x', 'lim x→0', 'E = mc²', '√2', 'ħ', 'Ψ'
-            ];
-
-            let W = 0, H = 0;
-            let orbs = [];
-            let dots = [];
-            let mathGlyphs = [];
-            let mouse = { x: -9999, y: -9999 };
-            let time = 0;
-            let isVisible = true;
-            let lastTimestamp = 0;
-
-            function resize() {
-                const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-                W = window.innerWidth;
-                H = window.innerHeight;
-                canvas.width = Math.floor(W * dpr);
-                canvas.height = Math.floor(H * dpr);
-                ctx.setTransform(1, 0, 0, 1, 0, 0);
-                ctx.scale(dpr, dpr);
-            }
-
-            function initOrbs() {
-                orbs = [
-                    { x: W * 0.25, y: H * 0.25, vx: 7.0, vy: 4.5, r: 360, colors: [BRAND.primary, BRAND.mid], phase: 0 },
-                    { x: W * 0.8,  y: H * 0.45, vx: -5.5, vy: 6.0, r: 400, colors: [BRAND.teal, BRAND.mid], phase: Math.PI * 0.6 }
-                ];
-            }
-
-            function initDots() {
-                dots = [];
-                const spacing = W < 768 ? 68 : 52;
-                const cols = Math.ceil(W / spacing) + 1;
-                const rows = Math.ceil(H / spacing) + 1;
-                for (let r = 0; r < rows; r++) {
-                    for (let c = 0; c < cols; c++) {
-                        dots.push({ x: c * spacing, y: r * spacing });
-                    }
-                }
-            }
-
-            function initMathGlyphs() {
-                mathGlyphs = [];
-                const count = W < 768 ? 10 : 16;
-                for (let i = 0; i < count; i++) {
-                    mathGlyphs.push({
-                        x: Math.random() * W,
-                        y: Math.random() * H,
-                        symbol: MATH_SYMBOLS[Math.floor(Math.random() * MATH_SYMBOLS.length)],
-                        size: 13 + Math.random() * 8,
-                        speed: 16 + Math.random() * 20, // 16-36 px/sec: smooth, clearly perceptible floating
-                        swayOffset: Math.random() * Math.PI * 2,
-                        opacity: 0.08 + Math.random() * 0.08
-                    });
-                }
-            }
-
-            resize();
-            initOrbs();
-            initDots();
-            initMathGlyphs();
-
-            window.addEventListener('resize', () => {
-                resize();
-                initDots();
-            }, { passive: true });
-
-            window.addEventListener('mousemove', (e) => {
-                mouse.x = e.clientX;
-                mouse.y = e.clientY;
-            }, { passive: true });
-
-            document.addEventListener('visibilitychange', () => {
-                isVisible = !document.hidden;
-                if (isVisible) {
-                    lastTimestamp = 0;
-                    requestAnimationFrame(tick);
-                }
-            });
-
-            function tick(now) {
-                if (!isVisible) return;
-                requestAnimationFrame(tick);
-
-                if (!lastTimestamp) lastTimestamp = now;
-                const dt = Math.min((now - lastTimestamp) / 1000, 0.1);
-                lastTimestamp = now;
-
-                time += dt * 0.75;
-                ctx.clearRect(0, 0, W, H);
-
-                // 1. Draw 2 soft ambient orbs (fluid, elegant motion)
-                for (let i = 0; i < orbs.length; i++) {
-                    const orb = orbs[i];
-                    orb.x += (orb.vx + Math.sin(time * 0.7 + orb.phase) * 10) * dt;
-                    orb.y += (orb.vy + Math.cos(time * 0.5 + orb.phase) * 8) * dt;
-                    if (orb.x < -orb.r) orb.x = W + orb.r;
-                    if (orb.x > W + orb.r) orb.x = -orb.r;
-                    if (orb.y < -orb.r) orb.y = H + orb.r;
-                    if (orb.y > H + orb.r) orb.y = -orb.r;
-
-                    const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.r);
-                    grad.addColorStop(0, `rgba(${orb.colors[0][0]}, ${orb.colors[0][1]}, ${orb.colors[0][2]}, 0.12)`);
-                    grad.addColorStop(0.6, `rgba(${orb.colors[1][0]}, ${orb.colors[1][1]}, ${orb.colors[1][2]}, 0.04)`);
-                    grad.addColorStop(1, 'rgba(255,255,255,0)');
-
-                    ctx.beginPath();
-                    ctx.arc(orb.x, orb.y, orb.r, 0, Math.PI * 2);
-                    ctx.fillStyle = grad;
-                    ctx.fill();
-                }
-
-                // 2. High performance dot grid
-                ctx.fillStyle = 'rgba(39, 126, 255, 0.08)';
-                for (let i = 0; i < dots.length; i++) {
-                    const dot = dots[i];
-                    ctx.fillRect(dot.x, dot.y, 1.5, 1.5);
-                }
-
-                // Interactive mouse proximity highlight
-                if (mouse.x > 0 && mouse.y > 0) {
-                    const influenceR = W < 768 ? 100 : 140;
-                    const influenceR2 = influenceR * influenceR;
-                    for (let i = 0; i < dots.length; i++) {
-                        const dot = dots[i];
-                        const dx = dot.x - mouse.x;
-                        const dy = dot.y - mouse.y;
-                        const d2 = dx * dx + dy * dy;
-                        if (d2 < influenceR2) {
-                            const prox = 1 - Math.sqrt(d2) / influenceR;
-                            ctx.fillStyle = `rgba(39, 126, 255, ${prox * 0.45})`;
-                            ctx.fillRect(dot.x - 0.75, dot.y - 0.75, 3, 3);
-                        }
-                    }
-                }
-
-                // 3. Floating Math Glyphs (fluid and gracefully rising upward)
-                for (let i = 0; i < mathGlyphs.length; i++) {
-                    const g = mathGlyphs[i];
-                    g.y -= g.speed * dt;
-                    g.x += Math.sin(time + g.swayOffset) * 0.35;
-                    if (g.y < -30) {
-                        g.y = H + 25;
-                        g.x = Math.random() * W;
-                    }
-                    ctx.font = `600 ${g.size}px "JetBrains Mono", monospace`;
-                    ctx.fillStyle = `rgba(39, 126, 255, ${g.opacity})`;
-                    ctx.fillText(g.symbol, g.x, g.y);
-                }
-            }
-
-            requestAnimationFrame(tick);
-        }
+        // ── JSWEB LIVING AMBIENT AURORA SYSTEM ─────────────────────────
+        // Handled smoothly via hardware-accelerated CSS auroras (.site-ambient-aurora)
+        function initBackgroundCanvas() {}
     </script>
 </body>
 </html>
