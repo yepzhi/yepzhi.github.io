@@ -1033,8 +1033,8 @@
 
         .watermark-grid {
             position: absolute;
-            width: 170%;
-            height: 170%;
+            width: 180%;
+            height: 180%;
             display: flex;
             flex-direction: column;
             justify-content: space-evenly;
@@ -1046,17 +1046,17 @@
             display: flex;
             align-items: center;
             justify-content: space-around;
-            gap: 16px;
+            gap: 14px;
             font-family: 'Montserrat', 'Outfit', system-ui, sans-serif;
-            font-size: clamp(10px, 1.6vw, 14px);
+            font-size: clamp(8px, 1.25vw, 11.5px);
             font-weight: 900;
             letter-spacing: 0.14em;
-            color: rgba(220, 38, 38, 0.20);
+            color: rgba(220, 38, 38, 0.19);
             text-transform: uppercase;
             white-space: nowrap;
-            padding: 3px 0;
-            border-top: 1px dashed rgba(220, 38, 38, 0.10);
-            border-bottom: 1px dashed rgba(220, 38, 38, 0.10);
+            padding: 1.5px 0;
+            border-top: 1px dashed rgba(220, 38, 38, 0.09);
+            border-bottom: 1px dashed rgba(220, 38, 38, 0.09);
         }
 
         .watermark-band .wm-sep {
@@ -2748,6 +2748,38 @@
                         <!-- Diagonal Watermark Overlay: Translucent Red Separated Across Entire Preview -->
                         <div class="preview-watermark-overlay" id="previewWatermarkOverlay" aria-hidden="true">
                             <div class="watermark-grid">
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
                                 <div class="watermark-band">
                                     <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
                                     <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
@@ -4579,20 +4611,20 @@
             ctx.textBaseline = 'middle';
 
             const wmBandW = 2600;
-            // 8 evenly-spaced bands covering the spaces in between previous marks
-            const yOffsets = [-455, -325, -195, -65, 65, 195, 325, 455];
+            // 16 evenly-spaced bands (double density: exactly one line in between each previous line)
+            const yOffsets = [-487.5, -422.5, -357.5, -292.5, -227.5, -162.5, -97.5, -32.5, 32.5, 97.5, 162.5, 227.5, 292.5, 357.5, 422.5, 487.5];
 
             for (const yOff of yOffsets) {
                 const curY = yOff * scale;
-                const bandH = 36 * scale;
+                const bandH = 32 * scale;
 
                 // Translucent red band background
-                ctx.fillStyle = 'rgba(239, 68, 68, 0.035)';
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.03)';
                 ctx.fillRect(-wmBandW / 2, curY - bandH / 2, wmBandW, bandH);
 
                 // Dashed border lines
-                ctx.strokeStyle = 'rgba(220, 38, 38, 0.18)';
-                ctx.lineWidth = 1.2 * scale;
+                ctx.strokeStyle = 'rgba(220, 38, 38, 0.16)';
+                ctx.lineWidth = 1.1 * scale;
                 ctx.setLineDash([10 * scale, 8 * scale]);
                 ctx.beginPath();
                 ctx.moveTo(-wmBandW / 2, curY - bandH / 2);
@@ -4603,8 +4635,8 @@
 
                 // Distributed watermark text
                 ctx.setLineDash([]);
-                ctx.font = `800 ${20 * scale}px "Montserrat", "Outfit", "Helvetica Neue", Arial, sans-serif`;
-                ctx.fillStyle = 'rgba(220, 38, 38, 0.22)';
+                ctx.font = `800 ${19 * scale}px "Montserrat", "Outfit", "Helvetica Neue", Arial, sans-serif`;
+                ctx.fillStyle = 'rgba(220, 38, 38, 0.21)';
                 ctx.fillText('PREVIEW NO VÁLIDO   ·   DOCUMENTO NO OFICIAL', 0, curY);
             }
 
