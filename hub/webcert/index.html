@@ -962,30 +962,7 @@
             justify-content: center;
         }
 
-        .preview-stamp-badge {
-            position: absolute;
-            top: 14px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            background: rgba(220, 38, 38, 0.94);
-            color: #ffffff;
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 0.07em;
-            text-transform: uppercase;
-            padding: 6px 16px;
-            border-radius: 999px;
-            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);
-            pointer-events: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            border: 1.5px solid rgba(255, 255, 255, 0.4);
-            white-space: nowrap;
-        }
-
-        /* ── Diagonal Watermark Overlay: "PREVIEW NO VÁLIDO" ── */
+        /* ── Distributed Security Watermark Overlay: "PREVIEW NO VÁLIDO" ── */
         .preview-watermark-overlay {
             position: absolute;
             inset: 0;
@@ -995,40 +972,37 @@
             pointer-events: none;
             z-index: 15;
             overflow: hidden;
-        }
-
-        .watermark-diagonal-stripe {
-            transform: rotate(-30deg);
-            width: 145%;
-            background: rgba(239, 68, 68, 0.08);
-            border-top: 2.5px dashed rgba(220, 38, 38, 0.42);
-            border-bottom: 2.5px dashed rgba(220, 38, 38, 0.42);
-            padding: 14px 0;
-            text-align: center;
-            backdrop-filter: blur(0.4px);
-            box-shadow: 0 0 25px rgba(220, 38, 38, 0.08);
             user-select: none;
         }
 
-        .watermark-main-text {
-            font-family: 'Montserrat', 'Outfit', 'Inter', system-ui, sans-serif;
-            font-size: clamp(20px, 3.8vw, 34px);
-            font-weight: 900;
-            letter-spacing: 0.16em;
-            color: rgba(220, 38, 38, 0.45);
-            text-transform: uppercase;
-            line-height: 1.1;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+        .watermark-grid {
+            position: absolute;
+            width: 170%;
+            height: 170%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            transform: rotate(-28deg);
+            pointer-events: none;
         }
 
-        .watermark-sub-text {
-            font-family: 'Montserrat', 'Inter', system-ui, sans-serif;
-            font-size: clamp(9px, 1.3vw, 12px);
-            font-weight: 700;
-            letter-spacing: 0.22em;
-            color: rgba(220, 38, 38, 0.48);
+        .watermark-band {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 20px;
+            font-family: 'Montserrat', 'Outfit', system-ui, sans-serif;
+            font-size: clamp(13px, 2.3vw, 19px);
+            font-weight: 900;
+            letter-spacing: 0.16em;
+            color: rgba(220, 38, 38, 0.22);
             text-transform: uppercase;
-            margin-top: 4px;
+            white-space: nowrap;
+        }
+
+        .watermark-band .wm-sep {
+            opacity: 0.45;
+            font-weight: 400;
         }
 
         .preview-canvas-render {
@@ -1567,8 +1541,8 @@
 
         /* ============================================================
            W3C VERIFIABLE CREDENTIAL — PRO PRESENTATION MODAL & BACKDROP
-           Darkened backdrop ("oscurece el fondo"), enterprise UI,
-           Web Crypto SHA-256 signature verification & mathematical proof.
+           Light Glassmorphism theme matching MAIN page, compact scale,
+           progressive blurry-to-clear appear animation & SVG-only icons.
            ============================================================ */
         html.w3c-modal-open,
         body.w3c-modal-open {
@@ -1583,55 +1557,53 @@
             align-items: center;
             justify-content: center;
             padding: 24px 16px;
-            background: rgba(3, 7, 18, 0.94);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            background: rgba(15, 23, 42, 0.52);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             overflow-y: auto;
         }
 
         .w3c-modal-overlay.active {
             display: flex !important;
-            animation: w3cFadeInOverlay 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: w3cFadeInOverlay 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes w3cFadeInOverlay {
             from {
                 opacity: 0;
-                background: rgba(3, 7, 18, 0);
+                background: rgba(15, 23, 42, 0);
             }
             to {
                 opacity: 1;
-                background: rgba(3, 7, 18, 0.94);
+                background: rgba(15, 23, 42, 0.52);
             }
         }
 
         .w3c-modal-card {
             position: relative;
-            background: linear-gradient(180deg, #0b1120 0%, #030712 100%);
-            border: 1px solid rgba(16, 185, 129, 0.4);
-            border-radius: 28px;
-            max-width: 680px;
+            background: #ffffff;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            border-radius: 22px;
+            max-width: 570px;
             width: 100%;
             margin: auto;
-            color: #ffffff;
+            color: #0f172a;
             box-shadow: 
-                0 30px 90px -10px rgba(0, 0, 0, 0.98),
-                0 0 70px rgba(16, 185, 129, 0.22),
-                inset 0 1px 0 rgba(255, 255, 255, 0.16);
+                0 25px 70px -10px rgba(15, 23, 42, 0.22),
+                0 0 0 1px rgba(15, 23, 42, 0.05);
             overflow: hidden;
-            transform: scale(0.95) translateY(16px);
             opacity: 0;
             font-family: var(--font-sans);
         }
 
         .w3c-modal-overlay.active .w3c-modal-card {
-            animation: w3cCardSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: w3cCardSoftPop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        @keyframes w3cCardSlideUp {
+        @keyframes w3cCardSoftPop {
             from {
                 opacity: 0;
-                transform: scale(0.94) translateY(24px);
+                transform: scale(0.96) translateY(18px);
             }
             to {
                 opacity: 1;
@@ -1639,30 +1611,57 @@
             }
         }
 
-        /* Ambient glowing orbs inside modal */
+        /* ── Progressive Blurry-to-Clear Construction Animation (stemOS style) ── */
+        @keyframes w3cSoftConstruct {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.97);
+                filter: blur(12px);
+            }
+            50% {
+                opacity: 0.85;
+                filter: blur(3px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0px);
+            }
+        }
+
+        .w3c-soft-step {
+            opacity: 0;
+        }
+
+        .w3c-modal-overlay.active .w3c-soft-step {
+            animation: w3cSoftConstruct 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: var(--delay, 0.1s);
+        }
+
+        /* Ambient subtle light glow */
         .w3c-modal-glow {
             position: absolute;
-            top: -120px;
+            top: -100px;
             left: 50%;
             transform: translateX(-50%);
-            width: 440px;
-            height: 260px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.32) 0%, rgba(56, 189, 248, 0.16) 45%, transparent 70%);
-            filter: blur(55px);
+            width: 380px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.14) 0%, rgba(39, 126, 255, 0.08) 50%, transparent 70%);
+            filter: blur(40px);
             pointer-events: none;
             z-index: 0;
         }
 
         .w3c-modal-close-btn {
             position: absolute;
-            top: 18px;
-            right: 18px;
-            width: 38px;
-            height: 38px;
+            top: 16px;
+            right: 16px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #94a3b8;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1672,20 +1671,20 @@
         }
 
         .w3c-modal-close-btn:hover {
-            background: rgba(255, 255, 255, 0.18);
-            color: #ffffff;
+            background: #e2e8f0;
+            color: #0f172a;
             transform: rotate(90deg);
         }
 
         .w3c-modal-content {
             position: relative;
             z-index: 1;
-            padding: 38px 34px 32px;
+            padding: 30px 28px 24px;
         }
 
         @media (max-width: 600px) {
             .w3c-modal-content {
-                padding: 26px 18px 22px;
+                padding: 22px 16px 18px;
             }
         }
 
@@ -1695,14 +1694,14 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            margin-bottom: 22px;
+            margin-bottom: 18px;
         }
 
         .w3c-badge-seal {
             position: relative;
-            width: 78px;
-            height: 78px;
-            margin-bottom: 14px;
+            width: 66px;
+            height: 66px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1710,17 +1709,17 @@
 
         .w3c-seal-ring {
             position: absolute;
-            inset: -4px;
+            inset: -3px;
             border-radius: 50%;
-            border: 2px solid rgba(16, 185, 129, 0.45);
+            border: 2px solid rgba(16, 185, 129, 0.4);
             animation: w3cPulseRing 2.8s ease-out infinite;
         }
 
         .w3c-seal-ring-outer {
             position: absolute;
-            inset: -12px;
+            inset: -9px;
             border-radius: 50%;
-            border: 1.5px dashed rgba(56, 189, 248, 0.35);
+            border: 1.5px dashed rgba(39, 126, 255, 0.35);
             animation: w3cSpinSlow 20s linear infinite;
         }
 
@@ -1730,17 +1729,15 @@
         }
 
         .w3c-seal-icon-box {
-            width: 66px;
-            height: 66px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 35px rgba(16, 185, 129, 0.6), inset 0 2px 3px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
             color: #ffffff;
-            font-size: 32px;
-            font-weight: 800;
         }
 
         @keyframes w3cPulseRing {
@@ -1755,88 +1752,88 @@
             justify-content: center;
             gap: 8px;
             flex-wrap: wrap;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .w3c-status-pill {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 5px 14px;
+            gap: 5px;
+            padding: 4px 12px;
             border-radius: 9999px;
-            background: rgba(16, 185, 129, 0.14);
-            border: 1px solid rgba(16, 185, 129, 0.35);
-            color: #34d399;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: #059669;
             font-family: var(--font-head);
-            font-size: 0.74rem;
+            font-size: 0.72rem;
             font-weight: 700;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.06em;
             text-transform: uppercase;
         }
 
         .w3c-crypto-pill {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 5px 14px;
+            gap: 5px;
+            padding: 4px 12px;
             border-radius: 9999px;
-            background: rgba(56, 189, 248, 0.12);
-            border: 1px solid rgba(56, 189, 248, 0.35);
-            color: #38bdf8;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #2563eb;
             font-family: var(--font-head);
-            font-size: 0.74rem;
+            font-size: 0.72rem;
             font-weight: 700;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.06em;
             text-transform: uppercase;
         }
 
         .w3c-modal-title {
             font-family: var(--font-head);
-            font-size: clamp(1.45rem, 3.4vw, 1.95rem);
+            font-size: clamp(1.25rem, 2.8vw, 1.6rem);
             font-weight: 800;
             letter-spacing: -0.02em;
-            color: #f8fafc;
+            color: #0f172a;
             line-height: 1.2;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .w3c-modal-subtitle {
-            font-size: 0.88rem;
-            color: #94a3b8;
+            font-size: 0.8rem;
+            color: #64748b;
             font-weight: 500;
         }
 
         /* Hero Verification Callout Banner */
         .w3c-verification-statement {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(56, 189, 248, 0.1) 100%);
-            border: 1px solid rgba(52, 211, 153, 0.4);
-            border-radius: 16px;
-            padding: 14px 18px;
-            margin-bottom: 22px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             text-align: left;
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.08);
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.06);
         }
 
         .w3c-statement-icon {
             flex-shrink: 0;
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: rgba(16, 185, 129, 0.22);
-            border: 1px solid rgba(16, 185, 129, 0.4);
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            background: #dcfce7;
+            border: 1px solid #86efac;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #34d399;
+            color: #16a34a;
         }
 
         .w3c-statement-title {
-            font-size: 0.96rem;
+            font-size: 0.9rem;
             font-weight: 700;
-            color: #4ade80;
+            color: #15803d;
             margin-bottom: 2px;
             display: flex;
             align-items: center;
@@ -1844,9 +1841,9 @@
         }
 
         .w3c-statement-text {
-            font-size: 0.86rem;
-            line-height: 1.45;
-            color: #cbd5e1;
+            font-size: 0.82rem;
+            line-height: 1.4;
+            color: #334155;
             font-weight: 450;
         }
 
@@ -1854,8 +1851,8 @@
         .w3c-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 18px;
+            gap: 10px;
+            margin-bottom: 16px;
         }
 
         @media (max-width: 540px) {
@@ -1865,34 +1862,34 @@
         }
 
         .w3c-info-card {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 12px 14px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 11px;
+            padding: 10px 12px;
             transition: all 0.2s ease;
         }
 
         .w3c-info-card:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.15);
+            background: #f1f5f9;
+            border-color: #cbd5e1;
         }
 
         .w3c-info-label {
-            font-size: 0.72rem;
-            color: #94a3b8;
+            font-size: 0.69rem;
+            color: #64748b;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             display: flex;
             align-items: center;
             gap: 5px;
         }
 
         .w3c-info-val {
-            font-size: 0.96rem;
+            font-size: 0.92rem;
             font-weight: 700;
-            color: #f8fafc;
+            color: #0f172a;
             word-break: break-word;
         }
 
@@ -1900,31 +1897,36 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: linear-gradient(135deg, #1d4ed8 0%, #0284c7 100%);
+            background: #277eff;
             color: #ffffff;
-            padding: 3px 10px;
-            border-radius: 6px;
+            padding: 2px 9px;
+            border-radius: 5px;
             font-family: var(--font-head);
-            font-size: 0.88rem;
+            font-size: 0.84rem;
             font-weight: 800;
             letter-spacing: 0.02em;
         }
 
         .w3c-folio-tag {
             font-family: var(--font-mono);
-            color: #38bdf8;
-            font-size: 0.88rem;
+            color: #0284c7;
+            background: #e0f2fe;
+            border: 1px solid #bae6fd;
+            padding: 2px 7px;
+            border-radius: 5px;
+            font-size: 0.82rem;
             font-weight: 700;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.03em;
+            display: inline-block;
         }
 
         /* Crypto Signature Box */
         .w3c-crypto-box {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 14px;
-            padding: 14px 16px;
-            margin-bottom: 16px;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
             position: relative;
         }
 
@@ -1932,28 +1934,28 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-bottom: 7px;
         }
 
         .w3c-crypto-title {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
             font-family: var(--font-head);
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #4ade80;
+            letter-spacing: 0.04em;
+            color: #15803d;
         }
 
         .w3c-copy-btn {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 6px;
-            color: #94a3b8;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+            color: #475569;
             padding: 3px 8px;
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             font-weight: 600;
             cursor: pointer;
             display: inline-flex;
@@ -1963,29 +1965,29 @@
         }
 
         .w3c-copy-btn:hover {
-            background: rgba(255, 255, 255, 0.16);
-            color: #ffffff;
+            background: #f1f5f9;
+            color: #0f172a;
         }
 
         .w3c-hash-display {
             font-family: var(--font-mono);
-            font-size: 0.78rem;
-            color: #a7f3d0;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 8px;
+            font-size: 0.75rem;
+            color: #34d399;
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 7px;
             padding: 8px 10px;
             word-break: break-all;
-            line-height: 1.45;
+            line-height: 1.4;
             user-select: all;
         }
 
         .w3c-crypto-meta {
-            margin-top: 8px;
+            margin-top: 7px;
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             color: #64748b;
         }
 
@@ -1997,52 +1999,52 @@
 
         /* Asterisk Footnote required by user */
         .w3c-footnote {
-            background: rgba(255, 255, 255, 0.02);
-            border-left: 3px solid #38bdf8;
-            border-radius: 0 8px 8px 0;
-            padding: 10px 14px;
-            margin-bottom: 20px;
-            font-size: 0.75rem;
-            line-height: 1.5;
-            color: #94a3b8;
+            background: #f8fafc;
+            border-left: 3px solid #277eff;
+            border-radius: 0 7px 7px 0;
+            padding: 8px 12px;
+            margin-bottom: 16px;
+            font-size: 0.73rem;
+            line-height: 1.45;
+            color: #475569;
         }
 
         .w3c-footnote strong {
-            color: #e2e8f0;
+            color: #1e293b;
         }
 
         /* Collapsible JSON-LD W3C Tech Details */
         .w3c-json-toggle {
             background: none;
             border: none;
-            color: #38bdf8;
-            font-size: 0.76rem;
+            color: #277eff;
+            font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             padding: 0;
             transition: color 0.15s ease;
         }
 
         .w3c-json-toggle:hover {
-            color: #7dd3fc;
+            color: #1d4ed8;
             text-decoration: underline;
         }
 
         .w3c-json-container {
             display: none;
-            background: #020617;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 12px;
-            max-height: 180px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 9px;
+            padding: 10px;
+            max-height: 160px;
             overflow-y: auto;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             font-family: var(--font-mono);
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             color: #cbd5e1;
             white-space: pre-wrap;
             word-break: break-all;
@@ -2060,16 +2062,16 @@
             gap: 10px;
             flex-wrap: wrap;
             padding-top: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid #e2e8f0;
         }
 
         .w3c-btn-secondary {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #e2e8f0;
-            border-radius: 10px;
-            padding: 9px 16px;
-            font-size: 0.82rem;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
             display: inline-flex;
@@ -2079,21 +2081,30 @@
         }
 
         .w3c-btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.14);
-            color: #ffffff;
+            background: #f8fafc;
+            color: #0f172a;
         }
 
         .w3c-btn-primary {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: #277eff;
+            border: 1px solid rgba(39, 126, 255, 0.2);
             color: #ffffff;
-            border-radius: 10px;
-            padding: 9px 20px;
-            font-size: 0.84rem;
+            border-radius: 8px;
+            padding: 8px 18px;
+            font-size: 0.82rem;
             font-weight: 700;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(39, 126, 255, 0.25);
+        }
+
+        .w3c-btn-primary:hover {
+            background: #1b66e0;
+            transform: translateY(-1px);
+        }
             gap: 6px;
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
             transition: all 0.2s ease;
@@ -2373,7 +2384,7 @@
                             <div class="form-group">
                                 <label for="inputNombre">
                                     Nombre
-                                    <span class="label-tag name-lock-tag locked" id="lockTagNombre">🔒 Requiere clave</span>
+                                    <span class="label-tag name-lock-tag locked" id="lockTagNombre">Requiere clave</span>
                                 </label>
                                 <div class="input-wrapper">
                                     <span class="input-icon">
@@ -2388,7 +2399,7 @@
                             <div class="form-group">
                                 <label for="inputApellido">
                                     Apellido(s)
-                                    <span class="label-tag name-lock-tag locked" id="lockTagApellido">🔒 Requiere clave</span>
+                                    <span class="label-tag name-lock-tag locked" id="lockTagApellido">Requiere clave</span>
                                 </label>
                                 <div class="input-wrapper">
                                     <span class="input-icon">
@@ -2402,7 +2413,7 @@
                             </div>
                         </div>
                         <div id="nameLockNotice" style="margin: -6px 0 16px 0; padding: 7px 12px; background: rgba(220, 38, 38, 0.06); border: 1px dashed rgba(220, 38, 38, 0.3); border-radius: 8px; font-size: 11.5px; color: #dc2626; font-weight: 500; display: flex; align-items: center; gap: 8px;">
-                            <span style="font-size: 14px;">🔒</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink: 0;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                             <span>Campos protegidos con datos demo <strong>Juanito Pérez</strong>. Para editar y emitir certificados oficiales, autentica la institución con su clave.</span>
                         </div>
 
@@ -2655,15 +2666,25 @@
                     </div>
 
                     <div class="preview-card-wrap" id="previewWrap">
-                        <!-- Preview Only Badge -->
-                        <div class="preview-stamp-badge" id="previewStampBadge">
-                            <span style="font-size: 13px;">⚠️</span> PREVIEW NO VÁLIDO · MUESTRA
-                        </div>
-                        <!-- Diagonal Watermark Overlay: Translucent Red Across Entire Preview -->
+                        <!-- Diagonal Watermark Overlay: Translucent Red Separated Across Entire Preview -->
                         <div class="preview-watermark-overlay" id="previewWatermarkOverlay" aria-hidden="true">
-                            <div class="watermark-diagonal-stripe">
-                                <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
-                                <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                            <div class="watermark-grid">
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
+                                <div class="watermark-band">
+                                    <div class="watermark-main-text">PREVIEW NO VÁLIDO</div>
+                                    <div class="watermark-sub-text">DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN</div>
+                                </div>
                             </div>
                         </div>
                         <!-- High Fidelity Retina Canvas Render -->
@@ -2685,28 +2706,8 @@
                     <span class="dev-pill-name">@yepzhi</span>
                 </a>
             </div>
-            <div class="visit-counter">
-                <script>
-                    var sc_project=13182229; 
-                    var sc_invisible=0; 
-                    var sc_security="0cd44f01"; 
-                    (function() {
-                        var sc = document.createElement('script');
-                        sc.type = 'text/javascript';
-                        sc.async = true;
-                        sc.src = 'https://www.statcounter.com/counter/counter.js';
-                        var s = document.getElementsByTagName('script')[0];
-                        s.parentNode.insertBefore(sc, s);
-                    })();
-                </script>
-                <noscript>
-                    <div class="statcounter">
-                        <a title="web stats" href="https://statcounter.com/" target="_blank">
-                            <img class="statcounter" src="https://c.statcounter.com/13182229/0/0cd44f01/0/" alt="web stats" referrerPolicy="no-referrer-when-downgrade">
-                        </a>
-                    </div>
-                </noscript>
-            </div>
+            <!-- Yepzhi Visitors Analytics Tracker -->
+            <script src="https://yepzhi.com/visitors/tracker.js" defer></script>
         </footer>
     </div>
 
@@ -2803,11 +2804,15 @@
 
             <div class="w3c-modal-content">
                 <!-- Verified Header & Seal -->
-                <div class="w3c-header-center">
+                <div class="w3c-header-center w3c-soft-step" style="--delay: 0.04s;">
                     <div class="w3c-badge-seal">
                         <div class="w3c-seal-ring-outer"></div>
                         <div class="w3c-seal-ring"></div>
-                        <div class="w3c-seal-icon-box">✓</div>
+                        <div class="w3c-seal-icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
                     </div>
                     <div class="w3c-badges-row">
                         <div class="w3c-status-pill">
@@ -2824,13 +2829,13 @@
                         </div>
                     </div>
                     <h2 class="w3c-modal-title" id="w3cModalTitle">Certificado Oficial de Competencia</h2>
-                    <div class="w3c-modal-subtitle">Richmond Placement Assessment Center · W3C Verifiable Credentials & Open Badges 3.0</div>
+                    <div class="w3c-modal-subtitle">Richmond Placement Assessment Center · W3C Verifiable Credentials &amp; Open Badges 3.0</div>
                 </div>
 
-                <!-- Callout Banner with exact user prompt wording & verified status -->
-                <div class="w3c-verification-statement">
+                <!-- Callout Banner with verified status -->
+                <div class="w3c-verification-statement w3c-soft-step" style="--delay: 0.12s;">
                     <div class="w3c-statement-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                             <polyline points="9 12 11 14 15 10"></polyline>
                         </svg>
@@ -2838,16 +2843,19 @@
                     <div>
                         <div class="w3c-statement-title">
                             <span>Certificado Auténtico y Firma Criptográfica Válida</span>
-                            <span style="font-size: 0.68rem; background: #059669; color: white; padding: 2px 7px; border-radius: 9999px; letter-spacing: 0.04em;">VERIFICADO ✓</span>
+                            <span style="font-size: 0.68rem; background: #059669; color: white; padding: 2px 7px; border-radius: 9999px; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 4px;">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                VERIFICADO
+                            </span>
                         </div>
                         <div class="w3c-statement-text">
-                            La firma cryptográfica de este certificado es <strong>válida</strong>, matemáticamente infalsificable y emitida con los siguientes datos oficiales:
+                            La firma criptográfica de este certificado es <strong>válida</strong>, matemáticamente infalsificable y emitida con los siguientes datos oficiales:
                         </div>
                     </div>
                 </div>
 
                 <!-- Credential Data Grid -->
-                <div class="w3c-grid">
+                <div class="w3c-grid w3c-soft-step" style="--delay: 0.20s;">
                     <!-- Candidate -->
                     <div class="w3c-info-card" style="grid-column: 1 / -1;">
                         <div class="w3c-info-label">
@@ -2857,7 +2865,7 @@
                             </svg>
                             Alumno / Candidato Acreditado
                         </div>
-                        <div class="w3c-info-val" id="w3cModalStudent" style="font-size: 1.25rem; color: #ffffff; letter-spacing: -0.01em;">—</div>
+                        <div class="w3c-info-val" id="w3cModalStudent" style="font-size: 1.25rem; color: #0f172a; letter-spacing: -0.01em;">—</div>
                     </div>
 
                     <!-- CEFR Level -->
@@ -2871,7 +2879,7 @@
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
                             <span class="w3c-cefr-badge" id="w3cModalCefrBadge">B2+</span>
-                            <span style="font-size: 0.8rem; color: #94a3b8;" id="w3cModalCefrDesc">—</span>
+                            <span style="font-size: 0.8rem; color: #64748b;" id="w3cModalCefrDesc">—</span>
                         </div>
                     </div>
 
@@ -2884,7 +2892,7 @@
                             </svg>
                             Puntaje Obtenido
                         </div>
-                        <div class="w3c-info-val" id="w3cModalScore" style="color: #38bdf8; font-size: 1.1rem;">—</div>
+                        <div class="w3c-info-val" id="w3cModalScore" style="color: #0284c7; font-size: 1.1rem;">—</div>
                     </div>
 
                     <!-- Folio -->
@@ -2922,20 +2930,20 @@
                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
                             </svg>
-                            Institución Evaluadora & Emisora
+                            Institución Evaluadora &amp; Emisora
                         </div>
-                        <div class="w3c-info-val" id="w3cModalSchool" style="color: #f1f5f9;">—</div>
+                        <div class="w3c-info-val" id="w3cModalSchool" style="color: #1e293b;">—</div>
                     </div>
                 </div>
 
                 <!-- Cryptographic Signature Verification Box -->
-                <div class="w3c-crypto-box">
+                <div class="w3c-crypto-box w3c-soft-step" style="--delay: 0.28s;">
                     <div class="w3c-crypto-header">
                         <div class="w3c-crypto-title">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                             </svg>
-                            Firma Criptográfica SHA-256 Validada ✓
+                            Firma Criptográfica SHA-256 Validada
                         </div>
                         <button type="button" class="w3c-copy-btn" id="btnCopyHash" onclick="copyCryptoHash()" title="Copiar hash SHA-256">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2954,18 +2962,21 @@
                 </div>
 
                 <!-- Asterisk Footnote required by user -->
-                <div class="w3c-footnote">
-                    <strong>*</strong> Para falsificar esta firma criptográfica (SHA-256). La integridad del registro y su sello institucional son matemáticamente infalsificables e inalterables.
+                <div class="w3c-footnote w3c-soft-step" style="--delay: 0.35s;">
+                    <strong>*</strong> Signed by SHA-256. The integrity of this signature and record is mathematically tamper-proof and unalterable.
                 </div>
 
                 <!-- Collapsible Technical JSON-LD Details -->
-                <button type="button" class="w3c-json-toggle" id="btnToggleW3cJson" onclick="toggleW3cJson()">
-                    <span id="toggleJsonIcon">▸</span> Ver Credencial Técnica W3C JSON-LD / Open Badges 3.0
+                <button type="button" class="w3c-json-toggle w3c-soft-step" style="--delay: 0.40s;" id="btnToggleW3cJson" onclick="toggleW3cJson()">
+                    <svg id="toggleJsonIcon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transition: transform 0.2s ease; vertical-align: -1px; margin-right: 4px;">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                    Ver Credencial Técnica W3C JSON-LD / Open Badges 3.0
                 </button>
                 <div class="w3c-json-container" id="w3cJsonContainer"></div>
 
                 <!-- Modal Actions -->
-                <div class="w3c-modal-actions">
+                <div class="w3c-modal-actions w3c-soft-step" style="--delay: 0.46s;">
                     <button type="button" class="w3c-btn-secondary" onclick="copyVerificationLink()">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
@@ -3286,7 +3297,7 @@
                 inputNom.disabled = !isUnlocked;
                 if (!isUnlocked) {
                     inputNom.classList.add('input-locked');
-                    inputNom.placeholder = '🔒 Ingresa la clave para editar';
+                    inputNom.placeholder = 'Ingresa la clave para editar';
                 } else {
                     inputNom.classList.remove('input-locked');
                     inputNom.placeholder = 'Ej: Juanito';
@@ -3297,7 +3308,7 @@
                 inputApe.disabled = !isUnlocked;
                 if (!isUnlocked) {
                     inputApe.classList.add('input-locked');
-                    inputApe.placeholder = '🔒 Ingresa la clave para editar';
+                    inputApe.placeholder = 'Ingresa la clave para editar';
                 } else {
                     inputApe.classList.remove('input-locked');
                     inputApe.placeholder = 'Ej: Pérez';
@@ -3306,7 +3317,7 @@
 
             if (tagNom) {
                 if (!isUnlocked) {
-                    tagNom.textContent = '🔒 Requiere clave';
+                    tagNom.textContent = 'Requiere clave';
                     tagNom.className = 'label-tag name-lock-tag locked';
                 } else {
                     tagNom.textContent = 'Requerido';
@@ -3316,7 +3327,7 @@
 
             if (tagApe) {
                 if (!isUnlocked) {
-                    tagApe.textContent = '🔒 Requiere clave';
+                    tagApe.textContent = 'Requiere clave';
                     tagApe.className = 'label-tag name-lock-tag locked';
                 } else {
                     tagApe.textContent = 'Requerido';
@@ -3820,7 +3831,7 @@
             const icon = document.getElementById('toggleJsonIcon');
             if (container) {
                 const isExp = container.classList.toggle('expanded');
-                if (icon) icon.textContent = isExp ? '▾' : '▸';
+                if (icon) icon.style.transform = isExp ? 'rotate(90deg)' : 'rotate(0deg)';
             }
         }
 
@@ -4402,16 +4413,17 @@
                     ensureLivePreviewW3cQR();
                 }
 
-                // W3C QR Micro-label (centered under QR)
+                // W3C QR Micro-label (3 exact lines centered under QR)
                 ctx.textAlign = 'center';
-                ctx.font = `${4.8 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+                ctx.font = `${4.6 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#475569';
-                ctx.fillText('Verify digital credential', w3cQrX + w3cQrSize / 2, 610 * scale);
-                ctx.fillText('(W3C / Open Badges 3.0)', w3cQrX + w3cQrSize / 2, 618 * scale);
+                ctx.fillText('Verify digital credential', w3cQrX + w3cQrSize / 2, 608 * scale);
+                ctx.fillText('W3C Open Badges 3.0', w3cQrX + w3cQrSize / 2, 615 * scale);
+                ctx.fillText('Signed by SHA-256', w3cQrX + w3cQrSize / 2, 622 * scale);
 
                 // 4D. Validation Text (English - direct transparent overlay with subtle drop shadow)
-                const schoolName = selectedSchool ? selectedSchool.nombre_completo : '[INSTITUTION NAME]';
-                const valText = `This document certifies the result of a language assessment administered on-site at the premises of ${schoolName}. The administration of the assessment and the formal safeguarding of corresponding records are under the responsibility of the Language Department of said institution. For institutional validation purposes, scan the QR code: a pre-filled email with student details will open, ready to be sent to the corresponding department.`;
+                const schoolName = selectedSchool ? selectedSchool.nombre_completo : 'Universidad Tecnológica de Nogales';
+                const valText = `This document certifies the result of a language assessment administered on-site at the premises of ${schoolName}. The administration of the assessment and the formal safeguarding of corresponding records are under the responsibility of the Language Department. For institutional validation purposes, scan the QR code: a pre-filled email with student details will open, ready to be sent to the corresponding department.`;
 
                 ctx.textAlign = 'left';
                 ctx.font = `${6.5 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
@@ -4449,8 +4461,8 @@
                 ctx.fillStyle = '#e2e8f0';
                 ctx.fillText(w3cVisualText, 35 * scale, textY + 2 * scale);
 
-                // Cryptographic tamper-evident proof note requested by user
-                const cryptoProofNote = '* Para falsificar esta firma criptográfica (SHA-256). La integridad del registro y su sello institucional son matemáticamente infalsificables e inalterables.';
+                // Cryptographic tamper-evident proof note requested by user (English)
+                const cryptoProofNote = '* Signed by SHA-256. The integrity of this signature and record is mathematically tamper-proof and unalterable.';
                 ctx.font = `${4.9 * scale}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
                 ctx.fillStyle = '#0f172a';
                 ctx.fillText(cryptoProofNote, 35.8 * scale, textY + 9 * scale + 0.8 * scale);
@@ -4464,51 +4476,41 @@
                 ctx.fillText(`Folio: ${currentFolio}`, W - 30 * scale, 690 * scale);
             }
 
-            // ── PREVIEW WATERMARK ("PREVIEW NO VÁLIDO" - Translucent Red Diagonal) ──
+            // ── PREVIEW WATERMARK ("PREVIEW NO VÁLIDO" - Separated Distributed Translucent Red Bands) ──
             ctx.save();
             ctx.translate(W / 2, H / 2);
-            ctx.rotate(-30 * Math.PI / 180);
+            ctx.rotate(-28 * Math.PI / 180);
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
 
-            const wmBandW = 2200;
-            const wmBandH = 110 * scale; // 220px
+            const wmBandW = 2600;
+            const yOffsets = [-380, -120, 140, 400];
 
-            // Background translucent red tint across diagonal
-            ctx.fillStyle = 'rgba(239, 68, 68, 0.085)';
-            ctx.fillRect(-wmBandW / 2, -wmBandH / 2, wmBandW, wmBandH);
+            for (const yOff of yOffsets) {
+                const curY = yOff * scale;
+                const bandH = 50 * scale;
 
-            // Top & Bottom dashed security borders
-            ctx.strokeStyle = 'rgba(220, 38, 38, 0.42)';
-            ctx.lineWidth = 4 * scale;
-            ctx.setLineDash([16 * scale, 12 * scale]);
-            ctx.beginPath();
-            ctx.moveTo(-wmBandW / 2, -wmBandH / 2);
-            ctx.lineTo(wmBandW / 2, -wmBandH / 2);
-            ctx.moveTo(-wmBandW / 2, wmBandH / 2);
-            ctx.lineTo(wmBandW / 2, wmBandH / 2);
-            ctx.stroke();
+                // Translucent red band background
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.04)';
+                ctx.fillRect(-wmBandW / 2, curY - bandH / 2, wmBandW, bandH);
 
-            // Inner subtle solid accent lines
-            ctx.setLineDash([]);
-            ctx.strokeStyle = 'rgba(220, 38, 38, 0.22)';
-            ctx.lineWidth = 1.5 * scale;
-            ctx.beginPath();
-            ctx.moveTo(-wmBandW / 2, -wmBandH / 2 + 8 * scale);
-            ctx.lineTo(wmBandW / 2, -wmBandH / 2 + 8 * scale);
-            ctx.moveTo(-wmBandW / 2, wmBandH / 2 - 8 * scale);
-            ctx.lineTo(wmBandW / 2, wmBandH / 2 - 8 * scale);
-            ctx.stroke();
+                // Dashed border lines
+                ctx.strokeStyle = 'rgba(220, 38, 38, 0.22)';
+                ctx.lineWidth = 1.5 * scale;
+                ctx.setLineDash([12 * scale, 10 * scale]);
+                ctx.beginPath();
+                ctx.moveTo(-wmBandW / 2, curY - bandH / 2);
+                ctx.lineTo(wmBandW / 2, curY - bandH / 2);
+                ctx.moveTo(-wmBandW / 2, curY + bandH / 2);
+                ctx.lineTo(wmBandW / 2, curY + bandH / 2);
+                ctx.stroke();
 
-            // Main text: PREVIEW NO VÁLIDO (Bold, prominent, translucent red)
-            ctx.font = `900 ${52 * scale}px "Montserrat", "Outfit", "Helvetica Neue", Arial, sans-serif`;
-            ctx.fillStyle = 'rgba(220, 38, 38, 0.42)';
-            ctx.fillText('PREVIEW NO VÁLIDO', 0, -14 * scale);
-
-            // Sub text: DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN
-            ctx.font = `700 ${14 * scale}px "Montserrat", "Inter", "Helvetica Neue", Arial, sans-serif`;
-            ctx.fillStyle = 'rgba(220, 38, 38, 0.48)';
-            ctx.fillText('DOCUMENTO NO OFICIAL · MUESTRA DE VALIDACIÓN', 0, 28 * scale);
+                // Distributed watermark text
+                ctx.setLineDash([]);
+                ctx.font = `800 ${26 * scale}px "Montserrat", "Outfit", "Helvetica Neue", Arial, sans-serif`;
+                ctx.fillStyle = 'rgba(220, 38, 38, 0.25)';
+                ctx.fillText('PREVIEW NO VÁLIDO   ·   DOCUMENTO NO OFICIAL', 0, curY);
+            }
 
             ctx.restore();
         }
@@ -4619,7 +4621,7 @@
             }
 
             // 1. NOMBRE COMPLETO
-            const nombreCompleto = `${item.apellido || ''} ${item.nombre || ''}`.trim();
+            const nombreCompleto = `${item.nombre || ''} ${item.apellido || ''}`.trim();
             const nombreYPosition = height - 332;
             const maxNombreWidth = width * 0.85;
             
@@ -4914,12 +4916,14 @@
                     }
                 }
 
-                // W3C QR Micro-label (centered under QR)
+                // W3C QR Micro-label (3 exact lines centered under QR)
                 const w3cCapLine1 = 'Verify digital credential';
-                const w3cCapLine2 = '(W3C / Open Badges 3.0)';
-                const w3cCapSize = 4.8;
+                const w3cCapLine2 = 'W3C Open Badges 3.0';
+                const w3cCapLine3 = 'Signed by SHA-256';
+                const w3cCapSize = 4.6;
                 const w3cCapW1 = fontRegular.widthOfTextAtSize(w3cCapLine1, w3cCapSize);
                 const w3cCapW2 = fontRegular.widthOfTextAtSize(w3cCapLine2, w3cCapSize);
+                const w3cCapW3 = fontRegular.widthOfTextAtSize(w3cCapLine3, w3cCapSize);
                 firstPage.drawText(w3cCapLine1, {
                     x: 74 + (48 - w3cCapW1) / 2,
                     y: 110,
@@ -4929,15 +4933,22 @@
                 });
                 firstPage.drawText(w3cCapLine2, {
                     x: 74 + (48 - w3cCapW2) / 2,
-                    y: 102,
+                    y: 103.5,
+                    size: w3cCapSize,
+                    font: fontRegular,
+                    color: rgb(0.35, 0.4, 0.5),
+                });
+                firstPage.drawText(w3cCapLine3, {
+                    x: 74 + (48 - w3cCapW3) / 2,
+                    y: 97,
                     size: w3cCapSize,
                     font: fontRegular,
                     color: rgb(0.35, 0.4, 0.5),
                 });
 
                 // 3C. Validation Text (English - direct transparent overlay with subtle shadow)
-                const schoolName = selectedSchool ? selectedSchool.nombre_completo : '[INSTITUTION NAME]';
-                const valText = `This document certifies the result of a language assessment administered on-site at the premises of ${schoolName}. The administration of the assessment and the formal safeguarding of corresponding records are under the responsibility of the Language Department of said institution. For institutional validation purposes, scan the QR code: a pre-filled email with student details will open, ready to be sent to the corresponding department.`;
+                const schoolName = selectedSchool ? selectedSchool.nombre_completo : 'Universidad Tecnológica de Nogales';
+                const valText = `This document certifies the result of a language assessment administered on-site at the premises of ${schoolName}. The administration of the assessment and the formal safeguarding of corresponding records are under the responsibility of the Language Department. For institutional validation purposes, scan the QR code: a pre-filled email with student details will open, ready to be sent to the corresponding department.`;
 
                 const words = valText.split(' ');
                 const maxValW = 395;
@@ -4992,8 +5003,8 @@
                     color: rgb(0.9, 0.92, 0.95),
                 });
 
-                // Cryptographic tamper-evident proof note requested by user
-                const cryptoProofNote = '* Para falsificar esta firma criptográfica (SHA-256). La integridad del registro y su sello institucional son matemáticamente infalsificables e inalterables.';
+                // Cryptographic tamper-evident proof note requested by user (English)
+                const cryptoProofNote = '* Signed by SHA-256. The integrity of this signature and record is mathematically tamper-proof and unalterable.';
                 const cryptoNoteSize = 4.9;
                 firstPage.drawText(cryptoProofNote, {
                     x: 35.6,
@@ -5099,7 +5110,7 @@
                 const blob = new Blob([result.bytes], { type: 'application/pdf' });
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
-                link.download = `Certificate_${item.apellido}_${item.nombre}.pdf`;
+                link.download = `Certificate_${item.nombre}_${item.apellido}.pdf`;
                 link.click();
 
                 // Mostrar modal de éxito
@@ -5342,13 +5353,13 @@
                 
                 progressFill.style.width = `${pct}%`;
                 progressPercent.textContent = `${pct}%`;
-                progressStatus.textContent = `Generando ${i + 1} de ${total}: ${item.apellido} ${item.nombre}...`;
+                progressStatus.textContent = `Generando ${i + 1} de ${total}: ${item.nombre} ${item.apellido}...`;
 
                 // Build certificate with unique dynamic QR
                 const result = await buildCertificatePDF(item, templatePdfBytes);
                 foliosGenerados.push(result.folio);
 
-                const cleanName = `${item.apellido}_${item.nombre}`.replace(/[^a-zA-Z0-9áéíóúñÁÉÍÓÚÑ_-]/g, '_');
+                const cleanName = `${item.nombre}_${item.apellido}`.replace(/[^a-zA-Z0-9áéíóúñÁÉÍÓÚÑ_-]/g, '_');
                 const certFilename = `Certificado_${cleanName}.pdf`;
 
                 if (zip) {
