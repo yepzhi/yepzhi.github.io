@@ -804,13 +804,19 @@ function renderStatusCard(ticket) {
   const officialEmail = (ticket.officialEmail || '').trim();
   const noteText = (ticket.solutionNote || '').toLowerCase();
 
-  const isCodeUsed = isResolved && (
+  const isCodeUnused = isResolved && (
+    noteText.includes('no ha sido utilizado') || 
+    noteText.includes('vigente y sin uso') ||
+    noteText.includes('como la primera vez en:')
+  );
+
+  const isCodeUsed = isResolved && !isCodeUnused && (
     noteText.includes('encontramos tu cuenta') || 
     noteText.includes('utilizaste tu código') || 
     noteText.includes('utilizaste tu codigo')
   );
 
-  const isDiffEmail = isResolved && (
+  const isDiffEmail = isResolved && !isCodeUnused && (
     assignedCorrectEmail.length > 0 || 
     noteText.includes('correo diferente') || 
     noteText.includes('diste de alta con un correo') ||
@@ -818,14 +824,14 @@ function renderStatusCard(ticket) {
     isCodeUsed
   );
 
-  const isNoUserFound = isResolved && !isDiffEmail && (
+  const isNoUserFound = isResolved && !isDiffEmail && !isCodeUnused && (
     noteText.includes('no se encontró') || 
     noteText.includes('no se encontro') || 
     noteText.includes('ningún usuario') || 
     noteText.includes('ningun usuario')
   );
 
-  const hasPasswordAssigned = isResolved && assignedPassword.length > 0 && !isNoUserFound && !isDiffEmail;
+  const hasPasswordAssigned = isResolved && assignedPassword.length > 0 && !isNoUserFound && !isDiffEmail && !isCodeUnused;
   
   let displayRegisteredEmail = assignedCorrectEmail;
   if (!displayRegisteredEmail) {
@@ -946,10 +952,26 @@ function renderStatusCard(ticket) {
               </div>
             </div>
 
+            ${(assignedPassword || noteText.includes('mexico26')) ? `
+            <div class="cred-row">
+              <span class="cred-label label-blue">Contraseña asignada:</span>
+              <div class="cred-val-wrap">
+                <div class="cred-val highlight pass" id="credDiffPassText" style="color: #1d4ed8;">${escapeHtml(assignedPassword || 'Mexico26*')}</div>
+                <button type="button" class="btn-copy btn-copy-pass" onclick="copyToClipboard('${escapeHtml(assignedPassword || 'Mexico26*')}', this)">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <span>Copiar Contraseña</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="cred-info-note" style="background: #eff6ff; border-left: 4px solid #2563eb; color: #1e40af;">
+              <strong style="color: #1d4ed8;">Contraseña restablecida:</strong><br/>
+              Como ya encontramos tu cuenta en el sistema, procedimos de una vez a cambiar tu contraseña por: <strong>Mexico26*</strong> para que puedas ingresar directamente con tu correo registrado.
+            </div>` : `
             <div class="cred-info-note">
               <strong style="color: #1e3a8a;">Información de tu Contraseña:</strong><br/>
               A estos alumnos <strong>NO se les cambió la contraseña</strong> (tu contraseña de acceso es la que definiste en tu registro original, no se modificó tu contraseña).
-            </div>
+            </div>`}
           </div>
 
           <div class="resolved-action-bar">
@@ -962,11 +984,49 @@ function renderStatusCard(ticket) {
             </a>
           </div>
 
+          ${(assignedPassword || noteText.includes('mexico26')) ? `
+          <p class="resolved-tip tip-green" style="margin-top: 0.85rem;">
+            Una vez dentro de Richmond Studio con tu correo registrado y tu contraseña <strong>Mexico26*</strong>, podrás actualizar tu contraseña en la sección <strong>"My Profile"</strong> si lo deseas.
+          </p>` : `
           <div class="resolved-tip-box variant-blue">
             <strong style="color: #1e3a8a; display: block; margin-bottom: 0.25rem;">¿No recuerdas tu contraseña?</strong>
             La contraseña es la misma que pusiste cuando hiciste tu registro. En caso de que no la recuerdes o no te deje entrar aun así, levanta un nuevo ticket seleccionando la opción <strong>"No puedo entrar / Invalid Credentials"</strong> y en la solicitud coloca este correo, que es el correo oficial que tenemos en el sistema.
             <span style="display: block; margin-top: 0.4rem; color: #dc2626; font-weight: 700;">(Importante: NO atendemos cambios ni restablecimiento de contraseña por WhatsApp).</span>
+          </div>`}
+        </div>
+      ` : ''}
+
+      <!-- CASO: CÓDIGO SIN USO / REGISTRO POR PRIMERA VEZ -->
+      ${isCodeUnused ? `
+        <div class="resolved-hero-card" style="background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border-left: 5px solid #a855f7;">
+          <div class="resolved-hero-header">
+            <span class="resolved-check-icon" style="background: #e9d5ff; color: #7e22ce;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </span>
+            <div>
+              <h4 class="resolved-hero-title" style="color: #6b21a8;">¡Tu código está vigente y sin uso!</h4>
+              <p class="resolved-hero-subtitle" style="color: #7e22ce;">
+                Revisamos tu código y nos dimos cuenta que no ha sido utilizado en ninguna cuenta. Procede a registrarte como la primera vez en Richmond Studio con tus datos oficiales:
+              </p>
+            </div>
           </div>
+
+          <div class="resolved-action-bar">
+            <a href="https://richmondstudio.global/registration/student" target="_blank" rel="noopener noreferrer" class="btn-access-studio" style="background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%); box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);" title="Registrarte en Richmond Studio">
+              <span>Registrarme en Richmond Studio</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <p class="resolved-tip" style="background: rgba(255,255,255,0.7); border: 1px solid #d8b4fe; color: #6b21a8;">
+            💡 <strong>Instrucciones:</strong> Ingresa tu nombre, correo institucional o personal, tu contraseña de acceso y tu código de activación. Al finalizar recibirás tu confirmación de bienvenida.
+          </p>
         </div>
       ` : ''}
 

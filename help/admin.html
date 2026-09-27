@@ -659,6 +659,17 @@
 
   </main>
 
+  <!-- FOOTER -->
+  <footer style="text-align: center; padding: 2.25rem 1rem 3.5rem; font-size: 0.78rem; color: var(--c-muted);">
+    <p>© 2026 Richmond Pro · Control de Incidencias & SLA</p>
+    <div style="margin-top: 0.85rem;">
+      <a href="https://yepzhi.com" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.45rem 1.05rem; border-radius: 9999px; background: #ffffff; border: 1.5px solid rgba(124, 58, 237, 0.25); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); font-size: 0.78rem; font-weight: 700; color: var(--c-text); text-decoration: none; transition: all 0.2s;" onmouseover="this.style.borderColor='#7c3aed'; this.style.color='#7c3aed'; this.style.transform='translateY(-1px)';" onmouseout="this.style.borderColor='rgba(124, 58, 237, 0.25)'; this.style.color='var(--c-text)'; this.style.transform='translateY(0)';">
+        <span>⚡ Created by <strong>yepzhi</strong></span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </a>
+    </div>
+  </footer>
+
   <!-- EDIT / DETAIL MODAL -->
   <div class="modal-overlay" id="detailModal">
     <div class="modal-box">
@@ -779,14 +790,14 @@
               </div>
             </button>
 
-            <!-- Opción 3: Correo Diferente -->
+            <!-- Opción 3: Correo Diferente (Se cambia a Mexico26*) -->
             <button type="button" class="preset-action-card" id="cardPresetDiffEmail" onclick="selectPresetAction('diff_email')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #bfdbfe; background: #eff6ff; cursor: pointer; transition: all 0.2s;">
               <div style="font-weight: 800; font-size: 0.86rem; color: #1d4ed8; display: flex; align-items: center; gap: 0.4rem;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                Correo Diferente
+                Correo Diferente (Clave Mexico26*)
               </div>
               <div style="font-size: 0.74rem; color: #2563eb; margin-top: 0.25rem; line-height: 1.35;">
-                Te diste de alta con otro correo. Tu usuario es ese correo tal cual.
+                Cuenta encontrada con otro correo. Se cambia contraseña por Mexico26*.
               </div>
             </button>
 
@@ -798,6 +809,17 @@
               </div>
               <div style="font-size: 0.74rem; color: #4f46e5; margin-top: 0.25rem; line-height: 1.35;">
                 Invalid Code: el código ya se usó. Se indica el correo de su cuenta.
+              </div>
+            </button>
+
+            <!-- Opción 5: Código Sin Uso (Vigente) -->
+            <button type="button" class="preset-action-card" id="cardPresetCodeUnused" onclick="selectPresetAction('code_unused')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #d8b4fe; background: #faf5ff; cursor: pointer; transition: all 0.2s;">
+              <div style="font-weight: 800; font-size: 0.86rem; color: #7e22ce; display: flex; align-items: center; gap: 0.4rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                Código Sin Uso (Vigente)
+              </div>
+              <div style="font-size: 0.74rem; color: #9333ea; margin-top: 0.25rem; line-height: 1.35;">
+                El código está sin uso. Procede a registrarse como la primera vez.
               </div>
             </button>
           </div>
@@ -851,13 +873,16 @@
             Correo oficial confirmado (con el que está registrado en Richmond Studio):
           </label>
           <div style="display: flex; gap: 0.5rem; align-items: center;">
-            <input type="email" class="input-text" id="modalOfficialEmail" placeholder="correo.oficial@dominio.com (Opcional)" style="font-size: 0.93rem; background: #ffffff; color: #1e40af;" oninput="if(currentEditingTicket) currentEditingTicket.officialEmail = this.value.trim();" />
+            <input type="email" class="input-text" id="modalOfficialEmail" placeholder="Pega aquí el correo confirmado (o pega del ticket)..." style="font-size: 0.93rem; background: #ffffff; color: #1e40af;" oninput="if(currentEditingTicket) currentEditingTicket.officialEmail = this.value.trim();" />
             <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem;" onclick="const t=currentEditingTicket; if(t){ const v=t.email||t.altEmail||''; document.getElementById('modalOfficialEmail').value=v; t.officialEmail=v; }">
               Pegar del ticket
             </button>
+            <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem;" onclick="document.getElementById('modalOfficialEmail').value=''; if(currentEditingTicket) currentEditingTicket.officialEmail='';">
+              Limpiar
+            </button>
           </div>
           <p style="font-size: 0.71rem; color: #9333ea; margin-top: 0.3rem; margin-bottom: 0;">
-            Si se confirma, el alumno también verá su correo oficial en la pantalla de resolución.
+            Opcional: Si se confirma, el alumno verá su correo oficial en la pantalla de resolución junto a la contraseña restablecida.
           </p>
         </div>
 
@@ -1141,6 +1166,24 @@
           if (!hay.includes(fSearch)) return false;
         }
         return true;
+      });
+
+      // Ordenamiento: en pendientes, la más vieja hasta arriba (FIFO por SLA) y la más nueva abajo
+      filtered.sort((a, b) => {
+        const isPendA = a.status !== 'Resuelto';
+        const isPendB = b.status !== 'Resuelto';
+        const timeA = a.createdAtMillis || (a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt?.seconds ? a.createdAt.seconds * 1000 : 0));
+        const timeB = b.createdAtMillis || (b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt?.seconds ? b.createdAt.seconds * 1000 : 0));
+
+        if (isPendA && isPendB) {
+          return timeA - timeB; // Más antigua primero (arriba)
+        }
+        if (isPendA && !isPendB) return -1;
+        if (!isPendA && isPendB) return 1;
+
+        const resA = a.resolvedAtMillis || timeA;
+        const resB = b.resolvedAtMillis || timeB;
+        return resB - resA;
       });
 
       renderTable(filtered);
@@ -1529,12 +1572,20 @@
       }
 
       // Limpiar resaltado de tarjetas rápidas
-      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail', 'cardPresetCodeUsed'].forEach(id => {
+      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail', 'cardPresetCodeUsed', 'cardPresetCodeUnused'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.boxShadow = 'none';
       });
 
-      if (isCodeUsed) {
+      const isCodeUnused = noteLower.includes('no ha sido utilizado') || noteLower.includes('vigente y sin uso') || noteLower.includes('como la primera vez en:');
+
+      if (isCodeUnused) {
+        window.currentResolutionPreset = 'code_unused';
+        if (diffEmailGroup) diffEmailGroup.style.display = 'none';
+        if (passGroup) passGroup.style.display = 'none';
+        const c = document.getElementById('cardPresetCodeUnused');
+        if (c) c.style.boxShadow = '0 0 0 3px rgba(168, 85, 247, 0.45)';
+      } else if (isCodeUsed) {
         window.currentResolutionPreset = 'code_used';
         if (diffEmailGroup) diffEmailGroup.style.display = 'block';
         if (passGroup) passGroup.style.display = 'none';
@@ -1546,7 +1597,7 @@
         window.currentResolutionPreset = 'diff_email';
         if (diffEmailGroup) diffEmailGroup.style.display = 'block';
         if (passGroup) passGroup.style.display = 'none';
-        if (passInput) passInput.value = '';
+        if (passInput) passInput.value = ticket.assignedPassword || 'Mexico26*';
         if (diffEmailLabel) diffEmailLabel.textContent = 'Correo registrado en Richmond Studio con el que debe ingresar el alumno:';
         const c = document.getElementById('cardPresetDiffEmail');
         if (c) c.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.45)';
@@ -1592,7 +1643,7 @@
       window.currentResolutionPreset = actionType;
 
       // Resaltar visualmente la tarjeta activa
-      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail', 'cardPresetCodeUsed'].forEach(id => {
+      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail', 'cardPresetCodeUsed', 'cardPresetCodeUnused'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.boxShadow = 'none';
       });
@@ -1606,11 +1657,11 @@
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (diffEmailInput) diffEmailInput.value = '';
         const officialEmailInput = document.getElementById('modalOfficialEmail');
-        if (officialEmailInput) officialEmailInput.value = currentEditingTicket?.officialEmail || currentEditingTicket?.email || '';
+        if (officialEmailInput) officialEmailInput.value = currentEditingTicket?.officialEmail || '';
         if (currentEditingTicket) {
           currentEditingTicket.assignedPassword = 'Mexico26*';
           currentEditingTicket.assignedCorrectEmail = '';
-          if (officialEmailInput) currentEditingTicket.officialEmail = officialEmailInput.value.trim();
+          currentEditingTicket.officialEmail = officialEmailInput ? officialEmailInput.value.trim() : (currentEditingTicket.officialEmail || '');
         }
         noteEl.value = 'Se restableció tu contraseña a: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio con tu correo registrado y esta clave.';
       } else if (actionType === 'no_user') {
@@ -1631,10 +1682,10 @@
         if (c) c.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.45)';
         statusSelect.value = 'Resuelto';
 
-        // 1. QUITAR EL CAMPO DE CONTRASEÑA COMPLETAMENTE (porque la contraseña es la que puso en su registro)
+        // 1. Asignar contraseña restablecida Mexico26* al encontrar cuenta con correo diferente
         if (passGroup) passGroup.style.display = 'none';
-        if (passInput) passInput.value = '';
-        if (currentEditingTicket) currentEditingTicket.assignedPassword = '';
+        if (passInput) passInput.value = 'Mexico26*';
+        if (currentEditingTicket) currentEditingTicket.assignedPassword = 'Mexico26*';
 
         // 2. ABRIR EL CAMPO DE CORREO DIFERENTE (LIMPIO PARA PEGAR DEL SISTEMA EXTERNO)
         if (diffEmailGroup) diffEmailGroup.style.display = 'block';
@@ -1666,6 +1717,19 @@
         }
 
         updateDiffEmailNote();
+      } else if (actionType === 'code_unused') {
+        const c = document.getElementById('cardPresetCodeUnused');
+        if (c) c.style.boxShadow = '0 0 0 3px rgba(168, 85, 247, 0.45)';
+        statusSelect.value = 'Resuelto';
+        if (passInput) passInput.value = '';
+        if (passGroup) passGroup.style.display = 'none';
+        if (diffEmailGroup) diffEmailGroup.style.display = 'none';
+        if (diffEmailInput) diffEmailInput.value = '';
+        if (currentEditingTicket) {
+          currentEditingTicket.assignedPassword = '';
+          currentEditingTicket.assignedCorrectEmail = '';
+        }
+        noteEl.value = 'Revisamos tu código y nos dimos cuenta que no ha sido utilizado, está vigente y sin uso, por favor procede a registrarte como la primera vez en: https://richmondstudio.global/registration/student';
       }
     };
 
@@ -1684,7 +1748,7 @@
       if (window.currentResolutionPreset === 'code_used' || noteEl.value.toLowerCase().includes('utilizaste tu código') || noteEl.value.toLowerCase().includes('utilizaste tu codigo') || noteEl.value.toLowerCase().includes('encontramos tu cuenta')) {
         noteEl.value = `Encontramos tu cuenta, tu registro ya lo completaste y utilizaste tu código, por eso tu código dice inválido, es decir, ya lo utilizaste y solo se puede una vez. Tu cuenta está creada con el correo: ${emailTarget}. La contraseña es la misma que pusiste cuando hiciste tu registro. En caso de que no la recuerdes o no te deje entrar aun así, levanta otro ticket seleccionando la opción "No puedo entrar / Invalid Credentials".`;
       } else {
-        noteEl.value = `Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura). Hemos revisado la base de datos y tu correo registrado es: ${emailTarget} y la contraseña que definiste en tu registro (no se modificó tu contraseña). Si no recuerdas tu contraseña, levanta otro ticket seleccionando la opción "No puedo entrar / Invalid Credentials" y en la solicitud coloca este correo, que es el correo oficial que tenemos en el sistema (NO atendemos cambios de contraseña por WhatsApp).`;
+        noteEl.value = `Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura). Hemos revisado la base de datos y tu correo registrado es: ${emailTarget}. Como ya hemos encontrado tu cuenta procedemos de una vez a cambiar tu contraseña por: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio con tu correo registrado (${emailTarget}) y tu contraseña: Mexico26*.`;
       }
     };
 
@@ -1735,6 +1799,10 @@
         const emailToShow = currentDiffEmail || ticket.email;
         if (emailToShow) {
           msg += `Correo registrado para ingresar: ${emailToShow}\n`;
+        }
+        if (currentPass || currentNote.toLowerCase().includes('mexico26')) {
+          msg += `Contrasena asignada: ${currentPass || 'Mexico26*'}\n\n`;
+        } else {
           msg += `Contrasena: La que tu pusiste en tu registro original (no se modifico tu contrasena).\n\n`;
         }
       } else if (currentPass && currentStatus === 'Resuelto' && !isNoUser) {
@@ -1822,8 +1890,12 @@
 
       if (newStatus === 'Resuelto') {
         if (isDiffEmailVisible) {
-          // Opcion Correo Diferente: la contraseña es la que puso en su registro (NO se cambia contraseña)
-          assignedPass = '';
+          // Opcion Correo Diferente: ahora se cambia la contraseña por Mexico26*
+          if (window.currentResolutionPreset === 'diff_email' || newSolutionNote.toLowerCase().includes('mexico26')) {
+            assignedPass = 'Mexico26*';
+          } else {
+            assignedPass = '';
+          }
           assignedCorrectEmail = diffEmailInput ? diffEmailInput.value.trim() : '';
         } else if (isPassVisible && !isNoUser && passInput) {
           assignedPass = passInput.value.trim();
