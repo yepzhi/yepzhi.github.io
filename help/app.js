@@ -801,6 +801,7 @@ function renderStatusCard(ticket) {
   const resolvedAt = ticket.resolvedAtMillis || null;
   const assignedPassword = (ticket.assignedPassword || '').trim();
   const assignedCorrectEmail = (ticket.assignedCorrectEmail || '').trim();
+  const officialEmail = (ticket.officialEmail || '').trim();
   const noteText = (ticket.solutionNote || '').toLowerCase();
 
   const isCodeUsed = isResolved && (
@@ -861,6 +862,17 @@ function renderStatusCard(ticket) {
           </div>
 
           <div class="resolved-credentials-box variant-green">
+            ${officialEmail ? `
+            <div class="cred-row">
+              <span class="cred-label label-green">Correo oficial confirmado (para ingresar):</span>
+              <div class="cred-val-wrap">
+                <div class="cred-val highlight" id="credOfficialEmailText" style="color:#166534;">${escapeHtml(officialEmail)}</div>
+                <button type="button" class="btn-copy btn-copy-pass" onclick="copyToClipboard('${escapeHtml(officialEmail)}', this)">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <span>Copiar Correo</span>
+                </button>
+              </div>
+            </div>` : `
             <div class="cred-row">
               <span class="cred-label label-green">Usuario / Correo de Acceso:</span>
               <div class="cred-val-wrap">
@@ -870,7 +882,7 @@ function renderStatusCard(ticket) {
                   <span>Copiar Correo</span>
                 </button>
               </div>
-            </div>
+            </div>`}
 
             <div class="cred-row">
               <span class="cred-label label-green">Contraseña asignada:</span>

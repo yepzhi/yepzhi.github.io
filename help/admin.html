@@ -843,8 +843,21 @@
               Sin Clave
             </button>
           </div>
-          <p style="font-size: 0.72rem; color: #7e22ce; margin-top: 0.35rem; margin-bottom: 0;">
+          <p style="font-size: 0.72rem; color: #7e22ce; margin-top: 0.35rem; margin-bottom: 0.6rem;">
             El alumno la verá destacada en grande en su pantalla con un botón directo a Richmond Studio.
+          </p>
+          <!-- CORREO OFICIAL CONFIRMADO -->
+          <label class="form-label" for="modalOfficialEmail" style="color: #6b21a8; font-weight: 800; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem; display: block; margin-top: 0.15rem;">
+            Correo oficial confirmado (con el que está registrado en Richmond Studio):
+          </label>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <input type="email" class="input-text" id="modalOfficialEmail" placeholder="correo.oficial@dominio.com (Opcional)" style="font-size: 0.93rem; background: #ffffff; color: #1e40af;" oninput="if(currentEditingTicket) currentEditingTicket.officialEmail = this.value.trim();" />
+            <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem;" onclick="const t=currentEditingTicket; if(t){ const v=t.email||t.altEmail||''; document.getElementById('modalOfficialEmail').value=v; t.officialEmail=v; }">
+              Pegar del ticket
+            </button>
+          </div>
+          <p style="font-size: 0.71rem; color: #9333ea; margin-top: 0.3rem; margin-bottom: 0;">
+            Si se confirma, el alumno también verá su correo oficial en la pantalla de resolución.
           </p>
         </div>
 
@@ -1510,6 +1523,10 @@
       if (diffEmailInput) {
         diffEmailInput.value = ticket.assignedCorrectEmail || '';
       }
+      const officialEmailInput = document.getElementById('modalOfficialEmail');
+      if (officialEmailInput) {
+        officialEmailInput.value = ticket.officialEmail || '';
+      }
 
       // Limpiar resaltado de tarjetas rápidas
       ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail', 'cardPresetCodeUsed'].forEach(id => {
@@ -1588,9 +1605,12 @@
         if (passInput) passInput.value = 'Mexico26*';
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (diffEmailInput) diffEmailInput.value = '';
+        const officialEmailInput = document.getElementById('modalOfficialEmail');
+        if (officialEmailInput) officialEmailInput.value = currentEditingTicket?.officialEmail || currentEditingTicket?.email || '';
         if (currentEditingTicket) {
           currentEditingTicket.assignedPassword = 'Mexico26*';
           currentEditingTicket.assignedCorrectEmail = '';
+          if (officialEmailInput) currentEditingTicket.officialEmail = officialEmailInput.value.trim();
         }
         noteEl.value = 'Se restableció tu contraseña a: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio con tu correo registrado y esta clave.';
       } else if (actionType === 'no_user') {
@@ -1701,6 +1721,7 @@
       const currentStatus = document.getElementById('modalStatusSelect')?.value || ticket.status || 'Resuelto';
       const currentDiffEmail = isDiffEmailVisible && diffEmailInput ? diffEmailInput.value.trim() : (ticket.assignedCorrectEmail || '');
       const currentPass = (isDiffEmail || isNoUser) ? '' : (document.getElementById('modalAssignedPassword')?.value.trim() || ticket.assignedPassword || '');
+      const currentOfficialEmail = (document.getElementById('modalOfficialEmail')?.value.trim()) || ticket.officialEmail || '';
 
       let msg = `Hola ${ticket.fullName}, te contacto de Richmond Pro respecto a tu solicitud de soporte ${ticket.folio} (${ticket.school}).\n\n`;
       msg += `Estatus: ${currentStatus}\n\n`;
@@ -1717,6 +1738,9 @@
           msg += `Contrasena: La que tu pusiste en tu registro original (no se modifico tu contrasena).\n\n`;
         }
       } else if (currentPass && currentStatus === 'Resuelto' && !isNoUser) {
+        if (currentOfficialEmail) {
+          msg += `Correo oficial confirmado para ingresar: ${currentOfficialEmail}\n`;
+        }
         msg += `Contrasena asignada: ${currentPass}\n\n`;
       }
       msg += `Puedes revisar el detalle oficial de tu ticket en el enlace directo del sistema:\nhttps://yepzhi.com/help/?folio=${ticket.folio}`;
@@ -1832,12 +1856,16 @@
       };
       const newAdvisorWA = ADVISOR_WAS[newAdvisor] || currentEditingTicket.advisorWA || '5216621147374';
 
+      const officialEmailInput = document.getElementById('modalOfficialEmail');
+      const officialEmail = (isPassVisible && !isNoUser && officialEmailInput) ? officialEmailInput.value.trim() : (currentEditingTicket.officialEmail || '');
+
       const updates = {
         status: newStatus,
         assignedAdvisor: newAdvisor,
         advisorWA: newAdvisorWA,
         assignedPassword: assignedPass,
         assignedCorrectEmail: assignedCorrectEmail,
+        officialEmail: officialEmail,
         solutionNote: newSolutionNote,
         resolvedAtMillis: resolvedAtMillis
       };

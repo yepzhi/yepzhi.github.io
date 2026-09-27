@@ -148,6 +148,39 @@
                   </div>
                 </div>
               </details>
+
+
+              <!-- DIAGNOSTIC 3: Código sin uso, aún no registrado -->
+              <details class="diag-card">
+                <summary class="diag-summary">
+                  <div class="diag-summary-left">
+                    <span class="diag-tag" style="background: linear-gradient(135deg,#7c3aed,#a855f7); color:#fff;">Error más común 3</span>
+                    <span class="diag-title">Mi código está sin uso / Aún no me he registrado</span>
+                  </div>
+                  <svg class="diag-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </summary>
+                <div class="diag-content">
+                  <div class="diag-item">
+                    <span class="diag-bullet">•</span>
+                    <div>
+                      <strong>¿Tu código nunca fue utilizado?</strong> Si aún no te has registrado en la plataforma o si tu código nunca fue canjeado, <strong>ya tienes un código asignado</strong>. Procede a registrarte directamente en Richmond Studio usando el código a continuación:
+                    </div>
+                  </div>
+                  <div style="margin: 0.85rem 0 0.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.45rem;">
+                    <span style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted);">Tu Código de Activación:</span>
+                    <div style="font-family: monospace; font-size: 1.25rem; font-weight: 900; letter-spacing: 0.12em; color: #7c3aed; background: #f3e8ff; border: 2px solid #c4b5fd; border-radius: 12px; padding: 0.55rem 1.4rem; user-select: all;">FKJ35J9KM4AMUE2XMHBK</div>
+                    <button type="button" onclick="navigator.clipboard.writeText('FKJ35J9KM4AMUE2XMHBK').then(()=>{this.textContent='✓ Copiado'; setTimeout(()=>{this.textContent='Copiar código';},2000);})" style="font-size: 0.78rem; font-weight: 700; color: #7c3aed; background: #ede9fe; border: 1.5px solid #c4b5fd; border-radius: 8px; padding: 0.35rem 1rem; cursor: pointer; transition: background 0.2s;">Copiar código</button>
+                  </div>
+                  <div class="diag-item" style="margin-top: 0.5rem;">
+                    <span class="diag-bullet">•</span>
+                    <div>
+                      Ve a <strong>richmondstudio.global</strong>, crea tu cuenta con tu correo y usa este código al registrarte. Recibirás un correo de confirmación titulado <em>"Welcome to Richmond Studio"</em> cuando tu registro sea exitoso.
+                    </div>
+                  </div>
+                </div>
+              </details>
             </div>
           </div>
         </div>
@@ -570,6 +603,6 @@
   </footer>
 
   <script src="aurora.js?v=2.2.1"></script>
-  <script type="module" src="app.js?v=2.7.0"></script>
+  <script type="module" src="app.js?v=2.7.1"></script>
 </body>
 </html>
