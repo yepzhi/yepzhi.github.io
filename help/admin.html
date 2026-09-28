@@ -801,18 +801,7 @@
               </div>
             </button>
 
-            <!-- Opción 4: Código ya Utilizado (Cuenta encontrada) -->
-            <button type="button" class="preset-action-card" id="cardPresetCodeUsed" onclick="selectPresetAction('code_used')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #c7d2fe; background: #eef2ff; cursor: pointer; transition: all 0.2s;">
-              <div style="font-weight: 800; font-size: 0.86rem; color: #4338ca; display: flex; align-items: center; gap: 0.4rem;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                Código ya Utilizado (Cuenta Encontrada)
-              </div>
-              <div style="font-size: 0.74rem; color: #4f46e5; margin-top: 0.25rem; line-height: 1.35;">
-                Invalid Code: el código ya se usó. Se indica el correo de su cuenta.
-              </div>
-            </button>
-
-            <!-- Opción 5: Código Sin Uso (Vigente) -->
+            <!-- Opción 4: Código Sin Uso (Vigente) -->
             <button type="button" class="preset-action-card" id="cardPresetCodeUnused" onclick="selectPresetAction('code_unused')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #d8b4fe; background: #faf5ff; cursor: pointer; transition: all 0.2s;">
               <div style="font-weight: 800; font-size: 0.86rem; color: #7e22ce; display: flex; align-items: center; gap: 0.4rem;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
@@ -873,11 +862,11 @@
             Correo oficial confirmado (con el que está registrado en Richmond Studio):
           </label>
           <div style="display: flex; gap: 0.5rem; align-items: center;">
-            <input type="email" class="input-text" id="modalOfficialEmail" placeholder="Pega aquí el correo confirmado (o pega del ticket)..." style="font-size: 0.93rem; background: #ffffff; color: #1e40af;" oninput="if(currentEditingTicket) currentEditingTicket.officialEmail = this.value.trim();" />
-            <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem;" onclick="const t=currentEditingTicket; if(t){ const v=t.email||t.altEmail||''; document.getElementById('modalOfficialEmail').value=v; t.officialEmail=v; }">
+            <input type="email" class="input-text" id="modalOfficialEmail" placeholder="Pega aquí el correo confirmado (o pega del ticket)..." style="font-size: 0.93rem; background: #ffffff; color: #1e40af;" oninput="if(currentEditingTicket) currentEditingTicket.officialEmail = this.value.trim(); if(window.currentResolutionPreset === 'pass') updatePassResetNote();" />
+            <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem;" onclick="const t=currentEditingTicket; if(t){ const v=t.email||t.altEmail||''; document.getElementById('modalOfficialEmail').value=v; t.officialEmail=v; if(window.currentResolutionPreset==='pass') updatePassResetNote(); }">
               Pegar del ticket
             </button>
-            <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem;" onclick="document.getElementById('modalOfficialEmail').value=''; if(currentEditingTicket) currentEditingTicket.officialEmail='';">
+            <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem;" onclick="document.getElementById('modalOfficialEmail').value=''; if(currentEditingTicket) currentEditingTicket.officialEmail=''; if(window.currentResolutionPreset==='pass') updatePassResetNote();">
               Limpiar
             </button>
           </div>
@@ -913,13 +902,22 @@
           <textarea class="input-text" id="modalSolutionNote" rows="3" placeholder="Escribe el mensaje claro para el alumno o selecciona una opción rápida arriba..."></textarea>
         </div>
 
-        <div style="display: flex; gap: 0.8rem;">
-          <button type="submit" class="btn-primary" id="btnSaveResolution" style="flex: 1; justify-content: center; font-size: 0.92rem; padding: 0.75rem;">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: stretch; margin-top: 0.5rem;">
+          <button type="submit" class="btn-primary" id="btnSaveResolution" style="flex: 1.2; min-width: 150px; justify-content: center; font-size: 0.88rem; padding: 0.72rem 1rem;">
             Guardar Cambios
           </button>
-          <button type="button" class="btn-action" id="btnContactStudentWA" onclick="sendStudentWhatsApp()" style="background: rgba(52,211,153,0.15); color: var(--c-success); border-color: rgba(52,211,153,0.3); font-weight: 700; padding: 0.75rem 1rem;">
-            Enviar WhatsApp al Alumno
+          <button type="button" class="btn-action" id="btnContactStudentWAApp" onclick="sendStudentWhatsApp('app')" style="background: #ecfdf5; color: #047857; border-color: #6ee7b7; font-weight: 800; font-size: 0.82rem; padding: 0.72rem 0.95rem;" title="Abre directamente en la App de WhatsApp de tu Mac/PC (0 segundos de espera, sin recargas ni pérdida de sesión)">
+            📲 WhatsApp App (0s espera)
           </button>
+          <button type="button" class="btn-action" id="btnContactStudentWA" onclick="sendStudentWhatsApp('web')" style="background: rgba(52,211,153,0.14); color: #065f46; border-color: rgba(52,211,153,0.3); font-weight: 700; font-size: 0.82rem; padding: 0.72rem 0.9rem;" title="Abre WhatsApp Web en la MISMA pestaña fija para evitar abrir múltiples ventanas">
+            💬 WhatsApp Web (Misma pestaña)
+          </button>
+          <button type="button" class="btn-action" onclick="copyWAMessageToClipboard()" style="font-size: 0.8rem; padding: 0.72rem 0.85rem; font-weight: 700;" title="Copiar mensaje formateado al portapapeles">
+            📋 Copiar Mensaje
+          </button>
+          <div style="width: 100%; font-size: 0.72rem; color: #64748b; margin-top: 0.2rem; display: flex; align-items: center; gap: 0.35rem;">
+            <span>⚡ <strong>Tip:</strong> Con <em>WhatsApp App (0s)</em> abres el chat al instante sin recargas de 15s. Con <em>WhatsApp Web</em> se reutiliza la misma pestaña fija sin duplicar ventanas.</span>
+          </div>
         </div>
       </form>
     </div>
@@ -1572,7 +1570,7 @@
       }
 
       // Limpiar resaltado de tarjetas rápidas
-      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail', 'cardPresetCodeUsed', 'cardPresetCodeUnused'].forEach(id => {
+      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail', 'cardPresetCodeUnused'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.boxShadow = 'none';
       });
@@ -1585,15 +1583,7 @@
         if (passGroup) passGroup.style.display = 'none';
         const c = document.getElementById('cardPresetCodeUnused');
         if (c) c.style.boxShadow = '0 0 0 3px rgba(168, 85, 247, 0.45)';
-      } else if (isCodeUsed) {
-        window.currentResolutionPreset = 'code_used';
-        if (diffEmailGroup) diffEmailGroup.style.display = 'block';
-        if (passGroup) passGroup.style.display = 'none';
-        if (passInput) passInput.value = '';
-        if (diffEmailLabel) diffEmailLabel.textContent = 'Correo con el que está creada la cuenta encontrada en Richmond Studio:';
-        const c = document.getElementById('cardPresetCodeUsed');
-        if (c) c.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.45)';
-      } else if (hasDiffEmail) {
+      } else if (hasDiffEmail || (currentStatus === 'Resuelto' && (noteLower.includes('correo diferente') || noteLower.includes('diste de alta')))) {
         window.currentResolutionPreset = 'diff_email';
         if (diffEmailGroup) diffEmailGroup.style.display = 'block';
         if (passGroup) passGroup.style.display = 'none';
@@ -1643,7 +1633,7 @@
       window.currentResolutionPreset = actionType;
 
       // Resaltar visualmente la tarjeta activa
-      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail', 'cardPresetCodeUsed', 'cardPresetCodeUnused'].forEach(id => {
+      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail', 'cardPresetCodeUnused'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.boxShadow = 'none';
       });
@@ -1663,7 +1653,7 @@
           currentEditingTicket.assignedCorrectEmail = '';
           currentEditingTicket.officialEmail = officialEmailInput ? officialEmailInput.value.trim() : (currentEditingTicket.officialEmail || '');
         }
-        noteEl.value = 'Se restableció tu contraseña a: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio con tu correo registrado y esta clave.';
+        updatePassResetNote();
       } else if (actionType === 'no_user') {
         const c = document.getElementById('cardPresetNoUser');
         if (c) c.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.45)';
@@ -1697,26 +1687,6 @@
         }
 
         updateDiffEmailNote();
-      } else if (actionType === 'code_used') {
-        const c = document.getElementById('cardPresetCodeUsed');
-        if (c) c.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.45)';
-        statusSelect.value = 'Resuelto';
-
-        // 1. QUITAR EL CAMPO DE CONTRASEÑA (la contraseña es la suya original)
-        if (passGroup) passGroup.style.display = 'none';
-        if (passInput) passInput.value = '';
-        if (currentEditingTicket) currentEditingTicket.assignedPassword = '';
-
-        // 2. ABRIR CAMPO DE CORREO DE CUENTA ENCONTRADA
-        if (diffEmailGroup) diffEmailGroup.style.display = 'block';
-        if (diffEmailLabel) diffEmailLabel.textContent = 'Correo con el que está creada la cuenta encontrada en Richmond Studio:';
-
-        if (diffEmailInput) {
-          diffEmailInput.value = currentEditingTicket?.assignedCorrectEmail || '';
-          diffEmailInput.focus();
-        }
-
-        updateDiffEmailNote();
       } else if (actionType === 'code_unused') {
         const c = document.getElementById('cardPresetCodeUnused');
         if (c) c.style.boxShadow = '0 0 0 3px rgba(168, 85, 247, 0.45)';
@@ -1733,6 +1703,14 @@
       }
     };
 
+    window.updatePassResetNote = function() {
+      const noteEl = document.getElementById('modalSolutionNote');
+      if (!noteEl) return;
+      const officialEmailInput = document.getElementById('modalOfficialEmail');
+      const emailVal = (officialEmailInput && officialEmailInput.value.trim()) || currentEditingTicket?.officialEmail || currentEditingTicket?.email || currentEditingTicket?.altEmail || '[tu.correo@registrado.com]';
+      noteEl.value = `Se restableció tu contraseña a: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio. Tu usuario es tu correo: ${emailVal} y contraseña definida es: Mexico26*. Deja pasar 10 minutos desde que recibas este mensaje e intenta ingresar.`;
+    };
+
     window.updateDiffEmailNote = function() {
       const diffEmailInput = document.getElementById('modalAssignedEmail');
       if (diffEmailInput) {
@@ -1745,11 +1723,7 @@
       const emailTarget = emailVal || '[pega.aqui.el.correo@registrado.com]';
       if (!noteEl) return;
 
-      if (window.currentResolutionPreset === 'code_used' || noteEl.value.toLowerCase().includes('utilizaste tu código') || noteEl.value.toLowerCase().includes('utilizaste tu codigo') || noteEl.value.toLowerCase().includes('encontramos tu cuenta')) {
-        noteEl.value = `Encontramos tu cuenta, tu registro ya lo completaste y utilizaste tu código, por eso tu código dice inválido, es decir, ya lo utilizaste y solo se puede una vez. Tu cuenta está creada con el correo: ${emailTarget}. La contraseña es la misma que pusiste cuando hiciste tu registro. En caso de que no la recuerdes o no te deje entrar aun así, levanta otro ticket seleccionando la opción "No puedo entrar / Invalid Credentials".`;
-      } else {
-        noteEl.value = `Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura). Hemos revisado la base de datos y tu correo registrado es: ${emailTarget}. Como ya hemos encontrado tu cuenta procedemos de una vez a cambiar tu contraseña por: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio con tu correo registrado (${emailTarget}) y tu contraseña: Mexico26*.`;
-      }
+      noteEl.value = `Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura). Hemos revisado la base de datos y tu correo registrado es: ${emailTarget}. Como ya hemos encontrado tu cuenta procedemos de una vez a cambiar tu contraseña por: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio con tu correo registrado (${emailTarget}) y tu contraseña: Mexico26*.`;
     };
 
     window.pasteTicketEmailIntoAssigned = function() {
@@ -1762,8 +1736,10 @@
       }
     };
 
-    window.sendStudentWhatsApp = function() {
-      if (!currentEditingTicket) return;
+    let waWebWindowRef = null;
+
+    window.buildStudentWAMessage = function() {
+      if (!currentEditingTicket) return null;
       const ticket = currentEditingTicket;
       const currentNote = document.getElementById('modalSolutionNote')?.value.trim() || ticket.solutionNote || '';
       const diffEmailInput = document.getElementById('modalAssignedEmail');
@@ -1772,19 +1748,18 @@
       
       const isNoUser = noteLower.includes('no se encontró') || noteLower.includes('no se encontro') || noteLower.includes('ningún usuario') || noteLower.includes('ningun usuario');
       const isPassReset = noteLower.includes('se restableció tu contraseña') || noteLower.includes('se restablecio tu contrasena') || noteLower.includes('mexico26');
-      const isCodeUsed = noteLower.includes('encontramos tu cuenta') || noteLower.includes('utilizaste tu código') || noteLower.includes('utilizaste tu codigo');
+      const isCodeUnused = noteLower.includes('no ha sido utilizado') || noteLower.includes('vigente y sin uso');
       
       const isDiffEmailVisible = diffEmailGroup && diffEmailGroup.style.display !== 'none';
-      const isDiffEmail = !isNoUser && !isPassReset && (
+      const isDiffEmail = !isNoUser && !isPassReset && !isCodeUnused && (
         isDiffEmailVisible || 
-        isCodeUsed ||
         noteLower.includes('correo diferente') || 
         noteLower.includes('diste de alta con un correo')
       );
 
       const currentStatus = document.getElementById('modalStatusSelect')?.value || ticket.status || 'Resuelto';
       const currentDiffEmail = isDiffEmailVisible && diffEmailInput ? diffEmailInput.value.trim() : (ticket.assignedCorrectEmail || '');
-      const currentPass = (isDiffEmail || isNoUser) ? '' : (document.getElementById('modalAssignedPassword')?.value.trim() || ticket.assignedPassword || '');
+      const currentPass = (isDiffEmail || isNoUser || isCodeUnused) ? '' : (document.getElementById('modalAssignedPassword')?.value.trim() || ticket.assignedPassword || '');
       const currentOfficialEmail = (document.getElementById('modalOfficialEmail')?.value.trim()) || ticket.officialEmail || '';
 
       let msg = `Hola ${ticket.fullName}, te contacto de Richmond Pro respecto a tu solicitud de soporte ${ticket.folio} (${ticket.school}).\n\n`;
@@ -1794,7 +1769,6 @@
         msg += `Resolucion:\n${currentNote}\n\n`;
       }
       
-      // Correo registrado se agrega si es resolución de correo diferente o cuenta encontrada (y NO es Alumno No Encontrado)
       if (isDiffEmail && currentStatus === 'Resuelto') {
         const emailToShow = currentDiffEmail || ticket.email;
         if (emailToShow) {
@@ -1805,7 +1779,7 @@
         } else {
           msg += `Contrasena: La que tu pusiste en tu registro original (no se modifico tu contrasena).\n\n`;
         }
-      } else if (currentPass && currentStatus === 'Resuelto' && !isNoUser) {
+      } else if (currentPass && currentStatus === 'Resuelto' && !isNoUser && !isCodeUnused) {
         if (currentOfficialEmail) {
           msg += `Correo oficial confirmado para ingresar: ${currentOfficialEmail}\n`;
         }
@@ -1813,12 +1787,57 @@
       }
       msg += `Puedes revisar el detalle oficial de tu ticket en el enlace directo del sistema:\nhttps://yepzhi.com/help/?folio=${ticket.folio}`;
 
-      const studentNum = ticket.studentWhatsApp || '';
-      if (studentNum) {
-        window.open(`https://wa.me/${studentNum}?text=${encodeURIComponent(msg)}`, '_blank');
-      } else {
-        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+      const rawNum = ticket.studentWhatsApp || '';
+      const cleanNum = rawNum.replace(/\D/g, '');
+
+      return { msg, cleanNum, ticket };
+    };
+
+    window.sendStudentWhatsApp = function(mode = 'web') {
+      const data = buildStudentWAMessage();
+      if (!data) return;
+      const { msg, cleanNum } = data;
+      const encodedMsg = encodeURIComponent(msg);
+
+      if (mode === 'app') {
+        const appUrl = cleanNum ? `whatsapp://send?phone=${cleanNum}&text=${encodedMsg}` : `whatsapp://send?text=${encodedMsg}`;
+        window.location.href = appUrl;
+        showAdminToast('Abriendo en App de WhatsApp…');
+        return;
       }
+
+      // Modo WhatsApp Web reutilizando SIEMPRE la misma pestaña fija
+      const WA_TAB_NAME = 'RichmondPro_WA_Session';
+      const webUrl = cleanNum 
+        ? `https://web.whatsapp.com/send?phone=${cleanNum}&text=${encodedMsg}`
+        : `https://web.whatsapp.com/send?text=${encodedMsg}`;
+
+      if (waWebWindowRef && !waWebWindowRef.closed) {
+        try {
+          waWebWindowRef.location.href = webUrl;
+          waWebWindowRef.focus();
+          showAdminToast('Mensaje cargado en tu pestaña de WhatsApp Web');
+          return;
+        } catch (err) {
+          // Fallback a window.open con el mismo nombre si hay restricción cross-origin
+        }
+      }
+
+      waWebWindowRef = window.open(webUrl, WA_TAB_NAME);
+      if (waWebWindowRef) {
+        waWebWindowRef.focus();
+      }
+      showAdminToast('Abriendo WhatsApp Web en pestaña fija');
+    };
+
+    window.copyWAMessageToClipboard = function() {
+      const data = buildStudentWAMessage();
+      if (!data) return;
+      navigator.clipboard.writeText(data.msg).then(() => {
+        showAdminToast('✓ Mensaje de WhatsApp copiado al portapapeles');
+      }).catch(() => {
+        showAdminToast('No se pudo copiar automáticamente');
+      });
     };
 
     window.closeDetailModal = function() {
