@@ -423,19 +423,11 @@ async function submitTicket() {
 
   // Determinación de Asesor:
   // Noroeste -> Alberto Yépiz (UTH, ITESCA, ITLM, ITH, IT MXL, UNIVAFU)
-  // Norte    -> Luis Franco (UAZ PEUL, UJED, ICEST TAMPICO, CI 22 UANL)
   // Occidente -> Fabiola Martinez (UTNA, IT CUL, BACH TEPIC, UPSIN, CETI COLOMOS, LAMAR, CAI)
-  // Toluca / EdoMex / Mich -> Edgar Espinoza (UTZIN, UPOTEC, UAEM, ENES, UMSNH, SIRIUS, IBIM, UTSEM, TESJI, UIEM)
+  // (Escuelas de Luis Franco y Edgar Espinoza archivadas en backup_escuelas_archivadas.json)
   const schoolKey = STATE.data.school;
   let assignedAdvisor = 'Alberto Yépiz';
   let advisorWA = '5216621147374';
-
-  const NORTE_SCHOOLS = [
-    'UAZ PEUL',
-    'UJED',
-    'ICEST TAMPICO',
-    'CI 22 UANL'
-  ];
 
   const OCCIDENTE_SCHOOLS = [
     'UTNA',
@@ -447,23 +439,6 @@ async function submitTicket() {
     'CAI'
   ];
 
-  const TOLUCA_SCHOOLS = [
-    'UTZIN',
-    'UPOTEC',
-    'UAEM ENFERMERIA',
-    'UAEM CS EXACTAS',
-    'ENES MORELIA',
-    'UMSNH',
-    'SIRIUS',
-    'IBIM ATLACOMULCO',
-    'IBIM TOLUCA',
-    'UTSEM',
-    'TESJI',
-    'UIEM',
-    'UAEM QUIMICA',
-    'UAEM ODONTOLOGIA'
-  ];
-
   const SCHOOL_NAMES = {
     'UTH': 'UTH - Univ. Tecnológica de Hermosillo',
     'ITESCA': 'ITESCA - Inst. Tecnológico Superior de Cajeme',
@@ -471,40 +446,16 @@ async function submitTicket() {
     'ITH': 'ITH - Inst. Tecnológico de Hermosillo',
     'IT MXL': 'IT MXL - Inst. Tecnológico de Mexicali',
     'UNIVAFU': 'UNIVAFU - Universidad del Valle del Fuerte',
-    'UAZ PEUL': 'UAZ PEUL - Universidad Autónoma de Zacatecas (PEUL)',
-    'UJED': 'UJED - Facultad de Lenguas PUAALI',
-    'ICEST TAMPICO': 'ICEST Tampico',
-    'CI 22 UANL': 'CI 22 UANL - Centro de Idiomas Prepa',
     'UTNA': 'UTNA - Univ. Tecnológica del Norte de Aguascalientes',
     'IT CUL': 'IT CUL - Inst. Tecnológico de Culiacán',
     'BACH TEPIC': 'Bach. de Ciencias y Letras de Tepic',
     'UPSIN': 'UPSIN - Univ. Politécnica de Sinaloa',
     'CETI COLOMOS': 'CETI Colomos - Centro de Enseñanza Técnica Industrial',
     'LAMAR': 'LAMAR - Univ. Guadalajara LAMAR',
-    'CAI': 'UAN, CAI - Universidad Autónoma de Nayarit (Coord. de Asuntos Internacionales)',
-    'UTZIN': 'UTZIN - Universidad Tecnológica de Zinacantepec',
-    'UPOTEC': 'UPOTEC - Universidad Politécnica de Otzolotepec',
-    'UAEM ENFERMERIA': 'UAEM - Facultad de Enfermería',
-    'UAEM CS EXACTAS': 'UAEM - Facultad de Ciencias Exactas',
-    'ENES MORELIA': 'ENES Campus Morelia',
-    'UMSNH': 'UMSNH - Univ. Michoacana de San Nicolás de Hidalgo',
-    'SIRIUS': 'Sirius Campus Universitario',
-    'IBIM ATLACOMULCO': 'IBIM Atlacomulco',
-    'IBIM TOLUCA': 'IBIM Toluca',
-    'UTSEM': 'UTSEM - Univ. Tecnológica del Sur del Edo. de México',
-    'TESJI': 'TESJI - Tec. de Estudios Superiores de Jilotepec',
-    'UIEM': 'UIEM - Univ. Intercultural del Edo. de México',
-    'UAEM QUIMICA': 'UAEM - Facultad de Química',
-    'UAEM ODONTOLOGIA': 'UAEM - Facultad de Odontología'
+    'CAI': 'UAN, CAI - Universidad Autónoma de Nayarit (Coord. de Asuntos Internacionales)'
   };
 
-  if (TOLUCA_SCHOOLS.includes(schoolKey)) {
-    assignedAdvisor = 'Edgar Espinoza';
-    advisorWA = '526641234572';
-  } else if (NORTE_SCHOOLS.includes(schoolKey)) {
-    assignedAdvisor = 'Luis Franco';
-    advisorWA = '5218119905772';
-  } else if (OCCIDENTE_SCHOOLS.includes(schoolKey)) {
+  if (OCCIDENTE_SCHOOLS.includes(schoolKey)) {
     assignedAdvisor = 'Fabiola Martinez';
     advisorWA = '5213316025928';
   } else {

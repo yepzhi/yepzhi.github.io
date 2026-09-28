@@ -1,0 +1,132 @@
+{
+  "timestamp": "2026-09-27T22:05:00-07:00",
+  "descripcion": "Respaldo de escuelas e instituciones educativas asignadas a Luis Franco y Edgar Espinoza, retiradas del formulario de Help Center por falta de actividad/solicitudes.",
+  "asesores": [
+    {
+      "id": "norte",
+      "nombre": "Luis Franco",
+      "zona": "Norte (Durango, Coahuila, NL, Tamps, Zac)",
+      "wa": "5218119905772",
+      "motivo_baja": "Sin solicitudes recibidas en la plataforma.",
+      "escuelas": [
+        {
+          "codigo": "UAZ PEUL",
+          "nombre_corto": "UAZ PEUL",
+          "nombre_completo": "UAZ PEUL - Universidad Autónoma de Zacatecas (PEUL)",
+          "estado": "Zacatecas"
+        },
+        {
+          "codigo": "UJED",
+          "nombre_corto": "UJED",
+          "nombre_completo": "UJED - Facultad de Lenguas PUAALI",
+          "estado": "Durango"
+        },
+        {
+          "codigo": "ICEST TAMPICO",
+          "nombre_corto": "ICEST Tampico",
+          "nombre_completo": "ICEST Tampico",
+          "estado": "Tamaulipas"
+        },
+        {
+          "codigo": "CI 22 UANL",
+          "nombre_corto": "CI 22 UANL",
+          "nombre_completo": "CI 22 UANL - Centro de Idiomas Prepa",
+          "estado": "Nuevo León"
+        }
+      ]
+    },
+    {
+      "id": "toluca",
+      "nombre": "Edgar Espinoza",
+      "zona": "Toluca / EdoMex / Michoacán",
+      "wa": "526641234572",
+      "motivo_baja": "Sin solicitudes recibidas en la plataforma.",
+      "escuelas": [
+        {
+          "codigo": "UTZIN",
+          "nombre_corto": "UTZIN",
+          "nombre_completo": "UTZIN - Universidad Tecnológica de Zinacantepec",
+          "estado": "Estado de México"
+        },
+        {
+          "codigo": "UPOTEC",
+          "nombre_corto": "UPOTEC",
+          "nombre_completo": "UPOTEC - Universidad Politécnica de Otzolotepec",
+          "estado": "Estado de México"
+        },
+        {
+          "codigo": "UAEM ENFERMERIA",
+          "nombre_corto": "UAEM Enfermería",
+          "nombre_completo": "UAEM - Facultad de Enfermería",
+          "estado": "Estado de México"
+        },
+        {
+          "codigo": "UAEM CS EXACTAS",
+          "nombre_corto": "UAEM Ciencias Exactas",
+          "nombre_completo": "UAEM - Facultad de Ciencias Exactas",
+          "estado": "Estado de México"
+        },
+        {
+          "codigo": "ENES MORELIA",
+          "nombre_corto": "ENES Morelia",
+          "nombre_completo": "ENES Campus Morelia",
+          "estado": "Michoacán"
+        },
+        {
+          "codigo": "UMSNH",
+          "nombre_corto": "UMSNH",
+          "nombre_completo": "UMSNH - Univ. Michoacana de San Nicolás de Hidalgo",
+          "estado": "Michoacán"
+        },
+        {
+          "codigo": "SIRIUS",
+          "nombre_corto": "Sirius Universitario",
+          "nombre_completo": "Sirius Campus Universitario",
+          "estado": "Estado de México"
+        },
+        {
+          "codigo": "IBIM ATLACOMULCO",
+          "nombre_corto": "IBIM Atlacomulco",
+          "nombre_completo": "IBIM Atlacomulco",
+          "estado": "Estado de México"
+        },
+        {
+          "codigo": "IBIM TOLUCA",
+          "nombre_corto": "IBIM Toluca",
+          "nombre_completo": "IBIM Toluca",
+          "estado": "Estado de México"
+        },
+        {
+          "codigo": "UTSEM",
+          "nombre_corto": "UTSEM",
+          "nombre_completo": "UTSEM - Univ. Tecnológica del Sur del Edo. de México",
+          "estado": "Estado de México"
+        },
+        {
+          "codigo": "TESJI",
+          "nombre_corto": "TESJI",
+          "nombre_completo": "TESJI - Tec. de Estudios Superiores de Jilotepec",
+          "estado": "Estado de México"
+        },
+        {
+          "codigo": "UIEM",
+          "nombre_corto": "UIEM",
+          "nombre_completo": "UIEM - Univ. Intercultural del Edo. de México",
+          "estado": "Estado de México"
+        },
+        {
+          "codigo": "UAEM QUIMICA",
+          "nombre_corto": "UAEM Química",
+          "nombre_completo": "UAEM - Facultad de Química",
+          "estado": "Estado de México"
+        },
+        {
+          "codigo": "UAEM ODONTOLOGIA",
+          "nombre_corto": "UAEM Odontología",
+          "nombre_completo": "UAEM - Facultad de Odontología",
+          "estado": "Estado de México"
+        }
+      ]
+    }
+  ]
+}
