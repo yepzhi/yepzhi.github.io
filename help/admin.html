@@ -507,6 +507,15 @@
           Sincronizar
         </button>
 
+        <button type="button" class="btn-action" id="btnLoadResolvedHistory" onclick="loadResolvedHistory()" title="Cargar historial completo de tickets resueltos de Firestore" style="color: #047857; background: #ecfdf5; border-color: #a7f3d0; font-weight: 700;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span id="btnLoadResolvedText">Cargar Resueltas</span>
+        </button>
+
         <button type="button" class="btn-action" style="color: var(--c-success); border-color: rgba(52,211,153,0.3);" onclick="exportTicketsToCSV()">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -871,6 +880,24 @@
           </p>
         </div>
 
+        <!-- Campo para Código sin uso vigente -->
+        <div id="modalUnusedCodeGroup" style="display: none; background: #faf5ff; border: 1.5px solid #d8b4fe; border-radius: 12px; padding: 0.85rem 1rem; margin-bottom: 0.9rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.4rem;">
+            <label class="form-label" id="modalUnusedCodeLabel" for="modalUnusedCode" style="color: #7e22ce; font-weight: 800; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0;">
+              Código vigente y sin uso para el alumno:
+            </label>
+            <button type="button" class="btn-action" style="font-size: 0.72rem; padding: 0.2rem 0.6rem; color: #7e22ce; background: #f3e8ff; border: 1px solid #e9d5ff; border-radius: 6px; font-weight: 700;" onclick="pasteTicketCodeIntoUnused()" title="Pegar el código de libro del ticket">
+              Pegar código del ticket
+            </button>
+          </div>
+          <div>
+            <input type="text" class="input-text" id="modalUnusedCode" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" oninput="updateUnusedCodeNote()" onchange="updateUnusedCodeNote()" onpaste="setTimeout(updateUnusedCodeNote, 20)" placeholder="Pega aquí el código vigente (ej. ABC-123-XYZ)..." style="width: 100%; font-family: monospace, sans-serif !important; font-weight: 700; font-size: 1.05rem; background: #ffffff; color: #7e22ce; letter-spacing: 0.05em !important;" />
+          </div>
+          <p style="font-size: 0.74rem; color: #9333ea; margin-top: 0.35rem; margin-bottom: 0; line-height: 1.4;">
+            Este código se incluirá en el mensaje de WhatsApp y en la resolución para que el alumno complete su registro inicial en el portal.
+          </p>
+        </div>
+
         <!-- Mensaje final al alumno -->
         <div class="form-group" style="margin-bottom: 1.2rem;">
           <label class="form-label" for="modalSolutionNote" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
@@ -916,7 +943,8 @@
       limit,
       orderBy,
       serverTimestamp,
-      onSnapshot 
+      onSnapshot,
+      getCountFromServer
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -939,6 +967,10 @@
     let allTickets = [];
     let currentEditingTicket = null;
     let liveTickInterval = null;
+    let serverTotalCount = null;
+    let serverResolvedCount = null;
+    let serverPendingCount = null;
+    let hasLoadedResolvedHistory = false;
 
     // ─── GATE LOGIN CON PERSISTENCIA ───
     window.checkAdminGate = function() {
@@ -1023,7 +1055,7 @@
         }
       }
 
-      updateSyncBadge('Sincronizando con Firestore (1 sola petición)...');
+      updateSyncBadge('Sincronizando incidencias con Firestore...');
 
       const tbody = document.getElementById('ticketsTableBody');
       if (tbody && (!allTickets || allTickets.length === 0)) {
@@ -1034,7 +1066,7 @@
                 <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
                 <path d="M12 2a10 10 0 0 1 10 10"/>
               </svg>
-              Sincronizando solicitudes en 1 sola petición optimizada desde Firestore…
+              Sincronizando solicitudes pendientes desde Firestore…
             </td>
           </tr>
         `;
@@ -1043,24 +1075,84 @@
       let tickets = [];
 
       if (db) {
+        // 1. Obtener conteos exactos reales desde el servidor con getCountFromServer (1 lectura agregada)
+        try {
+          const coll = collection(db, "help_tickets");
+          const [snapTotal, snapResolved] = await Promise.all([
+            getCountFromServer(coll),
+            getCountFromServer(query(coll, where("status", "==", "Resuelto")))
+          ]);
+          serverTotalCount = snapTotal.data().count;
+          serverResolvedCount = snapResolved.data().count;
+          serverPendingCount = Math.max(0, serverTotalCount - serverResolvedCount);
+        } catch (cntErr) {
+          console.warn('[Admin] Conteo agregación fallback:', cntErr);
+        }
+
+        // 2. Descargar documentos
         try {
           let snapshot = null;
-          try {
-            // 1 SOLA PETICIÓN POR CARGA:
-            // Recupera hasta 250 tickets ordenados por fecha descendente en 1 único viaje de red.
-            // Esto incluye el 100% de los tickets actuales (177 en total), garantizando
-            // que todos los tickets de UPSIN y demás universidades siempre estén presentes.
-            const q = query(collection(db, "help_tickets"), orderBy("createdAtMillis", "desc"), limit(250));
-            snapshot = await getDocs(q);
-          } catch (orderErr) {
-            console.warn('[Admin] Fallback a consulta simple con límite 250:', orderErr);
-            const qFallback = query(collection(db, "help_tickets"), limit(250));
-            snapshot = await getDocs(qFallback);
-          }
-          if (snapshot && !snapshot.empty) {
-            snapshot.forEach((docSnapshot) => {
-              tickets.push({ id: docSnapshot.id, ...docSnapshot.data() });
-            });
+          if (!hasLoadedResolvedHistory) {
+            // MODO ECONÓMICO: Solo descarga las incidencias pendientes activas (ahorro del 95%+ de cuota)
+            try {
+              const qPending = query(
+                collection(db, "help_tickets"),
+                where("status", "!=", "Resuelto")
+              );
+              snapshot = await getDocs(qPending);
+            } catch (errP) {
+              try {
+                const qIn = query(
+                  collection(db, "help_tickets"),
+                  where("status", "in", ["En Espera", "En Proceso", "Abierto", "Pendiente"])
+                );
+                snapshot = await getDocs(qIn);
+              } catch (errIn) {
+                const qFallback = query(collection(db, "help_tickets"), limit(100));
+                snapshot = await getDocs(qFallback);
+              }
+            }
+
+            if (snapshot && !snapshot.empty) {
+              snapshot.forEach((docSnapshot) => {
+                tickets.push({ id: docSnapshot.id, ...docSnapshot.data() });
+              });
+            }
+
+            // Descargar muestra de las 15 más recientes resueltas para contexto inicial
+            try {
+              const qRecentRes = query(
+                collection(db, "help_tickets"),
+                where("status", "==", "Resuelto"),
+                orderBy("createdAtMillis", "desc"),
+                limit(15)
+              );
+              const snapRes = await getDocs(qRecentRes);
+              snapRes.forEach((docSnapshot) => {
+                if (!tickets.some(t => t.id === docSnapshot.id)) {
+                  tickets.push({ id: docSnapshot.id, ...docSnapshot.data() });
+                }
+              });
+            } catch (errRes) {
+              try {
+                const qResSimple = query(collection(db, "help_tickets"), where("status", "==", "Resuelto"), limit(15));
+                const snapRes2 = await getDocs(qResSimple);
+                snapRes2.forEach((docSnapshot) => {
+                  if (!tickets.some(t => t.id === docSnapshot.id)) {
+                    tickets.push({ id: docSnapshot.id, ...docSnapshot.data() });
+                  }
+                });
+              } catch (e2) {}
+            }
+          } else {
+            // Historial completo solicitado explícitamente con el botón
+            const qAll = query(collection(db, "help_tickets"), orderBy("createdAtMillis", "desc"), limit(2500));
+            snapshot = await getDocs(qAll);
+            if (snapshot && !snapshot.empty) {
+              snapshot.forEach((docSnapshot) => {
+                tickets.push({ id: docSnapshot.id, ...docSnapshot.data() });
+              });
+            }
           }
         } catch (err) {
           console.error('[Admin Firestore fetch error]:', err);
@@ -1086,8 +1178,11 @@
       saveTicketsToCache(allTickets);
       applyFilters();
 
-      const pendingCount = allTickets.filter(t => t.status !== 'Resuelto').length;
-      updateSyncBadge(`Firestore OK (1 petición · ${allTickets.length} tickets · ${pendingCount} pendientes)`);
+      const totalDisplay = (serverTotalCount !== null) ? serverTotalCount : allTickets.length;
+      const resolvedDisplay = (serverResolvedCount !== null) ? serverResolvedCount : allTickets.filter(t => t.status === 'Resuelto').length;
+      const pendingDisplay = (serverPendingCount !== null) ? serverPendingCount : allTickets.filter(t => t.status !== 'Resuelto').length;
+      const historyNote = hasLoadedResolvedHistory ? ' · Historial completo activo' : ' · Modo económico';
+      updateSyncBadge(`Firestore OK (${totalDisplay} total · ${pendingDisplay} pendientes · ${resolvedDisplay} resueltas${historyNote})`);
 
       // Arrancar intervalo de cálculo en vivo de Elapsed Time
       if (liveTickInterval) clearInterval(liveTickInterval);
@@ -1169,6 +1264,28 @@
     function renderTable(tickets) {
       const tbody = document.getElementById('ticketsTableBody');
       if (!tickets.length) {
+        if (document.getElementById('filterStatus')?.value === 'Resuelto' && !hasLoadedResolvedHistory) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="10" style="text-align: center; padding: 3rem 1.5rem; color: #475569;">
+                <div style="max-width: 480px; margin: 0 auto;">
+                  <p style="font-weight: 800; font-size: 1rem; color: #1e293b; margin-bottom: 0.4rem;">
+                    Modo Económico Activo: Las incidencias resueltas no se descargan de inicio.
+                  </p>
+                  <p style="font-size: 0.84rem; color: #64748b; margin-bottom: 1.2rem; line-height: 1.5;">
+                    Para cuidar tu cuota de Firebase, solo se descargan las pendientes. Haz clic abajo para consultar y descargar el historial completo de resueltos desde Firestore.
+                  </p>
+                  <button type="button" class="btn-action" onclick="loadResolvedHistory()" style="background: #059669; color: #ffffff; border: none; padding: 0.65rem 1.4rem; font-weight: 800; font-size: 0.88rem; border-radius: 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span>Cargar Historial de Resueltos (${serverResolvedCount || 'todos'})</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
         tbody.innerHTML = `
           <tr>
             <td colspan="10" style="text-align: center; padding: 3rem 1rem; color: var(--c-muted);">
@@ -1288,13 +1405,25 @@
 
     // ─── SLA & METRICS ───
     function updateMetrics(tickets) {
-      document.getElementById('statTotal').textContent = tickets.length;
-      document.getElementById('statPending').textContent = tickets.filter(t => t.status !== 'Resuelto').length;
-      
-      const resolved = tickets.filter(t => t.status === 'Resuelto');
-      document.getElementById('statResolved').textContent = resolved.length;
+      const isFiltered = (
+        document.getElementById('filterAdvisor')?.value !== 'ALL' ||
+        document.getElementById('filterSchool')?.value !== 'ALL' ||
+        document.getElementById('filterStatus')?.value !== 'ALL' ||
+        Boolean((document.getElementById('filterSearch')?.value || '').trim())
+      );
+
+      if (!isFiltered && serverTotalCount !== null) {
+        document.getElementById('statTotal').textContent = serverTotalCount;
+        document.getElementById('statPending').textContent = (serverPendingCount !== null) ? serverPendingCount : tickets.filter(t => t.status !== 'Resuelto').length;
+        document.getElementById('statResolved').textContent = (serverResolvedCount !== null) ? serverResolvedCount : tickets.filter(t => t.status === 'Resuelto').length;
+      } else {
+        document.getElementById('statTotal').textContent = tickets.length;
+        document.getElementById('statPending').textContent = tickets.filter(t => t.status !== 'Resuelto').length;
+        document.getElementById('statResolved').textContent = tickets.filter(t => t.status === 'Resuelto').length;
+      }
 
       // Calcular promedio de tiempo de resolución (SLA)
+      const resolved = tickets.filter(t => t.status === 'Resuelto');
       if (resolved.length > 0) {
         let totalElapsedMs = 0;
         let validCount = 0;
@@ -1320,6 +1449,72 @@
         document.getElementById('statAvgElapsed').textContent = '--:--';
       }
     }
+
+    window.loadResolvedHistory = async function() {
+      const btn = document.getElementById('btnLoadResolvedHistory');
+      const btnText = document.getElementById('btnLoadResolvedText');
+      if (btn) btn.disabled = true;
+      if (btnText) btnText.textContent = 'Cargando historial…';
+      showAdminToast('Consultando historial de incidencias resueltas en Firestore…');
+
+      try {
+        let snap = null;
+        try {
+          const qResolved = query(
+            collection(db, "help_tickets"),
+            where("status", "==", "Resuelto"),
+            orderBy("createdAtMillis", "desc"),
+            limit(2500)
+          );
+          snap = await getDocs(qResolved);
+        } catch (errIdx) {
+          console.warn('[Admin] Fallback consulta resueltos sin order:', errIdx);
+          const qResSimple = query(collection(db, "help_tickets"), where("status", "==", "Resuelto"), limit(2500));
+          snap = await getDocs(qResSimple);
+        }
+
+        let newCount = 0;
+        if (snap && !snap.empty) {
+          snap.forEach(docSnap => {
+            const d = { id: docSnap.id, ...docSnap.data() };
+            if (!allTickets.some(t => (t.id && t.id === d.id) || (t.folio && t.folio === d.folio))) {
+              allTickets.push(d);
+              newCount++;
+            }
+          });
+        }
+
+        hasLoadedResolvedHistory = true;
+
+        allTickets.sort((a, b) => {
+          const timeA = a.createdAtMillis || (a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt?.seconds ? a.createdAt.seconds * 1000 : 0));
+          const timeB = b.createdAtMillis || (b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt?.seconds ? b.createdAt.seconds * 1000 : 0));
+          return timeB - timeA;
+        });
+
+        saveTicketsToCache(allTickets);
+        applyFilters();
+
+        const totalDisplay = (serverTotalCount !== null) ? serverTotalCount : allTickets.length;
+        const resolvedDisplay = (serverResolvedCount !== null) ? serverResolvedCount : allTickets.filter(t => t.status === 'Resuelto').length;
+        const pendingDisplay = (serverPendingCount !== null) ? serverPendingCount : allTickets.filter(t => t.status !== 'Resuelto').length;
+        updateSyncBadge(`Firestore OK (${totalDisplay} total · ${pendingDisplay} pendientes · ${resolvedDisplay} resueltas · Historial completo activo)`);
+
+        if (btn) {
+          btn.style.background = '#f1f5f9';
+          btn.style.color = '#475569';
+          btn.style.borderColor = '#cbd5e1';
+          btn.disabled = true;
+        }
+        if (btnText) btnText.textContent = `✅ Historial cargado (${allTickets.length} tickets)`;
+        showAdminToast(`Historial cargado con éxito (+${newCount} tickets resueltos en memoria)`);
+      } catch (err) {
+        console.error('[Admin] Error al cargar historial de resueltos:', err);
+        showAdminToast('Error al conectar con Firestore para descargar historial');
+        if (btn) btn.disabled = false;
+        if (btnText) btnText.textContent = 'Reintentar cargar historial';
+      }
+    };
 
     // ─── CLIPBOARD COPY HELPERS ───
     window.copyTextToClipboard = async function(text, label = 'Dato copiado') {
@@ -1542,9 +1737,14 @@
       if (diffEmailInput) {
         diffEmailInput.value = ticket.assignedCorrectEmail || '';
       }
+      const unusedCodeGroup = document.getElementById('modalUnusedCodeGroup');
+      const unusedCodeInput = document.getElementById('modalUnusedCode');
       const officialEmailInput = document.getElementById('modalOfficialEmail');
       if (officialEmailInput) {
         officialEmailInput.value = ticket.officialEmail || '';
+      }
+      if (unusedCodeInput) {
+        unusedCodeInput.value = ticket.assignedUnusedCode || '';
       }
 
       // Limpiar resaltado de tarjetas rápidas
@@ -1559,12 +1759,15 @@
         window.currentResolutionPreset = 'code_unused';
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (passGroup) passGroup.style.display = 'none';
+        if (unusedCodeGroup) unusedCodeGroup.style.display = 'block';
+        if (unusedCodeInput) unusedCodeInput.value = ticket.assignedUnusedCode || ticket.bookCode || '';
         const c = document.getElementById('cardPresetCodeUnused');
         if (c) c.style.boxShadow = '0 0 0 3px rgba(168, 85, 247, 0.45)';
       } else if (hasDiffEmail || (currentStatus === 'Resuelto' && (noteLower.includes('correo diferente') || noteLower.includes('diste de alta')))) {
         window.currentResolutionPreset = 'diff_email';
         if (diffEmailGroup) diffEmailGroup.style.display = 'block';
         if (passGroup) passGroup.style.display = 'none';
+        if (unusedCodeGroup) unusedCodeGroup.style.display = 'none';
         if (passInput) passInput.value = ticket.assignedPassword || 'Mexico26*';
         if (diffEmailLabel) diffEmailLabel.textContent = 'Correo registrado en Richmond Studio con el que debe ingresar el alumno:';
         const c = document.getElementById('cardPresetDiffEmail');
@@ -1573,12 +1776,14 @@
         window.currentResolutionPreset = 'pass';
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (passGroup) passGroup.style.display = 'block';
+        if (unusedCodeGroup) unusedCodeGroup.style.display = 'none';
         const c = document.getElementById('cardPresetPass');
         if (c) c.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.45)';
       } else {
         window.currentResolutionPreset = null;
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (passGroup) passGroup.style.display = 'none';
+        if (unusedCodeGroup) unusedCodeGroup.style.display = 'none';
         if (noteLower.includes('no se encontró') || noteLower.includes('no se encontro')) {
           window.currentResolutionPreset = 'no_user';
           const c = document.getElementById('cardPresetNoUser');
@@ -1593,9 +1798,11 @@
       const status = document.getElementById('modalStatusSelect').value;
       const passGroup = document.getElementById('modalPasswordGroup');
       const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
+      const unusedCodeGroup = document.getElementById('modalUnusedCodeGroup');
       if (status !== 'Resuelto') {
         if (passGroup) passGroup.style.display = 'none';
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
+        if (unusedCodeGroup) unusedCodeGroup.style.display = 'none';
       }
     };
 
@@ -1607,6 +1814,8 @@
       const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
       const diffEmailInput = document.getElementById('modalAssignedEmail');
       const diffEmailLabel = document.getElementById('modalAssignedEmailLabel');
+      const unusedCodeGroup = document.getElementById('modalUnusedCodeGroup');
+      const unusedCodeInput = document.getElementById('modalUnusedCode');
 
       window.currentResolutionPreset = actionType;
 
@@ -1624,6 +1833,8 @@
         if (passInput) passInput.value = 'Mexico26*';
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (diffEmailInput) diffEmailInput.value = '';
+        if (unusedCodeGroup) unusedCodeGroup.style.display = 'none';
+        if (unusedCodeInput) unusedCodeInput.value = '';
         const officialEmailInput = document.getElementById('modalOfficialEmail');
         const existingInputVal = officialEmailInput ? officialEmailInput.value.trim() : '';
         const targetOfficial = existingInputVal || currentEditingTicket?.officialEmail || '';
@@ -1631,6 +1842,7 @@
         if (currentEditingTicket) {
           currentEditingTicket.assignedPassword = 'Mexico26*';
           currentEditingTicket.assignedCorrectEmail = '';
+          currentEditingTicket.assignedUnusedCode = '';
           currentEditingTicket.officialEmail = targetOfficial;
         }
         updatePassResetNote();
@@ -1642,9 +1854,12 @@
         if (passGroup) passGroup.style.display = 'none';
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (diffEmailInput) diffEmailInput.value = '';
+        if (unusedCodeGroup) unusedCodeGroup.style.display = 'none';
+        if (unusedCodeInput) unusedCodeInput.value = '';
         if (currentEditingTicket) {
           currentEditingTicket.assignedPassword = '';
           currentEditingTicket.assignedCorrectEmail = '';
+          currentEditingTicket.assignedUnusedCode = '';
         }
         noteEl.value = 'No se encontró ningún usuario con tus datos en el sistema. Favor de registrarte en la plataforma con tu código. Si el sistema te indica que tu código es inválido, envíanos foto clara de tu código de libro por WhatsApp para la asignación de un código nuevo de repuesto.';
       } else if (actionType === 'diff_email') {
@@ -1655,7 +1870,12 @@
         // 1. Asignar contraseña restablecida Mexico26* al encontrar cuenta con correo diferente
         if (passGroup) passGroup.style.display = 'none';
         if (passInput) passInput.value = 'Mexico26*';
-        if (currentEditingTicket) currentEditingTicket.assignedPassword = 'Mexico26*';
+        if (unusedCodeGroup) unusedCodeGroup.style.display = 'none';
+        if (unusedCodeInput) unusedCodeInput.value = '';
+        if (currentEditingTicket) {
+          currentEditingTicket.assignedPassword = 'Mexico26*';
+          currentEditingTicket.assignedUnusedCode = '';
+        }
 
         // 2. ABRIR EL CAMPO DE CORREO DIFERENTE (LIMPIO PARA PEGAR DEL SISTEMA EXTERNO)
         if (diffEmailGroup) diffEmailGroup.style.display = 'block';
@@ -1675,11 +1895,17 @@
         if (passGroup) passGroup.style.display = 'none';
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (diffEmailInput) diffEmailInput.value = '';
+        if (unusedCodeGroup) unusedCodeGroup.style.display = 'block';
+        if (unusedCodeInput) {
+          unusedCodeInput.value = currentEditingTicket?.assignedUnusedCode || currentEditingTicket?.bookCode || '';
+          unusedCodeInput.focus();
+        }
         if (currentEditingTicket) {
           currentEditingTicket.assignedPassword = '';
           currentEditingTicket.assignedCorrectEmail = '';
+          currentEditingTicket.assignedUnusedCode = unusedCodeInput ? unusedCodeInput.value.trim() : '';
         }
-        noteEl.value = 'Revisamos tu código y nos dimos cuenta que no ha sido utilizado, está vigente y sin uso, por favor procede a registrarte como la primera vez en: https://richmondstudio.global/registration/student';
+        updateUnusedCodeNote();
       }
     };
 
@@ -1725,6 +1951,31 @@
       noteEl.value = `Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura). Hemos revisado la base de datos y tu correo registrado es: ${emailTarget}. Como ya hemos encontrado tu cuenta procedemos de una vez a cambiar tu contraseña por: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio con tu correo registrado (${emailTarget}) y tu contraseña: Mexico26*.`;
     };
 
+    window.updateUnusedCodeNote = function() {
+      const noteEl = document.getElementById('modalSolutionNote');
+      const unusedInput = document.getElementById('modalUnusedCode');
+      const codeVal = (unusedInput && unusedInput.value.trim()) || currentEditingTicket?.assignedUnusedCode || currentEditingTicket?.bookCode || '';
+      if (currentEditingTicket && unusedInput) {
+        currentEditingTicket.assignedUnusedCode = unusedInput.value.trim();
+      }
+      if (!noteEl) return;
+      if (codeVal) {
+        noteEl.value = `Revisamos tu código (${codeVal}) y nos dimos cuenta que no ha sido utilizado, está vigente y sin uso, por favor procede a registrarte como la primera vez en: https://richmondstudio.global/registration/student`;
+      } else {
+        noteEl.value = `Revisamos tu código y nos dimos cuenta que no ha sido utilizado, está vigente y sin uso, por favor procede a registrarte como la primera vez en: https://richmondstudio.global/registration/student`;
+      }
+    };
+
+    window.pasteTicketCodeIntoUnused = function() {
+      if (!currentEditingTicket) return;
+      const unusedInput = document.getElementById('modalUnusedCode');
+      if (unusedInput) {
+        unusedInput.value = currentEditingTicket.bookCode || '';
+        updateUnusedCodeNote();
+        showAdminToast('Código del libro pegado en el campo');
+      }
+    };
+
     window.pasteTicketEmailIntoAssigned = function() {
       if (!currentEditingTicket) return;
       const diffEmailInput = document.getElementById('modalAssignedEmail');
@@ -1743,6 +1994,7 @@
       let currentNote = document.getElementById('modalSolutionNote')?.value.trim() || ticket.solutionNote || '';
       const diffEmailInput = document.getElementById('modalAssignedEmail');
       const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
+      const unusedCodeInput = document.getElementById('modalUnusedCode');
       const currentOfficialEmail = (document.getElementById('modalOfficialEmail')?.value.trim()) || ticket.officialEmail || '';
 
       // CRÍTICO: Si se especificó un correo oficial confirmado, garantizar que la primera mención
@@ -1797,14 +2049,22 @@
         } else {
           msg += `Contrasena: La que tu pusiste en tu registro original (no se modifico tu contrasena).\n`;
         }
-        msg += `Pagina para iniciar sesión: https://richmondstudio.global/login\n\n`;
-      } else if ((currentPass || isPassReset) && currentStatus === 'Resuelto' && !isNoUser && !isCodeUnused) {
+        msg += `Link para iniciar sesión: https://richmondstudio.global/login\n`;
+        msg += `OJO: Revisa bien poner el correo que se te compartio aqui arriba, ese es el correo con el que tienes que ingresar porque es el que validamos en nuestra base de datos, tienes que ponerlo tal cual, si tiene errores o mayusculas, asi lo debes de poner.\n\n`;
+      } else if (isCodeUnused && currentStatus === 'Resuelto') {
+        const codeToShow = (unusedCodeInput && unusedCodeInput.value.trim()) || ticket.assignedUnusedCode || ticket.bookCode || '';
+        if (codeToShow) {
+          msg += `Código vigente y sin uso para registrarte: ${codeToShow}\n`;
+        }
+        msg += `Link para registrarte: https://richmondstudio.global/registration/student\n\n`;
+      } else if ((currentPass || isPassReset) && currentStatus === 'Resuelto' && !isNoUser) {
         const emailToShow = currentOfficialEmail || ticket.officialEmail || ticket.email || ticket.altEmail || '';
         if (emailToShow) {
           msg += `Correo oficial confirmado para ingresar: ${emailToShow}\n`;
         }
         msg += `Contrasena asignada: ${currentPass || 'Mexico26*'}\n`;
-        msg += `Pagina para iniciar sesión: https://richmondstudio.global/login\n\n`;
+        msg += `Link para iniciar sesión: https://richmondstudio.global/login\n`;
+        msg += `OJO: Revisa bien poner el correo que se te compartio aqui arriba, ese es el correo con el que tienes que ingresar porque es el que validamos en nuestra base de datos, tienes que ponerlo tal cual, si tiene errores o mayusculas, asi lo debes de poner.\n\n`;
       }
       msg += `Puedes revisar el detalle oficial de tu ticket en el enlace directo del sistema:\nhttps://yepzhi.com/help/?folio=${ticket.folio}`;
 
@@ -1919,14 +2179,19 @@
       const passInput = document.getElementById('modalAssignedPassword');
       const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
       const diffEmailInput = document.getElementById('modalAssignedEmail');
+      const unusedCodeGroup = document.getElementById('modalUnusedCodeGroup');
+      const unusedCodeInput = document.getElementById('modalUnusedCode');
 
       const isPassVisible = passGroup && passGroup.style.display !== 'none';
       const isDiffEmailVisible = diffEmailGroup && diffEmailGroup.style.display !== 'none';
+      const isUnusedCodeVisible = unusedCodeGroup && unusedCodeGroup.style.display !== 'none';
       const noteLower = newSolutionNote.toLowerCase();
       const isNoUser = noteLower.includes('no se encontró') || noteLower.includes('no se encontro') || noteLower.includes('ningún usuario') || noteLower.includes('ningun usuario');
+      const isCodeUnused = noteLower.includes('no ha sido utilizado') || noteLower.includes('vigente y sin uso');
 
       let assignedPass = '';
       let assignedCorrectEmail = '';
+      let assignedUnusedCode = '';
 
       if (newStatus === 'Resuelto') {
         if (isDiffEmailVisible) {
@@ -1937,6 +2202,8 @@
             assignedPass = '';
           }
           assignedCorrectEmail = diffEmailInput ? diffEmailInput.value.trim() : '';
+        } else if (isUnusedCodeVisible || isCodeUnused || window.currentResolutionPreset === 'code_unused') {
+          assignedUnusedCode = (unusedCodeInput && unusedCodeInput.value.trim()) || currentEditingTicket.assignedUnusedCode || currentEditingTicket.bookCode || '';
         } else if (isPassVisible && !isNoUser && passInput) {
           assignedPass = passInput.value.trim();
           assignedCorrectEmail = '';
@@ -1977,6 +2244,7 @@
         advisorWA: newAdvisorWA,
         assignedPassword: assignedPass,
         assignedCorrectEmail: assignedCorrectEmail,
+        assignedUnusedCode: assignedUnusedCode,
         officialEmail: officialEmail,
         solutionNote: newSolutionNote,
         resolvedAtMillis: resolvedAtMillis

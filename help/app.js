@@ -752,6 +752,7 @@ function renderStatusCard(ticket) {
   const resolvedAt = ticket.resolvedAtMillis || null;
   const assignedPassword = (ticket.assignedPassword || '').trim();
   const assignedCorrectEmail = (ticket.assignedCorrectEmail || '').trim();
+  const assignedUnusedCode = (ticket.assignedUnusedCode || ticket.bookCode || '').trim();
   const officialEmail = (ticket.officialEmail || '').trim();
   const noteText = (ticket.solutionNote || '').toLowerCase();
 
@@ -964,6 +965,21 @@ function renderStatusCard(ticket) {
               </p>
             </div>
           </div>
+
+          ${assignedUnusedCode ? `
+            <div class="resolved-credentials-box" style="background: rgba(255,255,255,0.85); border: 1.5px solid #d8b4fe; border-radius: 12px; padding: 0.85rem 1rem; margin: 0.9rem 0;">
+              <div class="cred-row">
+                <span class="cred-label" style="color: #7e22ce; font-weight: 800; font-size: 0.75rem; text-transform: uppercase;">Código para tu registro:</span>
+                <div class="cred-val-wrap">
+                  <div class="cred-val highlight" style="color: #6b21a8; font-family: monospace; font-weight: 800; font-size: 1.05rem;">${escapeHtml(assignedUnusedCode)}</div>
+                  <button type="button" class="btn-copy" style="background: #f3e8ff; color: #7e22ce; border-color: #d8b4fe;" onclick="copyToClipboard('${escapeHtml(assignedUnusedCode)}', this)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span>Copiar Código</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          ` : ''}
 
           <div class="resolved-action-bar">
             <a href="https://richmondstudio.global/registration/student" target="_blank" rel="noopener noreferrer" class="btn-access-studio" style="background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%); box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);" title="Registrarte en Richmond Studio">
