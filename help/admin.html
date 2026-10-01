@@ -1793,15 +1793,18 @@
           msg += `Correo registrado para ingresar: ${emailToShow}\n`;
         }
         if (currentPass || currentNote.toLowerCase().includes('mexico26')) {
-          msg += `Contrasena asignada: ${currentPass || 'Mexico26*'}\n\n`;
+          msg += `Contrasena asignada: ${currentPass || 'Mexico26*'}\n`;
         } else {
-          msg += `Contrasena: La que tu pusiste en tu registro original (no se modifico tu contrasena).\n\n`;
+          msg += `Contrasena: La que tu pusiste en tu registro original (no se modifico tu contrasena).\n`;
         }
-      } else if (currentPass && currentStatus === 'Resuelto' && !isNoUser && !isCodeUnused) {
-        if (currentOfficialEmail) {
-          msg += `Correo oficial confirmado para ingresar: ${currentOfficialEmail}\n`;
+        msg += `Pagina para iniciar sesión: https://richmondstudio.global/login\n\n`;
+      } else if ((currentPass || isPassReset) && currentStatus === 'Resuelto' && !isNoUser && !isCodeUnused) {
+        const emailToShow = currentOfficialEmail || ticket.officialEmail || ticket.email || ticket.altEmail || '';
+        if (emailToShow) {
+          msg += `Correo oficial confirmado para ingresar: ${emailToShow}\n`;
         }
-        msg += `Contrasena asignada: ${currentPass}\n\n`;
+        msg += `Contrasena asignada: ${currentPass || 'Mexico26*'}\n`;
+        msg += `Pagina para iniciar sesión: https://richmondstudio.global/login\n\n`;
       }
       msg += `Puedes revisar el detalle oficial de tu ticket en el enlace directo del sistema:\nhttps://yepzhi.com/help/?folio=${ticket.folio}`;
 
