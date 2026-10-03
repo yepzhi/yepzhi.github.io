@@ -1768,13 +1768,21 @@
       const hasPass = Boolean(ticket.assignedPassword);
       const noteLower = (ticket.solutionNote || '').toLowerCase();
       const isCodeUsed = noteLower.includes('encontramos tu cuenta') || noteLower.includes('utilizaste tu código') || noteLower.includes('utilizaste tu codigo');
-      const hasDiffEmail = !isCodeUsed && (Boolean(ticket.assignedCorrectEmail) || (currentStatus === 'Resuelto' && noteLower.includes('correo diferente') && !hasPass));
+      const hasDiffEmail = !isCodeUsed && (
+        Boolean(ticket.assignedCorrectEmail) || 
+        (currentStatus === 'Resuelto' && (noteLower.includes('correo diferente') || noteLower.includes('diste de alta') || noteLower.includes('correo registrado')))
+      );
 
       if (passInput) {
         passInput.value = ticket.assignedPassword || '';
       }
       if (diffEmailInput) {
         diffEmailInput.value = ticket.assignedCorrectEmail || '';
+        if (!diffEmailInput.value && (noteLower.includes('correo diferente') || noteLower.includes('diste de alta') || noteLower.includes('correo registrado'))) {
+          const match = (ticket.solutionNote || '').match(/(?:correo registrado es:\s*|correo registrado\s*\(\s*|correo:\s*)([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/i)
+                     || (ticket.solutionNote || '').match(/([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/);
+          if (match) diffEmailInput.value = match[1].replace(/[.,;:)]+$/, '').trim();
+        }
       }
       const unusedCodeGroup = document.getElementById('modalUnusedCodeGroup');
       const unusedCodeInput = document.getElementById('modalUnusedCode');
@@ -2049,18 +2057,43 @@
       const noteLower = (currentNote || '').toLowerCase();
       
       const isNoUser = noteLower.includes('no se encontró') || noteLower.includes('no se encontro') || noteLower.includes('ningún usuario') || noteLower.includes('ningun usuario');
-      const isPassReset = noteLower.includes('se restableció tu contraseña') || noteLower.includes('se restablecio tu contrasena') || noteLower.includes('mexico26');
       const isCodeUnused = noteLower.includes('no ha sido utilizado') || noteLower.includes('vigente y sin uso');
       
       const isDiffEmailVisible = diffEmailGroup && diffEmailGroup.style.display !== 'none';
-      const isDiffEmail = !isNoUser && !isPassReset && !isCodeUnused && (
+      const isDiffEmail = !isNoUser && !isCodeUnused && (
+        window.currentResolutionPreset === 'diff_email' ||
         isDiffEmailVisible || 
+        Boolean(diffEmailInput?.value?.trim()) ||
+        Boolean(ticket.assignedCorrectEmail) ||
         noteLower.includes('correo diferente') || 
-        noteLower.includes('diste de alta con un correo')
+        noteLower.includes('diste de alta con un correo') ||
+        noteLower.includes('correo registrado es:') ||
+        noteLower.includes('tu cuenta está creada con el correo') ||
+        noteLower.includes('tu cuenta esta creada con el correo')
+      );
+
+      const isPassReset = !isNoUser && !isCodeUnused && !isDiffEmail && (
+        window.currentResolutionPreset === 'pass' ||
+        (document.getElementById('modalPasswordGroup')?.style?.display !== 'none' && Boolean(document.getElementById('modalAssignedPassword')?.value?.trim())) ||
+        noteLower.includes('se restableció tu contraseña') || 
+        noteLower.includes('se restablecio tu contrasena') || 
+        noteLower.includes('mexico26')
       );
 
       const currentStatus = document.getElementById('modalStatusSelect')?.value || ticket.status || 'Resuelto';
-      const currentDiffEmail = isDiffEmailVisible && diffEmailInput ? diffEmailInput.value.trim() : (ticket.assignedCorrectEmail || '');
+      
+      let currentDiffEmail = (isDiffEmailVisible && diffEmailInput ? diffEmailInput.value.trim() : '') || (diffEmailInput ? diffEmailInput.value.trim() : '') || (ticket.assignedCorrectEmail || '');
+      if (!currentDiffEmail && currentNote) {
+        const emailMatch = currentNote.match(/(?:correo registrado es:\s*|correo registrado\s*\(\s*|correo:\s*)([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/i)
+          || currentNote.match(/([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/);
+        if (emailMatch) {
+          currentDiffEmail = emailMatch[1].replace(/[.,;:)]+$/, '').trim();
+          if (diffEmailInput && !diffEmailInput.value.trim()) {
+            diffEmailInput.value = currentDiffEmail;
+          }
+        }
+      }
+
       const currentPass = (isDiffEmail || isNoUser || isCodeUnused) ? '' : (document.getElementById('modalAssignedPassword')?.value.trim() || ticket.assignedPassword || '');
 
       if (currentDiffEmail && currentNote.includes('[pega.aqui.el.correo@registrado.com]')) {
@@ -2079,7 +2112,7 @@
       }
       
       if (isDiffEmail && currentStatus === 'Resuelto') {
-        const emailToShow = currentDiffEmail || ticket.email;
+        const emailToShow = currentDiffEmail || ticket.assignedCorrectEmail || ticket.email;
         if (emailToShow) {
           msg += `Correo registrado para ingresar: ${emailToShow}\n`;
         }
@@ -2227,13 +2260,21 @@
       const noteLower = newSolutionNote.toLowerCase();
       const isNoUser = noteLower.includes('no se encontró') || noteLower.includes('no se encontro') || noteLower.includes('ningún usuario') || noteLower.includes('ningun usuario');
       const isCodeUnused = noteLower.includes('no ha sido utilizado') || noteLower.includes('vigente y sin uso');
+      const isDiffEmail = !isNoUser && !isCodeUnused && (
+        isDiffEmailVisible || 
+        window.currentResolutionPreset === 'diff_email' ||
+        Boolean(diffEmailInput?.value?.trim()) ||
+        noteLower.includes('correo diferente') ||
+        noteLower.includes('diste de alta con un correo') ||
+        noteLower.includes('correo registrado')
+      );
 
       let assignedPass = '';
       let assignedCorrectEmail = '';
       let assignedUnusedCode = '';
 
       if (newStatus === 'Resuelto') {
-        if (isDiffEmailVisible) {
+        if (isDiffEmail) {
           // Opcion Correo Diferente: ahora se cambia la contraseña por Mexico26*
           if (window.currentResolutionPreset === 'diff_email' || newSolutionNote.toLowerCase().includes('mexico26')) {
             assignedPass = 'Mexico26*';
@@ -2241,6 +2282,11 @@
             assignedPass = '';
           }
           assignedCorrectEmail = diffEmailInput ? diffEmailInput.value.trim() : '';
+          if (!assignedCorrectEmail) {
+            const match = newSolutionNote.match(/(?:correo registrado es:\s*|correo registrado\s*\(\s*|correo:\s*)([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/i)
+                       || newSolutionNote.match(/([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/);
+            if (match) assignedCorrectEmail = match[1].replace(/[.,;:)]+$/, '').trim();
+          }
         } else if (isUnusedCodeVisible || isCodeUnused || window.currentResolutionPreset === 'code_unused') {
           assignedUnusedCode = (unusedCodeInput && unusedCodeInput.value.trim()) || currentEditingTicket.assignedUnusedCode || currentEditingTicket.bookCode || '';
         } else if (isPassVisible && !isNoUser && passInput) {

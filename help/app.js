@@ -787,8 +787,9 @@ function renderStatusCard(ticket) {
   
   let displayRegisteredEmail = assignedCorrectEmail;
   if (!displayRegisteredEmail) {
-    const match = (ticket.solutionNote || '').match(/([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/);
-    if (match) displayRegisteredEmail = match[1];
+    const match = (ticket.solutionNote || '').match(/(?:correo registrado es:\s*|correo registrado\s*\(\s*|correo:\s*)([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/i)
+               || (ticket.solutionNote || '').match(/([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/);
+    if (match) displayRegisteredEmail = match[1].replace(/[.,;:)]+$/, '').trim();
     else displayRegisteredEmail = (ticket.altEmail || ticket.email || '').trim();
   }
 
