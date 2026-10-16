@@ -821,45 +821,28 @@
     }
 
     _bindEvents() {
-      // 1. Sidebar Navigation View Switcher
+      // 1. Sidebar Navigation View Switcher & Brand Clicks
       document.querySelectorAll('.rail-nav .rail-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const view = btn.dataset.view;
-          if (view === 'pricing') {
-            this._openModal('modal-pricing');
-            return;
-          }
-          if (view === 'cartridges') {
-            this._openModal('modal-cartridge');
-            return;
-          }
-          if (view === 'history') {
-            this._openModal('modal-history');
-            this._renderHistoryList();
-            return;
-          }
-
-          document.querySelectorAll('.rail-nav .rail-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-
-          const studioView = document.getElementById('studio-view');
-          const catalogView = document.getElementById('catalog-view');
-          const faqView = document.getElementById('faq-view');
-          if (view === 'catalog') {
-            studioView.style.display = 'none';
-            if (faqView) faqView.style.display = 'none';
-            catalogView.style.display = 'block';
-          } else if (view === 'faq') {
-            studioView.style.display = 'none';
-            catalogView.style.display = 'none';
-            if (faqView) faqView.style.display = 'block';
-          } else {
-            catalogView.style.display = 'none';
-            if (faqView) faqView.style.display = 'none';
-            studioView.style.display = 'grid';
-          }
+          if (view) this.navTo(view);
         });
       });
+
+      const brandHomeLink = document.getElementById('brand-home-link');
+      if (brandHomeLink) {
+        brandHomeLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.navTo('home');
+        });
+      }
+      const headerBrand = document.querySelector('.header-brand-title');
+      if (headerBrand) {
+        headerBrand.style.cursor = 'pointer';
+        headerBrand.addEventListener('click', () => {
+          this.navTo('home');
+        });
+      }
 
       // 2. Generator Switcher Dropdown
       this.genDropdown.addEventListener('change', (e) => {
@@ -1090,6 +1073,95 @@
       }
     }
 
+    navTo(view) {
+      if (view === 'pricing') {
+        this.openPricing();
+        return;
+      }
+      if (view === 'cartridges') {
+        this._openModal('modal-cartridge');
+        this._renderCartridgeList();
+        return;
+      }
+      if (view === 'history') {
+        this._openModal('modal-history');
+        this._renderHistoryList();
+        return;
+      }
+
+      const homeView = document.getElementById('home-view');
+      const studioView = document.getElementById('studio-view');
+      const catalogView = document.getElementById('catalog-view');
+      const faqView = document.getElementById('faq-view');
+
+      document.querySelectorAll('.rail-nav .rail-btn').forEach(b => b.classList.remove('active'));
+      const activeRailBtn = document.querySelector(`.rail-nav .rail-btn[data-view="${view}"]`);
+      if (activeRailBtn) activeRailBtn.classList.add('active');
+
+      if (view === 'home') {
+        if (homeView) {
+          homeView.classList.add('active');
+          homeView.style.display = 'block';
+          homeView.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        if (studioView) studioView.style.display = 'none';
+        if (catalogView) catalogView.style.display = 'none';
+        if (faqView) faqView.style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (view === 'catalog') {
+        if (homeView) {
+          homeView.classList.remove('active');
+          homeView.style.display = 'none';
+        }
+        if (studioView) studioView.style.display = 'none';
+        if (faqView) faqView.style.display = 'none';
+        if (catalogView) catalogView.style.display = 'block';
+      } else if (view === 'faq') {
+        if (homeView) {
+          homeView.classList.remove('active');
+          homeView.style.display = 'none';
+        }
+        if (studioView) studioView.style.display = 'none';
+        if (catalogView) catalogView.style.display = 'none';
+        if (faqView) faqView.style.display = 'block';
+      } else {
+        // default: 'studio'
+        if (homeView) {
+          homeView.classList.remove('active');
+          homeView.style.display = 'none';
+        }
+        if (catalogView) catalogView.style.display = 'none';
+        if (faqView) faqView.style.display = 'none';
+        if (studioView) studioView.style.display = 'grid';
+      }
+    }
+
+    openPricing() {
+      this._openModal('modal-pricing');
+    }
+
+    trySample(genId, topic, cefr) {
+      this.selectGenerator(genId);
+      if (topic && this.topicInput) {
+        this.topicInput.value = topic;
+      }
+      if (cefr) {
+        this.activeCefr = cefr;
+        document.querySelectorAll('#cefr-dial-grid .cefr-pill').forEach(p => {
+          if (p.dataset.level === cefr) {
+            p.classList.add('active');
+          } else {
+            p.classList.remove('active');
+          }
+        });
+        const descEl = document.getElementById('cefr-description-text');
+        if (descEl) descEl.textContent = CEFR_INFO[cefr] || cefr;
+      }
+      this.navTo('studio');
+      this.executeGeneration();
+      this._showToast(`Calibrating ${GENERATORS[genId]?.name || genId} for ${cefr}...`);
+    }
+
     selectGenerator(genId) {
       const gen = GENERATORS[genId];
       if (!gen) return;
@@ -1109,16 +1181,22 @@
       this.tabBtnStudent.style.display = gen.supportsStudentKey ? 'inline-flex' : 'none';
       this.tabBtnKey.style.display = gen.supportsStudentKey ? 'inline-flex' : 'none';
 
-      // Switch back to studio workspace if in catalog or faq
+      // Switch back to studio workspace if in catalog, faq, or home
+      const homeView = document.getElementById('home-view');
       const studioView = document.getElementById('studio-view');
       const catalogView = document.getElementById('catalog-view');
       const faqView = document.getElementById('faq-view');
+      if (homeView) {
+        homeView.classList.remove('active');
+        homeView.style.display = 'none';
+      }
       if (catalogView) catalogView.style.display = 'none';
       if (faqView) faqView.style.display = 'none';
       if (studioView) studioView.style.display = 'grid';
 
       document.querySelectorAll('.rail-nav .rail-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById('nav-btn-studio').classList.add('active');
+      const studioNavBtn = document.getElementById('nav-btn-studio');
+      if (studioNavBtn) studioNavBtn.classList.add('active');
     }
 
     async executeGeneration() {

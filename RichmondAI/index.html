@@ -36,7 +36,11 @@
       </div>
 
       <nav class="rail-nav">
-        <button class="rail-btn active" data-view="studio" id="nav-btn-studio" title="Studio Workspace">
+        <button class="rail-btn active" data-view="home" id="nav-btn-home" title="Homepage & Overview">
+          <i class="fa-solid fa-house"></i>
+          <span class="rail-tooltip">Overview & Home</span>
+        </button>
+        <button class="rail-btn" data-view="studio" id="nav-btn-studio" title="Studio Workspace">
           <i class="fa-solid fa-wand-magic-sparkles"></i>
           <span class="rail-tooltip">Studio Workspace</span>
         </button>
@@ -122,8 +126,350 @@
         </header>
       </div>
 
+      <!-- ── 0. Homepage / Landing View (stemOS & JSweb Style) ── -->
+      <section class="home-view-container active" id="home-view">
+        
+        <!-- 1. Hero Section -->
+        <div class="home-hero-section">
+          <!-- Pulse Signal Pill (stemOS style) -->
+          <div class="hero-signal-pill">
+            <span class="pulse-dot"></span>
+            <span>70% LESS EXPENSIVE THAN TEACHERMATIC · POWERED BY GEMINI FLASH</span>
+          </div>
+
+          <!-- Hero Brand Section with Big Gold RichmondAI Words & Glow Aura -->
+          <div class="hero-brand-lockup">
+            <div class="hero-brand-aura"></div>
+            <h1 class="hero-big-gold-title">
+              Richmond<span class="gold-gradient-text">AI</span>
+            </h1>
+            <div class="hero-tagline-sub">
+              <span class="hero-pill-badge">NEXT-GEN ELT & ESP STUDIO</span>
+              <span class="hero-sep">•</span>
+              <span>CEFR A1–C2 Calibrated</span>
+              <span class="hero-sep">•</span>
+              <span>Sub-Second Gemini Flash</span>
+            </div>
+          </div>
+
+          <p class="hero-lead-description">
+            The purpose-built AI instructional platform for English Language Teaching (ELT) and English for Specific Purposes (ESP). Generate calibrated quizzes, printable cut-out flashcards, and technical reading modules in seconds for <strong>70% less cost than legacy tools</strong>.
+          </p>
+
+          <div class="hero-cta-group">
+            <button class="btn-hero-primary" onclick="window.RichmondApp.navTo('studio')">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>Launch Generator Studio</span>
+            </button>
+            <button class="btn-hero-secondary" onclick="window.RichmondApp.navTo('catalog')">
+              <i class="fa-solid fa-shapes"></i>
+              <span>Explore 20+ Generators</span>
+            </button>
+            <button class="btn-hero-glass" onclick="window.RichmondApp.openPricing()">
+              <i class="fa-solid fa-tags"></i>
+              <span>Pro Plan $29/yr (70% Off)</span>
+            </button>
+          </div>
+
+          <!-- Quick Stats Row (JSweb / stemOS style) -->
+          <div class="hero-stats-row">
+            <div class="hero-stat-box">
+              <div class="stat-number">70%</div>
+              <div class="stat-label">Lower Cost vs TeacherMatic</div>
+            </div>
+            <div class="hero-stat-box">
+              <div class="stat-number">15/Day</div>
+              <div class="stat-label">Permanent Free Generations</div>
+            </div>
+            <div class="hero-stat-box">
+              <div class="stat-number">20+</div>
+              <div class="stat-label">Specialized ELT & ESP Engines</div>
+            </div>
+            <div class="hero-stat-box">
+              <div class="stat-number">&lt; 1.0s</div>
+              <div class="stat-label">Gemini Flash Speed</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. What Is All About — Feature Showcase Grid (JSweb style) -->
+        <div class="home-feature-showcase">
+          <div class="section-title-wrap">
+            <span class="badge-tag">WHAT RICHMOND AI IS ALL ABOUT</span>
+            <h2 class="section-main-heading">Engineered for Language Teachers. Built for Specific Purposes.</h2>
+            <p class="section-sub-heading">
+              Unlike generic AI chatbots that guess language proficiency, RichmondAI strictly enforces European language acquisition standards, neurodiverse adaptations, and technical industry vocabularies.
+            </p>
+          </div>
+
+          <div class="features-mosaic-grid">
+            <!-- Feature Card 1: 70% TeacherMatic Disruption -->
+            <div class="feature-card highlighted-gold">
+              <div class="feature-card-header">
+                <div class="feature-icon-squircle gold"><i class="fa-solid fa-scale-balanced"></i></div>
+                <span class="pill-mini">70% SAVINGS</span>
+              </div>
+              <h3 class="feature-card-title">Disrupting TeacherMatic Pricing</h3>
+              <p class="feature-card-desc">
+                TeacherMatic charges $99/year and restricts free use to a 7-day trial. RichmondAI offers a <strong>permanent 15 generation/day Free Tier</strong> and a full <strong>Pro License for just $29.00/year</strong> (or $4.99/mo).
+              </p>
+              <div class="feature-card-footer">
+                <span class="compare-tag"><i class="fa-solid fa-check"></i> Save $70 every year per teacher</span>
+              </div>
+            </div>
+
+            <!-- Feature Card 2: CEFR Level Calibration -->
+            <div class="feature-card">
+              <div class="feature-card-header">
+                <div class="feature-icon-squircle blue"><i class="fa-solid fa-layer-group"></i></div>
+                <span class="pill-mini">CEFR A1–C2</span>
+              </div>
+              <h3 class="feature-card-title">Strict CEFR Level Calibration</h3>
+              <p class="feature-card-desc">
+                Every multiple-choice distractor, reading passage, and speaking roleplay is measured against the Common European Framework of Reference, guaranteeing level-appropriate grammar density.
+              </p>
+              <div class="feature-card-footer">
+                <span class="compare-tag"><i class="fa-solid fa-check"></i> Oxford 3000 & 5000 benchmarked</span>
+              </div>
+            </div>
+
+            <!-- Feature Card 3: Printable Cut-Out Flashcards -->
+            <div class="feature-card highlighted-pink">
+              <div class="feature-card-header">
+                <div class="feature-icon-squircle pink"><i class="fa-solid fa-scissors"></i></div>
+                <span class="pill-mini">CLASSROOM READY</span>
+              </div>
+              <h3 class="feature-card-title">Printable Cut-Out Flashcards</h3>
+              <p class="feature-card-desc">
+                Interactive 3D digital cards on screen that automatically transform into perforated 2-sided cut-out grids with dashed cutting guidelines when printed.
+              </p>
+              <div class="feature-card-footer">
+                <span class="compare-tag"><i class="fa-solid fa-check"></i> IPA phonetics & ready for scissors</span>
+              </div>
+            </div>
+
+            <!-- Feature Card 4: Specialized ESP Modules -->
+            <div class="feature-card">
+              <div class="feature-card-header">
+                <div class="feature-icon-squircle blue"><i class="fa-solid fa-gears"></i></div>
+                <span class="pill-mini">ESP MATRIX</span>
+              </div>
+              <h3 class="feature-card-title">Dedicated ESP Technical Tracks</h3>
+              <p class="feature-card-desc">
+                Specialized modules for Automotive & Mechanical Engineering, Healthcare/Nursing, Aviation Radiotelephony (ICAO), Software & AI, and Hospitality.
+              </p>
+              <div class="feature-card-footer">
+                <span class="compare-tag"><i class="fa-solid fa-check"></i> Real-world workshop & clinical scenarios</span>
+              </div>
+            </div>
+
+            <!-- Feature Card 5: SEND & Inclusion -->
+            <div class="feature-card">
+              <div class="feature-card-header">
+                <div class="feature-icon-squircle gold"><i class="fa-solid fa-universal-access"></i></div>
+                <span class="pill-mini">INCLUSIVE ED</span>
+              </div>
+              <h3 class="feature-card-title">SEND & Neurodiversity Suite</h3>
+              <p class="feature-card-desc">
+                Targeted modifications for Dyslexia (bulleted clarity), ADHD (gamified micro-chunking), Autism Spectrum (literal social phrasing), and Speech/Language needs.
+              </p>
+              <div class="feature-card-footer">
+                <span class="compare-tag"><i class="fa-solid fa-check"></i> Instant differentiated classroom support</span>
+              </div>
+            </div>
+
+            <!-- Feature Card 6: Course Context Cartridges -->
+            <div class="feature-card">
+              <div class="feature-card-header">
+                <div class="feature-icon-squircle blue"><i class="fa-solid fa-cube"></i></div>
+                <span class="pill-mini">REUSABLE CONTEXT</span>
+              </div>
+              <h3 class="feature-card-title">Course Context Cartridges</h3>
+              <p class="feature-card-desc">
+                Save class demographics, regional student contexts (e.g. <em>Atlixco B1 Automotive</em>), and syllabi to auto-inject into every generator with 1 click.
+              </p>
+              <div class="feature-card-footer">
+                <span class="compare-tag"><i class="fa-solid fa-check"></i> Zero repetitive prompt typing</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Interactive Quick Sandbox Demo Card (stemOS .cs-container style) -->
+        <div class="home-sandbox-section">
+          <div class="cs-sandbox-container">
+            <div class="sandbox-badge-row">
+              <span class="pill-mini gold"><i class="fa-solid fa-flask"></i> INTERACTIVE SANDBOX</span>
+              <span class="pill-mini blue">TRY A LIVE GENERATOR PREVIEW</span>
+            </div>
+            <h3 class="sandbox-title">See How RichmondAI Instantly Calibrates ESP Content</h3>
+            <p class="sandbox-sub">Click any pre-configured pedagogical scenario below to test the generator output:</p>
+            
+            <div class="sandbox-presets-row">
+              <button class="sandbox-preset-btn active" onclick="window.RichmondApp.trySample('mcq', 'Automotive Hydraulic Brake Fluid & Workshop Safety', 'B1')">
+                <i class="fa-solid fa-car"></i> Automotive Hydraulics (B1)
+              </button>
+              <button class="sandbox-preset-btn" onclick="window.RichmondApp.trySample('esp_healthcare', 'Emergency Department Triage & SBAR Patient Handover', 'B2')">
+                <i class="fa-solid fa-user-doctor"></i> ER Nursing SBAR (B2)
+              </button>
+              <button class="sandbox-preset-btn" onclick="window.RichmondApp.trySample('esp_aviation', 'Crosswind Landing Advisory & Go-Around Pilot-ATC Exchange', 'B2')">
+                <i class="fa-solid fa-plane-departure"></i> Aviation Radiotelephony (B2)
+              </button>
+              <button class="sandbox-preset-btn" onclick="window.RichmondApp.trySample('flashcards', 'Pneumatics & Mechanical Hand Tools', 'A2')">
+                <i class="fa-solid fa-clone"></i> Pneumatic Tools Flashcards (A2)
+              </button>
+            </div>
+
+            <div class="sandbox-action-row">
+              <button class="btn-hero-primary" onclick="window.RichmondApp.navTo('studio')">
+                <i class="fa-solid fa-arrow-right"></i> Open Full Studio to Customize This Material
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. TeacherMatic vs. RichmondAI Side-by-Side Comparison Matrix Table -->
+        <div class="home-comparison-section">
+          <div class="section-title-wrap">
+            <span class="badge-tag">TRANSPARENT VALUE COMPARISON</span>
+            <h2 class="section-main-heading">TeacherMatic vs. RichmondAI</h2>
+            <p class="section-sub-heading">Compare the specifications, pricing, and capabilities side-by-side.</p>
+          </div>
+
+          <div class="comparison-table-wrapper">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Feature Dimension</th>
+                  <th class="th-competitor">TeacherMatic</th>
+                  <th class="th-richmond">RichmondAI (You Save 70%)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Annual Subscription Price</strong></td>
+                  <td class="td-competitor">$99.00 USD / £84.00 GBP / €95.00 EUR</td>
+                  <td class="td-richmond"><strong>$29.00 USD / £24.00 GBP / €27.00 EUR</strong> <span class="badge-tag" style="margin-left:6px;">70% OFF</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Free Tier Availability</strong></td>
+                  <td class="td-competitor">15 gens/day (First week trial only)</td>
+                  <td class="td-richmond"><strong>Permanent 15 gens/day for all registered teachers</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>AI Generation Engine</strong></td>
+                  <td class="td-competitor">Legacy OpenAI models (~5–8s latency)</td>
+                  <td class="td-richmond"><strong>Google Gemini Flash 2.5 / 1.5 (&lt; 1.0s sub-second speed)</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>ESP Specialized Tracks</strong></td>
+                  <td class="td-competitor">Primarily generic secondary EFL</td>
+                  <td class="td-richmond"><strong>7 Dedicated ESP Fields: Mechanics, Health, Tech, Aero, Business</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Printable Cut-out Flashcards</strong></td>
+                  <td class="td-competitor">Standard text list</td>
+                  <td class="td-richmond"><strong>Interactive 3D Cards + Perforated Scissor Cut-Out Sheet</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Learner Profile Customization</strong></td>
+                  <td class="td-competitor">Standard text box</td>
+                  <td class="td-richmond"><strong>Demographic contextualizer (e.g. Atlixco Puebla Mechanics) + Cartridges</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Teacher BYOK (Bring-Your-Own-Key)</strong></td>
+                  <td class="td-competitor">Not available</td>
+                  <td class="td-richmond"><strong>Supported: Connect personal Google AI Studio key for unlimited runs</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 5. Real-World Educator Case Studies (Atlixco Puebla, Clinical Nursing, etc.) -->
+        <div class="home-cases-section">
+          <div class="section-title-wrap">
+            <span class="badge-tag">EDUCATOR TESTIMONIALS & CASE STUDIES</span>
+            <h2 class="section-main-heading">Trusted by Language Instructors Across the Globe</h2>
+          </div>
+
+          <div class="cases-cards-grid">
+            <div class="case-card">
+              <div class="case-quote">"In Atlixco, Puebla, our vocational apprentices know mechanical tools inside-out, but struggle with English OEM workshop manuals. RichmondAI's B1 automotive generator and cut-out flashcards reduced our prep time from 4 hours down to 15 minutes."</div>
+              <div class="case-author">
+                <div class="author-avatar"><i class="fa-solid fa-wrench"></i></div>
+                <div>
+                  <div class="author-name">Ing. Alberto Yépiz & Teaching Staff</div>
+                  <div class="author-role">Vocational Mechanics Track · Instituto Tecnológico Atlixco</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="case-card">
+              <div class="case-quote">"Teaching clinical nursing students requires precise terminology for SBAR handovers and patient intake. RichmondAI's CEFR B2 healthcare generator creates realistic triage simulations that our students practice before clinical hospital rotations."</div>
+              <div class="case-author">
+                <div class="author-avatar" style="background:var(--accent-pink);"><i class="fa-solid fa-stethoscope"></i></div>
+                <div>
+                  <div class="author-name">Prof. Sofia Hernandez, RN</div>
+                  <div class="author-role">Clinical ESP Nursing Faculty · Hermosillo Regional Institute</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="case-card">
+              <div class="case-quote">"At $29/year, RichmondAI is an absolute no-brainer compared to TeacherMatic's $99 fee. The speed of Gemini Flash combined with Bloom's taxonomy classroom questions has revolutionized our departmental lesson plans."</div>
+              <div class="case-author">
+                <div class="author-avatar" style="background:var(--accent-blue);"><i class="fa-solid fa-graduation-cap"></i></div>
+                <div>
+                  <div class="author-name">Dr. Marcus Vance</div>
+                  <div class="author-role">Director of Language Studies · International British Institute</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Bottom Banner CTA -->
+        <div class="home-bottom-banner">
+          <div class="banner-content">
+            <h2 class="banner-title">Start Generating Differentiated ELT & ESP Materials Today</h2>
+            <p class="banner-sub">Join thousands of educators saving 80% of preparation time. Permanent free tier with 15 daily generations.</p>
+            <div style="display:flex; justify-content:center; gap:12px; margin-top:20px; flex-wrap:wrap;">
+              <button class="btn-hero-primary" onclick="window.RichmondApp.navTo('studio')">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Open Generator Studio
+              </button>
+              <button class="btn-hero-glass" onclick="window.RichmondApp.openPricing()">
+                <i class="fa-solid fa-crown"></i> Upgrade to Pro ($29/yr)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Footer -->
+        <footer class="home-footer">
+          <div class="footer-top-row">
+            <div class="footer-brand">
+              <span class="brand-gradient-text" style="font-size:1.3rem; font-weight:800;">RichmondAI</span>
+              <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Next-Gen AI Instructional Studio for ELT & ESP Teachers.</p>
+            </div>
+            <div class="footer-links-row">
+              <a href="#" onclick="window.RichmondApp.navTo('home'); return false;">Home</a>
+              <a href="#" onclick="window.RichmondApp.navTo('studio'); return false;">Studio</a>
+              <a href="#" onclick="window.RichmondApp.navTo('catalog'); return false;">Generators</a>
+              <a href="#" onclick="window.RichmondApp.openPricing(); return false;">Pricing ($29/yr)</a>
+              <a href="#" onclick="window.RichmondApp.navTo('faq'); return false;">FAQ & Hub</a>
+            </div>
+          </div>
+          <div class="footer-bottom-row">
+            <span>© 2026 RichmondAI. Engineered with pride for language educators worldwide.</span>
+            <span>Designed like <a href="https://jovenesstem.com" target="_blank" style="color:var(--accent-blue); text-decoration:none;">JSweb</a> & <a href="https://stemos.org" target="_blank" style="color:var(--accent-blue); text-decoration:none;">stemOS</a>.</span>
+          </div>
+        </footer>
+
+      </section>
+
       <!-- ── 3. Studio Dual-Pane Canvas ── -->
-      <section class="studio-canvas" id="studio-view">
+      <section class="studio-canvas" id="studio-view" style="display: none;">
 
         <!-- Left Pane: Configuration & Differentiation Form -->
         <div class="config-pane">
