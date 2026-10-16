@@ -422,7 +422,7 @@ async function submitTicket() {
   const folio = `HELP-${randomNum}`;
 
   // Determinación de Asesor:
-  // Noroeste -> Alberto Yépiz (UTH, ITESCA, ITLM, ITH, IT MXL, UNIVAFU)
+  // Noroeste -> Alberto Yépiz (UTH, ITESCA, ITLM, ITH, IT MXL, UNIVAFU, UT NOGALES)
   // Occidente -> Fabiola Martinez (UTNA, IT CUL, BACH TEPIC, UPSIN, CETI COLOMOS, LAMAR, CAI)
   // (Escuelas de Luis Franco y Edgar Espinoza archivadas en backup_escuelas_archivadas.json)
   const schoolKey = STATE.data.school;
@@ -446,6 +446,7 @@ async function submitTicket() {
     'ITH': 'ITH - Inst. Tecnológico de Hermosillo',
     'IT MXL': 'IT MXL - Inst. Tecnológico de Mexicali',
     'UNIVAFU': 'UNIVAFU - Universidad del Valle del Fuerte',
+    'UT NOGALES': 'UT Nogales - Univ. Tecnológica de Nogales',
     'UTNA': 'UTNA - Univ. Tecnológica del Norte de Aguascalientes',
     'IT CUL': 'IT CUL - Inst. Tecnológico de Culiacán',
     'BACH TEPIC': 'Bach. de Ciencias y Letras de Tepic',
