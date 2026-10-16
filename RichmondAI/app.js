@@ -844,11 +844,18 @@
 
           const studioView = document.getElementById('studio-view');
           const catalogView = document.getElementById('catalog-view');
+          const faqView = document.getElementById('faq-view');
           if (view === 'catalog') {
             studioView.style.display = 'none';
+            if (faqView) faqView.style.display = 'none';
             catalogView.style.display = 'block';
+          } else if (view === 'faq') {
+            studioView.style.display = 'none';
+            catalogView.style.display = 'none';
+            if (faqView) faqView.style.display = 'block';
           } else {
             catalogView.style.display = 'none';
+            if (faqView) faqView.style.display = 'none';
             studioView.style.display = 'grid';
           }
         });
@@ -1043,6 +1050,44 @@
           this._filterCatalogGrid(e.target.value.toLowerCase());
         });
       }
+
+      // 21. FAQ Accordion Toggle
+      document.querySelectorAll('#faq-accordion-container .faq-question-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('.faq-item');
+          const wasActive = item.classList.contains('active');
+          document.querySelectorAll('#faq-accordion-container .faq-item').forEach(i => i.classList.remove('active'));
+          if (!wasActive) item.classList.add('active');
+        });
+      });
+
+      // 22. FAQ Category Filters
+      document.querySelectorAll('#faq-category-filters .faq-cat-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          document.querySelectorAll('#faq-category-filters .faq-cat-pill').forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          const cat = pill.dataset.cat;
+          document.querySelectorAll('#faq-accordion-container .faq-item').forEach(item => {
+            if (cat === 'all' || item.dataset.cat === cat) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // 23. FAQ Search Input
+      const faqSearch = document.getElementById('faq-search-input');
+      if (faqSearch) {
+        faqSearch.addEventListener('input', (e) => {
+          const query = e.target.value.toLowerCase().trim();
+          document.querySelectorAll('#faq-accordion-container .faq-item').forEach(item => {
+            const text = item.innerText.toLowerCase();
+            item.style.display = text.includes(query) ? 'block' : 'none';
+          });
+        });
+      }
     }
 
     selectGenerator(genId) {
@@ -1064,11 +1109,13 @@
       this.tabBtnStudent.style.display = gen.supportsStudentKey ? 'inline-flex' : 'none';
       this.tabBtnKey.style.display = gen.supportsStudentKey ? 'inline-flex' : 'none';
 
-      // Switch back to studio workspace if in catalog
+      // Switch back to studio workspace if in catalog or faq
       const studioView = document.getElementById('studio-view');
       const catalogView = document.getElementById('catalog-view');
-      catalogView.style.display = 'none';
-      studioView.style.display = 'grid';
+      const faqView = document.getElementById('faq-view');
+      if (catalogView) catalogView.style.display = 'none';
+      if (faqView) faqView.style.display = 'none';
+      if (studioView) studioView.style.display = 'grid';
 
       document.querySelectorAll('.rail-nav .rail-btn').forEach(b => b.classList.remove('active'));
       document.getElementById('nav-btn-studio').classList.add('active');
