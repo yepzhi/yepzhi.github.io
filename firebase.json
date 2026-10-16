@@ -102,16 +102,8 @@
       },
       {
         "source": "/richmondai/**",
-        "destination": "/RichmondAI/**"
-      },
-      {
-        "source": "/RichmondAI",
-        "destination": "/RichmondAI/index.html",
+        "destination": "/RichmondAI/**",
         "type": 301
-      },
-      {
-        "source": "/RichmondAI/**",
-        "destination": "/RichmondAI/**"
       }
     ]
   }
