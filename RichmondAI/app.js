@@ -234,6 +234,86 @@
       defaultCount: 4,
       supportsCutout: false,
       supportsStudentKey: false
+    },
+    lesson_plan: {
+      id: 'lesson_plan', name: 'Lesson Plan', category: 'Planning & Writing',
+      icon: 'fa-chalkboard-user', iconColor: 'blue',
+      desc: 'Complete timed lesson plan with objectives, warmer, presentation, practice, production, and assessment stages.',
+      topicPlaceholder: 'e.g., Giving instructions in a workshop', defaultTopic: 'Giving Safety Instructions in a Workshop',
+      countLabel: 'Lesson Length (minutes / 10)', defaultCount: 6, supportsCutout: false, supportsStudentKey: false,
+      promptHint: 'Write a complete timed lesson plan with: aims, success criteria, materials, anticipated problems, and stages (warmer, lead-in, presentation, controlled practice, freer practice, wrap-up, homework). Include timings and interaction patterns. Number of items = lesson length in units of 10 minutes.'
+    },
+    worksheet: {
+      id: 'worksheet', name: 'Worksheet Builder', category: 'Planning & Writing',
+      icon: 'fa-file-lines', iconColor: 'gold',
+      desc: 'Ready-to-print worksheet mixing matching, gap-fill, sentence building, and short writing tasks, with answer key.',
+      topicPlaceholder: 'e.g., Present perfect for work experience', defaultTopic: 'Present Perfect for Describing Work Experience',
+      countLabel: 'Number of Tasks', defaultCount: 4, supportsCutout: false, supportsStudentKey: true,
+      promptHint: 'Create a printable student worksheet with varied task types (matching, gap-fill, error correction, sentence transformation, short writing). Put an ANSWER KEY section at the end.'
+    },
+    reading_comp: {
+      id: 'reading_comp', name: 'Reading Comprehension', category: 'Planning & Writing',
+      icon: 'fa-book-open', iconColor: 'pink',
+      desc: 'Original CEFR-levelled reading text with pre-reading, comprehension, vocabulary-in-context, and post-reading questions.',
+      topicPlaceholder: 'e.g., A day in the life of a flight nurse', defaultTopic: 'A Day in the Life of a Flight Nurse',
+      countLabel: 'Number of Questions', defaultCount: 6, supportsCutout: false, supportsStudentKey: true,
+      promptHint: 'Write an original reading text strictly at the target CEFR level (word count suited to the level), then add pre-reading questions, true/false, comprehension questions, vocabulary-in-context and a post-reading discussion task. Include an ANSWER KEY.'
+    },
+    cloze: {
+      id: 'cloze', name: 'Gap-Fill / Cloze Test', category: 'Planning & Writing',
+      icon: 'fa-pen-to-square', iconColor: 'blue',
+      desc: 'Cloze passages with word bank or open gaps, tuned to CEFR grammar and technical vocabulary.',
+      topicPlaceholder: 'e.g., Describing a process with the passive', defaultTopic: 'Describing a Manufacturing Process (Passive Voice)',
+      countLabel: 'Number of Gaps', defaultCount: 10, supportsCutout: false, supportsStudentKey: true,
+      promptHint: 'Write a short cloze passage with numbered gaps and a word bank, then an ANSWER KEY with brief explanations. Number of items = number of gaps.'
+    },
+    rubric: {
+      id: 'rubric', name: 'Rubric Builder', category: 'Planning & Writing',
+      icon: 'fa-table-list', iconColor: 'gold',
+      desc: 'Analytic assessment rubric for speaking or writing with CEFR-aligned band descriptors.',
+      topicPlaceholder: 'e.g., Oral presentation of a technical process', defaultTopic: 'Oral Presentation of a Technical Process',
+      countLabel: 'Number of Criteria', defaultCount: 4, supportsCutout: false, supportsStudentKey: false,
+      promptHint: 'Build an analytic rubric as a Markdown table: criteria as rows, 4 performance bands as columns, student-friendly descriptors aligned to the CEFR level, plus a scoring guide.'
+    },
+    email_writer: {
+      id: 'email_writer', name: 'Email & Letter Writing Tasks', category: 'Planning & Writing',
+      icon: 'fa-envelope-open-text', iconColor: 'pink',
+      desc: 'Model emails and letters with register analysis, useful phrases, and a guided writing task.',
+      topicPlaceholder: 'e.g., Complaint about a delayed delivery', defaultTopic: 'Complaint About a Delayed Parts Delivery',
+      countLabel: 'Number of Model Texts', defaultCount: 2, supportsCutout: false, supportsStudentKey: false,
+      promptHint: 'Produce model email/letter texts (one formal, one semi-formal), annotate the register and structure, list useful phrases, then give a guided writing task with a checklist.'
+    },
+    scheme_of_work: {
+      id: 'scheme_of_work', name: 'Scheme of Work', category: 'Planning & Writing',
+      icon: 'fa-calendar-days', iconColor: 'blue',
+      desc: 'Week-by-week syllabus with outcomes, language focus, skills, assessment points, and resources.',
+      topicPlaceholder: 'e.g., 8-week English for Nursing course', defaultTopic: '8-Week English for Nursing Course',
+      countLabel: 'Number of Weeks', defaultCount: 8, supportsCutout: false, supportsStudentKey: false,
+      promptHint: 'Create a scheme of work as a Markdown table: week, theme, learning outcomes, language focus, skills, assessment, resources. Number of items = number of weeks.'
+    },
+    dialogue: {
+      id: 'dialogue', name: 'Dialogue & Roleplay Scripts', category: 'Planning & Writing',
+      icon: 'fa-people-arrows', iconColor: 'pink',
+      desc: 'Model dialogues with gapped versions, role cards, and functional language boxes for speaking practice.',
+      topicPlaceholder: 'e.g., Reporting a fault to a supervisor', defaultTopic: 'Reporting a Machine Fault to a Supervisor',
+      countLabel: 'Number of Dialogues', defaultCount: 2, supportsCutout: false, supportsStudentKey: true,
+      promptHint: 'Write natural model dialogues, then a gapped version, role cards for pairs (A/B), and a functional language box. Include an ANSWER KEY for the gapped version.'
+    },
+    vocab_list: {
+      id: 'vocab_list', name: 'Vocabulary List & Practice', category: 'Planning & Writing',
+      icon: 'fa-spell-check', iconColor: 'gold',
+      desc: 'Topic vocabulary with IPA, definitions, example sentences, collocations, and quick practice exercises.',
+      topicPlaceholder: 'e.g., Hospital ward equipment', defaultTopic: 'Hospital Ward Equipment',
+      countLabel: 'Number of Words', defaultCount: 10, supportsCutout: false, supportsStudentKey: true,
+      promptHint: 'Create a vocabulary table (word, part of speech, IPA, learner-friendly definition, example, collocations) then 2 short practice exercises and an ANSWER KEY.'
+    },
+    report_comments: {
+      id: 'report_comments', name: 'Student Report Comments', category: 'Planning & Writing',
+      icon: 'fa-comment-dots', iconColor: 'blue',
+      desc: 'Constructive, personalised end-of-term report comments across skills, with targets for improvement.',
+      topicPlaceholder: 'e.g., Strong speaker, weaker writing accuracy', defaultTopic: 'Confident Speaker, Needs Work on Writing Accuracy',
+      countLabel: 'Number of Comments', defaultCount: 3, supportsCutout: false, supportsStudentKey: false,
+      promptHint: 'Write constructive, specific, professional report comments (strength, area to improve, next-step target) in varied tones. Do not invent grades. Use [Student Name] as a placeholder.'
     }
   };
 
@@ -262,12 +342,100 @@
   // =========================================================================
   // 3. USER AUTHENTICATION & DAILY QUOTA MANAGER
   // =========================================================================
+  // ---- Backend switches. Flip quotaBackend to 'firestore' (and fill firebase) once Auth is connected. ----
+  const BACKEND_CONFIG = {
+    quotaBackend: 'local',   // 'local' | 'firestore'
+    firebase: null           // e.g. { apiKey, authDomain, projectId, appId }
+  };
+
+  const QUOTA_LIMITS = { free: 15, pro: 150, institutional: 500 };
+  const utcToday = () => new Date().toISOString().slice(0, 10);
+
+  // Local store: tamper-evident (signed) and clock-rollback resistant. Deterrent only; real
+  // enforcement needs the Firestore store below.
+  class LocalQuotaStore {
+    constructor(key) { this.key = key; this.remote = false; }
+    _sig(q) {
+      const s = `${q.date}|${q.used}|${q.max}|rch-v1`;
+      let h = 2166136261;
+      for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+      return (h >>> 0).toString(36);
+    }
+    load(user, max) {
+      const today = utcToday();
+      try {
+        const p = JSON.parse(localStorage.getItem(this.key) || 'null');
+        if (p && typeof p.used === 'number') {
+          if (p.sig && p.sig !== this._sig(p)) {
+            // Edited by hand: treat the day as fully used.
+            return this.save({ date: p.date >= today ? p.date : today, used: max, max });
+          }
+          // Clock set backwards: keep the later stored day so quota can't be refreshed.
+          const date = p.date > today ? p.date : today;
+          if (p.date === date) return this.save({ date, used: Math.min(p.used, max), max });
+        }
+      } catch (e) { }
+      return this.save({ date: today, used: 0, max });
+    }
+    save(q) {
+      const out = { date: q.date, used: q.used, max: q.max };
+      out.sig = this._sig(out);
+      localStorage.setItem(this.key, JSON.stringify(out));
+      return out;
+    }
+    commit(q) { return Promise.resolve(this.save(q)); }
+  }
+
+  // Firestore store: ready but OFF by default. Needs the Firebase compat SDK on the page and a
+  // signed-in user id. Document: quotas/{uid}_{YYYY-MM-DD} -> { used, max }. See firestore.rules.example.
+  class FirestoreQuotaStore {
+    constructor(config, fallback) {
+      this.remote = true; this.fallback = fallback;
+      this.ok = !!(config && window.firebase && window.firebase.firestore);
+      if (this.ok) {
+        if (!window.firebase.apps.length) window.firebase.initializeApp(config);
+        this.db = window.firebase.firestore();
+      } else {
+        console.warn('[RichmondAI] Firestore quota backend unavailable; using local store.');
+      }
+    }
+    _ref(user) { return this.db.collection('quotas').doc(`${user.uid || user.email}_${utcToday()}`); }
+    load(user, max) { return this.fallback.load(user, max); }
+    async sync(user, max) {
+      if (!this.ok) return null;
+      const snap = await this._ref(user).get();
+      const used = snap.exists ? snap.data().used : 0;
+      return this.fallback.save({ date: utcToday(), used, max });
+    }
+    async commit(q, user) {
+      if (!this.ok) return this.fallback.save(q);
+      const ref = this._ref(user);
+      const used = await this.db.runTransaction(async tx => {
+        const snap = await tx.get(ref);
+        const next = (snap.exists ? snap.data().used : 0) + 1;
+        if (next > q.max) throw new Error('Daily generation limit reached.');
+        tx.set(ref, { used: next, max: q.max, updated: window.firebase.firestore.FieldValue.serverTimestamp() });
+        return next;
+      });
+      return this.fallback.save({ date: q.date, used, max: q.max });
+    }
+  }
+
+  function createQuotaStore(key) {
+    const local = new LocalQuotaStore(key);
+    return BACKEND_CONFIG.quotaBackend === 'firestore' ? new FirestoreQuotaStore(BACKEND_CONFIG.firebase, local) : local;
+  }
+
   class AuthManager {
     constructor() {
       this.storageKey = 'richmond_user_session';
       this.quotaKey = 'richmond_daily_quota';
+      this.store = createQuotaStore(this.quotaKey);
       this.user = this._loadUser();
       this.quota = this._loadQuota();
+      if (this.store.remote && this.store.sync) {
+        this.store.sync(this.user, this.quota.max).then(q => { if (q) { this.quota = q; this.updateQuotaUI(); } }).catch(() => { });
+      }
       this._startResetTimer();
     }
 
@@ -293,29 +461,14 @@
       localStorage.setItem(this.storageKey, JSON.stringify(user));
     }
 
+    _maxFor(tier) { return QUOTA_LIMITS[tier] || QUOTA_LIMITS.free; }
+
     _loadQuota() {
-      const today = new Date().toISOString().slice(0, 10);
-      const saved = localStorage.getItem(this.quotaKey);
-      if (saved) {
-        try {
-          const parsed = JSON.parse(saved);
-          if (parsed.date === today) return parsed;
-        } catch (e) { }
-      }
-      // New day or first time
-      const maxGenerations = this.user.tier === 'pro' ? 150 : (this.user.tier === 'institutional' ? 500 : 15);
-      const newQuota = {
-        date: today,
-        used: 0,
-        max: maxGenerations
-      };
-      this._saveQuota(newQuota);
-      return newQuota;
+      return this.store.load(this.user, this._maxFor(this.user.tier));
     }
 
     _saveQuota(quota) {
-      this.quota = quota;
-      localStorage.setItem(this.quotaKey, JSON.stringify(quota));
+      this.quota = this.store.save ? this.store.save(quota) : quota;
     }
 
     getRemainingGenerations() {
@@ -326,9 +479,17 @@
       return this.user.registered && this.getRemainingGenerations() > 0;
     }
 
-    consumeGeneration() {
-      this.quota.used += 1;
-      this._saveQuota(this.quota);
+    async consumeGeneration() {
+      // Re-check the day first (tab left open past UTC midnight, or storage changed in another tab).
+      this.quota = this.store.load(this.user, this._maxFor(this.user.tier));
+      const next = { ...this.quota, used: this.quota.used + 1 };
+      try {
+        this.quota = await this.store.commit(next, this.user);
+      } catch (e) {
+        this.quota = this.store.load(this.user, this._maxFor(this.user.tier));
+        this.updateQuotaUI();
+        throw e;
+      }
       this.updateQuotaUI();
     }
 
@@ -431,6 +592,17 @@
           return this._generateSummaryContent(topic, cefr, count, profile, sends);
         case 'feedback':
           return this._generateFeedbackContent(topic, cefr, count, profile, sends);
+        case 'lesson_plan':
+        case 'worksheet':
+        case 'reading_comp':
+        case 'cloze':
+        case 'rubric':
+        case 'email_writer':
+        case 'scheme_of_work':
+        case 'dialogue':
+        case 'vocab_list':
+        case 'report_comments':
+          return this._generateDocContent(params.generatorId, topic, cefr, count, profile, sends, gen);
         default:
           return this._generateQuizContent(topic, cefr, count, profile, sends, gen);
       }
@@ -653,6 +825,84 @@
         cefr
       };
     }
+
+    // ---- Topic-aware offline templates for the Planning & Writing generators ----
+    static _generateDocContent(id, topic, cefr, count, profile, sends, gen) {
+      const n = Math.max(1, count);
+      const head = `# ${gen.name}: ${topic}\n\n**CEFR**: ${cefr} | **Learners**: ${profile || 'General English learners'} | **SEND support**: ${sends}\n\n---\n\n`;
+      const T = topic;
+      const range = k => Array.from({ length: k }, (_, i) => i + 1);
+      let md = head;
+      switch (id) {
+        case 'lesson_plan': {
+          const total = n * 10;
+          md += `## Aims\nBy the end of the lesson, learners can use language for **${T}** appropriately at ${cefr}.\n\n## Success Criteria\n- I can understand key vocabulary for ${T}.\n- I can use target structures accurately in a short exchange.\n- I can complete a real-world task about ${T}.\n\n**Total time**: ${total} min | **Materials**: board, handouts, role cards\n\n## Stages\n| Stage | Time | Interaction | Activity |\n|---|---|---|---|\n| Warmer | ${Math.round(total * 0.1)} min | Whole class | Quick question chain to activate prior knowledge of ${T} |\n| Lead-in | ${Math.round(total * 0.1)} min | Pairs | Predict vocabulary from images or a short prompt |\n| Presentation | ${Math.round(total * 0.2)} min | T-Ss | Model language in context, concept-check, drill |\n| Controlled practice | ${Math.round(total * 0.2)} min | Individual / pairs | Gap-fill and matching, peer check |\n| Freer practice | ${Math.round(total * 0.25)} min | Groups | Roleplay or task based on ${T} |\n| Wrap-up | ${Math.round(total * 0.1)} min | Whole class | Feedback on errors, exit ticket |\n| Homework | - | Individual | Short written task on ${T} |\n\n## Anticipated Problems\n- Learners may lack vocabulary: pre-teach 6-8 items.\n- Fast finishers: extension task (write a follow-up message).\n`;
+          break;
+        }
+        case 'worksheet': {
+          md += `## Task 1: Match the words to their meanings\nMatch 5 key terms about **${T}** with definitions.\n\n`;
+          if (n >= 2) md += `## Task 2: Complete the sentences\nFill each gap with one word from the box.\n\n`;
+          if (n >= 3) md += `## Task 3: Correct the mistakes\nFind and fix one error in each sentence.\n\n`;
+          if (n >= 4) md += `## Task 4: Write\nWrite 5-6 sentences about ${T}, using at least 4 target words.\n\n`;
+          range(Math.max(0, n - 4)).forEach(i => { md += `## Bonus Task ${i + 1}\nPair speaking: ask and answer three questions about ${T}.\n\n`; });
+          md += `---\n## Answer Key\n- Task 1: students' matches should reflect the chosen vocabulary.\n- Task 2/3: accept any grammatically correct answer at ${cefr}.\n- Task 4: use the rubric focus on accuracy, range, and task achievement.\n`;
+          break;
+        }
+        case 'reading_comp': {
+          md += `## Before You Read\n1. What do you already know about ${T}?\n2. Which words do you expect to see?\n\n## Text\n*(Original ${cefr} text about ${T}: replace with Gemini output when a live key is connected.)*\n\n## Comprehension Questions\n`;
+          range(n).forEach(i => { md += `${i + 1}. Question ${i + 1} about the main ideas and details of the text on ${T}.\n`; });
+          md += `\n## Vocabulary in Context\nFind a word in the text that means: (a) very important, (b) to make something start.\n\n## After You Read\nDiscuss in pairs: how is ${T} relevant to your own work or studies?\n\n---\n## Answer Key\nAnswers depend on the generated text; use evidence from the passage.\n`;
+          break;
+        }
+        case 'cloze': {
+          md += `## Word Bank\n*(choose from the words below)*\n\n## Passage\nWhen working with ${T}, it is important to follow the correct ${'(1)'} ______ . First, you ${'(2)'} ______ the equipment, then you check it carefully.`;
+          range(Math.max(0, n - 2)).forEach(i => { md += ` Then step ${i + 3} ${'(' + (i + 3) + ')'} ______ .`; });
+          md += `\n\n---\n## Answer Key\nGaps 1-${n}: depends on the generated passage and word bank.\n`;
+          break;
+        }
+        case 'rubric': {
+          const crit = ['Content & Task Achievement', 'Accuracy (Grammar)', 'Range (Vocabulary)', 'Fluency / Coherence', 'Pronunciation / Presentation', 'Interaction'].slice(0, Math.min(6, n));
+          md += `| Criterion | 4 - Excellent | 3 - Good | 2 - Developing | 1 - Beginning |\n|---|---|---|---|---|\n`;
+          crit.forEach(c => { md += `| **${c}** | Consistently strong at ${cefr} for ${T} | Mostly effective with minor slips | Partly effective, some breakdowns | Limited, needs support |\n`; });
+          md += `\n**Scoring**: ${crit.length * 4} points total. Share descriptors with learners before the task.\n`;
+          break;
+        }
+        case 'email_writer': {
+          md += `## Model Text 1 (Formal)\n**Subject**: ${T}\n\nDear Mr/Ms [Name],\n\nI am writing to you regarding ${T}. I would be grateful if you could look into this matter at your earliest convenience.\n\nYours sincerely,\n[Your name]\n\n`;
+          if (n >= 2) md += `## Model Text 2 (Semi-formal)\n**Subject**: Quick update: ${T}\n\nHi [Name],\n\nJust a quick note about ${T}. Could you let me know what you think by Friday?\n\nThanks,\n[Your name]\n\n`;
+          md += `## Useful Phrases\n- *I am writing to...* / *I would like to inquire about...*\n- *Could you possibly...?* / *I would appreciate it if...*\n- *Please find attached...* / *Look forward to hearing from you.*\n\n## Your Turn\nWrite a ${cefr}-appropriate email about ${T} (80-120 words). Checklist: greeting, purpose, details, request, closing.\n`;
+          break;
+        }
+        case 'scheme_of_work': {
+          md += `| Week | Theme | Learning outcomes | Language focus | Skills | Assessment |\n|---|---|---|---|---|---|\n`;
+          range(n).forEach(w => { md += `| ${w} | ${T}: unit ${w} | Learners can do task ${w} at ${cefr} | Key structures & vocabulary ${w} | ${['Speaking', 'Listening', 'Reading', 'Writing'][(w - 1) % 4]} | ${w % 4 === 0 ? 'Progress check' : 'Informal feedback'} |\n`; });
+          md += `\n**Resources**: coursebook extracts, authentic texts, RichmondAI worksheets.\n`;
+          break;
+        }
+        case 'dialogue': {
+          range(n).forEach(i => {
+            md += `## Dialogue ${i + 1}\n**A**: Good morning. I need to talk to you about ${T}.\n**B**: Of course. What seems to be the problem?\n**A**: Well, ${i === 0 ? 'there has been an issue' : 'I have a different concern'} and I would like your advice.\n**B**: I see. Let's go through it step by step.\n\n### Gapped version\n**A**: Good ______. I need to ______ to you about ${T}.\n\n### Role cards\n**Student A**: explain the situation. **Student B**: ask questions and suggest a solution.\n\n`;
+          });
+          md += `## Functional Language\n- Explaining: *The issue is that...*\n- Advising: *I suggest we...*\n- Checking: *Do you mean...?*\n\n---\n## Answer Key\nmorning; talk.\n`;
+          break;
+        }
+        case 'vocab_list': {
+          md += `| # | Word | POS | Definition | Example |\n|---|---|---|---|---|\n`;
+          range(n).forEach(i => { md += `| ${i + 1} | term ${i + 1} | noun | learner-friendly definition | Example sentence on ${T}. |\n`; });
+          md += `\n## Practice\n1. Match each word with its definition.\n2. Write a sentence using three of the words.\n\n---\n## Answer Key\nDepends on the final word list.\n`;
+          break;
+        }
+        case 'report_comments': {
+          range(n).forEach(i => {
+            md += `### Comment ${i + 1}\n[Student Name] has shown real progress this term (${T}). ${['Their confidence in class is a clear strength.', 'They contribute thoughtfully to group work.', 'Their effort and attitude are excellent.'][i % 3]} To improve further, [Student Name] should focus on accuracy in extended writing. **Next-step target**: write one short paragraph each week and self-check for common errors.\n\n`;
+          });
+          break;
+        }
+        default:
+          md += `Content for ${T}.`;
+      }
+      return { type: 'formatted', markdown: md, topic, cefr };
+    }
   }
 
   // =========================================================================
@@ -793,6 +1043,21 @@
     _initDOM() {
       // Inputs
       this.genDropdown = document.getElementById('generator-selector-dropdown');
+      // Build options from the registry so new generators appear automatically, grouped by category.
+      const byCat = {};
+      Object.values(GENERATORS).forEach(g => { (byCat[g.category] = byCat[g.category] || []).push(g); });
+      this.genDropdown.innerHTML = '';
+      Object.keys(byCat).forEach(cat => {
+        const og = document.createElement('optgroup');
+        og.label = cat;
+        byCat[cat].forEach(g => {
+          const o = document.createElement('option');
+          o.value = g.id; o.textContent = g.name;
+          og.appendChild(o);
+        });
+        this.genDropdown.appendChild(og);
+      });
+      this.genDropdown.value = 'mcq';
       this.topicInput = document.getElementById('input-topic');
       this.countInput = document.getElementById('input-count');
       this.countValueDisplay = document.getElementById('display-count-value');
@@ -1255,7 +1520,8 @@
         if (this.gemini.hasKey()) {
           statusEl.textContent = `Connecting to Google Gemini Flash API (${this.gemini.model})...`;
           const systemPrompt = `You are RichmondAI, an elite ELT and ESP material creation engine. Calibrate output strictly to CEFR ${params.cefr}. Learner Profile: ${params.learnerProfile}. SEND accommodations: ${params.sends.join(', ')}. Format in clean, beautiful Markdown with clear headings and bold target vocabulary.`;
-          const userPrompt = `Create ${params.count} items for generator "${GENERATORS[params.generatorId].name}" on the topic: "${params.topic}". Additional context: ${params.supportingText || params.cartridgeContext || 'None'}.`;
+          const hint = GENERATORS[params.generatorId].promptHint ? ` ${GENERATORS[params.generatorId].promptHint}` : '';
+          const userPrompt = `Create ${params.count} items for generator "${GENERATORS[params.generatorId].name}" on the topic: "${params.topic}". Additional context: ${params.supportingText || params.cartridgeContext || 'None'}.${hint}`;
           
           const rawResponse = await this.gemini.generate(userPrompt, systemPrompt);
           result = {
@@ -1272,7 +1538,7 @@
         }
 
         // Deduct 1 daily generation from quota
-        this.auth.consumeGeneration();
+        await this.auth.consumeGeneration();
         this.currentGeneration = result;
 
         // Render result

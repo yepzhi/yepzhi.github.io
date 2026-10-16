@@ -1,0 +1,24 @@
+// Firestore rules for the RichmondAI daily quota (use once Firebase Auth is connected).
+// 1. Set BACKEND_CONFIG.quotaBackend = 'firestore' and BACKEND_CONFIG.firebase = {...} in app.js.
+// 2. Load firebase-app-compat.js and firebase-firestore-compat.js (and auth) before app.js.
+// 3. Set user.uid from Firebase Auth so the document id is `${uid}_${YYYY-MM-DD}`.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /quotas/{docId} {
+      // Owner-only, and the counter may only go up by exactly 1 and never past `max`.
+      allow read: if request.auth != null && docId.matches('^' + request.auth.uid + '_.*');
+      allow create: if request.auth != null
+                    && docId.matches('^' + request.auth.uid + '_.*')
+                    && request.resource.data.used == 1
+                    && request.resource.data.max <= 500;
+      allow update: if request.auth != null
+                    && docId.matches('^' + request.auth.uid + '_.*')
+                    && request.resource.data.used == resource.data.used + 1
+                    && request.resource.data.used <= resource.data.max
+                    && request.resource.data.max == resource.data.max;
+    }
+  }
+}
+// NOTE: `max` is client-supplied here, so a determined user could pick a higher max on create.
+// For true enforcement, move the limit check into a Cloud Function (planned with the Gemini proxy).
