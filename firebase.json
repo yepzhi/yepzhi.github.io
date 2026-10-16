@@ -94,6 +94,24 @@
       {
         "source": "/jobs/**",
         "destination": "/jobs/**"
+      },
+      {
+        "source": "/richmondai",
+        "destination": "/RichmondAI/index.html",
+        "type": 301
+      },
+      {
+        "source": "/richmondai/**",
+        "destination": "/RichmondAI/**"
+      },
+      {
+        "source": "/RichmondAI",
+        "destination": "/RichmondAI/index.html",
+        "type": 301
+      },
+      {
+        "source": "/RichmondAI/**",
+        "destination": "/RichmondAI/**"
       }
     ]
   }

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <title>RichmondAI — AI Material Generator for English & ESP Teachers</title>
+  <meta name="description" content="RichmondAI is the next-gen AI instructional studio for ELT and ESP educators. Powered by Gemini Flash, CEFR-calibrated, offering print-ready cut-out flashcards, worksheets, and 70% lower pricing than TeacherMatic.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6 Pro Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- App Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Cyber-Aurora Canvas Background (injected by aurora.js) -->
+  <canvas id="richmond-aurora-canvas"></canvas>
+
+  <div class="app-container">
+
+    <!-- ── 1. Vertical Rail Sidebar (stemOS style) ── -->
+    <aside class="rail-sidebar" id="app-rail-sidebar">
+      <div class="sidebar-top">
+        <a href="#" class="sidebar-brand" id="brand-home-link" title="RichmondAI Home">
+          <div class="brand-crest">
+            <span>R</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="rail-nav">
+        <button class="rail-btn active" data-view="studio" id="nav-btn-studio" title="Studio Workspace">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span class="rail-tooltip">Studio Workspace</span>
+        </button>
+        <button class="rail-btn" data-view="catalog" id="nav-btn-catalog" title="All Generators Catalog">
+          <i class="fa-solid fa-shapes"></i>
+          <span class="rail-tooltip">Generators Catalog</span>
+        </button>
+        <button class="rail-btn" data-view="cartridges" id="nav-btn-cartridges" title="Course Cartridges">
+          <i class="fa-solid fa-cube"></i>
+          <span class="rail-tooltip">Course Cartridges</span>
+        </button>
+        <button class="rail-btn" data-view="history" id="nav-btn-history" title="Saved History & Library">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span class="rail-tooltip">My Generations Library</span>
+        </button>
+        <button class="rail-btn" data-view="pricing" id="nav-btn-pricing" title="Pricing & Upgrade Plans">
+          <i class="fa-solid fa-tags"></i>
+          <span class="rail-tooltip">Plans (70% Off)</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <button class="rail-btn" id="nav-btn-gemini-key" title="Gemini Flash API Settings">
+          <i class="fa-solid fa-bolt"></i>
+          <span class="rail-tooltip">Gemini API Key</span>
+        </button>
+        <button class="rail-btn" id="nav-btn-user-auth" title="Teacher Account">
+          <i class="fa-solid fa-user-circle"></i>
+          <span class="rail-tooltip">My Account</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ── 2. Main Workspace ── -->
+    <main class="main-workspace">
+      
+      <!-- Top Floating Glass Island Header -->
+      <div class="top-header-wrapper">
+        <header class="top-header">
+          <div class="header-left">
+            <div class="header-brand-title">
+              <span class="brand-gradient-text">RichmondAI</span>
+              <span class="badge-tag">ESP & ELT STUDIO</span>
+            </div>
+            
+            <div class="active-generator-crumb" id="header-active-generator">
+              <i class="fa-solid fa-list-check" style="color:var(--accent-pink);"></i>
+              <span>Generator: <strong id="header-gen-name">Multiple-Choice Questions</strong></span>
+            </div>
+          </div>
+
+          <div class="header-right">
+            <!-- Quota Meter Pill -->
+            <div class="quota-pill-container" id="quota-meter-pill" title="Daily Generation Limit — Click to view details">
+              <i class="fa-solid fa-chart-pie" style="color:var(--accent-gold);"></i>
+              <div class="quota-details">
+                <div class="quota-labels">
+                  <span class="quota-count" id="quota-text-display">15 / 15 daily left</span>
+                  <span class="quota-timer" id="quota-timer-display">Resets 00:00 UTC</span>
+                </div>
+                <div class="quota-bar-track">
+                  <div class="quota-bar-fill" id="quota-progress-bar" style="width: 100%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Upgrade Button (70% Off) -->
+            <button class="btn-glass btn-upgrade-highlight" id="btn-header-upgrade">
+              <i class="fa-solid fa-crown"></i>
+              <span>Pro $29/yr</span>
+            </button>
+
+            <!-- User Auth Profile Badge -->
+            <div class="user-profile-badge" id="btn-header-user">
+              <div class="user-avatar-circle" id="user-avatar-initials">T</div>
+              <span class="user-name-text" id="user-display-name">Guest Teacher</span>
+            </div>
+          </div>
+        </header>
+      </div>
+
+      <!-- ── 3. Studio Dual-Pane Canvas ── -->
+      <section class="studio-canvas" id="studio-view">
+
+        <!-- Left Pane: Configuration & Differentiation Form -->
+        <div class="config-pane">
+          <div class="pane-header">
+            <div class="pane-title">
+              <i class="fa-solid fa-sliders" id="active-pane-icon"></i>
+              <span id="active-pane-title">Generator Parameters</span>
+            </div>
+            <select class="input-glass" id="generator-selector-dropdown" style="width: auto; padding: 6px 12px; font-size: 0.8rem;">
+              <optgroup label="General ELT Generators">
+                <option value="mcq" selected>Multiple-Choice Questions</option>
+                <option value="flashcards">Cut-out Flash Cards (Printable)</option>
+                <option value="activities">Learning Activities</option>
+                <option value="summariser">Text Summariser & CEFR Leveler</option>
+                <option value="questions">Classroom Questions (Bloom's)</option>
+                <option value="short_answers">Very Short Answers</option>
+                <option value="discussion">Discussion Topics</option>
+                <option value="inspiration">Inspiration & Hook Generator</option>
+                <option value="feedback">Feedback & Rubric Generator</option>
+                <option value="youtube">YouTube Video Content Generator</option>
+              </optgroup>
+              <optgroup label="Specialized ESP Modules">
+                <option value="esp_engineering">ESP: Engineering & Manufacturing</option>
+                <option value="esp_healthcare">ESP: Healthcare & Nursing</option>
+                <option value="esp_aviation">ESP: Aviation Phraseology</option>
+                <option value="esp_computing">ESP: Software & Computing</option>
+                <option value="esp_business">ESP: Business & Negotiations</option>
+                <option value="esp_tourism">ESP: Hospitality & Tourism</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="pane-scrollable-body" id="config-form-container">
+            
+            <!-- Language & Country Row -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="form-group">
+                <label class="form-label">
+                  <span>Platform Language</span>
+                </label>
+                <select class="input-glass" id="input-language">
+                  <option value="en-UK" selected>English (UK)</option>
+                  <option value="en-US">English (US)</option>
+                  <option value="es">Español (Teacher instructions in ES)</option>
+                  <option value="fr">Français</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">
+                  <span>Target Country</span>
+                </label>
+                <select class="input-glass" id="input-country">
+                  <option value="international" selected>International</option>
+                  <option value="mexico">Mexico</option>
+                  <option value="uk">United Kingdom</option>
+                  <option value="us">United States</option>
+                  <option value="colombia">Colombia</option>
+                  <option value="spain">Spain</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Topic / Keyword -->
+            <div class="form-group">
+              <label class="form-label" for="input-topic">
+                <span>Topic / Subject Basis <strong style="color:var(--accent-pink);">*</strong></span>
+                <span class="form-label-desc">Core theme or keywords</span>
+              </label>
+              <input type="text" class="input-glass" id="input-topic" placeholder="e.g. Brake Fluid Hydraulic Maintenance or American Civil War" value="Brake System Hydraulics & Safety Procedures">
+            </div>
+
+            <!-- Quantity / Count Slider & Input -->
+            <div class="form-group">
+              <label class="form-label" for="input-count">
+                <span id="label-count-text">Number of Questions</span>
+                <span class="form-label-desc" id="display-count-value">5 items</span>
+              </label>
+              <input type="range" min="1" max="15" value="5" id="input-count" class="input-glass" style="padding: 2px 0;">
+            </div>
+
+            <!-- CEFR Language Level Dial -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>CEFR Language Level</span>
+                <span class="form-label-desc" id="cefr-description-text">B1: Threshold / Independent User</span>
+              </label>
+              <div class="cefr-selector-grid" id="cefr-dial-grid">
+                <button type="button" class="cefr-pill" data-level="Pre-A1">Pre-A1</button>
+                <button type="button" class="cefr-pill" data-level="A1">A1</button>
+                <button type="button" class="cefr-pill" data-level="A2">A2</button>
+                <button type="button" class="cefr-pill active" data-level="B1">B1</button>
+                <button type="button" class="cefr-pill" data-level="B2">B2</button>
+                <button type="button" class="cefr-pill" data-level="C1">C1</button>
+                <button type="button" class="cefr-pill" data-level="C2">C2</button>
+              </div>
+            </div>
+
+            <!-- Difficulty Calibrator -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>Pedagogical Difficulty</span>
+              </label>
+              <div class="difficulty-grid" id="difficulty-dial-grid">
+                <button type="button" class="difficulty-pill" data-diff="very_easy">Very Easy</button>
+                <button type="button" class="difficulty-pill" data-diff="easy">Easy</button>
+                <button type="button" class="difficulty-pill active" data-diff="standard">Standard</button>
+                <button type="button" class="difficulty-pill" data-diff="quite_difficult">Quite Hard</button>
+                <button type="button" class="difficulty-pill" data-diff="advanced">Advanced</button>
+              </div>
+            </div>
+
+            <!-- Learner Profile Context -->
+            <div class="form-group">
+              <label class="form-label" for="input-learner-profile">
+                <span>Optional: Learner Profile</span>
+                <span class="form-label-desc">Age, interests, vocational track</span>
+              </label>
+              <textarea class="input-glass" id="input-learner-profile" rows="2" placeholder="e.g. Adult 18-21 years Atlixco Puebla, vocational mechanics apprentices who know workshop tools but struggle with English manuals.">Adult 18-21 years Atlixco Puebla, vocational mechanics apprentices preparing for international workshop certification.</textarea>
+              <div class="preset-chips-row">
+                <span class="preset-chip" data-profile="Adult 18-21 years Atlixco Puebla, automotive mechanical apprentices.">Atlixco Puebla Mechanics</span>
+                <span class="preset-chip" data-profile="19-24 years nursing undergraduates preparing for hospital triage rotations.">Nursing Undergrads</span>
+                <span class="preset-chip" data-profile="Software engineers learning agile standups and code review English.">Software Developers</span>
+                <span class="preset-chip" data-profile="High school B1 teenagers interested in climate change & robotics.">STEM High School</span>
+              </div>
+            </div>
+
+            <!-- Supporting Materials Tabs (Paste, File, URL, Cartridge) -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>Optional: Supporting Materials & Cartridges</span>
+              </label>
+              <div class="tab-bar-minimal" id="supporting-material-tabs">
+                <button type="button" class="tab-btn-min active" data-tab="paste"><i class="fa-solid fa-align-left"></i> Paste Text</button>
+                <button type="button" class="tab-btn-min" data-tab="url"><i class="fa-solid fa-link"></i> URL</button>
+                <button type="button" class="tab-btn-min" data-tab="cartridge"><i class="fa-solid fa-cube"></i> Cartridge</button>
+              </div>
+
+              <div id="tab-content-paste" style="margin-top: 8px;">
+                <textarea class="input-glass" id="input-supporting-text" rows="2" placeholder="Paste source text, article excerpt, or transcript for contextual extraction..."></textarea>
+              </div>
+
+              <div id="tab-content-url" style="margin-top: 8px; display: none;">
+                <input type="url" class="input-glass" id="input-supporting-url" placeholder="https://example.com/technical-article or YouTube URL">
+              </div>
+
+              <div id="tab-content-cartridge" style="margin-top: 8px; display: none;">
+                <select class="input-glass" id="select-active-cartridge">
+                  <option value="">-- No Cartridge Selected --</option>
+                  <option value="cartridge-puebla" selected>Atlixco B1 Automotive English Curriculum</option>
+                  <option value="cartridge-nursing">B2 Clinical Nursing & Patient Intake</option>
+                  <option value="cartridge-aero">Aero-Engineering Technical Specs</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- SEND & Neurodiversity Settings -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>Optional: SEND & Learning Needs Adaptation</span>
+                <span class="form-label-desc">Multi-select accommodations</span>
+              </label>
+              <div class="send-pills-container" id="send-pills-list">
+                <button type="button" class="send-pill" data-send="dyslexia"><i class="fa-solid fa-book-open-reader"></i> Dyslexia</button>
+                <button type="button" class="send-pill" data-send="adhd"><i class="fa-solid fa-bolt"></i> ADHD Chunking</button>
+                <button type="button" class="send-pill" data-send="autism"><i class="fa-solid fa-puzzle-piece"></i> Autism (ASD)</button>
+                <button type="button" class="send-pill" data-send="speech"><i class="fa-solid fa-comment-dots"></i> Speech & Language</button>
+                <button type="button" class="send-pill" data-send="visual"><i class="fa-solid fa-eye"></i> Visual Impairments</button>
+                <button type="button" class="send-pill" data-send="hearing"><i class="fa-solid fa-ear-deaf"></i> Hearing Impairments</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom CTA -->
+          <div class="pane-footer-cta">
+            <button class="btn-generate-main" id="btn-run-generation">
+              <i class="fa-solid fa-sparkles"></i>
+              <span>Generate with Gemini Flash</span>
+              <span class="btn-kbd">⌘Enter</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Pane: Live Output Canvas -->
+        <div class="output-pane">
+          <div class="output-header">
+            <div class="output-meta-left">
+              <div class="view-mode-tabs" id="view-mode-tab-group">
+                <button type="button" class="view-tab-btn active" data-view="formatted"><i class="fa-solid fa-eye"></i> Preview</button>
+                <button type="button" class="view-tab-btn" data-view="cutout" id="tab-btn-cutout" style="display:none;"><i class="fa-solid fa-scissors"></i> Cut-out Print Cards</button>
+                <button type="button" class="view-tab-btn" data-view="student" id="tab-btn-student"><i class="fa-solid fa-graduation-cap"></i> Student Test</button>
+                <button type="button" class="view-tab-btn" data-view="key" id="tab-btn-key"><i class="fa-solid fa-key"></i> Teacher Key</button>
+                <button type="button" class="view-tab-btn" data-view="markdown"><i class="fa-brands fa-markdown"></i> Markdown</button>
+              </div>
+            </div>
+
+            <div class="output-actions-right">
+              <button class="action-btn-sm primary-export" id="btn-export-print" title="Print-ready classroom handout or PDF">
+                <i class="fa-solid fa-print"></i>
+                <span>Print / PDF</span>
+              </button>
+              <button class="action-btn-sm" id="btn-export-docx" title="Download Word DOCX format">
+                <i class="fa-solid fa-file-word"></i>
+                <span>DOCX</span>
+              </button>
+              <button class="action-btn-sm" id="btn-export-copy" title="Copy to clipboard">
+                <i class="fa-solid fa-copy"></i>
+                <span>Copy</span>
+              </button>
+              <button class="action-btn-sm" id="btn-export-save" title="Save to My Generations Library">
+                <i class="fa-solid fa-bookmark"></i>
+                <span>Save</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Canvas Body Scrollable -->
+          <div class="output-body-canvas" id="output-canvas-body">
+            
+            <!-- Empty State -->
+            <div class="empty-state-welcome" id="empty-state-box">
+              <div class="empty-icon-orb">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+              </div>
+              <h2 class="empty-title">Welcome to RichmondAI Studio</h2>
+              <p class="empty-subtitle">
+                Configure your CEFR level, learner profile, and topic on the left, then click <strong>Generate with Gemini Flash</strong> to instantly craft pedagogical materials calibrated to European ELT standards.
+              </p>
+              <div class="preset-chips-row" style="justify-content: center;">
+                <span class="preset-chip" onclick="quickSelectGenerator('mcq')">⚡ Multiple-Choice Questions</span>
+                <span class="preset-chip" onclick="quickSelectGenerator('flashcards')">✂ Cut-out Flashcards</span>
+                <span class="preset-chip" onclick="quickSelectGenerator('esp_engineering')">⚙ ESP Engineering</span>
+                <span class="preset-chip" onclick="quickSelectGenerator('feedback')">📝 Essay Feedback</span>
+              </div>
+            </div>
+
+            <!-- Loading Shimmer State -->
+            <div class="loading-indicator-box" id="loading-state-box">
+              <div class="cyber-spinner"></div>
+              <div class="loading-text">
+                <i class="fa-solid fa-bolt" style="color:var(--accent-gold);"></i>
+                <span id="loading-status-message">Gemini Flash is calibrating CEFR B1 vocabulary and distractor rationales...</span>
+              </div>
+            </div>
+
+            <!-- Rendered Output Content -->
+            <div class="rendered-material-card" id="rendered-content-box" style="display: none;">
+              <!-- Dynamic content injected here -->
+            </div>
+
+            <!-- Dynamic Cut-Out Flashcard Grid -->
+            <div class="flashcards-grid" id="flashcards-render-grid" style="display: none;">
+              <!-- Cut-out flashcards injected here -->
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ── 4. All Generators Catalog View ── -->
+      <section class="catalog-view-container" id="catalog-view">
+        <div class="catalog-header">
+          <div>
+            <h1 style="font-size: 1.8rem; margin-bottom: 6px;">Generators Catalog</h1>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+              Over 20 purpose-built AI engines for ELT & ESP language preparation. 70% lower cost than TeacherMatic.
+            </p>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <input type="text" class="input-glass" id="catalog-search-input" placeholder="Search generators..." style="width: 240px;">
+          </div>
+        </div>
+
+        <div class="catalog-grid" id="catalog-cards-grid">
+          <!-- Injected via JavaScript -->
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- ── MODAL OVERLAYS ── -->
+
+  <!-- 1. Auth & Registration Modal (Strict Gating) -->
+  <div class="modal-overlay" id="modal-auth">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-shield-halved" style="color: var(--accent-pink);"></i>
+          <span>Teacher Access & Authentication</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-auth"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.86rem; color:var(--text-secondary);">
+          RichmondAI requires registered educator credentials to allocate and track your <strong>15 Free Daily Generations</strong>.
+        </p>
+
+        <div class="tab-bar-minimal" id="auth-tab-bar" style="margin-bottom: 8px;">
+          <button type="button" class="tab-btn-min active" data-authtab="register">Register Free Account</button>
+          <button type="button" class="tab-btn-min" data-authtab="login">Sign In</button>
+        </div>
+
+        <form id="form-auth" style="display:flex; flex-direction:column; gap:12px;">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="input-glass" id="auth-name" placeholder="Prof. Jane Doe" value="Prof. Jane Doe" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="input-glass" id="auth-email" placeholder="teacher@institution.edu" value="teacher@richmond.edu" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">School / Institution</label>
+            <input type="text" class="input-glass" id="auth-school" placeholder="e.g. Instituto Tecnológico Atlixco" value="Instituto Tecnológico Atlixco">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="input-glass" id="auth-pass" placeholder="••••••••" value="richmond2026" required>
+          </div>
+
+          <button type="submit" class="btn-generate-main" style="margin-top: 6px;">
+            <i class="fa-solid fa-user-plus"></i>
+            <span id="btn-auth-submit-label">Create Free Account (15 Gens/Day)</span>
+          </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 8px;">
+          <button type="button" class="btn-glass" id="btn-auth-demo-bypass" style="font-size: 0.76rem; width: 100%;">
+            <i class="fa-solid fa-rocket" style="color:var(--accent-gold);"></i>
+            <span>Instant Demo Login (Atlixco B1 Teacher Profile)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Pricing Modal (70% Off TeacherMatic) -->
+  <div class="modal-overlay" id="modal-pricing">
+    <div class="modal-card pricing-modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-tags" style="color: var(--accent-gold);"></i>
+          <span>Transparent Pricing — 70% Less Than TeacherMatic</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-pricing"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="currency-switcher-row">
+          <button class="currency-btn active" data-currency="USD">USD ($)</button>
+          <button class="currency-btn" data-currency="GBP">GBP (£)</button>
+          <button class="currency-btn" data-currency="EUR">EUR (€)</button>
+        </div>
+
+        <div class="pricing-plans-grid">
+          <!-- Free Plan -->
+          <div class="plan-card">
+            <div>
+              <div class="plan-name">Free Individual</div>
+              <div style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">For teachers exploring basic features</div>
+            </div>
+            <div>
+              <div class="plan-price" id="price-free">$0.00</div>
+              <div class="plan-period">Permanent Free Tier</div>
+            </div>
+            <ul class="plan-features-list">
+              <li><i class="fa-solid fa-check"></i> 15 generations per day</li>
+              <li><i class="fa-solid fa-check"></i> 10 core ELT generators</li>
+              <li><i class="fa-solid fa-check"></i> Printable worksheets</li>
+              <li><i class="fa-solid fa-check"></i> CEFR A1 - C2 calibration</li>
+            </ul>
+            <button class="btn-glass" id="btn-plan-free" style="width:100%; justify-content:center;">Current Plan</button>
+          </div>
+
+          <!-- Professional Plan (70% Disruption) -->
+          <div class="plan-card highlighted">
+            <div class="plan-badge-top">BEST VALUE — 70% OFF</div>
+            <div>
+              <div class="plan-name" style="color:var(--accent-gold-light);">Professional</div>
+              <div style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">Compared to TeacherMatic's $99/yr</div>
+            </div>
+            <div>
+              <div class="plan-price" id="price-pro">$29.00</div>
+              <div class="plan-period">per year (or $4.99/month)</div>
+            </div>
+            <ul class="plan-features-list">
+              <li><i class="fa-solid fa-check" style="color:var(--accent-gold);"></i> <strong>150 generations per day</strong></li>
+              <li><i class="fa-solid fa-check" style="color:var(--accent-gold);"></i> <strong>All 20+ ELT & ESP generators</strong></li>
+              <li><i class="fa-solid fa-check" style="color:var(--accent-gold);"></i> <strong>Printable Cut-out Flashcards</strong></li>
+              <li><i class="fa-solid fa-check" style="color:var(--accent-gold);"></i> DOCX, PDF & Markdown Export</li>
+              <li><i class="fa-solid fa-check" style="color:var(--accent-gold);"></i> Unlimited Course Cartridges</li>
+              <li><i class="fa-solid fa-check" style="color:var(--accent-gold);"></i> BYOK Gemini API Unlimited</li>
+            </ul>
+            <button class="btn-generate-main" id="btn-plan-pro" style="padding:10px; font-size:0.85rem;">
+              <span>Upgrade to Pro ($29/yr)</span>
+            </button>
+          </div>
+
+          <!-- Institutional Plan -->
+          <div class="plan-card">
+            <div>
+              <div class="plan-name">Organisational</div>
+              <div style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">Schools, universities & departments</div>
+            </div>
+            <div>
+              <div class="plan-price" id="price-inst">$189.00</div>
+              <div class="plan-period">per year for 10 teachers</div>
+            </div>
+            <ul class="plan-features-list">
+              <li><i class="fa-solid fa-check"></i> Pro licenses for all staff</li>
+              <li><i class="fa-solid fa-check"></i> Auto-domain email signups</li>
+              <li><i class="fa-solid fa-check"></i> Shared institutional cartridges</li>
+              <li><i class="fa-solid fa-check"></i> Departmental analytics</li>
+            </ul>
+            <button class="btn-glass" id="btn-plan-inst" style="width:100%; justify-content:center;">Contact Sales</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Gemini API Key Configuration Modal -->
+  <div class="modal-overlay" id="modal-gemini-key">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-bolt" style="color: var(--accent-gold);"></i>
+          <span>Gemini Flash API Settings</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-gemini-key"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.85rem; color:var(--text-secondary);">
+          RichmondAI is powered by Google's ultra-fast <strong>Gemini 2.5 Flash</strong> and <strong>1.5 Flash</strong> models. You can use our default managed gateway or provide your own personal Google AI Studio key for zero-cost unlimited usage.
+        </p>
+
+        <div class="form-group">
+          <label class="form-label" for="input-user-gemini-key">
+            <span>Your Gemini API Key (Optional BYOK)</span>
+            <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" style="color:var(--accent-blue); font-size:0.72rem; text-decoration:none;">Get free API key ↗</a>
+          </label>
+          <input type="password" class="input-glass" id="input-user-gemini-key" placeholder="AIzaSy...">
+          <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">
+            Key is stored locally in your browser storage only and never transmitted to our servers.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Gemini Model Tier</label>
+          <select class="input-glass" id="select-gemini-model">
+            <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash (Recommended — Fastest & Lowest Cost)</option>
+            <option value="gemini-1.5-flash">Gemini 1.5 Flash (Legacy High Reliability)</option>
+          </select>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+          <button type="button" class="btn-glass" id="btn-clear-gemini-key">Clear Key</button>
+          <button type="button" class="btn-generate-main" id="btn-save-gemini-key" style="padding:10px 20px; font-size:0.85rem;">
+            Save & Connect
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Course Cartridge Manager Modal -->
+  <div class="modal-overlay" id="modal-cartridge">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-cube" style="color: var(--accent-blue);"></i>
+          <span>Course Cartridges Manager</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-cartridge"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.85rem; color:var(--text-secondary);">
+          Cartridges bundle your student profiles, regional vocabularies, and course syllabi. Select a cartridge to automatically inject context into every generator.
+        </p>
+
+        <div class="form-group">
+          <label class="form-label">Available Cartridges</label>
+          <div id="cartridges-list-container" style="display:flex; flex-direction:column; gap:8px;">
+            <!-- Cartridge items injected via JS -->
+          </div>
+        </div>
+
+        <div style="border-top:1px solid var(--glass-border); padding-top:14px;">
+          <h4 style="font-size:0.92rem; margin-bottom:8px;">Create New Cartridge</h4>
+          <div class="form-group" style="margin-bottom:8px;">
+            <input type="text" class="input-glass" id="new-cartridge-title" placeholder="e.g. Atlixco B1 Automotive Workshop">
+          </div>
+          <div class="form-group" style="margin-bottom:8px;">
+            <textarea class="input-glass" id="new-cartridge-context" rows="2" placeholder="Course syllabus, specific vocabulary lists, student demographics, textbook units..."></textarea>
+          </div>
+          <button type="button" class="btn-glass" id="btn-save-new-cartridge" style="width:100%; justify-content:center;">
+            <i class="fa-solid fa-plus"></i> Save New Cartridge
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Saved Generations Library Drawer / Modal -->
+  <div class="modal-overlay" id="modal-history">
+    <div class="modal-card" style="max-width: 720px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-clock-rotate-left" style="color: var(--accent-pink);"></i>
+          <span>My Generations Library</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-history"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+          <input type="text" class="input-glass" id="history-search-input" placeholder="Search saved materials...">
+        </div>
+        <div id="history-items-container" style="display:flex; flex-direction:column; gap:10px; max-height:450px; overflow-y:auto;">
+          <!-- History items injected here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic & Scripts -->
+  <script src="aurora.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

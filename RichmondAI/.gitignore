@@ -1,0 +1,13 @@
+# Node / Packages
+node_modules/
+package-lock.json
+.DS_Store
+
+# Environment / Secret Keys
+.env
+.env.local
+*.key
+
+# IDE
+.vscode/
+.idea/

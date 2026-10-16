@@ -12,3 +12,7 @@
 /jobs/* /jobs/:splat 200
 /personal-best /PB2/index.html 301
 /personal-best/* /PB2/:splat 301
+/richmondai /RichmondAI/index.html 301
+/richmondai/* /RichmondAI/:splat 301
+/RichmondAI /RichmondAI/index.html 200
+/RichmondAI/* /RichmondAI/:splat 200
