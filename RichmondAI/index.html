@@ -19,23 +19,23 @@
   <!-- FontAwesome 6 Pro Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <!-- App Stylesheet (v3.1.0 Cache-Buster) -->
-  <link rel="stylesheet" href="styles.css?v=3.1.0">
+  <!-- App Stylesheet (v3.2.0 Cache-Buster) -->
+  <link rel="stylesheet" href="styles.css?v=3.2.0">
 
-  <!-- Critical Rail Dock & Ultra-High Contrast Buttons (Zero CDN & Cache-Immune) -->
+  <!-- Critical Rail Dock & Ultra-Clean White Design (Zero Blackout / Pure EdTech Aesthetic) -->
   <style id="critical-rail-styles">
-    /* Solid Dark Obsidian Slate Dock (stemOS / Linear style) */
+    /* Solid Pure White Side Dock (Clean, Human-Crafted Aesthetic) */
     .rail-sidebar {
       width: 72px !important;
       height: 100vh !important;
-      background: #0f172a !important;
-      border-right: 1.5px solid #1e293b !important;
+      background: #ffffff !important;
+      border-right: 1px solid #e2e8f0 !important;
       display: flex !important;
       flex-direction: column !important;
       justify-content: space-between !important;
       align-items: center !important;
       padding: 16px 0 !important;
-      box-shadow: 4px 0 25px rgba(0, 0, 0, 0.35) !important;
+      box-shadow: 2px 0 16px rgba(15, 23, 42, 0.04) !important;
       z-index: 1000 !important;
       visibility: visible !important;
       opacity: 1 !important;
@@ -56,21 +56,21 @@
       width: 100% !important;
       flex: 1 !important;
     }
-    /* Solid, High-Contrast Floating Button Cards */
+    /* Solid, High-Contrast White Elevated Button Cards (No Transparency, 100% Visible) */
     .rail-btn {
       width: 50px !important;
       height: 50px !important;
       border-radius: 14px !important;
-      background: #1e293b !important;
-      border: 1.5px solid #334155 !important;
-      color: #94a3b8 !important;
+      background: #ffffff !important;
+      border: 1.5px solid #cbd5e1 !important;
+      color: #1e293b !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
       cursor: pointer !important;
       position: relative !important;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06) !important;
       visibility: visible !important;
       opacity: 1 !important;
     }
@@ -83,25 +83,26 @@
     }
     /* Vibrant non-transparent icon accents */
     #nav-btn-home svg { color: #ec008c !important; fill: #ec008c !important; }
-    #nav-btn-studio svg { color: #38bdf8 !important; fill: #38bdf8 !important; }
-    #nav-btn-catalog svg { color: #22d3ee !important; fill: #22d3ee !important; }
-    #nav-btn-cartridges svg { color: #c084fc !important; fill: #c084fc !important; }
-    #nav-btn-history svg { color: #fbbf24 !important; fill: #fbbf24 !important; }
-    #nav-btn-pricing svg { color: #f43f5e !important; fill: #f43f5e !important; }
-    #nav-btn-faq svg { color: #34d399 !important; fill: #34d399 !important; }
-    #nav-btn-gemini-key svg { color: #f59e0b !important; fill: #f59e0b !important; }
-    #nav-btn-user-auth svg { color: #818cf8 !important; fill: #818cf8 !important; }
+    #nav-btn-studio svg { color: #2563eb !important; fill: #2563eb !important; }
+    #nav-btn-catalog svg { color: #0284c7 !important; fill: #0284c7 !important; }
+    #nav-btn-cartridges svg { color: #7c3aed !important; fill: #7c3aed !important; }
+    #nav-btn-history svg { color: #d97706 !important; fill: #d97706 !important; }
+    #nav-btn-pricing svg { color: #e11d48 !important; fill: #e11d48 !important; }
+    #nav-btn-faq svg { color: #059669 !important; fill: #059669 !important; }
+    #nav-btn-gemini-key svg { color: #d97706 !important; fill: #d97706 !important; }
+    #nav-btn-user-auth svg { color: #4f46e5 !important; fill: #4f46e5 !important; }
 
     .rail-btn:hover {
-      background: #334155 !important;
-      border-color: #38bdf8 !important;
-      transform: translateY(-2px) scale(1.08) !important;
-      box-shadow: 0 6px 18px rgba(56, 189, 248, 0.4) !important;
+      background: #f8fafc !important;
+      border-color: #2563eb !important;
+      transform: translateY(-2px) scale(1.06) !important;
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.18) !important;
     }
     .rail-btn.active {
       background: linear-gradient(135deg, #ec008c 0%, #2563eb 100%) !important;
-      border-color: #ec008c !important;
-      box-shadow: 0 0 20px rgba(236, 0, 140, 0.55), 0 4px 14px rgba(37, 99, 235, 0.45) !important;
+      border-color: transparent !important;
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35) !important;
+      transform: translateY(-1px) !important;
     }
     .rail-btn.active svg {
       color: #ffffff !important;
@@ -114,11 +115,11 @@
       width: 5px !important;
       height: 26px !important;
       border-radius: 0 6px 6px 0 !important;
-      background: #38bdf8 !important;
-      box-shadow: 2px 0 10px #38bdf8 !important;
+      background: #2563eb !important;
+      box-shadow: 2px 0 8px rgba(37, 99, 235, 0.5) !important;
     }
 
-    /* Mobile Responsive Dock (Horizontal bottom dock on phones) */
+    /* Mobile Responsive Dock - Lower bar is pure WHITE */
     @media (max-width: 768px) {
       .app-container {
         flex-direction: column !important;
@@ -136,10 +137,10 @@
         align-items: center !important;
         padding: 4px 8px !important;
         border-right: none !important;
-        border-top: 1.5px solid #334155 !important;
-        background: #0f172a !important;
+        border-top: 1px solid #e2e8f0 !important;
+        background: #ffffff !important;
         z-index: 99999 !important;
-        box-shadow: 0 -6px 25px rgba(0, 0, 0, 0.5) !important;
+        box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.08) !important;
       }
       .sidebar-top, .sidebar-bottom {
         display: none !important;
@@ -155,6 +156,9 @@
         width: 44px !important;
         height: 44px !important;
         border-radius: 12px !important;
+        background: #ffffff !important;
+        border: 1.5px solid #cbd5e1 !important;
+        box-shadow: 0 1px 4px rgba(15, 23, 42, 0.05) !important;
       }
       .rail-btn svg {
         width: 20px !important;
@@ -280,15 +284,6 @@
         </header>
       </div>
 
-      <!-- ── Cinema Black Screen Video-Like Backdrop (Smooth Gold Reveal) ── -->
-      <div id="hero-cinema-backdrop" class="hero-cinema-backdrop">
-        <div class="cinema-ambient-spotlight"></div>
-        <div class="cinema-return-banner" id="btn-cinema-close">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="margin-right:6px; flex-shrink:0;"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg>
-          <span>Click or tap anywhere to return</span>
-        </div>
-      </div>
-
       <!-- ── 0. Homepage / Landing View (stemOS & JSweb Style) ── -->
       <section class="home-view-container active" id="home-view">
         
@@ -300,9 +295,8 @@
             <span>70% LESS EXPENSIVE THAN TEACHERMATIC · POWERED BY GEMINI FLASH</span>
           </div>
 
-          <!-- Hero Brand Section with Big Gold RichmondAI Words & Glow Aura -->
-          <div class="hero-brand-lockup" id="hero-brand-lockup" role="button" tabindex="0" title="Hover or tap for cinematic 24K gold reveal">
-            <div class="hero-brand-aura"></div>
+          <!-- Hero Brand Section with Elegant Gold RichmondAI Typography -->
+          <div class="hero-brand-lockup" id="hero-brand-lockup">
             <h1 class="hero-big-gold-title" id="hero-big-gold-title">
               Richmond<span class="gold-gradient-text">AI</span>
             </h1>
@@ -312,11 +306,6 @@
               <span>CEFR A1–C2 Calibrated</span>
               <span class="hero-sep">•</span>
               <span>Sub-Second Gemini Flash</span>
-              <span class="hero-sep">•</span>
-              <button type="button" class="hero-cinema-btn" id="btn-cinema-toggle" title="Experience RichmondAI Cinematic Reveal">
-                <i class="fa-solid fa-film"></i>
-                <span>Cinema Mode</span>
-              </button>
             </div>
           </div>
 
@@ -1419,15 +1408,15 @@
   <!-- Auto-upgrade cache-buster: ensures teachers never see stale cached assets -->
   <script>
     (function() {
-      const RICHMOND_VERSION = 'v3.1.0';
+      const RICHMOND_VERSION = 'v3.2.0';
       try {
         const stored = localStorage.getItem('richmond_app_build');
         if (stored !== RICHMOND_VERSION) {
           localStorage.setItem('richmond_app_build', RICHMOND_VERSION);
           // If URL doesn't have the version query param, update it once
           const url = new URL(window.location.href);
-          if (url.searchParams.get('v') !== '3.1.0') {
-            url.searchParams.set('v', '3.1.0');
+          if (url.searchParams.get('v') !== '3.2.0') {
+            url.searchParams.set('v', '3.2.0');
             window.location.replace(url.toString());
           }
         }

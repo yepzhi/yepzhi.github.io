@@ -139,12 +139,12 @@ code, pre, .mono-badge {
   z-index: 1;
 }
 
-/* --- 1. Vertical Rail Sidebar (Solid Dark Obsidian Slate Dock - stemOS style) --- */
+/* --- 1. Vertical Rail Sidebar (Solid Pure White Dock - Clean EdTech Aesthetic) --- */
 .rail-sidebar {
   width: var(--sidebar-width);
   height: 100vh;
-  background: #0f172a !important;
-  border-right: 1.5px solid #1e293b !important;
+  background: #ffffff !important;
+  border-right: 1px solid #e2e8f0 !important;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -153,7 +153,7 @@ code, pre, .mono-badge {
   gap: 14px;
   flex-shrink: 0;
   z-index: 1000;
-  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.35);
+  box-shadow: 2px 0 16px rgba(15, 23, 42, 0.04);
   visibility: visible !important;
   opacity: 1 !important;
 }
@@ -198,14 +198,14 @@ code, pre, .mono-badge {
   flex: 1;
 }
 
-/* Individual Rail Buttons (Crisp solid elevated cards with distinct vivid icons) */
+/* Individual Rail Buttons (Crisp solid white elevated cards with distinct vivid icons) */
 .rail-btn {
   width: 50px;
   height: 50px;
   border-radius: 14px;
-  background: #1e293b !important;
-  border: 1.5px solid #334155 !important;
-  color: #94a3b8 !important;
+  background: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
+  color: #1e293b !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -213,7 +213,7 @@ code, pre, .mono-badge {
   cursor: pointer;
   position: relative;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06) !important;
   visibility: visible !important;
   opacity: 1 !important;
 }
@@ -228,20 +228,20 @@ code, pre, .mono-badge {
 
 /* Custom Icon Accents for Non-Active State (Instant visual recognition) */
 #nav-btn-home i, #nav-btn-home svg { color: #ec008c !important; fill: #ec008c !important; }
-#nav-btn-studio i, #nav-btn-studio svg { color: #38bdf8 !important; fill: #38bdf8 !important; }
-#nav-btn-catalog i, #nav-btn-catalog svg { color: #22d3ee !important; fill: #22d3ee !important; }
-#nav-btn-cartridges i, #nav-btn-cartridges svg { color: #c084fc !important; fill: #c084fc !important; }
-#nav-btn-history i, #nav-btn-history svg { color: #fbbf24 !important; fill: #fbbf24 !important; }
-#nav-btn-pricing i, #nav-btn-pricing svg { color: #f43f5e !important; fill: #f43f5e !important; }
-#nav-btn-faq i, #nav-btn-faq svg { color: #34d399 !important; fill: #34d399 !important; }
-#nav-btn-gemini-key i, #nav-btn-gemini-key svg { color: #f59e0b !important; fill: #f59e0b !important; }
-#nav-btn-user-auth i, #nav-btn-user-auth svg { color: #818cf8 !important; fill: #818cf8 !important; }
+#nav-btn-studio i, #nav-btn-studio svg { color: #2563eb !important; fill: #2563eb !important; }
+#nav-btn-catalog i, #nav-btn-catalog svg { color: #0284c7 !important; fill: #0284c7 !important; }
+#nav-btn-cartridges i, #nav-btn-cartridges svg { color: #7c3aed !important; fill: #7c3aed !important; }
+#nav-btn-history i, #nav-btn-history svg { color: #d97706 !important; fill: #d97706 !important; }
+#nav-btn-pricing i, #nav-btn-pricing svg { color: #e11d48 !important; fill: #e11d48 !important; }
+#nav-btn-faq i, #nav-btn-faq svg { color: #059669 !important; fill: #059669 !important; }
+#nav-btn-gemini-key i, #nav-btn-gemini-key svg { color: #d97706 !important; fill: #d97706 !important; }
+#nav-btn-user-auth i, #nav-btn-user-auth svg { color: #4f46e5 !important; fill: #4f46e5 !important; }
 
 .rail-btn:hover {
-  background: #334155 !important;
-  border-color: #38bdf8 !important;
-  transform: translateY(-2px) scale(1.08);
-  box-shadow: 0 6px 18px rgba(56, 189, 248, 0.4) !important;
+  background: #f8fafc !important;
+  border-color: #2563eb !important;
+  transform: translateY(-2px) scale(1.06);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.18) !important;
 }
 
 .rail-btn:hover svg {
@@ -250,9 +250,9 @@ code, pre, .mono-badge {
 
 .rail-btn.active {
   background: linear-gradient(135deg, #ec008c 0%, #2563eb 100%) !important;
-  border-color: #ec008c !important;
+  border-color: transparent !important;
   color: #ffffff !important;
-  box-shadow: 0 0 20px rgba(236, 0, 140, 0.55), 0 4px 14px rgba(37, 99, 235, 0.45) !important;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35) !important;
   transform: translateY(-1px);
 }
 
@@ -269,16 +269,16 @@ code, pre, .mono-badge {
   width: 5px;
   height: 26px;
   border-radius: 0 6px 6px 0;
-  background: #38bdf8;
-  box-shadow: 2px 0 10px #38bdf8;
+  background: #2563eb;
+  box-shadow: 2px 0 8px rgba(37, 99, 235, 0.5);
 }
 
 .rail-tooltip {
   position: absolute;
   left: calc(var(--sidebar-width) + 8px);
-  background: #1e293b;
-  border: 1px solid #334155;
-  color: #f8fafc;
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  color: #ffffff;
   padding: 6px 12px;
   border-radius: 8px;
   font-size: 0.78rem;
@@ -289,7 +289,7 @@ code, pre, .mono-badge {
   transform: translateX(-6px);
   transition: all 0.18s ease;
   z-index: 2000;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
   font-weight: 700;
   white-space: nowrap;
@@ -1914,129 +1914,14 @@ textarea.input-glass {
 }
 
 /* ==========================================================================
-   CINEMA BLACK SCREEN VIDEO-LIKE HOVER & TAP REVEAL
+   HERO BRAND TITLE & TYPOGRAPHY (Clean, Human-Designed EdTech Brand)
    ========================================================================== */
-.hero-cinema-backdrop {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  background: radial-gradient(circle at 50% 36%, #1a1408 0%, #090704 45%, #000000 90%);
-  z-index: 80;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity;
-}
-
-.hero-cinema-backdrop.active,
-body.cinema-mode-active .hero-cinema-backdrop {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.cinema-ambient-spotlight {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 75vw;
-  height: 400px;
-  background: radial-gradient(ellipse at center, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.09) 45%, transparent 70%);
-  filter: blur(60px);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.8s ease;
-}
-
-body.cinema-mode-active .cinema-ambient-spotlight {
-  opacity: 1;
-}
-
-.cinema-return-banner {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fef08a;
-  padding: 8px 20px;
-  border-radius: 9999px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-  transition: all 0.25s ease;
-  z-index: 90;
-}
-
-.cinema-return-banner:hover {
-  background: rgba(255, 255, 255, 0.18);
-  color: #ffffff;
-  transform: translateX(-50%) scale(1.04);
-}
-
-/* Hero Brand Lockup & BIG GOLD RichmondAI words */
 .hero-brand-lockup {
   position: relative;
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: pointer;
-  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
-}
-
-.hero-brand-lockup:hover,
-body.cinema-mode-active .hero-brand-lockup {
-  z-index: 100;
-  transform: scale(1.04);
-}
-
-.hero-brand-aura {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 520px;
-  height: 180px;
-  background: radial-gradient(ellipse at center, rgba(245, 158, 11, 0.38) 0%, rgba(236, 72, 153, 0.22) 40%, rgba(37, 99, 235, 0.12) 70%, transparent 85%);
-  filter: blur(40px);
-  pointer-events: none;
-  z-index: 0;
-  animation: auraPulse 6s ease-in-out infinite alternate;
-  transition: all 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.hero-brand-lockup:hover .hero-brand-aura,
-body.cinema-mode-active .hero-brand-aura {
-  width: 760px;
-  height: 280px;
-  background: radial-gradient(ellipse at center, rgba(251, 191, 36, 0.55) 0%, rgba(245, 158, 11, 0.35) 30%, rgba(217, 119, 6, 0.18) 55%, transparent 75%);
-  filter: blur(55px);
-  transform: translate(-50%, -50%) scale(1.22);
-  opacity: 1;
-}
-
-@keyframes auraPulse {
-  0% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.75; }
-  100% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
-}
-
-@keyframes goldLiquidSweep {
-  0% {
-    background-position: -250% center;
-  }
-  100% {
-    background-position: 250% center;
-  }
 }
 
 .hero-big-gold-title {
@@ -2051,18 +1936,12 @@ body.cinema-mode-active .hero-brand-aura {
   background: linear-gradient(135deg, #d97706 0%, #f59e0b 25%, #fbbf24 50%, #f59e0b 75%, #b45309 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 6px 18px rgba(245, 158, 11, 0.28));
-  transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 4px 12px rgba(245, 158, 11, 0.2));
+  transition: transform 0.3s ease;
 }
 
-.hero-brand-lockup:hover .hero-big-gold-title,
-body.cinema-mode-active .hero-big-gold-title {
-  background: linear-gradient(110deg, #d97706 0%, #f59e0b 22%, #fef08a 42%, #ffffff 50%, #fef08a 58%, #f59e0b 78%, #b45309 100%);
-  background-size: 250% 100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: goldLiquidSweep 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  filter: drop-shadow(0 0 30px rgba(251, 191, 36, 0.85)) drop-shadow(0 0 70px rgba(245, 158, 11, 0.5)) drop-shadow(0 0 120px rgba(217, 119, 6, 0.3));
+.hero-big-gold-title:hover {
+  transform: scale(1.02);
 }
 
 .gold-accent-text {
@@ -2083,11 +1962,6 @@ body.cinema-mode-active .hero-big-gold-title {
   color: var(--text-secondary);
   position: relative;
   z-index: 1;
-  transition: color 0.65s ease;
-}
-
-body.cinema-mode-active .hero-tagline-sub {
-  color: rgba(254, 243, 199, 0.88);
 }
 
 .hero-pill-badge {
@@ -2099,117 +1973,11 @@ body.cinema-mode-active .hero-tagline-sub {
   font-size: 0.74rem;
   font-weight: 800;
   letter-spacing: 0.04em;
-  transition: all 0.3s ease;
-}
-
-body.cinema-mode-active .hero-pill-badge {
-  background: rgba(245, 158, 11, 0.15);
-  border-color: rgba(245, 158, 11, 0.4);
-  color: #fbbf24;
-}
-
-.hero-cinema-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(245, 158, 11, 0.1);
-  border: 1px solid rgba(245, 158, 11, 0.35);
-  color: #d97706;
-  padding: 3px 10px;
-  border-radius: var(--radius-full);
-  font-size: 0.74rem;
-  font-weight: 800;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.hero-cinema-btn:hover {
-  background: #f59e0b;
-  color: #ffffff;
-  border-color: #f59e0b;
-  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
-  transform: scale(1.05);
-}
-
-body.cinema-mode-active .hero-cinema-btn {
-  background: #f59e0b;
-  color: #ffffff;
-  border-color: #fbbf24;
-  box-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
 }
 
 .hero-sep {
   color: var(--text-muted);
   opacity: 0.5;
-}
-
-/* Dim surrounding page elements smoothly when cinema mode is active */
-body.cinema-mode-active .rail-sidebar,
-body.cinema-mode-active .top-header-wrapper,
-body.cinema-mode-active .hero-signal-pill,
-body.cinema-mode-active .hero-lead-description,
-body.cinema-mode-active .hero-cta-group,
-body.cinema-mode-active .hero-stats-row,
-body.cinema-mode-active .home-feature-showcase,
-body.cinema-mode-active .home-sandbox-section,
-body.cinema-mode-active .home-comparison-section,
-body.cinema-mode-active .home-testimonials-section,
-body.cinema-mode-active .footer-brand-section {
-  opacity: 0.08 !important;
-  filter: blur(2px) !important;
-  pointer-events: none !important;
-  transition: opacity 0.6s ease, filter 0.6s ease;
-}
-
-/* Desktop Video-Like Hover Reveal: Moving cursor over Richmond AI dims screen to black */
-@media (hover: hover) and (pointer: fine) {
-  body:has(#hero-brand-lockup:hover) .hero-cinema-backdrop {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  body:has(#hero-brand-lockup:hover) .cinema-ambient-spotlight {
-    opacity: 1;
-  }
-  body:has(#hero-brand-lockup:hover) .rail-sidebar,
-  body:has(#hero-brand-lockup:hover) .top-header-wrapper,
-  body:has(#hero-brand-lockup:hover) .hero-signal-pill,
-  body:has(#hero-brand-lockup:hover) .hero-lead-description,
-  body:has(#hero-brand-lockup:hover) .hero-cta-group,
-  body:has(#hero-brand-lockup:hover) .hero-stats-row,
-  body:has(#hero-brand-lockup:hover) .home-feature-showcase,
-  body:has(#hero-brand-lockup:hover) .home-sandbox-section,
-  body:has(#hero-brand-lockup:hover) .home-comparison-section,
-  body:has(#hero-brand-lockup:hover) .home-testimonials-section,
-  body:has(#hero-brand-lockup:hover) .footer-brand-section {
-    opacity: 0.08;
-    filter: blur(2px);
-    pointer-events: none;
-    transition: opacity 0.6s ease, filter 0.6s ease;
-  }
-}
-
-/* Mobile Limited Resources Optimizations: Zero canvas waste, low blur, battery saver */
-@media (max-width: 768px) {
-  .hero-cinema-backdrop {
-    background: #000000; /* Pure OLED true black saves battery on phones */
-  }
-  .cinema-ambient-spotlight {
-    width: 90vw;
-    height: 250px;
-    filter: blur(30px); /* Lower blur radius avoids mobile GPU shader bottlenecks */
-  }
-  .hero-brand-aura {
-    width: 320px;
-    height: 140px;
-    filter: blur(20px);
-  }
-  .hero-brand-lockup:hover .hero-brand-aura,
-  body.cinema-mode-active .hero-brand-aura {
-    width: 360px;
-    height: 180px;
-    filter: blur(28px);
-    transform: translate(-50%, -50%) scale(1.1);
-  }
 }
 
 /* Richmond English ID 3.0 Signature Pink Stress Letters & Phonology */
@@ -2816,7 +2584,7 @@ span[style*="color:#ec008c"] {
 @media (max-width: 768px) {
   .user-name-text, .quota-timer { display: none; }
 
-  /* Mobile Bottom Dock Navigation (Thumb-friendly & high-contrast) */
+  /* Mobile Bottom Dock Navigation (Clean Pure White Human-Crafted Aesthetic) */
   .app-container {
     flex-direction: column !important;
     height: 100dvh !important;
@@ -2833,10 +2601,10 @@ span[style*="color:#ec008c"] {
     align-items: center !important;
     padding: 4px 8px !important;
     border-right: none !important;
-    border-top: 1.5px solid #334155 !important;
-    background: #0f172a !important;
+    border-top: 1px solid #e2e8f0 !important;
+    background: #ffffff !important;
     z-index: 99999 !important;
-    box-shadow: 0 -6px 25px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.08) !important;
   }
   .sidebar-top, .sidebar-bottom {
     display: none !important;
@@ -2852,10 +2620,18 @@ span[style*="color:#ec008c"] {
     width: 44px !important;
     height: 44px !important;
     border-radius: 12px !important;
+    background: #ffffff !important;
+    border: 1.5px solid #cbd5e1 !important;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.05) !important;
   }
   .rail-btn svg {
     width: 20px !important;
     height: 20px !important;
+  }
+  .rail-btn.active {
+    background: linear-gradient(135deg, #ec008c 0%, #2563eb 100%) !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
   }
   .main-workspace {
     width: 100vw !important;

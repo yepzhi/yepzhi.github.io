@@ -1839,71 +1839,11 @@
         });
       }
 
-      // 24. Cinema Mode Video-Like Hover & Tap Reveal (Smooth Gold Shimmer)
-      const heroLockup = document.getElementById('hero-brand-lockup');
-      const cinemaToggle = document.getElementById('btn-cinema-toggle');
-      const cinemaBackdrop = document.getElementById('hero-cinema-backdrop');
-      const cinemaClose = document.getElementById('btn-cinema-close');
-
-      if (heroLockup) {
-        heroLockup.addEventListener('click', (e) => {
-          if (e.target.closest('#btn-cinema-toggle')) return;
-          this.toggleCinemaMode();
-        });
-        heroLockup.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            this.toggleCinemaMode();
-          }
-        });
-      }
-
-      if (cinemaToggle) {
-        cinemaToggle.addEventListener('click', (e) => {
-          e.stopPropagation();
-          this.toggleCinemaMode();
-        });
-      }
-
-      if (cinemaBackdrop) {
-        cinemaBackdrop.addEventListener('click', () => {
-          this.toggleCinemaMode(false);
-        });
-      }
-
-      if (cinemaClose) {
-        cinemaClose.addEventListener('click', (e) => {
-          e.stopPropagation();
-          this.toggleCinemaMode(false);
-        });
-      }
-
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && document.body.classList.contains('cinema-mode-active')) {
-          this.toggleCinemaMode(false);
-        }
-      });
+      // 24. Clean EdTech Layout (No Cinema Blackout)
     }
 
-    toggleCinemaMode(enable) {
-      const isCurrentlyActive = document.body.classList.contains('cinema-mode-active');
-      const shouldBeActive = enable !== undefined ? Boolean(enable) : !isCurrentlyActive;
-
-      if (shouldBeActive === isCurrentlyActive) return;
-
-      if (shouldBeActive) {
-        document.body.classList.add('cinema-mode-active');
-        // Pause canvas animation to completely eliminate GPU and CPU overhead during cinema mode
-        if (window.RichmondAurora && typeof window.RichmondAurora.pause === 'function') {
-          window.RichmondAurora.pause();
-        }
-      } else {
-        document.body.classList.remove('cinema-mode-active');
-        // Resume cyber-aurora background
-        if (window.RichmondAurora && typeof window.RichmondAurora.resume === 'function') {
-          window.RichmondAurora.resume();
-        }
-      }
+    toggleCinemaMode() {
+      // Safe stub - cinema blackout effect disabled
     }
 
     navTo(view) {
