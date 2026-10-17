@@ -7,6 +7,10 @@
   <title>RichmondAI — AI Material Generator for English & ESP Teachers</title>
   <meta name="description" content="RichmondAI is the next-gen AI instructional studio for ELT and ESP educators. Powered by Gemini Flash, CEFR-calibrated, offering print-ready cut-out flashcards, worksheets, and 70% lower pricing than TeacherMatic.">
   
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,8 +19,158 @@
   <!-- FontAwesome 6 Pro Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <!-- App Stylesheet (v2.7.0 Cache-Buster) -->
-  <link rel="stylesheet" href="styles.css?v=2.7.0">
+  <!-- App Stylesheet (v3.1.0 Cache-Buster) -->
+  <link rel="stylesheet" href="styles.css?v=3.1.0">
+
+  <!-- Critical Rail Dock & Ultra-High Contrast Buttons (Zero CDN & Cache-Immune) -->
+  <style id="critical-rail-styles">
+    /* Solid Dark Obsidian Slate Dock (stemOS / Linear style) */
+    .rail-sidebar {
+      width: 72px !important;
+      height: 100vh !important;
+      background: #0f172a !important;
+      border-right: 1.5px solid #1e293b !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      padding: 16px 0 !important;
+      box-shadow: 4px 0 25px rgba(0, 0, 0, 0.35) !important;
+      z-index: 1000 !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    .sidebar-top, .sidebar-bottom {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 12px !important;
+      width: 100% !important;
+    }
+    .rail-nav {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 10px !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      flex: 1 !important;
+    }
+    /* Solid, High-Contrast Floating Button Cards */
+    .rail-btn {
+      width: 50px !important;
+      height: 50px !important;
+      border-radius: 14px !important;
+      background: #1e293b !important;
+      border: 1.5px solid #334155 !important;
+      color: #94a3b8 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      position: relative !important;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    .rail-btn svg {
+      width: 22px !important;
+      height: 22px !important;
+      display: block !important;
+      flex-shrink: 0 !important;
+      transition: transform 0.2s ease !important;
+    }
+    /* Vibrant non-transparent icon accents */
+    #nav-btn-home svg { color: #ec008c !important; fill: #ec008c !important; }
+    #nav-btn-studio svg { color: #38bdf8 !important; fill: #38bdf8 !important; }
+    #nav-btn-catalog svg { color: #22d3ee !important; fill: #22d3ee !important; }
+    #nav-btn-cartridges svg { color: #c084fc !important; fill: #c084fc !important; }
+    #nav-btn-history svg { color: #fbbf24 !important; fill: #fbbf24 !important; }
+    #nav-btn-pricing svg { color: #f43f5e !important; fill: #f43f5e !important; }
+    #nav-btn-faq svg { color: #34d399 !important; fill: #34d399 !important; }
+    #nav-btn-gemini-key svg { color: #f59e0b !important; fill: #f59e0b !important; }
+    #nav-btn-user-auth svg { color: #818cf8 !important; fill: #818cf8 !important; }
+
+    .rail-btn:hover {
+      background: #334155 !important;
+      border-color: #38bdf8 !important;
+      transform: translateY(-2px) scale(1.08) !important;
+      box-shadow: 0 6px 18px rgba(56, 189, 248, 0.4) !important;
+    }
+    .rail-btn.active {
+      background: linear-gradient(135deg, #ec008c 0%, #2563eb 100%) !important;
+      border-color: #ec008c !important;
+      box-shadow: 0 0 20px rgba(236, 0, 140, 0.55), 0 4px 14px rgba(37, 99, 235, 0.45) !important;
+    }
+    .rail-btn.active svg {
+      color: #ffffff !important;
+      fill: #ffffff !important;
+    }
+    .rail-btn.active::before {
+      content: '' !important;
+      position: absolute !important;
+      left: -8px !important;
+      width: 5px !important;
+      height: 26px !important;
+      border-radius: 0 6px 6px 0 !important;
+      background: #38bdf8 !important;
+      box-shadow: 2px 0 10px #38bdf8 !important;
+    }
+
+    /* Mobile Responsive Dock (Horizontal bottom dock on phones) */
+    @media (max-width: 768px) {
+      .app-container {
+        flex-direction: column !important;
+        height: 100dvh !important;
+        overflow-x: hidden !important;
+      }
+      .rail-sidebar {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 62px !important;
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+        padding: 4px 8px !important;
+        border-right: none !important;
+        border-top: 1.5px solid #334155 !important;
+        background: #0f172a !important;
+        z-index: 99999 !important;
+        box-shadow: 0 -6px 25px rgba(0, 0, 0, 0.5) !important;
+      }
+      .sidebar-top, .sidebar-bottom {
+        display: none !important;
+      }
+      .rail-nav {
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+        width: 100% !important;
+        gap: 4px !important;
+      }
+      .rail-btn {
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 12px !important;
+      }
+      .rail-btn svg {
+        width: 20px !important;
+        height: 20px !important;
+      }
+      .main-workspace {
+        width: 100vw !important;
+        height: calc(100dvh - 62px) !important;
+        margin-bottom: 62px !important;
+        overflow-y: auto !important;
+      }
+      .rail-tooltip {
+        display: none !important;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -91,7 +245,7 @@
             </div>
             
             <div class="active-generator-crumb" id="header-active-generator">
-              <i class="fa-solid fa-list-check" style="color:var(--accent-pink);"></i>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="color:var(--accent-pink); flex-shrink:0;"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
               <span>Generator: <strong id="header-gen-name">Multiple-Choice Questions</strong></span>
             </div>
           </div>
@@ -99,7 +253,7 @@
           <div class="header-right">
             <!-- Quota Meter Pill -->
             <div class="quota-pill-container" id="quota-meter-pill" title="Daily Generation Limit — Click to view details">
-              <i class="fa-solid fa-chart-pie" style="color:var(--accent-gold);"></i>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="color:var(--accent-gold); flex-shrink:0;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 2.07c3.61.45 6.48 3.32 6.93 6.93H13V4.07zM4 12c0-4.07 3.06-7.44 7-7.93v15.86c-3.94-.49-7-3.86-7-7.93zm9 7.93V13h6.93c-.45 3.61-3.32 6.48-6.93 6.93z"/></svg>
               <div class="quota-details">
                 <div class="quota-labels">
                   <span class="quota-count" id="quota-text-display">15 / 15 daily left</span>
@@ -113,7 +267,7 @@
 
             <!-- Upgrade Button (70% Off) -->
             <button class="btn-glass btn-upgrade-highlight" id="btn-header-upgrade">
-              <i class="fa-solid fa-crown"></i>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="color:#d97706; margin-right:4px; flex-shrink:0;"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1s.45-1 1-1h12c.55 0 1 .45 1 1z"/></svg>
               <span>Pro $29/yr</span>
             </button>
 
@@ -130,7 +284,7 @@
       <div id="hero-cinema-backdrop" class="hero-cinema-backdrop">
         <div class="cinema-ambient-spotlight"></div>
         <div class="cinema-return-banner" id="btn-cinema-close">
-          <i class="fa-solid fa-circle-xmark"></i>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="margin-right:6px; flex-shrink:0;"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg>
           <span>Click or tap anywhere to return</span>
         </div>
       </div>
@@ -1258,8 +1412,29 @@
     <span id="ttsTapPillLabel">Tap to listen (Audio unlocked)</span>
   </div>
 
-  <!-- Application Logic & Scripts -->
-  <script src="aurora.js"></script>
-  <script src="app.js"></script>
+  <!-- Application Logic & Scripts (v3.1.0 Cache-Buster) -->
+  <script src="aurora.js?v=3.1.0"></script>
+  <script src="app.js?v=3.1.0"></script>
+
+  <!-- Auto-upgrade cache-buster: ensures teachers never see stale cached assets -->
+  <script>
+    (function() {
+      const RICHMOND_VERSION = 'v3.1.0';
+      try {
+        const stored = localStorage.getItem('richmond_app_build');
+        if (stored !== RICHMOND_VERSION) {
+          localStorage.setItem('richmond_app_build', RICHMOND_VERSION);
+          // If URL doesn't have the version query param, update it once
+          const url = new URL(window.location.href);
+          if (url.searchParams.get('v') !== '3.1.0') {
+            url.searchParams.set('v', '3.1.0');
+            window.location.replace(url.toString());
+          }
+        }
+      } catch (e) {
+        // Storage might be restricted in some iframe contexts
+      }
+    })();
+  </script>
 </body>
 </html>

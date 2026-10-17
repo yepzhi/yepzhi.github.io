@@ -13,3 +13,9 @@
   Access-Control-Allow-Headers: Content-Type, Authorization, X-Webcert-Token
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
+
+/RichmondAI/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/richmondai/*
+  Cache-Control: public, max-age=0, must-revalidate

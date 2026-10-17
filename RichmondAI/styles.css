@@ -139,21 +139,23 @@ code, pre, .mono-badge {
   z-index: 1;
 }
 
-/* --- 1. Vertical Rail Sidebar (Solid Clean White Dock) --- */
+/* --- 1. Vertical Rail Sidebar (Solid Dark Obsidian Slate Dock - stemOS style) --- */
 .rail-sidebar {
   width: var(--sidebar-width);
   height: 100vh;
-  background: #ffffff;
-  border-right: 1px solid #e2e8f0;
+  background: #0f172a !important;
+  border-right: 1.5px solid #1e293b !important;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 0;
-  gap: 16px;
+  padding: 16px 0;
+  gap: 14px;
   flex-shrink: 0;
-  z-index: 100;
-  box-shadow: 4px 0 24px rgba(15, 23, 42, 0.06);
+  z-index: 1000;
+  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.35);
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .sidebar-brand {
@@ -196,15 +198,14 @@ code, pre, .mono-badge {
   flex: 1;
 }
 
-/* Individual Rail Buttons (Crisp solid cards with distinct icons) */
-/* Individual Rail Buttons (Crisp solid cards with distinct icons) */
+/* Individual Rail Buttons (Crisp solid elevated cards with distinct vivid icons) */
 .rail-btn {
   width: 50px;
   height: 50px;
   border-radius: 14px;
-  background: #ffffff !important;
-  border: 1.5px solid #cbd5e1 !important;
-  color: #1e293b !important;
+  background: #1e293b !important;
+  border: 1.5px solid #334155 !important;
+  color: #94a3b8 !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -212,7 +213,9 @@ code, pre, .mono-badge {
   cursor: pointer;
   position: relative;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .rail-btn svg {
@@ -225,20 +228,20 @@ code, pre, .mono-badge {
 
 /* Custom Icon Accents for Non-Active State (Instant visual recognition) */
 #nav-btn-home i, #nav-btn-home svg { color: #ec008c !important; fill: #ec008c !important; }
-#nav-btn-studio i, #nav-btn-studio svg { color: #2563eb !important; fill: #2563eb !important; }
-#nav-btn-catalog i, #nav-btn-catalog svg { color: #0284c7 !important; fill: #0284c7 !important; }
-#nav-btn-cartridges i, #nav-btn-cartridges svg { color: #8b5cf6 !important; fill: #8b5cf6 !important; }
-#nav-btn-history i, #nav-btn-history svg { color: #d97706 !important; fill: #d97706 !important; }
+#nav-btn-studio i, #nav-btn-studio svg { color: #38bdf8 !important; fill: #38bdf8 !important; }
+#nav-btn-catalog i, #nav-btn-catalog svg { color: #22d3ee !important; fill: #22d3ee !important; }
+#nav-btn-cartridges i, #nav-btn-cartridges svg { color: #c084fc !important; fill: #c084fc !important; }
+#nav-btn-history i, #nav-btn-history svg { color: #fbbf24 !important; fill: #fbbf24 !important; }
 #nav-btn-pricing i, #nav-btn-pricing svg { color: #f43f5e !important; fill: #f43f5e !important; }
-#nav-btn-faq i, #nav-btn-faq svg { color: #10b981 !important; fill: #10b981 !important; }
+#nav-btn-faq i, #nav-btn-faq svg { color: #34d399 !important; fill: #34d399 !important; }
 #nav-btn-gemini-key i, #nav-btn-gemini-key svg { color: #f59e0b !important; fill: #f59e0b !important; }
-#nav-btn-user-auth i, #nav-btn-user-auth svg { color: #6366f1 !important; fill: #6366f1 !important; }
+#nav-btn-user-auth i, #nav-btn-user-auth svg { color: #818cf8 !important; fill: #818cf8 !important; }
 
 .rail-btn:hover {
-  background: #ffffff !important;
-  border-color: #2563eb !important;
-  transform: translateY(-2px) scale(1.06);
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25) !important;
+  background: #334155 !important;
+  border-color: #38bdf8 !important;
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 0 6px 18px rgba(56, 189, 248, 0.4) !important;
 }
 
 .rail-btn:hover svg {
@@ -246,10 +249,10 @@ code, pre, .mono-badge {
 }
 
 .rail-btn.active {
-  background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-blue) 100%) !important;
-  border-color: transparent !important;
+  background: linear-gradient(135deg, #ec008c 0%, #2563eb 100%) !important;
+  border-color: #ec008c !important;
   color: #ffffff !important;
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4) !important;
+  box-shadow: 0 0 20px rgba(236, 0, 140, 0.55), 0 4px 14px rgba(37, 99, 235, 0.45) !important;
   transform: translateY(-1px);
 }
 
@@ -266,18 +269,28 @@ code, pre, .mono-badge {
   width: 5px;
   height: 26px;
   border-radius: 0 6px 6px 0;
-  background: #2563eb;
-  box-shadow: 2px 0 8px rgba(37, 99, 235, 0.5);
+  background: #38bdf8;
+  box-shadow: 2px 0 10px #38bdf8;
 }
 
 .rail-tooltip {
   position: absolute;
   left: calc(var(--sidebar-width) + 8px);
-  background: #0f172a;
-  color: #ffffff;
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #f8fafc;
   padding: 6px 12px;
   border-radius: 8px;
   font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 0.18s ease;
+  z-index: 2000;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
   font-weight: 700;
   white-space: nowrap;
   pointer-events: none;
@@ -2802,4 +2815,55 @@ span[style*="color:#ec008c"] {
 }
 @media (max-width: 768px) {
   .user-name-text, .quota-timer { display: none; }
+
+  /* Mobile Bottom Dock Navigation (Thumb-friendly & high-contrast) */
+  .app-container {
+    flex-direction: column !important;
+    height: 100dvh !important;
+    overflow-x: hidden !important;
+  }
+  .rail-sidebar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 62px !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    padding: 4px 8px !important;
+    border-right: none !important;
+    border-top: 1.5px solid #334155 !important;
+    background: #0f172a !important;
+    z-index: 99999 !important;
+    box-shadow: 0 -6px 25px rgba(0, 0, 0, 0.5) !important;
+  }
+  .sidebar-top, .sidebar-bottom {
+    display: none !important;
+  }
+  .rail-nav {
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 4px !important;
+  }
+  .rail-btn {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 12px !important;
+  }
+  .rail-btn svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .main-workspace {
+    width: 100vw !important;
+    height: calc(100dvh - 62px) !important;
+    margin-bottom: 62px !important;
+    overflow-y: auto !important;
+  }
+  .rail-tooltip {
+    display: none !important;
+  }
 }
