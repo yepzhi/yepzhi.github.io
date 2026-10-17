@@ -19,20 +19,19 @@
   <!-- FontAwesome 6 Pro Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <!-- App Stylesheet (v3.2.0 Cache-Buster) -->
-  <link rel="stylesheet" href="styles.css?v=3.2.0">
+  <!-- App Stylesheet (v3.3.0 Cache-Buster) -->
+  <link rel="stylesheet" href="styles.css?v=3.3.0">
 
   <!-- Critical Rail Dock & Ultra-Clean White Design (Zero Blackout / Pure EdTech Aesthetic) -->
   <style id="critical-rail-styles">
     /* Solid Pure White Side Dock (Clean, Human-Crafted Aesthetic) */
     .rail-sidebar {
-      width: 72px !important;
+      width: 76px !important;
       height: 100vh !important;
       background: #ffffff !important;
       border-right: 1px solid #e2e8f0 !important;
       display: flex !important;
       flex-direction: column !important;
-      justify-content: space-between !important;
       align-items: center !important;
       padding: 16px 0 !important;
       box-shadow: 2px 0 16px rgba(15, 23, 42, 0.04) !important;
@@ -40,86 +39,118 @@
       visibility: visible !important;
       opacity: 1 !important;
     }
-    .sidebar-top, .sidebar-bottom {
+    .sidebar-top {
       display: flex !important;
       flex-direction: column !important;
       align-items: center !important;
-      gap: 12px !important;
+      margin-bottom: 24px !important;
       width: 100% !important;
     }
+    /* Strictly Destinations Only (No Actions in the Navigation Bar) */
     .rail-nav {
       display: flex !important;
       flex-direction: column !important;
-      gap: 10px !important;
+      gap: 12px !important;
       align-items: center !important;
-      justify-content: center !important;
       width: 100% !important;
       flex: 1 !important;
     }
-    /* Solid, High-Contrast White Elevated Button Cards (No Transparency, 100% Visible) */
+    /* Tab Buttons: Minimum 48px tactile area with Icon + Label + Physical Indicator */
     .rail-btn {
-      width: 50px !important;
-      height: 50px !important;
-      border-radius: 14px !important;
-      background: #ffffff !important;
-      border: 1.5px solid #cbd5e1 !important;
-      color: #1e293b !important;
+      width: 62px !important;
+      min-height: 54px !important;
+      padding: 6px 4px !important;
+      border-radius: 12px !important;
+      background: transparent !important;
+      border: 1px solid transparent !important;
+      color: #64748b !important;
       display: flex !important;
+      flex-direction: column !important;
       align-items: center !important;
       justify-content: center !important;
+      gap: 4px !important;
       cursor: pointer !important;
       position: relative !important;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06) !important;
       visibility: visible !important;
       opacity: 1 !important;
+      text-decoration: none !important;
     }
-    .rail-btn svg {
-      width: 22px !important;
-      height: 22px !important;
+    .rail-btn .rail-icon-wrap {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 24px !important;
+      height: 24px !important;
+      position: relative !important;
+    }
+    .rail-btn .icon-outline {
       display: block !important;
-      flex-shrink: 0 !important;
-      transition: transform 0.2s ease !important;
+      color: #64748b !important;
+      transition: color 0.2s ease, transform 0.2s ease !important;
     }
-    /* Vibrant non-transparent icon accents */
-    #nav-btn-home svg { color: #ec008c !important; fill: #ec008c !important; }
-    #nav-btn-studio svg { color: #2563eb !important; fill: #2563eb !important; }
-    #nav-btn-catalog svg { color: #0284c7 !important; fill: #0284c7 !important; }
-    #nav-btn-cartridges svg { color: #7c3aed !important; fill: #7c3aed !important; }
-    #nav-btn-history svg { color: #d97706 !important; fill: #d97706 !important; }
-    #nav-btn-pricing svg { color: #e11d48 !important; fill: #e11d48 !important; }
-    #nav-btn-faq svg { color: #059669 !important; fill: #059669 !important; }
-    #nav-btn-gemini-key svg { color: #d97706 !important; fill: #d97706 !important; }
-    #nav-btn-user-auth svg { color: #4f46e5 !important; fill: #4f46e5 !important; }
+    .rail-btn .icon-filled {
+      display: none !important;
+      color: #2563eb !important;
+      transition: color 0.2s ease, transform 0.2s ease !important;
+    }
+    .rail-btn .rail-label {
+      font-size: 0.68rem !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.01em !important;
+      color: #64748b !important;
+      line-height: 1 !important;
+      transition: all 0.2s ease !important;
+    }
+    /* Left Physical Indicator Bar on Desktop */
+    .rail-btn .rail-indicator {
+      position: absolute !important;
+      left: -8px !important;
+      top: 10px !important;
+      bottom: 10px !important;
+      width: 4px !important;
+      border-radius: 0 4px 4px 0 !important;
+      background: linear-gradient(180deg, #ec008c 0%, #2563eb 100%) !important;
+      opacity: 0 !important;
+      transition: opacity 0.2s ease, transform 0.2s ease !important;
+      transform: scaleY(0.4) !important;
+    }
 
     .rail-btn:hover {
       background: #f8fafc !important;
-      border-color: #2563eb !important;
-      transform: translateY(-2px) scale(1.06) !important;
-      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.18) !important;
+      color: #1e293b !important;
     }
-    .rail-btn.active {
-      background: linear-gradient(135deg, #ec008c 0%, #2563eb 100%) !important;
-      border-color: transparent !important;
-      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35) !important;
+    .rail-btn:hover .icon-outline {
+      color: #1e293b !important;
       transform: translateY(-1px) !important;
     }
-    .rail-btn.active svg {
-      color: #ffffff !important;
-      fill: #ffffff !important;
-    }
-    .rail-btn.active::before {
-      content: '' !important;
-      position: absolute !important;
-      left: -8px !important;
-      width: 5px !important;
-      height: 26px !important;
-      border-radius: 0 6px 6px 0 !important;
-      background: #2563eb !important;
-      box-shadow: 2px 0 8px rgba(37, 99, 235, 0.5) !important;
+    .rail-btn:hover .rail-label {
+      color: #1e293b !important;
     }
 
-    /* Mobile Responsive Dock - Lower bar is pure WHITE */
+    /* 3-Part Active State: Filled Icon + Heavier Label Weight + Physical Indicator */
+    .rail-btn.active {
+      background: rgba(37, 99, 235, 0.07) !important;
+      border-color: rgba(37, 99, 235, 0.18) !important;
+    }
+    .rail-btn.active .icon-outline {
+      display: none !important;
+    }
+    .rail-btn.active .icon-filled {
+      display: block !important;
+      color: #2563eb !important;
+      transform: scale(1.08) !important;
+    }
+    .rail-btn.active .rail-label {
+      color: #2563eb !important;
+      font-weight: 700 !important;
+    }
+    .rail-btn.active .rail-indicator {
+      opacity: 1 !important;
+      transform: scaleY(1) !important;
+    }
+
+    /* Mobile Responsive Dock: Pure White, >= 44px touch targets, Safe Area Inset */
     @media (max-width: 768px) {
       .app-container {
         flex-direction: column !important;
@@ -131,11 +162,11 @@
         bottom: 0 !important;
         left: 0 !important;
         width: 100vw !important;
-        height: 62px !important;
+        height: calc(60px + max(8px, env(safe-area-inset-bottom))) !important;
         flex-direction: row !important;
         justify-content: space-around !important;
         align-items: center !important;
-        padding: 4px 8px !important;
+        padding: 4px 6px max(8px, env(safe-area-inset-bottom)) 6px !important;
         border-right: none !important;
         border-top: 1px solid #e2e8f0 !important;
         background: #ffffff !important;
@@ -150,24 +181,35 @@
         justify-content: space-around !important;
         align-items: center !important;
         width: 100% !important;
-        gap: 4px !important;
+        gap: 2px !important;
       }
       .rail-btn {
-        width: 44px !important;
-        height: 44px !important;
-        border-radius: 12px !important;
-        background: #ffffff !important;
-        border: 1.5px solid #cbd5e1 !important;
-        box-shadow: 0 1px 4px rgba(15, 23, 42, 0.05) !important;
+        flex: 1 !important;
+        width: auto !important;
+        min-height: 48px !important;
+        height: 48px !important;
+        padding: 4px 2px !important;
+        border-radius: 8px !important;
       }
-      .rail-btn svg {
-        width: 20px !important;
-        height: 20px !important;
+      /* Top Physical Indicator Bar on Mobile */
+      .rail-btn .rail-indicator {
+        left: 20% !important;
+        right: 20% !important;
+        top: -4px !important;
+        bottom: auto !important;
+        width: auto !important;
+        height: 3px !important;
+        border-radius: 0 0 3px 3px !important;
+        background: linear-gradient(90deg, #ec008c 0%, #2563eb 100%) !important;
+        transform: scaleX(0.4) !important;
+      }
+      .rail-btn.active .rail-indicator {
+        transform: scaleX(1) !important;
       }
       .main-workspace {
         width: 100vw !important;
-        height: calc(100dvh - 62px) !important;
-        margin-bottom: 62px !important;
+        height: calc(100dvh - 68px) !important;
+        margin-bottom: 68px !important;
         overflow-y: auto !important;
       }
       .rail-tooltip {
@@ -183,7 +225,7 @@
 
   <div class="app-container">
 
-    <!-- ── 1. Vertical Rail Sidebar (stemOS style) ── -->
+    <!-- ── 1. Vertical Rail Sidebar (Strictly Destinations, No Actions) ── -->
     <aside class="rail-sidebar" id="app-rail-sidebar">
       <div class="sidebar-top">
         <a href="#" class="sidebar-brand" id="brand-home-link" title="RichmondAI Home">
@@ -194,46 +236,56 @@
       </div>
 
       <nav class="rail-nav">
-        <button class="rail-btn active" data-view="home" id="nav-btn-home" title="Homepage & Overview">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-          <span class="rail-tooltip">Overview & Home</span>
+        <!-- Destination 1: Home -->
+        <button class="rail-btn active" data-view="home" id="nav-btn-home" aria-label="Home" title="Home Overview">
+          <span class="rail-indicator"></span>
+          <span class="rail-icon-wrap">
+            <svg class="icon-outline" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <svg class="icon-filled" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          </span>
+          <span class="rail-label">Home</span>
         </button>
-        <button class="rail-btn" data-view="studio" id="nav-btn-studio" title="Studio Workspace">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M7.5 5.6L10 7 8.6 4.5 10 2 7.5 3.4 5 2l1.4 2.5L5 7zm12 9.8L17 14l1.4 2.5L17 19l2.5-1.4L22 19l-1.4-2.5L22 14zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5zm-7.63 5.29c-.39-.39-1.02-.39-1.41 0L1.29 18.96c-.39.39-.39 1.02 0 1.41l2.34 2.34c.39.39 1.02.39 1.41 0L16.7 11.05c.39-.39.39-1.02 0-1.41l-2.33-2.35zm-1.06 3.4L11.88 9.27l1.76-1.76 1.42 1.42-1.75 1.76z"/></svg>
-          <span class="rail-tooltip">Studio Workspace</span>
+
+        <!-- Destination 2: Studio Workspace -->
+        <button class="rail-btn" data-view="studio" id="nav-btn-studio" aria-label="Studio" title="Generator Studio Workspace">
+          <span class="rail-indicator"></span>
+          <span class="rail-icon-wrap">
+            <svg class="icon-outline" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg class="icon-filled" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </span>
+          <span class="rail-label">Studio</span>
         </button>
-        <button class="rail-btn" data-view="catalog" id="nav-btn-catalog" title="All Generators Catalog">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M4 11h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1zm1-6h4v4H5V5zm9-2a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6zm5 6h-4V5h4v4zM4 21h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1zm1-6h4v4H5v-4zm9-2a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1h-6zm5 6h-4v-4h4v4z"/></svg>
-          <span class="rail-tooltip">Generators Catalog</span>
+
+        <!-- Destination 3: Generators Catalog -->
+        <button class="rail-btn" data-view="catalog" id="nav-btn-catalog" aria-label="Catalog" title="26 Pedagogical Generators Catalog">
+          <span class="rail-indicator"></span>
+          <span class="rail-icon-wrap">
+            <svg class="icon-outline" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <svg class="icon-filled" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M4 11h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1zm10-8a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6zM4 21h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1zm10 0h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1z"/></svg>
+          </span>
+          <span class="rail-label">Catalog</span>
         </button>
-        <button class="rail-btn" data-view="cartridges" id="nav-btn-cartridges" title="Course Cartridges">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.12-.36.18-.57.18s-.41-.06-.57-.18l-7.9-4.44A.991.991 0 0 1 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.12.36-.18.57-.18s.41.06.57.18l7.9 4.44c.32.17.53.5.53.88v9zM12 4.15L6.04 7.5 12 10.85l5.96-3.35L12 4.15zM5 8.95v6.52l6 3.38v-6.52L5 8.95zm14 6.52V8.95l-6 3.38v6.52l6-3.38z"/></svg>
-          <span class="rail-tooltip">Course Cartridges</span>
+
+        <!-- Destination 4: Course Cartridges -->
+        <button class="rail-btn" data-view="cartridges" id="nav-btn-cartridges" aria-label="Cartridges" title="Course Syllabi & Cartridges">
+          <span class="rail-indicator"></span>
+          <span class="rail-icon-wrap">
+            <svg class="icon-outline" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            <svg class="icon-filled" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></svg>
+          </span>
+          <span class="rail-label">Cartridges</span>
         </button>
-        <button class="rail-btn" data-view="history" id="nav-btn-history" title="Saved History & Library">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
-          <span class="rail-tooltip">My Generations Library</span>
-        </button>
-        <button class="rail-btn" data-view="pricing" id="nav-btn-pricing" title="Pricing & Upgrade Plans">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>
-          <span class="rail-tooltip">Plans (70% Off)</span>
-        </button>
-        <button class="rail-btn" data-view="faq" id="nav-btn-faq" title="Teacher FAQ & Learning Hub">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
-          <span class="rail-tooltip">FAQ & Learning Hub</span>
+
+        <!-- Destination 5: Library -->
+        <button class="rail-btn" data-view="history" id="nav-btn-history" aria-label="Library" title="Saved Generation History & Library">
+          <span class="rail-indicator"></span>
+          <span class="rail-icon-wrap">
+            <svg class="icon-outline" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <svg class="icon-filled" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+          </span>
+          <span class="rail-label">Library</span>
         </button>
       </nav>
-
-      <div class="sidebar-bottom">
-        <button class="rail-btn" id="nav-btn-gemini-key" title="Gemini Flash API Settings">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M11 21h-1l1-7H7.5c-.88 0-.33-.75-.31-.78C8.48 10.94 10.42 7.54 13.01 3h1l-1 7h3.5c.49 0 .56.33.47.51l-.07.15C12.96 17.55 11 21 11 21z"/></svg>
-          <span class="rail-tooltip">Gemini API Key</span>
-        </button>
-        <button class="rail-btn" id="nav-btn-user-auth" title="Teacher Account">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20z"/></svg>
-          <span class="rail-tooltip">My Account</span>
-        </button>
-      </div>
     </aside>
 
     <!-- ── 2. Main Workspace ── -->
@@ -273,6 +325,12 @@
             <button class="btn-glass btn-upgrade-highlight" id="btn-header-upgrade">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="color:#d97706; margin-right:4px; flex-shrink:0;"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1s.45-1 1-1h12c.55 0 1 .45 1 1z"/></svg>
               <span>Pro $29/yr</span>
+            </button>
+
+            <!-- Gemini Flash API Key Action -->
+            <button class="btn-glass" id="btn-header-gemini" title="Gemini Flash API Key Settings">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="color:var(--accent-gold); flex-shrink:0;"><path d="M11 21h-1l1-7H7.5c-.88 0-.33-.75-.31-.78C8.48 10.94 10.42 7.54 13.01 3h1l-1 7h3.5c.49 0 .56.33.47.51l-.07.15C12.96 17.55 11 21 11 21z"/></svg>
+              <span class="user-name-text">API Key</span>
             </button>
 
             <!-- User Auth Profile Badge -->
@@ -318,13 +376,9 @@
               <i class="fa-solid fa-wand-magic-sparkles"></i>
               <span>Launch Generator Studio</span>
             </button>
-            <button class="btn-hero-secondary" onclick="window.RichmondApp.navTo('catalog')">
+            <button class="btn-hero-ghost" onclick="window.RichmondApp.navTo('catalog')">
               <i class="fa-solid fa-shapes"></i>
-              <span>Explore 20+ Generators</span>
-            </button>
-            <button class="btn-hero-glass" onclick="window.RichmondApp.openPricing()">
-              <i class="fa-solid fa-tags"></i>
-              <span>Pro Plan $29/yr (70% Off)</span>
+              <span>Explore 26 Generators</span>
             </button>
           </div>
 
@@ -543,49 +597,6 @@
           </div>
         </div>
 
-        <!-- 5. Real-World Educator Case Studies (Atlixco Puebla, Clinical Nursing, etc.) -->
-        <div class="home-cases-section">
-          <div class="section-title-wrap">
-            <span class="badge-tag">EDUCATOR TESTIMONIALS & CASE STUDIES</span>
-            <h2 class="section-main-heading">Trusted by Language Instructors Across the Globe</h2>
-          </div>
-
-          <div class="cases-cards-grid">
-            <div class="case-card">
-              <div class="case-quote">"In Atlixco, Puebla, our vocational apprentices know mechanical tools inside-out, but struggle with English OEM workshop manuals. RichmondAI's B1 automotive generator and cut-out flashcards reduced our prep time from 4 hours down to 15 minutes."</div>
-              <div class="case-author">
-                <div class="author-avatar"><i class="fa-solid fa-wrench"></i></div>
-                <div>
-                  <div class="author-name">Ing. Alberto Yépiz & Teaching Staff</div>
-                  <div class="author-role">Vocational Mechanics Track · Instituto Tecnológico Atlixco</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="case-card">
-              <div class="case-quote">"Teaching clinical nursing students requires precise terminology for SBAR handovers and patient intake. RichmondAI's CEFR B2 healthcare generator creates realistic triage simulations that our students practice before clinical hospital rotations."</div>
-              <div class="case-author">
-                <div class="author-avatar" style="background:var(--accent-pink);"><i class="fa-solid fa-stethoscope"></i></div>
-                <div>
-                  <div class="author-name">Prof. Sofia Hernandez, RN</div>
-                  <div class="author-role">Clinical ESP Nursing Faculty · Hermosillo Regional Institute</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="case-card">
-              <div class="case-quote">"At $29/year, RichmondAI is an absolute no-brainer compared to TeacherMatic's $99 fee. The speed of Gemini Flash combined with Bloom's taxonomy classroom questions has revolutionized our departmental lesson plans."</div>
-              <div class="case-author">
-                <div class="author-avatar" style="background:var(--accent-blue);"><i class="fa-solid fa-graduation-cap"></i></div>
-                <div>
-                  <div class="author-name">Dr. Marcus Vance</div>
-                  <div class="author-role">Director of Language Studies · International British Institute</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- 6. Bottom Banner CTA -->
         <div class="home-bottom-banner">
           <div class="banner-content">
@@ -593,10 +604,10 @@
             <p class="banner-sub">Join thousands of educators saving 80% of preparation time. Permanent free tier with 15 daily generations.</p>
             <div style="display:flex; justify-content:center; gap:12px; margin-top:20px; flex-wrap:wrap;">
               <button class="btn-hero-primary" onclick="window.RichmondApp.navTo('studio')">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> Open Generator Studio
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Launch Generator Studio
               </button>
-              <button class="btn-hero-glass" onclick="window.RichmondApp.openPricing()">
-                <i class="fa-solid fa-crown"></i> Upgrade to Pro ($29/yr)
+              <button class="btn-hero-ghost" onclick="window.RichmondApp.openPricing()">
+                <i class="fa-solid fa-tags"></i> View Pricing ($29/yr)
               </button>
             </div>
           </div>
@@ -618,8 +629,14 @@
             </div>
           </div>
           <div class="footer-bottom-row">
-            <span>© 2026 RichmondAI. Engineered with pride for language educators worldwide.</span>
-            <span>Designed like <a href="https://jovenesstem.com" target="_blank" style="color:var(--accent-blue); text-decoration:none;">JSweb</a> & <a href="https://stemos.org" target="_blank" style="color:var(--accent-blue); text-decoration:none;">stemOS</a>.</span>
+            <div class="footer-copy-engineered">
+              <span>© 2026 RichmondAI.</span>
+              <a href="https://yepzhi.com" target="_blank" rel="noopener noreferrer" class="footer-btn-pill" title="Engineered by yepzhi — yepzhi.com">
+                <span>Engineered by <strong>yepzhi</strong></span>
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7z"/></svg>
+              </a>
+            </div>
+            <span>Designed like <a href="https://jovenesstem.com" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue); text-decoration:none; font-weight:600;">JSweb</a> &amp; <a href="https://stemos.org" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue); text-decoration:none; font-weight:600;">stemOS</a>.</span>
           </div>
         </footer>
 
@@ -1408,15 +1425,15 @@
   <!-- Auto-upgrade cache-buster: ensures teachers never see stale cached assets -->
   <script>
     (function() {
-      const RICHMOND_VERSION = 'v3.2.0';
+      const RICHMOND_VERSION = 'v3.3.0';
       try {
         const stored = localStorage.getItem('richmond_app_build');
         if (stored !== RICHMOND_VERSION) {
           localStorage.setItem('richmond_app_build', RICHMOND_VERSION);
           // If URL doesn't have the version query param, update it once
           const url = new URL(window.location.href);
-          if (url.searchParams.get('v') !== '3.2.0') {
-            url.searchParams.set('v', '3.2.0');
+          if (url.searchParams.get('v') !== '3.3.0') {
+            url.searchParams.set('v', '3.3.0');
             window.location.replace(url.toString());
           }
         }

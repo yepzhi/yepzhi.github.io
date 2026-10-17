@@ -1687,11 +1687,18 @@
       document.getElementById('btn-export-save').addEventListener('click', () => this.saveToLibrary());
 
       // 12. Header Quick Triggers
-      document.getElementById('quota-meter-pill').addEventListener('click', () => this._openModal('modal-pricing'));
-      document.getElementById('btn-header-upgrade').addEventListener('click', () => this._openModal('modal-pricing'));
-      document.getElementById('btn-header-user').addEventListener('click', () => this._openModal('modal-auth'));
-      document.getElementById('nav-btn-user-auth').addEventListener('click', () => this._openModal('modal-auth'));
-      document.getElementById('nav-btn-gemini-key').addEventListener('click', () => this._openModal('modal-gemini-key'));
+      const quotaPill = document.getElementById('quota-meter-pill');
+      if (quotaPill) quotaPill.addEventListener('click', () => this._openModal('modal-pricing'));
+      const btnHeaderUpgrade = document.getElementById('btn-header-upgrade');
+      if (btnHeaderUpgrade) btnHeaderUpgrade.addEventListener('click', () => this._openModal('modal-pricing'));
+      const btnHeaderUser = document.getElementById('btn-header-user');
+      if (btnHeaderUser) btnHeaderUser.addEventListener('click', () => this._openModal('modal-auth'));
+      const btnHeaderGemini = document.getElementById('btn-header-gemini');
+      if (btnHeaderGemini) btnHeaderGemini.addEventListener('click', () => this._openModal('modal-gemini-key'));
+      const navBtnUser = document.getElementById('nav-btn-user-auth');
+      if (navBtnUser) navBtnUser.addEventListener('click', () => this._openModal('modal-auth'));
+      const navBtnGemini = document.getElementById('nav-btn-gemini-key');
+      if (navBtnGemini) navBtnGemini.addEventListener('click', () => this._openModal('modal-gemini-key'));
 
       // 13. Modal Close Triggers
       document.querySelectorAll('.btn-close-modal').forEach(btn => {

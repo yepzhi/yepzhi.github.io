@@ -3,7 +3,8 @@
   "version": "1.2.0",
   "description": "Next-Gen AI Instructional Materials Studio for English (ELT) and ESP Teachers",
   "scripts": {
-    "test": "node tests/generators.test.js",
+    "test": "node tests/generators.test.js && node tests/load_test_100_users.js",
+    "test:load": "node tests/load_test_100_users.js",
     "start": "python3 -m http.server 8080",
     "check": "node --check app.js",
     "deploy": "rsync -a --exclude='.git' ./ /Users/yepz/yepzhiweb/RichmondAI/ && cp -r ./* /Users/yepz/yepzhiweb/richmondai/ && cd /Users/yepz/yepzhiweb && git add -A && git commit -m 'RichmondAI: sync update' && git push"
