@@ -342,10 +342,15 @@
   // =========================================================================
   // 3. USER AUTHENTICATION & DAILY QUOTA MANAGER
   // =========================================================================
-  // ---- Backend switches. Flip quotaBackend to 'firestore' (and fill firebase) once Auth is connected. ----
+  // ---- Backend switches. Flip switches once Firebase or Cloudflare proxy is configured. ----
   const BACKEND_CONFIG = {
-    quotaBackend: 'local',   // 'local' | 'firestore'
-    firebase: null           // e.g. { apiKey, authDomain, projectId, appId }
+    quotaBackend: 'local',     // 'local' | 'firestore'
+    authBackend: 'local',      // 'local' | 'firebase'
+    geminiBackend: 'client',   // 'client' | 'proxy'
+    proxyUrl: 'https://richmond-proxy.yepzhi.workers.dev/generate',
+    piperTtsEndpoint: 'https://core-yzai.yepzhi.com/v1/audio/speech',
+    piperTtsFallback: 'https://yzai.yepzhi.com/v1/audio/speech',
+    firebase: null             // e.g. { apiKey, authDomain, projectId, appId }
   };
 
   const QUOTA_LIMITS = { free: 15, pro: 150, institutional: 500 };
@@ -436,7 +441,29 @@
       if (this.store.remote && this.store.sync) {
         this.store.sync(this.user, this.quota.max).then(q => { if (q) { this.quota = q; this.updateQuotaUI(); } }).catch(() => { });
       }
+      this._initFirebaseAuth();
       this._startResetTimer();
+    }
+
+    _initFirebaseAuth() {
+      if (BACKEND_CONFIG.authBackend === 'firebase' && window.firebase && window.firebase.auth) {
+        window.firebase.auth().onAuthStateChanged(fbUser => {
+          if (fbUser) {
+            const user = {
+              uid: fbUser.uid,
+              name: fbUser.displayName || 'Educator',
+              email: fbUser.email,
+              school: 'Verified Educator',
+              tier: 'free',
+              registered: true
+            };
+            this._saveUser(user);
+            if (this.store.remote && this.store.sync) {
+              this.store.sync(user, this.quota.max).then(q => { if (q) { this.quota = q; this.updateQuotaUI(); } }).catch(() => {});
+            }
+          }
+        });
+      }
     }
 
     _loadUser() {
@@ -507,6 +534,39 @@
       this.quota.max = tier === 'pro' ? 150 : 15;
       this._saveQuota(this.quota);
       this.updateQuotaUI();
+    }
+
+    async loginWithGoogle() {
+      if (BACKEND_CONFIG.authBackend === 'firebase' && window.firebase && window.firebase.auth) {
+        const provider = new window.firebase.auth.GoogleAuthProvider();
+        const cred = await window.firebase.auth().signInWithPopup(provider);
+        const fbUser = cred.user;
+        const user = {
+          uid: fbUser.uid,
+          name: fbUser.displayName || 'Google Educator',
+          email: fbUser.email,
+          school: 'Verified Google Educator',
+          tier: 'free',
+          registered: true
+        };
+        this._saveUser(user);
+        if (this.store.remote && this.store.sync) {
+          const q = await this.store.sync(user, this._maxFor(user.tier));
+          if (q) this.quota = q;
+        }
+        this.updateQuotaUI();
+        return user;
+      }
+      // Demo / Local Fallback
+      const demoGoogleUser = {
+        name: 'Prof. Yepz (Google Educator)',
+        email: 'alberto@richmond.edu',
+        school: 'Google Educator Academy',
+        tier: 'free',
+        registered: true
+      };
+      this.login(demoGoogleUser.name, demoGoogleUser.email, demoGoogleUser.school, demoGoogleUser.tier);
+      return demoGoogleUser;
     }
 
     logout() {
@@ -917,6 +977,7 @@
     }
 
     hasKey() {
+      if (BACKEND_CONFIG.geminiBackend === 'proxy') return true;
       return Boolean(this.apiKey && this.apiKey.trim().length > 10);
     }
 
@@ -933,6 +994,38 @@
     }
 
     async generate(prompt, systemInstruction = '') {
+      // 1. Cloudflare / Backend Proxy Mode
+      if (BACKEND_CONFIG.geminiBackend === 'proxy') {
+        const headers = { 'Content-Type': 'application/json' };
+        if (window.firebase && window.firebase.auth && window.firebase.auth().currentUser) {
+          try {
+            const token = await window.firebase.auth().currentUser.getIdToken();
+            headers['Authorization'] = `Bearer ${token}`;
+          } catch (e) {}
+        }
+
+        const response = await fetch(BACKEND_CONFIG.proxyUrl, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            prompt,
+            systemInstruction,
+            model: this.model
+          })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error?.message || errorData.error || `Proxy error (Status ${response.status})`);
+        }
+
+        const data = await response.json();
+        const text = data.text || data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!text) throw new Error('Proxy returned an empty response.');
+        return text;
+      }
+
+      // 2. Direct Browser-to-Gemini Client Mode (BYOK)
       if (!this.hasKey()) {
         throw new Error('No API key configured');
       }
@@ -978,12 +1071,352 @@
   }
 
   // =========================================================================
+  // 5.5 RICHMOND PRO TTS ENGINE & RICH MARKDOWN PARSER
+  // =========================================================================
+  function parseMarkdownToHtml(md) {
+    if (!md) return '';
+    const lines = md.split('\n');
+    const out = [];
+    let inTable = false;
+    let inList = false;
+    let listType = null;
+    let inAnswerKey = false;
+
+    function closeList() {
+      if (inList) {
+        out.push(listType === 'ol' ? '</ol>' : '</ul>');
+        inList = false;
+        listType = null;
+      }
+    }
+
+    function closeTable() {
+      if (inTable) {
+        out.push('</tbody></table></div>');
+        inTable = false;
+      }
+    }
+
+    function inlineMd(s) {
+      return s
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/(_{3,})/g, '<span class="cloze-blank">______</span>');
+    }
+
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i].trim();
+
+      // GFM Tables
+      if (line.startsWith('|') && line.endsWith('|')) {
+        closeList();
+        const cells = line.slice(1, -1).split('|').map(c => c.trim());
+        if (cells.every(c => /^:?-+:?$/.test(c))) continue; // separator row
+
+        if (!inTable) {
+          inTable = true;
+          out.push('<div class="table-responsive"><table class="richmond-table">');
+          out.push('<thead><tr>' + cells.map(c => '<th>' + inlineMd(c) + '</th>').join('') + '</tr></thead><tbody>');
+        } else {
+          out.push('<tr>' + cells.map(c => '<td>' + inlineMd(c) + '</td>').join('') + '</tr>');
+        }
+        continue;
+      } else {
+        closeTable();
+      }
+
+      // Answer Key section
+      if (/^## (Answer Key|Teacher Answer Key|Teacher Key|Solucionario)/i.test(line)) {
+        closeList();
+        if (!inAnswerKey) {
+          inAnswerKey = true;
+          out.push('<div class="answer-key-section">');
+        }
+        out.push('<h2 class="answer-key-title"><i class="fa-solid fa-key"></i> ' + inlineMd(line.replace(/^##\s*/, '')) + '</h2>');
+        continue;
+      }
+
+      // Headings
+      if (line.startsWith('# ')) { closeList(); out.push('<h1>' + inlineMd(line.slice(2)) + '</h1>'); continue; }
+      if (line.startsWith('## ')) { closeList(); out.push('<h2>' + inlineMd(line.slice(3)) + '</h2>'); continue; }
+      if (line.startsWith('### ')) { closeList(); out.push('<h3>' + inlineMd(line.slice(4)) + '</h3>'); continue; }
+      if (line.startsWith('#### ')) { closeList(); out.push('<h4>' + inlineMd(line.slice(5)) + '</h4>'); continue; }
+
+      // Horizontal Rule
+      if (/^(\-{3,}|\*{3,})$/.test(line)) { closeList(); out.push('<hr>'); continue; }
+
+      // Blockquote
+      if (line.startsWith('> ')) { closeList(); out.push('<blockquote>' + inlineMd(line.slice(2)) + '</blockquote>'); continue; }
+
+      // Lists
+      const ulMatch = line.match(/^[\*\-]\s+(.*)$/);
+      if (ulMatch) {
+        if (!inList || listType !== 'ul') { closeList(); inList = true; listType = 'ul'; out.push('<ul>'); }
+        out.push('<li>' + inlineMd(ulMatch[1]) + '</li>');
+        continue;
+      }
+
+      const olMatch = line.match(/^(\d+)\.\s+(.*)$/);
+      if (olMatch) {
+        if (!inList || listType !== 'ol') { closeList(); inList = true; listType = 'ol'; out.push('<ol>'); }
+        out.push('<li>' + inlineMd(olMatch[2]) + '</li>');
+        continue;
+      }
+
+      closeList();
+      if (line === '') continue;
+
+      // Dialogue speaker detection
+      const dialogueMatch = line.match(/^\*\*(Speaker\s+[A-Z]|[A-Z]|Student(?:\s+[A-Z])?|Teacher|Doctor|Patient|Supervisor|Technician|Guest|Concierge)\*\*:\s*(.*)$/i);
+      if (dialogueMatch) {
+        const speaker = dialogueMatch[1];
+        const speech = dialogueMatch[2];
+        const cleanSpeechAttr = speech.replace(/"/g, '&quot;');
+        out.push(`<div class="dialogue-line"><span class="dialogue-speaker">${speaker}</span> <span class="dialogue-text">${inlineMd(speech)}</span> <button type="button" class="tts-inline-btn" data-tts="${cleanSpeechAttr}" title="Listen"><i class="fa-solid fa-volume-high"></i></button></div>`);
+        continue;
+      }
+
+      out.push('<p>' + inlineMd(line) + '</p>');
+    }
+
+    closeList();
+    closeTable();
+    if (inAnswerKey) out.push('</div>');
+    return out.join('\n');
+  }
+
+  class RichmondTtsEngine {
+    constructor() {
+      this.currentAudio = null;
+      this.isPlaying = false;
+      this.tapPill = null;
+      this.tapPillLabel = null;
+      this.activeBtn = null;
+      this._initUnlock();
+    }
+
+    _makeSilentWavUrl() {
+      const sampleRate = 44100;
+      const numSamples = Math.floor(sampleRate * 0.3);
+      const dataSize = numSamples * 2;
+      const buffer = new ArrayBuffer(44 + dataSize);
+      const view = new DataView(buffer);
+      function writeStr(offset, str) {
+        for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+      }
+      writeStr(0, 'RIFF');
+      view.setUint32(4, 36 + dataSize, true);
+      writeStr(8, 'WAVE');
+      writeStr(12, 'fmt ');
+      view.setUint32(16, 16, true);
+      view.setUint16(20, 1, true);
+      view.setUint16(22, 1, true);
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, sampleRate * 2, true);
+      view.setUint16(32, 2, true);
+      view.setUint16(34, 16, true);
+      writeStr(36, 'data');
+      view.setUint32(40, dataSize, true);
+      const bytes = new Uint8Array(buffer);
+      let binary = '';
+      for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+      return 'data:audio/wav;base64,' + btoa(binary);
+    }
+
+    _initUnlock() {
+      const unlock = () => {
+        try {
+          const a = new Audio(this._makeSilentWavUrl());
+          a.play().then(() => {
+            window.removeEventListener('click', unlock);
+            window.removeEventListener('touchstart', unlock);
+          }).catch(() => {});
+        } catch (e) {}
+      };
+      window.addEventListener('click', unlock, { once: true });
+      window.addEventListener('touchstart', unlock, { once: true });
+    }
+
+    isSpanish(text) {
+      if (!text) return false;
+      if (/[áéíóúüñ¿¡]/i.test(text)) return true;
+      const words = text.toLowerCase().split(/\W+/);
+      const esCommon = new Set(['el', 'la', 'los', 'las', 'un', 'una', 'de', 'en', 'para', 'por', 'con', 'es', 'son', 'que', 'del']);
+      let hits = 0;
+      for (const w of words) if (esCommon.has(w)) hits++;
+      return hits >= 2;
+    }
+
+    offerTapToPlay(audio, label) {
+      if (!this.tapPill) {
+        this.tapPill = document.getElementById('ttsTapPill');
+        this.tapPillLabel = document.getElementById('ttsTapPillLabel');
+      }
+      if (!this.tapPill) return;
+      if (this.tapPillLabel) this.tapPillLabel.textContent = label || 'Tap to listen / Toca para escuchar';
+      this.tapPill.style.display = 'flex';
+      this.tapPill.onclick = () => {
+        this.tapPill.style.display = 'none';
+        audio.play().catch(() => {});
+      };
+      audio.addEventListener('ended', () => {
+        if (this.tapPill) this.tapPill.style.display = 'none';
+      }, { once: true });
+    }
+
+    stop() {
+      if (this.currentAudio) {
+        try {
+          this.currentAudio.pause();
+          this.currentAudio.currentTime = 0;
+        } catch (e) {}
+        this.currentAudio = null;
+      }
+      if (window.speechSynthesis) {
+        try { window.speechSynthesis.cancel(); } catch (e) {}
+      }
+      this.isPlaying = false;
+      this._updateUIState(false);
+      if (this.tapPill) this.tapPill.style.display = 'none';
+    }
+
+    _updateUIState(playing) {
+      const globalBtn = document.getElementById('btn-export-tts');
+      const globalLabel = document.getElementById('btn-export-tts-label');
+      if (globalBtn) {
+        if (playing) {
+          globalBtn.classList.add('playing');
+          if (globalLabel) globalLabel.textContent = 'Stop';
+        } else {
+          globalBtn.classList.remove('playing');
+          if (globalLabel) globalLabel.textContent = 'Listen';
+        }
+      }
+      if (this.activeBtn) {
+        if (playing) {
+          this.activeBtn.classList.add('playing');
+          this.activeBtn.innerHTML = '<i class="fa-solid fa-stop"></i>';
+        } else {
+          this.activeBtn.classList.remove('playing');
+          this.activeBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+          this.activeBtn = null;
+        }
+      }
+    }
+
+    async speak(text, triggerBtn = null) {
+      if (this.isPlaying) {
+        this.stop();
+        return;
+      }
+
+      if (!text || !text.trim()) {
+        if (window.RichmondApp) window.RichmondApp._showToast('No text available to speak.');
+        return;
+      }
+
+      this.stop();
+      this.isPlaying = true;
+      this.activeBtn = triggerBtn;
+      this._updateUIState(true);
+
+      const cleanText = text
+        .replace(/#+\s+/g, '')
+        .replace(/\*\*|__|\*|_/g, '')
+        .replace(/\|/g, ' ')
+        .replace(/`{1,3}[^`]*`{1,3}/g, '')
+        .replace(/\[.*?\]\(.*?\)/g, '')
+        .replace(/_{3,}/g, 'blank')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      const spanish = this.isSpanish(cleanText);
+      const voice = spanish ? 'stembot' : 'fable';
+      const endpoints = [
+        BACKEND_CONFIG.piperTtsEndpoint,
+        BACKEND_CONFIG.piperTtsFallback
+      ].filter(Boolean);
+
+      let audioBlob = null;
+
+      for (const ep of endpoints) {
+        try {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 4500);
+          const res = await fetch(ep, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              input: cleanText.slice(0, 800),
+              model: 'tts-1',
+              voice,
+              speed: 1.0
+            }),
+            signal: controller.signal
+          });
+          clearTimeout(timer);
+          if (res.ok) {
+            audioBlob = await res.blob();
+            break;
+          }
+        } catch (e) {}
+      }
+
+      if (audioBlob) {
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        this.currentAudio = audio;
+
+        audio.addEventListener('ended', () => {
+          this.stop();
+          URL.revokeObjectURL(audioUrl);
+        }, { once: true });
+
+        audio.addEventListener('error', () => {
+          this.stop();
+          URL.revokeObjectURL(audioUrl);
+        }, { once: true });
+
+        audio.play().catch(err => {
+          if (err && err.name === 'NotAllowedError') {
+            this.offerTapToPlay(audio, spanish ? 'Toca para escuchar (Voz Pro)' : 'Tap to listen (Pro TTS)');
+          } else {
+            this._fallbackWebSpeech(cleanText, spanish);
+          }
+        });
+      } else {
+        this._fallbackWebSpeech(cleanText, spanish);
+      }
+    }
+
+    _fallbackWebSpeech(text, isSpanish) {
+      if (!('speechSynthesis' in window)) {
+        this.stop();
+        if (window.RichmondApp) window.RichmondApp._showToast('Speech synthesis not supported on this device.');
+        return;
+      }
+      try {
+        const u = new SpeechSynthesisUtterance(text.slice(0, 400));
+        u.lang = isSpanish ? 'es-ES' : 'en-US';
+        u.rate = 0.95;
+        u.onend = () => this.stop();
+        u.onerror = () => this.stop();
+        window.speechSynthesis.speak(u);
+      } catch (e) {
+        this.stop();
+      }
+    }
+  }
+
+  // =========================================================================
   // 6. RICHMOND AI STUDIO CONTROLLER
   // =========================================================================
   class RichmondStudio {
     constructor() {
       this.auth = new AuthManager();
       this.gemini = new GeminiClient();
+      this.tts = new RichmondTtsEngine();
       this.activeGeneratorId = 'mcq';
       this.activeCefr = 'B1';
       this.activeDifficulty = 'standard';
@@ -1192,7 +1625,9 @@
         }
       });
 
-      // 11. Export Actions (Print, DOCX, Copy, Save)
+      // 11. Export Actions (Print, DOCX, Copy, Save, TTS)
+      const ttsBtn = document.getElementById('btn-export-tts');
+      if (ttsBtn) ttsBtn.addEventListener('click', () => this.exportTts());
       document.getElementById('btn-export-print').addEventListener('click', () => this.exportPrint());
       document.getElementById('btn-export-docx').addEventListener('click', () => this.exportDocx());
       document.getElementById('btn-export-copy').addEventListener('click', () => this.exportCopy());
@@ -1223,6 +1658,20 @@
           this.auth.login(name, email, school, 'free');
           this._closeModal('modal-auth');
           this._showToast(`Welcome, ${name}! Your 15 daily free generations are ready.`);
+        });
+      }
+
+      // 14.5 Google Sign-In Trigger
+      const googleBtn = document.getElementById('btn-auth-google');
+      if (googleBtn) {
+        googleBtn.addEventListener('click', async () => {
+          try {
+            const u = await this.auth.loginWithGoogle();
+            this._closeModal('modal-auth');
+            this._showToast(`Signed in with Google as ${u.name}!`);
+          } catch (err) {
+            this._showToast(err.message || 'Google sign-in failed.');
+          }
         });
       }
 
@@ -1630,18 +2079,19 @@
       this.flashcardsGrid.style.display = 'none';
       this.renderedBox.style.display = 'block';
 
-      // Parse Markdown into rich HTML
-      let html = mdText
-        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-        .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/gim, '<em>$1</em>')
-        .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
-        .replace(/\n\n/gim, '<p></p>')
-        .replace(/^- (.*$)/gim, '<li>$1</li>');
+      this.renderedBox.innerHTML = parseMarkdownToHtml(mdText);
+      this._attachInlineTtsListeners();
+    }
 
-      this.renderedBox.innerHTML = html;
+    _attachInlineTtsListeners() {
+      if (!this.renderedBox) return;
+      this.renderedBox.querySelectorAll('.tts-inline-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const text = btn.dataset.tts;
+          if (text) this.tts.speak(text, btn);
+        });
+      });
     }
 
     setViewMode(mode) {
@@ -1707,7 +2157,10 @@
         this._showToast('Generate content before printing.');
         return;
       }
+      const oldTitle = document.title;
+      document.title = `RichmondAI - ${this.currentGeneration.topic || 'Classroom Material'}`;
       window.print();
+      setTimeout(() => { document.title = oldTitle; }, 1000);
     }
 
     exportDocx() {
@@ -1715,26 +2168,129 @@
         this._showToast('Generate content before exporting.');
         return;
       }
-      const title = this.currentGeneration.topic.replace(/[^a-zA-Z0-9]/g, '_');
+      const rawTopic = this.currentGeneration.topic || 'RichmondAI_Lesson';
+      const cleanTopic = this._escapeHtml(rawTopic);
+      const safeFilename = rawTopic.replace(/[^a-zA-Z0-9_\-]/g, '_');
+      const cefr = this._escapeHtml(this.currentGeneration.cefr || 'B1');
+      const dateStr = new Date().toLocaleDateString();
+
+      // Clean HTML clone without interactive buttons
+      const clone = this.renderedBox.cloneNode(true);
+      clone.querySelectorAll('.tts-inline-btn, #ttsTapPill').forEach(el => el.remove());
+      const bodyHtml = clone.innerHTML;
+
       const htmlContent = `
         <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-        <head><title>${this.currentGeneration.topic}</title><meta charset='utf-8'></head>
-        <body style="font-family:Arial, sans-serif;">
-          <h1>RichmondAI: ${this.currentGeneration.topic}</h1>
-          <p><strong>CEFR Level:</strong> ${this.currentGeneration.cefr}</p>
-          <hr/>
-          ${this.renderedBox.innerHTML}
+        <head>
+          <meta charset='utf-8'>
+          <title>${cleanTopic}</title>
+          <!--[if gte mso 9]>
+          <xml>
+            <w:WordDocument>
+              <w:View>Print</w:View>
+              <w:Zoom>100</w:Zoom>
+              <w:DoNotOptimizeForBrowser/>
+            </w:WordDocument>
+          </xml>
+          <![endif]-->
+          <style>
+            @page WordSection1 {
+              size: 8.5in 11.0in;
+              margin: 1.0in 1.0in 1.0in 1.0in;
+              mso-header-margin: .5in;
+              mso-footer-margin: .5in;
+              mso-paper-source: 0;
+            }
+            div.WordSection1 { page: WordSection1; }
+            body {
+              font-family: Calibri, 'Segoe UI', Arial, sans-serif;
+              font-size: 11pt;
+              line-height: 1.5;
+              color: #1e293b;
+            }
+            h1 {
+              font-size: 18pt;
+              color: #1e3a8a;
+              border-bottom: 2pt solid #1e3a8a;
+              padding-bottom: 6pt;
+              margin-bottom: 12pt;
+            }
+            h2 {
+              font-size: 14pt;
+              color: #0f172a;
+              margin-top: 14pt;
+              margin-bottom: 6pt;
+            }
+            h3 {
+              font-size: 12pt;
+              color: #334155;
+              margin-top: 10pt;
+              margin-bottom: 4pt;
+            }
+            p, li {
+              font-size: 11pt;
+              color: #334155;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              margin: 12pt 0;
+              font-size: 10pt;
+            }
+            th, td {
+              border: 1pt solid #cbd5e1;
+              padding: 6pt 8pt;
+              text-align: left;
+              vertical-align: top;
+            }
+            th {
+              background-color: #f1f5f9;
+              font-weight: bold;
+              color: #0f172a;
+            }
+            .meta-box {
+              background: #f8fafc;
+              border: 1pt solid #e2e8f0;
+              padding: 8pt 12pt;
+              margin-bottom: 14pt;
+              font-size: 10pt;
+              color: #475569;
+            }
+            .answer-key-section {
+              page-break-before: always;
+              margin-top: 24pt;
+              border-top: 2pt dashed #94a3b8;
+              padding-top: 12pt;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="WordSection1">
+            <div class="meta-box">
+              <strong>RichmondAI Instructional Materials Studio</strong> &bull; CEFR ${cefr} Standard &bull; ${dateStr}
+            </div>
+            ${bodyHtml}
+          </div>
         </body>
         </html>
       `;
+
       const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `RichmondAI_${title}.doc`;
+      a.download = `RichmondAI_${safeFilename}.doc`;
       a.click();
       URL.revokeObjectURL(url);
-      this._showToast('DOCX file downloaded.');
+      this._showToast('Word DOCX file downloaded.');
+    }
+
+    exportTts() {
+      if (!this.currentGeneration) {
+        this._showToast('Generate content before listening.');
+        return;
+      }
+      this.tts.speak(this.currentGeneration.markdown);
     }
 
     exportCopy() {

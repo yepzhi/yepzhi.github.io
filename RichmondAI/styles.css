@@ -1025,6 +1025,170 @@ textarea.input-glass {
   font-size: 0.88rem;
 }
 
+/* Rich Tables for Planning & Writing (Lesson Plans, Rubrics, Vocab Lists, Schemas) */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1.2rem 0;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+}
+
+.rendered-material-card table.richmond-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  background: #ffffff;
+  margin: 0;
+}
+
+.rendered-material-card table.richmond-table th {
+  background: #f8fafc;
+  color: #0f172a;
+  font-weight: 700;
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--border-strong);
+  border-right: 1px solid #e2e8f0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.rendered-material-card table.richmond-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  color: #334155;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.rendered-material-card table.richmond-table tr:last-child td {
+  border-bottom: none;
+}
+
+.rendered-material-card table.richmond-table td:last-child,
+.rendered-material-card table.richmond-table th:last-child {
+  border-right: none;
+}
+
+.rendered-material-card table.richmond-table tr:nth-child(even) td {
+  background: #fbfcfe;
+}
+
+.rendered-material-card table.richmond-table tr:hover td {
+  background: #f1f5f9;
+}
+
+/* Answer Key Section (Isolated Handout Styling) */
+.rendered-material-card .answer-key-section {
+  margin-top: 2rem;
+  padding: 20px 22px;
+  background: #f8fafc;
+  border: 1.5px dashed #94a3b8;
+  border-radius: 10px;
+}
+
+.rendered-material-card .answer-key-title {
+  color: #1e3a8a !important;
+  font-size: 1.15rem !important;
+  margin-top: 0 !important;
+  margin-bottom: 10px !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #cbd5e1 !important;
+  padding-bottom: 6px;
+}
+
+/* Dialogue & Roleplay Formatting */
+.rendered-material-card .dialogue-line {
+  margin-bottom: 0.65rem;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.rendered-material-card .dialogue-speaker {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  background: #e0e7ff;
+  color: #3730a3;
+  letter-spacing: 0.02em;
+}
+
+/* Cloze & Worksheet Underline Gaps */
+.rendered-material-card .cloze-blank {
+  display: inline-block;
+  min-width: 90px;
+  border-bottom: 2px solid #0f172a;
+  margin: 0 4px;
+  text-align: center;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+/* Inline TTS Play Buttons */
+.tts-inline-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 0.72rem;
+  cursor: pointer;
+  margin-left: 6px;
+  vertical-align: middle;
+  transition: all 0.15s ease;
+}
+
+.tts-inline-btn:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+  transform: scale(1.08);
+}
+
+.tts-inline-btn.playing {
+  background: #16a34a;
+  color: #ffffff;
+  border-color: #16a34a;
+  animation: pulse 1.2s infinite;
+}
+
+/* Floating Tap to Play Pill for Mobile Audio Unlock */
+#ttsTapPill {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999999;
+  background: #16a34a;
+  color: #ffffff;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 9999px;
+  box-shadow: 0 10px 25px -5px rgba(22, 163, 74, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: none;
+  font-size: 0.95rem;
+  align-items: center;
+  gap: 10px;
+}
+
+#ttsTapPill i {
+  font-size: 1.1rem;
+}
+
 /* Flashcards Perforated Cut-Out Grid (Clean White Handouts) */
 .flashcards-grid {
   display: grid;
@@ -1472,6 +1636,50 @@ textarea.input-glass {
   .card-def {
     color: #1e293b !important;
     font-size: 10pt !important;
+  }
+
+  /* Tables in print: clean high-contrast borders & prevent orphan breaks */
+  .table-responsive {
+    overflow: visible !important;
+    border: none !important;
+    margin: 10pt 0 !important;
+  }
+
+  .rendered-material-card table.richmond-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 8pt 0 !important;
+    page-break-inside: avoid;
+    font-size: 9pt !important;
+  }
+
+  .rendered-material-card table.richmond-table th,
+  .rendered-material-card table.richmond-table td {
+    border: 1pt solid #475569 !important;
+    padding: 6pt 8pt !important;
+    color: black !important;
+    background: transparent !important;
+  }
+
+  .rendered-material-card table.richmond-table th {
+    background: #f1f5f9 !important;
+    font-weight: bold !important;
+  }
+
+  /* Answer Key page-break isolation for teachers */
+  .rendered-material-card .answer-key-section {
+    page-break-before: always !important;
+    border: 1pt dashed #475569 !important;
+    background: white !important;
+    padding: 12pt !important;
+    margin-top: 0 !important;
+  }
+
+  /* Hide interactive TTS buttons from print handouts */
+  .tts-inline-btn,
+  #ttsTapPill,
+  #btn-export-tts {
+    display: none !important;
   }
 }
 

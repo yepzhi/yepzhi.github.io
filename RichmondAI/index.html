@@ -667,6 +667,10 @@
             </div>
 
             <div class="output-actions-right">
+              <button class="action-btn-sm" id="btn-export-tts" title="Listen with Mini PC TTS Pro (fable / stembot)">
+                <i class="fa-solid fa-volume-high"></i>
+                <span id="btn-export-tts-label">Listen</span>
+              </button>
               <button class="action-btn-sm primary-export" id="btn-export-print" title="Print-ready classroom handout or PDF">
                 <i class="fa-solid fa-print"></i>
                 <span>Print / PDF</span>
@@ -1021,8 +1025,13 @@
           </button>
         </form>
 
-        <div style="text-align: center; margin-top: 8px;">
-          <button type="button" class="btn-glass" id="btn-auth-demo-bypass" style="font-size: 0.76rem; width: 100%;">
+        <div style="text-align: center; margin-top: 10px; display:flex; flex-direction:column; gap:8px;">
+          <button type="button" class="btn-glass" id="btn-auth-google" style="font-size: 0.82rem; width: 100%; justify-content:center; gap:8px; border-color:#cbd5e1;">
+            <i class="fa-brands fa-google" style="color:#ea4335;"></i>
+            <span>Continue with Google</span>
+          </button>
+
+          <button type="button" class="btn-glass" id="btn-auth-demo-bypass" style="font-size: 0.76rem; width: 100%; justify-content:center;">
             <i class="fa-solid fa-rocket" style="color:var(--accent-gold);"></i>
             <span>Instant Demo Login (Atlixco B1 Teacher Profile)</span>
           </button>
@@ -1216,6 +1225,12 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Mobile Audio Unlock Tap-to-Play Floating Pill -->
+  <div id="ttsTapPill">
+    <i class="fa-solid fa-play"></i>
+    <span id="ttsTapPillLabel">Tap to listen (Audio unlocked)</span>
   </div>
 
   <!-- Application Logic & Scripts -->
