@@ -197,39 +197,52 @@ code, pre, .mono-badge {
 }
 
 /* Individual Rail Buttons (Crisp solid cards with distinct icons) */
+/* Individual Rail Buttons (Crisp solid cards with distinct icons) */
 .rail-btn {
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
   border-radius: 14px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  color: #334155;
+  background: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
+  color: #1e293b !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.18rem;
+  font-size: 1.25rem;
   cursor: pointer;
   position: relative;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08) !important;
+}
+
+.rail-btn svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
 }
 
 /* Custom Icon Accents for Non-Active State (Instant visual recognition) */
-#nav-btn-home i { color: #ec4899; }
-#nav-btn-studio i { color: #2563eb; }
-#nav-btn-catalog i { color: #0284c7; }
-#nav-btn-cartridges i { color: #8b5cf6; }
-#nav-btn-history i { color: #d97706; }
-#nav-btn-pricing i { color: #f43f5e; }
-#nav-btn-faq i { color: #10b981; }
-#nav-btn-gemini-key i { color: #f59e0b; }
-#nav-btn-user-auth i { color: #6366f1; }
+#nav-btn-home i, #nav-btn-home svg { color: #ec008c !important; fill: #ec008c !important; }
+#nav-btn-studio i, #nav-btn-studio svg { color: #2563eb !important; fill: #2563eb !important; }
+#nav-btn-catalog i, #nav-btn-catalog svg { color: #0284c7 !important; fill: #0284c7 !important; }
+#nav-btn-cartridges i, #nav-btn-cartridges svg { color: #8b5cf6 !important; fill: #8b5cf6 !important; }
+#nav-btn-history i, #nav-btn-history svg { color: #d97706 !important; fill: #d97706 !important; }
+#nav-btn-pricing i, #nav-btn-pricing svg { color: #f43f5e !important; fill: #f43f5e !important; }
+#nav-btn-faq i, #nav-btn-faq svg { color: #10b981 !important; fill: #10b981 !important; }
+#nav-btn-gemini-key i, #nav-btn-gemini-key svg { color: #f59e0b !important; fill: #f59e0b !important; }
+#nav-btn-user-auth i, #nav-btn-user-auth svg { color: #6366f1 !important; fill: #6366f1 !important; }
 
 .rail-btn:hover {
-  background: #ffffff;
-  border-color: #2563eb;
+  background: #ffffff !important;
+  border-color: #2563eb !important;
   transform: translateY(-2px) scale(1.06);
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.2);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25) !important;
+}
+
+.rail-btn:hover svg {
+  transform: scale(1.1);
 }
 
 .rail-btn.active {
@@ -240,8 +253,10 @@ code, pre, .mono-badge {
   transform: translateY(-1px);
 }
 
-.rail-btn.active i {
+.rail-btn.active i,
+.rail-btn.active svg {
   color: #ffffff !important;
+  fill: #ffffff !important;
 }
 
 .rail-btn.active::before {
