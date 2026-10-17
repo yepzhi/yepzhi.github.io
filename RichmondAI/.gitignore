@@ -11,3 +11,6 @@ package-lock.json
 # IDE
 .vscode/
 .idea/
+
+# Raw Heavy Textbook Assets
+english_id_3_0_a1_u1_4/

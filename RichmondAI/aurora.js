@@ -25,10 +25,25 @@
       this.orbs = [];
       this.dots = [];
       this.mouse = { x: -9999, y: -9999, targetX: -9999, targetY: -9999 };
+      this.isMobile = (window.innerWidth <= 768) || ('ontouchstart' in window);
       this.time = 0;
       this.raf = null;
       this.isVisible = true;
       this._init();
+    }
+
+    pause() {
+      this.isVisible = false;
+      if (this.raf) {
+        cancelAnimationFrame(this.raf);
+        this.raf = null;
+      }
+    }
+
+    resume() {
+      if (this.isVisible) return;
+      this.isVisible = true;
+      this._tick();
     }
 
     _init() {
@@ -46,36 +61,35 @@
 
       this._resize();
       this._initOrbs();
-      this._initDots();
+      if (!this.isMobile) this._initDots();
 
       window.addEventListener('resize', () => {
+        this.isMobile = (window.innerWidth <= 768) || ('ontouchstart' in window);
         this._resize();
-        this._initDots();
+        if (!this.isMobile) this._initDots();
+        else this.dots = [];
       });
 
-      window.addEventListener('mousemove', (e) => {
-        this.mouse.targetX = e.clientX;
-        this.mouse.targetY = e.clientY;
-      });
-
-      const handleTouch = (e) => {
-        if (!e.touches || !e.touches[0]) return;
-        this.mouse.targetX = e.touches[0].clientX;
-        this.mouse.targetY = e.touches[0].clientY;
-      };
-      window.addEventListener('touchstart', handleTouch, { passive: true });
-      window.addEventListener('touchmove', handleTouch, { passive: true });
+      if (!this.isMobile) {
+        window.addEventListener('mousemove', (e) => {
+          this.mouse.targetX = e.clientX;
+          this.mouse.targetY = e.clientY;
+        }, { passive: true });
+      }
 
       document.addEventListener('visibilitychange', () => {
-        this.isVisible = !document.hidden;
-        if (this.isVisible) this._tick();
+        if (document.hidden) {
+          this.pause();
+        } else {
+          this.resume();
+        }
       });
 
       this._tick();
     }
 
     _resize() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, this.isMobile ? 1 : 2);
       const w = window.innerWidth;
       const h = window.innerHeight;
       this.canvas.width = w * dpr;
@@ -91,14 +105,19 @@
     }
 
     _initOrbs() {
-      // Soft ambient light orbs
+      // Ambient light mesh orbs (trimmed to 3 on mobile for maximum battery & GPU savings)
       const orbConfigs = [
         { c1: AURORA_LIGHT_PALETTE.pink,  c2: AURORA_LIGHT_PALETTE.blue,  baseR: 450, speedX: 0.0005, speedY: 0.0006, phase: 0 },
         { c1: AURORA_LIGHT_PALETTE.gold,  c2: AURORA_LIGHT_PALETTE.pink,  baseR: 380, speedX: -0.0006, speedY: 0.0005, phase: 2 },
-        { c1: AURORA_LIGHT_PALETTE.cyan,  c2: AURORA_LIGHT_PALETTE.blue,  baseR: 480, speedX: 0.0004, speedY: -0.0005, phase: 4 },
-        { c1: AURORA_LIGHT_PALETTE.amber, c2: AURORA_LIGHT_PALETTE.gold,  baseR: 320, speedX: -0.0007, speedY: -0.0004, phase: 1.5 },
-        { c1: AURORA_LIGHT_PALETTE.fuchsia, c2: AURORA_LIGHT_PALETTE.cyan, baseR: 400, speedX: 0.0004, speedY: 0.0006, phase: 3 }
+        { c1: AURORA_LIGHT_PALETTE.cyan,  c2: AURORA_LIGHT_PALETTE.blue,  baseR: 480, speedX: 0.0004, speedY: -0.0005, phase: 4 }
       ];
+
+      if (!this.isMobile) {
+        orbConfigs.push(
+          { c1: AURORA_LIGHT_PALETTE.amber, c2: AURORA_LIGHT_PALETTE.gold,  baseR: 320, speedX: -0.0007, speedY: -0.0004, phase: 1.5 },
+          { c1: AURORA_LIGHT_PALETTE.fuchsia, c2: AURORA_LIGHT_PALETTE.cyan, baseR: 400, speedX: 0.0004, speedY: 0.0006, phase: 3 }
+        );
+      }
 
       this.orbs = orbConfigs.map((cfg, i) => ({
         ...cfg,
@@ -110,6 +129,10 @@
     }
 
     _initDots() {
+      if (this.isMobile) {
+        this.dots = [];
+        return;
+      }
       this.dots = [];
       const spacing = 48;
       const cols = Math.ceil(this.W / spacing) + 1;
@@ -222,8 +245,10 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => new AuroraLightBackground());
+    document.addEventListener('DOMContentLoaded', () => {
+      window.RichmondAurora = new AuroraLightBackground();
+    });
   } else {
-    new AuroraLightBackground();
+    window.RichmondAurora = new AuroraLightBackground();
   }
 })();

@@ -1436,23 +1436,76 @@
     _loadCartridges() {
       const saved = localStorage.getItem('richmond_cartridges');
       if (saved) {
-        try { return JSON.parse(saved); } catch (e) { }
+        try {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length >= 8) return parsed;
+        } catch (e) { }
       }
       return [
+        // ── 1. RICHMOND FLAGSHIP: English ID 3.0 Series (Young Adult, Pink Stress, Communicative) ──
         {
-          id: 'cartridge-puebla',
-          title: 'Atlixco B1 Automotive English Curriculum',
-          context: 'Focus: Hydraulics, workshop safety, apprentice technicians aged 18-21 in Atlixco, Puebla. High emphasis on OEM service manual comprehension and Spanish-English false cognates.'
+          id: 'eid-u1',
+          category: 'English ID 3.0 (A1)',
+          title: 'English ID 3.0 · Unit 1: What’s your name? (A1)',
+          context: 'Textbook: Richmond English ID 3.0 (A1) Unit 1. Target Grammar: Verb to be (I am, you are, he/she is), possessive adjectives (my, your, his, her), questions with What and Who. Target Vocabulary: Greetings (Hello, Hi), classroom instructions, alphabet, numbers 0-20, first/last names. Richmond Signature Feature: Pink Stress Letters highlighting tonic vowel/syllable in #ec008c. Communicative Objective: Introduce oneself, spell names, ask and share contact details in youthful higher-ed environments.'
         },
         {
-          id: 'cartridge-nursing',
-          title: 'B2 Clinical Nursing & Patient Intake',
-          context: 'Focus: Triage procedures, bedside manner, SBAR hospital handover, patient pain scales, and pharmacology abbreviations.'
+          id: 'eid-u2',
+          category: 'English ID 3.0 (A1)',
+          title: 'English ID 3.0 · Unit 2: Where are you from? (A1)',
+          context: 'Textbook: Richmond English ID 3.0 (A1) Unit 2. Target Grammar: Verb to be negative & interrogative (Where are you from? Are you Mexican?), plural nouns (-s, -es), this/these. Target Vocabulary: 15 world countries & nationalities, languages, phone numbers, numbers 20-100. Richmond Signature Feature: Pink Stress syllable counts on country/nationality pairs (Mex-i-co / Mex-i-can, Bra-zil / Bra-zil-i-an). Communicative Objective: Identify origin, ask where classmates are from, navigate international student campus life.'
         },
         {
-          id: 'cartridge-aero',
-          title: 'Aero-Engineering Technical Specs',
-          context: 'Focus: Composite materials, torque specs, aviation mechanics, and FAA/EASA airworthiness directives.'
+          id: 'eid-u3',
+          category: 'English ID 3.0 (A1)',
+          title: 'English ID 3.0 · Unit 3: In my backpack & Campus Life (A1)',
+          context: 'Textbook: Richmond English ID 3.0 (A1) Unit 3. Target Grammar: Demonstratives (this, that, these, those), articles a/an, prepositions of place (in, on, under, next to). Target Vocabulary: Everyday tech & student items (laptop, student ID, charger, keys, headphones, backpack, water bottle). Richmond Signature Feature: Pronunciation of plural endings /s/, /z/, /ɪz/ with Pink Stress. Communicative Objective: Ask about and describe personal belongings, lost & found on campus.'
+        },
+        {
+          id: 'eid-u4',
+          category: 'English ID 3.0 (A1)',
+          title: 'English ID 3.0 · Unit 4: People in my life & Friends (A1)',
+          context: 'Textbook: Richmond English ID 3.0 (A1) Unit 4. Target Grammar: Possessive \'s, have/has got, descriptive adjectives (tall, short, friendly, funny, creative). Target Vocabulary: Family members, close friends, coworkers, personality traits. Richmond Signature Feature: Word stress on multi-syllable adjectives with Pink Stress. Communicative Objective: Describe friends, introduce people, share stories about social circles and World of Friends.'
+        },
+
+        // ── 2. RICHMOND FLAGSHIP: Personal Best 2.0 (High Academic Production) ──
+        {
+          id: 'pb-intensive',
+          category: 'Personal Best 2.0',
+          title: 'Personal Best 2.0 · 3x3 Speaking Matrix & High Production (A1–B1)',
+          context: 'Textbook: Richmond Personal Best 2.0. Focus: Intensive language production, 3x3 speaking tasks, timed oral fluency bursts (3 minutes), scaffolded peer debates, academic text builders, and rapid self-correction rubrics designed for demanding university workloads.'
+        },
+
+        // ── 3. MEXICAN HIGHER ED ESP TRACKS (stemOS UT / TecNM Network) ──
+        {
+          id: 'ut-mecatronica',
+          category: 'Mexican UT / IT ESP',
+          title: 'UT / IT Mecatrónica: PLC Ladder, Automation & LOTO (TSU & Ing.)',
+          context: 'Aligned to Mexican Universidades Tecnológicas (UT Tijuana, UT Querétaro, UT Ramos Arizpe, UT Ciudad Juárez). Target Standards: IEC 61131-3, ISO 10218-1/2, OSHA 1910.147 LOTO, NFPA 70E Arc Flash. Focus: Industrial robot cells (KUKA, Yaskawa), Allen-Bradley/Siemens PLC ladder diagnostics, zero-energy isolation, shopfloor SOPs and vendor technical calls with US suppliers.'
+        },
+        {
+          id: 'ut-mantenimiento',
+          category: 'Mexican UT / IT ESP',
+          title: 'UT / IT Mantenimiento Industrial: Vibration Analysis & OEE (TSU & Ing.)',
+          context: 'Aligned to Mexican Universidades Tecnológicas (UT Coahuila, UT Hermosillo, UT San Luis Potosí, UT Norte de Guanajuato). Target Standards: ISO 55001 Asset Management, VDI 2056 Vibration Severity, OSHA 1910.147. Focus: Predictive vibration analysis (mm/s RMS), infrared thermography, hydraulic press lockout, line-stop escalation, spare parts procurement and MTBF/MTTR reporting.'
+        },
+        {
+          id: 'ut-logistica',
+          category: 'Mexican UT / IT ESP',
+          title: 'UT / IT Logística y Transporte: Border Crossing & T-MEC Customs (TSU & Ing.)',
+          context: 'Aligned to Mexican Universidades Tecnológicas (UT Nogales, UT Nuevo Laredo, UT Reynosa, UT Altamira). Target Standards: Incoterms 2020 (FCA, DAP, DDP), C-TPAT/OEA, T-MEC/USMCA Rules of Origin, SAT Anexo 24/31. Focus: Border crossing manifests at World Trade Bridge, customs holds, bill of lading, expedited freight charter negotiation, and international supply chain compliance.'
+        },
+        {
+          id: 'ut-ti-cloud',
+          category: 'Mexican UT / IT ESP',
+          title: 'UT / IT Tecnologías de la Información: APIs, Microservices & DevOps (TSU & Ing.)',
+          context: 'Aligned to Mexican Universidades Tecnológicas (UT Jalisco, UT Aguascalientes, UT Querétaro, UT Metropolitana de Mérida). Target Standards: REST/GraphQL, ISO 27001, OpenTelemetry, SOC 2. Focus: Microservices architecture, industrial MQTT telemetry, sprint planning standups in English, pull request reviews, distributed tracing and incident postmortems.'
+        },
+        {
+          id: 'ut-procesos',
+          category: 'Mexican UT / IT ESP',
+          title: 'UT / IT Procesos Industriales: Injection Molding & PPAP Quality (TSU & Ing.)',
+          context: 'Aligned to Mexican Universidades Tecnológicas (UT Puebla, UT Tamaulipas Norte, UT Tijuana). Target Standards: AIAG APQP/PPAP, IATF 16949, SPI Mold Standards. Focus: Polymer injection molding parameters, short shot/flash defect analysis, GD&T drawing reading, CMM inspection, and customer quality concessions with Detroit automotive OEMs.'
         }
       ];
     }
@@ -1785,9 +1838,76 @@
           });
         });
       }
+
+      // 24. Cinema Mode Video-Like Hover & Tap Reveal (Smooth Gold Shimmer)
+      const heroLockup = document.getElementById('hero-brand-lockup');
+      const cinemaToggle = document.getElementById('btn-cinema-toggle');
+      const cinemaBackdrop = document.getElementById('hero-cinema-backdrop');
+      const cinemaClose = document.getElementById('btn-cinema-close');
+
+      if (heroLockup) {
+        heroLockup.addEventListener('click', (e) => {
+          if (e.target.closest('#btn-cinema-toggle')) return;
+          this.toggleCinemaMode();
+        });
+        heroLockup.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.toggleCinemaMode();
+          }
+        });
+      }
+
+      if (cinemaToggle) {
+        cinemaToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.toggleCinemaMode();
+        });
+      }
+
+      if (cinemaBackdrop) {
+        cinemaBackdrop.addEventListener('click', () => {
+          this.toggleCinemaMode(false);
+        });
+      }
+
+      if (cinemaClose) {
+        cinemaClose.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.toggleCinemaMode(false);
+        });
+      }
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.body.classList.contains('cinema-mode-active')) {
+          this.toggleCinemaMode(false);
+        }
+      });
+    }
+
+    toggleCinemaMode(enable) {
+      const isCurrentlyActive = document.body.classList.contains('cinema-mode-active');
+      const shouldBeActive = enable !== undefined ? Boolean(enable) : !isCurrentlyActive;
+
+      if (shouldBeActive === isCurrentlyActive) return;
+
+      if (shouldBeActive) {
+        document.body.classList.add('cinema-mode-active');
+        // Pause canvas animation to completely eliminate GPU and CPU overhead during cinema mode
+        if (window.RichmondAurora && typeof window.RichmondAurora.pause === 'function') {
+          window.RichmondAurora.pause();
+        }
+      } else {
+        document.body.classList.remove('cinema-mode-active');
+        // Resume cyber-aurora background
+        if (window.RichmondAurora && typeof window.RichmondAurora.resume === 'function') {
+          window.RichmondAurora.resume();
+        }
+      }
     }
 
     navTo(view) {
+      this.toggleCinemaMode(false);
       if (view === 'pricing') {
         this.openPricing();
         return;
@@ -2327,23 +2447,65 @@
       if (!container || !selectEl) return;
 
       container.innerHTML = '';
-      selectEl.innerHTML = '<option value="">-- No Cartridge Selected --</option>';
+      selectEl.innerHTML = '<option value="">-- No Cartridge Selected (Standard Mode) --</option>';
 
+      // Group into categories
+      const groups = {};
       this.cartridges.forEach(cart => {
-        // In modal
-        const div = document.createElement('div');
-        div.style.cssText = 'padding:12px; border:1px solid #e2e8f0; border-radius:8px; background:#f8fafc;';
-        div.innerHTML = `
-          <div style="font-weight:700; font-size:0.86rem; color:var(--accent-blue);">${cart.title}</div>
-          <div style="font-size:0.76rem; color:var(--text-secondary); margin-top:4px;">${cart.context}</div>
-        `;
-        container.appendChild(div);
+        const cat = cart.category || 'General Curricula';
+        if (!groups[cat]) groups[cat] = [];
+        groups[cat].push(cart);
+      });
 
-        // In dropdown
-        const opt = document.createElement('option');
-        opt.value = cart.id;
-        opt.textContent = cart.title;
-        selectEl.appendChild(opt);
+      Object.keys(groups).forEach(cat => {
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = cat;
+
+        groups[cat].forEach(cart => {
+          // Dropdown option
+          const opt = document.createElement('option');
+          opt.value = cart.id;
+          opt.textContent = cart.title;
+          optgroup.appendChild(opt);
+
+          // Modal Card
+          const div = document.createElement('div');
+          div.style.cssText = 'padding:14px; border:1px solid #e2e8f0; border-radius:10px; background:#ffffff; box-shadow:0 1px 3px rgba(15,23,42,0.04); display:flex; justify-content:space-between; align-items:flex-start; gap:12px;';
+          div.innerHTML = `
+            <div style="flex:1;">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:5px;">
+                <span style="font-size:0.68rem; font-weight:800; padding:2px 8px; border-radius:9999px; background:#eff6ff; color:#2563eb; border:1px solid #bfdbfe;">${cat}</span>
+                <span style="font-weight:700; font-size:0.88rem; color:#0f172a;">${cart.title}</span>
+              </div>
+              <div style="font-size:0.78rem; color:#475569; line-height:1.45;">${cart.context}</div>
+            </div>
+            <button type="button" class="btn-glass btn-apply-cartridge" data-id="${cart.id}" style="padding:6px 14px; font-size:0.75rem; white-space:nowrap; border-color:#2563eb; color:#2563eb; font-weight:700;">
+              Use in Studio
+            </button>
+          `;
+          container.appendChild(div);
+        });
+
+        selectEl.appendChild(optgroup);
+      });
+
+      // Bind 'Use in Studio' buttons
+      container.querySelectorAll('.btn-apply-cartridge').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.id;
+          if (selectEl) {
+            selectEl.value = id;
+            const cartTabBtn = document.querySelector('#supporting-material-tabs .tab-btn-min[data-tab="cartridge"]');
+            if (cartTabBtn) cartTabBtn.click();
+          }
+          const cart = this.cartridges.find(c => c.id === id);
+          const modal = document.getElementById('modal-cartridge');
+          if (modal) modal.classList.remove('active');
+          this.navTo('studio');
+          if (cart) {
+            this._showToast(`Cartridge active: ${cart.title}`);
+          }
+        });
       });
     }
 
@@ -2375,6 +2537,21 @@
         `;
         container.appendChild(div);
       });
+    }
+
+    applyCartridgeQuick(id) {
+      if (this.cartridgeSelect) {
+        this.cartridgeSelect.value = id;
+        const cartTabBtn = document.querySelector('#supporting-material-tabs .tab-btn-min[data-tab="cartridge"]');
+        if (cartTabBtn) cartTabBtn.click();
+      }
+      const cart = this.cartridges.find(c => c.id === id);
+      if (cart) {
+        this._showToast(`Cartridge active: ${cart.title}`);
+        if (!this.topicInput.value.trim() || this.topicInput.value.includes('·')) {
+          this.topicInput.value = cart.title.split('·')[1]?.trim() || cart.title;
+        }
+      }
     }
 
     loadFromHistory(id) {

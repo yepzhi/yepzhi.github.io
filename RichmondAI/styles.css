@@ -139,23 +139,21 @@ code, pre, .mono-badge {
   z-index: 1;
 }
 
-/* --- 1. Vertical Rail Sidebar (Clean White Glass) --- */
+/* --- 1. Vertical Rail Sidebar (Solid Clean White Dock) --- */
 .rail-sidebar {
   width: var(--sidebar-width);
   height: 100vh;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-right: 1px solid var(--border);
+  background: #ffffff;
+  border-right: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
+  padding: 18px 0;
   gap: 16px;
   flex-shrink: 0;
   z-index: 100;
-  box-shadow: 2px 0 16px rgba(15, 23, 42, 0.04);
+  box-shadow: 4px 0 24px rgba(15, 23, 42, 0.06);
 }
 
 .sidebar-brand {
@@ -167,25 +165,25 @@ code, pre, .mono-badge {
 }
 
 .brand-crest {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-blue) 50%, var(--accent-gold) 100%);
-  border-radius: 12px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 1.25rem;
-  font-weight: 800;
-  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 900;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
   position: relative;
   overflow: hidden;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .brand-crest:hover {
-  transform: scale(1.06) rotate(2deg);
-  box-shadow: 0 6px 20px rgba(236, 72, 153, 0.35);
+  transform: scale(1.08) rotate(3deg);
+  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.4);
 }
 
 .rail-nav {
@@ -198,61 +196,81 @@ code, pre, .mono-badge {
   flex: 1;
 }
 
+/* Individual Rail Buttons (Crisp solid cards with distinct icons) */
 .rail-btn {
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--text-secondary);
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #334155;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.15rem;
+  font-size: 1.18rem;
   cursor: pointer;
   position: relative;
-  transition: all var(--transition-fast);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
 }
 
+/* Custom Icon Accents for Non-Active State (Instant visual recognition) */
+#nav-btn-home i { color: #ec4899; }
+#nav-btn-studio i { color: #2563eb; }
+#nav-btn-catalog i { color: #0284c7; }
+#nav-btn-cartridges i { color: #8b5cf6; }
+#nav-btn-history i { color: #d97706; }
+#nav-btn-pricing i { color: #f43f5e; }
+#nav-btn-faq i { color: #10b981; }
+#nav-btn-gemini-key i { color: #f59e0b; }
+#nav-btn-user-auth i { color: #6366f1; }
+
 .rail-btn:hover {
-  color: var(--accent-blue);
-  background: rgba(37, 99, 235, 0.06);
-  border-color: rgba(37, 99, 235, 0.15);
-  transform: translateY(-1px);
+  background: #ffffff;
+  border-color: #2563eb;
+  transform: translateY(-2px) scale(1.06);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.2);
 }
 
 .rail-btn.active {
-  color: white;
-  background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-blue) 100%);
-  border-color: transparent;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+  background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-blue) 100%) !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+.rail-btn.active i {
+  color: #ffffff !important;
 }
 
 .rail-btn.active::before {
   content: '';
   position: absolute;
-  left: calc((var(--sidebar-width) - 46px) / -2);
-  width: 4px;
-  height: 24px;
-  border-radius: 0 4px 4px 0;
-  background: var(--accent-blue);
+  left: -8px;
+  width: 5px;
+  height: 26px;
+  border-radius: 0 6px 6px 0;
+  background: #2563eb;
+  box-shadow: 2px 0 8px rgba(37, 99, 235, 0.5);
 }
 
 .rail-tooltip {
   position: absolute;
-  left: calc(var(--sidebar-width) + 6px);
+  left: calc(var(--sidebar-width) + 8px);
   background: #0f172a;
-  color: white;
+  color: #ffffff;
   padding: 6px 12px;
   border-radius: 8px;
   font-size: 0.78rem;
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
   transform: translateX(-8px);
   transition: all var(--transition-fast);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   z-index: 200;
 }
 
@@ -264,7 +282,7 @@ code, pre, .mono-badge {
 .sidebar-bottom {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
   width: 100%;
 }
@@ -319,6 +337,7 @@ code, pre, .mono-badge {
 }
 
 .brand-gradient-text {
+  color: #0f172a;
   background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-blue) 50%, var(--accent-gold) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -332,18 +351,20 @@ code, pre, .mono-badge {
   padding: 3px 8px;
   border-radius: var(--radius-full);
   background: rgba(245, 158, 11, 0.12);
-  color: var(--accent-gold-light);
+  color: #b45309;
   border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
 .active-generator-crumb {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   color: var(--text-secondary);
-  border-left: 1px solid var(--border-strong);
-  padding-left: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
 }
 
 .active-generator-crumb strong {
@@ -1864,6 +1885,75 @@ textarea.input-glass {
   100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
 }
 
+/* ==========================================================================
+   CINEMA BLACK SCREEN VIDEO-LIKE HOVER & TAP REVEAL
+   ========================================================================== */
+.hero-cinema-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at 50% 36%, #1a1408 0%, #090704 45%, #000000 90%);
+  z-index: 80;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
+}
+
+.hero-cinema-backdrop.active,
+body.cinema-mode-active .hero-cinema-backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cinema-ambient-spotlight {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75vw;
+  height: 400px;
+  background: radial-gradient(ellipse at center, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.09) 45%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+body.cinema-mode-active .cinema-ambient-spotlight {
+  opacity: 1;
+}
+
+.cinema-return-banner {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fef08a;
+  padding: 8px 20px;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  transition: all 0.25s ease;
+  z-index: 90;
+}
+
+.cinema-return-banner:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  transform: translateX(-50%) scale(1.04);
+}
+
 /* Hero Brand Lockup & BIG GOLD RichmondAI words */
 .hero-brand-lockup {
   position: relative;
@@ -1871,6 +1961,15 @@ textarea.input-glass {
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.hero-brand-lockup:hover,
+body.cinema-mode-active .hero-brand-lockup {
+  z-index: 100;
+  transform: scale(1.04);
 }
 
 .hero-brand-aura {
@@ -1885,11 +1984,31 @@ textarea.input-glass {
   pointer-events: none;
   z-index: 0;
   animation: auraPulse 6s ease-in-out infinite alternate;
+  transition: all 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-brand-lockup:hover .hero-brand-aura,
+body.cinema-mode-active .hero-brand-aura {
+  width: 760px;
+  height: 280px;
+  background: radial-gradient(ellipse at center, rgba(251, 191, 36, 0.55) 0%, rgba(245, 158, 11, 0.35) 30%, rgba(217, 119, 6, 0.18) 55%, transparent 75%);
+  filter: blur(55px);
+  transform: translate(-50%, -50%) scale(1.22);
+  opacity: 1;
 }
 
 @keyframes auraPulse {
   0% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.75; }
   100% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+}
+
+@keyframes goldLiquidSweep {
+  0% {
+    background-position: -250% center;
+  }
+  100% {
+    background-position: 250% center;
+  }
 }
 
 .hero-big-gold-title {
@@ -1905,6 +2024,17 @@ textarea.input-glass {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 6px 18px rgba(245, 158, 11, 0.28));
+  transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-brand-lockup:hover .hero-big-gold-title,
+body.cinema-mode-active .hero-big-gold-title {
+  background: linear-gradient(110deg, #d97706 0%, #f59e0b 22%, #fef08a 42%, #ffffff 50%, #fef08a 58%, #f59e0b 78%, #b45309 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: goldLiquidSweep 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  filter: drop-shadow(0 0 30px rgba(251, 191, 36, 0.85)) drop-shadow(0 0 70px rgba(245, 158, 11, 0.5)) drop-shadow(0 0 120px rgba(217, 119, 6, 0.3));
 }
 
 .gold-accent-text {
@@ -1925,6 +2055,11 @@ textarea.input-glass {
   color: var(--text-secondary);
   position: relative;
   z-index: 1;
+  transition: color 0.65s ease;
+}
+
+body.cinema-mode-active .hero-tagline-sub {
+  color: rgba(254, 243, 199, 0.88);
 }
 
 .hero-pill-badge {
@@ -1936,11 +2071,169 @@ textarea.input-glass {
   font-size: 0.74rem;
   font-weight: 800;
   letter-spacing: 0.04em;
+  transition: all 0.3s ease;
+}
+
+body.cinema-mode-active .hero-pill-badge {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}
+
+.hero-cinema-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #d97706;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.74rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.hero-cinema-btn:hover {
+  background: #f59e0b;
+  color: #ffffff;
+  border-color: #f59e0b;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+  transform: scale(1.05);
+}
+
+body.cinema-mode-active .hero-cinema-btn {
+  background: #f59e0b;
+  color: #ffffff;
+  border-color: #fbbf24;
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
 }
 
 .hero-sep {
   color: var(--text-muted);
   opacity: 0.5;
+}
+
+/* Dim surrounding page elements smoothly when cinema mode is active */
+body.cinema-mode-active .rail-sidebar,
+body.cinema-mode-active .top-header-wrapper,
+body.cinema-mode-active .hero-signal-pill,
+body.cinema-mode-active .hero-lead-description,
+body.cinema-mode-active .hero-cta-group,
+body.cinema-mode-active .hero-stats-row,
+body.cinema-mode-active .home-feature-showcase,
+body.cinema-mode-active .home-sandbox-section,
+body.cinema-mode-active .home-comparison-section,
+body.cinema-mode-active .home-testimonials-section,
+body.cinema-mode-active .footer-brand-section {
+  opacity: 0.08 !important;
+  filter: blur(2px) !important;
+  pointer-events: none !important;
+  transition: opacity 0.6s ease, filter 0.6s ease;
+}
+
+/* Desktop Video-Like Hover Reveal: Moving cursor over Richmond AI dims screen to black */
+@media (hover: hover) and (pointer: fine) {
+  body:has(#hero-brand-lockup:hover) .hero-cinema-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  body:has(#hero-brand-lockup:hover) .cinema-ambient-spotlight {
+    opacity: 1;
+  }
+  body:has(#hero-brand-lockup:hover) .rail-sidebar,
+  body:has(#hero-brand-lockup:hover) .top-header-wrapper,
+  body:has(#hero-brand-lockup:hover) .hero-signal-pill,
+  body:has(#hero-brand-lockup:hover) .hero-lead-description,
+  body:has(#hero-brand-lockup:hover) .hero-cta-group,
+  body:has(#hero-brand-lockup:hover) .hero-stats-row,
+  body:has(#hero-brand-lockup:hover) .home-feature-showcase,
+  body:has(#hero-brand-lockup:hover) .home-sandbox-section,
+  body:has(#hero-brand-lockup:hover) .home-comparison-section,
+  body:has(#hero-brand-lockup:hover) .home-testimonials-section,
+  body:has(#hero-brand-lockup:hover) .footer-brand-section {
+    opacity: 0.08;
+    filter: blur(2px);
+    pointer-events: none;
+    transition: opacity 0.6s ease, filter 0.6s ease;
+  }
+}
+
+/* Mobile Limited Resources Optimizations: Zero canvas waste, low blur, battery saver */
+@media (max-width: 768px) {
+  .hero-cinema-backdrop {
+    background: #000000; /* Pure OLED true black saves battery on phones */
+  }
+  .cinema-ambient-spotlight {
+    width: 90vw;
+    height: 250px;
+    filter: blur(30px); /* Lower blur radius avoids mobile GPU shader bottlenecks */
+  }
+  .hero-brand-aura {
+    width: 320px;
+    height: 140px;
+    filter: blur(20px);
+  }
+  .hero-brand-lockup:hover .hero-brand-aura,
+  body.cinema-mode-active .hero-brand-aura {
+    width: 360px;
+    height: 180px;
+    filter: blur(28px);
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+/* Richmond English ID 3.0 Signature Pink Stress Letters & Phonology */
+.pink-stress,
+span[style*="color:#ec008c"] {
+  color: #ec008c !important;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-shadow: 0 0 10px rgba(236, 0, 140, 0.15);
+}
+
+.pink-stress-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(236, 0, 140, 0.08);
+  border: 1px solid rgba(236, 0, 140, 0.3);
+  color: #ec008c;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.cartridge-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.cartridge-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cartridge-chip:hover,
+.cartridge-chip.active {
+  background: #fdf2f8;
+  border-color: #ec4899;
+  color: #be185d;
+  transform: translateY(-1px);
 }
 
 .hero-lead-description {
@@ -2488,10 +2781,10 @@ textarea.input-glass {
 }
 
 
-/* Responsive header: drop the generator crumb on narrower screens so nothing clips */
-@media (max-width: 1500px) {
+/* Responsive header: drop the generator crumb on narrow screens so nothing clips */
+@media (max-width: 900px) {
   .active-generator-crumb { display: none; }
 }
-@media (max-width: 1100px) {
+@media (max-width: 768px) {
   .user-name-text, .quota-timer { display: none; }
 }

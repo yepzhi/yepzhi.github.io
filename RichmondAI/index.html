@@ -126,6 +126,15 @@
         </header>
       </div>
 
+      <!-- ── Cinema Black Screen Video-Like Backdrop (Smooth Gold Reveal) ── -->
+      <div id="hero-cinema-backdrop" class="hero-cinema-backdrop">
+        <div class="cinema-ambient-spotlight"></div>
+        <div class="cinema-return-banner" id="btn-cinema-close">
+          <i class="fa-solid fa-circle-xmark"></i>
+          <span>Click or tap anywhere to return</span>
+        </div>
+      </div>
+
       <!-- ── 0. Homepage / Landing View (stemOS & JSweb Style) ── -->
       <section class="home-view-container active" id="home-view">
         
@@ -138,9 +147,9 @@
           </div>
 
           <!-- Hero Brand Section with Big Gold RichmondAI Words & Glow Aura -->
-          <div class="hero-brand-lockup">
+          <div class="hero-brand-lockup" id="hero-brand-lockup" role="button" tabindex="0" title="Hover or tap for cinematic 24K gold reveal">
             <div class="hero-brand-aura"></div>
-            <h1 class="hero-big-gold-title">
+            <h1 class="hero-big-gold-title" id="hero-big-gold-title">
               Richmond<span class="gold-gradient-text">AI</span>
             </h1>
             <div class="hero-tagline-sub">
@@ -149,6 +158,11 @@
               <span>CEFR A1–C2 Calibrated</span>
               <span class="hero-sep">•</span>
               <span>Sub-Second Gemini Flash</span>
+              <span class="hero-sep">•</span>
+              <button type="button" class="hero-cinema-btn" id="btn-cinema-toggle" title="Experience RichmondAI Cinematic Reveal">
+                <i class="fa-solid fa-film"></i>
+                <span>Cinema Mode</span>
+              </button>
             </div>
           </div>
 
@@ -589,22 +603,26 @@
               </label>
               <textarea class="input-glass" id="input-learner-profile" rows="2" placeholder="e.g. Adult 18-21 years Atlixco Puebla, vocational mechanics apprentices who know workshop tools but struggle with English manuals.">Adult 18-21 years Atlixco Puebla, vocational mechanics apprentices preparing for international workshop certification.</textarea>
               <div class="preset-chips-row">
+                <span class="preset-chip" data-profile="Young adult Mexican university students (18-22 yrs) learning English for identity and social connection.">English ID 3.0 Young Adults</span>
+                <span class="preset-chip" data-profile="High academic load university undergraduates requiring intensive oral production and debate fluency.">Personal Best 2.0 Academic</span>
+                <span class="preset-chip" data-profile="TSU e Ing. en Mecatrónica de Universidades Tecnológicas (Tijuana, Querétaro, Juárez). Automation & PLC technicians.">UT Mecatrónica & Robótica</span>
+                <span class="preset-chip" data-profile="TSU e Ing. en Logística y Transporte (UT Nogales, UT Nuevo Laredo). Cross-border customs & T-MEC dispatchers.">UT Logística & Aduanas</span>
+                <span class="preset-chip" data-profile="TSU e Ing. en Mantenimiento Industrial (UT Coahuila, UT Hermosillo). Vibration diagnostics & shopfloor safety.">UT Mantenimiento Industrial</span>
+                <span class="preset-chip" data-profile="TSU e Ing. en TI (UT Jalisco, UT Aguascalientes). Cloud developers practicing sprint standups & code reviews.">UT Tecnologías de Información</span>
                 <span class="preset-chip" data-profile="Adult 18-21 years Atlixco Puebla, automotive mechanical apprentices.">Atlixco Puebla Mechanics</span>
                 <span class="preset-chip" data-profile="19-24 years nursing undergraduates preparing for hospital triage rotations.">Nursing Undergrads</span>
-                <span class="preset-chip" data-profile="Software engineers learning agile standups and code review English.">Software Developers</span>
-                <span class="preset-chip" data-profile="High school B1 teenagers interested in climate change & robotics.">STEM High School</span>
               </div>
             </div>
 
             <!-- Supporting Materials Tabs (Paste, File, URL, Cartridge) -->
             <div class="form-group">
               <label class="form-label">
-                <span>Optional: Supporting Materials & Cartridges</span>
+                <span>Optional: Supporting Materials & Cartridges (Richmond Series & UT/IT Carreras)</span>
               </label>
               <div class="tab-bar-minimal" id="supporting-material-tabs">
                 <button type="button" class="tab-btn-min active" data-tab="paste"><i class="fa-solid fa-align-left"></i> Paste Text</button>
                 <button type="button" class="tab-btn-min" data-tab="url"><i class="fa-solid fa-link"></i> URL</button>
-                <button type="button" class="tab-btn-min" data-tab="cartridge"><i class="fa-solid fa-cube"></i> Cartridge</button>
+                <button type="button" class="tab-btn-min" data-tab="cartridge"><i class="fa-solid fa-cube"></i> Cartridge (Richmond / UT)</button>
               </div>
 
               <div id="tab-content-paste" style="margin-top: 8px;">
@@ -617,11 +635,18 @@
 
               <div id="tab-content-cartridge" style="margin-top: 8px; display: none;">
                 <select class="input-glass" id="select-active-cartridge">
-                  <option value="">-- No Cartridge Selected --</option>
-                  <option value="cartridge-puebla" selected>Atlixco B1 Automotive English Curriculum</option>
-                  <option value="cartridge-nursing">B2 Clinical Nursing & Patient Intake</option>
-                  <option value="cartridge-aero">Aero-Engineering Technical Specs</option>
+                  <option value="">-- No Cartridge Selected (Standard Mode) --</option>
+                  <!-- Populated dynamically with optgroups via JS -->
                 </select>
+
+                <!-- Quick Series Selector Chips -->
+                <div class="cartridge-chip-group">
+                  <span class="cartridge-chip" onclick="window.RichmondApp.applyCartridgeQuick('eid-u1')"><i class="fa-solid fa-book" style="color:#ec008c;"></i> English ID 3.0 U1</span>
+                  <span class="cartridge-chip" onclick="window.RichmondApp.applyCartridgeQuick('eid-u2')"><i class="fa-solid fa-book" style="color:#ec008c;"></i> English ID 3.0 U2</span>
+                  <span class="cartridge-chip" onclick="window.RichmondApp.applyCartridgeQuick('pb-intensive')"><i class="fa-solid fa-bolt" style="color:#2563eb;"></i> Personal Best 2.0</span>
+                  <span class="cartridge-chip" onclick="window.RichmondApp.applyCartridgeQuick('ut-mecatronica')"><i class="fa-solid fa-robot" style="color:#f59e0b;"></i> UT Mecatrónica</span>
+                  <span class="cartridge-chip" onclick="window.RichmondApp.applyCartridgeQuick('ut-logistica')"><i class="fa-solid fa-truck-fast" style="color:#10b981;"></i> UT Logística</span>
+                </div>
               </div>
             </div>
 
