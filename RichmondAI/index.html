@@ -798,13 +798,61 @@
               </div>
             </div>
 
+            <!-- Richmond Coursebook Syllabus Assistant (English ID 3.0 & Personal Best 2.0) -->
+            <div class="coursebook-assistant-box" id="coursebook-assistant-container" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:var(--radius-md); padding:12px 14px; margin-bottom:14px; box-shadow:var(--shadow-sm);">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+                <label class="form-label" style="margin:0; font-size:0.78rem;">
+                  <span style="display:flex; align-items:center; gap:6px;">
+                    <i class="fa-solid fa-book-open-reader" style="color:var(--accent-pink);"></i>
+                    <strong style="color:var(--text-primary);">Coursebook Assistant</strong>
+                  </span>
+                  <span class="form-label-desc">Direct PB &amp; ID 3.0 Syllabus Alignment</span>
+                </label>
+                <div class="book-series-tabs" style="display:flex; gap:4px;">
+                  <button type="button" class="btn-series-tab active" id="tab-series-eid" onclick="window.RichmondApp.setCoursebookSeries('eid')" style="padding:4px 10px; font-size:0.72rem; border-radius:4px; border:1px solid #cbd5e1; background:#ffffff; color:#0f172a; font-weight:700; cursor:pointer; transition:all 0.15s ease;">English ID 3.0</button>
+                  <button type="button" class="btn-series-tab" id="tab-series-pb" onclick="window.RichmondApp.setCoursebookSeries('pb')" style="padding:4px 10px; font-size:0.72rem; border-radius:4px; border:1px solid #cbd5e1; background:#ffffff; color:#64748b; font-weight:600; cursor:pointer; transition:all 0.15s ease;">Personal Best 2.0</button>
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:1fr 2fr; gap:8px;">
+                <div>
+                  <select class="input-glass" id="select-coursebook-level" onchange="window.RichmondApp.onCoursebookLevelChange()" style="font-size:0.76rem; padding:6px 8px; width:100%;">
+                    <!-- Populated dynamically -->
+                  </select>
+                </div>
+                <div>
+                  <select class="input-glass" id="select-coursebook-unit" onchange="window.RichmondApp.onCoursebookUnitChange()" style="font-size:0.76rem; padding:6px 8px; width:100%;">
+                    <!-- Populated dynamically -->
+                  </select>
+                </div>
+              </div>
+
+              <div id="coursebook-unit-badge" style="display:flex; align-items:center; justify-content:space-between; margin-top:8px; font-size:0.72rem; color:var(--text-secondary); background:#ffffff; padding:6px 10px; border-radius:4px; border:1px solid #e2e8f0; gap:8px;">
+                <span id="coursebook-unit-meta" style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                  <i class="fa-solid fa-sparkles" style="color:var(--accent-gold); margin-right:4px;"></i> Select a unit to pre-fill CEFR, grammar &amp; communicative targets
+                </span>
+                <button type="button" id="btn-apply-coursebook" onclick="window.RichmondApp.applyActiveCoursebookUnit()" style="background:var(--accent-blue); color:#ffffff; border:none; border-radius:4px; padding:3px 8px; font-size:0.72rem; font-weight:700; cursor:pointer; flex-shrink:0;">
+                  Apply Topic
+                </button>
+              </div>
+
+              <!-- 1-Click Quick Topics for Teachers -->
+              <div class="coursebook-quick-chips" style="display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; align-items:center;">
+                <span style="font-size:0.7rem; color:var(--text-secondary); font-weight:600;"><i class="fa-solid fa-lightbulb" style="color:var(--accent-gold); margin-right:3px;"></i>Quick Ask:</span>
+                <button type="button" class="btn-quick-cb" onclick="window.RichmondApp.quickSetTopic('eid','starter',1)">ID 3.0 Starter: What's your name?</button>
+                <button type="button" class="btn-quick-cb" onclick="window.RichmondApp.quickSetTopic('eid','level1',2)">ID 3.0 L1: Daily routines &amp; time</button>
+                <button type="button" class="btn-quick-cb" onclick="window.RichmondApp.quickSetTopic('pb','a2',3)">PB 2.0 A2: Ordering in a café (3x3 Matrix)</button>
+                <button type="button" class="btn-quick-cb" onclick="window.RichmondApp.quickSetTopic('pb','b2',7)">PB 2.0 B2: Higher education</button>
+              </div>
+            </div>
+
             <!-- Topic / Keyword -->
             <div class="form-group">
               <label class="form-label" for="input-topic">
                 <span>Topic / Subject Basis <strong style="color:var(--accent-pink);">*</strong></span>
-                <span class="form-label-desc">Core theme or keywords</span>
+                <span class="form-label-desc">Core theme, book unit or keywords</span>
               </label>
-              <input type="text" class="input-glass" id="input-topic" placeholder="e.g. Brake Fluid Hydraulic Maintenance or American Civil War" value="Brake System Hydraulics & Safety Procedures">
+              <input type="text" class="input-glass" id="input-topic" placeholder="e.g. English ID 3.0 Starter Unit 1 What's your name? or PB 2.0 A2 Unit 3 Let's eat" value="English ID 3.0 Starter Unit 1: What's your name?">
             </div>
 
             <!-- Quantity / Count Slider & Input -->
