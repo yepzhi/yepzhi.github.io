@@ -297,12 +297,11 @@
           <div class="header-left">
             <div class="header-brand-title">
               <span class="brand-gradient-text">RichmondAI</span>
-              <span class="badge-tag">ESP & ELT STUDIO</span>
             </div>
             
-            <div class="active-generator-crumb" id="header-active-generator">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="color:var(--accent-pink); flex-shrink:0;"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
-              <span>Generator: <strong id="header-gen-name">Multiple-Choice Questions</strong></span>
+            <div class="active-generator-crumb" id="header-active-generator" title="Active Generator">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="color:var(--accent-pink); flex-shrink:0;"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+              <span><span class="crumb-prefix">Generator: </span><strong id="header-gen-name">Multiple-Choice Questions</strong></span>
             </div>
           </div>
 
@@ -1424,7 +1423,7 @@
           <i class="fa-solid fa-shield-halved" style="color: var(--accent-pink);"></i>
           <span>Teacher Access & Authentication</span>
         </div>
-        <button class="btn-close-modal" id="btn-close-auth"><i class="fa-solid fa-xmark"></i></button>
+        <button class="btn-close-modal" id="btn-close-auth" aria-label="Close dialog"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
       </div>
       <div class="modal-body">
         <p style="font-size:0.86rem; color:var(--text-secondary);">
@@ -1483,7 +1482,7 @@
           <i class="fa-solid fa-tags" style="color: var(--accent-gold);"></i>
           <span>Transparent Pricing — 70% Less Than Other Solutions</span>
         </div>
-        <button class="btn-close-modal" id="btn-close-pricing"><i class="fa-solid fa-xmark"></i></button>
+        <button class="btn-close-modal" id="btn-close-pricing" aria-label="Close dialog"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
       </div>
       <div class="modal-body">
         <div class="currency-switcher-row">
@@ -1567,7 +1566,7 @@
           <i class="fa-solid fa-bolt" style="color: var(--accent-gold);"></i>
           <span>Richmond Neural Engine Settings</span>
         </div>
-        <button class="btn-close-modal" id="btn-close-gemini-key"><i class="fa-solid fa-xmark"></i></button>
+        <button class="btn-close-modal" id="btn-close-gemini-key" aria-label="Close dialog"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
       </div>
       <div class="modal-body">
         <p style="font-size:0.85rem; color:var(--text-secondary);">
@@ -1610,7 +1609,7 @@
           <i class="fa-solid fa-cube" style="color: var(--accent-blue);"></i>
           <span>Course Cartridges Manager</span>
         </div>
-        <button class="btn-close-modal" id="btn-close-cartridge"><i class="fa-solid fa-xmark"></i></button>
+        <button class="btn-close-modal" id="btn-close-cartridge" aria-label="Close dialog"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
       </div>
       <div class="modal-body">
         <p style="font-size:0.85rem; color:var(--text-secondary);">
@@ -1658,7 +1657,7 @@
           <i class="fa-solid fa-clock-rotate-left" style="color: var(--accent-pink);"></i>
           <span>My Generations Library</span>
         </div>
-        <button class="btn-close-modal" id="btn-close-history"><i class="fa-solid fa-xmark"></i></button>
+        <button class="btn-close-modal" id="btn-close-history" aria-label="Close dialog"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
       </div>
       <div class="modal-body">
         <div style="display:flex; gap:10px; margin-bottom:10px;">
@@ -1684,7 +1683,7 @@
             <i class="fa-solid fa-share-nodes"></i>
             <span>Share</span>
           </button>
-          <button class="btn-close-modal" id="btn-close-practice"><i class="fa-solid fa-xmark"></i></button>
+          <button class="btn-close-modal" id="btn-close-practice" aria-label="Close dialog"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
         </div>
       </div>
 
@@ -1737,7 +1736,7 @@
           <i class="fa-solid fa-graduation-cap" style="color: var(--accent-blue);"></i>
           <span>Export for LMS & Google Classroom</span>
         </div>
-        <button class="btn-close-modal" id="btn-close-lms"><i class="fa-solid fa-xmark"></i></button>
+        <button class="btn-close-modal" id="btn-close-lms" aria-label="Close dialog"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
       </div>
       <div class="modal-body">
         <p style="font-size: 0.84rem; color: var(--text-secondary); margin-bottom: 12px;">
