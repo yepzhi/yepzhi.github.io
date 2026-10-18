@@ -795,6 +795,7 @@
                 <button type="button" class="tab-btn-min active" data-tab="paste"><i class="fa-solid fa-align-left"></i> Paste Text</button>
                 <button type="button" class="tab-btn-min" data-tab="url"><i class="fa-solid fa-link"></i> URL</button>
                 <button type="button" class="tab-btn-min" data-tab="cartridge"><i class="fa-solid fa-cube"></i> Cartridge (Richmond / UT)</button>
+                <button type="button" class="tab-btn-min" data-tab="image"><i class="fa-solid fa-image"></i> Image / Realia</button>
               </div>
 
               <div id="tab-content-paste" style="margin-top: 8px;">
@@ -829,6 +830,25 @@
                   <span class="cartridge-chip" onclick="window.RichmondApp.applyCartridgeQuick('pb-intensive')"><i class="fa-solid fa-bolt" style="color:#2563eb;"></i> Personal Best 2.0</span>
                   <span class="cartridge-chip" onclick="window.RichmondApp.applyCartridgeQuick('ut-mecatronica')"><i class="fa-solid fa-robot" style="color:#f59e0b;"></i> UT Mecatrónica</span>
                   <span class="cartridge-chip" onclick="window.RichmondApp.applyCartridgeQuick('ut-logistica')"><i class="fa-solid fa-truck-fast" style="color:#10b981;"></i> UT Logística</span>
+                </div>
+              </div>
+
+              <div id="tab-content-image" style="margin-top: 8px; display: none;">
+                <div class="image-dropzone" id="image-dropzone">
+                  <input type="file" id="input-image-file" accept="image/*" style="display:none;">
+                  <div id="dropzone-prompt" class="dropzone-content">
+                    <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.6rem; color: #2563eb;"></i>
+                    <div style="font-size: 0.85rem; font-weight: 600; margin-top: 4px; color: #1e293b;">Click or Drop Classroom Image / Schematic</div>
+                    <div style="font-size: 0.74rem; color: var(--text-secondary);">Supports PNG, JPG, WEBP (Max 5MB) &bull; Multimodal Neural Analysis</div>
+                  </div>
+                  <div id="image-preview-container" style="display:none;">
+                    <img id="image-preview-thumb" src="" alt="Classroom Stimulus" style="max-height:64px; max-width:96px; border-radius:6px; border:1px solid #cbd5e1; object-fit:cover;">
+                    <div style="flex:1; overflow:hidden; text-align:left;">
+                      <div id="image-preview-name" style="font-size:0.82rem; font-weight:600; text-overflow:ellipsis; white-space:nowrap; overflow:hidden; color:#1e293b;">image.png</div>
+                      <div id="image-preview-size" style="font-size:0.74rem; color:var(--text-secondary);">240 KB</div>
+                    </div>
+                    <button type="button" id="btn-remove-image" class="action-btn-sm" title="Remove Image" style="color:#ef4444; border-color:#fecaca;"><i class="fa-solid fa-trash-can"></i></button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -886,6 +906,14 @@
               <button class="action-btn-sm" id="btn-export-tts" title="Listen with Mini PC TTS Pro (fable / stembot)">
                 <i class="fa-solid fa-volume-high"></i>
                 <span id="btn-export-tts-label">Listen</span>
+              </button>
+              <button class="action-btn-sm audio-btn" id="btn-export-audio-download" title="Download Audio WAV Pack (Mini PC Piper TTS Pro)">
+                <i class="fa-solid fa-file-audio"></i>
+                <span>Audio Pack</span>
+              </button>
+              <button class="action-btn-sm lms-btn" id="btn-export-lms" title="Export Quiz to Google Classroom, Forms & LMS">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>LMS & Forms</span>
               </button>
               <button class="action-btn-sm primary-export" id="btn-export-print" title="Print-ready classroom handout or PDF">
                 <i class="fa-solid fa-print"></i>
@@ -1500,6 +1528,38 @@
     </div>
   </div>
 
+  <!-- 7. LMS & Google Forms Export Modal -->
+  <div class="modal-overlay" id="modal-lms">
+    <div class="modal-card" style="max-width: 680px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-graduation-cap" style="color: var(--accent-blue);"></i>
+          <span>Export for LMS & Google Classroom</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-lms"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.84rem; color: var(--text-secondary); margin-bottom: 12px;">
+          Export your generated questions directly into your Learning Management System (Moodle, Canvas, Blackboard) or Google Forms without manual typing.
+        </p>
+
+        <div class="tab-bar-minimal" id="lms-format-tabs" style="margin-bottom: 10px;">
+          <button type="button" class="tab-btn-min active" data-lmstab="forms"><i class="fa-brands fa-google"></i> Google Forms (CSV)</button>
+          <button type="button" class="tab-btn-min" data-lmstab="gift"><i class="fa-solid fa-file-code"></i> GIFT (Moodle / Canvas)</button>
+          <button type="button" class="tab-btn-min" data-lmstab="aiken"><i class="fa-solid fa-file-lines"></i> Aiken (Question Bank)</button>
+        </div>
+
+        <div style="position: relative;">
+          <textarea id="lms-export-output" class="input-glass" rows="12" readonly style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.45;"></textarea>
+          <button type="button" id="btn-copy-lms" class="btn-generate-main" style="margin-top: 10px; width: 100%; justify-content: center;">
+            <i class="fa-solid fa-copy"></i>
+            <span id="btn-copy-lms-label">Copy LMS Export to Clipboard</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Mobile Audio Unlock Tap-to-Play Floating Pill -->
   <div id="ttsTapPill">
     <i class="fa-solid fa-play"></i>
@@ -1511,22 +1571,22 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
-  <!-- Application Logic & Scripts (v3.6.0 Cache-Buster) -->
-  <script src="aurora.js?v=3.6.0"></script>
-  <script src="app.js?v=3.6.0"></script>
+  <!-- Application Logic & Scripts (v3.7.0 Cache-Buster) -->
+  <script src="aurora.js?v=3.7.0"></script>
+  <script src="app.js?v=3.7.0"></script>
 
   <!-- Auto-upgrade cache-buster: ensures teachers never see stale cached assets -->
   <script>
     (function() {
-      const RICHMOND_VERSION = 'v3.6.0';
+      const RICHMOND_VERSION = 'v3.7.0';
       try {
         const stored = localStorage.getItem('richmond_app_build');
         if (stored !== RICHMOND_VERSION) {
           localStorage.setItem('richmond_app_build', RICHMOND_VERSION);
           // If URL doesn't have the version query param, update it once
           const url = new URL(window.location.href);
-          if (url.searchParams.get('v') !== '3.6.0') {
-            url.searchParams.set('v', '3.6.0');
+          if (url.searchParams.get('v') !== '3.7.0') {
+            url.searchParams.set('v', '3.7.0');
             window.location.replace(url.toString());
           }
         }
