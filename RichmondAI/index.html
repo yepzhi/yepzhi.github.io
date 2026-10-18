@@ -19,8 +19,8 @@
   <!-- FontAwesome 6 Pro Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <!-- App Stylesheet (v3.5.1 Cache-Buster) -->
-  <link rel="stylesheet" href="styles.css?v=3.5.1">
+  <!-- App Stylesheet (v3.6.0 Cache-Buster) -->
+  <link rel="stylesheet" href="styles.css?v=3.6.0">
 
   <!-- Critical Rail Dock & Ultra-Clean White Design (Zero Blackout / Pure EdTech Aesthetic) -->
   <style id="critical-rail-styles">
@@ -803,6 +803,17 @@
 
               <div id="tab-content-url" style="margin-top: 8px; display: none;">
                 <input type="url" class="input-glass" id="input-supporting-url" placeholder="https://example.com/technical-article or YouTube URL">
+                <div id="youtube-preview-card" class="youtube-preview-card" style="display:none;">
+                  <div class="youtube-thumb-wrapper">
+                    <img id="yt-preview-img" src="" alt="YouTube Video Thumbnail">
+                    <div class="youtube-play-badge"><i class="fa-solid fa-play"></i></div>
+                  </div>
+                  <div class="youtube-preview-info">
+                    <span class="youtube-badge"><i class="fa-brands fa-youtube"></i> YouTube Verified</span>
+                    <h4 id="yt-preview-title" class="youtube-title">Video Title</h4>
+                    <p id="yt-preview-author" class="youtube-author">Channel</p>
+                  </div>
+                </div>
               </div>
 
               <div id="tab-content-cartridge" style="margin-top: 8px; display: none;">
@@ -864,6 +875,14 @@
             </div>
 
             <div class="output-actions-right">
+              <button class="action-btn-sm btn-action-student" id="btn-open-student-practice" title="Launch Interactive Student Practice Mode">
+                <i class="fa-solid fa-gamepad" style="color:var(--accent-gold);"></i>
+                <span>Practice Mode</span>
+              </button>
+              <button class="action-btn-sm" id="btn-share-student-link" title="Copy Student Link for WhatsApp / Google Classroom">
+                <i class="fa-solid fa-share-nodes"></i>
+                <span>Share Link</span>
+              </button>
               <button class="action-btn-sm" id="btn-export-tts" title="Listen with Mini PC TTS Pro (fable / stembot)">
                 <i class="fa-solid fa-volume-high"></i>
                 <span id="btn-export-tts-label">Listen</span>
@@ -1423,28 +1442,91 @@
     </div>
   </div>
 
+  <!-- 5. Interactive Student Practice Modal (Gamified Mobile-First Runner) -->
+  <div class="modal-overlay" id="modal-student-practice">
+    <div class="modal-card student-practice-modal-card">
+      <div class="modal-header student-practice-header">
+        <div class="student-header-title">
+          <span class="badge-tag" id="practice-cefr-badge">B1 INTERMEDIATE</span>
+          <span id="practice-title-text" style="font-weight:700; color:var(--text-primary);">Interactive Student Practice</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="action-btn-sm" id="btn-practice-share-direct" title="Copy Student Link">
+            <i class="fa-solid fa-share-nodes"></i>
+            <span>Share</span>
+          </button>
+          <button class="btn-close-modal" id="btn-close-practice"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+
+      <div class="modal-body student-practice-body">
+        <!-- Progress bar & question counter -->
+        <div class="practice-progress-container">
+          <div class="practice-progress-text">
+            <span id="practice-counter">Question 1 of 5</span>
+            <span id="practice-score-live">Score: 0</span>
+          </div>
+          <div class="practice-progress-track">
+            <div class="practice-progress-bar" id="practice-progress-bar" style="width: 20%;"></div>
+          </div>
+        </div>
+
+        <!-- Question Stage -->
+        <div id="practice-stage-container">
+          <!-- Dynamically populated question card -->
+        </div>
+
+        <!-- Finish Stage (Confetti & Score) -->
+        <div id="practice-finish-container" style="display:none; text-align:center; padding: 24px 12px;">
+          <div class="practice-trophy-icon">🏆</div>
+          <h2 style="font-family:'Outfit',sans-serif; font-size:1.8rem; margin: 8px 0;" id="practice-finish-heading">Awesome Job!</h2>
+          <p style="color:var(--text-secondary); font-size:0.92rem;" id="practice-finish-sub">You completed this CEFR practice session.</p>
+          
+          <div class="practice-final-score-badge" id="practice-final-score">
+            4 / 5 Correct (80%)
+          </div>
+
+          <div style="display:flex; justify-content:center; gap:12px; margin-top:20px; flex-wrap:wrap;">
+            <button class="btn-generate-main" id="btn-practice-restart" style="padding:10px 24px; font-size:0.85rem;">
+              <i class="fa-solid fa-rotate-right"></i>
+              <span>Try Again</span>
+            </button>
+            <button class="btn-glass" id="btn-practice-close-final" style="padding:10px 20px;">
+              <span>Close Practice</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Mobile Audio Unlock Tap-to-Play Floating Pill -->
   <div id="ttsTapPill">
     <i class="fa-solid fa-play"></i>
     <span id="ttsTapPillLabel">Tap to listen (Audio unlocked)</span>
   </div>
 
-  <!-- Application Logic & Scripts (v3.5.1 Cache-Buster) -->
-  <script src="aurora.js?v=3.5.1"></script>
-  <script src="app.js?v=3.5.1"></script>
+  <!-- Firebase App, Auth & Firestore SDKs (Compat v10 for instant zero-config initialization) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <!-- Application Logic & Scripts (v3.6.0 Cache-Buster) -->
+  <script src="aurora.js?v=3.6.0"></script>
+  <script src="app.js?v=3.6.0"></script>
 
   <!-- Auto-upgrade cache-buster: ensures teachers never see stale cached assets -->
   <script>
     (function() {
-      const RICHMOND_VERSION = 'v3.5.1';
+      const RICHMOND_VERSION = 'v3.6.0';
       try {
         const stored = localStorage.getItem('richmond_app_build');
         if (stored !== RICHMOND_VERSION) {
           localStorage.setItem('richmond_app_build', RICHMOND_VERSION);
           // If URL doesn't have the version query param, update it once
           const url = new URL(window.location.href);
-          if (url.searchParams.get('v') !== '3.5.1') {
-            url.searchParams.set('v', '3.5.1');
+          if (url.searchParams.get('v') !== '3.6.0') {
+            url.searchParams.set('v', '3.6.0');
             window.location.replace(url.toString());
           }
         }
