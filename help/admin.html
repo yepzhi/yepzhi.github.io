@@ -495,25 +495,12 @@
       </div>
 
       <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
-        <span id="syncStatusBadge" style="font-size: 0.74rem; font-weight: 600; color: var(--c-muted); padding: 5px 9px; background: rgba(0,0,0,0.03); border-radius: 6px; border: 1px solid var(--c-border); display: inline-flex; align-items: center; gap: 5px;">
-          Conectando…
-        </span>
-
-        <button type="button" class="btn-action" onclick="refreshAdminData()" title="Hacer 1 consulta fresca a Firestore">
+        <button type="button" class="btn-action" onclick="refreshAdminData()">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="23 4 23 10 17 10"/>
             <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
           </svg>
           Sincronizar
-        </button>
-
-        <button type="button" class="btn-action" id="btnLoadResolvedHistory" onclick="loadResolvedHistory()" title="Cargar historial completo de tickets resueltos de Firestore" style="color: #047857; background: #ecfdf5; border-color: #a7f3d0; font-weight: 700;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          <span id="btnLoadResolvedText">Cargar Resueltas</span>
         </button>
 
         <button type="button" class="btn-action" style="color: var(--c-success); border-color: rgba(52,211,153,0.3);" onclick="exportTicketsToCSV()">
@@ -582,7 +569,12 @@
             <option value="ITH">ITH (Hermosillo)</option>
             <option value="IT MXL">IT MXL (Mexicali)</option>
             <option value="UNIVAFU">UNIVAFU (Los Mochis)</option>
-            <option value="UT NOGALES">UT Nogales (Nogales)</option>
+          </optgroup>
+          <optgroup label="ZONA NORTE (Luis Franco)">
+            <option value="UAZ PEUL">UAZ PEUL (Zacatecas)</option>
+            <option value="UJED">UJED (Durango)</option>
+            <option value="ICEST TAMPICO">ICEST Tampico (Tamaulipas)</option>
+            <option value="CI 22 UANL">CI 22 UANL (Nuevo León)</option>
           </optgroup>
           <optgroup label="ZONA OCCIDENTE (Fabiola Martinez)">
             <option value="UTNA">UTNA (Aguascalientes)</option>
@@ -592,6 +584,22 @@
             <option value="CETI COLOMOS">CETI Colomos (Guadalajara)</option>
             <option value="LAMAR">LAMAR (Guadalajara)</option>
             <option value="CAI">UAN, CAI (Nayarit)</option>
+          </optgroup>
+          <optgroup label="ZONA TOLUCA / EDOMEX / MICH (Edgar Espinoza)">
+            <option value="UTZIN">UTZIN (Zinacantepec)</option>
+            <option value="UPOTEC">UPOTEC (Otzolotepec)</option>
+            <option value="UAEM ENFERMERIA">UAEM Enfermería</option>
+            <option value="UAEM CS EXACTAS">UAEM Ciencias Exactas</option>
+            <option value="ENES MORELIA">ENES Morelia</option>
+            <option value="UMSNH">UMSNH (Michoacán)</option>
+            <option value="SIRIUS">Sirius Universitario</option>
+            <option value="IBIM ATLACOMULCO">IBIM Atlacomulco</option>
+            <option value="IBIM TOLUCA">IBIM Toluca</option>
+            <option value="UTSEM">UTSEM (EdoMex)</option>
+            <option value="TESJI">TESJI (Jilotepec)</option>
+            <option value="UIEM">UIEM (EdoMex)</option>
+            <option value="UAEM QUIMICA">UAEM Química</option>
+            <option value="UAEM ODONTOLOGIA">UAEM Odontología</option>
           </optgroup>
           <optgroup label="OTRAS">
             <option value="OTRA">Otras instituciones</option>
@@ -646,17 +654,6 @@
     </div>
 
   </main>
-
-  <!-- FOOTER -->
-  <footer style="text-align: center; padding: 2.25rem 1rem 3.5rem; font-size: 0.78rem; color: var(--c-muted);">
-    <p>© 2026 Richmond Pro · Control de Incidencias & SLA</p>
-    <div style="margin-top: 0.85rem;">
-      <a href="https://yepzhi.com" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.45rem 1.05rem; border-radius: 9999px; background: #ffffff; border: 1.5px solid rgba(124, 58, 237, 0.25); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); font-size: 0.78rem; font-weight: 700; color: var(--c-text); text-decoration: none; transition: all 0.2s;" onmouseover="this.style.borderColor='#7c3aed'; this.style.color='#7c3aed'; this.style.transform='translateY(-1px)';" onmouseout="this.style.borderColor='rgba(124, 58, 237, 0.25)'; this.style.color='var(--c-text)'; this.style.transform='translateY(0)';">
-        <span>Created by <strong>yepzhi</strong></span>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-      </a>
-    </div>
-  </footer>
 
   <!-- EDIT / DETAIL MODAL -->
   <div class="modal-overlay" id="detailModal">
@@ -778,25 +775,25 @@
               </div>
             </button>
 
-            <!-- Opción 3: Correo Diferente (Se cambia a Mexico26*) -->
+            <!-- Opción 3: Correo Diferente -->
             <button type="button" class="preset-action-card" id="cardPresetDiffEmail" onclick="selectPresetAction('diff_email')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #bfdbfe; background: #eff6ff; cursor: pointer; transition: all 0.2s;">
               <div style="font-weight: 800; font-size: 0.86rem; color: #1d4ed8; display: flex; align-items: center; gap: 0.4rem;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                Correo Diferente (Clave Mexico26*)
+                Correo Diferente
               </div>
               <div style="font-size: 0.74rem; color: #2563eb; margin-top: 0.25rem; line-height: 1.35;">
-                Cuenta encontrada con otro correo. Se cambia contraseña por Mexico26*.
+                Te diste de alta con otro correo. Tu usuario es ese correo tal cual.
               </div>
             </button>
 
-            <!-- Opción 4: Código Sin Uso (Vigente) -->
-            <button type="button" class="preset-action-card" id="cardPresetCodeUnused" onclick="selectPresetAction('code_unused')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #d8b4fe; background: #faf5ff; cursor: pointer; transition: all 0.2s;">
-              <div style="font-weight: 800; font-size: 0.86rem; color: #7e22ce; display: flex; align-items: center; gap: 0.4rem;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                Código Sin Uso (Vigente)
+            <!-- Opción 4: Código ya Utilizado (Cuenta encontrada) -->
+            <button type="button" class="preset-action-card" id="cardPresetCodeUsed" onclick="selectPresetAction('code_used')" style="text-align: left; padding: 0.85rem 1rem; border-radius: 12px; border: 2px solid #c7d2fe; background: #eef2ff; cursor: pointer; transition: all 0.2s;">
+              <div style="font-weight: 800; font-size: 0.86rem; color: #4338ca; display: flex; align-items: center; gap: 0.4rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Código ya Utilizado (Cuenta Encontrada)
               </div>
-              <div style="font-size: 0.74rem; color: #9333ea; margin-top: 0.25rem; line-height: 1.35;">
-                El código está sin uso. Procede a registrarse como la primera vez.
+              <div style="font-size: 0.74rem; color: #4f46e5; margin-top: 0.25rem; line-height: 1.35;">
+                Invalid Code: el código ya se usó. Se indica el correo de su cuenta.
               </div>
             </button>
           </div>
@@ -842,24 +839,8 @@
               Sin Clave
             </button>
           </div>
-          <p style="font-size: 0.72rem; color: #7e22ce; margin-top: 0.35rem; margin-bottom: 0.6rem;">
+          <p style="font-size: 0.72rem; color: #7e22ce; margin-top: 0.35rem; margin-bottom: 0;">
             El alumno la verá destacada en grande en su pantalla con un botón directo a Richmond Studio.
-          </p>
-          <!-- CORREO OFICIAL CONFIRMADO -->
-          <label class="form-label" for="modalOfficialEmail" style="color: #6b21a8; font-weight: 800; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem; display: block; margin-top: 0.15rem;">
-            Correo oficial confirmado (con el que está registrado en Richmond Studio):
-          </label>
-          <div style="display: flex; gap: 0.5rem; align-items: center;">
-            <input type="text" class="input-text" id="modalOfficialEmail" placeholder="Pega aquí el correo confirmado (o pega del ticket)..." autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" style="font-size: 0.93rem; background: #ffffff; color: #1e40af; font-family: 'Outfit', -apple-system, sans-serif !important;" oninput="syncOfficialEmail(this.value)" onchange="syncOfficialEmail(this.value)" onpaste="setTimeout(() => syncOfficialEmail(this.value), 20)" />
-            <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem;" onclick="const t=currentEditingTicket; if(t){ const v=t.email||t.altEmail||''; document.getElementById('modalOfficialEmail').value=v; syncOfficialEmail(v); }">
-              Pegar del ticket
-            </button>
-            <button type="button" class="btn-action" style="white-space: nowrap; font-size: 0.78rem;" onclick="document.getElementById('modalOfficialEmail').value=''; syncOfficialEmail('');">
-              Limpiar
-            </button>
-          </div>
-          <p style="font-size: 0.71rem; color: #9333ea; margin-top: 0.3rem; margin-bottom: 0;">
-            Opcional: Si se confirma, el alumno verá su correo oficial en la pantalla de resolución junto a la contraseña restablecida.
           </p>
         </div>
 
@@ -874,28 +855,10 @@
             </button>
           </div>
           <div>
-            <input type="text" class="input-text" id="modalAssignedEmail" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" oninput="updateDiffEmailNote()" onchange="updateDiffEmailNote()" onpaste="setTimeout(updateDiffEmailNote, 20)" placeholder="pega.aqui.el.correo@registrado.com" style="width: 100%; font-family: 'Outfit', -apple-system, sans-serif !important; font-weight: 700; font-size: 1.05rem; background: #ffffff; color: #1d4ed8; letter-spacing: 0 !important; word-spacing: normal !important;" />
+            <input type="email" class="input-text" id="modalAssignedEmail" oninput="updateDiffEmailNote()" placeholder="pega.aqui.el.correo@registrado.com" style="width: 100%; font-family: 'Outfit', -apple-system, sans-serif !important; font-weight: 700; font-size: 1.05rem; background: #ffffff; color: #1d4ed8; letter-spacing: 0 !important; word-spacing: normal !important;" />
           </div>
           <p id="modalAssignedEmailHint" style="font-size: 0.74rem; color: #2563eb; margin-top: 0.35rem; margin-bottom: 0; line-height: 1.4;">
             A estos alumnos NO se les cambió la contraseña (la contraseña es la que puso en su registro). Este correo se le mostrará destacado en grande en su pantalla con un botón directo a Richmond Studio.
-          </p>
-        </div>
-
-        <!-- Campo para Código sin uso vigente -->
-        <div id="modalUnusedCodeGroup" style="display: none; background: #faf5ff; border: 1.5px solid #d8b4fe; border-radius: 12px; padding: 0.85rem 1rem; margin-bottom: 0.9rem;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.4rem;">
-            <label class="form-label" id="modalUnusedCodeLabel" for="modalUnusedCode" style="color: #7e22ce; font-weight: 800; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0;">
-              Código vigente y sin uso para el alumno:
-            </label>
-            <button type="button" class="btn-action" style="font-size: 0.72rem; padding: 0.2rem 0.6rem; color: #7e22ce; background: #f3e8ff; border: 1px solid #e9d5ff; border-radius: 6px; font-weight: 700;" onclick="pasteTicketCodeIntoUnused()" title="Pegar el código de libro del ticket">
-              Pegar código del ticket
-            </button>
-          </div>
-          <div>
-            <input type="text" class="input-text" id="modalUnusedCode" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" oninput="updateUnusedCodeNote()" onchange="updateUnusedCodeNote()" onpaste="setTimeout(updateUnusedCodeNote, 20)" placeholder="Pega aquí el código vigente (ej. ABC-123-XYZ)..." style="width: 100%; font-family: monospace, sans-serif !important; font-weight: 700; font-size: 1.05rem; background: #ffffff; color: #7e22ce; letter-spacing: 0.05em !important;" />
-          </div>
-          <p style="font-size: 0.74rem; color: #9333ea; margin-top: 0.35rem; margin-bottom: 0; line-height: 1.4;">
-            Este código se incluirá en el mensaje de WhatsApp y en la resolución para que el alumno complete su registro inicial en el portal.
           </p>
         </div>
 
@@ -908,22 +871,13 @@
           <textarea class="input-text" id="modalSolutionNote" rows="3" placeholder="Escribe el mensaje claro para el alumno o selecciona una opción rápida arriba..."></textarea>
         </div>
 
-        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: stretch; margin-top: 0.5rem;">
-          <button type="submit" class="btn-primary" id="btnSaveResolution" style="flex: 1.2; min-width: 150px; justify-content: center; font-size: 0.88rem; padding: 0.72rem 1rem;">
+        <div style="display: flex; gap: 0.8rem;">
+          <button type="submit" class="btn-primary" id="btnSaveResolution" style="flex: 1; justify-content: center; font-size: 0.92rem; padding: 0.75rem;">
             Guardar Cambios
           </button>
-          <button type="button" class="btn-action" id="btnContactStudentWAApp" onclick="sendStudentWhatsApp('app')" style="background: #ecfdf5; color: #047857; border-color: #6ee7b7; font-weight: 800; font-size: 0.82rem; padding: 0.72rem 0.95rem;" title="Abre directamente en la App de WhatsApp de tu Mac/PC (0 segundos de espera, sin recargas ni pérdida de sesión)">
-            WhatsApp App (0s espera)
+          <button type="button" class="btn-action" id="btnContactStudentWA" onclick="sendStudentWhatsApp()" style="background: rgba(52,211,153,0.15); color: var(--c-success); border-color: rgba(52,211,153,0.3); font-weight: 700; padding: 0.75rem 1rem;">
+            Enviar WhatsApp al Alumno
           </button>
-          <button type="button" class="btn-action" id="btnContactStudentWA" onclick="sendStudentWhatsApp('web')" style="background: rgba(52,211,153,0.14); color: #065f46; border-color: rgba(52,211,153,0.3); font-weight: 700; font-size: 0.82rem; padding: 0.72rem 0.9rem;" title="Abre WhatsApp Web en la MISMA pestaña fija para evitar abrir múltiples ventanas">
-            WhatsApp Web (Misma pestaña)
-          </button>
-          <button type="button" class="btn-action" onclick="copyWAMessageToClipboard()" style="font-size: 0.8rem; padding: 0.72rem 0.85rem; font-weight: 700;" title="Copiar mensaje formateado al portapapeles">
-            Copiar Mensaje
-          </button>
-          <div style="width: 100%; font-size: 0.72rem; color: #64748b; margin-top: 0.2rem; display: flex; align-items: center; gap: 0.35rem;">
-            <span><strong>Nota:</strong> Con <em>WhatsApp App (0s)</em> abres el chat al instante sin recargas de 15s. Con <em>WhatsApp Web</em> se reutiliza la misma pestaña fija sin duplicar ventanas.</span>
-          </div>
         </div>
       </form>
     </div>
@@ -944,8 +898,7 @@
       limit,
       orderBy,
       serverTimestamp,
-      onSnapshot,
-      getCountFromServer
+      onSnapshot 
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -968,10 +921,6 @@
     let allTickets = [];
     let currentEditingTicket = null;
     let liveTickInterval = null;
-    let serverTotalCount = null;
-    let serverResolvedCount = null;
-    let serverPendingCount = null;
-    let hasLoadedResolvedHistory = false;
 
     // ─── GATE LOGIN CON PERSISTENCIA ───
     window.checkAdminGate = function() {
@@ -1004,76 +953,8 @@
       if (e.key === 'Enter') window.checkAdminGate();
     });
 
-    // ─── CACHÉ LOCAL INTELIGENTE (CERO LECTURAS EN RECARGAS) ───
-    const CACHE_KEY = 'rpro_admin_tickets_cache_v5';
-    const CACHE_TTL_MS = 3 * 60 * 1000; // 3 minutos de vigencia en memoria de sesión
-
-    function getCachedTickets() {
-      try {
-        const raw = sessionStorage.getItem(CACHE_KEY);
-        if (!raw) return null;
-        const parsed = JSON.parse(raw);
-        if (!parsed || !parsed.timestamp || !Array.isArray(parsed.tickets)) return null;
-        const age = Date.now() - parsed.timestamp;
-        if (age < CACHE_TTL_MS) {
-          return {
-            tickets: parsed.tickets,
-            ageMs: age,
-            serverTotalCount: (typeof parsed.serverTotalCount === 'number') ? parsed.serverTotalCount : null,
-            serverResolvedCount: (typeof parsed.serverResolvedCount === 'number') ? parsed.serverResolvedCount : null,
-            serverPendingCount: (typeof parsed.serverPendingCount === 'number') ? parsed.serverPendingCount : null,
-            hasLoadedResolvedHistory: Boolean(parsed.hasLoadedResolvedHistory)
-          };
-        }
-      } catch (e) {
-        console.warn('[Cache] Error al leer caché local:', e);
-      }
-      return null;
-    }
-
-    function saveTicketsToCache(tickets) {
-      try {
-        sessionStorage.setItem(CACHE_KEY, JSON.stringify({
-          timestamp: Date.now(),
-          tickets: tickets,
-          serverTotalCount: serverTotalCount,
-          serverResolvedCount: serverResolvedCount,
-          serverPendingCount: serverPendingCount,
-          hasLoadedResolvedHistory: hasLoadedResolvedHistory
-        }));
-      } catch (e) {
-        console.warn('[Cache] Error al guardar caché local:', e);
-      }
-    }
-
-    function updateSyncBadge(msg) {
-      const el = document.getElementById('syncStatusBadge');
-      if (el) el.textContent = msg;
-    }
-
-    // ─── CARGA OPTIMIZADA (SOLO TICKETS PENDIENTES DE INICIO) ───
-    window.loadAdminTickets = async function(forceRefresh = false) {
-      // 1. Si no es refresco manual, verificar si tenemos datos válidos en caché
-      if (!forceRefresh) {
-        const cached = getCachedTickets();
-        if (cached && cached.tickets.length > 0 && typeof cached.serverTotalCount === 'number') {
-          serverTotalCount = cached.serverTotalCount;
-          serverResolvedCount = cached.serverResolvedCount;
-          serverPendingCount = cached.serverPendingCount;
-          hasLoadedResolvedHistory = cached.hasLoadedResolvedHistory;
-          allTickets = cached.tickets;
-          applyFilters();
-          const sec = Math.round(cached.ageMs / 1000);
-          const historyNote = hasLoadedResolvedHistory ? ' · Historial completo activo' : ' · Modo económico';
-          updateSyncBadge(`Caché local activa (${serverTotalCount} total · ${serverPendingCount} pendientes · ${serverResolvedCount} resueltas${historyNote})`);
-          if (liveTickInterval) clearInterval(liveTickInterval);
-          liveTickInterval = setInterval(updateLiveTableElapsedTimes, 1000);
-          return;
-        }
-      }
-
-      updateSyncBadge('Sincronizando incidencias con Firestore...');
-
+    // ─── LOAD DATA (ROBUSTO CON TIEMPO REAL Y MIGRACIÓN) ───
+    window.loadAdminTickets = async function() {
       const tbody = document.getElementById('ticketsTableBody');
       if (tbody && (!allTickets || allTickets.length === 0)) {
         tbody.innerHTML = `
@@ -1083,7 +964,7 @@
                 <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
                 <path d="M12 2a10 10 0 0 1 10 10"/>
               </svg>
-              Sincronizando solicitudes pendientes desde Firestore…
+              Sincronizando solicitudes en tiempo real desde Firestore…
             </td>
           </tr>
         `;
@@ -1092,113 +973,52 @@
       let tickets = [];
 
       if (db) {
-        // 1. Obtener conteos exactos históricos reales desde Firestore (1 lectura agregada)
-        try {
-          const coll = collection(db, "help_tickets");
-          const [snapTotal, snapResolved] = await Promise.all([
-            getCountFromServer(coll),
-            getCountFromServer(query(coll, where("status", "==", "Resuelto")))
-          ]);
-          serverTotalCount = snapTotal.data().count;
-          serverResolvedCount = snapResolved.data().count;
-          serverPendingCount = Math.max(0, serverTotalCount - serverResolvedCount);
-        } catch (cntErr) {
-          console.warn('[Admin] Fallback a REST para agregación:', cntErr);
-          try {
-            const respAgg = await fetch('https://firestore.googleapis.com/v1/projects/rprodash/databases/(default)/documents:runAggregationQuery', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                structuredAggregationQuery: {
-                  structuredQuery: { from: [{ collectionId: 'help_tickets' }] },
-                  aggregations: [{ alias: 'total_count', count: {} }]
-                }
-              })
-            });
-            const aggData = await respAgg.json();
-            serverTotalCount = parseInt(aggData[0]?.result?.aggregateFields?.total_count?.integerValue || '326', 10);
-
-            const respRes = await fetch('https://firestore.googleapis.com/v1/projects/rprodash/databases/(default)/documents:runAggregationQuery', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                structuredAggregationQuery: {
-                  structuredQuery: {
-                    from: [{ collectionId: 'help_tickets' }],
-                    where: { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'Resuelto' } } }
-                  },
-                  aggregations: [{ alias: 'resolved_count', count: {} }]
-                }
-              })
-            });
-            const aggResData = await respRes.json();
-            serverResolvedCount = parseInt(aggResData[0]?.result?.aggregateFields?.resolved_count?.integerValue || '317', 10);
-            serverPendingCount = Math.max(0, serverTotalCount - serverResolvedCount);
-          } catch (restErr) {
-            console.warn('[Admin] Conteo REST fallback error:', restErr);
-          }
-        }
-
-        // Actualizar etiqueta del botón con el total de resueltas
-        const btnText = document.getElementById('btnLoadResolvedText');
-        if (btnText && !hasLoadedResolvedHistory) {
-          btnText.textContent = `Cargar Resueltas (${serverResolvedCount || '317'})`;
-        }
-
-        // 2. Descargar documentos
         try {
           let snapshot = null;
-          if (!hasLoadedResolvedHistory) {
-            // MODO ECONÓMICO: Cero resueltas. SOLO descargar incidencias pendientes activas
-            try {
-              const qPending = query(
-                collection(db, "help_tickets"),
-                where("status", "!=", "Resuelto")
-              );
-              snapshot = await getDocs(qPending);
-            } catch (errP) {
-              try {
-                const qIn = query(
-                  collection(db, "help_tickets"),
-                  where("status", "in", ["En Espera", "En Proceso", "Abierto", "Pendiente"])
-                );
-                snapshot = await getDocs(qIn);
-              } catch (errIn) {
-                const qFallback = query(collection(db, "help_tickets"), where("status", "==", "Pendiente"), limit(50));
-                snapshot = await getDocs(qFallback);
-              }
-            }
-
-            if (snapshot && !snapshot.empty) {
-              snapshot.forEach((docSnapshot) => {
-                const data = docSnapshot.data();
-                if (data.status !== 'Resuelto') {
-                  tickets.push({ id: docSnapshot.id, ...data });
-                }
-              });
-            }
-          } else {
-            // Historial completo solicitado explícitamente con el botón
-            const qAll = query(collection(db, "help_tickets"), orderBy("createdAtMillis", "desc"), limit(2500));
-            snapshot = await getDocs(qAll);
-            if (snapshot && !snapshot.empty) {
-              snapshot.forEach((docSnapshot) => {
-                tickets.push({ id: docSnapshot.id, ...docSnapshot.data() });
-              });
-            }
+          try {
+            // Optimizado para Free Tier (Spark Plan): limitar a los 50 más recientes
+            const q = query(collection(db, "help_tickets"), orderBy("createdAtMillis", "desc"), limit(50));
+            snapshot = await getDocs(q);
+          } catch (orderErr) {
+            console.warn('[Admin] Fallback a colección directa con límite 50:', orderErr);
+            const qFallback = query(collection(db, "help_tickets"), limit(50));
+            snapshot = await getDocs(qFallback);
+          }
+          if (snapshot && !snapshot.empty) {
+            snapshot.forEach((docSnapshot) => {
+              tickets.push({ id: docSnapshot.id, ...docSnapshot.data() });
+            });
           }
         } catch (err) {
           console.error('[Admin Firestore fetch error]:', err);
         }
       }
 
-      // Merge de tickets en localStorage SOLO si son pendientes (o si se solicitó el historial)
+      // Merge y auto-migración de tickets locales hacia Firestore
       const local = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
+      let localUpdated = false;
       for (const loc of local) {
-        if (!hasLoadedResolvedHistory && loc.status === 'Resuelto') continue;
         if (!tickets.some(t => t.folio === loc.folio)) {
           tickets.push(loc);
+          // Si no estaba en Firestore, subirlo ahora
+          if (db && !loc.syncedToRPro) {
+            try {
+              const docRef = await addDoc(collection(db, "help_tickets"), {
+                ...loc,
+                createdAt: serverTimestamp()
+              });
+              loc.syncedToRPro = true;
+              loc.firestoreId = docRef.id;
+              localUpdated = true;
+              console.log('[Admin] Ticket local auto-migrado a la nube:', loc.folio);
+            } catch (syncErr) {
+              console.warn('[Admin] Auto-sync local ticket notice:', syncErr);
+            }
+          }
         }
+      }
+      if (localUpdated) {
+        localStorage.setItem('richmond_help_tickets', JSON.stringify(local));
       }
 
       // Ordenar de más reciente a más antiguo en memoria
@@ -1208,21 +1028,37 @@
         return timeB - timeA;
       });
 
-      // Garantizar que si no se ha pedido el historial de resueltas, allTickets solo tenga pendientes
-      if (!hasLoadedResolvedHistory) {
-        allTickets = tickets.filter(t => t.status !== 'Resuelto');
-      } else {
-        allTickets = tickets;
-      }
-
-      saveTicketsToCache(allTickets);
+      allTickets = tickets;
       applyFilters();
 
-      const totalDisplay = (serverTotalCount !== null) ? serverTotalCount : '326';
-      const resolvedDisplay = (serverResolvedCount !== null) ? serverResolvedCount : '317';
-      const pendingDisplay = (serverPendingCount !== null) ? serverPendingCount : allTickets.filter(t => t.status !== 'Resuelto').length;
-      const historyNote = hasLoadedResolvedHistory ? ' · Historial completo activo' : ' · Modo económico';
-      updateSyncBadge(`Firestore OK (${totalDisplay} total · ${pendingDisplay} pendientes · ${resolvedDisplay} resueltas${historyNote})`);
+      // Listener de Firestore en Tiempo Real (optimizado con limit 50 para cuota gratuita)
+      if (db && !window.adminUnsubListener) {
+        try {
+          const qLive = query(collection(db, "help_tickets"), orderBy("createdAtMillis", "desc"), limit(50));
+          window.adminUnsubListener = onSnapshot(qLive, (snapshot) => {
+            const rt = [];
+            snapshot.forEach(d => rt.push({ id: d.id, ...d.data() }));
+
+            // Preservar tickets locales en caso de que aún no sincronicen
+            const curLocal = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
+            curLocal.forEach(loc => {
+              if (!rt.some(t => t.folio === loc.folio)) {
+                rt.push(loc);
+              }
+            });
+
+            rt.sort((a, b) => {
+              const timeA = a.createdAtMillis || (a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt?.seconds ? a.createdAt.seconds * 1000 : 0));
+              const timeB = b.createdAtMillis || (b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt?.seconds ? b.createdAt.seconds * 1000 : 0));
+              return timeB - timeA;
+            });
+            allTickets = rt;
+            applyFilters();
+          }, (err) => console.warn('[Admin Realtime Warning]:', err));
+        } catch (e) {
+          console.warn('[Admin onSnapshot error]:', e);
+        }
+      }
 
       // Arrancar intervalo de cálculo en vivo de Elapsed Time
       if (liveTickInterval) clearInterval(liveTickInterval);
@@ -1230,18 +1066,8 @@
     };
 
     window.refreshAdminData = function() {
-      loadAdminTickets(true);
+      loadAdminTickets();
     };
-
-    // Auto-recarga silenciosa cuando el asesor regresa a la pestaña si la caché ya expiró
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        const cached = getCachedTickets();
-        if (!cached) {
-          loadAdminTickets(false);
-        }
-      }
-    });
 
     // ─── FILTERS & RENDER ───
     window.applyFilters = function() {
@@ -1256,7 +1082,7 @@
         // Escuela
         if (fSchool !== 'ALL') {
           const KNOWN_CODES = [
-            'UTH', 'ITESCA', 'ITLM', 'ITH', 'IT MXL', 'UNIVAFU', 'UT NOGALES',
+            'UTH', 'ITESCA', 'ITLM', 'ITH', 'IT MXL', 'UNIVAFU',
             'UAZ PEUL', 'UJED', 'ICEST TAMPICO', 'CI 22 UANL',
             'UTNA', 'IT CUL', 'BACH TEPIC', 'UPSIN', 'CETI COLOMOS', 'LAMAR', 'CAI',
             'UTZIN', 'UPOTEC', 'UAEM ENFERMERIA', 'UAEM CS EXACTAS', 'ENES MORELIA',
@@ -1279,24 +1105,6 @@
         return true;
       });
 
-      // Ordenamiento: en pendientes, la más vieja hasta arriba (FIFO por SLA) y la más nueva abajo
-      filtered.sort((a, b) => {
-        const isPendA = a.status !== 'Resuelto';
-        const isPendB = b.status !== 'Resuelto';
-        const timeA = a.createdAtMillis || (a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt?.seconds ? a.createdAt.seconds * 1000 : 0));
-        const timeB = b.createdAtMillis || (b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt?.seconds ? b.createdAt.seconds * 1000 : 0));
-
-        if (isPendA && isPendB) {
-          return timeA - timeB; // Más antigua primero (arriba)
-        }
-        if (isPendA && !isPendB) return -1;
-        if (!isPendA && isPendB) return 1;
-
-        const resA = a.resolvedAtMillis || timeA;
-        const resB = b.resolvedAtMillis || timeB;
-        return resB - resA;
-      });
-
       renderTable(filtered);
       updateMetrics(filtered);
     };
@@ -1304,28 +1112,6 @@
     function renderTable(tickets) {
       const tbody = document.getElementById('ticketsTableBody');
       if (!tickets.length) {
-        if (document.getElementById('filterStatus')?.value === 'Resuelto' && !hasLoadedResolvedHistory) {
-          tbody.innerHTML = `
-            <tr>
-              <td colspan="10" style="text-align: center; padding: 3rem 1.5rem; color: #475569;">
-                <div style="max-width: 480px; margin: 0 auto;">
-                  <p style="font-weight: 800; font-size: 1rem; color: #1e293b; margin-bottom: 0.4rem;">
-                    Modo Económico Activo: Las incidencias resueltas no se descargan de inicio.
-                  </p>
-                  <p style="font-size: 0.84rem; color: #64748b; margin-bottom: 1.2rem; line-height: 1.5;">
-                    Para cuidar tu cuota de Firebase, solo se descargan las pendientes. Haz clic abajo para consultar y descargar el historial completo de resueltos desde Firestore.
-                  </p>
-                  <button type="button" class="btn-action" onclick="loadResolvedHistory()" style="background: #059669; color: #ffffff; border: none; padding: 0.65rem 1.4rem; font-weight: 800; font-size: 0.88rem; border-radius: 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    <span>Cargar Historial de Resueltos (${serverResolvedCount || 'todos'})</span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          `;
-          return;
-        }
-
         tbody.innerHTML = `
           <tr>
             <td colspan="10" style="text-align: center; padding: 3rem 1rem; color: var(--c-muted);">
@@ -1445,25 +1231,13 @@
 
     // ─── SLA & METRICS ───
     function updateMetrics(tickets) {
-      const isFiltered = (
-        document.getElementById('filterAdvisor')?.value !== 'ALL' ||
-        document.getElementById('filterSchool')?.value !== 'ALL' ||
-        document.getElementById('filterStatus')?.value !== 'ALL' ||
-        Boolean((document.getElementById('filterSearch')?.value || '').trim())
-      );
-
-      if (!isFiltered) {
-        document.getElementById('statTotal').textContent = (serverTotalCount !== null) ? serverTotalCount : '326';
-        document.getElementById('statPending').textContent = (serverPendingCount !== null) ? serverPendingCount : tickets.filter(t => t.status !== 'Resuelto').length;
-        document.getElementById('statResolved').textContent = (serverResolvedCount !== null) ? serverResolvedCount : '317';
-      } else {
-        document.getElementById('statTotal').textContent = tickets.length;
-        document.getElementById('statPending').textContent = tickets.filter(t => t.status !== 'Resuelto').length;
-        document.getElementById('statResolved').textContent = tickets.filter(t => t.status === 'Resuelto').length;
-      }
+      document.getElementById('statTotal').textContent = tickets.length;
+      document.getElementById('statPending').textContent = tickets.filter(t => t.status !== 'Resuelto').length;
+      
+      const resolved = tickets.filter(t => t.status === 'Resuelto');
+      document.getElementById('statResolved').textContent = resolved.length;
 
       // Calcular promedio de tiempo de resolución (SLA)
-      const resolved = tickets.filter(t => t.status === 'Resuelto');
       if (resolved.length > 0) {
         let totalElapsedMs = 0;
         let validCount = 0;
@@ -1489,72 +1263,6 @@
         document.getElementById('statAvgElapsed').textContent = '--:--';
       }
     }
-
-    window.loadResolvedHistory = async function() {
-      const btn = document.getElementById('btnLoadResolvedHistory');
-      const btnText = document.getElementById('btnLoadResolvedText');
-      if (btn) btn.disabled = true;
-      if (btnText) btnText.textContent = 'Cargando historial…';
-      showAdminToast('Consultando historial de incidencias resueltas en Firestore…');
-
-      try {
-        let snap = null;
-        try {
-          const qResolved = query(
-            collection(db, "help_tickets"),
-            where("status", "==", "Resuelto"),
-            orderBy("createdAtMillis", "desc"),
-            limit(2500)
-          );
-          snap = await getDocs(qResolved);
-        } catch (errIdx) {
-          console.warn('[Admin] Fallback consulta resueltos sin order:', errIdx);
-          const qResSimple = query(collection(db, "help_tickets"), where("status", "==", "Resuelto"), limit(2500));
-          snap = await getDocs(qResSimple);
-        }
-
-        let newCount = 0;
-        if (snap && !snap.empty) {
-          snap.forEach(docSnap => {
-            const d = { id: docSnap.id, ...docSnap.data() };
-            if (!allTickets.some(t => (t.id && t.id === d.id) || (t.folio && t.folio === d.folio))) {
-              allTickets.push(d);
-              newCount++;
-            }
-          });
-        }
-
-        hasLoadedResolvedHistory = true;
-
-        allTickets.sort((a, b) => {
-          const timeA = a.createdAtMillis || (a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt?.seconds ? a.createdAt.seconds * 1000 : 0));
-          const timeB = b.createdAtMillis || (b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt?.seconds ? b.createdAt.seconds * 1000 : 0));
-          return timeB - timeA;
-        });
-
-        saveTicketsToCache(allTickets);
-        applyFilters();
-
-        const totalDisplay = (serverTotalCount !== null) ? serverTotalCount : allTickets.length;
-        const resolvedDisplay = (serverResolvedCount !== null) ? serverResolvedCount : allTickets.filter(t => t.status === 'Resuelto').length;
-        const pendingDisplay = (serverPendingCount !== null) ? serverPendingCount : allTickets.filter(t => t.status !== 'Resuelto').length;
-        updateSyncBadge(`Firestore OK (${totalDisplay} total · ${pendingDisplay} pendientes · ${resolvedDisplay} resueltas · Historial completo activo)`);
-
-        if (btn) {
-          btn.style.background = '#f1f5f9';
-          btn.style.color = '#475569';
-          btn.style.borderColor = '#cbd5e1';
-          btn.disabled = true;
-        }
-        if (btnText) btnText.textContent = `✅ Historial cargado (${allTickets.length} tickets)`;
-        showAdminToast(`Historial cargado con éxito (+${newCount} tickets resueltos en memoria)`);
-      } catch (err) {
-        console.error('[Admin] Error al cargar historial de resueltos:', err);
-        showAdminToast('Error al conectar con Firestore para descargar historial');
-        if (btn) btn.disabled = false;
-        if (btnText) btnText.textContent = 'Reintentar cargar historial';
-      }
-    };
 
     // ─── CLIPBOARD COPY HELPERS ───
     window.copyTextToClipboard = async function(text, label = 'Dato copiado') {
@@ -1769,54 +1477,34 @@
       const hasPass = Boolean(ticket.assignedPassword);
       const noteLower = (ticket.solutionNote || '').toLowerCase();
       const isCodeUsed = noteLower.includes('encontramos tu cuenta') || noteLower.includes('utilizaste tu código') || noteLower.includes('utilizaste tu codigo');
-      const hasDiffEmail = !isCodeUsed && (
-        Boolean(ticket.assignedCorrectEmail) || 
-        (currentStatus === 'Resuelto' && (noteLower.includes('correo diferente') || noteLower.includes('diste de alta') || noteLower.includes('correo registrado')))
-      );
+      const hasDiffEmail = !isCodeUsed && (Boolean(ticket.assignedCorrectEmail) || (currentStatus === 'Resuelto' && noteLower.includes('correo diferente') && !hasPass));
 
       if (passInput) {
         passInput.value = ticket.assignedPassword || '';
       }
       if (diffEmailInput) {
         diffEmailInput.value = ticket.assignedCorrectEmail || '';
-        if (!diffEmailInput.value && (noteLower.includes('correo diferente') || noteLower.includes('diste de alta') || noteLower.includes('correo registrado'))) {
-          const match = (ticket.solutionNote || '').match(/(?:correo registrado es:\s*|correo registrado\s*\(\s*|correo:\s*)([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/i)
-                     || (ticket.solutionNote || '').match(/([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/);
-          if (match) diffEmailInput.value = match[1].replace(/[.,;:)]+$/, '').trim();
-        }
-      }
-      const unusedCodeGroup = document.getElementById('modalUnusedCodeGroup');
-      const unusedCodeInput = document.getElementById('modalUnusedCode');
-      const officialEmailInput = document.getElementById('modalOfficialEmail');
-      if (officialEmailInput) {
-        officialEmailInput.value = ticket.officialEmail || '';
-      }
-      if (unusedCodeInput) {
-        unusedCodeInput.value = ticket.assignedUnusedCode || '';
       }
 
       // Limpiar resaltado de tarjetas rápidas
-      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail', 'cardPresetCodeUnused'].forEach(id => {
+      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail', 'cardPresetCodeUsed'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.boxShadow = 'none';
       });
 
-      const isCodeUnused = noteLower.includes('no ha sido utilizado') || noteLower.includes('vigente y sin uso') || noteLower.includes('como la primera vez en:');
-
-      if (isCodeUnused) {
-        window.currentResolutionPreset = 'code_unused';
-        if (diffEmailGroup) diffEmailGroup.style.display = 'none';
+      if (isCodeUsed) {
+        window.currentResolutionPreset = 'code_used';
+        if (diffEmailGroup) diffEmailGroup.style.display = 'block';
         if (passGroup) passGroup.style.display = 'none';
-        if (unusedCodeGroup) unusedCodeGroup.style.display = 'block';
-        if (unusedCodeInput) unusedCodeInput.value = ticket.assignedUnusedCode || ticket.bookCode || '';
-        const c = document.getElementById('cardPresetCodeUnused');
-        if (c) c.style.boxShadow = '0 0 0 3px rgba(168, 85, 247, 0.45)';
-      } else if (hasDiffEmail || (currentStatus === 'Resuelto' && (noteLower.includes('correo diferente') || noteLower.includes('diste de alta')))) {
+        if (passInput) passInput.value = '';
+        if (diffEmailLabel) diffEmailLabel.textContent = 'Correo con el que está creada la cuenta encontrada en Richmond Studio:';
+        const c = document.getElementById('cardPresetCodeUsed');
+        if (c) c.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.45)';
+      } else if (hasDiffEmail) {
         window.currentResolutionPreset = 'diff_email';
         if (diffEmailGroup) diffEmailGroup.style.display = 'block';
         if (passGroup) passGroup.style.display = 'none';
-        if (unusedCodeGroup) unusedCodeGroup.style.display = 'none';
-        if (passInput) passInput.value = ticket.assignedPassword || 'Mexico26*';
+        if (passInput) passInput.value = '';
         if (diffEmailLabel) diffEmailLabel.textContent = 'Correo registrado en Richmond Studio con el que debe ingresar el alumno:';
         const c = document.getElementById('cardPresetDiffEmail');
         if (c) c.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.45)';
@@ -1824,14 +1512,12 @@
         window.currentResolutionPreset = 'pass';
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (passGroup) passGroup.style.display = 'block';
-        if (unusedCodeGroup) unusedCodeGroup.style.display = 'none';
         const c = document.getElementById('cardPresetPass');
         if (c) c.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.45)';
       } else {
         window.currentResolutionPreset = null;
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (passGroup) passGroup.style.display = 'none';
-        if (unusedCodeGroup) unusedCodeGroup.style.display = 'none';
         if (noteLower.includes('no se encontró') || noteLower.includes('no se encontro')) {
           window.currentResolutionPreset = 'no_user';
           const c = document.getElementById('cardPresetNoUser');
@@ -1846,11 +1532,9 @@
       const status = document.getElementById('modalStatusSelect').value;
       const passGroup = document.getElementById('modalPasswordGroup');
       const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
-      const unusedCodeGroup = document.getElementById('modalUnusedCodeGroup');
       if (status !== 'Resuelto') {
         if (passGroup) passGroup.style.display = 'none';
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
-        if (unusedCodeGroup) unusedCodeGroup.style.display = 'none';
       }
     };
 
@@ -1862,13 +1546,11 @@
       const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
       const diffEmailInput = document.getElementById('modalAssignedEmail');
       const diffEmailLabel = document.getElementById('modalAssignedEmailLabel');
-      const unusedCodeGroup = document.getElementById('modalUnusedCodeGroup');
-      const unusedCodeInput = document.getElementById('modalUnusedCode');
 
       window.currentResolutionPreset = actionType;
 
       // Resaltar visualmente la tarjeta activa
-      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail', 'cardPresetCodeUnused'].forEach(id => {
+      ['cardPresetPass', 'cardPresetNoUser', 'cardPresetDiffEmail', 'cardPresetCodeUsed'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.boxShadow = 'none';
       });
@@ -1881,19 +1563,11 @@
         if (passInput) passInput.value = 'Mexico26*';
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (diffEmailInput) diffEmailInput.value = '';
-        if (unusedCodeGroup) unusedCodeGroup.style.display = 'none';
-        if (unusedCodeInput) unusedCodeInput.value = '';
-        const officialEmailInput = document.getElementById('modalOfficialEmail');
-        const existingInputVal = officialEmailInput ? officialEmailInput.value.trim() : '';
-        const targetOfficial = existingInputVal || currentEditingTicket?.officialEmail || '';
-        if (officialEmailInput) officialEmailInput.value = targetOfficial;
         if (currentEditingTicket) {
           currentEditingTicket.assignedPassword = 'Mexico26*';
           currentEditingTicket.assignedCorrectEmail = '';
-          currentEditingTicket.assignedUnusedCode = '';
-          currentEditingTicket.officialEmail = targetOfficial;
         }
-        updatePassResetNote();
+        noteEl.value = 'Se restableció tu contraseña a: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio con tu correo registrado y esta clave.';
       } else if (actionType === 'no_user') {
         const c = document.getElementById('cardPresetNoUser');
         if (c) c.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.45)';
@@ -1902,12 +1576,9 @@
         if (passGroup) passGroup.style.display = 'none';
         if (diffEmailGroup) diffEmailGroup.style.display = 'none';
         if (diffEmailInput) diffEmailInput.value = '';
-        if (unusedCodeGroup) unusedCodeGroup.style.display = 'none';
-        if (unusedCodeInput) unusedCodeInput.value = '';
         if (currentEditingTicket) {
           currentEditingTicket.assignedPassword = '';
           currentEditingTicket.assignedCorrectEmail = '';
-          currentEditingTicket.assignedUnusedCode = '';
         }
         noteEl.value = 'No se encontró ningún usuario con tus datos en el sistema. Favor de registrarte en la plataforma con tu código. Si el sistema te indica que tu código es inválido, envíanos foto clara de tu código de libro por WhatsApp para la asignación de un código nuevo de repuesto.';
       } else if (actionType === 'diff_email') {
@@ -1915,15 +1586,10 @@
         if (c) c.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.45)';
         statusSelect.value = 'Resuelto';
 
-        // 1. Asignar contraseña restablecida Mexico26* al encontrar cuenta con correo diferente
+        // 1. QUITAR EL CAMPO DE CONTRASEÑA COMPLETAMENTE (porque la contraseña es la que puso en su registro)
         if (passGroup) passGroup.style.display = 'none';
-        if (passInput) passInput.value = 'Mexico26*';
-        if (unusedCodeGroup) unusedCodeGroup.style.display = 'none';
-        if (unusedCodeInput) unusedCodeInput.value = '';
-        if (currentEditingTicket) {
-          currentEditingTicket.assignedPassword = 'Mexico26*';
-          currentEditingTicket.assignedUnusedCode = '';
-        }
+        if (passInput) passInput.value = '';
+        if (currentEditingTicket) currentEditingTicket.assignedPassword = '';
 
         // 2. ABRIR EL CAMPO DE CORREO DIFERENTE (LIMPIO PARA PEGAR DEL SISTEMA EXTERNO)
         if (diffEmailGroup) diffEmailGroup.style.display = 'block';
@@ -1935,53 +1601,27 @@
         }
 
         updateDiffEmailNote();
-      } else if (actionType === 'code_unused') {
-        const c = document.getElementById('cardPresetCodeUnused');
-        if (c) c.style.boxShadow = '0 0 0 3px rgba(168, 85, 247, 0.45)';
+      } else if (actionType === 'code_used') {
+        const c = document.getElementById('cardPresetCodeUsed');
+        if (c) c.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.45)';
         statusSelect.value = 'Resuelto';
-        if (passInput) passInput.value = '';
+
+        // 1. QUITAR EL CAMPO DE CONTRASEÑA (la contraseña es la suya original)
         if (passGroup) passGroup.style.display = 'none';
-        if (diffEmailGroup) diffEmailGroup.style.display = 'none';
-        if (diffEmailInput) diffEmailInput.value = '';
-        if (unusedCodeGroup) unusedCodeGroup.style.display = 'block';
-        if (unusedCodeInput) {
-          unusedCodeInput.value = currentEditingTicket?.assignedUnusedCode || currentEditingTicket?.bookCode || '';
-          unusedCodeInput.focus();
-        }
-        if (currentEditingTicket) {
-          currentEditingTicket.assignedPassword = '';
-          currentEditingTicket.assignedCorrectEmail = '';
-          currentEditingTicket.assignedUnusedCode = unusedCodeInput ? unusedCodeInput.value.trim() : '';
-        }
-        updateUnusedCodeNote();
-      }
-    };
+        if (passInput) passInput.value = '';
+        if (currentEditingTicket) currentEditingTicket.assignedPassword = '';
 
-    window.syncOfficialEmail = function(val) {
-      const emailVal = (val || '').trim();
-      if (currentEditingTicket) {
-        currentEditingTicket.officialEmail = emailVal;
-      }
-      const noteEl = document.getElementById('modalSolutionNote');
-      if (!noteEl) return;
+        // 2. ABRIR CAMPO DE CORREO DE CUENTA ENCONTRADA
+        if (diffEmailGroup) diffEmailGroup.style.display = 'block';
+        if (diffEmailLabel) diffEmailLabel.textContent = 'Correo con el que está creada la cuenta encontrada en Richmond Studio:';
 
-      if (emailVal) {
-        if (noteEl.value.includes('Tu usuario es tu correo:')) {
-          noteEl.value = noteEl.value.replace(/(Tu usuario es tu correo:\s*)[^\s,]+/i, `$1${emailVal}`);
-        } else if (window.currentResolutionPreset === 'pass' || !noteEl.value.trim() || noteEl.value.includes('Se restableció tu contraseña a: Mexico26*')) {
-          updatePassResetNote();
+        if (diffEmailInput) {
+          diffEmailInput.value = currentEditingTicket?.assignedCorrectEmail || '';
+          diffEmailInput.focus();
         }
-      } else if (window.currentResolutionPreset === 'pass') {
-        updatePassResetNote();
-      }
-    };
 
-    window.updatePassResetNote = function() {
-      const noteEl = document.getElementById('modalSolutionNote');
-      if (!noteEl) return;
-      const officialEmailInput = document.getElementById('modalOfficialEmail');
-      const emailVal = (officialEmailInput && officialEmailInput.value.trim()) || currentEditingTicket?.officialEmail || currentEditingTicket?.email || currentEditingTicket?.altEmail || '[tu.correo@registrado.com]';
-      noteEl.value = `Se restableció tu contraseña a: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio. Tu usuario es tu correo: ${emailVal} y contraseña definida es: Mexico26*. Deja pasar 10 minutos desde que recibas este mensaje e intenta ingresar.`;
+        updateDiffEmailNote();
+      }
     };
 
     window.updateDiffEmailNote = function() {
@@ -1996,31 +1636,10 @@
       const emailTarget = emailVal || '[pega.aqui.el.correo@registrado.com]';
       if (!noteEl) return;
 
-      noteEl.value = `Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura). Hemos revisado la base de datos y tu correo registrado es: ${emailTarget}. Como ya hemos encontrado tu cuenta procedemos de una vez a cambiar tu contraseña por: Mexico26*. Ya puedes ingresar a tu portal de Richmond Studio con tu correo registrado (${emailTarget}) y tu contraseña: Mexico26*.`;
-    };
-
-    window.updateUnusedCodeNote = function() {
-      const noteEl = document.getElementById('modalSolutionNote');
-      const unusedInput = document.getElementById('modalUnusedCode');
-      const codeVal = (unusedInput && unusedInput.value.trim()) || currentEditingTicket?.assignedUnusedCode || currentEditingTicket?.bookCode || '';
-      if (currentEditingTicket && unusedInput) {
-        currentEditingTicket.assignedUnusedCode = unusedInput.value.trim();
-      }
-      if (!noteEl) return;
-      if (codeVal) {
-        noteEl.value = `Revisamos tu código (${codeVal}) y nos dimos cuenta que no ha sido utilizado, está vigente y sin uso, por favor procede a registrarte como la primera vez en: https://richmondstudio.global/registration/student`;
+      if (window.currentResolutionPreset === 'code_used' || noteEl.value.toLowerCase().includes('utilizaste tu código') || noteEl.value.toLowerCase().includes('utilizaste tu codigo') || noteEl.value.toLowerCase().includes('encontramos tu cuenta')) {
+        noteEl.value = `Encontramos tu cuenta, tu registro ya lo completaste y utilizaste tu código, por eso tu código dice inválido, es decir, ya lo utilizaste y solo se puede una vez. Tu cuenta está creada con el correo: ${emailTarget}. La contraseña es la misma que pusiste cuando hiciste tu registro. En caso de que no la recuerdes o no te deje entrar aun así, levanta otro ticket seleccionando la opción "No puedo entrar / Invalid Credentials".`;
       } else {
-        noteEl.value = `Revisamos tu código y nos dimos cuenta que no ha sido utilizado, está vigente y sin uso, por favor procede a registrarte como la primera vez en: https://richmondstudio.global/registration/student`;
-      }
-    };
-
-    window.pasteTicketCodeIntoUnused = function() {
-      if (!currentEditingTicket) return;
-      const unusedInput = document.getElementById('modalUnusedCode');
-      if (unusedInput) {
-        unusedInput.value = currentEditingTicket.bookCode || '';
-        updateUnusedCodeNote();
-        showAdminToast('Código del libro pegado en el campo');
+        noteEl.value = `Te diste de alta con un correo diferente en Richmond Studio. Tu usuario de acceso es tu correo tal cual lo registraste (incluso si contiene algún error de escritura). Hemos revisado la base de datos y tu correo registrado es: ${emailTarget} y la contraseña que definiste en tu registro (no se modificó tu contraseña). Si no recuerdas tu contraseña, levanta otro ticket seleccionando la opción "No puedo entrar / Invalid Credentials" y en la solicitud coloca este correo, que es el correo oficial que tenemos en el sistema (NO atendemos cambios de contraseña por WhatsApp).`;
       }
     };
 
@@ -2034,76 +1653,29 @@
       }
     };
 
-    let waWebWindowRef = null;
-
-    window.buildStudentWAMessage = function() {
-      if (!currentEditingTicket) return null;
+    window.sendStudentWhatsApp = function() {
+      if (!currentEditingTicket) return;
       const ticket = currentEditingTicket;
-      let currentNote = document.getElementById('modalSolutionNote')?.value.trim() || ticket.solutionNote || '';
+      const currentNote = document.getElementById('modalSolutionNote')?.value.trim() || ticket.solutionNote || '';
       const diffEmailInput = document.getElementById('modalAssignedEmail');
       const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
-      const unusedCodeInput = document.getElementById('modalUnusedCode');
-      const currentOfficialEmail = (document.getElementById('modalOfficialEmail')?.value.trim()) || ticket.officialEmail || '';
-
-      // CRÍTICO: Si se especificó un correo oficial confirmado, garantizar que la primera mención
-      // en el cuerpo de la resolución ("Tu usuario es tu correo: ...") use exactamente ese correo con su capitalización original
-      if (currentOfficialEmail && currentNote.includes('Tu usuario es tu correo:')) {
-        currentNote = currentNote.replace(/(Tu usuario es tu correo:\s*)[^\s,]+/i, `$1${currentOfficialEmail}`);
-        const noteEl = document.getElementById('modalSolutionNote');
-        if (noteEl && noteEl.value !== currentNote) {
-          noteEl.value = currentNote;
-        }
-      }
-
       const noteLower = (currentNote || '').toLowerCase();
       
       const isNoUser = noteLower.includes('no se encontró') || noteLower.includes('no se encontro') || noteLower.includes('ningún usuario') || noteLower.includes('ningun usuario');
-      const isCodeUnused = noteLower.includes('no ha sido utilizado') || noteLower.includes('vigente y sin uso');
+      const isPassReset = noteLower.includes('se restableció tu contraseña') || noteLower.includes('se restablecio tu contrasena') || noteLower.includes('mexico26');
+      const isCodeUsed = noteLower.includes('encontramos tu cuenta') || noteLower.includes('utilizaste tu código') || noteLower.includes('utilizaste tu codigo');
       
       const isDiffEmailVisible = diffEmailGroup && diffEmailGroup.style.display !== 'none';
-      const isDiffEmail = !isNoUser && !isCodeUnused && (
-        window.currentResolutionPreset === 'diff_email' ||
+      const isDiffEmail = !isNoUser && !isPassReset && (
         isDiffEmailVisible || 
-        Boolean(diffEmailInput?.value?.trim()) ||
-        Boolean(ticket.assignedCorrectEmail) ||
+        isCodeUsed ||
         noteLower.includes('correo diferente') || 
-        noteLower.includes('diste de alta con un correo') ||
-        noteLower.includes('correo registrado es:') ||
-        noteLower.includes('tu cuenta está creada con el correo') ||
-        noteLower.includes('tu cuenta esta creada con el correo')
-      );
-
-      const isPassReset = !isNoUser && !isCodeUnused && !isDiffEmail && (
-        window.currentResolutionPreset === 'pass' ||
-        (document.getElementById('modalPasswordGroup')?.style?.display !== 'none' && Boolean(document.getElementById('modalAssignedPassword')?.value?.trim())) ||
-        noteLower.includes('se restableció tu contraseña') || 
-        noteLower.includes('se restablecio tu contrasena') || 
-        noteLower.includes('mexico26')
+        noteLower.includes('diste de alta con un correo')
       );
 
       const currentStatus = document.getElementById('modalStatusSelect')?.value || ticket.status || 'Resuelto';
-      
-      let currentDiffEmail = (isDiffEmailVisible && diffEmailInput ? diffEmailInput.value.trim() : '') || (diffEmailInput ? diffEmailInput.value.trim() : '') || (ticket.assignedCorrectEmail || '');
-      if (!currentDiffEmail && currentNote) {
-        const emailMatch = currentNote.match(/(?:correo registrado es:\s*|correo registrado\s*\(\s*|correo:\s*)([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/i)
-          || currentNote.match(/([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/);
-        if (emailMatch) {
-          currentDiffEmail = emailMatch[1].replace(/[.,;:)]+$/, '').trim();
-          if (diffEmailInput && !diffEmailInput.value.trim()) {
-            diffEmailInput.value = currentDiffEmail;
-          }
-        }
-      }
-
-      const currentPass = (isDiffEmail || isNoUser || isCodeUnused) ? '' : (document.getElementById('modalAssignedPassword')?.value.trim() || ticket.assignedPassword || '');
-
-      if (currentDiffEmail && currentNote.includes('[pega.aqui.el.correo@registrado.com]')) {
-        currentNote = currentNote.replaceAll('[pega.aqui.el.correo@registrado.com]', currentDiffEmail);
-        const noteEl = document.getElementById('modalSolutionNote');
-        if (noteEl && noteEl.value !== currentNote) {
-          noteEl.value = currentNote;
-        }
-      }
+      const currentDiffEmail = isDiffEmailVisible && diffEmailInput ? diffEmailInput.value.trim() : (ticket.assignedCorrectEmail || '');
+      const currentPass = (isDiffEmail || isNoUser) ? '' : (document.getElementById('modalAssignedPassword')?.value.trim() || ticket.assignedPassword || '');
 
       let msg = `Hola ${ticket.fullName}, te contacto de Richmond Pro respecto a tu solicitud de soporte ${ticket.folio} (${ticket.school}).\n\n`;
       msg += `Estatus: ${currentStatus}\n\n`;
@@ -2112,86 +1684,24 @@
         msg += `Resolucion:\n${currentNote}\n\n`;
       }
       
+      // Correo registrado se agrega si es resolución de correo diferente o cuenta encontrada (y NO es Alumno No Encontrado)
       if (isDiffEmail && currentStatus === 'Resuelto') {
-        const emailToShow = currentDiffEmail || ticket.assignedCorrectEmail || ticket.email;
+        const emailToShow = currentDiffEmail || ticket.email;
         if (emailToShow) {
           msg += `Correo registrado para ingresar: ${emailToShow}\n`;
+          msg += `Contrasena: La que tu pusiste en tu registro original (no se modifico tu contrasena).\n\n`;
         }
-        if (currentPass || currentNote.toLowerCase().includes('mexico26')) {
-          msg += `Contrasena asignada: ${currentPass || 'Mexico26*'}\n`;
-        } else {
-          msg += `Contrasena: La que tu pusiste en tu registro original (no se modifico tu contrasena).\n`;
-        }
-        msg += `Link para iniciar sesión: https://richmondstudio.global/login\n`;
-        msg += `OJO: Revisa bien poner el correo que se te compartio aqui arriba, ese es el correo con el que tienes que ingresar porque es el que validamos en nuestra base de datos, tienes que ponerlo tal cual, si tiene errores o mayusculas, asi lo debes de poner.\n\n`;
-      } else if (isCodeUnused && currentStatus === 'Resuelto') {
-        const codeToShow = (unusedCodeInput && unusedCodeInput.value.trim()) || ticket.assignedUnusedCode || ticket.bookCode || '';
-        if (codeToShow) {
-          msg += `Código vigente y sin uso para registrarte: ${codeToShow}\n`;
-        }
-        msg += `Link para registrarte: https://richmondstudio.global/registration/student\n\n`;
-      } else if ((currentPass || isPassReset) && currentStatus === 'Resuelto' && !isNoUser) {
-        const emailToShow = currentOfficialEmail || ticket.officialEmail || ticket.email || ticket.altEmail || '';
-        if (emailToShow) {
-          msg += `Correo oficial confirmado para ingresar: ${emailToShow}\n`;
-        }
-        msg += `Contrasena asignada: ${currentPass || 'Mexico26*'}\n`;
-        msg += `Link para iniciar sesión: https://richmondstudio.global/login\n`;
-        msg += `OJO: Revisa bien poner el correo que se te compartio aqui arriba, ese es el correo con el que tienes que ingresar porque es el que validamos en nuestra base de datos, tienes que ponerlo tal cual, si tiene errores o mayusculas, asi lo debes de poner.\n\n`;
+      } else if (currentPass && currentStatus === 'Resuelto' && !isNoUser) {
+        msg += `Contrasena asignada: ${currentPass}\n\n`;
       }
       msg += `Puedes revisar el detalle oficial de tu ticket en el enlace directo del sistema:\nhttps://yepzhi.com/help/?folio=${ticket.folio}`;
 
-      const rawNum = ticket.studentWhatsApp || '';
-      const cleanNum = rawNum.replace(/\D/g, '');
-
-      return { msg, cleanNum, ticket };
-    };
-
-    window.sendStudentWhatsApp = function(mode = 'web') {
-      const data = buildStudentWAMessage();
-      if (!data) return;
-      const { msg, cleanNum } = data;
-      const encodedMsg = encodeURIComponent(msg);
-
-      if (mode === 'app') {
-        const appUrl = cleanNum ? `whatsapp://send?phone=${cleanNum}&text=${encodedMsg}` : `whatsapp://send?text=${encodedMsg}`;
-        window.location.href = appUrl;
-        showAdminToast('Abriendo en App de WhatsApp…');
-        return;
+      const studentNum = ticket.studentWhatsApp || '';
+      if (studentNum) {
+        window.open(`https://wa.me/${studentNum}?text=${encodeURIComponent(msg)}`, '_blank');
+      } else {
+        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
       }
-
-      // Modo WhatsApp Web reutilizando SIEMPRE la misma pestaña fija
-      const WA_TAB_NAME = 'RichmondPro_WA_Session';
-      const webUrl = cleanNum 
-        ? `https://web.whatsapp.com/send?phone=${cleanNum}&text=${encodedMsg}`
-        : `https://web.whatsapp.com/send?text=${encodedMsg}`;
-
-      if (waWebWindowRef && !waWebWindowRef.closed) {
-        try {
-          waWebWindowRef.location.href = webUrl;
-          waWebWindowRef.focus();
-          showAdminToast('Mensaje cargado en tu pestaña de WhatsApp Web');
-          return;
-        } catch (err) {
-          // Fallback a window.open con el mismo nombre si hay restricción cross-origin
-        }
-      }
-
-      waWebWindowRef = window.open(webUrl, WA_TAB_NAME);
-      if (waWebWindowRef) {
-        waWebWindowRef.focus();
-      }
-      showAdminToast('Abriendo WhatsApp Web en pestaña fija');
-    };
-
-    window.copyWAMessageToClipboard = function() {
-      const data = buildStudentWAMessage();
-      if (!data) return;
-      navigator.clipboard.writeText(data.msg).then(() => {
-        showAdminToast('Mensaje de WhatsApp copiado al portapapeles');
-      }).catch(() => {
-        showAdminToast('No se pudo copiar automáticamente');
-      });
     };
 
     window.closeDetailModal = function() {
@@ -2252,44 +1762,20 @@
       const passInput = document.getElementById('modalAssignedPassword');
       const diffEmailGroup = document.getElementById('modalDiffEmailGroup');
       const diffEmailInput = document.getElementById('modalAssignedEmail');
-      const unusedCodeGroup = document.getElementById('modalUnusedCodeGroup');
-      const unusedCodeInput = document.getElementById('modalUnusedCode');
 
       const isPassVisible = passGroup && passGroup.style.display !== 'none';
       const isDiffEmailVisible = diffEmailGroup && diffEmailGroup.style.display !== 'none';
-      const isUnusedCodeVisible = unusedCodeGroup && unusedCodeGroup.style.display !== 'none';
       const noteLower = newSolutionNote.toLowerCase();
       const isNoUser = noteLower.includes('no se encontró') || noteLower.includes('no se encontro') || noteLower.includes('ningún usuario') || noteLower.includes('ningun usuario');
-      const isCodeUnused = noteLower.includes('no ha sido utilizado') || noteLower.includes('vigente y sin uso');
-      const isDiffEmail = !isNoUser && !isCodeUnused && (
-        isDiffEmailVisible || 
-        window.currentResolutionPreset === 'diff_email' ||
-        Boolean(diffEmailInput?.value?.trim()) ||
-        noteLower.includes('correo diferente') ||
-        noteLower.includes('diste de alta con un correo') ||
-        noteLower.includes('correo registrado')
-      );
 
       let assignedPass = '';
       let assignedCorrectEmail = '';
-      let assignedUnusedCode = '';
 
       if (newStatus === 'Resuelto') {
-        if (isDiffEmail) {
-          // Opcion Correo Diferente: ahora se cambia la contraseña por Mexico26*
-          if (window.currentResolutionPreset === 'diff_email' || newSolutionNote.toLowerCase().includes('mexico26')) {
-            assignedPass = 'Mexico26*';
-          } else {
-            assignedPass = '';
-          }
+        if (isDiffEmailVisible) {
+          // Opcion Correo Diferente: la contraseña es la que puso en su registro (NO se cambia contraseña)
+          assignedPass = '';
           assignedCorrectEmail = diffEmailInput ? diffEmailInput.value.trim() : '';
-          if (!assignedCorrectEmail) {
-            const match = newSolutionNote.match(/(?:correo registrado es:\s*|correo registrado\s*\(\s*|correo:\s*)([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/i)
-                       || newSolutionNote.match(/([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/);
-            if (match) assignedCorrectEmail = match[1].replace(/[.,;:)]+$/, '').trim();
-          }
-        } else if (isUnusedCodeVisible || isCodeUnused || window.currentResolutionPreset === 'code_unused') {
-          assignedUnusedCode = (unusedCodeInput && unusedCodeInput.value.trim()) || currentEditingTicket.assignedUnusedCode || currentEditingTicket.bookCode || '';
         } else if (isPassVisible && !isNoUser && passInput) {
           assignedPass = passInput.value.trim();
           assignedCorrectEmail = '';
@@ -2321,17 +1807,12 @@
       };
       const newAdvisorWA = ADVISOR_WAS[newAdvisor] || currentEditingTicket.advisorWA || '5216621147374';
 
-      const officialEmailInput = document.getElementById('modalOfficialEmail');
-      const officialEmail = (officialEmailInput && officialEmailInput.value.trim()) || currentEditingTicket.officialEmail || '';
-
       const updates = {
         status: newStatus,
         assignedAdvisor: newAdvisor,
         advisorWA: newAdvisorWA,
         assignedPassword: assignedPass,
         assignedCorrectEmail: assignedCorrectEmail,
-        assignedUnusedCode: assignedUnusedCode,
-        officialEmail: officialEmail,
         solutionNote: newSolutionNote,
         resolvedAtMillis: resolvedAtMillis
       };
@@ -2368,9 +1849,8 @@
         }
       }
 
-      // 2. Actualizar en allTickets en memoria y en la caché de sesión
+      // 2. Actualizar en allTickets en memoria
       Object.assign(currentEditingTicket, updates);
-      saveTicketsToCache(allTickets);
 
       // 3. Actualizar en localStorage
       const local = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
