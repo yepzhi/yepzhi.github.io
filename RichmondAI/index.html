@@ -1724,22 +1724,22 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
-  <!-- Application Logic & Scripts (v3.8.0 Cache-Buster) -->
-  <script src="aurora.js?v=3.8.0"></script>
-  <script src="app.js?v=3.8.0"></script>
+  <!-- Application Logic & Scripts (v3.8.2 Cache-Buster) -->
+  <script src="aurora.js?v=3.8.2"></script>
+  <script src="app.js?v=3.8.2"></script>
 
   <!-- Auto-upgrade cache-buster: ensures teachers never see stale cached assets -->
   <script>
     (function() {
-      const RICHMOND_VERSION = 'v3.8.0';
+      const RICHMOND_VERSION = 'v3.8.2';
       try {
         const stored = localStorage.getItem('richmond_app_build');
         if (stored !== RICHMOND_VERSION) {
           localStorage.setItem('richmond_app_build', RICHMOND_VERSION);
           // If URL doesn't have the version query param, update it once
           const url = new URL(window.location.href);
-          if (url.searchParams.get('v') !== '3.8.0') {
-            url.searchParams.set('v', '3.8.0');
+          if (url.searchParams.get('v') !== '3.8.2') {
+            url.searchParams.set('v', '3.8.2');
             window.location.replace(url.toString());
           }
         }
