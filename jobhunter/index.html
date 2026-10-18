@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>JobHunter — The Remote Job System (Powered by IAN)</title>
+  <meta name="description" content="Land a remote job with US & international startups in 90 days. ATS CV tailor, LinkedIn magnet optimizer, Boolean sourcing, hiring manager outreach & interview mastery.">
+  
+  <!-- Modern Typography (Outfit & Plus Jakarta Sans & JetBrains Mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6 Pro Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="styles.css?v=1.0.0">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ── 1. Rail Dock Sidebar ── -->
+    <aside class="rail-sidebar" id="rail-sidebar">
+      <div class="sidebar-top">
+        <div class="brand-avatar" title="IAN — Remote Career Strategist">
+          <span>IAN</span>
+        </div>
+      </div>
+
+      <nav class="rail-nav">
+        <!-- 90-Day Plan -->
+        <button class="rail-btn active" id="nav-btn-plan" data-tab="plan" title="90-Day Action Plan & Daily Tasks (/daily_task)">
+          <span class="rail-indicator"></span>
+          <span class="rail-icon-wrap">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          </span>
+          <span class="rail-label">90-Day Plan</span>
+        </button>
+
+        <!-- ATS CV Tailor -->
+        <button class="rail-btn" id="nav-btn-cv" data-tab="cv" title="ATS-Compliant CV Engine (/cv_tailor)">
+          <span class="rail-indicator"></span>
+          <span class="rail-icon-wrap">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          </span>
+          <span class="rail-label">ATS CV</span>
+        </button>
+
+        <!-- LinkedIn Magnet -->
+        <button class="rail-btn" id="nav-btn-linkedin" data-tab="linkedin" title="LinkedIn Magnet Optimizer (/linkedin)">
+          <span class="rail-indicator"></span>
+          <span class="rail-icon-wrap">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+          </span>
+          <span class="rail-label">LinkedIn</span>
+        </button>
+
+        <!-- Sourcing & Outreach -->
+        <button class="rail-btn" id="nav-btn-sourcing" data-tab="sourcing" title="Sourcing & Boolean Queries (/search, /outreach)">
+          <span class="rail-indicator"></span>
+          <span class="rail-icon-wrap">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </span>
+          <span class="rail-label">Sourcing</span>
+        </button>
+
+        <!-- Mock Interview -->
+        <button class="rail-btn" id="nav-btn-interview" data-tab="interview" title="STAR Mock Interview Simulator (/interview)">
+          <span class="rail-indicator"></span>
+          <span class="rail-icon-wrap">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          </span>
+          <span class="rail-label">Interview</span>
+        </button>
+
+        <!-- Negotiation -->
+        <button class="rail-btn" id="nav-btn-negotiate" data-tab="negotiate" title="Salary Counter-Offer & Perks (/negotiate)">
+          <span class="rail-indicator"></span>
+          <span class="rail-icon-wrap">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          </span>
+          <span class="rail-label">Negotiate</span>
+        </button>
+
+        <!-- Chat with IAN -->
+        <button class="rail-btn" id="nav-btn-chat" data-tab="chat" title="Chat with IAN (Career Strategist)">
+          <span class="rail-indicator"></span>
+          <span class="rail-icon-wrap">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10a9.96 9.96 0 0 1-4.587-1.113L2 22l1.113-5.413A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2z"></path></svg>
+          </span>
+          <span class="rail-label">Ask IAN</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <button class="rail-btn" id="btn-open-settings" title="Candidate Profile Settings (/start)">
+          <span class="rail-icon-wrap">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </span>
+          <span class="rail-label">Profile</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ── 2. Main Workspace ── -->
+    <main class="main-workspace">
+      
+      <!-- Top Bar Header Lockup -->
+      <header class="top-header">
+        <div class="header-left">
+          <div class="brand-title-wrap">
+            <span class="brand-name">Job<span class="brand-accent">Hunter</span></span>
+            <span class="tagline-badge">The Remote Job System</span>
+          </div>
+
+          <!-- Active Module Pill (Compact for Mobile) -->
+          <div class="active-module-crumb" id="header-module-crumb">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="color:var(--accent-emerald);"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <span id="header-module-name">90-Day Plan</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- 90-Day Progress Meter -->
+          <div class="header-pill" id="plan-progress-pill" title="Completed 90-Day Action Tasks">
+            <span class="pill-dot"></span>
+            <span class="pill-text" id="progress-text-display">0 / 23 Tasks</span>
+          </div>
+
+          <!-- Target Salary Badge -->
+          <div class="header-pill gold-pill" id="salary-pill" title="Target Monthly Salary">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+            <span class="pill-text" id="salary-display">$3,500/mo USD</span>
+          </div>
+
+          <!-- Quick Scam Scanner Button -->
+          <button class="btn-header-action" id="btn-open-scam-scanner" title="Verify Job Offer for Scams">
+            <i class="fa-solid fa-shield-virus"></i>
+            <span class="btn-text">Scam Check</span>
+          </button>
+
+          <!-- Candidate Avatar Button -->
+          <div class="user-badge" id="btn-header-profile" title="Candidate Profile & Settings">
+            <div class="user-avatar" id="user-avatar-text">JH</div>
+            <span class="user-role-label" id="user-role-display">Candidate</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- ── Workspace Views ── -->
+      <div class="workspace-scroll-area">
+
+        <!-- ── TAB 1: 90-DAY ACTION PLAN ── -->
+        <section class="tab-view active" id="view-plan">
+          <div class="section-hero">
+            <div class="hero-badge">Methodology: The Remote Job System by @reginaontheclock</div>
+            <h1 class="hero-title">90-Day Remote Career Roadmap</h1>
+            <p class="hero-subtitle">
+              <em>"Trabajar remoto no es suerte, es estrategia."</em> Follow our 4-phase tactical execution plan (30–60 min daily) to land your US remote startup role.
+            </p>
+          </div>
+
+          <div class="plan-phases-grid" id="plan-phases-container">
+            <!-- Populated dynamically via app.js & IanEngine -->
+          </div>
+        </section>
+
+        <!-- ── TAB 2: ATS-COMPLIANT CV ENGINE ── -->
+        <section class="tab-view" id="view-cv">
+          <div class="dual-pane-layout">
+            <!-- Left Pane: Input Job Description & Target Experience -->
+            <div class="control-card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-file-contract" style="color:var(--accent-emerald);"></i>
+                  <span>Target Role & Job Description</span>
+                </div>
+                <span class="mono-tag">/cv_tailor</span>
+              </div>
+              
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label" for="cv-target-role">Target Role Title (US Market Standard)</label>
+                  <input type="text" class="input-modern" id="cv-target-role" placeholder="e.g. Customer Success Manager, B2B Account Executive, Operations Specialist">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="cv-job-desc">Paste Job Description (JD) to Analyze</label>
+                  <textarea class="textarea-modern" id="cv-job-desc" rows="6" placeholder="Paste the full job posting from LinkedIn, Greenhouse, or Lever..."></textarea>
+                </div>
+
+                <div class="action-row">
+                  <button type="button" class="btn-primary" id="btn-analyze-jd">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Analyze JD & Match Score</span>
+                  </button>
+                  <button type="button" class="btn-secondary" id="btn-generate-cv">
+                    <i class="fa-solid fa-file-lines"></i>
+                    <span>Generate ATS CV</span>
+                  </button>
+                </div>
+
+                <!-- Analysis Summary Box -->
+                <div class="analysis-box" id="jd-analysis-box" style="display:none;">
+                  <div class="match-score-row">
+                    <span class="match-score-label">ATS Keyword Match:</span>
+                    <span class="match-score-val" id="match-score-val">78%</span>
+                  </div>
+                  <div class="keywords-cloud" id="keywords-cloud"></div>
+                  <div class="pain-point-note" id="pain-point-note"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Pane: 1-Column Plain-Text ATS Preview -->
+            <div class="control-card preview-card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-eye" style="color:var(--accent-blue);"></i>
+                  <span>1-Column ATS CV Delivery</span>
+                </div>
+                <div class="card-actions">
+                  <button type="button" class="btn-icon" id="btn-copy-cv" title="Copy to Clipboard">
+                    <i class="fa-solid fa-copy"></i>
+                  </button>
+                  <button type="button" class="btn-icon" id="btn-download-cv" title="Download Text File">
+                    <i class="fa-solid fa-download"></i>
+                  </button>
+                  <button type="button" class="btn-icon" id="btn-print-cv" title="Print / Save PDF">
+                    <i class="fa-solid fa-print"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="card-body">
+                <pre class="ats-preview-canvas" id="ats-preview-canvas">Click "Generate ATS CV" to render a clean, single-column, ATS-compliant resume engineered with the Google X-Y-Z formula.</pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── TAB 3: LINKEDIN MAGNET OPTIMIZATION ── -->
+        <section class="tab-view" id="view-linkedin">
+          <div class="dual-pane-layout">
+            <!-- Left: Settings & Profile Inputs -->
+            <div class="control-card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-brands fa-linkedin" style="color:#0a66c2;"></i>
+                  <span>LinkedIn Profile Optimizer</span>
+                </div>
+                <span class="mono-tag">/linkedin</span>
+              </div>
+
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label" for="li-role">Your Target Position</label>
+                  <input type="text" class="input-modern" id="li-role" placeholder="e.g. Senior Customer Success Manager">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="li-skills">Top 3 Signature Skills / Tech Stack</label>
+                  <input type="text" class="input-modern" id="li-skills" placeholder="e.g. Zendesk, Salesforce, Gainsight">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="li-impact">Core Measurable Outcome</label>
+                  <input type="text" class="input-modern" id="li-impact" placeholder="e.g. Driving 95%+ Net Retention, Scaling Outbound Pipeline">
+                </div>
+
+                <button type="button" class="btn-primary" id="btn-optimize-linkedin">
+                  <i class="fa-solid fa-bolt"></i>
+                  <span>Generate Magnet Headline & About</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: Generated Deliverables -->
+            <div class="control-card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-id-card-clip" style="color:var(--accent-pink);"></i>
+                  <span>Recruiter-Optimized Assets</span>
+                </div>
+                <button type="button" class="btn-icon" id="btn-copy-linkedin" title="Copy All LinkedIn Content">
+                  <i class="fa-solid fa-copy"></i>
+                </button>
+              </div>
+
+              <div class="card-body">
+                <!-- Headline Result -->
+                <div class="output-subcard">
+                  <div class="subcard-header">
+                    <span>1. Headline (Titular - Max 220 chars)</span>
+                    <button class="btn-mini" onclick="window.JobHunterApp.copyText('li-headline-text')">Copy</button>
+                  </div>
+                  <div class="code-preview-box" id="li-headline-text">Customer Success Manager | SaaS Retention Specialist | Driving 95%+ NRR | Bilingual (EN/ES)</div>
+                </div>
+
+                <!-- About Result -->
+                <div class="output-subcard" style="margin-top:14px;">
+                  <div class="subcard-header">
+                    <span>2. About Section (Extracto / Acerca de - 4-Part Structure)</span>
+                    <button class="btn-mini" onclick="window.JobHunterApp.copyText('li-about-text')">Copy</button>
+                  </div>
+                  <div class="code-preview-box" id="li-about-text">Generate your personalized 4-part About section highlighting async communication and track record.</div>
+                </div>
+
+                <!-- Settings Checklist -->
+                <div class="settings-checklist-box" id="li-checklist-box">
+                  <h4 style="font-size:0.88rem; margin-bottom:8px; color:var(--text-primary);">3. Technical Recruiter Search Settings</h4>
+                  <ul class="checklist-items" id="li-checklist-items"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── TAB 4: SOURCING & HIRING MANAGER OUTREACH ── -->
+        <section class="tab-view" id="view-sourcing">
+          <div class="dual-pane-layout">
+            <!-- Left: Boolean Generator & Curated Portals -->
+            <div class="control-card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-magnifying-glass-location" style="color:var(--accent-cyan);"></i>
+                  <span>Boolean & X-Ray Sourcing</span>
+                </div>
+                <span class="mono-tag">/search</span>
+              </div>
+
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label" for="sourcing-role">Search Role Title</label>
+                  <input type="text" class="input-modern" id="sourcing-role" placeholder="e.g. Customer Support Specialist">
+                </div>
+
+                <button type="button" class="btn-primary" id="btn-generate-boolean">
+                  <i class="fa-solid fa-code"></i>
+                  <span>Generate Search Strings</span>
+                </button>
+
+                <!-- Generated Boolean Queries -->
+                <div class="boolean-results-area" id="boolean-results-area" style="display:none; margin-top:14px;">
+                  <div class="query-block">
+                    <span class="query-label">LinkedIn Jobs Search String:</span>
+                    <pre class="query-code" id="bool-linkedin-jobs"></pre>
+                  </div>
+                  <div class="query-block">
+                    <span class="query-label">Google X-Ray (Greenhouse ATS Direct):</span>
+                    <pre class="query-code" id="bool-greenhouse"></pre>
+                  </div>
+                </div>
+
+                <!-- Direct Sourcing Platforms Directory -->
+                <div style="margin-top:20px;">
+                  <h4 style="font-size:0.86rem; color:var(--text-secondary); margin-bottom:10px;">Curated Startup & Remote Platforms:</h4>
+                  <div class="platforms-links-grid" id="platforms-grid"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Hiring Manager Outreach Sequencer -->
+            <div class="control-card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-paper-plane" style="color:var(--accent-gold);"></i>
+                  <span>Hiring Manager Outreach Sequences</span>
+                </div>
+                <span class="mono-tag">/outreach</span>
+              </div>
+
+              <div class="card-body">
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label class="form-label" for="outreach-manager">Manager First Name</label>
+                    <input type="text" class="input-modern" id="outreach-manager" placeholder="e.g. Sarah">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="outreach-company">Company Name</label>
+                    <input type="text" class="input-modern" id="outreach-company" placeholder="e.g. Stripe, Acme Corp">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="outreach-achievement">Key Quantifiable Metric</label>
+                  <input type="text" class="input-modern" id="outreach-achievement" placeholder="e.g. reduced churn by 18%, automated 15+ weekly reporting hours">
+                </div>
+
+                <button type="button" class="btn-primary" id="btn-generate-outreach">
+                  <i class="fa-solid fa-envelope-open-text"></i>
+                  <span>Generate 3-Step Outreach Sequence</span>
+                </button>
+
+                <!-- Sequence Output -->
+                <div class="outreach-templates-container" id="outreach-templates-container" style="margin-top:16px;">
+                  <!-- Template A -->
+                  <div class="template-box">
+                    <div class="template-header">
+                      <span>Template A: Connection Request (< 300 chars)</span>
+                      <button class="btn-mini" onclick="window.JobHunterApp.copyText('outreach-t-a')">Copy</button>
+                    </div>
+                    <div class="template-text" id="outreach-t-a">Hi [First Name], noticed you lead the team at [Company]. Really impressed by your recent work. I specialize in [Key Skill] and would love to connect and follow your journey here. Best!</div>
+                  </div>
+
+                  <!-- Template B -->
+                  <div class="template-box" style="margin-top:12px;">
+                    <div class="template-header">
+                      <span>Template B: Value Pitch InMail / Post-Connection</span>
+                      <button class="btn-mini" onclick="window.JobHunterApp.copyText('outreach-t-b')">Copy</button>
+                    </div>
+                    <div class="template-text" id="outreach-t-b">Hi [First Name], thank you for connecting! I saw that [Company] is expanding its team...</div>
+                  </div>
+
+                  <!-- Template C -->
+                  <div class="template-box" style="margin-top:12px;">
+                    <div class="template-header">
+                      <span>Template C: 7-Day Professional Follow-Up</span>
+                      <button class="btn-mini" onclick="window.JobHunterApp.copyText('outreach-t-c')">Copy</button>
+                    </div>
+                    <div class="template-text" id="outreach-t-c">Hi [First Name], hope you're having a productive week. Just wanted to follow up briefly regarding the application...</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── TAB 5: MOCK INTERVIEW & STAR SIMULATOR ── -->
+        <section class="tab-view" id="view-interview">
+          <div class="dual-pane-layout">
+            <!-- Left: Live Interview Question Stage -->
+            <div class="control-card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-microphone-lines" style="color:var(--accent-pink);"></i>
+                  <span>STAR Method Mock Interview</span>
+                </div>
+                <div style="display:flex; gap:8px;">
+                  <button type="button" class="btn-icon" id="btn-speak-question" title="Listen to Question (TTS)">
+                    <i class="fa-solid fa-volume-high"></i>
+                  </button>
+                  <span class="mono-tag" id="interview-q-index">Question 1 / 5</span>
+                </div>
+              </div>
+
+              <div class="card-body">
+                <div class="interview-prompt-card">
+                  <div class="question-type-badge" id="interview-q-type">Elevator Pitch</div>
+                  <h3 class="interview-question-text" id="interview-q-text">Tell me about yourself and why you are interested in this remote role.</h3>
+                  <p class="interview-guidance-text" id="interview-q-guidance">Use the 90-second formula: Present (current role & superpower), Past (1-2 quantifiable proof points), Future (why this exact remote role is next).</p>
+                </div>
+
+                <div class="form-group" style="margin-top:14px;">
+                  <label class="form-label" for="user-interview-answer">Your Answer (Type or Practice Aloud):</label>
+                  <textarea class="textarea-modern" id="user-interview-answer" rows="5" placeholder="I have been operating as a Customer Success Manager for the past 4 years..."></textarea>
+                </div>
+
+                <div class="action-row">
+                  <button type="button" class="btn-primary" id="btn-evaluate-answer">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>Evaluate Answer (STAR Score)</span>
+                  </button>
+                  <button type="button" class="btn-secondary" id="btn-next-question">
+                    <span>Next Question</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Recruiter Feedback & High-Impact Rewrite -->
+            <div class="control-card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-graduation-cap" style="color:var(--accent-emerald);"></i>
+                  <span>IAN's Recruiter Feedback & Polish</span>
+                </div>
+              </div>
+
+              <div class="card-body">
+                <div class="feedback-metric-row">
+                  <div class="score-dial">
+                    <span class="score-number" id="feedback-score-num">--</span>
+                    <span class="score-sub">/ 100</span>
+                  </div>
+                  <div class="score-summary">
+                    <h4 id="feedback-status-title">Awaiting Response</h4>
+                    <p id="feedback-critique-text">Submit your answer to receive a STAR framework breakdown and critique on English clarity.</p>
+                  </div>
+                </div>
+
+                <div class="model-answer-box" id="feedback-model-box" style="display:none; margin-top:16px;">
+                  <div class="subcard-header">
+                    <span>High-Impact Model Answer:</span>
+                    <button class="btn-mini" onclick="window.JobHunterApp.copyText('feedback-model-text')">Copy</button>
+                  </div>
+                  <div class="code-preview-box" id="feedback-model-text"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── TAB 6: SALARY NEGOTIATION & CONTRACTS ── -->
+        <section class="tab-view" id="view-negotiate">
+          <div class="dual-pane-layout">
+            <!-- Left: Offer Calculator -->
+            <div class="control-card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-coins" style="color:var(--accent-gold);"></i>
+                  <span>Compensation & Counter-Offer Calculator</span>
+                </div>
+                <span class="mono-tag">/negotiate</span>
+              </div>
+
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label" for="neg-current-offer">Initial Written Offer ($USD Monthly)</label>
+                  <input type="number" class="input-modern" id="neg-current-offer" value="3000" step="100">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="neg-target-role">Position Title</label>
+                  <input type="text" class="input-modern" id="neg-target-role" placeholder="e.g. Operations Specialist">
+                </div>
+
+                <button type="button" class="btn-primary" id="btn-calculate-negotiation">
+                  <i class="fa-solid fa-calculator"></i>
+                  <span>Calculate Counter-Offer & Scripts</span>
+                </button>
+
+                <!-- Tax & Legal Guidance (W-8BEN vs EOR) -->
+                <div class="legal-notice-box" style="margin-top:20px;">
+                  <h4 style="font-size:0.86rem; color:var(--text-primary); margin-bottom:6px;">Contract Structure Overview:</h4>
+                  <p style="font-size:0.78rem; color:var(--text-secondary); line-height:1.5;">
+                    • <strong>W-8BEN Contractor:</strong> You invoice directly as an independent contractor. Zero US tax withheld. Paid via Wise, Payoneer, or direct wire.<br>
+                    • <strong>Employer of Record (Deel, Remote.com, Oyster):</strong> You receive local currency with statutory local benefits.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Negotiation Scripts Delivery -->
+            <div class="control-card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-handshake" style="color:var(--accent-emerald);"></i>
+                  <span>Exact Counter-Offer Word-for-Word Scripts</span>
+                </div>
+              </div>
+
+              <div class="card-body">
+                <!-- Recommended Target Pill -->
+                <div class="target-counter-banner">
+                  <span>Recommended Counter Target:</span>
+                  <strong class="counter-val-highlight" id="counter-val-highlight">$3,360 USD / mo (+12%)</strong>
+                </div>
+
+                <!-- Script 1: Deflection during initial screen -->
+                <div class="output-subcard" style="margin-top:14px;">
+                  <div class="subcard-header">
+                    <span>1. Early Phone Screen Deflection Script</span>
+                    <button class="btn-mini" onclick="window.JobHunterApp.copyText('neg-deflection-text')">Copy</button>
+                  </div>
+                  <div class="code-preview-box" id="neg-deflection-text">I am focused on finding the right mutual fit first, but based on market research for remote positions with my experience, I am targeting a range of $3,000 – $3,750 USD monthly...</div>
+                </div>
+
+                <!-- Script 2: Counter-offer script -->
+                <div class="output-subcard" style="margin-top:14px;">
+                  <div class="subcard-header">
+                    <span>2. Written Counter-Offer Email Script</span>
+                    <button class="btn-mini" onclick="window.JobHunterApp.copyText('neg-counter-text')">Copy</button>
+                  </div>
+                  <div class="code-preview-box" id="neg-counter-text">Hi [Name], thank you so much for the offer! I was hoping we could get closer to $3,360 USD base monthly...</div>
+                </div>
+
+                <!-- Script 3: Benefits & Perks -->
+                <div class="output-subcard" style="margin-top:14px;">
+                  <div class="subcard-header">
+                    <span>3. Home Office & Wellness Stipend Request</span>
+                    <button class="btn-mini" onclick="window.JobHunterApp.copyText('neg-perks-text')">Copy</button>
+                  </div>
+                  <div class="code-preview-box" id="neg-perks-text">In addition to base compensation, does the company provide a home office setup stipend ($500–$1,000 USD)...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── TAB 7: CHAT WITH IAN ── -->
+        <section class="tab-view" id="view-chat">
+          <div class="chat-terminal-container">
+            <div class="chat-terminal-header">
+              <div class="chat-agent-info">
+                <div class="agent-pulse-dot"></div>
+                <div>
+                  <h3 style="font-size:0.95rem; font-weight:700;">IAN — Remote Career Strategist</h3>
+                  <span style="font-size:0.75rem; color:var(--text-muted);">Replication engine: The Remote Job System by @reginaontheclock</span>
+                </div>
+              </div>
+              <div class="command-pills-row">
+                <button class="chip-cmd" onclick="window.JobHunterApp.sendQuickCommand('/start')">/start</button>
+                <button class="chip-cmd" onclick="window.JobHunterApp.sendQuickCommand('/cv_tailor')">/cv_tailor</button>
+                <button class="chip-cmd" onclick="window.JobHunterApp.sendQuickCommand('/linkedin')">/linkedin</button>
+                <button class="chip-cmd" onclick="window.JobHunterApp.sendQuickCommand('/search')">/search</button>
+                <button class="chip-cmd" onclick="window.JobHunterApp.sendQuickCommand('/outreach')">/outreach</button>
+                <button class="chip-cmd" onclick="window.JobHunterApp.sendQuickCommand('/interview')">/interview</button>
+                <button class="chip-cmd" onclick="window.JobHunterApp.sendQuickCommand('/negotiate')">/negotiate</button>
+                <button class="chip-cmd" onclick="window.JobHunterApp.sendQuickCommand('/daily_task')">/daily_task</button>
+              </div>
+            </div>
+
+            <!-- Messages Stream -->
+            <div class="chat-messages-stream" id="chat-messages-stream">
+              <div class="chat-bubble agent-bubble">
+                <div class="bubble-sender">IAN • Remote Career Strategist</div>
+                <div class="bubble-content">
+                  ¡Hola! Soy <strong>IAN</strong>, tu copiloto estratégico para conseguir tu trabajo remoto con empresas de EE. UU. e internacionales aplicando el método de <em>The Remote Job System</em>.<br><br>
+                  Recuerda: <strong>"Trabajar remoto no es suerte, es estrategia."</strong><br><br>
+                  Para comenzar, puedes escribir <span class="mono-badge">/start</span> para calibrar tu perfil objetivo, o seleccionar cualquiera de los módulos en la barra lateral. ¿En qué nos enfocamos hoy?
+                </div>
+              </div>
+            </div>
+
+            <!-- Chat Input Bar -->
+            <form class="chat-input-bar" id="chat-input-form">
+              <input type="text" class="input-chat" id="chat-input-field" placeholder="Ask IAN anything or type a command e.g. /cv_tailor, /interview, /daily_task...">
+              <button type="submit" class="btn-chat-send" title="Send message">
+                <i class="fa-solid fa-arrow-up"></i>
+              </button>
+            </form>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ── MODAL 1: CANDIDATE PROFILE INTAKE (/start) ── -->
+  <div class="modal-overlay" id="modal-profile">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-user-gear" style="color:var(--accent-emerald);"></i>
+          <span>Candidate Intake & 90-Day Calibration (/start)</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-modal-profile" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p style="font-size:0.84rem; color:var(--text-secondary);">
+          Calibrate your target goals and daily commitment to generate tailored ATS resumes, outreach messages, and interview scripts.
+        </p>
+
+        <form id="form-profile" style="display:flex; flex-direction:column; gap:14px;">
+          <div class="form-group">
+            <label class="form-label" for="input-profile-role">1. Target Job Title(s)</label>
+            <input type="text" class="input-modern" id="input-profile-role" placeholder="e.g. Customer Success Manager, Operations Lead, Sales SDR">
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="input-profile-years">2. Years of Experience</label>
+              <input type="text" class="input-modern" id="input-profile-years" placeholder="e.g. 4+ years">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="select-profile-english">3. English Level</label>
+              <select class="input-modern" id="select-profile-english">
+                <option value="B1 Intermediate">Intermediate (B1)</option>
+                <option value="B2 Upper-Intermediate" selected>Upper-Intermediate (B2)</option>
+                <option value="C1 Advanced">Advanced / Fluent (C1)</option>
+                <option value="C2 Native/Bilingual">Native / Bilingual (C2)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="input-profile-salary">4. Target Monthly Salary (USD)</label>
+              <input type="number" class="input-modern" id="input-profile-salary" placeholder="e.g. 3500">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="select-profile-hours">5. Daily Search Time</label>
+              <select class="input-modern" id="select-profile-hours">
+                <option value="30">30 min / day</option>
+                <option value="60" selected>60 min / day</option>
+                <option value="90">90 min / day</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="input-profile-summary">6. Current Career Summary / Past Responsibilities</label>
+            <textarea class="textarea-modern" id="input-profile-summary" rows="3" placeholder="Brief summary of your background, industries worked in, key achievements..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary" style="margin-top:6px; justify-content:center;">
+            <i class="fa-solid fa-check"></i>
+            <span>Save Profile & Calibrate Plan</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL 2: REMOTE JOB SCAM SCANNER ── -->
+  <div class="modal-overlay" id="modal-scam">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-shield-virus" style="color:var(--accent-pink);"></i>
+          <span>Remote Job Scam Alert Scanner</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-modal-scam" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p style="font-size:0.84rem; color:var(--text-secondary);">
+          Paste suspicious recruiter emails, Telegram messages, or job offers. IAN will scan for payment check scams, fake domains, and text-only interview red flags.
+        </p>
+
+        <div class="form-group">
+          <label class="form-label" for="input-scam-text">Paste Recruiter Message or Offer Details:</label>
+          <textarea class="textarea-modern" id="input-scam-text" rows="5" placeholder="e.g. Kindly contact our hiring lead via Telegram to receive your equipment payment check..."></textarea>
+        </div>
+
+        <button type="button" class="btn-primary" id="btn-run-scam-scan" style="justify-content:center;">
+          <i class="fa-solid fa-radar"></i>
+          <span>Run Scam Diagnostics</span>
+        </button>
+
+        <div class="scam-results-box" id="scam-results-box" style="display:none; margin-top:14px;">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="ian-engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "jobhunter",
+  "version": "1.0.0",
+  "description": "The Remote Job System Replication Engine — Powered by IAN (Remote Career Strategist & Headhunter)",
+  "main": "app.js",
+  "scripts": {
+    "start": "python3 -m http.server 8081",
+    "test": "node tests/engine.test.js",
+    "deploy": "cp -r . /Users/yepz/yepzhiweb/jobhunter/ && cd /Users/yepz/yepzhiweb && git add jobhunter && git commit -m 'deploy(jobhunter): initial release of The Remote Job System engine' && git push"
+  },
+  "keywords": [
+    "remote-jobs",
+    "ats-resume",
+    "linkedin-optimization",
+    "boolean-search",
+    "interview-prep",
+    "salary-negotiation"
+  ],
+  "author": "yepzhi",
+  "license": "MIT"
+}
