@@ -927,10 +927,39 @@
                 <i class="fa-solid fa-copy"></i>
                 <span>Copy</span>
               </button>
+              <button class="action-btn-sm cartridge-btn" id="btn-save-as-cartridge" title="Save this generated lesson as a reusable Cartridge">
+                <i class="fa-solid fa-cube"></i>
+                <span>Save Cartridge</span>
+              </button>
               <button class="action-btn-sm" id="btn-export-save" title="Save to My Generations Library">
                 <i class="fa-solid fa-bookmark"></i>
                 <span>Save</span>
               </button>
+            </div>
+          </div>
+
+          <!-- Accessibility & Visual Ergonomics Toolbar -->
+          <div class="accessibility-bar" id="accessibility-toolbar" aria-label="Reading Accessibility and Typography Toolbar">
+            <div class="a11y-group">
+              <button type="button" class="a11y-btn" id="btn-toggle-dyslexia" title="Toggle Dyslexia-friendly reading font & spacing">
+                <i class="fa-solid fa-font"></i> <span>Dyslexia Font</span>
+              </button>
+              <button type="button" class="a11y-btn" id="btn-toggle-contrast" title="Toggle High Contrast Mode">
+                <i class="fa-solid fa-circle-half-stroke"></i> <span>High Contrast</span>
+              </button>
+            </div>
+            <div class="a11y-group">
+              <span class="a11y-label"><i class="fa-solid fa-palette"></i> Tint:</span>
+              <button type="button" class="tint-swatch tint-white active" data-tint="default" title="Standard White"></button>
+              <button type="button" class="tint-swatch tint-cream" data-tint="cream" title="Soft Cream (Warm Reading)"></button>
+              <button type="button" class="tint-swatch tint-mint" data-tint="mint" title="Gentle Mint (Visual Stress Relief)"></button>
+              <button type="button" class="tint-swatch tint-sky" data-tint="sky" title="Gentle Sky Blue"></button>
+            </div>
+            <div class="a11y-group">
+              <span class="a11y-label">Size:</span>
+              <button type="button" class="a11y-btn-sm" id="btn-font-dec" title="Decrease font size">A-</button>
+              <button type="button" class="a11y-btn-sm" id="btn-font-reset" title="Reset font size">100%</button>
+              <button type="button" class="a11y-btn-sm" id="btn-font-inc" title="Increase font size">A+</button>
             </div>
           </div>
 
@@ -954,12 +983,46 @@
               </div>
             </div>
 
-            <!-- Loading Shimmer State -->
+            <!-- Loading Shimmer State & Step-by-Step Pipeline Visualizer -->
             <div class="loading-indicator-box" id="loading-state-box">
-              <div class="cyber-spinner"></div>
-              <div class="loading-text">
-                <i class="fa-solid fa-bolt" style="color:var(--accent-gold);"></i>
-                <span id="loading-status-message">Richmond Neural Engine is calibrating CEFR B1 vocabulary and distractor rationales...</span>
+              <div class="pipeline-visualizer">
+                <div class="pipeline-header">
+                  <div class="cyber-spinner-sm"></div>
+                  <div class="pipeline-heading-text">
+                    <span class="pipeline-title">Richmond Neural Engine · Multimodal Pipeline</span>
+                    <span class="pipeline-badge" id="pipeline-active-badge">Stage 1 of 4</span>
+                  </div>
+                </div>
+                <div class="pipeline-steps-list">
+                  <div class="pipeline-step-item active" id="pipe-step-1">
+                    <div class="pipe-icon-col"><i class="fa-solid fa-spinner fa-spin"></i></div>
+                    <div class="pipe-text-col">
+                      <span class="pipe-step-title">1. Context & CEFR Calibration</span>
+                      <span class="pipe-step-sub">Analyzing learner profile, regional vocabulary, and syllabus constraints</span>
+                    </div>
+                  </div>
+                  <div class="pipeline-step-item" id="pipe-step-2">
+                    <div class="pipe-icon-col"><i class="fa-regular fa-circle"></i></div>
+                    <div class="pipe-text-col">
+                      <span class="pipe-step-title">2. Neural Curriculum Synthesis</span>
+                      <span class="pipe-step-sub">Formulating pedagogical exercises, realistic scenarios, and distractor matrices</span>
+                    </div>
+                  </div>
+                  <div class="pipeline-step-item" id="pipe-step-3">
+                    <div class="pipe-icon-col"><i class="fa-regular fa-circle"></i></div>
+                    <div class="pipe-text-col">
+                      <span class="pipe-step-title">3. European ELT Standards Verification</span>
+                      <span class="pipe-step-sub">Validating level appropriateness, teacher key rationales, and rubric metrics</span>
+                    </div>
+                  </div>
+                  <div class="pipeline-step-item" id="pipe-step-4">
+                    <div class="pipe-icon-col"><i class="fa-regular fa-circle"></i></div>
+                    <div class="pipe-text-col">
+                      <span class="pipe-step-title">4. Mobile Practice & Audio Packaging</span>
+                      <span class="pipe-step-sub">Compiling interactive student runner, QR code, and Mini PC TTS speech</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -1433,6 +1496,16 @@
           </div>
         </div>
 
+        <div style="display:flex; gap:10px; margin-top:10px; margin-bottom:14px;">
+          <button type="button" class="btn-glass" id="btn-export-cartridges-json" style="flex:1; justify-content:center; font-size:0.8rem; border-color:rgba(37,99,235,0.3); color:#2563eb;">
+            <i class="fa-solid fa-file-export"></i> Export Cartridges (JSON)
+          </button>
+          <label class="btn-glass" style="flex:1; justify-content:center; font-size:0.8rem; cursor:pointer; margin:0; border-color:rgba(16,185,129,0.3); color:#059669;">
+            <i class="fa-solid fa-file-import"></i> Import Cartridge (JSON)
+            <input type="file" id="input-import-cartridge-file" accept=".json" style="display:none;">
+          </label>
+        </div>
+
         <div style="border-top:1px solid var(--glass-border); padding-top:14px;">
           <h4 style="font-size:0.92rem; margin-bottom:8px;">Create New Cartridge</h4>
           <div class="form-group" style="margin-bottom:8px;">
@@ -1571,22 +1644,22 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
-  <!-- Application Logic & Scripts (v3.7.0 Cache-Buster) -->
-  <script src="aurora.js?v=3.7.0"></script>
-  <script src="app.js?v=3.7.0"></script>
+  <!-- Application Logic & Scripts (v3.8.0 Cache-Buster) -->
+  <script src="aurora.js?v=3.8.0"></script>
+  <script src="app.js?v=3.8.0"></script>
 
   <!-- Auto-upgrade cache-buster: ensures teachers never see stale cached assets -->
   <script>
     (function() {
-      const RICHMOND_VERSION = 'v3.7.0';
+      const RICHMOND_VERSION = 'v3.8.0';
       try {
         const stored = localStorage.getItem('richmond_app_build');
         if (stored !== RICHMOND_VERSION) {
           localStorage.setItem('richmond_app_build', RICHMOND_VERSION);
           // If URL doesn't have the version query param, update it once
           const url = new URL(window.location.href);
-          if (url.searchParams.get('v') !== '3.7.0') {
-            url.searchParams.set('v', '3.7.0');
+          if (url.searchParams.get('v') !== '3.8.0') {
+            url.searchParams.set('v', '3.8.0');
             window.location.replace(url.toString());
           }
         }
