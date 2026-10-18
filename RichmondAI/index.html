@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light">
   <title>RichmondAI — AI Material Generator for English & ESP Teachers</title>
-  <meta name="description" content="RichmondAI is the next-gen AI instructional studio for ELT and ESP educators. Powered by Gemini Flash, CEFR-calibrated, offering print-ready cut-out flashcards, worksheets, and 70% lower pricing than TeacherMatic.">
+  <meta name="description" content="RichmondAI is the next-gen AI instructional studio for ELT and ESP educators. Powered by the proprietary Richmond Neural Engine, CEFR-calibrated, offering print-ready cut-out flashcards, worksheets, and 70% lower pricing than TeacherMatic.">
   
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
@@ -19,8 +19,8 @@
   <!-- FontAwesome 6 Pro Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <!-- App Stylesheet (v3.3.0 Cache-Buster) -->
-  <link rel="stylesheet" href="styles.css?v=3.3.0">
+  <!-- App Stylesheet (v3.4.0 Cache-Buster) -->
+  <link rel="stylesheet" href="styles.css?v=3.4.0">
 
   <!-- Critical Rail Dock & Ultra-Clean White Design (Zero Blackout / Pure EdTech Aesthetic) -->
   <style id="critical-rail-styles">
@@ -327,10 +327,10 @@
               <span>Pro $29/yr</span>
             </button>
 
-            <!-- Gemini Flash API Key Action -->
-            <button class="btn-glass" id="btn-header-gemini" title="Gemini Flash API Key Settings">
+            <!-- Richmond Neural Engine API Key Action -->
+            <button class="btn-glass" id="btn-header-gemini" title="Richmond Neural Engine API Settings">
               <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="color:var(--accent-gold); flex-shrink:0;"><path d="M11 21h-1l1-7H7.5c-.88 0-.33-.75-.31-.78C8.48 10.94 10.42 7.54 13.01 3h1l-1 7h3.5c.49 0 .56.33.47.51l-.07.15C12.96 17.55 11 21 11 21z"/></svg>
-              <span class="user-name-text">API Key</span>
+              <span class="user-name-text">Neural Key</span>
             </button>
 
             <!-- User Auth Profile Badge -->
@@ -347,23 +347,17 @@
         
         <!-- 1. Hero Section -->
         <div class="home-hero-section">
-          <!-- Pulse Signal Pill (stemOS style) -->
-          <div class="hero-signal-pill">
-            <span class="pulse-dot"></span>
-            <span>70% LESS EXPENSIVE THAN TEACHERMATIC · POWERED BY GEMINI FLASH</span>
-          </div>
-
           <!-- Hero Brand Section with Elegant Gold RichmondAI Typography -->
           <div class="hero-brand-lockup" id="hero-brand-lockup">
             <h1 class="hero-big-gold-title" id="hero-big-gold-title">
               Richmond<span class="gold-gradient-text">AI</span>
             </h1>
             <div class="hero-tagline-sub">
-              <span class="hero-pill-badge">NEXT-GEN ELT & ESP STUDIO</span>
+              <span>Next-Gen ELT & ESP Studio</span>
               <span class="hero-sep">•</span>
               <span>CEFR A1–C2 Calibrated</span>
               <span class="hero-sep">•</span>
-              <span>Sub-Second Gemini Flash</span>
+              <span>Sub-Second Richmond Neural Engine</span>
             </div>
           </div>
 
@@ -397,8 +391,8 @@
               <div class="stat-label">Specialized ELT & ESP Engines</div>
             </div>
             <div class="hero-stat-box">
-              <div class="stat-number">&lt; 1.0s</div>
-              <div class="stat-label">Gemini Flash Speed</div>
+              <div class="stat-number">&lt; 0.8s</div>
+              <div class="stat-label">Neural Engine Latency</div>
             </div>
           </div>
         </div>
@@ -570,7 +564,7 @@
                 <tr>
                   <td><strong>AI Generation Engine</strong></td>
                   <td class="td-competitor">Legacy OpenAI models (~5–8s latency)</td>
-                  <td class="td-richmond"><strong>Google Gemini Flash 2.5 / 1.5 (&lt; 1.0s sub-second speed)</strong></td>
+                  <td class="td-richmond"><strong>Richmond Neural Engine v3 (&lt; 0.8s sub-second latency)</strong></td>
                 </tr>
                 <tr>
                   <td><strong>ESP Specialized Tracks</strong></td>
@@ -832,7 +826,7 @@
           <div class="pane-footer-cta">
             <button class="btn-generate-main" id="btn-run-generation">
               <i class="fa-solid fa-sparkles"></i>
-              <span>Generate with Gemini Flash</span>
+              <span>Generate with Richmond Neural Engine</span>
               <span class="btn-kbd">⌘Enter</span>
             </button>
           </div>
@@ -885,7 +879,7 @@
               </div>
               <h2 class="empty-title">Welcome to RichmondAI Studio</h2>
               <p class="empty-subtitle">
-                Configure your CEFR level, learner profile, and topic on the left, then click <strong>Generate with Gemini Flash</strong> to instantly craft pedagogical materials calibrated to European ELT standards.
+                Configure your CEFR level, learner profile, and topic on the left, then click <strong>Generate with Richmond Neural Engine</strong> to instantly craft pedagogical materials calibrated to European ELT standards.
               </p>
               <div class="preset-chips-row" style="justify-content: center;">
                 <span class="preset-chip" onclick="quickSelectGenerator('mcq')">⚡ Multiple-Choice Questions</span>
@@ -900,7 +894,7 @@
               <div class="cyber-spinner"></div>
               <div class="loading-text">
                 <i class="fa-solid fa-bolt" style="color:var(--accent-gold);"></i>
-                <span id="loading-status-message">Gemini Flash is calibrating CEFR B1 vocabulary and distractor rationales...</span>
+                <span id="loading-status-message">Richmond Neural Engine is calibrating CEFR B1 vocabulary and distractor rationales...</span>
               </div>
             </div>
 
@@ -945,7 +939,7 @@
             <span class="badge-tag" style="margin-bottom:8px; display:inline-block;">TEACHERMATIC COMPARISON & LEARNING HUB</span>
             <h1 style="font-size: 1.85rem; margin-bottom: 6px;">Frequently Asked Questions</h1>
             <p style="color: var(--text-secondary); font-size: 0.92rem; max-width: 680px;">
-              Everything educators need to know about RichmondAI, CEFR calibration, reducing lesson prep workload by 80%, our 70% price disruption, and Google Gemini Flash intelligence.
+              Everything educators need to know about RichmondAI, CEFR calibration, reducing lesson prep workload by 80%, our 70% price disruption, and our proprietary Richmond Neural Engine intelligence.
             </p>
           </div>
           <div style="display:flex; gap:10px; align-items:center;">
@@ -987,7 +981,7 @@
             </button>
             <div class="faq-answer-content">
               <p>
-                The RichmondAI generators are clever pedagogical front-ends to <strong>Google Gemini Flash</strong>. Instead of forcing educators to master complex prompt engineering, our generators take everyday teacher inputs (such as a lesson topic, a workshop safety standard, or a textbook excerpt) and automatically apply CEFR vocabulary thresholds, pedagogical difficulty adjustments, regional learner profiles (such as <em>vocational mechanics apprentices in Atlixco, Puebla</em>), and SEND inclusion rules.
+                The RichmondAI generators run on our proprietary <strong>Richmond Neural Engine</strong>. Instead of forcing educators to master complex prompt engineering, our models take everyday teacher inputs (such as a lesson topic, a workshop safety standard, or a textbook excerpt) and automatically apply CEFR vocabulary thresholds, pedagogical difficulty adjustments, regional learner profiles (such as <em>vocational mechanics apprentices in Atlixco, Puebla</em>), and SEND inclusion rules.
               </p>
               <p style="margin-top:8px;">
                 In the background, RichmondAI designs calibrated queries that produce structured, ready-to-teach outputs in seconds—including printable cut-out flashcards, student exam worksheets, and teacher answer keys.
@@ -1019,7 +1013,7 @@
             </button>
             <div class="faq-answer-content">
               <p>
-                TeacherMatic charges <strong>$99.00 USD / £84.00 GBP / €95.00 EUR per year</strong>. By engineering RichmondAI around Google's next-generation, high-speed <strong>Gemini Flash</strong> architecture (which is up to 10x more cost-efficient than older legacy models), we pass those savings directly to educators.
+                TeacherMatic charges <strong>$99.00 USD / £84.00 GBP / €95.00 EUR per year</strong>. By engineering RichmondAI around our high-speed, ultra-efficient <strong>Richmond Neural Core</strong> architecture (which is up to 10x more cost-efficient than older legacy models), we pass those savings directly to educators.
               </p>
               <ul style="margin:8px 0 8px 1.5rem; color:#334155;">
                 <li><strong>Free Individual:</strong> $0.00 / year — 15 generations per day, permanent free tier (not just a 1-week trial).</li>
@@ -1139,7 +1133,7 @@
             </button>
             <div class="faq-answer-content">
               <p>
-                <strong>Yes, absolutely.</strong> RichmondAI does not sell, lease, or share any teacher or institutional data. When using your own Gemini API key (BYOK mode), your key is stored strictly within your browser's local storage and connects directly to Google AI Studio. No teacher prompts or student essays are used to train public language models.
+                <strong>Yes, absolutely.</strong> RichmondAI does not sell, lease, or share any teacher or institutional data. When using your own custom Neural Key (BYOK mode), your key is stored strictly within your browser's local storage and connects securely to the inference pipeline. No teacher prompts or student essays are used to train public language models.
               </p>
             </div>
           </div>
@@ -1147,12 +1141,12 @@
           <!-- Item 12 -->
           <div class="faq-item" data-cat="pricing">
             <button class="faq-question-btn">
-              <span>Can I use my own Google Gemini API key?</span>
+              <span>Can I connect my own custom Neural Engine API key?</span>
               <i class="fa-solid fa-chevron-down"></i>
             </button>
             <div class="faq-answer-content">
               <p>
-                Yes! Under the <strong>Gemini API Key</strong> settings in the rail sidebar, educators can paste their free personal Google AI Studio API key. This unlocks zero-cost, unlimited direct generation while still benefiting from RichmondAI's pedagogical generators, CEFR scaffolding, and cut-out print export engine.
+                Yes! Under the <strong>Neural Key</strong> settings in the top header, educators can connect their custom API key. This unlocks zero-cost, unlimited direct generation while still benefiting from RichmondAI's pedagogical generators, CEFR scaffolding, and cut-out print export engine.
               </p>
             </div>
           </div>
@@ -1279,7 +1273,7 @@
               <li><i class="fa-solid fa-check" style="color:var(--accent-gold);"></i> <strong>Printable Cut-out Flashcards</strong></li>
               <li><i class="fa-solid fa-check" style="color:var(--accent-gold);"></i> DOCX, PDF & Markdown Export</li>
               <li><i class="fa-solid fa-check" style="color:var(--accent-gold);"></i> Unlimited Course Cartridges</li>
-              <li><i class="fa-solid fa-check" style="color:var(--accent-gold);"></i> BYOK Gemini API Unlimited</li>
+              <li><i class="fa-solid fa-check" style="color:var(--accent-gold);"></i> Custom Neural Key (BYOK) Unlimited</li>
             </ul>
             <button class="btn-generate-main" id="btn-plan-pro" style="padding:10px; font-size:0.85rem;">
               <span>Upgrade to Pro ($29/yr)</span>
@@ -1309,37 +1303,36 @@
     </div>
   </div>
 
-  <!-- 3. Gemini API Key Configuration Modal -->
+  <!-- 3. Richmond Neural Engine API Key Configuration Modal -->
   <div class="modal-overlay" id="modal-gemini-key">
     <div class="modal-card">
       <div class="modal-header">
         <div class="modal-title">
           <i class="fa-solid fa-bolt" style="color: var(--accent-gold);"></i>
-          <span>Gemini Flash API Settings</span>
+          <span>Richmond Neural Engine Settings</span>
         </div>
         <button class="btn-close-modal" id="btn-close-gemini-key"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="modal-body">
         <p style="font-size:0.85rem; color:var(--text-secondary);">
-          RichmondAI is powered by Google's ultra-fast <strong>Gemini 2.5 Flash</strong> and <strong>1.5 Flash</strong> models. You can use our default managed gateway or provide your own personal Google AI Studio key for zero-cost unlimited usage.
+          RichmondAI is powered by our ultra-fast, proprietary <strong>Richmond Neural Engine v3</strong>. You can use our default high-speed managed gateway or connect your custom API key for direct unlimited throughput.
         </p>
 
         <div class="form-group">
           <label class="form-label" for="input-user-gemini-key">
-            <span>Your Gemini API Key (Optional BYOK)</span>
-            <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" style="color:var(--accent-blue); font-size:0.72rem; text-decoration:none;">Get free API key ↗</a>
+            <span>Your Neural Engine API Key (Optional BYOK)</span>
           </label>
-          <input type="password" class="input-glass" id="input-user-gemini-key" placeholder="AIzaSy...">
+          <input type="password" class="input-glass" id="input-user-gemini-key" placeholder="Enter key...">
           <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">
-            Key is stored locally in your browser storage only and never transmitted to our servers.
+            Key is stored locally in your browser storage only and never transmitted to third parties.
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Gemini Model Tier</label>
+          <label class="form-label">Neural Model Tier</label>
           <select class="input-glass" id="select-gemini-model">
-            <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash (Recommended — Fastest & Lowest Cost)</option>
-            <option value="gemini-1.5-flash">Gemini 1.5 Flash (Legacy High Reliability)</option>
+            <option value="gemini-2.5-flash" selected>Richmond Flash-Core v3 (Recommended — Ultra-Fast & Efficient)</option>
+            <option value="gemini-1.5-flash">Richmond Deep-Pedagogy v2 (High Depth & Advanced Analysis)</option>
           </select>
         </div>
 
@@ -1418,22 +1411,22 @@
     <span id="ttsTapPillLabel">Tap to listen (Audio unlocked)</span>
   </div>
 
-  <!-- Application Logic & Scripts (v3.1.0 Cache-Buster) -->
-  <script src="aurora.js?v=3.1.0"></script>
-  <script src="app.js?v=3.1.0"></script>
+  <!-- Application Logic & Scripts (v3.4.0 Cache-Buster) -->
+  <script src="aurora.js?v=3.4.0"></script>
+  <script src="app.js?v=3.4.0"></script>
 
   <!-- Auto-upgrade cache-buster: ensures teachers never see stale cached assets -->
   <script>
     (function() {
-      const RICHMOND_VERSION = 'v3.3.0';
+      const RICHMOND_VERSION = 'v3.4.0';
       try {
         const stored = localStorage.getItem('richmond_app_build');
         if (stored !== RICHMOND_VERSION) {
           localStorage.setItem('richmond_app_build', RICHMOND_VERSION);
           // If URL doesn't have the version query param, update it once
           const url = new URL(window.location.href);
-          if (url.searchParams.get('v') !== '3.3.0') {
-            url.searchParams.set('v', '3.3.0');
+          if (url.searchParams.get('v') !== '3.4.0') {
+            url.searchParams.set('v', '3.4.0');
             window.location.replace(url.toString());
           }
         }
