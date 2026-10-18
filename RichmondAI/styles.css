@@ -2972,7 +2972,26 @@ span[style*="color:#ec008c"] {
   justify-content: center;
 }
 
-/* 4. TeacherMatic vs. RichmondAI Side-by-Side Comparison Table */
+/* Richmond Pro & Richmond Solution Coursebooks Showcase */
+.book-card-item {
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.book-card-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.1);
+}
+
+.ecosystem-banner-pill {
+  animation: floatSubtle 4s ease-in-out infinite;
+}
+
+@keyframes floatSubtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* 4. Other Solutions vs. RichmondAI Side-by-Side Comparison Table */
 .home-comparison-section {
   max-width: 1040px;
   margin: 60px auto 0;
