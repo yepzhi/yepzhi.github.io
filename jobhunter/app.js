@@ -28,6 +28,7 @@
       this._loadCandidateProfileIntoForms();
       this._renderInterviewQuestion(0);
       this._renderPipelineView();
+      this.switchTab('searcher'); // Prioritize Searcher as default view for Alberto
     }
 
     _initDOMElements() {
@@ -40,6 +41,16 @@
       this.userRoleDisplay = document.getElementById('user-role-display');
       this.userAvatarText = document.getElementById('user-avatar-text');
       this.btnHeader1ClickMatch = document.getElementById('btn-header-1click-match');
+
+      // Quick-Save Any Job Link & Track Bar
+      this.quickSaveUrl = document.getElementById('quick-save-url');
+      this.quickSaveTitle = document.getElementById('quick-save-title');
+      this.quickSaveCompany = document.getElementById('quick-save-company');
+      this.btnQuickSavePipeline = document.getElementById('btn-quick-save-pipeline');
+      this.btnQuickMarkApplied = document.getElementById('btn-quick-mark-applied');
+      this.quickStatSaved = document.getElementById('quick-stat-saved');
+      this.quickStatApplied = document.getElementById('quick-stat-applied');
+      this.quickStatDue = document.getElementById('quick-stat-due');
 
       // Omni-Searcher elements
       this.omniSearchQuery = document.getElementById('omni-search-query');
@@ -447,8 +458,96 @@
         });
       }
 
+      // Quick-Save Link Bar Actions
+      if (this.btnQuickSavePipeline) {
+        this.btnQuickSavePipeline.addEventListener('click', () => this._handleQuickSave('Saved'));
+      }
+      if (this.btnQuickMarkApplied) {
+        this.btnQuickMarkApplied.addEventListener('click', () => this._handleQuickSave('Applied'));
+      }
+      if (this.quickSaveUrl) {
+        this.quickSaveUrl.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            this._handleQuickSave('Saved');
+          }
+        });
+      }
+      if (this.quickSaveTitle) {
+        this.quickSaveTitle.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            this._handleQuickSave('Saved');
+          }
+        });
+      }
+
       // Initial run
       this._runOmniSearch();
+    }
+
+    _handleQuickSave(status = 'Saved') {
+      const url = (this.quickSaveUrl ? this.quickSaveUrl.value.trim() : '');
+      let title = (this.quickSaveTitle ? this.quickSaveTitle.value.trim() : '');
+      let company = (this.quickSaveCompany ? this.quickSaveCompany.value.trim() : '');
+
+      if (!url && !title) {
+        this.showToast('Please enter at least a Job URL or Job Title');
+        return;
+      }
+
+      // Auto-extract company if URL provided and company empty
+      if (!company && url) {
+        try {
+          const parsedUrl = new URL(url);
+          const parts = parsedUrl.pathname.split('/').filter(Boolean);
+          if (parsedUrl.hostname.includes('ashbyhq.com') && parts.length > 0) {
+            company = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+          } else if (parsedUrl.hostname.includes('greenhouse.io') && parts.length > 0) {
+            company = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+          } else if (parsedUrl.hostname.includes('lever.co') && parts.length > 0) {
+            company = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+          } else {
+            company = parsedUrl.hostname.replace('www.', '').split('.')[0];
+            company = company.charAt(0).toUpperCase() + company.slice(1);
+          }
+        } catch (e) {
+          company = 'Direct Employer';
+        }
+      }
+
+      if (!title) {
+        title = 'Target Role';
+      }
+
+      const jobObj = {
+        id: `quick_${Date.now()}`,
+        title: title,
+        company: company || 'Direct Tech Employer',
+        location: 'Remote (Worldwide / LATAM / Mexico)',
+        salary: '$5,000–$8,000+ USD/mo',
+        url: url || 'https://linkedin.com',
+        tags: ['Remote', 'High Intent'],
+        reputation: {
+          glassdoorRating: 4.8,
+          tier: 'Direct ATS / Verified Employer',
+          atsBadge: 'Direct Submission',
+          scamRisk: '0% Verified'
+        }
+      };
+
+      this.engine.addToPipeline(jobObj, null, status);
+      this._renderPipelineView();
+
+      if (this.quickSaveUrl) this.quickSaveUrl.value = '';
+      if (this.quickSaveTitle) this.quickSaveTitle.value = '';
+      if (this.quickSaveCompany) this.quickSaveCompany.value = '';
+
+      if (status === 'Applied') {
+        this.showToast(`🎉 "${title}" marked as APPLIED! 5-day follow-up active.`);
+      } else {
+        this.showToast(`📌 Saved "${title}" to Pipeline!`);
+      }
     }
 
     _renderMultiBoardChips() {
@@ -549,13 +648,18 @@
                   <i class="fa-solid fa-bolt"></i>
                   <span>Rank & Apply Suite</span>
                 </button>
+                <button type="button" class="btn-secondary btn-card-applied" data-jobid="${job.id || idx}" style="background:#f0fdf4; border-color:#86efac; color:#166534;" title="Mark as Applied & Track">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Applied</span>
+                </button>
+                <button type="button" class="btn-secondary btn-card-save" data-jobid="${job.id || idx}" title="Save Link to Pipeline">
+                  <i class="fa-regular fa-bookmark"></i>
+                  <span>Save</span>
+                </button>
                 <a href="${job.url}" target="_blank" rel="noopener noreferrer" class="btn-secondary" title="View Direct on ATS Board">
                   <i class="fa-solid fa-arrow-up-right-from-square"></i>
                   <span>ATS Link</span>
                 </a>
-                <button type="button" class="btn-secondary btn-quick-track" data-jobid="${job.id || idx}" title="Save to Pipeline">
-                  <i class="fa-regular fa-bookmark"></i>
-                </button>
               </div>
             </div>
           </div>
@@ -573,15 +677,28 @@
         });
       });
 
-      // Bind Quick Track buttons
-      this.jobsCardsGrid.querySelectorAll('.btn-quick-track').forEach(btn => {
+      // Bind Applied buttons
+      this.jobsCardsGrid.querySelectorAll('.btn-card-applied').forEach(btn => {
         btn.addEventListener('click', () => {
           const jobId = btn.dataset.jobid;
           const targetJob = jobs.find(j => (j.id || '') == jobId) || jobs[parseInt(jobId) || 0];
           if (targetJob) {
-            this.engine.addToPipeline(targetJob, targetJob.fit);
+            this.engine.addToPipeline(targetJob, targetJob.fit, 'Applied');
             this._renderPipelineView();
-            this.showToast(`Saved "${targetJob.title}" to Pipeline!`);
+            this.showToast(`🎉 "${targetJob.title}" marked as APPLIED! Follow-up set.`);
+          }
+        });
+      });
+
+      // Bind Save buttons
+      this.jobsCardsGrid.querySelectorAll('.btn-card-save').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const jobId = btn.dataset.jobid;
+          const targetJob = jobs.find(j => (j.id || '') == jobId) || jobs[parseInt(jobId) || 0];
+          if (targetJob) {
+            this.engine.addToPipeline(targetJob, targetJob.fit, 'Saved');
+            this._renderPipelineView();
+            this.showToast(`📌 Saved "${targetJob.title}" to Pipeline!`);
           }
         });
       });
@@ -773,6 +890,15 @@
       if (this.pipeStatInterview) this.pipeStatInterview.textContent = interviews;
       if (this.pipeStatAvgMatch) this.pipeStatAvgMatch.textContent = `${avgScore}%`;
 
+      // Update Quick-Save Bar mini-stats
+      const savedCount = pipeline.filter(p => p.status === 'Saved').length;
+      const appliedCount = pipeline.filter(p => p.status === 'Applied').length;
+      const dueCount = pipeline.filter(p => p.status === 'Follow-up Due').length;
+
+      if (this.quickStatSaved) this.quickStatSaved.textContent = savedCount;
+      if (this.quickStatApplied) this.quickStatApplied.textContent = appliedCount;
+      if (this.quickStatDue) this.quickStatDue.textContent = dueCount;
+
       // Filtered items
       let items = pipeline;
       if (this.activePipelineFilter && this.activePipelineFilter !== 'all') {
@@ -791,7 +917,8 @@
       }
 
       this.pipelineItemsList.innerHTML = items.map(item => {
-        const statusClass = item.status === 'Applied' ? 'status-applied' :
+        const statusClass = item.status === 'Saved' ? 'status-saved' :
+                            item.status === 'Applied' ? 'status-applied' :
                             item.status === 'Follow-up Due' ? 'status-followup' :
                             item.status === 'Interviewing' ? 'status-interviewing' :
                             item.status === 'Offered' ? 'status-offered' : 'status-applied';
@@ -804,7 +931,7 @@
                 <i class="fa-solid fa-building"></i> ${item.company} • <i class="fa-solid fa-star" style="color:#d97706;"></i> ${item.glassdoorRating || 4.8}
               </div>
               <div style="font-size:0.75rem; color:var(--text-muted);">
-                Applied: <strong>${item.appliedDate}</strong> • Next Follow-up: <strong style="color:#fbbf24;">${item.followUpDate} 🔥</strong>
+                ${item.status === 'Saved' ? `Saved: <strong>${item.appliedDate}</strong>` : `Applied: <strong>${item.appliedDate}</strong> • Next Follow-up: <strong style="color:#fbbf24;">${item.followUpDate} 🔥</strong>`}
               </div>
             </div>
 
@@ -814,7 +941,8 @@
               </span>
 
               <select class="select-filter pipeline-status-select" data-appid="${item.id}" style="padding:4px 8px; font-size:0.76rem;">
-                <option value="Applied" ${item.status === 'Applied' ? 'selected' : ''}>Status: Applied</option>
+                <option value="Saved" ${item.status === 'Saved' ? 'selected' : ''}>Status: Saved 📌</option>
+                <option value="Applied" ${item.status === 'Applied' ? 'selected' : ''}>Status: Applied ✉️</option>
                 <option value="Follow-up Due" ${item.status === 'Follow-up Due' ? 'selected' : ''}>Status: Follow-up Due 🔥</option>
                 <option value="Interviewing" ${item.status === 'Interviewing' ? 'selected' : ''}>Status: Interviewing</option>
                 <option value="Offered" ${item.status === 'Offered' ? 'selected' : ''}>Status: Offer Received 🎉</option>

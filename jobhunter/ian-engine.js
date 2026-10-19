@@ -153,23 +153,23 @@
   const DEFAULT_ALBERTO_PROFILE = {
     fullName: 'Alberto Yépiz',
     email: 'yepzhi@gmail.com',
-    phone: '+52 662 XXX XXXX',
-    location: 'Hermosillo, Sonora, Mexico (Remote)',
+    phone: '+52 (662) 114-7374',
+    location: 'Hermosillo, Sonora, Mexico (Remote CST/MST)',
     portfolio: 'yepzhi.com',
     github: 'github.com/yepzhi',
-    linkedin: 'linkedin.com/in/alberto-yepiz',
+    linkedin: 'linkedin.com/in/yepzhi',
     targetRole: 'Senior Full-Stack Engineer / AI Solutions Architect & Tech Lead',
-    secondaryRoles: ['AI Systems Engineer', 'Full-Stack Software Engineer', 'Technical Product Lead', 'Solutions Architect'],
-    yearsExperience: '10+',
-    englishLevel: 'C1 Fluent',
-    targetSalaryUsd: '5000',
+    secondaryRoles: ['AI Systems Engineer', 'EdTech Solutions Architect', 'Full-Stack Software Engineer', 'Technical Product Lead', 'Regional Key Account Lead'],
+    yearsExperience: '12+',
+    englishLevel: 'Bilingual (EN/ES B2/C1, ETS TOEIC Validated)',
+    targetSalaryUsd: '6000',
     dailyHours: '60',
-    currentSummary: 'Tech Lead, Full-Stack Engineer & AI Solutions Architect with 10+ years experience building mission-critical web applications, AI integrations, and high-velocity digital products. Founder of JóvenesSTEM and creator of stemOS. Ex-Apple, PepsiCo, AVIS. MBA. Expert in JavaScript/TypeScript, Python, React, Next.js, AI Prompt Engineering & Agentic workflows, REST/GraphQL APIs, and scalable cloud systems. Bilingual (English/Spanish C1+).',
+    currentSummary: 'Tech Lead, EdTech Solutions Architect & AI Systems Engineer with 12+ years experience building mission-critical web platforms, AI prompt pipelines, and enterprise SaaS partnerships. Master of Business Administration (MBA) and Bachelor in Finance (Universidad de Sonora). Certified in Data Science & Agile Systems for Product Management (University of Maryland) and Semiconductor Industry English (Arizona State University). Author of "Fundamentals of Science and Technology" (ISBN: 978-607-29-5085-6), Founder of JóvenesSTEM (230 interactive modules) and creator of stemOS, RichmondAI architect. Former Apple Solutions Consultant, Richmond (Santillana, scaled revenue from MXNM to M+), AVIS, PepsiCo. Expert in JavaScript/TypeScript, Python, React, Next.js, AI Prompt Engineering & Agentic workflows, REST/GraphQL APIs, and scalable cloud systems. Bilingual (English/Spanish).',
     technicalSkills: [
       'JavaScript (ES6+)', 'TypeScript', 'Python', 'Node.js', 'React', 'Next.js',
       'AI / LLM Integration', 'Prompt Engineering', 'Agentic Workflows', 'REST / GraphQL APIs',
       'HTML5 / Modern CSS', 'Cloud Architecture', 'PostgreSQL / SQL', 'Git / CI/CD',
-      'Microservices', 'B2B SaaS', 'Technical Product Leadership', 'System Design'
+      'B2B SaaS Strategy', 'Key Account Growth', 'Data Science & Agile (USMx)', 'System Design'
     ],
     workRights: 'Direct Independent Contractor (W-8BEN) or Employer of Record (Deel / Remote.com). Zero US tax withheld under bilateral treaty. Paid via direct wire or transfer.',
     completedTasks: [],
@@ -328,32 +328,41 @@ CORE COMPETENCIES & TECHNICAL STACK
 
 PROFESSIONAL EXPERIENCE
 --------------------------------------------------------------------------------
-SENIOR FULL-STACK ENGINEER & AI ARCHITECT | Yepzhi Engineering & Tech Studio
-Remote (US & Global Clients) | 2021 – Present
-• Spearheaded architecture of custom AI and web platforms serving thousands of active users, achieving < 800ms API response latency and 99.9% uptime.
+REGIONAL KEY ACCOUNT MANAGER & EDTECH PRODUCT STRATEGIST | Richmond — Santillana
+Northwest & Central Mexico | May 2019 – Present
+• 6X Channel Growth: Scaled annual zone revenue from MXNM to over MXNM through SaaS pipeline execution and C-level engagement across 130+ institutional accounts.
+• Strategic SaaS Partnerships: Closed long-term B2B institutional agreements with C-suite stakeholders at major universities (UTCJ, UABC, UT Tijuana).
+• Innovation Award: Awarded "Most Innovative Team Member" by Country Manager for designing and deploying AI-powered educational workflows and digital systems.
+
+SENIOR FULL-STACK ENGINEER & AI ARCHITECT | Yepzhi Engineering Studio & RichmondAI
+Remote (US & Global Projects) | 2021 – Present
+• Spearheaded architecture of custom AI platforms (yepzhi.com, RichmondAI) featuring 28 specialized prompt engines, sub-second latency, and signed cryptographic local quotas handling 100 concurrent users.
 • Architected automated AI prompt pipelines and structured data extraction workflows, reducing client manual processing time by 78%.
 • Optimized full-stack web applications with zero external framework overhead, achieving perfect 100/100 Core Web Vitals and 4x faster page loads.
 • Authored comprehensive technical documentation and async SOPs in Notion, onboarding remote engineering collaborators in under 3 business days.
 
 FOUNDER & CHIEF TECHNOLOGY LEAD | JóvenesSTEM & stemOS
 Mexico / Remote | 2018 – 2024
-• Engineered the stemOS educational and simulation ecosystem, scaling hands-on science and technology modules to over 15,000 students across Mexico.
-• Orchestrated cross-functional product roadmap across educational content, interactive 3D web modules, and real-time student analytics.
+• Engineered JóvenesSTEM (jovenesstem.com) and the stemOS ecosystem, scaling 230 interactive learning modules, NGSS and CONOCER EC0049 standards, and EntryTest diagnostics to over 15,000 students across Mexico.
+• Authored proprietary matrix curriculum "Fundamentos de Ciencia y Tecnología" (ISBN 978-607-29-5085-6).
 • Partnered with institutional directors and enterprise sponsors, securing key strategic partnerships and maintaining 96% partner retention.
 
-TECH & OPERATIONS SPECIALIST | PepsiCo & AVIS
+OPERATIONS & TECHNOLOGY LEAD | AVIS Rent a Car & Apple
 Regional Operations | Prior Experience
-• Automated operational data aggregation pipelines across business units, eliminating 15+ hours of manual weekly reporting.
-• Implemented standardized tracking workflows that accelerated incident resolution velocity by 34%.
-• Collaborated with executive leadership to streamline supply chain and fleet operations using structured reporting metrics.
+• Conceptualized and launched the Avis Learning System (ALS), an internal training initiative that incentivized employee upskilling and reduced turnover.
+• Former Apple Solutions Consultant: trained, inspired, and coached partner teams to exceed monthly business quotas.
+• Implemented standardized operational and fleet tracking workflows that accelerated incident resolution velocity by 34%.
 
 EDUCATION & PROFESSIONAL CREDENTIALS
 --------------------------------------------------------------------------------
-• MASTER OF BUSINESS ADMINISTRATION (MBA) | Top Regional Institution
-• BACHELOR DEGREE IN ENGINEERING & TECHNOLOGY
-• APPLE ECOSYSTEM CERTIFICATION & TRAINING | Ex-Apple Alumni Network
-• THE REMOTE JOB SYSTEM & ATS COMPLIANCE CERTIFICATION (US Startup Framework)
-• ADVANCED BUSINESS ENGLISH & TECHNICAL NEGOTIATION (CEFR ${english})`;
+• MASTER OF BUSINESS ADMINISTRATION (MBA) | Universidad de Sonora (UNISON)
+• BACHELOR DEGREE IN FINANCE (LICENCIATURA EN FINANZAS) | Universidad de Sonora (UNISON)
+• PROFESSIONAL CERTIFICATE IN DATA SCIENCE & AGILE SYSTEMS FOR PRODUCT MANAGEMENT | University of Maryland (USMx)
+• SPECIALIZATION IN ENGLISH FOR THE SEMICONDUCTOR INDUSTRY | Arizona State University (ASU)
+• PUBLISHED AUTHOR: "Fundamentals of Science and Technology" (ISBN: 978-607-29-5085-6 / BlueBook v1 & v2)
+• FORMER APPLE SOLUTIONS CONSULTANT & ECOSYSTEM SPECIALIST | Apple Alumni Network
+• PROFESSIONAL ENGLISH (CEFR B2 / ETS TOEIC VALIDATED) | Bilingual EN/ES
+• INDEPENDENT CONTRACTOR WORK RIGHTS: Direct W-8BEN / Employer of Record (Deel / Remote.com)`;
     }
 
     // ─────────────────────────────────────────────────────────────
@@ -904,9 +913,9 @@ Have a great rest of the week!`;
 I am writing to express my strong enthusiasm for the ${role} opening at ${company}. Having followed your recent growth and engineering trajectory, I was particularly drawn to your focus on high-velocity delivery and autonomous systems. With over 10 years of experience architecting mission-critical full-stack applications, scalable cloud backends, and low-latency AI integrations, I know I can hit the ground running with your team from Day 1.
 
 Throughout my career, I have thrived in high-autonomy, asynchronous remote environments:
-• Founder & Lead Architect at JóvenesSTEM: Engineered the stemOS simulation platform, scaling interactive technology modules to 15,000+ users with sub-second response times and zero bloat.
-• AI & System Architecture: Built custom generative AI prompt pipelines with structured output schemas that accelerated operational processing by 78% while maintaining 99.9% uptime.
-• Technical Pedigree: MBA graduate, ex-Apple, PepsiCo, AVIS, with a relentless focus on translating strategic product requirements into clean, maintainable code (${topSkills}).
+• Founder & Lead Architect at JóvenesSTEM (jovenesstem.com): Engineered the 230-module STEM platform and stemOS ecosystem, scaling interactive technology modules to 15,000+ users with sub-second response times and zero bloat.
+• EdTech & AI System Architecture: Scaled regional SaaS revenue at Richmond to over MXN$20M (6X growth, awarded Most Innovative Team Member), while architecting RichmondAI with 28 prompt engines and structured output schemas accelerating workflows by 78%.
+• Technical Pedigree: MBA & Finance graduate (UNISON), Data Science & Agile (USMx), ex-Apple, PepsiCo, AVIS, translating strategic business goals into clean, high-performance software (${topSkills}).
 
 In my first 90 days at ${company}, my objective is straightforward: thoroughly absorb your team's architecture, eliminate friction in key async workflows, and deliver measurable code contributions to your core milestone roadmap without requiring micro-management. Operating from Mexico across US time zones (CST/EST/PST), I provide natural real-time overlap alongside the focus advantages of asynchronous communication.
 
@@ -1031,7 +1040,7 @@ ${name}`;
       return this._memoryPipeline || [];
     }
 
-    addToPipeline(job, fitData = null) {
+    addToPipeline(job, fitData = null, initialStatus = 'Applied') {
       const pipeline = this.getPipeline();
       const existingIdx = pipeline.findIndex(p => p.id === job.id || (p.title === job.title && p.company === job.company));
       
@@ -1042,12 +1051,12 @@ ${name}`;
         id: job.id || `app_${Date.now()}`,
         title: job.title,
         company: job.company,
-        location: job.location,
-        salary: job.salary,
-        url: job.url,
+        location: job.location || 'Remote',
+        salary: job.salary || '$5,000–$8,000+ USD/mo',
+        url: job.url || 'https://linkedin.com',
         matchScore: fitData ? fitData.overallScore : (job.fit ? job.fit.overallScore : 95),
         glassdoorRating: (job.reputation && job.reputation.glassdoorRating) || 4.8,
-        status: 'Applied',
+        status: initialStatus || 'Applied',
         appliedDate: today,
         followUpDate: followUpDate,
         notes: 'CV tailored with Google X-Y-Z and 1-column ATS standard.'

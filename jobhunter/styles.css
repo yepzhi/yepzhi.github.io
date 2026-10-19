@@ -1869,6 +1869,11 @@ h1, h2, h3, h4, .brand-name {
   font-weight: 700;
   font-family: var(--font-mono);
 }
+.status-saved {
+  background: rgba(100, 116, 139, 0.1);
+  color: #475569;
+  border: 1px solid rgba(100, 116, 139, 0.25);
+}
 .status-applied {
   background: rgba(39, 126, 255, 0.1);
   color: #277eff;
