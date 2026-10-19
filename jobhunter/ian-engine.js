@@ -158,18 +158,35 @@
     portfolio: 'yepzhi.com',
     github: 'github.com/yepzhi',
     linkedin: 'linkedin.com/in/yepzhi',
-    targetRole: 'Senior Full-Stack Engineer / AI Solutions Architect & Tech Lead',
-    secondaryRoles: ['AI Systems Engineer', 'EdTech Solutions Architect', 'Full-Stack Software Engineer', 'Technical Product Lead', 'Regional Key Account Lead'],
-    yearsExperience: '12+',
+    targetRole: 'Regional Strategic Partnerships & EdTech Key Account Lead',
+    secondaryRoles: [
+      'Strategic Partnerships Manager',
+      'Regional Key Account Manager (EdTech & Enterprise SaaS)',
+      'EdTech Product Strategist',
+      'Director of Institutional Partnerships',
+      'Channel Development Manager',
+      'Head of Business Development'
+    ],
+    yearsExperience: '15+',
     englishLevel: 'Bilingual (EN/ES B2/C1, ETS TOEIC Validated)',
     targetSalaryUsd: '6000',
     dailyHours: '60',
-    currentSummary: 'Tech Lead, EdTech Solutions Architect & AI Systems Engineer with 12+ years experience building mission-critical web platforms, AI prompt pipelines, and enterprise SaaS partnerships. Master of Business Administration (MBA) and Bachelor in Finance (Universidad de Sonora). Certified in Data Science & Agile Systems for Product Management (University of Maryland) and Semiconductor Industry English (Arizona State University). Author of "Fundamentals of Science and Technology" (ISBN: 978-607-29-5085-6), Founder of JóvenesSTEM (230 interactive modules) and creator of stemOS, RichmondAI architect. Former Apple Solutions Consultant, Richmond (Santillana, scaled revenue from MXNM to M+), AVIS, PepsiCo. Expert in JavaScript/TypeScript, Python, React, Next.js, AI Prompt Engineering & Agentic workflows, REST/GraphQL APIs, and scalable cloud systems. Bilingual (English/Spanish).',
+    currentSummary: 'Commercially driven sales, strategic partnerships and business development leader with 15+ years of B2B experience across EdTech, SaaS, retail, and consumer technology (Richmond ELT–Santillana, Apple, PepsiCo, Telefónica, AVIS). Proven track record building new-market strategies, distributor networks, and institutional university partnerships from the ground up across Northwest and Central Mexico — scaling regional territory revenue 6X from MXN$3M to over MXN$20M across 130+ accounts. Founder of JóvenesSTEM (bilingual AI-powered STEM learning platform with 230 interactive modules) and creator of stemOS. Expert in full sales-cycle execution (prospecting to contracting), C-suite university negotiation, LMS platform administration, Open Badges 3.0 digital credentialing, RProDash analytics, and AI-powered workflows. Master in Business Administration (MBA) and Bachelor in Finance (Universidad de Sonora). Certified in Data Science & Agile Systems for Product Management (University of Maryland). English CEFR B2 (ETS TOEIC Validated) / Spanish Native.',
     technicalSkills: [
-      'JavaScript (ES6+)', 'TypeScript', 'Python', 'Node.js', 'React', 'Next.js',
-      'AI / LLM Integration', 'Prompt Engineering', 'Agentic Workflows', 'REST / GraphQL APIs',
-      'HTML5 / Modern CSS', 'Cloud Architecture', 'PostgreSQL / SQL', 'Git / CI/CD',
-      'B2B SaaS Strategy', 'Key Account Growth', 'Data Science & Agile (USMx)', 'System Design'
+      'Strategic Partnerships & Alliances',
+      'Regional Key Account Management',
+      'B2B SaaS & EdTech Sales Execution',
+      'Channel Development & Reseller Enablement',
+      'Full-Cycle Sales & Pipeline Forecasting',
+      'C-Suite Negotiation (Universities & Enterprise)',
+      'EdTech Product Strategy & Roadmap',
+      'LMS Platform Administration',
+      'Digital Credentialing (Open Badges 3.0)',
+      'SaaS Dashboards & Analytics (RProDash)',
+      'Agile Systems & Data Science (USMx)',
+      'AI Workflows & LLM Integration (Gemini API)',
+      'Contract Negotiation & W-8BEN / EOR',
+      'Bilingual English / Spanish (ETS TOEIC Validated)'
     ],
     workRights: 'Direct Independent Contractor (W-8BEN) or Employer of Record (Deel / Remote.com). Zero US tax withheld under bilateral treaty. Paid via direct wire or transfer.',
     completedTasks: [],
@@ -184,13 +201,23 @@
     }
 
     _loadProfile() {
+      const PROFILE_VERSION = '2026.10.19.v5_alberto_executive';
       try {
         if (typeof localStorage !== 'undefined') {
+          const currentVersion = localStorage.getItem('jobhunter_profile_version');
           const saved = localStorage.getItem('ian_candidate_profile');
-          if (saved) {
+          if (saved && currentVersion === PROFILE_VERSION) {
             const parsed = JSON.parse(saved);
-            // Merge with Alberto defaults if fields missing
+            if (!parsed.targetRole || parsed.targetRole.includes('Engineer') || parsed.targetRole.includes('Developer') || parsed.targetRole.includes('Architect')) {
+              localStorage.setItem('ian_candidate_profile', JSON.stringify(DEFAULT_ALBERTO_PROFILE));
+              localStorage.setItem('jobhunter_profile_version', PROFILE_VERSION);
+              return Object.assign({}, DEFAULT_ALBERTO_PROFILE);
+            }
             return Object.assign({}, DEFAULT_ALBERTO_PROFILE, parsed);
+          } else {
+            localStorage.setItem('ian_candidate_profile', JSON.stringify(DEFAULT_ALBERTO_PROFILE));
+            localStorage.setItem('jobhunter_profile_version', PROFILE_VERSION);
+            return Object.assign({}, DEFAULT_ALBERTO_PROFILE);
           }
         }
       } catch (e) {
@@ -294,74 +321,73 @@
 
     generateAtsCv(profile, jobAnalysis = null) {
       const name = profile.fullName || 'Alberto Yépiz';
-      const role = profile.targetRole || 'Senior Full-Stack Engineer / AI Solutions Architect';
-      const years = profile.yearsExperience || '10+';
-      const english = profile.englishLevel || 'C1 Fluent';
+      const role = profile.targetRole || 'Regional Strategic Partnerships & EdTech Key Account Lead';
+      const years = profile.yearsExperience || '15+';
+      const english = profile.englishLevel || 'Bilingual (EN/ES B2/C1, ETS TOEIC Validated)';
       const email = profile.email || 'yepzhi@gmail.com';
       const portfolio = profile.portfolio || 'yepzhi.com';
-      const linkedin = profile.linkedin || 'linkedin.com/in/alberto-yepiz';
-      const location = profile.location || 'Hermosillo, Sonora, Mexico (Remote)';
+      const linkedin = profile.linkedin || 'linkedin.com/in/yepzhi';
+      const location = profile.location || 'Hermosillo, Sonora, Mexico (Remote CST/MST)';
 
       const keywords = (jobAnalysis && jobAnalysis.topKeywords && jobAnalysis.topKeywords.length > 0) 
         ? jobAnalysis.topKeywords.join(' • ')
-        : 'JavaScript (ES6+) • TypeScript • Python • Node.js • React • Next.js • AI / LLM Systems • Cloud Architecture • REST/GraphQL APIs • Microservices';
+        : 'Strategic Partnerships • Key Account Management • B2B SaaS & EdTech Sales • Channel Enablement • C-Suite Negotiation • LMS Administration • Open Badges 3.0 • Agile Systems';
 
       return `================================================================================
 ${name.toUpperCase()}
-${location} | ${email}
-LinkedIn: ${linkedin} | Portfolio & Projects: ${portfolio}
-Work Authorization: Independent Contractor (W-8BEN) / EOR | English: ${english} (Bilingual EN/ES)
+${location} | ${email} | +52 (662) 114-7374
+LinkedIn: ${linkedin} | Portfolio & Ventures: ${portfolio} • jovenesstem.com
+Work Authorization: Independent Contractor (W-8BEN) / EOR | English: ${english} · Spanish (Native)
 ================================================================================
 
 PROFESSIONAL SUMMARY
 --------------------------------------------------------------------------------
-High-velocity ${role} with ${years} years of demonstrated experience architecting scalable web platforms, mission-critical AI systems, and cloud software. Deep expertise in ${keywords.toLowerCase()}. Proven track record operating with extreme autonomy across US/LATAM time zones (CST/PST/EST), standardizing asynchronous engineering documentation, and translating business goals into resilient, production-ready software.
+Commercially driven sales, strategic partnerships and product strategy leader with ${years} years of B2B experience across EdTech publishing, SaaS, retail, and consumer technology (Richmond ELT–Santillana, Apple, PepsiCo, Telefónica, AVIS). Proven track record building new-market strategies, distributor networks, and institutional university partnerships from the ground up across Northwest and Central Mexico — scaling regional territory revenue 6X from MXN$3M to over MXN$20M across 130+ accounts. Founder of JóvenesSTEM (bilingual AI-powered STEM learning platform with 230 interactive modules) and creator of stemOS. Expert in full sales-cycle execution (prospecting to contracting), C-suite university negotiation, LMS platform administration, Open Badges 3.0 digital credentialing, RProDash analytics, and AI-powered workflows. Master in Business Administration (MBA) and Bachelor in Finance (Universidad de Sonora). Certified in Data Science & Agile Systems for Product Management (University of Maryland). Bilingual English (CEFR B2, ETS TOEIC-validated) / Spanish native.
 
 CORE COMPETENCIES & TECHNICAL STACK
 --------------------------------------------------------------------------------
-• Primary Stack: ${keywords}
-• Frontend & Web: Modern HTML5, Vanilla CSS, Responsive Layouts, Component Architecture, Micro-animations, Web Performance (CWV)
-• Backend & Systems: Node.js, Express, Python (FastAPI/Flask), PostgreSQL, SQL, Microservices, REST & GraphQL APIs
-• AI & Automation: OpenAI / Claude / Gemini API Integration, LLM Prompt Engineering, Structured Outputs, Multimodal Pipelines, Agentic Workflows
-• Collaboration & Async: Notion, Slack, GitHub, Jira, Loom, Asynchronous SOPs, Agile/Scrum
-• Methodologies: Google X-Y-Z Achievement Tracking, System Design, CI/CD, 100% ATS Compliant
+• Strategic Leadership: Regional Key Account Management, Strategic Partnerships & Alliances, Channel Development & Enablement, New Market Entry
+• Commercial Execution: Full-Cycle Sales (Prospecting to Contract Signing), Revenue Turnaround (6X Growth), Pipeline Forecasting, C-Level Negotiation
+• EdTech & Product: EdTech Product Strategy, Learning Management Systems (LMS) Administration, Digital Credentialing (Open Badges 3.0, CONOCER, NGSSS)
+• Tech & AI Integrations: Gemini API Integration (STEMBot), RProDash SaaS Reporting Dashboards, Prompt Engineering, API Integrations (Prometeo SPEI)
+• Operations & Governance: Data Science & Agile Systems for Product Management (USMx), Fleet Logistics (AVIS ALS), Contract Terms (W-8BEN / EOR)
 
 PROFESSIONAL EXPERIENCE
 --------------------------------------------------------------------------------
-REGIONAL KEY ACCOUNT MANAGER & EDTECH PRODUCT STRATEGIST | Richmond — Santillana
+REGIONAL STRATEGIC PARTNERSHIPS & EDTECH PRODUCT STRATEGIST | Richmond Pro, ELT México (Santillana Group)
 Northwest & Central Mexico | May 2019 – Present
-• 6X Channel Growth: Scaled annual zone revenue from MXNM to over MXNM through SaaS pipeline execution and C-level engagement across 130+ institutional accounts.
-• Strategic SaaS Partnerships: Closed long-term B2B institutional agreements with C-suite stakeholders at major universities (UTCJ, UABC, UT Tijuana).
-• Innovation Award: Awarded "Most Innovative Team Member" by Country Manager for designing and deploying AI-powered educational workflows and digital systems.
+• 6X Market-Expansion Turnaround: Led a strategic turnaround for the Northwest zone, scaling annual territory revenue from MXN$3M to over MXN$20M through distributor channel management, full-cycle SaaS/print pipeline execution, and C-level engagement.
+• Institutional & University Alliances: Built and expanded a portfolio of distributor and institutional partnerships onto our Richmond Pro network (ITESCA, UT Hermosillo, UT Tijuana, UT Nogales, UT Guaymas, IT Hermosillo, IT Mexicali) and cultivated C-suite relationships at major national accounts (UTCJ, UABC) — managing partner performance and long-term account growth from prospecting through contract signing.
+• Certification Program Launch: Coordinated and launched the Richmond Pro program associated with ETS TOEIC Program certification at UT Tijuana (4,000+ students and teachers) and across 7+ universities, coordinating with global partners (ETS, Avallain) and internal product, marketing, and operations teams.
+• RProDash & Process Innovation: Built RProDash, a SaaS reporting dashboard automating real-time pipeline, adoption, and revenue analytics across 130+ institutional accounts. Recognized by Country Manager as "Most Innovative Team Member" for designing and deploying AI-powered digital workflows and SaaS tooling adopted across the sales organization.
 
-SENIOR FULL-STACK ENGINEER & AI ARCHITECT | Yepzhi Engineering Studio & RichmondAI
-Remote (US & Global Projects) | 2021 – Present
-• Spearheaded architecture of custom AI platforms (yepzhi.com, RichmondAI) featuring 28 specialized prompt engines, sub-second latency, and signed cryptographic local quotas handling 100 concurrent users.
-• Architected automated AI prompt pipelines and structured data extraction workflows, reducing client manual processing time by 78%.
-• Optimized full-stack web applications with zero external framework overhead, achieving perfect 100/100 Core Web Vitals and 4x faster page loads.
-• Authored comprehensive technical documentation and async SOPs in Notion, onboarding remote engineering collaborators in under 3 business days.
+FOUNDER & PRODUCT LEAD | JóvenesSTEM / stemOS
+Remote — Americas | 2023 – Present
+• Platform Architecture & Growth: Founded and scaled a bilingual, AI-powered STEM education platform for ages 12–18 from the ground up: 230+ interactive learning modules, user progress tracking, and SM-2 spaced-repetition engine serving 15,000+ students across Mexico, Latin America, and the U.S.
+• AI Tutor & API Integrations: Integrated and maintain the Gemini API to power STEMBot, an in-platform AI tutor, implementing context caching and rate limiting. Managed third-party payment integration (SPEI via Prometeo API).
+• Digital Credentialing: Built digital credentialing infrastructure on the Open Badges 3.0 standard, issuing verifiable certifications aligned to SEP CONOCER (Mexico) and NGSSS (U.S.) education standards.
+• Institutional & Government Partnerships: Built partnerships with state science councils (CODEICYVET Veracruz, COECYT Zacatecas & Sonora) and university academic fairs (FEMECI evaluator). Published author of "Fundamentals of Science and Technology" (ISBN 978-607-29-5085-6).
 
-FOUNDER & CHIEF TECHNOLOGY LEAD | JóvenesSTEM & stemOS
-Mexico / Remote | 2018 – 2024
-• Engineered JóvenesSTEM (jovenesstem.com) and the stemOS ecosystem, scaling 230 interactive learning modules, NGSS and CONOCER EC0049 standards, and EntryTest diagnostics to over 15,000 students across Mexico.
-• Authored proprietary matrix curriculum "Fundamentos de Ciencia y Tecnología" (ISBN 978-607-29-5085-6).
-• Partnered with institutional directors and enterprise sponsors, securing key strategic partnerships and maintaining 96% partner retention.
+CITY OPERATIONS MANAGER | AVIS Rent a Car
+Hermosillo, Sonora, Mexico | 2017 – 2019
+• Avis Learning System (ALS): Conceptualized and launched ALS, an internal training and reward program that improved service quality and staff retention; led city-wide fleet logistics, revenue optimization, and a team of 16, including payroll and HR, delivering 100% vehicle availability during peak demand.
 
-OPERATIONS & TECHNOLOGY LEAD | AVIS Rent a Car & Apple
-Regional Operations | Prior Experience
-• Conceptualized and launched the Avis Learning System (ALS), an internal training initiative that incentivized employee upskilling and reduced turnover.
-• Former Apple Solutions Consultant: trained, inspired, and coached partner teams to exceed monthly business quotas.
-• Implemented standardized operational and fleet tracking workflows that accelerated incident resolution velocity by 34%.
+EARLIER COMMERCIAL & CHANNEL LEADERSHIP
+Telecom, CPG & Consumer Technology | 2012 – 2017
+• Telefónica — Retail Zone Sales Lead (2016–2017): Directed retail channel sales strategy and team performance across Mexicali, Baja California.
+• PepsiCo — Retail District Manager (2014–2016): Oversaw distribution, channel execution, and account management across Hermosillo, Sonora.
+• Apple México — Apple Solutions Consultant (2012–2014): Executed Apple's certified channel training, retail operations, and B2B partner-program operations in Mexico City, Santa Fe zone.
 
 EDUCATION & PROFESSIONAL CREDENTIALS
 --------------------------------------------------------------------------------
-• MASTER OF BUSINESS ADMINISTRATION (MBA) | Universidad de Sonora (UNISON)
+• MASTER IN BUSINESS ADMINISTRATION (MBA) | Universidad de Sonora (UNISON)
 • BACHELOR DEGREE IN FINANCE (LICENCIATURA EN FINANZAS) | Universidad de Sonora (UNISON)
 • PROFESSIONAL CERTIFICATE IN DATA SCIENCE & AGILE SYSTEMS FOR PRODUCT MANAGEMENT | University of Maryland (USMx)
-• SPECIALIZATION IN ENGLISH FOR THE SEMICONDUCTOR INDUSTRY | Arizona State University (ASU)
-• PUBLISHED AUTHOR: "Fundamentals of Science and Technology" (ISBN: 978-607-29-5085-6 / BlueBook v1 & v2)
+• ACADEMIC EXCHANGE PROGRAM, ECONOMICS | Universidad Iberoamericana (Mexico City)
+• SPECIALIZATION IN ENGLISH FOR THE SEMICONDUCTOR INDUSTRY | Arizona State University (ASU) / UCAN Language Center
+• PUBLISHED AUTHOR: "Fundamentals of Science and Technology" (ISBN: 978-607-29-5085-6)
 • FORMER APPLE SOLUTIONS CONSULTANT & ECOSYSTEM SPECIALIST | Apple Alumni Network
-• PROFESSIONAL ENGLISH (CEFR B2 / ETS TOEIC VALIDATED) | Bilingual EN/ES
+• PROFESSIONAL ENGLISH: CEFR B2 (ETS TOEIC Validated, Oct 2025 – Oct 2027)
 • INDEPENDENT CONTRACTOR WORK RIGHTS: Direct W-8BEN / Employer of Record (Deel / Remote.com)`;
     }
 
@@ -369,28 +395,28 @@ EDUCATION & PROFESSIONAL CREDENTIALS
     // MODULE 2: LinkedIn Magnet Optimization (/linkedin)
     // ─────────────────────────────────────────────────────────────
     generateLinkedInOptimization(profile) {
-      const role = profile.targetRole || 'Senior Full-Stack Engineer / AI Solutions Architect';
-      const english = profile.englishLevel || 'Bilingual (EN/ES C1+)';
-      const years = profile.yearsExperience || '10+';
+      const role = profile.targetRole || 'Regional Strategic Partnerships & EdTech Key Account Lead';
+      const english = profile.englishLevel || 'Bilingual (EN/ES B2/C1, ETS TOEIC Validated)';
+      const years = profile.yearsExperience || '15+';
 
-      const headline = `${role} | Building High-Velocity Web & AI Systems | Ex-Apple, PepsiCo | Founder JóvenesSTEM | Remote US/LATAM | Bilingual (${english})`;
+      const headline = `${role} | 6X Revenue Turnaround (Scaled MXN$3M to $20M+ at Richmond-Santillana) | Ex-Apple Solutions Consultant | Founder JóvenesSTEM | Remote LATAM/US | Bilingual (${english})`;
 
-      const about = `I am a remote-native ${role} with ${years} years of experience architecting high-performance web applications, production AI integrations, and resilient cloud systems.
+      const about = `I am a commercially driven sales, strategic partnerships, and EdTech product leader with ${years} years of B2B experience across EdTech publishing, SaaS, retail, and consumer technology (Richmond ELT–Santillana, Apple, PepsiCo, Telefónica, AVIS).
 
-Over the past decade, I have operated at the intersection of deep technical execution and business value:
-• Track Record: Founded JóvenesSTEM (empowering 15,000+ students in technology), built custom AI pipelines achieving sub-second latency, and scaled web software with zero bloat.
-• Tech Stack: JavaScript (ES6+), TypeScript, Python, Node.js, React, Next.js, LLM Prompt Engineering & Agentic Workflows, REST/GraphQL APIs, SQL.
-• Remote & Async Philosophy: I believe deep uninterrupted work, clear documentation in Notion/Slack, and high ownership beat 10 scheduled video calls. Fully aligned with US time zones (CST/PST/EST) from Mexico.
-• Professional Pedigree: MBA graduate, ex-Apple, PepsiCo, AVIS.
+Over the past decade, I have operated at the intersection of executive relationship-building and scalable product impact:
+• Track Record: Scaled Northwest territory revenue 6X from MXN$3M to over MXN$20M across 130+ accounts at Richmond Santillana. Built institutional university networks (UTCJ, UABC, UT Tijuana) and distributor partnerships.
+• Ventures & Innovation: Founder of JóvenesSTEM (bilingual AI-powered STEM learning platform serving 15,000+ students with 230 interactive modules and Open Badges 3.0 digital credentialing). Built RProDash analytics adopted across commercial teams.
+• Pedigree: Master of Business Administration (MBA) and Bachelor in Finance (Universidad de Sonora), Professional Certificate in Data Science & Agile Systems for Product Management (University of Maryland).
+• Remote & Async Philosophy: High autonomy, proactive pipeline visibility, structured executive QBRs, and seamless real-time overlap with US time zones (CST/MST/PST/EST).
 
-Currently open to full-time remote contractor (W-8BEN) or direct-hire positions with US, Canadian, and global tech startups.
+Open to remote strategic partnerships, regional key account management, and EdTech leadership positions (Direct W-8BEN or EOR).
 Let's connect: ${profile.email || 'yepzhi@gmail.com'} or message me directly here!`;
 
       const settingsChecklist = [
-        { item: 'Open to Work Visibility', status: 'Set to "Recruiters only" targeting Remote United States & Worldwide' },
-        { item: 'Target Job Titles', status: `Add variants: ${role}, Staff Software Engineer, Tech Lead, AI Solutions Architect` },
+        { item: 'Open to Work Visibility', status: 'Set to "Recruiters only" targeting Remote Americas, United States & Worldwide' },
+        { item: 'Target Job Titles', status: `Add variants: ${role}, Strategic Partnerships Manager, Regional Key Account Manager, EdTech Product Strategist, Director of Institutional Partnerships` },
         { item: 'Location Preference', status: 'Add: United States (Remote), Mexico (Remote), Latin America (Remote), Worldwide (Remote)' },
-        { item: 'Top 50 Skills Tags', status: 'Fill all 50 slots: JavaScript, TypeScript, Python, Node.js, React, AI Integrations, APIs, System Architecture' }
+        { item: 'Top 50 Skills Tags', status: 'Fill all 50 slots: Strategic Partnerships, Key Account Management, EdTech, B2B SaaS Sales, Pipeline Forecasting, C-Level Negotiation, LMS Administration' }
       ];
 
       return {
@@ -403,7 +429,7 @@ Let's connect: ${profile.email || 'yepzhi@gmail.com'} or message me directly her
     // ─────────────────────────────────────────────────────────────
     // MODULE 3: Multi-Board Sourcing & Boolean Queries
     // ─────────────────────────────────────────────────────────────
-    generateLookupEverywhereLinks(role = 'Senior Full-Stack Engineer') {
+    generateLookupEverywhereLinks(role = 'Regional Strategic Partnerships & EdTech Key Account Lead') {
       const encRole = encodeURIComponent(role);
       const rawRole = role.replace(/"/g, '');
       return [
@@ -491,7 +517,7 @@ Let's connect: ${profile.email || 'yepzhi@gmail.com'} or message me directly her
       ];
     }
 
-    generateBooleanSearches(role = 'Senior Full-Stack Engineer') {
+    generateBooleanSearches(role = 'Regional Strategic Partnerships & EdTech Key Account Lead') {
       const cleanRole = role.replace(/"/g, '');
       return {
         linkedinJobs: `("${cleanRole}") AND ("Remote" OR "Work from home") AND ("Mexico" OR "Latin America" OR "LATAM" OR "Worldwide") NOT "On-site"`,
@@ -507,12 +533,12 @@ Let's connect: ${profile.email || 'yepzhi@gmail.com'} or message me directly her
       };
     }
 
-    generateOutreachSequence(managerName = 'Sarah', companyName = 'Acme Corp', role = 'Senior Full-Stack Engineer', achievement = 'architected AI pipelines cutting latency by 45%') {
+    generateOutreachSequence(managerName = 'Sarah', companyName = 'Acme Corp', role = 'Strategic Partnerships Lead', achievement = 'scaled regional revenues 6X from MXN$3M to $20M+ and forged institutional alliances across northern Mexico') {
       const templateA = `Hi ${managerName}, noticed you lead the team at ${companyName}. Really impressed by your recent product growth. I specialize as a ${role} and would love to connect and follow your journey here. Best!`;
 
       const templateB = `Hi ${managerName}, thank you for connecting!
-I saw that ${companyName} is expanding its engineering team. Over the last few years, I have helped remote teams ${achievement}.
-I recently applied for the ${role} opening and wanted to reach out directly to share how I could hit the ground running with your current tech stack.
+I saw that ${companyName} is expanding its partnerships and business development team. Over the last few years, I have helped organizations ${achievement}.
+I recently applied for the ${role} opening and wanted to reach out directly to share how I could hit the ground running with your strategic objectives.
 Would love 5 minutes to chat if you're open to it, or feel free to pass this along to your recruiter.
 Thanks for your time!`;
 
@@ -561,40 +587,44 @@ Have a great rest of the week!`;
       const tagsLower = (job.tags || []).map(t => t.toLowerCase());
       const fullText = `${titleLower} ${descLower} ${tagsLower.join(' ')}`;
 
-      // 1. Technical Match (30%)
+      // 1. Domain & Skill Match (30%)
       const userSkills = (profile.technicalSkills || DEFAULT_ALBERTO_PROFILE.technicalSkills).map(s => s.toLowerCase());
       let matchedSkillCount = 0;
       let evaluatedSkills = 0;
 
       userSkills.forEach(skill => {
         evaluatedSkills++;
-        // Check partial or exact
-        const simpleSkill = skill.split('/')[0].split('(')[0].trim();
+        const simpleSkill = skill.split('/')[0].split('(')[0].split('&')[0].trim();
         if (fullText.includes(simpleSkill)) {
           matchedSkillCount++;
         }
       });
 
-      const skillRatio = evaluatedSkills > 0 ? (matchedSkillCount / 8) : 0.8;
-      const techScore = Math.min(100, Math.max(60, Math.round(70 + (skillRatio * 30))));
+      const commercialKeywords = ['partner', 'account', 'sales', 'edtech', 'b2b', 'revenue', 'channel', 'relationship', 'university', 'strategy', 'client', 'customer', 'higher ed', 'lead'];
+      commercialKeywords.forEach(ck => {
+        if (fullText.includes(ck)) matchedSkillCount += 0.6;
+      });
+
+      const skillRatio = Math.min(1.0, matchedSkillCount / 6);
+      const techScore = Math.min(100, Math.max(78, Math.round(78 + (skillRatio * 22))));
 
       // 2. Experience Match (25%)
-      let expScore = 85;
-      if (titleLower.includes('senior') || titleLower.includes('lead') || titleLower.includes('staff') || titleLower.includes('architect') || titleLower.includes('principal')) {
-        expScore = 98; // Perfect match for 10+ yrs
-      } else if (titleLower.includes('mid') || titleLower.includes('developer') || titleLower.includes('engineer')) {
-        expScore = 92;
+      let expScore = 88;
+      if (titleLower.includes('lead') || titleLower.includes('director') || titleLower.includes('head') || titleLower.includes('manager') || titleLower.includes('senior') || titleLower.includes('strategist')) {
+        expScore = 98; // Perfect match for 15+ yrs
+      } else if (titleLower.includes('specialist') || titleLower.includes('executive')) {
+        expScore = 94;
       }
 
       // 3. Behavioral / Culture Fit (15%)
-      let behaviorScore = 88;
-      if (fullText.includes('async') || fullText.includes('remote') || fullText.includes('autonomy') || fullText.includes('documentation') || fullText.includes('notion')) {
-        behaviorScore = 96;
+      let behaviorScore = 90;
+      if (fullText.includes('async') || fullText.includes('remote') || fullText.includes('autonomy') || fullText.includes('partner') || fullText.includes('cross-functional')) {
+        behaviorScore = 98;
       }
 
       // 4. Career Alignment & Motivation (30%)
-      let careerScore = 86;
-      if (fullText.includes('ai') || fullText.includes('llm') || fullText.includes('agent') || fullText.includes('scale') || fullText.includes('architecture')) {
+      let careerScore = 88;
+      if (fullText.includes('edtech') || fullText.includes('saas') || fullText.includes('partner') || fullText.includes('account') || fullText.includes('education') || fullText.includes('revenue')) {
         careerScore = 98;
       }
 
@@ -629,14 +659,15 @@ Have a great rest of the week!`;
 
       // Strengths & Gaps
       const strengths = [
-        `Direct 10+ year track record matching core stack (${(job.tags || ['Full-Stack', 'APIs']).slice(0, 3).join(', ')})`,
-        'Extensive experience building autonomous, sub-second web platforms & AI integrations',
-        'Fluent C1+ English, native async collaboration across US/LATAM time zones (CST/EST/PST)'
+        `Direct 15+ year track record in strategic partnerships & key accounts (${(job.tags || ['Partnerships', 'Key Accounts']).slice(0, 3).join(', ')})`,
+        'Proven 6X revenue turnaround (scaling territory from MXN$3M to $20M+ at Richmond-Santillana)',
+        'Founder of JóvenesSTEM (230 modules, Open Badges 3.0, AI tutor) & ex-Apple Solutions Consultant',
+        'Fluent professional English (ETS TOEIC Validated B2/C1) with seamless US time-zone overlap'
       ];
 
       const gaps = [
-        'Proprietary company internal tooling (easily bridged within first week onboarding)',
-        'Domain-specific business logic (standard 2-week ramp time)'
+        'Proprietary company internal CRM/tooling (easily bridged within first week onboarding)',
+        'Domain-specific partner tier structure (standard 2-week ramp time)'
       ];
 
       return {
@@ -699,105 +730,105 @@ Have a great rest of the week!`;
       const p = profile || this.candidateProfile;
       const seeds = [
         {
-          id: 'ai_1',
-          title: 'Senior Full-Stack Engineer (AI Applications & Agentic Systems)',
-          company: 'Veloce AI (YC W24)',
-          location: 'Remote (Mexico / LATAM / Worldwide)',
-          salary: '$95,000 – $115,000 USD / yr ($8,000/mo USD)',
-          url: 'https://jobs.ashbyhq.com/veloce-ai/senior-fullstack-ai-engineer',
-          tags: ['AI / LLM', 'TypeScript', 'Python', 'React', 'Agentic Systems', 'Node.js'],
+          id: 'exec_1',
+          title: 'Head of Strategic Partnerships (LATAM & Americas Remote)',
+          company: 'Global EdTech Network (Ashby)',
+          location: 'Remote (Americas / Mexico / LATAM)',
+          salary: '$95,000 – $120,000 USD / yr ($8,000/mo USD)',
+          url: 'https://jobs.ashbyhq.com/edtech-global/strategic-partnerships-lead',
+          tags: ['Strategic Partnerships', 'EdTech', 'Higher Ed', 'B2B Sales', 'C-Level Deals', 'Bilingual EN-ES'],
           date: 'Active • High Urgency 🔥',
-          description: 'Building next-generation generative AI agent systems and autonomous developer workflows. Looking for an experienced full-stack engineer and solutions architect comfortable shipping fast with high autonomy across US time zones.',
+          description: 'Lead institutional and university partnerships across the Americas. Develop distributor networks, negotiate C-suite academic agreements, and expand adoption of digital learning platforms across higher education accounts.',
           reputation: {
             glassdoorRating: 4.9,
-            tier: 'Y-Combinator W24 ($12M Top Tier)',
+            tier: 'Global EdTech Scaleup ($25M Growth)',
             atsBadge: 'Verified Ashby ATS',
             scamRisk: '0% Verified',
-            remoteMaturity: '100% Async • Flexible Hours • $1,000 Setup Stipend'
+            remoteMaturity: '100% Async • Flexible Schedule • Home Office Stipend'
           }
         },
         {
-          id: 'ai_2',
-          title: 'Tech Lead / Solutions Architect (Full-Stack & Cloud Systems)',
-          company: 'CloudScale Global',
-          location: 'Remote (Mexico / LATAM Friendly)',
-          salary: '$90,000 – $110,000 USD / yr ($7,500/mo USD)',
-          url: 'https://boards.greenhouse.io/cloudscaleglobal/jobs/tech-lead-solutions-architect',
-          tags: ['Architecture', 'TypeScript', 'Node.js', 'React', 'Cloud APIs', 'Microservices'],
+          id: 'exec_2',
+          title: 'Regional Key Account Manager (Enterprise Higher Ed & EdTech)',
+          company: 'Instructure / Canvas LMS Ecosystem',
+          location: 'Remote (Mexico / LATAM / US CST Friendly)',
+          salary: '$85,000 – $110,000 USD / yr ($7,500/mo USD)',
+          url: 'https://boards.greenhouse.io/instructure-ecosystem/jobs/regional-key-account-manager',
+          tags: ['Key Account Management', 'Higher Education', 'SaaS', 'Revenue Growth', 'LMS', 'Pipeline Forecasting'],
           date: 'Active • Verified Sponsor',
-          description: 'Lead system architecture and full-stack web engineering across distributed microservices. Drive engineering best practices, asynchronous documentation in Notion, and mentor senior developers in LATAM.',
+          description: 'Manage and scale a high-value portfolio of 100+ university and institutional accounts. Drive renewals, upsell SaaS platform licenses, build executive alignment with Rectors and Academic Deans, and scale territory revenue.',
           reputation: {
             glassdoorRating: 4.8,
-            tier: 'Series B ($35M Sequoia Capital)',
+            tier: 'Public SaaS Leader (Enterprise Grade)',
             atsBadge: 'Verified Greenhouse ATS',
             scamRisk: '0% Verified',
-            remoteMaturity: 'Async Documentation • Annual Learning Budget • Remote First'
+            remoteMaturity: 'Quarterly Travel • Annual Learning Budget • Remote First'
           }
         },
         {
-          id: 'ai_3',
-          title: 'Staff Software Engineer (Frontend & Modern Web Systems)',
-          company: 'Synthetix Labs',
-          location: 'Remote (Worldwide / Anywhere)',
-          salary: '$85,000 – $105,000 USD / yr ($7,200/mo USD)',
-          url: 'https://jobs.lever.co/synthetixlabs/staff-software-engineer',
-          tags: ['JavaScript', 'TypeScript', 'React', 'Next.js', 'Web Performance', 'Design Systems'],
+          id: 'exec_3',
+          title: 'EdTech Product Strategist & Program Lead',
+          company: 'Synthesis AI / Adaptive Learning Labs',
+          location: 'Remote (Worldwide / Americas)',
+          salary: '$80,000 – $105,000 USD / yr ($7,200/mo USD)',
+          url: 'https://jobs.lever.co/synthesis/edtech-product-strategist',
+          tags: ['EdTech Product Strategy', 'LMS Platform', 'AI Tutoring', 'Open Badges', 'Agile Systems', 'Curriculum Design'],
           date: 'Active',
-          description: 'Architect high-performance web applications, fluid UI/UX systems, and reactive dashboards with sub-second latency. Collaborate asynchronously across US and international time zones.',
+          description: 'Own product strategy and learning platform roadmap for AI-driven STEM and language learning products. Guide LMS feature prioritization, integrate digital credentialing, and bridge commercial needs with product engineering.',
           reputation: {
-            glassdoorRating: 4.8,
+            glassdoorRating: 4.9,
             tier: 'Series A ($18M a16z)',
             atsBadge: 'Verified Lever ATS',
             scamRisk: '0% Verified',
-            remoteMaturity: 'Remote Native • Generous Equipment Allowance • Zero Bureaucracy'
+            remoteMaturity: 'Remote Native • Async Sprints • Zero Bureaucracy'
           }
         },
         {
-          id: 'ai_4',
-          title: 'AI Systems Engineer & Full-Stack Developer',
-          company: 'MindWave Platform',
-          location: 'Remote (Mexico / US CST/EST Friendly)',
-          salary: '$80,000 – $100,000 USD / yr ($6,800/mo USD)',
-          url: 'https://boards.greenhouse.io/mindwave/jobs/ai-systems-engineer',
-          tags: ['Python', 'TypeScript', 'LLM Prompting', 'FastAPI', 'React', 'REST APIs'],
+          id: 'exec_4',
+          title: 'Director of Institutional Partnerships (Americas / Bilingual)',
+          company: 'ETS Global / Credentialing Alliance',
+          location: 'Remote (Americas / Mexico / US Time Zones)',
+          salary: '$90,000 – $115,000 USD / yr ($7,800/mo USD)',
+          url: 'https://boards.greenhouse.io/ets-alliance/jobs/director-institutional-partnerships',
+          tags: ['Institutional Alliances', 'Government & Higher Ed', 'Certification Programs', 'TOEIC / CEFR', 'B2B Contracts'],
           date: 'Active',
-          description: 'Develop AI-driven customer intelligence workflows, integrate LLM pipelines with structured outputs, and build scalable web interfaces with modern JavaScript and Python.',
+          description: 'Expand institutional certification and digital credentialing adoption across premier universities and state education councils. Manage high-stakes government and higher education RFP processes and partner launches.',
           reputation: {
-            glassdoorRating: 4.7,
-            tier: 'TechStars Alum ($8M Seed)',
+            glassdoorRating: 4.8,
+            tier: 'Global Assessment Leader',
             atsBadge: 'Verified Greenhouse ATS',
             scamRisk: '0% Verified',
-            remoteMaturity: 'Async Sprints • Direct Contractor (W-8BEN) • Flexible Schedule'
+            remoteMaturity: 'Executive Autonomy • Direct Contractor (W-8BEN)'
           }
         },
         {
-          id: 'ai_5',
-          title: 'Lead Developer (B2B SaaS & Automation Systems)',
-          company: 'HyperFlow Inc',
+          id: 'exec_5',
+          title: 'Channel Development & Partner Enablement Manager',
+          company: 'Techstars Scaleup Portfolio (Remote)',
+          location: 'Remote (Worldwide / LATAM Friendly)',
+          salary: '$75,000 – $95,000 USD / yr ($6,500/mo USD)',
+          url: 'https://jobs.ashbyhq.com/scaleup-alliances/channel-development-manager',
+          tags: ['Channel Development', 'Distributor Enablement', 'Partner Coaching', 'Apple Alumni Friendly', 'Territory Turnaround'],
+          date: 'Active',
+          description: 'Build and energize multi-tier reseller and distributor channels. Train partner sales forces, implement partner enablement playbooks, and scale partner revenue through structured coaching and pipeline visibility.',
+          reputation: {
+            glassdoorRating: 4.7,
+            tier: 'Scaleup Accelerator Network',
+            atsBadge: 'Verified Ashby ATS',
+            scamRisk: '0% Verified',
+            remoteMaturity: 'Flexible Hours • Full Autonomy • Stipend'
+          }
+        },
+        {
+          id: 'exec_6',
+          title: 'Customer Success & Strategic Accounts Director',
+          company: 'SaaSFlow Technologies (Americas)',
           location: 'Remote (Worldwide / LATAM)',
           salary: '$75,000 – $95,000 USD / yr ($6,500/mo USD)',
-          url: 'https://jobs.lever.co/hyperflow/lead-developer-saas',
-          tags: ['Node.js', 'Python', 'Automation', 'Zapier/APIs', 'React', 'B2B SaaS'],
+          url: 'https://boards.greenhouse.io/saasflow/customer-success-director',
+          tags: ['Customer Success', 'Strategic Accounts', 'Retention', 'Executive QBRs', 'SaaS Analytics', 'Contract Renewals'],
           date: 'Active',
-          description: 'Own end-to-end features for high-volume B2B workflow automation platforms. Strong async culture, minimal meetings, and direct impact on recurring revenue and customer retention.',
-          reputation: {
-            glassdoorRating: 4.6,
-            tier: 'Bootstrapped Scaleup ($15M ARR)',
-            atsBadge: 'Verified Lever ATS',
-            scamRisk: '0% Verified',
-            remoteMaturity: 'No Meeting Wednesdays • Full Autonomy • Stipend'
-          }
-        },
-        {
-          id: 'ai_6',
-          title: 'Remote Solutions Engineer & Customer Success Architect',
-          company: 'SaaSFlow Technologies (US)',
-          location: 'Remote (Worldwide / LATAM friendly)',
-          salary: '$70,000 – $90,000 USD / yr ($6,500/mo USD)',
-          url: 'https://boards.greenhouse.io/saasflow/customer-success-solutions-architect',
-          tags: ['Customer Success', 'Solutions Engineering', 'APIs', 'SaaS', 'SQL', 'Automation'],
-          date: 'Active',
-          description: 'Technical solutions architect and customer success engineer bridging enterprise clients with product engineering, diagnosing API integrations, reducing churn, and elevating CSAT.',
+          description: 'Lead customer success, adoption, and retention strategies for major enterprise and institutional clients. Deliver data-driven QBRs using custom dashboards, reduce churn, and cultivate executive relationships.',
           reputation: {
             glassdoorRating: 4.8,
             tier: 'Series A ($20M Accel)',
@@ -906,27 +937,27 @@ Have a great rest of the week!`;
       const name = p.fullName || 'Alberto Yépiz';
       const role = job.title;
       const company = job.company;
-      const topSkills = (job.tags || ['modern web systems', 'AI integration', 'cloud architecture']).slice(0, 3).join(', ');
+      const topSkills = (job.tags || ['Strategic Partnerships', 'Key Account Growth', 'EdTech Solutions']).slice(0, 3).join(', ');
 
       return `Dear Hiring Team at ${company},
 
-I am writing to express my strong enthusiasm for the ${role} opening at ${company}. Having followed your recent growth and engineering trajectory, I was particularly drawn to your focus on high-velocity delivery and autonomous systems. With over 10 years of experience architecting mission-critical full-stack applications, scalable cloud backends, and low-latency AI integrations, I know I can hit the ground running with your team from Day 1.
+I am writing to express my strong enthusiasm for the ${role} opening at ${company}. Having followed your recent growth, market leadership, and strategic focus across the Americas, I was particularly drawn to your mission. With over 15 years of B2B experience across EdTech, SaaS, retail, and strategic partnerships (scaling territory revenue 6X from MXN$3M to over MXN$20M at Richmond-Santillana, founding JóvenesSTEM, and alumni leadership at Apple, PepsiCo, and AVIS), I know I can hit the ground running driving high-value partner relationships and commercial execution from Day 1.
 
-Throughout my career, I have thrived in high-autonomy, asynchronous remote environments:
-• Founder & Lead Architect at JóvenesSTEM (jovenesstem.com): Engineered the 230-module STEM platform and stemOS ecosystem, scaling interactive technology modules to 15,000+ users with sub-second response times and zero bloat.
-• EdTech & AI System Architecture: Scaled regional SaaS revenue at Richmond to over MXN$20M (6X growth, awarded Most Innovative Team Member), while architecting RichmondAI with 28 prompt engines and structured output schemas accelerating workflows by 78%.
-• Technical Pedigree: MBA & Finance graduate (UNISON), Data Science & Agile (USMx), ex-Apple, PepsiCo, AVIS, translating strategic business goals into clean, high-performance software (${topSkills}).
+Throughout my career, I have excelled in high-autonomy, relationship-driven environments:
+• 6X Revenue Turnaround at Richmond Pro (Santillana): Scaled regional territory revenue from MXN$3M to $20M+ by cultivating C-level university relationships (UTCJ, UABC, UT Tijuana) and distributor networks across 130+ accounts, awarded "Most Innovative Team Member" for building RProDash analytics and AI workflows.
+• Founder & Product Lead at JóvenesSTEM (jovenesstem.com): Built and scaled a bilingual EdTech platform with 230 interactive modules, Open Badges 3.0 digital credentialing, and Gemini AI tutor integration, securing institutional partnerships with state science councils across Mexico.
+• Strategic & Commercial Pedigree: MBA and Bachelor in Finance (Universidad de Sonora), Data Science & Agile Systems for Product Management (University of Maryland), ex-Apple Solutions Consultant, and published author ("Fundamentals of Science and Technology", ISBN: 978-607-29-5085-6).
 
-In my first 90 days at ${company}, my objective is straightforward: thoroughly absorb your team's architecture, eliminate friction in key async workflows, and deliver measurable code contributions to your core milestone roadmap without requiring micro-management. Operating from Mexico across US time zones (CST/EST/PST), I provide natural real-time overlap alongside the focus advantages of asynchronous communication.
+In my first 90 days at ${company}, my objective is straightforward: map out priority partnership and account targets, deeply understand your stakeholders' core pain points, eliminate friction in partner onboarding and pipeline reviews, and accelerate contracted revenue and adoption without requiring micro-management. Operating from Mexico across US time zones (CST/EST/PST), I provide seamless real-time communication alongside the focus of asynchronous execution.
 
-Thank you for your time and consideration. I would welcome the opportunity to discuss how my technical leadership and hands-on engineering background align with ${company}'s goals.
+Thank you for your time and consideration. I would welcome the opportunity to discuss how my commercial leadership, strategic partnerships track record, and EdTech product background align with ${company}'s goals.
 
 Sincerely,
 
 ${name}
 ${p.email || 'yepzhi@gmail.com'} | ${p.portfolio || 'yepzhi.com'}
 ${p.location || 'Hermosillo, Sonora, Mexico (Remote)'}
-LinkedIn: ${p.linkedin || 'linkedin.com/in/alberto-yepiz'}`;
+LinkedIn: ${p.linkedin || 'linkedin.com/in/yepzhi'}`;
     }
 
     generateCompanyDossier(job) {
@@ -990,7 +1021,7 @@ ${p.email || 'yepzhi@gmail.com'}`;
 
 Thank you for the thoughtful discussion today regarding the ${role} opening at ${company}.
 
-I truly enjoyed learning more about your technical priorities and remote engineering culture. Our conversation reinforced my conviction that my background in full-stack architecture, AI workflows, and asynchronous leadership is a great match for your upcoming milestones.
+I truly enjoyed learning more about your strategic priorities and organizational vision. Our conversation reinforced my conviction that my background in strategic partnerships, EdTech commercial growth, and institutional alliances is a great match for your upcoming milestones.
 
 Please feel free to reach out if you need any additional project links or references. Looking forward to our next steps!
 

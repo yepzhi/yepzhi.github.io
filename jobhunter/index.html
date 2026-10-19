@@ -15,7 +15,7 @@
   <!-- FontAwesome 6 Pro Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <link rel="stylesheet" href="styles.css?v=2026.10.19.2">
+  <link rel="stylesheet" href="styles.css?v=2026.10.19.5">
 </head>
 <body>
 
@@ -197,11 +197,11 @@
             <div class="hero-badge">ALBERTO YÉPIZ • PERSONAL EXECUTIVE SEARCH COMMAND CENTER</div>
             <h1 class="hero-title">Lookup Everywhere: Remote Opportunities for Alberto</h1>
             <p class="hero-subtitle">
-              Calibrated for <strong>Senior Full-Stack Engineer, AI Solutions Architect & Tech Lead</strong> ($5,000–$8,000+ USD/mo Remote via W-8BEN / EOR) with 1-click ATS CV tailoring & pipeline tracking.
+              Pre-calibrated for <strong>Strategic Partnerships Lead, Regional Key Account Manager & EdTech Product Strategist</strong> ($5,000–$8,000+ USD/mo Remote via W-8BEN / EOR) with 1-click search, instant ATS CV tailoring & pipeline tracking.
             </p>
           </div>
 
-                    <!-- Quick Save Any Job Link & Follow-Up Bar -->
+          <!-- Quick Save Any Job Link & Follow-Up Bar -->
           <div class="quick-save-link-card" style="background:#ffffff; border:1.5px solid #e2e8f0; border-radius:18px; padding:20px 24px; margin-bottom:20px; box-shadow:0 4px 12px rgba(15,23,42,0.04);">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
               <div style="font-weight:800; font-size:1rem; color:#0f172a; display:flex; align-items:center; gap:8px;">
@@ -217,8 +217,8 @@
             </div>
             <div style="display:grid; grid-template-columns: 2.2fr 1.3fr 1.1fr auto auto; gap:12px; align-items:center;">
               <input type="url" id="quick-save-url" placeholder="Paste Job URL (e.g. https://jobs.ashbyhq.com/...)" style="padding:11px 16px; border:1px solid #cbd5e1; border-radius:10px; font-size:0.88rem; font-family:inherit; width:100%; outline:none;">
-              <input type="text" id="quick-save-title" placeholder="Job Title (e.g. AI Architect)" style="padding:11px 16px; border:1px solid #cbd5e1; border-radius:10px; font-size:0.88rem; font-family:inherit; width:100%; outline:none;">
-              <input type="text" id="quick-save-company" placeholder="Company (e.g. Veloce AI)" style="padding:11px 16px; border:1px solid #cbd5e1; border-radius:10px; font-size:0.88rem; font-family:inherit; width:100%; outline:none;">
+              <input type="text" id="quick-save-title" placeholder="Job Title (e.g. Partnerships Lead)" style="padding:11px 16px; border:1px solid #cbd5e1; border-radius:10px; font-size:0.88rem; font-family:inherit; width:100%; outline:none;">
+              <input type="text" id="quick-save-company" placeholder="Company (e.g. Coursera)" style="padding:11px 16px; border:1px solid #cbd5e1; border-radius:10px; font-size:0.88rem; font-family:inherit; width:100%; outline:none;">
               <button type="button" class="btn-secondary" id="btn-quick-save-pipeline" style="white-space:nowrap; padding:11px 18px; font-size:0.88rem; font-weight:700;">
                 <i class="fa-solid fa-bookmark"></i>
                 <span>Save Link</span>
@@ -230,23 +230,42 @@
             </div>
           </div>
 
+          <!-- 1-Click Search & Go Preset Tracks -->
+          <div class="one-click-tracks-bar" id="one-click-tracks-bar" style="display:flex; align-items:center; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
+            <span style="font-size:0.8rem; font-weight:800; color:#475569; display:flex; align-items:center; gap:6px;">
+              <i class="fa-solid fa-bolt" style="color:var(--accent-gold);"></i> 1-Click Search & Go:
+            </span>
+            <button type="button" class="btn-track-preset active" data-track-query="Strategic Partnerships OR Channel Development" data-track-category="sales" style="padding:7px 15px; font-size:0.8rem; font-weight:700; border-radius:999px; border:1.5px solid #bfdbfe; background:#eff6ff; color:#1d4ed8; cursor:pointer;">
+              🤝 Strategic Partnerships & Channel Dev
+            </button>
+            <button type="button" class="btn-track-preset" data-track-query="Regional Key Account Manager OR Enterprise Sales" data-track-category="sales" style="padding:7px 15px; font-size:0.8rem; font-weight:700; border-radius:999px; border:1.5px solid #e2e8f0; background:#ffffff; color:#334155; cursor:pointer;">
+              📈 Regional Key Account Manager (EdTech & SaaS)
+            </button>
+            <button type="button" class="btn-track-preset" data-track-query="EdTech Product Strategist OR Learning Platform Lead" data-track-category="product" style="padding:7px 15px; font-size:0.8rem; font-weight:700; border-radius:999px; border:1.5px solid #e2e8f0; background:#ffffff; color:#334155; cursor:pointer;">
+              🎓 EdTech Product Strategist & Program Lead
+            </button>
+            <button type="button" class="btn-track-preset" data-track-query="Institutional Partnerships OR University Alliances" data-track-category="sales" style="padding:7px 15px; font-size:0.8rem; font-weight:700; border-radius:999px; border:1.5px solid #e2e8f0; background:#ffffff; color:#334155; cursor:pointer;">
+              🏛️ Institutional & Higher Ed Alliances
+            </button>
+          </div>
+
           <!-- Search Query Bar -->
           <div class="omni-search-bar-card">
             <div class="search-input-group">
               <i class="fa-solid fa-magnifying-glass search-icon"></i>
-              <input type="text" class="input-omni-search" id="omni-search-query" value="Senior Full-Stack Engineer OR AI Solutions Architect OR Tech Lead" placeholder="Search by role, keyword, or tech stack (e.g. Senior Full-Stack Engineer, AI Solutions Architect, React, Python)...">
+              <input type="text" class="input-omni-search" id="omni-search-query" value="Strategic Partnerships OR Key Account Manager OR EdTech Product" placeholder="Search by role, track, or company (e.g. Strategic Partnerships, Key Account Manager, EdTech Product, Channel Development)...">
             </div>
 
             <div class="search-filters-row">
               <div class="filter-col">
                 <label class="filter-label">Category</label>
                 <select class="select-filter" id="omni-filter-category">
+                  <option value="sales" selected>Sales & Business Development (Partnerships / Accounts)</option>
+                  <option value="product">Product & Operations (EdTech Strategy / LMS)</option>
+                  <option value="customer-support">Customer Success & Client Strategy</option>
                   <option value="all">All Disciplines</option>
-                  <option value="customer-support">Customer Support & Success</option>
                   <option value="software-dev">Software & Engineering</option>
                   <option value="marketing">Marketing & Growth</option>
-                  <option value="sales">Sales & Business Development</option>
-                  <option value="product">Product & Operations</option>
                   <option value="design">Design & UX</option>
                 </select>
               </div>
@@ -943,10 +962,10 @@
       <div class="modal-header">
         <div>
           <div class="modal-title" id="mra-role-title" style="font-size:1.2rem; color:var(--text-primary);">
-            Senior Full-Stack Engineer
+            Head of Strategic Partnerships (LATAM & Americas Remote)
           </div>
           <div class="reputation-tag-row" style="margin-top:6px;" id="mra-meta-row">
-            <span class="job-company-badge" id="mra-company-name">Veloce AI</span>
+            <span class="job-company-badge" id="mra-company-name">Coursera / EdTech Partnerships</span>
             <span class="reputation-pill glassdoor" id="mra-glassdoor-badge">★ 4.9 Glassdoor</span>
             <span class="reputation-pill tier" id="mra-tier-badge">Y-Combinator Scaleup</span>
             <span class="match-score-badge match-tier-perfect" id="mra-match-badge">98% Match</span>
@@ -1061,7 +1080,7 @@
   <div class="toast-container" id="toast-container"></div>
 
   <!-- Scripts -->
-  <script src="ian-engine.js?v=2026.10.19.2"></script>
-  <script src="app.js?v=2026.10.19.2"></script>
+  <script src="ian-engine.js?v=2026.10.19.5"></script>
+  <script src="app.js?v=2026.10.19.5"></script>
 </body>
 </html>

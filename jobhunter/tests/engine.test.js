@@ -56,6 +56,21 @@ assert(booleanSearch.linkedinJobs.includes('NOT "On-site"'));
 assert(booleanSearch.googleXrayGreenhouse.includes('site:boards.greenhouse.io'));
 console.log('✓ Boolean queries for LinkedIn, Google X-Ray, and Greenhouse synthesized');
 
+// 7.1 Multi-Board Lookup Everywhere Links
+const lookupLinks = engine.generateLookupEverywhereLinks('Customer Success');
+assert.strictEqual(lookupLinks.length, 9);
+assert(lookupLinks.some(l => l.id === 'greenhouse'));
+assert(lookupLinks.some(l => l.id === 'lever'));
+assert(lookupLinks.some(l => l.id === 'ashby'));
+assert(lookupLinks.some(l => l.id === 'linkedin'));
+console.log(`✓ Lookup Everywhere multi-board links generated (${lookupLinks.length} major boards)`);
+
+// 7.2 Fallback Live Jobs Database
+const fallbackJobs = engine._getFallbackJobs('customer');
+assert(fallbackJobs.length >= 1);
+assert(fallbackJobs[0].title.length > 0);
+console.log(`✓ Live job search engine verified with fallback job cards`);
+
 // 8. Outreach Sequence
 const outreach = engine.generateOutreachSequence('Alex', 'SaaSFlow', 'Customer Success Manager', 'cut churn by 20%');
 assert(outreach.templateA.length <= 300);
@@ -81,6 +96,46 @@ assert.strictEqual(neg.recommendedCounter, 4480);
 assert(neg.deflectionScript.includes('$4000'));
 console.log('✓ Salary negotiation counter-offer scripts (+12% benchmark) calculated');
 
+// 12. MadsLorentzen 5-Dimension Fit Evaluation & Compatibility
+const topJobs = engine.getCuratedHighMatchJobs();
+assert(topJobs.length >= 5);
+const primaryJob = topJobs[0];
+const fitResult = engine.evaluateJobFit(primaryJob);
+assert(fitResult.overallScore >= 90, `Expected score >= 90, got ${fitResult.overallScore}`);
+assert.strictEqual(fitResult.locationGate, 'PASS');
+assert.strictEqual(fitResult.languageGate, 'PASS');
+assert(fitResult.strengths.length >= 3);
+assert(fitResult.reputation.glassdoorRating >= 4.5);
+console.log(`✓ 5-Dimension Fit Evaluation verified: ${primaryJob.title} scored ${fitResult.overallScore}% (${fitResult.verdict})`);
+
+// 13. Forward-Looking Cover Letter Generation
+const coverLetter = engine.generateCoverLetterForJob(primaryJob);
+assert(coverLetter.includes('Dear Hiring Team at'));
+assert(coverLetter.includes('JóvenesSTEM'));
+assert(coverLetter.includes('90 days'));
+assert(coverLetter.includes('Mexico'));
+console.log('✓ Forward-looking tailored cover letter generated per ai-job-search framework');
+
+// 14. Follow-Up Email Sequence & Mailto Links
+const emailSeq = engine.generateFollowUpEmailSequence(primaryJob);
+assert(emailSeq.touchpoint1.subject.includes('Application:'));
+assert(emailSeq.touchpoint1.mailtoUrl.startsWith('mailto:'));
+assert(emailSeq.touchpoint2.body.includes('follow up'));
+assert(emailSeq.touchpoint3.subject.includes('Thank You'));
+assert(emailSeq.linkedinNote.text.length <= 300);
+console.log('✓ 4-Touchpoint follow-up email suite & mailto links verified');
+
+// 15. Pipeline Management & Application Tracking
+const initialPipeline = engine.getPipeline();
+const updatedPipeline = engine.addToPipeline(primaryJob, fitResult);
+assert(updatedPipeline.some(item => item.title === primaryJob.title));
+const pipelineAfterStatus = engine.updatePipelineStatus(primaryJob.id, 'Interviewing');
+const itemFound = pipelineAfterStatus.find(item => item.id === primaryJob.id);
+assert.strictEqual(itemFound.status, 'Interviewing');
+engine.removePipelineItem(primaryJob.id);
+console.log('✓ Application Pipeline tracker (add, status update, remove) functioning');
+
 console.log('\n========================================');
-console.log('🎉 ALL 11 TESTS PASSED WITH 0 FAILURES');
+console.log('🎉 ALL 15 HYBRID ENGINE TESTS PASSED WITH 0 FAILURES');
 console.log('========================================\n');
+

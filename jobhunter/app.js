@@ -421,6 +421,32 @@
     _initOmniSearcher() {
       this._renderMultiBoardChips();
 
+      // 1-Click Search & Go Presets
+      const trackPresetBtns = document.querySelectorAll('#one-click-tracks-bar .btn-track-preset');
+      trackPresetBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          trackPresetBtns.forEach(b => {
+            b.classList.remove('active');
+            b.style.borderColor = '#e2e8f0';
+            b.style.background = '#ffffff';
+            b.style.color = '#334155';
+          });
+          btn.classList.add('active');
+          btn.style.borderColor = '#bfdbfe';
+          btn.style.background = '#eff6ff';
+          btn.style.color = '#1d4ed8';
+
+          if (this.omniSearchQuery && btn.dataset.trackQuery) {
+            this.omniSearchQuery.value = btn.dataset.trackQuery;
+          }
+          if (this.omniFilterCategory && btn.dataset.trackCategory) {
+            this.omniFilterCategory.value = btn.dataset.trackCategory;
+          }
+          this._runOmniSearch();
+          this.showToast(`Active Track: ${btn.textContent.trim()}`);
+        });
+      });
+
       if (this.btnRunOmniSearch) {
         this.btnRunOmniSearch.addEventListener('click', () => this._runOmniSearch());
       }
@@ -552,7 +578,7 @@
 
     _renderMultiBoardChips() {
       if (!this.multiBoardChipsGrid) return;
-      const role = this.engine.getProfile().targetRole || 'Senior Full-Stack Engineer';
+      const role = this.engine.getProfile().targetRole || 'Regional Strategic Partnerships & EdTech Key Account Lead';
       const links = this.engine.generateLookupEverywhereLinks(role);
 
       this.multiBoardChipsGrid.innerHTML = links.map(l => `
@@ -705,7 +731,7 @@
     }
 
     _handleLaunchAllBoards() {
-      const role = this.omniSearchQuery.value.trim() || this.engine.getProfile().targetRole || 'Senior Full-Stack Engineer';
+      const role = this.omniSearchQuery.value.trim() || this.engine.getProfile().targetRole || 'Regional Strategic Partnerships & EdTech Key Account Lead';
       const links = this.engine.generateLookupEverywhereLinks(role);
       links.slice(0, 4).forEach(l => window.open(l.url, '_blank'));
       this.showToast('Opened top 4 startup boards in new tabs');
@@ -1142,7 +1168,7 @@
       const p = this.engine.getProfile();
       const customProfile = Object.assign({}, p, {
         targetRole: this.liRole.value.trim() || p.targetRole,
-        topSkills: this.liSkills.value.trim() || 'AI Prompt Engineering, Full-Stack Architecture, Node.js, Python'
+        topSkills: this.liSkills.value.trim() || 'Strategic Partnerships, Key Account Management, EdTech Product Strategy, Higher Ed Alliances, Revenue Growth'
       });
 
       const res = this.engine.generateLinkedInOptimization(customProfile);
@@ -1160,7 +1186,7 @@
 
     // ── Module 3: Sourcing & Outreach ──
     _handleGenerateBoolean() {
-      const role = this.sourcingRole.value.trim() || this.engine.getProfile().targetRole || 'Senior Full-Stack Engineer';
+      const role = this.sourcingRole.value.trim() || this.engine.getProfile().targetRole || 'Regional Strategic Partnerships & EdTech Key Account Lead';
       const bools = this.engine.generateBooleanSearches(role);
 
       this.boolLinkedinJobs.textContent = bools.linkedinJobs;
@@ -1187,8 +1213,8 @@
     _handleGenerateOutreach() {
       const manager = this.outreachManager.value.trim() || 'Sarah';
       const company = this.outreachCompany.value.trim() || 'Acme Corp';
-      const role = this.engine.getProfile().targetRole || 'Senior Full-Stack Engineer';
-      const achievement = this.outreachAchievement.value.trim() || 'architected AI pipelines cutting latency by 45%';
+      const role = this.engine.getProfile().targetRole || 'Regional Strategic Partnerships & EdTech Key Account Lead';
+      const achievement = this.outreachAchievement.value.trim() || 'scaled regional revenues 6X from MXN$3M to $20M+ and forged institutional alliances across northern Mexico';
 
       const seq = this.engine.generateOutreachSequence(manager, company, role, achievement);
       this.outreachTA.textContent = seq.templateA;
@@ -1256,7 +1282,7 @@
     // ── Module 5: Salary Negotiation ──
     _handleCalculateNegotiation() {
       const offer = parseFloat(this.negCurrentOffer.value) || 5000;
-      const role = this.negTargetRole.value.trim() || 'Senior Full-Stack Engineer';
+      const role = this.negTargetRole.value.trim() || 'Regional Strategic Partnerships & EdTech Key Account Lead';
       const scripts = this.engine.generateNegotiationScripts(offer, role);
 
       this.counterValHighlight.textContent = `$${scripts.recommendedCounter.toLocaleString()} USD / mo (+12%)`;
