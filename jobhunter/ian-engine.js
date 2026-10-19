@@ -852,7 +852,8 @@ Have a great rest of the week!`;
 
       try {
         let url = 'https://remotive.com/api/remote-jobs?limit=25';
-        if (cleanQ) url += `&search=${encodeURIComponent(cleanQ)}`;
+        const apiSearch = cleanQ.includes(' OR ') ? cleanQ.split(/\s+OR\s+/i)[0].trim() : cleanQ;
+        if (apiSearch) url += `&search=${encodeURIComponent(apiSearch)}`;
         if (category && category !== 'all') url += `&category=${encodeURIComponent(category)}`;
 
         const response = await fetch(url, { headers: { 'Accept': 'application/json' } });
@@ -886,14 +887,16 @@ Have a great rest of the week!`;
         return Object.assign({}, j, { fit: fit });
       });
 
-      // Filter by query
+      // Filter by query (supports boolean OR and multi-word clauses)
       if (cleanQ) {
-        const qLower = cleanQ.toLowerCase();
-        evaluated = evaluated.filter(j => 
-          j.title.toLowerCase().includes(qLower) ||
-          j.company.toLowerCase().includes(qLower) ||
-          j.tags.some(t => t.toLowerCase().includes(qLower))
-        );
+        const orClauses = cleanQ.split(/\s+OR\s+/i).map(s => s.trim().toLowerCase()).filter(Boolean);
+        evaluated = evaluated.filter(j => {
+          const searchable = `${j.title} ${j.company} ${(j.tags || []).join(' ')} ${j.description || ''}`.toLowerCase();
+          return orClauses.some(clause => {
+            const terms = clause.split(/\s+/).filter(Boolean);
+            return terms.every(term => searchable.includes(term));
+          });
+        });
       }
 
       // Filter by minMatch if requested (e.g. 90% full compatibility)
