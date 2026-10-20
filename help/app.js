@@ -422,20 +422,12 @@ async function submitTicket() {
   const folio = `HELP-${randomNum}`;
 
   // Determinación de Asesor:
-  // Noroeste -> Alberto Yépiz (UTH, ITESCA, ITLM, ITH, IT MXL, UNIVAFU)
-  // Norte    -> Luis Franco (UAZ PEUL, UJED, ICEST TAMPICO, CI 22 UANL)
+  // Noroeste -> Alberto Yépiz (UTH, ITESCA, ITLM, ITH, IT MXL, UNIVAFU, UT NOGALES)
   // Occidente -> Fabiola Martinez (UTNA, IT CUL, BACH TEPIC, UPSIN, CETI COLOMOS, LAMAR, CAI)
-  // Toluca / EdoMex / Mich -> Edgar Espinoza (UTZIN, UPOTEC, UAEM, ENES, UMSNH, SIRIUS, IBIM, UTSEM, TESJI, UIEM)
+  // (Escuelas de Luis Franco y Edgar Espinoza archivadas en backup_escuelas_archivadas.json)
   const schoolKey = STATE.data.school;
   let assignedAdvisor = 'Alberto Yépiz';
   let advisorWA = '5216621147374';
-
-  const NORTE_SCHOOLS = [
-    'UAZ PEUL',
-    'UJED',
-    'ICEST TAMPICO',
-    'CI 22 UANL'
-  ];
 
   const OCCIDENTE_SCHOOLS = [
     'UTNA',
@@ -447,23 +439,6 @@ async function submitTicket() {
     'CAI'
   ];
 
-  const TOLUCA_SCHOOLS = [
-    'UTZIN',
-    'UPOTEC',
-    'UAEM ENFERMERIA',
-    'UAEM CS EXACTAS',
-    'ENES MORELIA',
-    'UMSNH',
-    'SIRIUS',
-    'IBIM ATLACOMULCO',
-    'IBIM TOLUCA',
-    'UTSEM',
-    'TESJI',
-    'UIEM',
-    'UAEM QUIMICA',
-    'UAEM ODONTOLOGIA'
-  ];
-
   const SCHOOL_NAMES = {
     'UTH': 'UTH - Univ. Tecnológica de Hermosillo',
     'ITESCA': 'ITESCA - Inst. Tecnológico Superior de Cajeme',
@@ -471,40 +446,17 @@ async function submitTicket() {
     'ITH': 'ITH - Inst. Tecnológico de Hermosillo',
     'IT MXL': 'IT MXL - Inst. Tecnológico de Mexicali',
     'UNIVAFU': 'UNIVAFU - Universidad del Valle del Fuerte',
-    'UAZ PEUL': 'UAZ PEUL - Universidad Autónoma de Zacatecas (PEUL)',
-    'UJED': 'UJED - Facultad de Lenguas PUAALI',
-    'ICEST TAMPICO': 'ICEST Tampico',
-    'CI 22 UANL': 'CI 22 UANL - Centro de Idiomas Prepa',
+    'UT NOGALES': 'UT Nogales - Univ. Tecnológica de Nogales',
     'UTNA': 'UTNA - Univ. Tecnológica del Norte de Aguascalientes',
     'IT CUL': 'IT CUL - Inst. Tecnológico de Culiacán',
     'BACH TEPIC': 'Bach. de Ciencias y Letras de Tepic',
     'UPSIN': 'UPSIN - Univ. Politécnica de Sinaloa',
     'CETI COLOMOS': 'CETI Colomos - Centro de Enseñanza Técnica Industrial',
     'LAMAR': 'LAMAR - Univ. Guadalajara LAMAR',
-    'CAI': 'UAN, CAI - Universidad Autónoma de Nayarit (Coord. de Asuntos Internacionales)',
-    'UTZIN': 'UTZIN - Universidad Tecnológica de Zinacantepec',
-    'UPOTEC': 'UPOTEC - Universidad Politécnica de Otzolotepec',
-    'UAEM ENFERMERIA': 'UAEM - Facultad de Enfermería',
-    'UAEM CS EXACTAS': 'UAEM - Facultad de Ciencias Exactas',
-    'ENES MORELIA': 'ENES Campus Morelia',
-    'UMSNH': 'UMSNH - Univ. Michoacana de San Nicolás de Hidalgo',
-    'SIRIUS': 'Sirius Campus Universitario',
-    'IBIM ATLACOMULCO': 'IBIM Atlacomulco',
-    'IBIM TOLUCA': 'IBIM Toluca',
-    'UTSEM': 'UTSEM - Univ. Tecnológica del Sur del Edo. de México',
-    'TESJI': 'TESJI - Tec. de Estudios Superiores de Jilotepec',
-    'UIEM': 'UIEM - Univ. Intercultural del Edo. de México',
-    'UAEM QUIMICA': 'UAEM - Facultad de Química',
-    'UAEM ODONTOLOGIA': 'UAEM - Facultad de Odontología'
+    'CAI': 'UAN, CAI - Universidad Autónoma de Nayarit (Coord. de Asuntos Internacionales)'
   };
 
-  if (TOLUCA_SCHOOLS.includes(schoolKey)) {
-    assignedAdvisor = 'Edgar Espinoza';
-    advisorWA = '526641234572';
-  } else if (NORTE_SCHOOLS.includes(schoolKey)) {
-    assignedAdvisor = 'Luis Franco';
-    advisorWA = '5218119905772';
-  } else if (OCCIDENTE_SCHOOLS.includes(schoolKey)) {
+  if (OCCIDENTE_SCHOOLS.includes(schoolKey)) {
     assignedAdvisor = 'Fabiola Martinez';
     advisorWA = '5213316025928';
   } else {
@@ -801,15 +753,23 @@ function renderStatusCard(ticket) {
   const resolvedAt = ticket.resolvedAtMillis || null;
   const assignedPassword = (ticket.assignedPassword || '').trim();
   const assignedCorrectEmail = (ticket.assignedCorrectEmail || '').trim();
+  const assignedUnusedCode = (ticket.assignedUnusedCode || ticket.bookCode || '').trim();
+  const officialEmail = (ticket.officialEmail || '').trim();
   const noteText = (ticket.solutionNote || '').toLowerCase();
 
-  const isCodeUsed = isResolved && (
+  const isCodeUnused = isResolved && (
+    noteText.includes('no ha sido utilizado') || 
+    noteText.includes('vigente y sin uso') ||
+    noteText.includes('como la primera vez en:')
+  );
+
+  const isCodeUsed = isResolved && !isCodeUnused && (
     noteText.includes('encontramos tu cuenta') || 
     noteText.includes('utilizaste tu código') || 
     noteText.includes('utilizaste tu codigo')
   );
 
-  const isDiffEmail = isResolved && (
+  const isDiffEmail = isResolved && !isCodeUnused && (
     assignedCorrectEmail.length > 0 || 
     noteText.includes('correo diferente') || 
     noteText.includes('diste de alta con un correo') ||
@@ -817,19 +777,20 @@ function renderStatusCard(ticket) {
     isCodeUsed
   );
 
-  const isNoUserFound = isResolved && !isDiffEmail && (
+  const isNoUserFound = isResolved && !isDiffEmail && !isCodeUnused && (
     noteText.includes('no se encontró') || 
     noteText.includes('no se encontro') || 
     noteText.includes('ningún usuario') || 
     noteText.includes('ningun usuario')
   );
 
-  const hasPasswordAssigned = isResolved && assignedPassword.length > 0 && !isNoUserFound && !isDiffEmail;
+  const hasPasswordAssigned = isResolved && assignedPassword.length > 0 && !isNoUserFound && !isDiffEmail && !isCodeUnused;
   
   let displayRegisteredEmail = assignedCorrectEmail;
   if (!displayRegisteredEmail) {
-    const match = (ticket.solutionNote || '').match(/([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/);
-    if (match) displayRegisteredEmail = match[1];
+    const match = (ticket.solutionNote || '').match(/(?:correo registrado es:\s*|correo registrado\s*\(\s*|correo:\s*)([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/i)
+               || (ticket.solutionNote || '').match(/([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)/);
+    if (match) displayRegisteredEmail = match[1].replace(/[.,;:)]+$/, '').trim();
     else displayRegisteredEmail = (ticket.altEmail || ticket.email || '').trim();
   }
 
@@ -861,6 +822,17 @@ function renderStatusCard(ticket) {
           </div>
 
           <div class="resolved-credentials-box variant-green">
+            ${officialEmail ? `
+            <div class="cred-row">
+              <span class="cred-label label-green">Correo oficial confirmado (para ingresar):</span>
+              <div class="cred-val-wrap">
+                <div class="cred-val highlight" id="credOfficialEmailText" style="color:#166534;">${escapeHtml(officialEmail)}</div>
+                <button type="button" class="btn-copy btn-copy-pass" onclick="copyToClipboard('${escapeHtml(officialEmail)}', this)">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <span>Copiar Correo</span>
+                </button>
+              </div>
+            </div>` : `
             <div class="cred-row">
               <span class="cred-label label-green">Usuario / Correo de Acceso:</span>
               <div class="cred-val-wrap">
@@ -870,7 +842,7 @@ function renderStatusCard(ticket) {
                   <span>Copiar Correo</span>
                 </button>
               </div>
-            </div>
+            </div>`}
 
             <div class="cred-row">
               <span class="cred-label label-green">Contraseña asignada:</span>
@@ -934,10 +906,26 @@ function renderStatusCard(ticket) {
               </div>
             </div>
 
+            ${(assignedPassword || noteText.includes('mexico26')) ? `
+            <div class="cred-row">
+              <span class="cred-label label-blue">Contraseña asignada:</span>
+              <div class="cred-val-wrap">
+                <div class="cred-val highlight pass" id="credDiffPassText" style="color: #1d4ed8;">${escapeHtml(assignedPassword || 'Mexico26*')}</div>
+                <button type="button" class="btn-copy btn-copy-pass" onclick="copyToClipboard('${escapeHtml(assignedPassword || 'Mexico26*')}', this)">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <span>Copiar Contraseña</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="cred-info-note" style="background: #eff6ff; border-left: 4px solid #2563eb; color: #1e40af;">
+              <strong style="color: #1d4ed8;">Contraseña restablecida:</strong><br/>
+              Como ya encontramos tu cuenta en el sistema, procedimos de una vez a cambiar tu contraseña por: <strong>Mexico26*</strong> para que puedas ingresar directamente con tu correo registrado.
+            </div>` : `
             <div class="cred-info-note">
               <strong style="color: #1e3a8a;">Información de tu Contraseña:</strong><br/>
               A estos alumnos <strong>NO se les cambió la contraseña</strong> (tu contraseña de acceso es la que definiste en tu registro original, no se modificó tu contraseña).
-            </div>
+            </div>`}
           </div>
 
           <div class="resolved-action-bar">
@@ -950,11 +938,64 @@ function renderStatusCard(ticket) {
             </a>
           </div>
 
+          ${(assignedPassword || noteText.includes('mexico26')) ? `
+          <p class="resolved-tip tip-green" style="margin-top: 0.85rem;">
+            Una vez dentro de Richmond Studio con tu correo registrado y tu contraseña <strong>Mexico26*</strong>, podrás actualizar tu contraseña en la sección <strong>"My Profile"</strong> si lo deseas.
+          </p>` : `
           <div class="resolved-tip-box variant-blue">
             <strong style="color: #1e3a8a; display: block; margin-bottom: 0.25rem;">¿No recuerdas tu contraseña?</strong>
             La contraseña es la misma que pusiste cuando hiciste tu registro. En caso de que no la recuerdes o no te deje entrar aun así, levanta un nuevo ticket seleccionando la opción <strong>"No puedo entrar / Invalid Credentials"</strong> y en la solicitud coloca este correo, que es el correo oficial que tenemos en el sistema.
             <span style="display: block; margin-top: 0.4rem; color: #dc2626; font-weight: 700;">(Importante: NO atendemos cambios ni restablecimiento de contraseña por WhatsApp).</span>
+          </div>`}
+        </div>
+      ` : ''}
+
+      <!-- CASO: CÓDIGO SIN USO / REGISTRO POR PRIMERA VEZ -->
+      ${isCodeUnused ? `
+        <div class="resolved-hero-card" style="background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border-left: 5px solid #a855f7;">
+          <div class="resolved-hero-header">
+            <span class="resolved-check-icon" style="background: #e9d5ff; color: #7e22ce;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </span>
+            <div>
+              <h4 class="resolved-hero-title" style="color: #6b21a8;">¡Tu código está vigente y sin uso!</h4>
+              <p class="resolved-hero-subtitle" style="color: #7e22ce;">
+                Revisamos tu código y nos dimos cuenta que no ha sido utilizado en ninguna cuenta. Procede a registrarte como la primera vez en Richmond Studio con tus datos oficiales:
+              </p>
+            </div>
           </div>
+
+          ${assignedUnusedCode ? `
+            <div class="resolved-credentials-box" style="background: rgba(255,255,255,0.85); border: 1.5px solid #d8b4fe; border-radius: 12px; padding: 0.85rem 1rem; margin: 0.9rem 0;">
+              <div class="cred-row">
+                <span class="cred-label" style="color: #7e22ce; font-weight: 800; font-size: 0.75rem; text-transform: uppercase;">Código para tu registro:</span>
+                <div class="cred-val-wrap">
+                  <div class="cred-val highlight" style="color: #6b21a8; font-family: monospace; font-weight: 800; font-size: 1.05rem;">${escapeHtml(assignedUnusedCode)}</div>
+                  <button type="button" class="btn-copy" style="background: #f3e8ff; color: #7e22ce; border-color: #d8b4fe;" onclick="copyToClipboard('${escapeHtml(assignedUnusedCode)}', this)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span>Copiar Código</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          ` : ''}
+
+          <div class="resolved-action-bar">
+            <a href="https://richmondstudio.global/registration/student" target="_blank" rel="noopener noreferrer" class="btn-access-studio" style="background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%); box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);" title="Registrarte en Richmond Studio">
+              <span>Registrarme en Richmond Studio</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <p class="resolved-tip" style="background: rgba(255,255,255,0.7); border: 1px solid #d8b4fe; color: #6b21a8;">
+            💡 <strong>Instrucciones:</strong> Ingresa tu nombre, correo institucional o personal, tu contraseña de acceso y tu código de activación. Al finalizar recibirás tu confirmación de bienvenida.
+          </p>
         </div>
       ` : ''}
 
