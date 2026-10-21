@@ -47,17 +47,14 @@
         "type": 301
       },
       {
-        "source": "/PB2/**",
-        "destination": "/PB2/**"
-      },
-      {
         "source": "/pb2",
         "destination": "/PB2/index.html",
         "type": 301
       },
       {
         "source": "/pb2/**",
-        "destination": "/PB2/**"
+        "destination": "/PB2/:splat",
+        "type": 301
       },
       {
         "source": "/PB2.0",
@@ -66,7 +63,8 @@
       },
       {
         "source": "/PB2.0/**",
-        "destination": "/PB2/**"
+        "destination": "/PB2/:splat",
+        "type": 301
       },
       {
         "source": "/pb2.0",
@@ -75,7 +73,8 @@
       },
       {
         "source": "/pb2.0/**",
-        "destination": "/PB2/**"
+        "destination": "/PB2/:splat",
+        "type": 301
       },
       {
         "source": "/personal-best",
@@ -84,16 +83,13 @@
       },
       {
         "source": "/personal-best/**",
-        "destination": "/PB2/**"
+        "destination": "/PB2/:splat",
+        "type": 301
       },
       {
         "source": "/jobs",
         "destination": "/jobs/index.html",
         "type": 301
-      },
-      {
-        "source": "/jobs/**",
-        "destination": "/jobs/**"
       },
       {
         "source": "/richmondai",
@@ -102,7 +98,7 @@
       },
       {
         "source": "/richmondai/**",
-        "destination": "/RichmondAI/**",
+        "destination": "/RichmondAI/:splat",
         "type": 301
       }
     ]
