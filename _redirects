@@ -16,3 +16,8 @@
 /richmondai/* /RichmondAI/:splat 301
 /RichmondAI /RichmondAI/index.html 200
 /RichmondAI/* /RichmondAI/:splat 200
+/finops /finOps/ 301
+/finops/* /finOps/:splat 301
+/finOps /finOps/index.html 200
+/finOps/* /finOps/:splat 200
+
