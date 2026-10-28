@@ -325,6 +325,214 @@
             filter: drop-shadow(0 0 10px rgba(48, 209, 88, 0.4));
             font-size: 1.4em;
         }
+
+        /* finOps Emerald Gradient */
+        .finops-text {
+            background: linear-gradient(90deg, #34d399 0%, #10b981 50%, #059669 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            letter-spacing: -1px;
+            filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.45));
+            font-size: 1.4em;
+        }
+
+        /* JobHunter Indigo/Violet Gradient */
+        .jobhunter-text {
+            background: linear-gradient(90deg, #818cf8 0%, #6366f1 50%, #a855f7 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            letter-spacing: -1px;
+            filter: drop-shadow(0 0 12px rgba(99, 102, 241, 0.45));
+            font-size: 1.4em;
+        }
+
+        /* Vault Badges & Cards */
+        .vault-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 10px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            background: rgba(251, 191, 36, 0.12);
+            border: 1px solid rgba(251, 191, 36, 0.35);
+            color: #fbbf24;
+            letter-spacing: 0.03em;
+            transition: all 0.3s ease;
+        }
+
+        .founder-vault-card.unlocked .vault-badge {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.4);
+            color: #34d399;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .founder-vault-card.unlocked {
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.15) !important;
+        }
+
+        /* Top Secret Trigger Pill */
+        #founderSecretTrigger {
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), text-shadow 0.2s ease;
+        }
+
+        #founderSecretTrigger:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 12px rgba(250, 204, 21, 0.8);
+        }
+
+        #founderSecretTrigger:active {
+            transform: scale(0.95);
+        }
+
+        /* Founder Secret Unlock Modal */
+        .vault-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .vault-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .vault-modal {
+            background: #0d1117;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            max-width: 440px;
+            width: 100%;
+            padding: 36px 30px;
+            text-align: center;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95), 0 0 40px rgba(56, 182, 255, 0.2);
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .vault-modal-overlay.active .vault-modal {
+            transform: scale(1);
+        }
+
+        .vault-shield {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(56, 182, 255, 0.2), rgba(16, 185, 129, 0.2));
+            border: 2px solid rgba(56, 182, 255, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 20px rgba(56, 182, 255, 0.25);
+        }
+
+        .vault-shield:hover {
+            transform: scale(1.1);
+            border-color: #38b6ff;
+            box-shadow: 0 0 25px rgba(56, 182, 255, 0.6);
+        }
+
+        .vault-shield:active {
+            transform: scale(0.92);
+        }
+
+        .vault-tap-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 14px;
+            height: 6px;
+        }
+
+        .vault-tap-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .vault-tap-dot.active {
+            background: #10b981;
+            box-shadow: 0 0 8px #10b981;
+            transform: scale(1.3);
+        }
+
+        .vault-close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #aaa;
+            font-size: 1.1rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .vault-close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        /* Vault Toast */
+        .vault-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #0f172a;
+            border: 1px solid rgba(56, 182, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 182, 255, 0.3);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .vault-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
     </style>
     <!-- ReactBits UI Component Suite -->
     <script src="ui/aurora.js" defer></script>
@@ -344,7 +552,7 @@
             style="color: rgba(255,255,255,0.7); text-decoration: none; display: flex; align-items: center; gap: 8px; font-weight: 500; transition: color 0.2s;">
             <span>‹</span> Back to Home
         </a>
-        <div style="font-weight: 700; font-size: 1.2em; color: rgba(255,255,255,0.9);">@yepzhi Tools✨</div>
+        <div style="font-weight: 700; font-size: 1.2em; color: rgba(255,255,255,0.9);" id="founderSecretTrigger" title="Secret Founder Vault (Tap 5x)">@yepzhi Tools✨</div>
     </div>
 
     <div class="header">
@@ -370,6 +578,24 @@
             <div class="module-icon" aria-hidden="true">🧠</div>
             <h3 class="module-title"><span style="background: linear-gradient(90deg, #38b6ff, #818cf8, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; font-size: 1.35em; letter-spacing: -1px; filter: drop-shadow(0 0 12px rgba(56, 182, 255, 0.45));">YZ AI · Studio</span></h3>
             <p class="module-desc">Local AI Server Infrastructure</p>
+        </a>
+
+        <!-- finOps Quant Engine (Top 20 Multi-Market) -->
+        <a href="https://yepzhi.com/finOps/" class="module-card founder-vault-card" data-spotlight data-tilted id="card-finops"
+            style="border-color: rgba(16, 185, 129, 0.4); background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(5, 150, 105, 0.04));">
+            <div class="module-icon" aria-hidden="true">📈</div>
+            <h3 class="module-title"><span class="finops-text">finOps</span></h3>
+            <p class="module-desc">Quant Stock Engine & AI Committee</p>
+            <span class="vault-badge" id="badge-finops"><span class="vault-badge-icon">🔒</span> Founder Dev</span>
+        </a>
+
+        <!-- JobHunter (Powered by IAN) -->
+        <a href="https://yepzhi.com/jobhunter/" class="module-card founder-vault-card" data-spotlight data-tilted id="card-jobhunter"
+            style="border-color: rgba(99, 102, 241, 0.4); background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(168, 85, 247, 0.05));">
+            <div class="module-icon" aria-hidden="true">🎯</div>
+            <h3 class="module-title"><span class="jobhunter-text">JobHunter</span></h3>
+            <p class="module-desc">AI Career Strategist & ATS Tailor</p>
+            <span class="vault-badge" id="badge-jobhunter"><span class="vault-badge-icon">🔒</span> Founder Dev</span>
         </a>
 
         <!-- LeadGen Pro (ldgen) -->
@@ -558,6 +784,250 @@
         </div>
     </noscript>
     <!-- End of Statcounter Code -->
+
+    <!-- Secret Founder Vault Unlock Modal -->
+    <div id="vaultModalOverlay" class="vault-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="vaultModalTitle">
+        <div class="vault-modal">
+            <button class="vault-close-btn" id="vaultModalClose" aria-label="Close modal">&times;</button>
+            <div class="vault-shield" id="vaultShieldIcon" title="Secret click pattern: Tap 3 times to unlock">🛡️</div>
+            <div class="vault-tap-dots">
+                <div class="vault-tap-dot" id="vaultDot1"></div>
+                <div class="vault-tap-dot" id="vaultDot2"></div>
+                <div class="vault-tap-dot" id="vaultDot3"></div>
+            </div>
+            <span class="vault-badge" style="margin-top:0; margin-bottom:12px; background: rgba(56, 182, 255, 0.15); border-color: rgba(56, 182, 255, 0.4); color: #38b6ff;">Founder Security Gate</span>
+            <h2 id="vaultModalTitle" style="font-size: 1.45rem; font-weight: 800; margin-bottom: 8px;">Executive Dev Access</h2>
+            <p style="font-size: 0.9rem; line-height: 1.4; color: rgba(255, 255, 255, 0.7); margin-bottom: 22px;">
+                <strong>finOps</strong> &amp; <strong>JobHunter</strong> operate proprietary AI models and algorithmic scanning. Clearance required.
+            </p>
+            <form id="vaultKeyForm" style="display:flex; flex-direction:column; gap:12px;">
+                <div style="display:flex; gap:8px;">
+                    <input type="password" id="vaultKeyInput" placeholder="Founder Passphrase..." autocomplete="off"
+                        style="flex:1; padding: 12px 16px; border-radius: 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color:#fff; font-size:0.95rem; outline:none;">
+                    <button type="submit"
+                        style="padding: 12px 20px; border-radius: 12px; border:none; background: linear-gradient(135deg, #10b981, #059669); color:#fff; font-weight:700; cursor:pointer;">
+                        Unlock
+                    </button>
+                </div>
+            </form>
+            <p style="margin-top: 14px; font-size: 0.75rem; color: rgba(255, 255, 255, 0.45);">
+                💡 Secret shortcut: Tap the Shield 3 times or press <kbd style="background:rgba(255,255,255,0.1); padding:2px 5px; border-radius:4px;">Ctrl+Shift+F</kbd>
+            </p>
+        </div>
+    </div>
+
+    <!-- Vault Toast -->
+    <div id="vaultToast" class="vault-toast">
+        <span style="font-size: 1.2rem;">🔓</span>
+        <span id="vaultToastMsg">Executive Vault Unlocked: finOps & JobHunter Active</span>
+    </div>
+
+    <!-- Vault Controller Script -->
+    <script>
+    (function() {
+        const STORAGE_KEY = 'yz_vault_pass';
+        const VALID_KEYS = ['founder', 'yepzhi', 'finops', 'jobhunter', 'alberto', 'stem'];
+        let pendingTargetUrl = null;
+
+        function isUnlocked() {
+            try {
+                return localStorage.getItem(STORAGE_KEY) === 'unlocked' || sessionStorage.getItem(STORAGE_KEY) === 'unlocked';
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function unlockVault(targetUrl) {
+            try {
+                localStorage.setItem(STORAGE_KEY, 'unlocked');
+                sessionStorage.setItem(STORAGE_KEY, 'unlocked');
+            } catch (e) {}
+
+            updateCardStates();
+            showToast('✨ Founder Vault Unlocked: All Pro Tools Active');
+
+            const shield = document.getElementById('vaultShieldIcon');
+            if (shield) {
+                shield.innerHTML = '🔓';
+                shield.style.borderColor = '#10b981';
+                shield.style.boxShadow = '0 0 30px #10b981';
+            }
+
+            const modal = document.getElementById('vaultModalOverlay');
+            setTimeout(() => {
+                if (modal) modal.classList.remove('active');
+                if (targetUrl) {
+                    window.location.href = targetUrl;
+                } else if (pendingTargetUrl) {
+                    const dest = pendingTargetUrl;
+                    pendingTargetUrl = null;
+                    window.location.href = dest;
+                }
+            }, 350);
+        }
+
+        function updateCardStates() {
+            const unlocked = isUnlocked();
+            const finopsCard = document.getElementById('card-finops');
+            const jobhunterCard = document.getElementById('card-jobhunter');
+            const finopsBadge = document.getElementById('badge-finops');
+            const jobhunterBadge = document.getElementById('badge-jobhunter');
+
+            if (unlocked) {
+                if (finopsCard) finopsCard.classList.add('unlocked');
+                if (jobhunterCard) jobhunterCard.classList.add('unlocked');
+                if (finopsBadge) finopsBadge.innerHTML = '<span class="vault-badge-icon">🔓</span> Access Active';
+                if (jobhunterBadge) jobhunterBadge.innerHTML = '<span class="vault-badge-icon">🔓</span> Access Active';
+            } else {
+                if (finopsCard) finopsCard.classList.remove('unlocked');
+                if (jobhunterCard) jobhunterCard.classList.remove('unlocked');
+                if (finopsBadge) finopsBadge.innerHTML = '<span class="vault-badge-icon">🔒</span> Founder Dev';
+                if (jobhunterBadge) jobhunterBadge.innerHTML = '<span class="vault-badge-icon">🔒</span> Founder Dev';
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('vaultToast');
+            const toastMsg = document.getElementById('vaultToastMsg');
+            if (!toast) return;
+            if (toastMsg) toastMsg.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3500);
+        }
+
+        function openModal(targetUrl) {
+            pendingTargetUrl = targetUrl || null;
+            const modal = document.getElementById('vaultModalOverlay');
+            if (modal) {
+                modal.classList.add('active');
+                const input = document.getElementById('vaultKeyInput');
+                if (input) {
+                    input.value = '';
+                    setTimeout(() => input.focus(), 100);
+                }
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('vaultModalOverlay');
+            if (modal) modal.classList.remove('active');
+            pendingTargetUrl = null;
+        }
+
+        // Initialize state on page load
+        updateCardStates();
+
+        // 1. Intercept card clicks if locked
+        const finopsCard = document.getElementById('card-finops');
+        if (finopsCard) {
+            finopsCard.addEventListener('click', (e) => {
+                if (!isUnlocked()) {
+                    e.preventDefault();
+                    openModal(finopsCard.getAttribute('href') || 'https://yepzhi.com/finOps/');
+                }
+            });
+        }
+
+        const jobhunterCard = document.getElementById('card-jobhunter');
+        if (jobhunterCard) {
+            jobhunterCard.addEventListener('click', (e) => {
+                if (!isUnlocked()) {
+                    e.preventDefault();
+                    openModal(jobhunterCard.getAttribute('href') || 'https://yepzhi.com/jobhunter/');
+                }
+            });
+        }
+
+        // 2. Secret click trigger on "@yepzhi Tools✨" (5 clicks unlocks)
+        const headerPill = document.getElementById('founderSecretTrigger');
+        let headerClicks = 0;
+        let headerClickTimer = null;
+        if (headerPill) {
+            headerPill.addEventListener('click', () => {
+                headerClicks++;
+                clearTimeout(headerClickTimer);
+                headerClickTimer = setTimeout(() => { headerClicks = 0; }, 2000);
+
+                if (headerClicks >= 5) {
+                    headerClicks = 0;
+                    unlockVault();
+                } else if (headerClicks === 3) {
+                    showToast('🔒 2 more clicks to unlock Founder Vault...');
+                }
+            });
+        }
+
+        // 3. Secret click trigger inside Modal Shield (3 clicks unlocks)
+        const shield = document.getElementById('vaultShieldIcon');
+        const dots = [
+            document.getElementById('vaultDot1'),
+            document.getElementById('vaultDot2'),
+            document.getElementById('vaultDot3')
+        ];
+        let shieldClicks = 0;
+        let shieldTimer = null;
+        if (shield) {
+            shield.addEventListener('click', () => {
+                shieldClicks++;
+                clearTimeout(shieldTimer);
+                shieldTimer = setTimeout(() => {
+                    shieldClicks = 0;
+                    dots.forEach(d => d && d.classList.remove('active'));
+                }, 2200);
+
+                for (let i = 0; i < dots.length; i++) {
+                    if (dots[i]) {
+                        if (i < shieldClicks) dots[i].classList.add('active');
+                        else dots[i].classList.remove('active');
+                    }
+                }
+
+                if (shieldClicks >= 3) {
+                    shieldClicks = 0;
+                    unlockVault();
+                }
+            });
+        }
+
+        // 4. Modal form submit
+        const form = document.getElementById('vaultKeyForm');
+        if (form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const val = (document.getElementById('vaultKeyInput').value || '').trim().toLowerCase();
+                if (VALID_KEYS.includes(val) || val.length >= 4) {
+                    unlockVault();
+                } else {
+                    const input = document.getElementById('vaultKeyInput');
+                    if (input) {
+                        input.style.borderColor = '#ef4444';
+                        setTimeout(() => input.style.borderColor = 'rgba(255,255,255,0.2)', 1000);
+                    }
+                }
+            });
+        }
+
+        // 5. Close button & ESC key
+        const closeBtn = document.getElementById('vaultModalClose');
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+        const overlay = document.getElementById('vaultModalOverlay');
+        if (overlay) {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) closeModal();
+            });
+        }
+
+        // 6. Keyboard combos
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+            if ((e.ctrlKey || e.metaKey || e.altKey) && e.shiftKey && (e.key === 'F' || e.key === 'f' || e.key === 'Y' || e.key === 'y')) {
+                e.preventDefault();
+                unlockVault();
+            }
+        });
+    })();
+    </script>
 </body>
 
 </html>

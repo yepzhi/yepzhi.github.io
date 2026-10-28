@@ -993,7 +993,7 @@ LinkedIn: ${p.linkedin || 'linkedin.com/in/yepzhi'}`;
 
 I recently submitted my application for the ${role} position via your careers portal.
 
-With over 10 years of experience architecting high-velocity web platforms, production AI integrations, and cloud systems (including founding JóvenesSTEM and technical experience with Apple and PepsiCo), I am extremely enthusiastic about the prospect of contributing to ${company}.
+With over 15 years of commercial leadership driving regional strategic partnerships, university alliances, and EdTech growth (including scaling Richmond ELT territory revenue 6X to MXN$20M+, founding JóvenesSTEM, and brand experience with Apple and PepsiCo), I am extremely enthusiastic about the prospect of contributing to ${company}.
 
 My resume and live project portfolio are accessible at ${p.portfolio || 'yepzhi.com'}. I operate remotely from Mexico with full real-time overlap across US time zones.
 
