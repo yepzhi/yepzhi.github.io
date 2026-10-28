@@ -1,4 +1,6 @@
 functions/
+workers/
+_worker.js
 .git/
 node_modules/
 *.log

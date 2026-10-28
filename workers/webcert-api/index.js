@@ -76,8 +76,6 @@ const SCHOOL_CATALOG = [
   }
 ];
 
-const SERVER_SECRET = "stemos_cf_edge_secret_2026_wbcrt";
-
 async function sha256Hex(text) {
   const encoder = new TextEncoder();
   const data = encoder.encode(text);
@@ -155,9 +153,16 @@ export default {
           });
         }
 
-        // Generar token firmado de autorización temporal (2 horas)
+        // Generar token firmado de autorización temporal (2 horas) usando secreto de entorno
+        const serverSecret = env && env.WEBCERT_SERVER_SECRET;
+        if (!serverSecret) {
+          return new Response(JSON.stringify({ ok: false, error: "Configuración criptográfica del servidor incompleta." }), {
+            status: 503,
+            headers: getCorsHeaders()
+          });
+        }
         const expiry = Date.now() + 2 * 60 * 60 * 1000;
-        const tokenSignature = await sha256Hex(`${escuela.codigo}:${expiry}:${SERVER_SECRET}`);
+        const tokenSignature = await sha256Hex(`${escuela.codigo}:${expiry}:${serverSecret}`);
         const token = `${escuela.codigo}.${expiry}.${tokenSignature}`;
 
         console.log(`[WEBCERT-AUTH] Acceso autorizado para ${escuela.codigo}`);

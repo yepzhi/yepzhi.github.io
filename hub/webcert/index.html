@@ -3478,7 +3478,7 @@
             // Client-Side Native Web Crypto Verification (Instant SHA-256 + Salt)
             try {
                 const inputHash = await computeSha256Hex(sc.salt + ':' + cleanClave);
-                if (inputHash === sc.clave_hash || cleanClave === 'Pro2026') {
+                if (inputHash === sc.clave_hash) {
                     isSchoolAuthenticated = true;
                     schoolAuthToken = 'auth_' + sc.codigo + '_' + Date.now();
                     onSchoolAuthenticatedSuccess();
@@ -3947,14 +3947,17 @@
                         dateDisplay = `${dd}/${mm}/${yyyy}`;
                     }
 
-                    // Compute Authentic Cryptographic SHA-256 Signature using Web Crypto API
+                    // Verify Cryptographic SHA-256 Signature against canonical payload
+                    const salt = schoolObj ? schoolObj.salt : 'stemos_richmond_w3c_proof_2026';
+                    const canonicalPayload = `W3C-VERIFIABLE-CREDENTIAL|STANDARD:OPENBADGES-3.0|ISSUER:${schoolCode}|FOLIO:${folio}|STUDENT:${student}|CEFR:${cefr}|SCORE:${scoreDisplay}|DATE:${dateDisplay}|SALT:${salt}`;
+                    const expectedSignatureHash = await computeSha256Hex(canonicalPayload);
+
                     let finalSignatureHash = '';
-                    if (sigParam && sigParam.length >= 32) {
-                        finalSignatureHash = sigParam;
+                    if (sigParam && sigParam.toLowerCase() === expectedSignatureHash.toLowerCase()) {
+                        finalSignatureHash = expectedSignatureHash;
                     } else {
-                        const salt = schoolObj ? schoolObj.salt : 'stemos_richmond_w3c_proof_2026';
-                        const canonicalPayload = `W3C-VERIFIABLE-CREDENTIAL|STANDARD:OPENBADGES-3.0|ISSUER:${schoolCode}|FOLIO:${folio}|STUDENT:${student}|CEFR:${cefr}|SCORE:${scoreDisplay}|DATE:${dateDisplay}|SALT:${salt}`;
-                        finalSignatureHash = await computeSha256Hex(canonicalPayload);
+                        console.warn('[W3C Verification] Missing or mismatched signature parameter.');
+                        return;
                     }
 
                     currentW3cHash = '0x' + finalSignatureHash;

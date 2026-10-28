@@ -8,6 +8,12 @@
 
 const MASTER_SHEET = 'Solicitudes_Generales';
 
+function safeCell(val) {
+  if (val === null || val === undefined) return '';
+  const str = String(val);
+  return /^[=+\-@\t\r]/.test(str) ? "'" + str : str;
+}
+
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
@@ -80,20 +86,20 @@ function appendTicketToSheet(ss, sheetName, data) {
   );
 
   const row = [
-    data.folio || '',
-    fecha,
-    data.school || '',
-    data.issueType || '',
-    data.fullName || '',
-    data.nickname || '',
-    data.email || '',
-    data.altEmail || '',
-    data.bookCode || '',
-    data.assignedAdvisor || 'Alberto Yépiz',
-    data.status || 'Pendiente',
-    data.elapsedMinutes || 0,
-    data.solutionNote || '',
-    data.firestoreId || ''
+    safeCell(data.folio || ''),
+    safeCell(fecha),
+    safeCell(data.school || ''),
+    safeCell(data.issueType || ''),
+    safeCell(data.fullName || ''),
+    safeCell(data.nickname || ''),
+    safeCell(data.email || ''),
+    safeCell(data.altEmail || ''),
+    safeCell(data.bookCode || ''),
+    safeCell(data.assignedAdvisor || 'Alberto Yépiz'),
+    safeCell(data.status || 'Pendiente'),
+    Number(data.elapsedMinutes) || 0,
+    safeCell(data.solutionNote || ''),
+    safeCell(data.firestoreId || '')
   ];
 
   sheet.appendRow(row);

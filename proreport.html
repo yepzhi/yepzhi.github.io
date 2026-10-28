@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <meta name="color-scheme" content="light">
-    <link rel="stylesheet" href="proreport/style.css?v=2.2.0">
+    <link rel="stylesheet" href="style.css?v=2.2.0">
 </head>
 
 <body>
@@ -690,16 +690,16 @@
                     statusHtml = `<span class="badge-status status-progress">En Trámite Editorial</span>`;
                 }
 
-                const bookName = r.book || r.fullBook || 'Libro Pro';
-                const comps = r.components || 'General';
-                const unit = r.unit || r.fullUnit || 'No especificada';
-                const tags = r.tags ? `<div style="margin-top: 2px;"><span style="color: #fca5a5; font-size: 0.76rem; font-weight: 600;">${r.tags}</span></div>` : '';
+                const bookName = escapeHtml(r.book || r.fullBook || 'Libro Pro');
+                const comps = escapeHtml(r.components || 'General');
+                const unit = escapeHtml(r.unit || r.fullUnit || 'No especificada');
+                const tags = r.tags ? `<div style="margin-top: 2px;"><span style="color: #fca5a5; font-size: 0.76rem; font-weight: 600;">${escapeHtml(r.tags)}</span></div>` : '';
                 const desc = r.description || 'Sin detalles adicionales.';
                 const reporter = r.reporter || 'Docente Richmond Pro';
                 const school = r.school || 'Institución Pro';
-                const date = r.dateStr || 'Reciente';
-                const folio = r.ticketId || 'PRO-000000';
-                const docId = r.id || '';
+                const date = escapeHtml(r.dateStr || 'Reciente');
+                const folio = escapeHtml(r.ticketId || 'PRO-000000');
+                const docId = escapeHtml(r.id || '');
                 const comments = r.comments || [];
                 const scopeBadge = r.scope === 'single' ? `<span style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700;">Alumno Individual</span>` : '';
 
@@ -1235,6 +1235,6 @@ _Generado automáticamente a través de Richmond ProReport System (yepzhi.com/pr
         });
     </script>
     <!-- Interactive Aura Canvas Mesh -->
-    <script src="proreport/aurora.js?v=2.2.0"></script>
+    <script src="aurora.js?v=2.2.0"></script>
 </body>
 </html>

@@ -1,36 +1,171 @@
 rules_version = '2';
 
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// Collection: events
+// Document ID: eventId
+// Access: Public read, Admin write
+//
+// Collection: salon_appointments
+// Document ID: appointmentId
+// Fields:
+//   - service: string (required, <= 100 chars)
+//   - serviceEmoji: string (optional)
+//   - price: number/string (optional)
+//   - date: string (required)
+//   - time: string (required)
+//   - clientName: string (required, 1..100 chars)
+//   - clientPhone: string (required, <= 30 chars)
+//   - createdAt: timestamp/string (optional)
+//   - status: string (optional)
+//
+// Collection: salon_settings
+// Document ID: settingId
+// Access: Public read, Admin write
+//
+// Collection: leads
+// Document ID: leadId
+// Fields:
+//   - email: string (required, 5..150 chars)
+//   - additional lead metadata fields
+//
+// Collection: help_tickets
+// Document ID: ticketId
+// Fields:
+//   - folio: string (required, <= 40 chars)
+//   - email: string (required, <= 150 chars)
+//   - fullName: string (required, <= 150 chars)
+//   - additional support ticket fields
+//
+// Collection: pro_reports
+// Document ID: reportId
+// Fields:
+//   - ticketId: string (required, <= 50 chars)
+//   - description: string (required, <= 2000 chars)
+//   - additional report fields
+//
+// HotFact Collections:
+//   - users/{userId}: Emitter profile info
+//   - clientUsers/{clientId}: Client fiscal profile info
+//   - folios/{folioId}: Billing folios scoped by businessId
+//   - invoices/{invoiceId}: Stamped CFDI invoices scoped by businessId
+// ===============================================================
+
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Events collection (existing - calendar app)
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (request.auth.token.admin == true || request.auth.token.role == 'admin');
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Events collection (calendar app)
     match /events/{eventId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
     }
 
-    // Salon appointments - anyone can read/create, only admin deletes
+    // Salon appointments - validated public creation, admin read/update/delete
     match /salon_appointments/{appointmentId} {
-      allow read, write: if true;
+      allow create: if request.resource.data.keys().hasAll(['service', 'date', 'time', 'clientName', 'clientPhone'])
+        && request.resource.data.keys().hasOnly(['service', 'serviceEmoji', 'price', 'date', 'time', 'clientName', 'clientPhone', 'createdAt', 'status'])
+        && request.resource.data.clientName is string
+        && request.resource.data.clientName.size() > 0
+        && request.resource.data.clientName.size() <= 100
+        && request.resource.data.clientPhone is string
+        && request.resource.data.clientPhone.size() <= 30
+        && request.resource.data.service is string
+        && request.resource.data.service.size() <= 100;
+      allow read, update, delete: if isAdmin();
     }
 
-    // Salon settings - anyone can read (to check availability), write for admin
+    // Salon settings - public read (to check availability), admin write
     match /salon_settings/{settingId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
-    // Richmond Pro Leads
+    // Richmond Pro Leads - validated public creation, admin read/update/delete
     match /leads/{leadId} {
-      allow read, write: if true;
+      allow create: if request.resource.data.keys().hasAll(['email'])
+        && request.resource.data.email is string
+        && request.resource.data.email.size() >= 5
+        && request.resource.data.email.size() <= 150;
+      allow read, update, delete: if isAdmin();
     }
 
     // Richmond Pro Help & Support Tickets
     match /help_tickets/{ticketId} {
-      allow read, write: if true;
+      allow create: if request.resource.data.keys().hasAll(['folio', 'email', 'fullName'])
+        && request.resource.data.folio is string
+        && request.resource.data.folio.size() <= 40
+        && request.resource.data.email is string
+        && request.resource.data.email.size() <= 150
+        && request.resource.data.fullName is string
+        && request.resource.data.fullName.size() <= 150;
+      allow get: if true;
+      allow list: if request.query.limit <= 5 || isAdmin();
+      allow update, delete: if isAdmin();
     }
 
     // Richmond ProReport (Incidencias en Ejercicios y Contenidos)
     match /pro_reports/{reportId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasAll(['ticketId', 'description'])
+        && request.resource.data.ticketId is string
+        && request.resource.data.ticketId.size() <= 50
+        && request.resource.data.description is string
+        && request.resource.data.description.size() <= 2000;
+      allow update, delete: if isAdmin();
+    }
+
+    // HotFact - Business Emitter Users
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if isOwner(userId) || isAdmin();
+    }
+
+    // HotFact - Client Users
+    match /clientUsers/{clientId} {
+      allow read, write: if isOwner(clientId) || isAdmin();
+    }
+
+    // HotFact - Folios
+    match /folios/{folioId} {
+      allow get: if true;
+      allow list: if isAuthenticated() && (resource.data.businessId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && request.resource.data.businessId == request.auth.uid;
+      allow update: if (resource.data.status == 'pendiente'
+        && request.resource.data.status == 'procesando_timbrado'
+        && request.resource.data.businessId == resource.data.businessId)
+        || isOwner(resource.data.businessId)
+        || isAdmin();
+      allow delete: if isOwner(resource.data.businessId) || isAdmin();
+    }
+
+    // HotFact - Invoices
+    match /invoices/{invoiceId} {
+      allow get: if true;
+      allow list: if isAuthenticated() && (resource.data.businessId == request.auth.uid || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

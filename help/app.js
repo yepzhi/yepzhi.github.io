@@ -794,12 +794,14 @@ function renderStatusCard(ticket) {
     else displayRegisteredEmail = (ticket.altEmail || ticket.email || '').trim();
   }
 
+  const safeAdvisorWA = String(ticket.advisorWA || '5216621147374').replace(/[^0-9]/g, '') || '5216621147374';
+
   container.innerHTML = `
     <div class="status-card">
       <div class="status-card-header">
         <div>
           <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); font-weight: 800;">Folio Oficial</span>
-          <h3 style="font-size: 1.45rem; font-weight: 900; color: var(--text-main); font-family: monospace;">${ticket.folio}</h3>
+          <h3 style="font-size: 1.45rem; font-weight: 900; color: var(--text-main); font-family: monospace;">${escapeHtml(ticket.folio)}</h3>
         </div>
         <div class="status-badge ${badgeClass}">
           ${badgeText}
@@ -827,7 +829,7 @@ function renderStatusCard(ticket) {
               <span class="cred-label label-green">Correo oficial confirmado (para ingresar):</span>
               <div class="cred-val-wrap">
                 <div class="cred-val highlight" id="credOfficialEmailText" style="color:#166534;">${escapeHtml(officialEmail)}</div>
-                <button type="button" class="btn-copy btn-copy-pass" onclick="copyToClipboard('${escapeHtml(officialEmail)}', this)">
+                <button type="button" class="btn-copy btn-copy-pass" data-copy="${escapeHtml(officialEmail)}" onclick="copyToClipboard(this.getAttribute('data-copy'), this)">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                   <span>Copiar Correo</span>
                 </button>
@@ -837,7 +839,7 @@ function renderStatusCard(ticket) {
               <span class="cred-label label-green">Usuario / Correo de Acceso:</span>
               <div class="cred-val-wrap">
                 <div class="cred-val" id="credEmailText">${escapeHtml(ticket.email)}</div>
-                <button type="button" class="btn-copy" onclick="copyToClipboard('${escapeHtml(ticket.email)}', this)">
+                <button type="button" class="btn-copy" data-copy="${escapeHtml(ticket.email)}" onclick="copyToClipboard(this.getAttribute('data-copy'), this)">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                   <span>Copiar Correo</span>
                 </button>
@@ -848,7 +850,7 @@ function renderStatusCard(ticket) {
               <span class="cred-label label-green">Contraseña asignada:</span>
               <div class="cred-val-wrap">
                 <div class="cred-val highlight pass" id="credPassText">${escapeHtml(assignedPassword)}</div>
-                <button type="button" class="btn-copy btn-copy-pass" onclick="copyToClipboard('${escapeHtml(assignedPassword)}', this)">
+                <button type="button" class="btn-copy btn-copy-pass" data-copy="${escapeHtml(assignedPassword)}" onclick="copyToClipboard(this.getAttribute('data-copy'), this)">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                   <span>Copiar Contraseña</span>
                 </button>
@@ -899,7 +901,7 @@ function renderStatusCard(ticket) {
               </span>
               <div class="cred-val-wrap">
                 <div class="cred-val highlight" id="credDiffEmailText">${escapeHtml(displayRegisteredEmail)}</div>
-                <button type="button" class="btn-copy btn-copy-primary" onclick="copyToClipboard('${escapeHtml(displayRegisteredEmail)}', this)">
+                <button type="button" class="btn-copy btn-copy-primary" data-copy="${escapeHtml(displayRegisteredEmail)}" onclick="copyToClipboard(this.getAttribute('data-copy'), this)">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                   <span>Copiar Correo</span>
                 </button>
@@ -911,7 +913,7 @@ function renderStatusCard(ticket) {
               <span class="cred-label label-blue">Contraseña asignada:</span>
               <div class="cred-val-wrap">
                 <div class="cred-val highlight pass" id="credDiffPassText" style="color: #1d4ed8;">${escapeHtml(assignedPassword || 'Mexico26*')}</div>
-                <button type="button" class="btn-copy btn-copy-pass" onclick="copyToClipboard('${escapeHtml(assignedPassword || 'Mexico26*')}', this)">
+                <button type="button" class="btn-copy btn-copy-pass" data-copy="${escapeHtml(assignedPassword || 'Mexico26*')}" onclick="copyToClipboard(this.getAttribute('data-copy'), this)">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                   <span>Copiar Contraseña</span>
                 </button>
@@ -974,7 +976,7 @@ function renderStatusCard(ticket) {
                 <span class="cred-label" style="color: #7e22ce; font-weight: 800; font-size: 0.75rem; text-transform: uppercase;">Código para tu registro:</span>
                 <div class="cred-val-wrap">
                   <div class="cred-val highlight" style="color: #6b21a8; font-family: monospace; font-weight: 800; font-size: 1.05rem;">${escapeHtml(assignedUnusedCode)}</div>
-                  <button type="button" class="btn-copy" style="background: #f3e8ff; color: #7e22ce; border-color: #d8b4fe;" onclick="copyToClipboard('${escapeHtml(assignedUnusedCode)}', this)">
+                  <button type="button" class="btn-copy" style="background: #f3e8ff; color: #7e22ce; border-color: #d8b4fe;" data-copy="${escapeHtml(assignedUnusedCode)}" onclick="copyToClipboard(this.getAttribute('data-copy'), this)">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                     <span>Copiar Código</span>
                   </button>
@@ -1021,7 +1023,7 @@ function renderStatusCard(ticket) {
           </div>
 
           <div style="margin-top: 0.3rem;">
-            <a href="https://wa.me/${ticket.advisorWA || '5216621147374'}?text=${encodeURIComponent(`Hola, envío foto de mi código sobre mi solicitud con Folio: ${ticket.folio} (${ticket.fullName})`)}" 
+            <a href="https://wa.me/${safeAdvisorWA}?text=${encodeURIComponent(`Hola, envío foto de mi código sobre mi solicitud con Folio: ${ticket.folio} (${ticket.fullName})`)}" 
                target="_blank" 
                rel="noopener noreferrer" 
                class="btn-solution-whatsapp">
@@ -1094,7 +1096,7 @@ function renderStatusCard(ticket) {
           ${(!isDiffEmail && (ticket.solutionNote.toLowerCase().includes('whatsapp') || ticket.solutionNote.toLowerCase().includes('foto') || ticket.solutionNote.toLowerCase().includes('código') || ticket.solutionNote.toLowerCase().includes('codigo') || ticket.solutionNote.toLowerCase().includes('asesor'))) ? `
             <div style="margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px dashed rgba(22, 163, 74, 0.35); display: flex; flex-direction: column; gap: 0.45rem;">
               <span style="font-size: 0.78rem; color: #166534; font-weight: 700;">Envía la foto de tu código directamente a tu asesor aquí:</span>
-              <a href="https://wa.me/${ticket.advisorWA || '5216621147374'}?text=${encodeURIComponent(`Hola, envío la foto de mi código respecto a mi solicitud con Folio: ${ticket.folio} (${ticket.fullName})`)}" 
+              <a href="https://wa.me/${safeAdvisorWA}?text=${encodeURIComponent(`Hola, envío la foto de mi código respecto a mi solicitud con Folio: ${ticket.folio} (${ticket.fullName})`)}" 
                  target="_blank" 
                  rel="noopener noreferrer" 
                  class="btn-solution-whatsapp">
@@ -1127,7 +1129,7 @@ function renderStatusCard(ticket) {
         </div>
         <div class="status-detail-item">
           <span class="label">Fecha de Registro</span>
-          <span class="val">${ticket.createdAtDateStr || 'Reciente'}</span>
+          <span class="val">${escapeHtml(ticket.createdAtDateStr || 'Reciente')}</span>
         </div>
         <div class="status-detail-item">
           <span class="label">Código de Libro</span>
@@ -1136,7 +1138,7 @@ function renderStatusCard(ticket) {
       </div>
 
       <div style="margin-top: 0.5rem; text-align: center;">
-        <a href="https://wa.me/${ticket.advisorWA || '5216621147374'}?text=${encodeURIComponent(`Hola, tengo una duda sobre mi solicitud con Folio: ${ticket.folio} (${ticket.fullName})`)}" 
+        <a href="https://wa.me/${safeAdvisorWA}?text=${encodeURIComponent(`Hola, tengo una duda sobre mi solicitud con Folio: ${ticket.folio} (${ticket.fullName})`)}" 
            target="_blank" 
            rel="noopener noreferrer" 
            style="display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.82rem; color: var(--success); text-decoration: none; font-weight: 700;">

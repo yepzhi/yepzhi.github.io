@@ -373,9 +373,10 @@
         <div class="password-box">
             <h2>🔐 Acceso de Administrador</h2>
             <div id="passwordMessage"></div>
+            <input type="email" id="adminEmailInput" placeholder="Correo de Administrador" style="margin-bottom:10px;" required>
             <input type="password" id="adminPasswordInput" placeholder="Contraseña de Admin" required>
             <button onclick="checkAdminPassword()">Entrar</button>
-            <p>Contraseña de prueba: <strong>adminpass</strong></p>
+            <p>Inicia sesión con tu cuenta autorizada de administrador.</p>
         </div>
     </div>
 
@@ -472,13 +473,21 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, collection, onSnapshot, setDoc, updateDoc, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
         // ============================================
-        // CONFIGURACIÓN
+        // CONFIGURACIÓN & ESCAPADO XSS
         // ============================================
-        const ADMIN_PASSWORD = "adminpass";
+        function escapeHtml(val) {
+            if (val === null || val === undefined) return '';
+            return String(val)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
         
         // Configuración de Firebase
         const firebaseConfig = {
@@ -543,19 +552,24 @@
         // ============================================
         // AUTENTICACIÓN DE ADMINISTRADOR
         // ============================================
-        function checkAdminPassword() {
-            console.log('🔑 Verificando contraseña...');
+        async function checkAdminPassword() {
+            const emailInput = document.getElementById('adminEmailInput');
+            const email = emailInput ? emailInput.value.trim() : '';
             const inputPass = document.getElementById('adminPasswordInput').value;
             const messageDiv = document.getElementById('passwordMessage');
             
-            if (inputPass === ADMIN_PASSWORD) {
-                console.log('✅ Contraseña correcta');
-                document.getElementById('adminPasswordModal').classList.add('hidden');
-                initAdmin();
-            } else {
-                console.log('❌ Contraseña incorrecta');
-                messageDiv.innerHTML = '<div class="alert alert-error show">❌ Contraseña incorrecta</div>';
+            if (isFirebaseConfigured && auth) {
+                try {
+                    await signInWithEmailAndPassword(auth, email, inputPass);
+                    document.getElementById('adminPasswordModal').classList.add('hidden');
+                    initAdmin();
+                    return;
+                } catch (err) {
+                    messageDiv.innerHTML = '<div class="alert alert-error show">❌ Credenciales de administrador inválidas</div>';
+                    return;
+                }
             }
+            messageDiv.innerHTML = '<div class="alert alert-error show">❌ Servicio de autenticación no disponible</div>';
         }
 
         function initAdmin() {
@@ -642,12 +656,12 @@
 
                 const row = userTableBody.insertRow();
                 row.innerHTML = `
-                    <td>${user.email}</td>
-                    <td>${user.fullName || 'N/A'}</td>
+                    <td>${escapeHtml(user.email)}</td>
+                    <td>${escapeHtml(user.fullName || 'N/A')}</td>
                     <td><span class="${statusClass}">${statusIcon} ${statusText}</span></td>
-                    <td><code>${user.id.substring(0, 12)}...</code></td>
+                    <td><code>${escapeHtml(String(user.id || '').substring(0, 12))}...</code></td>
                     <td>
-                        <button class="btn ${isActive ? 'btn-red' : ''}" onclick="handleToggleUserStatus('${user.id}', ${isActive})">
+                        <button class="btn ${isActive ? 'btn-red' : ''}" data-uid="${escapeHtml(user.id)}" onclick="handleToggleUserStatus(this.getAttribute('data-uid'), ${isActive})">
                             ${isActive ? '🚫 Deshabilitar' : '✅ Habilitar'}
                         </button>
                     </td>

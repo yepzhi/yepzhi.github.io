@@ -171,18 +171,45 @@ async function generarPDFReal(datos, uuid) {
  * @param {string} businessId - ID del negocio
  * @return {Promise<Object>} URLs públicas
  */
+function sanitizePathSegment(seg) {
+  return String(seg || "").replace(/[^a-zA-Z0-9_-]/g, "");
+}
+
+function escapeXmlStr(val) {
+  if (val === null || val === undefined) return "";
+  return String(val)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+function escapeHtmlEmail(val) {
+  if (val === null || val === undefined) return "";
+  return String(val)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 async function guardarEnStorage(xmlContent, pdfBuffer, uuid, businessId) {
   console.log("💾 Guardando archivos en Storage...");
 
+  const safeBusinessId = sanitizePathSegment(businessId) || "unknown_business";
+  const safeUuid = sanitizePathSegment(uuid) || `cfdi_${Date.now()}`;
+
   const bucket = admin.storage().bucket();
-  const xmlPath = `facturas/${businessId}/${uuid}.xml`;
-  const pdfPath = `facturas/${businessId}/${uuid}.pdf`;
+  const xmlPath = `facturas/${safeBusinessId}/${safeUuid}.xml`;
+  const pdfPath = `facturas/${safeBusinessId}/${safeUuid}.pdf`;
 
   const xmlFile = bucket.file(xmlPath);
   await xmlFile.save(xmlContent, {
     contentType: "application/xml",
     metadata: {
-      cacheControl: "public, max-age=31536000",
+      cacheControl: "private, max-age=3600",
     },
   });
 
@@ -190,19 +217,20 @@ async function guardarEnStorage(xmlContent, pdfBuffer, uuid, businessId) {
   await pdfFile.save(pdfBuffer, {
     contentType: "application/pdf",
     metadata: {
-      cacheControl: "public, max-age=31536000",
+      cacheControl: "private, max-age=3600",
     },
   });
 
-  await xmlFile.makePublic();
-  await pdfFile.makePublic();
+  const [xmlUrl] = await xmlFile.getSignedUrl({
+    action: "read",
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+  });
+  const [pdfUrl] = await pdfFile.getSignedUrl({
+    action: "read",
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+  });
 
-  const xmlUrl = `https://storage.googleapis.com/${bucket.name}/${xmlPath}`;
-  const pdfUrl = `https://storage.googleapis.com/${bucket.name}/${pdfPath}`;
-
-  console.log("✅ Archivos guardados");
-  console.log("XML URL:", xmlUrl);
-  console.log("PDF URL:", pdfUrl);
+  console.log("✅ Archivos guardados con URLs firmadas");
 
   return { xmlUrl, pdfUrl };
 }
@@ -439,11 +467,32 @@ exports.timbrarFacturaInmediata = onCall(
   async (request) => {
     console.log("🔥 timbrarFacturaInmediata llamado");
 
-    const { cfdiData } = request.data;
+    if (!request.auth || !request.auth.uid) {
+      throw new HttpsError(
+        "unauthenticated",
+        "Debes iniciar sesión para timbrar facturas.",
+      );
+    }
+
+    const { cfdiData } = request.data || {};
 
     if (!cfdiData || !cfdiData.emisor || !cfdiData.receptor) {
-      throw new Error("Datos incompletos");
+      throw new HttpsError("invalid-argument", "Datos incompletos");
     }
+
+    // Bind businessId strictly to the authenticated user's UID
+    const verifiedBusinessId = request.auth.uid;
+    cfdiData.businessId = verifiedBusinessId;
+
+    // Sanitize string fields before XML construction
+    cfdiData.emisor.rfc = escapeXmlStr(cfdiData.emisor.rfc);
+    cfdiData.emisor.nombre = escapeXmlStr(cfdiData.emisor.nombre);
+    cfdiData.emisor.regimenFiscal = escapeXmlStr(cfdiData.emisor.regimenFiscal || "626");
+    cfdiData.emisor.cp = escapeXmlStr(cfdiData.emisor.cp || "83000");
+    cfdiData.receptor.rfc = escapeXmlStr(cfdiData.receptor.rfc);
+    cfdiData.receptor.nombre = escapeXmlStr(cfdiData.receptor.nombre);
+    cfdiData.receptor.cp = escapeXmlStr(cfdiData.receptor.cp);
+    cfdiData.receptor.regimenFiscal = escapeXmlStr(cfdiData.receptor.regimenFiscal);
 
     console.log("Emisor:", cfdiData.emisor.rfc);
     console.log("Receptor:", cfdiData.receptor.rfc);
@@ -472,11 +521,12 @@ exports.timbrarFacturaInmediata = onCall(
         resultado.xml,
         pdfBuffer,
         resultado.uuid,
-        cfdiData.businessId,
+        verifiedBusinessId,
       );
 
       await admin.firestore().collection("invoices").add({
-        businessId: cfdiData.businessId,
+        businessId: verifiedBusinessId,
+        userId: verifiedBusinessId,
         uuid: resultado.uuid,
         xmlUrl: xmlUrl,
         pdfUrl: pdfUrl,
@@ -579,6 +629,13 @@ exports.notificarCitaSalon = onDocumentCreated(
       },
     });
 
+    const safeServiceEmoji = escapeHtmlEmail(data.serviceEmoji || "");
+    const safeService = escapeHtmlEmail(data.service || "").replace(/[\r\n]+/g, " ");
+    const safePrice = escapeHtmlEmail(data.price || "N/A");
+    const safeTime = escapeHtmlEmail(data.time || "").replace(/[\r\n]+/g, " ");
+    const safeClientName = escapeHtmlEmail(data.clientName || "");
+    const safeClientPhone = escapeHtmlEmail(data.clientPhone || "");
+
     const htmlEmail = `
       <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 500px;
         margin: 0 auto; background: #0a0a0a; color: white; border-radius: 24px;
@@ -598,7 +655,7 @@ exports.notificarCitaSalon = onDocumentCreated(
                 Servicio
               </td>
               <td style="padding: 12px 0; text-align: right; font-weight: 700;">
-                ${data.serviceEmoji || ""} ${data.service}
+                ${safeServiceEmoji} ${safeService}
               </td>
             </tr>
             <tr>
@@ -611,7 +668,7 @@ exports.notificarCitaSalon = onDocumentCreated(
               </td>
               <td style="padding: 12px 0; text-align: right; font-weight: 700;
                 color: #f472b6;">
-                ${data.price || "N/A"}
+                ${safePrice}
               </td>
             </tr>
             <tr>
@@ -635,7 +692,7 @@ exports.notificarCitaSalon = onDocumentCreated(
                 Hora
               </td>
               <td style="padding: 12px 0; text-align: right; font-weight: 700;">
-                ${data.time}
+                ${safeTime}
               </td>
             </tr>
             <tr>
@@ -647,7 +704,7 @@ exports.notificarCitaSalon = onDocumentCreated(
                 Cliente
               </td>
               <td style="padding: 12px 0; text-align: right; font-weight: 700;">
-                ${data.clientName}
+                ${safeClientName}
               </td>
             </tr>
             <tr>
@@ -660,7 +717,7 @@ exports.notificarCitaSalon = onDocumentCreated(
               </td>
               <td style="padding: 12px 0; text-align: right; font-weight: 700;
                 color: #4ade80;">
-                ${data.clientPhone}
+                ${safeClientPhone}
               </td>
             </tr>
           </table>
@@ -676,7 +733,7 @@ exports.notificarCitaSalon = onDocumentCreated(
       await transporter.sendMail({
         from: `"Carmen Burruel Salón ✨" <${salonEmailUser.value()}>`,
         to: "carjmen_69@hotmail.com",
-        subject: `💅 Nueva Cita: ${data.service} — ${dayName} ${d.getDate()} de ${monthName} a las ${data.time}`,
+        subject: `💅 Nueva Cita: ${safeService} — ${dayName} ${d.getDate()} de ${monthName} a las ${safeTime}`,
         html: htmlEmail,
       });
       console.log("✅ Email de notificación enviado");

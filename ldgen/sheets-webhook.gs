@@ -8,6 +8,12 @@
 
 const SHEET_NAME = 'Leads'; // nombre de la hoja/pestaña
 
+function safeCell(val) {
+  if (val === null || val === undefined) return '';
+  const str = String(val);
+  return /^[=+\-@\t\r]/.test(str) ? "'" + str : str;
+}
+
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
@@ -55,22 +61,22 @@ function doPost(e) {
       'dd/MM/yyyy HH:mm'
     );
 
-    // Añadir fila con los datos
+    // Añadir fila con los datos sanitizados contra inyección de fórmulas
     sheet.appendRow([
       fecha,
-      data.firstName    || '',
-      data.lastName     || '',
-      data.email        || '',
-      data.whatsapp     ? `+52 ${data.whatsapp}` : '',
-      data.university   || '',
+      safeCell(data.firstName    || ''),
+      safeCell(data.lastName     || ''),
+      safeCell(data.email        || ''),
+      safeCell(data.whatsapp     ? `+52 ${data.whatsapp}` : ''),
+      safeCell(data.university   || ''),
       data.instType === 'gobierno' ? 'Pública / Gobierno' : 'Privada',
-      data.state        || '',
+      safeCell(data.state        || ''),
       data.hasProvider === 'si' ? '✅ Sí' : '❌ No',
-      data.providerName || '',
-      data.role         || '',
-      data.roleComment  || '',
+      safeCell(data.providerName || ''),
+      safeCell(data.role         || ''),
+      safeCell(data.roleComment  || ''),
       data.intention === 'contact' ? '📬 Contacto' : '🎓 Webinar',
-      data.firestoreId  || ''
+      safeCell(data.firestoreId  || '')
     ]);
 
     // Colorear fila alternada para legibilidad
