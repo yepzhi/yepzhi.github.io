@@ -87,8 +87,8 @@ service cloud.firestore {
         && request.resource.data.clientName.size() <= 100
         && request.resource.data.clientPhone is string
         && request.resource.data.clientPhone.size() <= 30
-        && request.resource.data.service is string
-        && request.resource.data.service.size() <= 100;
+        && request.resource.data['service'] is string
+        && request.resource.data['service'].size() <= 100;
       allow read, update, delete: if isAdmin();
     }
 
