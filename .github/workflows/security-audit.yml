@@ -1,0 +1,54 @@
+name: Cloudflare & GitHub Security Audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  security-audit:
+    name: Security & Cloudflare Policy Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Audit - Verify Zero Firebase Hosting Invariant
+        run: |
+          echo "Auditing firebase.json for prohibited hosting blocks..."
+          if [ -f "firebase.json" ]; then
+            if grep -q '"hosting"' firebase.json; then
+              echo "SECURITY VIOLATION: Prohibited 'hosting' block detected in firebase.json! All hosting must strictly be Cloudflare Pages."
+              exit 1
+            fi
+          fi
+          echo "PASS: Zero Firebase Hosting invariant verified."
+
+      - name: Audit - Cloudflare Security Headers
+        run: |
+          echo "Auditing Cloudflare _headers file..."
+          if [ ! -f "_headers" ]; then
+            echo "SECURITY VIOLATION: Missing Cloudflare Pages _headers file!"
+            exit 1
+          fi
+          grep -q "X-Content-Type-Options: nosniff" _headers || (echo "Missing X-Content-Type-Options: nosniff" && exit 1)
+          grep -q "Strict-Transport-Security" _headers || (echo "Missing Strict-Transport-Security" && exit 1)
+          grep -q "X-Frame-Options" _headers || (echo "Missing X-Frame-Options" && exit 1)
+          grep -q "Referrer-Policy" _headers || (echo "Missing Referrer-Policy" && exit 1)
+          echo "PASS: Cloudflare security headers verified."
+
+      - name: Audit - Secret & Key Leak Detection
+        run: |
+          echo "Scanning for accidental key or secret commits..."
+          LEAKS=$(find . -maxdepth 3 -type f \( -name "*.pem" -o -name "*.key" -o -name "*serviceAccountKey*.json" \) -not -path "*/node_modules/*" -not -path "*/.git/*" || true)
+          if [ -n "$LEAKS" ]; then
+            echo "SECURITY VIOLATION: Exposed key or credential file detected:"
+            echo "$LEAKS"
+            exit 1
+          fi
+          echo "PASS: No unencrypted keys or credentials found."

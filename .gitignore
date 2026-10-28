@@ -63,8 +63,18 @@ node_modules/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
+# dotenv and secrets environment variables files
 .env
+.env*
+!.env.example
+*.pem
+*.key
+serviceAccountKey*.json
+.wrangler/
+.dev.vars*
+
+# Personal letters and confidential PDFs
+Carta_Referencia_Becas*
 
 # dataconnect generated files
 .dataconnect

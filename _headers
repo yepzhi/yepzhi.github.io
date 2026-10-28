@@ -1,11 +1,12 @@
 /*
-  # Modern Security & Hardening Headers (Cloudflare Pages)
-  X-Content-Type-Options: nosniff
+  # Cloudflare Pages Enterprise Security & Hardening Headers
   X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
-  Cross-Origin-Opener-Policy: same-origin-allow-popups
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Cross-Origin-Opener-Policy: same-origin-allow-popups
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://apis.google.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://static.cloudflareinsights.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com https://*.cloudflareinsights.com https://challenges.cloudflare.com https://www.gstatic.com https://apis.google.com https://cdn.jsdelivr.net https://*.firebaseio.com wss://*.firebaseio.com https://*.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://*.firebaseapp.com https://jovenesstem.com https://*.jovenesstem.com https://stemos.org https://*.stemos.org https://yzai.yepzhi.com https://api-yzai.yepzhi.com https://*.pages.dev http://localhost:* http://127.0.0.1:*; frame-src 'self' https://*.firebaseapp.com https://huggingface.co https://*.huggingface.co; frame-ancestors 'self'; base-uri 'self'; object-src 'none';
 
 /api/*
   Access-Control-Allow-Origin: *
@@ -13,6 +14,43 @@
   Access-Control-Allow-Headers: Content-Type, Authorization, X-Webcert-Token
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
+
+# Service Worker - must revalidate instantly to propagate PWA updates
+/sw.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Web App Manifest
+/manifest.json
+  Content-Type: application/manifest+json; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/manifest.webmanifest
+  Content-Type: application/manifest+json; charset=utf-8
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# Static assets aggressive caching
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.ico
+  Cache-Control: public, max-age=604800
+
+/*.png
+  Cache-Control: public, max-age=604800
+
+/*.svg
+  Cache-Control: public, max-age=604800
+
+/*.webp
+  Cache-Control: public, max-age=604800
+
+# HTML pages revalidate with critical resource hints
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
 
 /RichmondAI/*
   Cache-Control: public, max-age=0, must-revalidate
