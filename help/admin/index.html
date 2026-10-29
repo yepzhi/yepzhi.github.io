@@ -989,8 +989,13 @@
       }
 
       const digest = await sha256Gate('rpro_gate_2026:' + val);
-      // Verify salted SHA-256 digest and authenticate with Firebase if available
-      if (digest === 'a30164a49bf3c6a72c54128945e29e2003bc5e81f2b4e5a1d95e604f09d5b102' || (window.firebase && window.firebase.auth && window.firebase.auth().currentUser)) {
+      // Verify salted SHA-256 digest (Pro26 / pro26) or authenticated Firebase user
+      const validDigests = [
+        '7e2f6ef7c7f7660a2954151a208d606b808bb889a093b2cf7eb10769ceece50d', // Pro26
+        '12de4a35fca1ac8e5c949bfdbef837db673f066acbcfb50af0ace9d8f17a89e9', // pro26
+        'a30164a49bf3c6a72c54128945e29e2003bc5e81f2b4e5a1d95e604f09d5b102'
+      ];
+      if (validDigests.includes(digest) || val === 'Pro26' || val === 'pro26' || (window.firebase && window.firebase.auth && window.firebase.auth().currentUser)) {
         sessionStorage.setItem('richmond_help_admin_auth', 'true');
         document.getElementById('gateOverlay').style.display = 'none';
         document.getElementById('adminApp').style.display = 'block';
