@@ -49,9 +49,8 @@ const translations = {
             btn: "Acceder a JóvenesSTEM Web"
         },
         stemos_promo: {
-            badge: "EN DESARROLLO ACTIVO · PREVIEW",
-            tagline: "Plataforma LXP Next-Gen · Inglés Técnico (ESP) para STEM & Ingeniería",
-            text: "stemOS es una plataforma de experiencia de aprendizaje (LXP) impulsada por IA que ofrece rutas personalizadas de inglés técnico (ESP) y habilidades STEM mediante micro-credenciales alineadas con la industria (Semiconductores, Aeroespacial, Manufactura Avanzada y Código).",
+            tagline: "Plataforma LXP Next-Gen",
+            text: "stemOS is an AI-powered Learning Experience Platform (LXP) that delivers personalized STEM and technical skill learning pathways through industry-aligned micro-credentials. Built to bridge the STEM talent and technical skills gap.",
             btn: "Accede stemOS Preview"
         },
         speaker: {
@@ -157,9 +156,8 @@ const translations = {
             btn: "Access JóvenesSTEM Web"
         },
         stemos_promo: {
-            badge: "UNDER ACTIVE DEVELOPMENT · PREVIEW",
-            tagline: "Next-Gen LXP Platform · Technical English (ESP) for STEM & Engineering",
-            text: "stemOS is an AI-powered Learning Experience Platform (LXP) that delivers personalized Technical English (ESP) and STEM skill pathways through industry-aligned micro-credentials (Semiconductors, Aerospace, Advanced Manufacturing, and Coding).",
+            tagline: "Next-Gen LXP Platform",
+            text: "stemOS is an AI-powered Learning Experience Platform (LXP) that delivers personalized STEM and technical skill learning pathways through industry-aligned micro-credentials. Built to bridge the STEM talent and technical skills gap.",
             btn: "Access stemOS Preview"
         },
         speaker: {
@@ -265,9 +263,8 @@ const translations = {
             btn: "访问 JóvenesSTEM Web"
         },
         stemos_promo: {
-            badge: "积极开发中 · 预览版",
-            tagline: "NextGen LXP 平台 · 面向 STEM 与工程的专业英语 (ESP)",
-            text: "stemOS 是基于人工智能的学习体验平台 (LXP)，通过与半导体、航空航天、先进制造和编程等行业对接的微凭证，提供个性化的专业技术英语 (ESP) 与 STEM 技能学习路径。",
+            tagline: "NextGen LXP 平台",
+            text: "stemOS 是面向拉美地区 (LATAM) 的、基于人工智能的在线学习体验平台 (LXP)，通过与行业对接的微凭证，提供个性化的 STEM 和技术技能学习路径。旨在缩小 STEM 人才和技术技能差距，实现从课堂到职场的可衡量技能验证。",
             btn: "访问 stemOS Preview"
         },
         speaker: {
