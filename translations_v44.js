@@ -6,14 +6,27 @@ const translations = {
             tools_big: "🛠️ Conoce mis otros desarrollos"
         },
         profile: {
-            bio: "<strong>Líder en Alianzas y Producto, full cycle CX | EdTech Plataformas Digitales.</strong><br>+15 años impulsando crecimiento en empresas como <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond ELT</strong>.<br>Especializado en alianzas estratégicas, desarrollo de canales y relaciones comerciales de largo plazo.<br><br>MBA con especialización en Finanzas y analítica de datos.<br>Certificación en Data Science y Agile Systems for Product Management, University of Maryland ✨<br>🇺🇸 Inglés nivel B2 (CEFR), certificado por ETS.<br><br>💻 Desarrollamos <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a>: una plataforma LXP NextGen potenciada con Infraestructura local GenAI⚡ .<br>También lidero <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a>, iniciativa social que acerca ciencia, tecnología e innovación a las nuevas generaciones."
+            bio: "<strong>Líder en Alianzas y Producto, full cycle CX | EdTech Plataformas Digitales.</strong><br>+15 años impulsando crecimiento en empresas como <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> y <strong>Santillana/Richmond ELT</strong>.<br>Especializado en alianzas estratégicas, desarrollo de canales y relaciones comerciales de largo plazo.<br><br>MBA con especialización en Finanzas y analítica de datos.<br>Certificación en Data Science y Agile Systems for Product Management, University of Maryland ✨<br>🇺🇸 Inglés nivel B2 (CEFR), certificado por ETS.<br><br>💻 Desarrollamos <a href=\"https://stemos.org/dev\" target=\"_blank\"><strong>stemOS</strong></a>: una plataforma LXP NextGen potenciada con Infraestructura local GenAI⚡ .<br>También lidero <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a>, iniciativa social que acerca ciencia, tecnología e innovación a las nuevas generaciones."
         },
         links: {
+            header: "Recursos, Contenido & Contacto Directo",
             whatsapp: "👋 WhatsApp - Click Aqui!",
+            whatsapp_badge: "Respuesta Rápida",
+            whatsapp_title: "WhatsApp Directo",
+            whatsapp_sub: "Alianzas, conferencias y proyectos",
             proposal: "📄 Conoce la propuesta de JóvenesSTEM Web",
             book: "📚 Mi libro BlueBook v1 gratis!",
+            book_badge: "Edición Digital · Gratis",
+            book_title: "Mi libro BlueBook v1 gratis!",
+            book_sub: "Flip-book interactivo de ciencia y STEM",
             podcast: "🎙️ Escucha mis Podcasts",
-            bose: "🔊 Renta equipo Bose aquí!"
+            podcast_badge: "Spotify Original",
+            podcast_title: "Escucha mis Podcasts",
+            podcast_sub: "Episodios de tecnología, IA y futuro",
+            bose: "🔊 Renta equipo Bose aquí!",
+            bose_badge: "Audio Profesional",
+            bose_title: "Renta equipo Bose aquí!",
+            bose_sub: "Sonido premium para eventos y conferencias"
         },
         radio: {
             title: "🎵 @yepzhi Radio",
@@ -32,12 +45,13 @@ const translations = {
         },
         jsweb_promo: {
             tagline: "La Evolución Digital",
-            text: "225 módulos interactivos · STEMBot evaluación socrática con IA · Medallero de Poder · módulos 100% gratuitos, 2,300+ estándares y conceptos, 50+ horas de aprendizaje profundo. Metodología alineada a NGSS y SEP CONOCER EC0049.",
+            text: "226 módulos interactivos · STEMBot® evaluación socrática con IA · 6 certificados de especialidad + 1 certificado final · módulos 100% gratuitos, 1,129 puntos clave evaluables, 2,300+ términos y conceptos STEM y +50 horas de aprendizaje profundo. Metodología inspirada en NGSS y CSTA K-12, con diseño instruccional bajo el estándar SEP CONOCER EC0049.",
             btn: "Acceder a JóvenesSTEM Web"
         },
         stemos_promo: {
-            tagline: "Plataforma LXP Next-Gen",
-            text: "stemOS is an AI-powered Learning Experience Platform (LXP) that delivers personalized STEM and technical skill learning pathways through industry-aligned micro-credentials. Built to bridge the STEM talent and technical skills gap.",
+            badge: "EN DESARROLLO ACTIVO · PREVIEW",
+            tagline: "Plataforma LXP Next-Gen · Inglés Técnico (ESP) para STEM & Ingeniería",
+            text: "stemOS es una plataforma de experiencia de aprendizaje (LXP) impulsada por IA que ofrece rutas personalizadas de inglés técnico (ESP) y habilidades STEM mediante micro-credenciales alineadas con la industria (Semiconductores, Aeroespacial, Manufactura Avanzada y Código).",
             btn: "Accede stemOS Preview"
         },
         speaker: {
@@ -100,14 +114,27 @@ const translations = {
             tools_big: "🛠️ Get to know more of my tools"
         },
         profile: {
-            bio: "<strong>Strategic Partnerships &amp; Channel Leader | EdTech—Digital Platforms, ⚡GenAI Server Implementation.</strong> with +15 years of experience at <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> and <strong>Santillana/Richmond</strong>, building distributor channel networks and developer ecosystems.<br><br>💼 MBA with financial background, Full-Cycle CX/UX and Data Analytics. 📊 Certified in Data Science &amp; Agile Systems for Product Management — University of Maryland ✨ + English CEFR B2 🇺🇸 by ETS.<br><br>💻 Founder <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a> (Next-Gen STEM and technical skills LXP with AI, deployed on local GenAI server infrastructure) and the social initiative <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JovenesSTEM 🌎</strong></a> to connect science and technology with our new generations."
+            bio: "<strong>Strategic Partnerships &amp; Channel Leader | EdTech—Digital Platforms, ⚡GenAI Server Implementation.</strong> with +15 years of experience at <strong>Apple</strong>, <strong>PepsiCo</strong>, <strong>AVIS</strong> and <strong>Santillana/Richmond</strong>, building distributor channel networks and developer ecosystems.<br><br>💼 MBA with financial background, Full-Cycle CX/UX and Data Analytics. 📊 Certified in Data Science &amp; Agile Systems for Product Management — University of Maryland ✨ + English CEFR B2 🇺🇸 by ETS.<br><br>💻 Founder <a href=\"https://stemos.org/dev\" target=\"_blank\"><strong>stemOS</strong></a> (Next-Gen STEM and technical skills LXP with AI, deployed on local GenAI server infrastructure) and the social initiative <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JovenesSTEM 🌎</strong></a> to connect science and technology with our new generations."
         },
         links: {
+            header: "Resources, Media & Direct Contact",
             whatsapp: "👋 WhatsApp - Click Here!",
+            whatsapp_badge: "Fast Response",
+            whatsapp_title: "Direct WhatsApp",
+            whatsapp_sub: "Partnerships, keynotes & projects",
             proposal: "📄 JSWeb Proposal PDF",
             book: "📚 My BlueBook v1 for free!",
+            book_badge: "Digital Edition · Free",
+            book_title: "My BlueBook v1 for free!",
+            book_sub: "Interactive science & STEM flip-book",
             podcast: "🎙️ Listen to my Podcasts",
-            bose: "🔊 Rent Bose equipment here!"
+            podcast_badge: "Spotify Original",
+            podcast_title: "Listen to my Podcasts",
+            podcast_sub: "Episodes on technology, AI & the future",
+            bose: "🔊 Rent Bose equipment here!",
+            bose_badge: "Pro Audio Rental",
+            bose_title: "Rent Bose equipment here!",
+            bose_sub: "Premium sound for events & conferences"
         },
         radio: {
             title: "🎵 @yepzhi Radio",
@@ -126,12 +153,13 @@ const translations = {
         },
         jsweb_promo: {
             tagline: "The Digital Evolution",
-            text: "225 interactive modules · STEMBot AI socratic evaluation · Power Badges · 100% free modules, 2,300+ standards and concepts, 50+ hours of deep learning. Aligned with NGSS and SEP CONOCER EC0049 standards.",
+            text: "226 interactive modules · STEMBot® AI Socratic evaluation · 6 specialty certificates + 1 final certificate · 100% free modules, 1,129 evaluable key points, 2,300+ STEM terms and concepts, and +50 hours of deep learning. Methodology inspired by NGSS and CSTA K-12, with instructional design under the SEP CONOCER EC0049 standard.",
             btn: "Access JóvenesSTEM Web"
         },
         stemos_promo: {
-            tagline: "Next-Gen LXP Platform",
-            text: "stemOS is an AI-powered Learning Experience Platform (LXP) that delivers personalized STEM and technical skill learning pathways through industry-aligned micro-credentials. Built to bridge the STEM talent and technical skills gap.",
+            badge: "UNDER ACTIVE DEVELOPMENT · PREVIEW",
+            tagline: "Next-Gen LXP Platform · Technical English (ESP) for STEM & Engineering",
+            text: "stemOS is an AI-powered Learning Experience Platform (LXP) that delivers personalized Technical English (ESP) and STEM skill pathways through industry-aligned micro-credentials (Semiconductors, Aerospace, Advanced Manufacturing, and Coding).",
             btn: "Access stemOS Preview"
         },
         speaker: {
@@ -194,14 +222,27 @@ const translations = {
             tools_big: "🛠️ 了解我的其他开发项目"
         },
         profile: {
-            bio: "<strong>战略合作伙伴与渠道负责人 | EdTech——数字平台，⚡ GenAI 服务器实施。</strong>在 <strong>Apple</strong>、<strong>PepsiCo</strong>、<strong>AVIS</strong> 和 <strong>Santillana/Richmond</strong> 拥有 15 年以上经验，致力于构建分销商渠道网络和开发者生态系统。<br><br>💼 MBA，具备金融背景，全周期 CX/UX 和数据分析。📊 获得马里兰大学数据科学与敏捷系统产品管理认证 ✨ + ETS 英语 CEFR B2 🇺🇸。<br><br>💻 <a href=\"https://yepzhi.com/lovelace/\" target=\"_blank\"><strong>Lovelace Feynman Technologies SAPI SA de CV</strong></a> 创始人，推动 <a href=\"https://yepzhi.com/stemos/\" target=\"_blank\"><strong>stemOS</strong></a> (部署于本地 GenAI 服务器基础设施、带 AI 辅助的 Next-Gen LXP) 和公益倡议项目 <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a>，连接科学技术与我们的新一代。"
+            bio: "<strong>战略合作伙伴与渠道负责人 | EdTech——数字平台，⚡ GenAI 服务器实施。</strong>在 <strong>Apple</strong>、<strong>PepsiCo</strong>、<strong>AVIS</strong> 和 <strong>Santillana/Richmond</strong> 拥有 15 年以上经验，致力于构建分销商渠道网络和开发者生态系统。<br><br>💼 MBA，具备金融背景，全周期 CX/UX 和数据分析。📊 获得马里兰大学数据科学与敏捷系统产品管理认证 ✨ + ETS 英语 CEFR B2 🇺🇸。<br><br>💻 <a href=\"https://yepzhi.com/lovelace/\" target=\"_blank\"><strong>Lovelace Feynman Technologies SAPI SA de CV</strong></a> 创始人，推动 <a href=\"https://stemos.org/dev\" target=\"_blank\"><strong>stemOS</strong></a> (部署于本地 GenAI 服务器基础设施、带 AI 辅助的 Next-Gen LXP) 和公益倡议项目 <a href=\"https://yepzhi.com/jsweb/\" target=\"_blank\"><strong>JóvenesSTEM 🌎</strong></a>，连接科学技术与我们的新一代。"
         },
         links: {
+            header: "资源、内容与直接联系",
             whatsapp: "👋 WhatsApp - 点击这里!",
+            whatsapp_badge: "快速响应",
+            whatsapp_title: "WhatsApp 直接联系",
+            whatsapp_sub: "战略合作、演讲与项目",
             proposal: "📄 JSWeb 提案 PDF",
             book: "📚 免费获取我的 BlueBook v1！",
+            book_badge: "数字版 · 免费",
+            book_title: "免费获取我的 BlueBook v1！",
+            book_sub: "互动式科学与 STEM 电子书",
             podcast: "🎙️ 收听我的播客",
-            bose: "🔊 在此租用 Bose 设备！"
+            podcast_badge: "Spotify 原创",
+            podcast_title: "收听我的播客",
+            podcast_sub: "关于科技、人工智能与未来的节目",
+            bose: "🔊 在此租用 Bose 设备！",
+            bose_badge: "专业音响租赁",
+            bose_title: "在此租用 Bose 设备！",
+            bose_sub: "为活动和会议提供高品质音响"
         },
         radio: {
             title: "🎵 @yepzhi 电台",
@@ -220,12 +261,13 @@ const translations = {
         },
         jsweb_promo: {
             tagline: "数字进化",
-            text: "225个互动模块 · STEMBot AI苏格拉底式评估 · 能力徽章 · 100%免费模块，2,300+个标准与概念，50+小时深度学习。教学法与NGSS和SEP CONOCER EC0049标准对齐。",
+            text: "226个互动模块 · STEMBot® AI苏格拉底式评估 · 6项专业证书 + 1项结业证书 · 100%免费模块，1,129个可评估关键点，2,300+个STEM术语与概念，50+小时深度学习。教学法借鉴NGSS和CSTA K-12，并按照SEP CONOCER EC0049标准进行教学设计。",
             btn: "访问 JóvenesSTEM Web"
         },
         stemos_promo: {
-            tagline: "NextGen LXP 平台",
-            text: "stemOS 是面向拉美地区 (LATAM) 的、基于人工智能的在线学习体验平台 (LXP)，通过与 industry 对接的微凭证，提供个性化的 STEM 和技术技能学习路径。旨在缩小 STEM 人才和技术技能差距，实现从课堂到职场的可衡量技能验证。",
+            badge: "积极开发中 · 预览版",
+            tagline: "NextGen LXP 平台 · 面向 STEM 与工程的专业英语 (ESP)",
+            text: "stemOS 是基于人工智能的学习体验平台 (LXP)，通过与半导体、航空航天、先进制造和编程等行业对接的微凭证，提供个性化的专业技术英语 (ESP) 与 STEM 技能学习路径。",
             btn: "访问 stemOS Preview"
         },
         speaker: {

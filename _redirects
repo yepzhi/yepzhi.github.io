@@ -1,7 +1,7 @@
 /yzai https://yzai.yepzhi.com 301
 /yzai/* https://yzai.yepzhi.com/:splat 301
-/stemos https://stemos.org 301
-/stemos/* https://stemos.org/:splat 301
+/stemos https://stemos.org/dev 302
+/stemos/* https://stemos.org/dev 302
 /richmond-token-check https://huggingface.co/spaces/yepzhi/richmond-token-check 301
 /richmond-token-check/* https://huggingface.co/spaces/yepzhi/richmond-token-check 301
 /PB2 /PB2/index.html 301
