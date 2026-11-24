@@ -2816,15 +2816,13 @@
                 <!-- ── TAB CONTENT: MASSIVE (EXCEL) ── -->
                 <div class="tab-pane" id="paneMassive">
                     <div class="guide-box">
-                        <strong>Estructura requerida del archivo Excel:</strong>
+                        <strong>Formato compatible (Carga Masiva):</strong>
                         <div id="guidePlacementText" style="display: block;">
-                            Para <strong>Validación Placement Test (Richmond Young Adults)</strong>, incluye las siguientes columnas:
+                            Para <strong>Validación Placement Test (Richmond Young Adults)</strong> puedes subir o <strong>pegar directo (Copy-Paste)</strong> el reporte oficial de resultados de Richmond sin modificarlo:
                             <ul class="guide-cols-list">
-                                <li><code>Nombre</code>: Nombre del estudiante evaluado.</li>
-                                <li><code>Apellido</code>: Apellidos completos.</li>
-                                <li><code>Puntaje</code> o <code>Score</code>: Calificación numérica (ej: 86). ¡El nivel se calcula automáticamente si se omite!</li>
-                                <li><code>Nivel</code> o <code>CEFR</code>: Nivel acreditado (A0, Pre-A1, A1, A1+, A2, A2+, B1, B1+, B2, B2+, C1).</li>
-                                <li><code>Fecha</code>: Formato DD/MM/YYYY de evaluación.</li>
+                                <li><strong>Reporte Oficial Richmond (<code>.xlsx</code> / <code>.csv</code> / Copy-Paste):</strong> <code>Number</code>, <code>Student</code>, <code>Access ID</code>, <code>Email</code>, <code>Student ID</code>, <code>Listening</code>, <code>Reading</code>, <code>Grammar</code>, <code>Time (min)</code>, <code>Level</code>, <code>Status Exam</code>.</li>
+                                <li><strong>Automático:</strong> Detecta la fecha (<code>Date:</code>), calcula el puntaje global a partir de Listening/Reading/Grammar, limpia nombres y <strong>omite automáticamente filas <code>Incomplete</code></strong>.</li>
+                                <li><strong>También compatible</strong> con la plantilla simple: <code>Nombre</code>, <code>Apellido</code>, <code>Nivel</code>, <code>Puntaje</code>, <code>Fecha</code>.</li>
                             </ul>
                             <div style="margin-top: 8px; font-size: 0.76rem; color: #475569; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid #e2e8f0; line-height: 1.4;">
                                 <strong>Escala Young Adults oficial:</strong><br>
@@ -2856,7 +2854,7 @@
 
                     <form id="massiveForm" onsubmit="handleMassiveSubmit(event)">
                         <div class="dropzone" id="excelDropzone" onclick="document.getElementById('excelFileInput').click()">
-                            <input type="file" id="excelFileInput" accept=".xlsx, .xls" onchange="handleExcelSelect(event)">
+                            <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" onchange="handleExcelSelect(event)">
                             <div class="dropzone-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -2866,8 +2864,23 @@
                                     <polyline points="10 9 9 9 8 9"></polyline>
                                 </svg>
                             </div>
-                            <div class="dropzone-title" id="dropzoneLabel">Haz clic o arrastra tu archivo Excel aquí</div>
-                            <div class="dropzone-sub">Archivos compatibles: .xlsx y .xls</div>
+                            <div class="dropzone-title" id="dropzoneLabel">Haz clic o arrastra tu archivo Excel / CSV aquí</div>
+                            <div class="dropzone-sub">Compatible con el reporte oficial Richmond (.xlsx, .xls, .csv) y plantilla simple</div>
+                        </div>
+
+                        <!-- Quick Copy-Paste Box from Official Placement Results -->
+                        <div class="form-group" style="margin-top: 14px; margin-bottom: 14px;">
+                            <label for="massivePasteInput" style="display:flex; justify-content:space-between; align-items:center;">
+                                <span>O pega directo desde Excel / CSV (Copy-Paste)</span>
+                                <span class="label-tag">Auto-detección Richmond</span>
+                            </label>
+                            <textarea id="massivePasteInput" rows="4" placeholder="Copia las filas directamente de tu archivo de resultados del Placement Test (Ctrl+C / Cmd+C) y pégalas aquí..." style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.76rem; line-height: 1.4; min-height: 92px;"></textarea>
+                            <div style="display:flex; gap:8px; margin-top:8px; align-items:center; flex-wrap:wrap;">
+                                <button type="button" class="btn-secondary" onclick="handleMassivePasteParse()" style="padding: 8px 14px; font-size: 0.8rem;">
+                                    Procesar Datos Pegados
+                                </button>
+                                <span id="pasteStatusNote" style="font-size: 0.76rem; color: #64748b;"></span>
+                            </div>
                         </div>
 
                         <!-- Progress Bar -->
@@ -5636,7 +5649,306 @@
             }
         }
 
-        // ── MASSIVE EXCEL PROCESSING (HARDENED: MAX 100 CERTS + PRE-CONFIRMATION MODAL) ──
+        // ── MASSIVE EXCEL / CSV / COPY-PASTE PROCESSING (OFFICIAL RICHMOND PLACEMENT + SIMPLE TEMPLATE) ──
+        function normalizeStudentDisplayName(raw) {
+            const clean = String(raw || '').replace(/\s+/g, ' ').trim();
+            if (!clean) return '';
+            // If ALL CAPS or all lowercase, convert neatly to Title Case preserving Spanish accents
+            const isAllUpper = clean === clean.toUpperCase() && /[A-ZÁÉÍÓÚÑ]/.test(clean);
+            const isAllLower = clean === clean.toLowerCase() && /[a-záéíóúñ]/.test(clean);
+            if (!isAllUpper && !isAllLower) return clean;
+            const lowerWords = new Set(['de', 'del', 'la', 'las', 'los', 'y']);
+            return clean.toLowerCase().split(' ').map((word, idx) => {
+                if (idx > 0 && lowerWords.has(word)) return word;
+                return word.charAt(0).toUpperCase() + word.slice(1);
+            }).join(' ');
+        }
+
+        function normalizePlacementDate(raw) {
+            const str = String(raw || '').trim();
+            if (!str) return '';
+            // YYYY-MM-DD -> DD/MM/YYYY
+            const iso = str.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+            if (iso) {
+                return `${iso[3].padStart(2, '0')}/${iso[2].padStart(2, '0')}/${iso[1]}`;
+            }
+            // DD/MM/YYYY or DD-MM-YYYY
+            const dmy = str.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);
+            if (dmy) {
+                return `${dmy[1].padStart(2, '0')}/${dmy[2].padStart(2, '0')}/${dmy[3]}`;
+            }
+            return str;
+        }
+
+        function parseFractionPct(raw) {
+            const m = String(raw || '').match(/(\d+(?:\.\d+)?)\s*(?:out\s*of|\/)\s*(\d+(?:\.\d+)?)/i);
+            if (!m) return null;
+            const num = parseFloat(m[1]);
+            const den = parseFloat(m[2]);
+            if (isNaN(num) || isNaN(den) || den <= 0) return null;
+            return (num / den) * 100;
+        }
+
+        function parseCsvOrTsvText(text) {
+            const lines = String(text || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
+            const nonEmpty = lines.filter(l => l.trim() !== '');
+            if (nonEmpty.length === 0) return [];
+            // Detect delimiter: tab (Excel copy-paste) vs comma
+            const tabCount = nonEmpty.slice(0, 12).reduce((acc, l) => acc + (l.split('\t').length - 1), 0);
+            const commaCount = nonEmpty.slice(0, 12).reduce((acc, l) => acc + (l.split(',').length - 1), 0);
+            const delim = tabCount >= commaCount && tabCount > 0 ? '\t' : ',';
+
+            return lines.map(line => {
+                if (delim === '\t') return line.split('\t').map(c => c.trim());
+                const cells = [];
+                let cur = '';
+                let inQuotes = false;
+                for (let i = 0; i < line.length; i++) {
+                    const ch = line[i];
+                    if (ch === '"') {
+                        if (inQuotes && line[i + 1] === '"') { cur += '"'; i++; }
+                        else inQuotes = !inQuotes;
+                    } else if (ch === ',' && !inQuotes) {
+                        cells.push(cur.trim());
+                        cur = '';
+                    } else {
+                        cur += ch;
+                    }
+                }
+                cells.push(cur.trim());
+                return cells;
+            });
+        }
+
+        function processMassiveTableMatrix(matrix, sourceName) {
+            if (!Array.isArray(matrix) || matrix.length === 0) {
+                alert('No se encontraron registros para procesar.');
+                massiveAuditData = null;
+                updateGenerateButtonsState();
+                return false;
+            }
+
+            // 1. Scan metadata rows (School:, Date:, Group:) and find header row
+            let metaDate = '';
+            let metaSchool = '';
+            let headerRowIdx = -1;
+
+            for (let i = 0; i < Math.min(matrix.length, 25); i++) {
+                const row = (matrix[i] || []).map(c => String(c ?? '').trim());
+                const lowerRow = row.map(c => c.toLowerCase());
+
+                // Extract Date: / School: from official Richmond header block
+                for (let c = 0; c < row.length - 1; c++) {
+                    if (/^date:?$/i.test(row[c]) && row[c + 1]) metaDate = normalizePlacementDate(row[c + 1]);
+                    if (/^school:?$/i.test(row[c]) && row[c + 1]) metaSchool = row[c + 1];
+                }
+
+                // Official Richmond header: has "student" and ("level" or "status exam" or "listening")
+                const isOfficialHeader = lowerRow.includes('student') && (lowerRow.includes('level') || lowerRow.includes('status exam') || lowerRow.includes('listening'));
+                // Simple header: has "nombre"
+                const isSimpleHeader = lowerRow.includes('nombre') || lowerRow.includes('name');
+
+                if (isOfficialHeader || isSimpleHeader) {
+                    headerRowIdx = i;
+                    break;
+                }
+            }
+
+            if (headerRowIdx === -1) {
+                alert('No se reconocieron encabezados válidos.\n\nAsegúrate de incluir la fila de encabezados del reporte oficial (Student, Level, Status Exam...) o de la plantilla simple (Nombre, Apellido, Nivel, Puntaje, Fecha).');
+                massiveAuditData = null;
+                updateGenerateButtonsState();
+                return false;
+            }
+
+            const headers = (matrix[headerRowIdx] || []).map(c => String(c ?? '').trim());
+            const colIdx = (aliases) => {
+                for (const alias of aliases) {
+                    const idx = headers.findIndex(h => h.toLowerCase() === alias.toLowerCase());
+                    if (idx !== -1) return idx;
+                }
+                return -1;
+            };
+
+            const idxStudent = colIdx(['Student', 'Estudiante', 'Nombre Completo']);
+            const idxNombre = colIdx(['Nombre', 'First Name', 'Name']);
+            const idxApellido = colIdx(['Apellido', 'Apellidos', 'Last Name']);
+            const idxAccessId = colIdx(['Access ID', 'AccessID']);
+            const idxListening = colIdx(['Listening']);
+            const idxReading = colIdx(['Reading']);
+            const idxGrammar = colIdx(['Grammar']);
+            const idxLevel = colIdx(['Level', 'Nivel', 'CEFR']);
+            const idxScore = colIdx(['Puntaje', 'Score', 'Calificación', 'Calificacion']);
+            const idxStatus = colIdx(['Status Exam', 'Status', 'Estado']);
+            const idxFecha = colIdx(['Fecha', 'Date']);
+            const idxEvento = colIdx(['Evento', 'Event']);
+            const idxHoras = colIdx(['Horas', 'Hours']);
+
+            const isOfficialFormat = idxStudent !== -1 && idxNombre === -1;
+
+            // Default date fallback: metadata Date > placement date input > today
+            const inputPlacementDate = document.getElementById('inputFechaPlacement')?.value?.trim() || '';
+            const defaultDate = metaDate || normalizePlacementDate(inputPlacementDate) || '22/09/2026';
+
+            const dataRows = [];
+            for (let r = headerRowIdx + 1; r < matrix.length; r++) {
+                const row = (matrix[r] || []).map(c => String(c ?? '').trim());
+                if (row.every(cell => cell === '')) continue;
+                dataRows.push({ rowNum: r + 1, cells: row });
+            }
+
+            if (dataRows.length === 0) {
+                alert('No se encontraron filas de estudiantes debajo de los encabezados.');
+                massiveAuditData = null;
+                updateGenerateButtonsState();
+                return false;
+            }
+
+            // Validate rows (keep max 100 valid certificates safety cap)
+            const validLevels = ['A0', 'PRE-A1', 'A1', 'A1+', 'A2', 'A2+', 'B1', 'B1+', 'B2', 'B2+', 'C1'];
+            const validRows = [];
+            const invalidRows = [];
+            const seenKeys = new Set();
+            const duplicateRows = [];
+
+            dataRows.forEach(({ rowNum, cells }) => {
+                const get = (i) => (i >= 0 && i < cells.length ? cells[i] : '');
+                const errors = [];
+
+                let nombre = '';
+                let apellido = '';
+                if (isOfficialFormat) {
+                    const rawStudent = get(idxStudent);
+                    const accessId = get(idxAccessId);
+                    const statusVal = get(idxStatus);
+                    if (statusVal && /incomplete|pending|not\s*started|cancel/i.test(statusVal)) {
+                        errors.push(`Examen ${statusVal} (omitido automáticamente)`);
+                    }
+                    if (!rawStudent || (accessId && rawStudent.toUpperCase() === accessId.toUpperCase())) {
+                        errors.push('Sin nombre de estudiante registrado');
+                    } else {
+                        nombre = normalizeStudentDisplayName(rawStudent);
+                    }
+                } else {
+                    nombre = normalizeStudentDisplayName(get(idxNombre));
+                    apellido = normalizeStudentDisplayName(get(idxApellido));
+                    if (!nombre) errors.push('Falta el Nombre');
+                    if (!apellido) errors.push('Falta el Apellido');
+                }
+
+                if (nombre.length > 100 || apellido.length > 100) {
+                    errors.push('Nombre excede 100 caracteres');
+                }
+
+                let cefr = get(idxLevel);
+                if (/^[-—–]+$/.test(cefr)) cefr = '';
+
+                let score = get(idxScore);
+                if (!score && (idxListening !== -1 || idxReading !== -1 || idxGrammar !== -1)) {
+                    const pcts = [
+                        parseFractionPct(get(idxListening)),
+                        parseFractionPct(get(idxReading)),
+                        parseFractionPct(get(idxGrammar))
+                    ].filter(v => v !== null);
+                    if (pcts.length > 0) {
+                        const avgPct = Math.round(pcts.reduce((a, b) => a + b, 0) / pcts.length);
+                        score = `Score: ${avgPct}`;
+                    }
+                }
+
+                const isPlacementRow = activeMode === 'placement' || isOfficialFormat || Boolean(cefr || score);
+                if (isPlacementRow && errors.length === 0) {
+                    if (!cefr && !score) {
+                        errors.push('Falta Nivel CEFR o Puntaje');
+                    } else if (score && !cefr) {
+                        const tier = calculateCefrFromScore(score);
+                        if (tier) cefr = tier.level;
+                    }
+                    if (cefr) {
+                        const cleanCefr = cefr.split(' ')[0].toUpperCase();
+                        if (!validLevels.includes(cleanCefr)) {
+                            errors.push(`Nivel CEFR '${cefr}' no reconocido`);
+                        }
+                    }
+                }
+
+                const fechaRow = normalizePlacementDate(get(idxFecha)) || defaultDate;
+                const fullNameDisplay = `${nombre} ${apellido}`.trim();
+
+                if (errors.length === 0) {
+                    const dupKey = `${fullNameDisplay} ${fechaRow}`.toLowerCase();
+                    if (seenKeys.has(dupKey)) {
+                        duplicateRows.push({ rowNum, name: fullNameDisplay });
+                    } else {
+                        seenKeys.add(dupKey);
+                    }
+
+                    validRows.push({
+                        mode: isPlacementRow ? 'placement' : 'session',
+                        nombre,
+                        apellido,
+                        cefr,
+                        score,
+                        fecha: fechaRow,
+                        evento: get(idxEvento) || 'Fostering Learning Communities',
+                        horas: get(idxHoras) || '2',
+                        rowNum
+                    });
+                } else {
+                    invalidRows.push({ rowNum, errors, raw: cells });
+                }
+            });
+
+            if (validRows.length > 100) {
+                alert(`Límite de seguridad excedido: Hay ${validRows.length} registros válidos.\n\nEl límite máximo permitido por lote es de 100 certificados. Divide tu lista en bloques de hasta 100 sustentantes.`);
+                massiveAuditData = null;
+                updateGenerateButtonsState();
+                return false;
+            }
+
+            massiveAuditData = {
+                fileName: sourceName,
+                metaDate,
+                metaSchool,
+                totalRows: dataRows.length,
+                validRows,
+                invalidRows,
+                duplicateRows
+            };
+
+            const btnMass = document.getElementById('btnGenerateMassive');
+            const pasteNote = document.getElementById('pasteStatusNote');
+            if (validRows.length === 0) {
+                alert('No se encontraron registros completados/válidos para emitir.');
+                if (btnMass) btnMass.disabled = true;
+                if (pasteNote) pasteNote.textContent = `0 válidos (${invalidRows.length} omitidos)`;
+                return false;
+            }
+
+            if (btnMass) {
+                btnMass.textContent = `Revisar y Generar ${validRows.length} Certificados`;
+            }
+            if (pasteNote) {
+                pasteNote.style.color = '#10b981';
+                pasteNote.textContent = `✓ ${validRows.length} listos · ${invalidRows.length} omitidos${metaDate ? ` · Fecha: ${metaDate}` : ''}`;
+            }
+            updateGenerateButtonsState();
+            return true;
+        }
+
+        function handleMassivePasteParse() {
+            const ta = document.getElementById('massivePasteInput');
+            if (!ta || !ta.value.trim()) {
+                alert('Pega primero los datos copiados de tu archivo de resultados del Placement Test.');
+                return;
+            }
+            const matrix = parseCsvOrTsvText(ta.value);
+            const dropzoneLabel = document.getElementById('dropzoneLabel');
+            if (processMassiveTableMatrix(matrix, 'Copy-Paste Directo')) {
+                if (dropzoneLabel) dropzoneLabel.textContent = `Datos pegados listos (${massiveAuditData.validRows.length} certificados)`;
+            }
+        }
+
         function handleExcelSelect(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -5644,121 +5956,30 @@
             const dropzoneLabel = document.getElementById('dropzoneLabel');
             dropzoneLabel.textContent = `Archivo seleccionado: ${file.name}`;
 
+            const isCsv = /\.csv$/i.test(file.name);
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                    const rawRows = XLSX.utils.sheet_to_json(firstSheet);
-
-                    if (!rawRows || rawRows.length === 0) {
-                        alert('La hoja de cálculo seleccionada no contiene registros.');
-                        massiveAuditData = null;
-                        updateGenerateButtonsState();
-                        return;
+                    let matrix = [];
+                    if (isCsv) {
+                        matrix = parseCsvOrTsvText(e.target.result);
+                    } else {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, { type: 'array' });
+                        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                        matrix = XLSX.utils.sheet_to_json(firstSheet, { header: 1, defval: '' });
                     }
-
-                    // 1. LIMIT: 100 certificates maximum per batch
-                    if (rawRows.length > 100) {
-                        alert(`Límite de seguridad excedido: El archivo contiene ${rawRows.length} registros.\n\nEl límite máximo permitido para generación masiva en lote es de 100 certificados.\nPor favor divide tu archivo en bloques de hasta 100 sustentantes.`);
+                    if (!processMassiveTableMatrix(matrix, file.name)) {
                         event.target.value = '';
-                        dropzoneLabel.textContent = 'Haz clic o arrastra tu archivo Excel aquí';
-                        massiveAuditData = null;
-                        updateGenerateButtonsState();
-                        return;
+                        dropzoneLabel.textContent = 'Haz clic o arrastra tu archivo Excel / CSV aquí';
                     }
-
-                    // 2. Validate columns, data types & duplicates
-                    const validLevels = ['A0', 'PRE-A1', 'A1', 'A1+', 'A2', 'A2+', 'B1', 'B1+', 'B2', 'B2+', 'C1'];
-                    const validRows = [];
-                    const invalidRows = [];
-                    const seenKeys = new Set();
-                    const duplicateRows = [];
-
-                    rawRows.forEach((row, idx) => {
-                        const rowNum = idx + 2; // Excel row numbering
-                        const nombre = (row.Nombre || row.nombre || '').trim();
-                        const apellido = (row.Apellido || row.apellido || '').trim();
-                        const rowHasPlacement = (row.Nivel !== undefined || row.nivel !== undefined || row.CEFR !== undefined || row.cefr !== undefined || row.Puntaje !== undefined || row.puntaje !== undefined || row.Score !== undefined || row.score !== undefined);
-                        const isPlacementRow = activeMode === 'placement' || rowHasPlacement;
-
-                        const errors = [];
-                        if (!nombre) errors.push('Falta el Nombre');
-                        if (!apellido) errors.push('Falta el Apellido');
-                        if (nombre.length > 100 || apellido.length > 100) errors.push('Nombre o Apellido excede 100 caracteres');
-
-                        let cefr = (row.Nivel || row.nivel || row.CEFR || row.cefr || '').trim();
-                        let score = (row.Puntaje || row.puntaje || row.Score || row.score || '').toString().trim();
-
-                        if (isPlacementRow) {
-                            if (!cefr && !score) {
-                                errors.push('Falta Nivel CEFR o Puntaje');
-                            } else if (score && !cefr) {
-                                const numericScore = parseFloat(score.replace(/[^0-9.]/g, ''));
-                                if (!isNaN(numericScore)) {
-                                    const tier = RICHMOND_SCORE_TIERS.find(t => numericScore >= t.min && numericScore <= t.max);
-                                    if (tier) cefr = tier.level;
-                                }
-                            }
-                            if (cefr) {
-                                const cleanCefr = cefr.split(' ')[0].toUpperCase();
-                                if (!validLevels.includes(cleanCefr)) {
-                                    errors.push(`Nivel CEFR '${cefr}' no reconocido`);
-                                }
-                            }
-                        }
-
-                        // Duplicate check
-                        const dupKey = `${nombre} ${apellido} ${(row.Fecha || row.fecha || '').trim()}`.toLowerCase();
-                        if (seenKeys.has(dupKey)) {
-                            duplicateRows.push({ rowNum, name: `${nombre} ${apellido}` });
-                        } else {
-                            seenKeys.add(dupKey);
-                        }
-
-                        if (errors.length > 0) {
-                            invalidRows.push({ rowNum, errors, raw: row });
-                        } else {
-                            validRows.push({
-                                mode: isPlacementRow ? 'placement' : 'session',
-                                nombre,
-                                apellido,
-                                cefr,
-                                score,
-                                fecha: (row.Fecha || row.fecha || '').trim() || '22/09/2026',
-                                evento: (row.Evento || row.evento || 'Fostering Learning Communities').trim(),
-                                horas: (row.Horas || row.horas || '2').toString().trim(),
-                                rowNum
-                            });
-                        }
-                    });
-
-                    massiveAuditData = {
-                        fileName: file.name,
-                        totalRows: rawRows.length,
-                        validRows,
-                        invalidRows,
-                        duplicateRows
-                    };
-
-                    const btnMass = document.getElementById('btnGenerateMassive');
-                    if (validRows.length === 0) {
-                        alert('No se encontraron registros válidos en el archivo Excel.');
-                        if (btnMass) btnMass.disabled = true;
-                        return;
-                    }
-
-                    if (btnMass) {
-                        btnMass.textContent = `Revisar y Generar ${validRows.length} Certificados`;
-                    }
-                    updateGenerateButtonsState();
                 } catch (err) {
-                    alert('Error al interpretar el archivo Excel: ' + err.message);
+                    alert('Error al interpretar el archivo: ' + err.message);
                     console.error(err);
                 }
             };
-            reader.readAsArrayBuffer(file);
+            if (isCsv) reader.readAsText(file, 'utf-8');
+            else reader.readAsArrayBuffer(file);
         }
 
         async function handleMassiveSubmit(e) {
@@ -5903,11 +6124,12 @@
 
         // ── EXCEL TEMPLATE DOWNLOAD GENERATOR ────────────────────────
         function downloadTemplateForMode() {
-            let templateData = [];
+            const wb = XLSX.utils.book_new();
+            let ws;
             let filename = '';
 
             if (activeMode === 'session') {
-                templateData = [
+                const templateData = [
                     {
                         Nombre: "Juan Carlos",
                         Apellido: "Pérez García",
@@ -5923,38 +6145,33 @@
                         Horas: 3
                     }
                 ];
+                ws = XLSX.utils.json_to_sheet(templateData);
+                ws['!cols'] = [{ wch: 18 }, { wch: 22 }, { wch: 32 }, { wch: 14 }, { wch: 10 }];
                 filename = "Plantilla_Richmond_Asistencia_Sesion.xlsx";
             } else {
-                templateData = [
-                    {
-                        Nombre: "Sofía",
-                        Apellido: "Ramírez Mendoza",
-                        Nivel: "B2+",
-                        Puntaje: "Score: 86",
-                        Fecha: "22/09/2026"
-                    },
-                    {
-                        Nombre: "Carlos Alberto",
-                        Apellido: "Navarro Ruiz",
-                        Nivel: "B1+",
-                        Puntaje: "Score: 68",
-                        Fecha: "22/09/2026"
-                    }
+                // Matches the exact official Richmond Placement Test results export so users can copy-paste directly
+                const aoa = [
+                    ["Results"],
+                    [],
+                    ["School:", selectedSchool ? selectedSchool.nombre_completo : "Universidad Tecnológica de Hermosillo", "", "Type of Placement:", "Young Adults"],
+                    [],
+                    ["Group:", "Grupo Ejemplo", "", "Date:", new Date().toISOString().slice(0, 10)],
+                    [],
+                    ["Students:", "2 Students"],
+                    [],
+                    ["Number", "Student", "Access ID", "Email", "Student ID", "Listening", "Reading", "Grammar", "Time (min)", "Level", "Status Exam"],
+                    [1, "Sofía Ramírez Mendoza", "MEX225-SAMPLE0001", "sofia.ramirez@institucion.edu.mx", "26316001", "13 out of 15", "13 out of 15", "86 out of 100", "45min", "B2+", "Completed"],
+                    [2, "Carlos Alberto Navarro Ruiz", "MEX225-SAMPLE0002", "carlos.navarro@institucion.edu.mx", "26316002", "10 out of 15", "10 out of 15", "68 out of 100", "48min", "B1+", "Completed"]
                 ];
-                filename = "Plantilla_Richmond_Placement_Test.xlsx";
+                ws = XLSX.utils.aoa_to_sheet(aoa);
+                ws['!cols'] = [
+                    { wch: 9 }, { wch: 32 }, { wch: 22 }, { wch: 30 }, { wch: 14 },
+                    { wch: 14 }, { wch: 14 }, { wch: 15 }, { wch: 12 }, { wch: 10 }, { wch: 14 }
+                ];
+                filename = "Plantilla_Richmond_Placement_Oficial.xlsx";
             }
 
-            const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.json_to_sheet(templateData);
-            ws['!cols'] = [
-                { wch: 18 },
-                { wch: 22 },
-                { wch: 20 },
-                { wch: 20 },
-                { wch: 14 }
-            ];
-
-            XLSX.utils.book_append_sheet(wb, ws, "Certificados");
+            XLSX.utils.book_append_sheet(wb, ws, "Results");
             XLSX.writeFile(wb, filename);
         }
 
