@@ -470,17 +470,22 @@
             showMessage('searchResult', 'Buscando folio en el sistema...', 'info');
 
             try {
-                // Buscar folio por folioNumber (estructura nueva)
-                const snapshot = await db.collection('folios')
-                    .where('folioNumber', '==', folioNumber)
-                    .limit(1)
-                    .get();
-                
-                if (snapshot.empty) {
+                // Buscar folio directo por ID de documento (compatible con allow get) y fallback si aplica
+                let folioDoc = await db.collection('folios').doc(folioNumber).get();
+                if (!folioDoc.exists) {
+                    try {
+                        const snapshot = await db.collection('folios')
+                            .where('folioNumber', '==', folioNumber)
+                            .limit(1)
+                            .get();
+                        if (!snapshot.empty) folioDoc = snapshot.docs[0];
+                    } catch (_) { /* ignore fallback permission errors */ }
+                }
+
+                if (!folioDoc || !folioDoc.exists) {
                     throw new Error('Folio no encontrado. Verifica el código con el vendedor.');
                 }
-                
-                const folioDoc = snapshot.docs[0];
+
                 folioData = folioDoc.data();
                 folioData.id = folioDoc.id;
                 

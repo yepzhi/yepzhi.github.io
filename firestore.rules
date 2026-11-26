@@ -11,15 +11,15 @@ rules_version = '2';
 // Collection: salon_appointments
 // Document ID: appointmentId
 // Fields:
-//   - service: string (required, <= 100 chars)
-//   - serviceEmoji: string (optional)
-//   - price: number/string (optional)
-//   - date: string (required)
-//   - time: string (required)
+//   - service: string (required, 1..100 chars)
+//   - serviceEmoji: string (optional, <= 20 chars)
+//   - price: number/string (optional, string <= 30 chars)
+//   - date: string (required, <= 30 chars)
+//   - time: string (required, <= 30 chars)
 //   - clientName: string (required, 1..100 chars)
 //   - clientPhone: string (required, <= 30 chars)
-//   - createdAt: timestamp/string (optional)
-//   - status: string (optional)
+//   - createdAt: timestamp/string (optional, string <= 50 chars)
+//   - status: string (optional, <= 30 chars)
 //
 // Collection: salon_settings
 // Document ID: settingId
@@ -27,30 +27,42 @@ rules_version = '2';
 //
 // Collection: leads
 // Document ID: leadId
-// Fields:
+// Fields (max 20 keys on create):
 //   - email: string (required, 5..150 chars)
-//   - additional lead metadata fields
+//   - university, subsistema, subsistemaOtro: string (optional, <= 300 chars)
+//   - providerName, roleComment: string (optional, <= 500 chars)
+//   - firstName, lastName, state, role, instType, source: string (optional, <= 150 chars)
+//   - hasProvider, intention, whatsapp: string (optional, <= 50 chars)
+//   - createdAt: timestamp (optional)
 //
 // Collection: help_tickets
 // Document ID: ticketId
-// Fields:
+// Fields (max 25 keys on create):
 //   - folio: string (required, <= 40 chars)
 //   - email: string (required, <= 150 chars)
 //   - fullName: string (required, <= 150 chars)
-//   - additional support ticket fields
+//   - notes, solutionNote: string (optional, <= 2000 chars)
+//   - issueType, school, schoolCode, altEmail, studentWhatsApp, nickname,
+//     bookCode, status, assignedAdvisor, advisorWA, createdAtDateStr,
+//     assignedPassword, assignedCorrectEmail, assignedUnusedCode,
+//     officialEmail: string (optional, <= 300 chars)
+//   - createdAtMillis, resolvedAtMillis, elapsedMinutes: number/null (optional)
+//   - createdAt: timestamp (optional)
 //
 // Collection: pro_reports
 // Document ID: reportId
-// Fields:
+// Fields (max 25 keys on create):
 //   - ticketId: string (required, <= 50 chars)
 //   - description: string (required, <= 2000 chars)
-//   - additional report fields
+//   - dateStr, scope, book, components, unit, tags, reporter, school, status: string (optional, <= 500 chars)
+//   - comments: list (optional, <= 200 items)
+//   - createdAt: timestamp (optional)
 //
 // HotFact Collections:
-//   - users/{userId}: Emitter profile info
-//   - clientUsers/{clientId}: Client fiscal profile info
-//   - folios/{folioId}: Billing folios scoped by businessId
-//   - invoices/{invoiceId}: Stamped CFDI invoices scoped by businessId
+//   - users/{userId}: Emitter profile info (public single-doc get, admin list, owner/admin write)
+//   - clientUsers/{clientId}: Client fiscal profile info (owner/admin read & write)
+//   - folios/{folioId}: Billing folios scoped by businessId (public get, owner/admin list/create/delete, tightened public status update + owner/admin update)
+//   - invoices/{invoiceId}: Stamped CFDI invoices scoped by businessId (public get, owner/admin list, admin write)
 // ===============================================================
 
 service cloud.firestore {
@@ -72,6 +84,238 @@ service cloud.firestore {
       return isAuthenticated() && request.auth.uid == userId;
     }
 
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    function isValidOptionalString(data, field, maxLen) {
+      return !(field in data) ||
+        data[field] == null ||
+        (data[field] is string && data[field].size() <= maxLen);
+    }
+
+    function isValidOptionalNumber(data, field) {
+      return !(field in data) ||
+        data[field] == null ||
+        data[field] is number;
+    }
+
+    function isValidOptionalTimestamp(data, field) {
+      return !(field in data) ||
+        data[field] == null ||
+        data[field] is timestamp;
+    }
+
+    function isValidOptionalDateLike(data, field) {
+      return !(field in data) ||
+        data[field] == null ||
+        data[field] is timestamp ||
+        data[field] is number ||
+        (data[field] is string && data[field].size() <= 50);
+    }
+
+    function isNonEscalatingUserCreate(data) {
+      return (!('role' in data) || data.role in ['user', 'client', 'business', 'emitter']) &&
+        (!('admin' in data) || data.admin == false) &&
+        (!('isAdmin' in data) || data.isAdmin == false);
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+    function isValidSalonAppointment(data) {
+      return hasRequiredFields(['service', 'date', 'time', 'clientName', 'clientPhone']) &&
+        hasOnlyAllowedFields(['service', 'serviceEmoji', 'price', 'date', 'time', 'clientName', 'clientPhone', 'createdAt', 'status']) &&
+        data['service'] is string &&
+        data['service'].size() > 0 &&
+        data['service'].size() <= 100 &&
+        data.date is string &&
+        data.date.size() <= 30 &&
+        data.time is string &&
+        data.time.size() <= 30 &&
+        data.clientName is string &&
+        data.clientName.size() > 0 &&
+        data.clientName.size() <= 100 &&
+        data.clientPhone is string &&
+        data.clientPhone.size() <= 30 &&
+        isValidOptionalString(data, 'serviceEmoji', 20) &&
+        isValidOptionalString(data, 'status', 30) &&
+        (!('price' in data) || data.price == null || data.price is number || (data.price is string && data.price.size() <= 30)) &&
+        isValidOptionalDateLike(data, 'createdAt');
+    }
+
+    function isValidLead(data) {
+      return hasRequiredFields(['email']) &&
+        data.keys().size() <= 20 &&
+        data.email is string &&
+        data.email.size() >= 5 &&
+        data.email.size() <= 150 &&
+        isValidOptionalString(data, 'university', 300) &&
+        isValidOptionalString(data, 'instType', 50) &&
+        isValidOptionalString(data, 'subsistema', 300) &&
+        isValidOptionalString(data, 'subsistemaOtro', 300) &&
+        isValidOptionalString(data, 'state', 150) &&
+        isValidOptionalString(data, 'hasProvider', 50) &&
+        isValidOptionalString(data, 'providerName', 300) &&
+        isValidOptionalString(data, 'firstName', 150) &&
+        isValidOptionalString(data, 'lastName', 150) &&
+        isValidOptionalString(data, 'whatsapp', 50) &&
+        isValidOptionalString(data, 'role', 150) &&
+        isValidOptionalString(data, 'roleComment', 500) &&
+        isValidOptionalString(data, 'intention', 50) &&
+        isValidOptionalString(data, 'source', 150) &&
+        isValidOptionalTimestamp(data, 'createdAt');
+    }
+
+    function isValidHelpTicket(data) {
+      return hasRequiredFields(['folio', 'email', 'fullName']) &&
+        data.keys().size() <= 25 &&
+        data.folio is string &&
+        data.folio.size() <= 40 &&
+        data.email is string &&
+        data.email.size() <= 150 &&
+        data.fullName is string &&
+        data.fullName.size() <= 150 &&
+        isValidOptionalString(data, 'issueType', 300) &&
+        isValidOptionalString(data, 'school', 300) &&
+        isValidOptionalString(data, 'schoolCode', 100) &&
+        isValidOptionalString(data, 'altEmail', 150) &&
+        isValidOptionalString(data, 'studentWhatsApp', 30) &&
+        isValidOptionalString(data, 'nickname', 150) &&
+        isValidOptionalString(data, 'bookCode', 100) &&
+        isValidOptionalString(data, 'notes', 2000) &&
+        isValidOptionalString(data, 'status', 50) &&
+        isValidOptionalString(data, 'assignedAdvisor', 150) &&
+        isValidOptionalString(data, 'advisorWA', 30) &&
+        isValidOptionalString(data, 'solutionNote', 2000) &&
+        isValidOptionalString(data, 'createdAtDateStr', 100) &&
+        isValidOptionalString(data, 'assignedPassword', 200) &&
+        isValidOptionalString(data, 'assignedCorrectEmail', 150) &&
+        isValidOptionalString(data, 'assignedUnusedCode', 100) &&
+        isValidOptionalString(data, 'officialEmail', 150) &&
+        isValidOptionalNumber(data, 'createdAtMillis') &&
+        isValidOptionalNumber(data, 'resolvedAtMillis') &&
+        isValidOptionalNumber(data, 'elapsedMinutes') &&
+        isValidOptionalTimestamp(data, 'createdAt');
+    }
+
+    function isValidProReport(data) {
+      return hasRequiredFields(['ticketId', 'description']) &&
+        data.keys().size() <= 25 &&
+        data.ticketId is string &&
+        data.ticketId.size() <= 50 &&
+        data.description is string &&
+        data.description.size() <= 2000 &&
+        isValidOptionalString(data, 'dateStr', 100) &&
+        isValidOptionalString(data, 'scope', 50) &&
+        isValidOptionalString(data, 'book', 300) &&
+        isValidOptionalString(data, 'components', 500) &&
+        isValidOptionalString(data, 'unit', 300) &&
+        isValidOptionalString(data, 'tags', 500) &&
+        isValidOptionalString(data, 'reporter', 150) &&
+        isValidOptionalString(data, 'school', 300) &&
+        isValidOptionalString(data, 'status', 50) &&
+        (!('comments' in data) || data.comments == null || (data.comments is list && data.comments.size() <= 200)) &&
+        isValidOptionalTimestamp(data, 'createdAt');
+    }
+
+    function isValidUserData(data, userId) {
+      return data.keys().size() <= 40 &&
+        (!('uid' in data) || data.uid == userId) &&
+        isValidOptionalString(data, 'email', 150) &&
+        isValidOptionalString(data, 'nombre', 200) &&
+        isValidOptionalString(data, 'businessName', 200) &&
+        isValidOptionalString(data, 'razonSocial', 200) &&
+        isValidOptionalString(data, 'rfc', 20) &&
+        (!('cp' in data) || data.cp == null || data.cp is int || (data.cp is string && data.cp.size() <= 15)) &&
+        (!('codigoPostal' in data) || data.codigoPostal == null || data.codigoPostal is int || (data.codigoPostal is string && data.codigoPostal.size() <= 15)) &&
+        (!('regimenFiscal' in data) || data.regimenFiscal == null || data.regimenFiscal is int || (data.regimenFiscal is string && data.regimenFiscal.size() <= 20)) &&
+        isValidOptionalString(data, 'logoUrl', 2000) &&
+        isValidOptionalDateLike(data, 'logoUpdatedAt') &&
+        isValidOptionalDateLike(data, 'updatedAt') &&
+        isValidOptionalDateLike(data, 'createdAt');
+    }
+
+    function isValidClientUserData(data) {
+      return data.keys().size() <= 30 &&
+        isValidOptionalString(data, 'email', 150) &&
+        isValidOptionalString(data, 'fullName', 200) &&
+        (!('isActive' in data) || data.isActive is bool) &&
+        isValidOptionalDateLike(data, 'createdAt') &&
+        isValidOptionalDateLike(data, 'updatedAt') &&
+        isValidOptionalDateLike(data, 'lastLogin');
+    }
+
+    function isValidFolioDoc(data) {
+      return data.keys().size() <= 30 &&
+        'businessId' in data &&
+        data.businessId is string &&
+        data.businessId.size() <= 128 &&
+        isValidOptionalString(data, 'userId', 128) &&
+        isValidOptionalString(data, 'folioNumber', 40) &&
+        isValidOptionalString(data, 'description', 1000) &&
+        isValidOptionalString(data, 'status', 40) &&
+        isValidOptionalString(data, 'errorMessage', 500) &&
+        isValidOptionalString(data, 'uuid', 80) &&
+        isValidOptionalString(data, 'receptorEmail', 150) &&
+        isValidOptionalString(data, 'receptorRFC', 20) &&
+        (!('conceptos' in data) || data.conceptos == null || (data.conceptos is list && data.conceptos.size() <= 50));
+    }
+
+    function isFolioBusinessIdUnchanged() {
+      return (!('businessId' in resource.data) && !('businessId' in request.resource.data)) ||
+        ('businessId' in resource.data && 'businessId' in request.resource.data &&
+         request.resource.data.businessId == resource.data.businessId);
+    }
+
+    function isValidPublicFolioStatusTransition() {
+      return 'status' in resource.data &&
+        'status' in request.resource.data &&
+        (
+          ((resource.data.status == 'pendiente' || resource.data.status == 'pending') &&
+           request.resource.data.status in ['procesando_timbrado', 'used', 'error']) ||
+          (resource.data.status == 'procesando_timbrado' &&
+           request.resource.data.status in ['used', 'error'])
+        );
+    }
+
+    function isValidOptionalModifiedString(field, maxLen) {
+      return !(field in request.resource.data) ||
+        (request.resource.data[field] is string && request.resource.data[field].size() <= maxLen) ||
+        (request.resource.data[field] == null && !(field in request.resource.data.diff(resource.data).affectedKeys()));
+    }
+
+    function isValidOptionalModifiedTimestamp(field) {
+      return !(field in request.resource.data.diff(resource.data).affectedKeys()) ||
+        request.resource.data[field] is timestamp;
+    }
+
+    function isValidPublicFolioUpdate() {
+      return isFolioBusinessIdUnchanged() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'status', 'updatedAt', 'errorMessage', 'uuid', 'receptorEmail', 'receptorRFC', 'usedAt'
+        ]) &&
+        isValidPublicFolioStatusTransition() &&
+        isValidOptionalModifiedString('errorMessage', 500) &&
+        isValidOptionalModifiedString('uuid', 80) &&
+        isValidOptionalModifiedString('receptorEmail', 150) &&
+        isValidOptionalModifiedString('receptorRFC', 20) &&
+        isValidOptionalModifiedTimestamp('updatedAt') &&
+        isValidOptionalModifiedTimestamp('usedAt');
+    }
+
+    // ===============================================================
+    // Collection Rules
+    // ===============================================================
+
     // Events collection (calendar app)
     match /events/{eventId} {
       allow read: if true;
@@ -80,15 +324,7 @@ service cloud.firestore {
 
     // Salon appointments - validated public creation, admin read/update/delete
     match /salon_appointments/{appointmentId} {
-      allow create: if request.resource.data.keys().hasAll(['service', 'date', 'time', 'clientName', 'clientPhone'])
-        && request.resource.data.keys().hasOnly(['service', 'serviceEmoji', 'price', 'date', 'time', 'clientName', 'clientPhone', 'createdAt', 'status'])
-        && request.resource.data.clientName is string
-        && request.resource.data.clientName.size() > 0
-        && request.resource.data.clientName.size() <= 100
-        && request.resource.data.clientPhone is string
-        && request.resource.data.clientPhone.size() <= 30
-        && request.resource.data['service'] is string
-        && request.resource.data['service'].size() <= 100;
+      allow create: if isValidSalonAppointment(request.resource.data);
       allow read, update, delete: if isAdmin();
     }
 
@@ -100,66 +336,66 @@ service cloud.firestore {
 
     // Richmond Pro Leads - validated public creation, admin read/update/delete
     match /leads/{leadId} {
-      allow create: if request.resource.data.keys().hasAll(['email'])
-        && request.resource.data.email is string
-        && request.resource.data.email.size() >= 5
-        && request.resource.data.email.size() <= 150;
+      allow create: if isValidLead(request.resource.data);
       allow read, update, delete: if isAdmin();
     }
 
     // Richmond Pro Help & Support Tickets
     match /help_tickets/{ticketId} {
-      allow create: if request.resource.data.keys().hasAll(['folio', 'email', 'fullName'])
-        && request.resource.data.folio is string
-        && request.resource.data.folio.size() <= 40
-        && request.resource.data.email is string
-        && request.resource.data.email.size() <= 150
-        && request.resource.data.fullName is string
-        && request.resource.data.fullName.size() <= 150;
+      allow create: if isValidHelpTicket(request.resource.data);
       allow get: if true;
-      allow list: if request.query.limit <= 5 || isAdmin();
+      allow list: if isAdmin() || (request.query.limit is int && request.query.limit <= 5);
       allow update, delete: if isAdmin();
     }
 
     // Richmond ProReport (Incidencias en Ejercicios y Contenidos)
     match /pro_reports/{reportId} {
-      allow read: if true;
-      allow create: if request.resource.data.keys().hasAll(['ticketId', 'description'])
-        && request.resource.data.ticketId is string
-        && request.resource.data.ticketId.size() <= 50
-        && request.resource.data.description is string
-        && request.resource.data.description.size() <= 2000;
+      allow get: if true;
+      allow list: if isAdmin() || (request.query.limit is int && request.query.limit <= 50);
+      allow create: if isValidProReport(request.resource.data);
       allow update, delete: if isAdmin();
     }
 
-    // HotFact - Business Emitter Users
+    // HotFact - Business Emitter Users (single-doc lookup for hotfact.html, no bulk enumeration)
     match /users/{userId} {
-      allow read: if true;
-      allow write: if isOwner(userId) || isAdmin();
+      allow get: if true;
+      allow list: if isAdmin();
+      allow create: if isAdmin() ||
+        (isOwner(userId) && isValidUserData(request.resource.data, userId) && isNonEscalatingUserCreate(request.resource.data));
+      allow update: if isAdmin() ||
+        (isOwner(userId) && isValidUserData(request.resource.data, userId) && areImmutableFieldsUnchanged(['role', 'admin', 'isAdmin', 'uid', 'createdAt']));
+      allow delete: if isAdmin() || isOwner(userId);
     }
 
     // HotFact - Client Users
     match /clientUsers/{clientId} {
-      allow read, write: if isOwner(clientId) || isAdmin();
+      allow read: if isAdmin() || isOwner(clientId);
+      allow create: if isAdmin() ||
+        (isOwner(clientId) && isValidClientUserData(request.resource.data) && isNonEscalatingUserCreate(request.resource.data));
+      allow update: if isAdmin() ||
+        (isOwner(clientId) && isValidClientUserData(request.resource.data) && areImmutableFieldsUnchanged(['role', 'admin', 'isAdmin', 'isActive', 'uid', 'createdAt']));
+      allow delete: if isAdmin() || isOwner(clientId);
     }
 
     // HotFact - Folios
     match /folios/{folioId} {
       allow get: if true;
-      allow list: if isAuthenticated() && (resource.data.businessId == request.auth.uid || isAdmin());
-      allow create: if isAuthenticated() && request.resource.data.businessId == request.auth.uid;
-      allow update: if (resource.data.status == 'pendiente'
-        && request.resource.data.status == 'procesando_timbrado'
-        && request.resource.data.businessId == resource.data.businessId)
-        || isOwner(resource.data.businessId)
-        || isAdmin();
-      allow delete: if isOwner(resource.data.businessId) || isAdmin();
+      allow list: if isAdmin() || (isAuthenticated() && resource.data.businessId == request.auth.uid);
+      allow create: if isAdmin() ||
+        (isAuthenticated() && request.resource.data.businessId == request.auth.uid && isValidFolioDoc(request.resource.data));
+      allow update: if isAdmin() ||
+        ('businessId' in resource.data && isOwner(resource.data.businessId) &&
+         request.resource.data.businessId == resource.data.businessId &&
+         areImmutableFieldsUnchanged(['userId', 'createdAt']) &&
+         isValidFolioDoc(request.resource.data)) ||
+        isValidPublicFolioUpdate();
+      allow delete: if isAdmin() || ('businessId' in resource.data && isOwner(resource.data.businessId));
     }
 
     // HotFact - Invoices
     match /invoices/{invoiceId} {
       allow get: if true;
-      allow list: if isAuthenticated() && (resource.data.businessId == request.auth.uid || isAdmin());
+      allow list: if isAdmin() || (isAuthenticated() && resource.data.businessId == request.auth.uid);
       allow write: if isAdmin();
     }
 

@@ -89,12 +89,54 @@ const SCHOOL_CATALOG = [
 const MASTER_KEY_SALT = "stemos_master_webcert_2026";
 const MASTER_KEY_HASH = "afb3674dcbcfe0c9a91a6ed65bb85b18d2551f6daae675b307b9f7e4d6314e88";
 
+const AUTH_RATE_LIMIT = new Map();
+const AUTH_WINDOW_MS = 10 * 60 * 1000;
+const AUTH_MAX_FAILURES = 5;
+
+function timingSafeEqualHex(a, b) {
+  if (typeof a !== "string" || typeof b !== "string" || a.length !== b.length || a.length === 0) {
+    return false;
+  }
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) {
+    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
+function getRateLimitState(ip) {
+  const now = Date.now();
+  const entry = AUTH_RATE_LIMIT.get(ip);
+  if (!entry || now - entry.windowStart > AUTH_WINDOW_MS) {
+    return { blocked: false, retryAfterSeconds: 0 };
+  }
+  if (entry.failures >= AUTH_MAX_FAILURES) {
+    const retryAfterSeconds = Math.max(1, Math.ceil((entry.windowStart + AUTH_WINDOW_MS - now) / 1000));
+    return { blocked: true, retryAfterSeconds };
+  }
+  return { blocked: false, retryAfterSeconds: 0 };
+}
+
+function recordAuthFailure(ip) {
+  const now = Date.now();
+  const entry = AUTH_RATE_LIMIT.get(ip);
+  if (!entry || now - entry.windowStart > AUTH_WINDOW_MS) {
+    AUTH_RATE_LIMIT.set(ip, { failures: 1, windowStart: now });
+  } else {
+    entry.failures += 1;
+  }
+}
+
+function clearAuthFailures(ip) {
+  AUTH_RATE_LIMIT.delete(ip);
+}
+
 async function isAuthorizedClave(escuela, clave) {
   const [inputHash, masterHash] = await Promise.all([
     sha256Hex(escuela.salt + ":" + clave),
     sha256Hex(MASTER_KEY_SALT + ":" + clave)
   ]);
-  return inputHash === escuela.clave_hash || masterHash === MASTER_KEY_HASH;
+  return timingSafeEqualHex(inputHash, escuela.clave_hash) || timingSafeEqualHex(masterHash, MASTER_KEY_HASH);
 }
 
 async function sha256Hex(text) {
@@ -105,9 +147,18 @@ async function sha256Hex(text) {
   return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
-function getCorsHeaders() {
+function getAllowedCorsOrigin(request) {
+  const origin = (request && request.headers && request.headers.get("Origin")) || "";
+  if (/^https:\/\/([a-z0-9-]+\.)?(yepzhi\.com|stemos\.org|jovenesstem\.com)$/i.test(origin)) {
+    return origin;
+  }
+  return "https://yepzhi.com";
+}
+
+function getCorsHeaders(request) {
   return {
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": getAllowedCorsOrigin(request),
+    "Vary": "Origin",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Webcert-Token",
     "Content-Type": "application/json",
@@ -125,7 +176,7 @@ export default {
     if (request.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
-        headers: getCorsHeaders()
+        headers: getCorsHeaders(request)
       });
     }
 
@@ -139,11 +190,20 @@ export default {
         contacto_email: s.contacto_email
       }));
       return new Response(JSON.stringify({ ok: true, escuelas: publicSchools }), {
-        headers: getCorsHeaders()
+        headers: getCorsHeaders(request)
       });
     }
 
     if (url.pathname === "/api/webcert/verify-key" && request.method === "POST") {
+      const clientIp = request.headers.get("CF-Connecting-IP") || "unknown";
+      const rateState = getRateLimitState(clientIp);
+      if (rateState.blocked) {
+        return new Response(JSON.stringify({ ok: false, error: "Demasiados intentos fallidos. Intenta de nuevo en unos minutos." }), {
+          status: 429,
+          headers: { ...getCorsHeaders(request), "Retry-After": String(rateState.retryAfterSeconds) }
+        });
+      }
+
       try {
         const body = await request.json();
         const escuelaId = (body.escuela_id || body.escuelaId || "").trim().toUpperCase();
@@ -152,33 +212,37 @@ export default {
         if (!escuelaId || !clave) {
           return new Response(JSON.stringify({ ok: false, error: "Faltan parámetros: escuela_id y clave son requeridos." }), {
             status: 400,
-            headers: getCorsHeaders()
+            headers: getCorsHeaders(request)
           });
         }
 
         const escuela = SCHOOL_CATALOG.find(s => s.id === escuelaId || s.codigo === escuelaId);
         if (!escuela || !escuela.activo) {
+          recordAuthFailure(clientIp);
           console.warn(`[WEBCERT-AUTH] Intento de acceso a escuela inexistente o inactiva: ${escuelaId}`);
           return new Response(JSON.stringify({ ok: false, error: "Institución no encontrada o inactiva." }), {
             status: 404,
-            headers: getCorsHeaders()
+            headers: getCorsHeaders(request)
           });
         }
 
         if (!(await isAuthorizedClave(escuela, clave))) {
-          console.warn(`[WEBCERT-AUTH] Clave inválida para ${escuela.codigo} desde IP ${request.headers.get("CF-Connecting-IP") || "local"}`);
+          recordAuthFailure(clientIp);
+          console.warn(`[WEBCERT-AUTH] Clave inválida para ${escuela.codigo} desde IP ${clientIp}`);
           return new Response(JSON.stringify({ ok: false, error: "Clave de acceso no válida para esta institución." }), {
             status: 401,
-            headers: getCorsHeaders()
+            headers: getCorsHeaders(request)
           });
         }
+
+        clearAuthFailures(clientIp);
 
         // Generar token firmado de autorización temporal (2 horas) usando secreto de entorno
         const serverSecret = env && env.WEBCERT_SERVER_SECRET;
         if (!serverSecret) {
           return new Response(JSON.stringify({ ok: false, error: "Configuración criptográfica del servidor incompleta." }), {
             status: 503,
-            headers: getCorsHeaders()
+            headers: getCorsHeaders(request)
           });
         }
         const expiry = Date.now() + 2 * 60 * 60 * 1000;
@@ -199,17 +263,27 @@ export default {
           }
         }), {
           status: 200,
-          headers: getCorsHeaders()
+          headers: getCorsHeaders(request)
         });
       } catch (err) {
-        return new Response(JSON.stringify({ ok: false, error: "Error procesando solicitud: " + err.message }), {
+        console.error("[WEBCERT-AUTH] Error en verify-key:", err);
+        return new Response(JSON.stringify({ ok: false, error: "Error interno procesando la solicitud." }), {
           status: 500,
-          headers: getCorsHeaders()
+          headers: getCorsHeaders(request)
         });
       }
     }
 
     if (url.pathname === "/api/webcert/validate-batch" && request.method === "POST") {
+      const clientIp = request.headers.get("CF-Connecting-IP") || "unknown";
+      const rateState = getRateLimitState(clientIp);
+      if (rateState.blocked) {
+        return new Response(JSON.stringify({ ok: false, error: "Demasiados intentos fallidos. Intenta de nuevo en unos minutos." }), {
+          status: 429,
+          headers: { ...getCorsHeaders(request), "Retry-After": String(rateState.retryAfterSeconds) }
+        });
+      }
+
       try {
         const body = await request.json();
         const escuelaId = (body.escuela_id || "").trim().toUpperCase();
@@ -219,27 +293,31 @@ export default {
         if (!escuelaId || !clave) {
           return new Response(JSON.stringify({ ok: false, error: "Credenciales incompletas para autorización de lote." }), {
             status: 400,
-            headers: getCorsHeaders()
+            headers: getCorsHeaders(request)
           });
         }
 
         const escuela = SCHOOL_CATALOG.find(s => s.id === escuelaId || s.codigo === escuelaId);
         if (!escuela || !escuela.activo) {
+          recordAuthFailure(clientIp);
           return new Response(JSON.stringify({ ok: false, error: "Institución no encontrada." }), {
             status: 404,
-            headers: getCorsHeaders()
+            headers: getCorsHeaders(request)
           });
         }
 
         if (!(await isAuthorizedClave(escuela, clave))) {
+          recordAuthFailure(clientIp);
           return new Response(JSON.stringify({ ok: false, error: "Clave de acceso incorrecta para autorización de lote." }), {
             status: 401,
-            headers: getCorsHeaders()
+            headers: getCorsHeaders(request)
           });
         }
 
+        clearAuthFailures(clientIp);
+
         const batchId = `BATCH-${escuela.codigo}-${Date.now()}`;
-        console.log(`[WEBCERT-AUDIT] Lote masivo autorizado: ${batchId} | Escuela: ${escuela.codigo} | Total: ${totalFilas} certificados | IP: ${request.headers.get("CF-Connecting-IP") || "local"}`);
+        console.log(`[WEBCERT-AUDIT] Lote masivo autorizado: ${batchId} | Escuela: ${escuela.codigo} | Total: ${totalFilas} certificados | IP: ${clientIp}`);
 
         return new Response(JSON.stringify({
           ok: true,
@@ -252,12 +330,13 @@ export default {
           }
         }), {
           status: 200,
-          headers: getCorsHeaders()
+          headers: getCorsHeaders(request)
         });
       } catch (err) {
-        return new Response(JSON.stringify({ ok: false, error: "Error en autorización de lote: " + err.message }), {
+        console.error("[WEBCERT-AUDIT] Error en validate-batch:", err);
+        return new Response(JSON.stringify({ ok: false, error: "Error interno procesando la solicitud." }), {
           status: 500,
-          headers: getCorsHeaders()
+          headers: getCorsHeaders(request)
         });
       }
     }

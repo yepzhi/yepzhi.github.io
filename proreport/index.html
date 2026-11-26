@@ -548,7 +548,7 @@
     <!-- FIREBASE MODULE & LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, arrayUnion, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, arrayUnion, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey:            "AIzaSyCdszta7w3yg1zLeHDrPlo4Kln63K2Ftks",
@@ -640,7 +640,7 @@
 
             if (db) {
                 try {
-                    const q = query(collection(db, "pro_reports"), orderBy("createdAt", "desc"));
+                    const q = query(collection(db, "pro_reports"), orderBy("createdAt", "desc"), limit(50));
                     const querySnapshot = await getDocs(q);
                     querySnapshot.forEach((d) => {
                         reports.push({ id: d.id, ...d.data() });
