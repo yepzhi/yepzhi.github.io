@@ -7,14 +7,11 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { 
   getFirestore, 
   collection, 
-  addDoc, 
   getDocs, 
   doc,
   onSnapshot,
   query, 
-  where, 
-  orderBy, 
-  serverTimestamp 
+  where
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // Firebase Configuration (RProDash cloud project - yepzhi.com)
@@ -54,31 +51,47 @@ export const ADVISORS = [
 
 // Estado de la Solicitud
 const STATE = {
-  currentStep: 1,
-  data: {
-    issueType: '',
-    school: '',
-    schoolOther: '',
-    email: '',
-    altEmail: '',
-    studentWhatsApp: '',
-    fullName: '',
-    nickname: '',
-    bookCode: '',
-    notes: ''
-  },
+  selectedIssue: 'Mi código no funciona (Invalid Code)',
+  selectedSchool: '',
+  selectedSchoolOther: '',
   activeTicket: null,
   activeTimerInterval: null,
   activeSnapshotUnsub: null
 };
 
+const OCCIDENTE_SCHOOLS = [
+  'UTNA',
+  'IT CUL',
+  'BACH TEPIC',
+  'UPSIN',
+  'CETI COLOMOS',
+  'LAMAR',
+  'CAI'
+];
+
+const SCHOOL_NAMES = {
+  'UTH': 'UTH - Univ. Tecnológica de Hermosillo',
+  'ITESCA': 'ITESCA - Inst. Tecnológico Superior de Cajeme',
+  'ITLM': 'ITLM - Inst. Tecnológico de Los Mochis',
+  'ITH': 'ITH - Inst. Tecnológico de Hermosillo',
+  'IT MXL': 'IT MXL - Inst. Tecnológico de Mexicali',
+  'UNIVAFU': 'UNIVAFU - Universidad del Valle del Fuerte',
+  'UT NOGALES': 'UT Nogales - Univ. Tecnológica de Nogales',
+  'UTNA': 'UTNA - Univ. Tecnológica del Norte de Aguascalientes',
+  'IT CUL': 'IT CUL - Inst. Tecnológico de Culiacán',
+  'BACH TEPIC': 'Bach. de Ciencias y Letras de Tepic',
+  'UPSIN': 'UPSIN - Univ. Politécnica de Sinaloa',
+  'CETI COLOMOS': 'CETI Colomos - Centro de Enseñanza Técnica Industrial',
+  'LAMAR': 'LAMAR - Univ. Guadalajara LAMAR',
+  'CAI': 'UAN, CAI - Universidad Autónoma de Nayarit (Coord. de Asuntos Internacionales)'
+};
+
 // ─── INIT ─────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  initIssueSelectors();
-  initSchoolSelect();
+  initForgotVideoPlayer();
+  initAdvisorContact();
   initNavTabs();
   initLookupEnterKey();
-  initPhoneValidation();
 
   // Revisar si viene folio en URL (?folio=HELP-XXXXX)
   const urlParams = new URLSearchParams(window.location.search);
@@ -90,6 +103,105 @@ document.addEventListener('DOMContentLoaded', () => {
     searchTicketStatus(qFolio);
   }
 });
+
+// ─── MINI-VIDEO PAUSE / PLAY TOGGLE ───────────────
+function initForgotVideoPlayer() {
+  const stage = document.getElementById('fpVideoStage');
+  const toggleBtn = document.getElementById('fpVideoToggleBtn');
+  const label = document.getElementById('fpVideoToggleLabel');
+  if (!stage || !toggleBtn) return;
+
+  const pauseIcon = toggleBtn.querySelector('.fp-toggle-icon-pause');
+  const playIcon = toggleBtn.querySelector('.fp-toggle-icon-play');
+
+  toggleBtn.addEventListener('click', () => {
+    const isPaused = stage.classList.toggle('is-paused');
+    if (label) label.textContent = isPaused ? 'Reproducir' : 'Pausar';
+    toggleBtn.setAttribute(
+      'aria-label',
+      isPaused ? 'Reproducir animación de guía visual' : 'Pausar animación de guía visual'
+    );
+    if (pauseIcon) pauseIcon.hidden = isPaused;
+    if (playIcon) playIcon.hidden = !isPaused;
+  });
+}
+
+// ─── DIRECT ADVISOR CONTACT ───────────────────────
+function initAdvisorContact() {
+  const issueChips = document.querySelectorAll('.advisor-issue-chip');
+  const schoolSelect = document.getElementById('advisorSchoolSelect');
+  const otherWrap = document.getElementById('advisorSchoolOtherWrap');
+  const otherInput = document.getElementById('advisorSchoolOtherInput');
+
+  issueChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      issueChips.forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      STATE.selectedIssue = chip.dataset.issue || 'Mi código no funciona (Invalid Code)';
+      updateAdvisorContactBox();
+    });
+  });
+
+  if (schoolSelect) {
+    schoolSelect.addEventListener('change', (e) => {
+      const val = e.target.value;
+      STATE.selectedSchool = val;
+      if (otherWrap) {
+        otherWrap.style.display = val === 'OTRA' ? 'block' : 'none';
+      }
+      if (val !== 'OTRA') {
+        STATE.selectedSchoolOther = '';
+      }
+      updateAdvisorContactBox();
+    });
+  }
+
+  if (otherInput) {
+    otherInput.addEventListener('input', (e) => {
+      STATE.selectedSchoolOther = e.target.value.trim();
+      updateAdvisorContactBox();
+    });
+  }
+}
+
+function updateAdvisorContactBox() {
+  const promptEl = document.getElementById('advisorResultPrompt');
+  const contentEl = document.getElementById('advisorResultContent');
+  const nameEl = document.getElementById('advisorNameDisplay');
+  const zoneEl = document.getElementById('advisorZoneDisplay');
+  const btnNameEl = document.getElementById('advisorBtnName');
+  const waBtn = document.getElementById('advisorWhatsAppBtn');
+
+  const schoolKey = STATE.selectedSchool;
+  if (!schoolKey) {
+    if (promptEl) promptEl.hidden = false;
+    if (contentEl) contentEl.hidden = true;
+    return;
+  }
+
+  const isOccidente = OCCIDENTE_SCHOOLS.includes(schoolKey);
+  const advisorName = isOccidente ? 'Fabiola Martinez' : 'Alberto Yépiz';
+  const advisorZone = isOccidente
+    ? 'Zona Occidente · Asesor Richmond'
+    : 'Zona Noroeste · Asesor Richmond';
+  const advisorWA = isOccidente ? '5213316025928' : '5216621147374';
+
+  const schoolLabel = schoolKey === 'OTRA'
+    ? (STATE.selectedSchoolOther || 'Otra institución educativa')
+    : (SCHOOL_NAMES[schoolKey] || schoolKey);
+
+  const issueLabel = STATE.selectedIssue || 'Otro problema de acceso';
+  const msg = `Hola ${advisorName}, necesito apoyo con Richmond Studio.\n• Situación: ${issueLabel}\n• Escuela: ${schoolLabel}\n• Nombre completo: \n• Correo registrado: \n(Adjunto foto legible de mi código del libro si aplica)`;
+
+  if (promptEl) promptEl.hidden = true;
+  if (contentEl) contentEl.hidden = false;
+  if (nameEl) nameEl.textContent = advisorName;
+  if (zoneEl) zoneEl.textContent = advisorZone;
+  if (btnNameEl) btnNameEl.textContent = advisorName;
+  if (waBtn) {
+    waBtn.href = `https://wa.me/${advisorWA}?text=${encodeURIComponent(msg)}`;
+  }
+}
 
 // ─── NAV TABS ─────────────────────────────────────
 function initNavTabs() {
@@ -125,63 +237,6 @@ export function switchTab(tab) {
 }
 window.switchTab = switchTab;
 
-// ─── ISSUE SELECTOR CHIPS ─────────────────────────
-function initIssueSelectors() {
-  const cards = document.querySelectorAll('.issue-card:not(.issue-card-external)');
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
-      cards.forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-      const val = card.dataset.value;
-      STATE.data.issueType = val;
-      clearError('err-issueType');
-    });
-  });
-}
-
-// ─── SCHOOL DROPDOWN HANDLER ──────────────────────
-function initSchoolSelect() {
-  const schoolSelect = document.getElementById('schoolSelect');
-  const otherWrap = document.getElementById('schoolOtherWrap');
-
-  if (schoolSelect) {
-    schoolSelect.addEventListener('change', (e) => {
-      const val = e.target.value;
-      STATE.data.school = val;
-      clearError('err-school');
-      if (val === 'OTRA') {
-        if (otherWrap) otherWrap.style.display = 'block';
-      } else {
-        if (otherWrap) otherWrap.style.display = 'none';
-        STATE.data.schoolOther = '';
-      }
-    });
-  }
-}
-
-// ─── PHONE VALIDATION REALTIME ─────────────────────
-function initPhoneValidation() {
-  const phoneInput = document.getElementById('studentPhoneInput');
-  if (!phoneInput) return;
-
-  const sanitizeAndValidate = () => {
-    phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 10);
-    if (phoneInput.value.length === 10) {
-      clearError('err-studentPhone');
-      markInput('studentPhoneInput', false);
-    }
-  };
-
-  phoneInput.addEventListener('input', sanitizeAndValidate);
-  phoneInput.addEventListener('paste', () => setTimeout(sanitizeAndValidate, 0));
-  phoneInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      validateStep2();
-    }
-  });
-}
-
 // ─── WARNING BOX COLLAPSE (CON ESTILO) ────────────
 export function toggleWarningBox() {
   const box = document.getElementById('warningBox');
@@ -199,7 +254,7 @@ export function setWarningBoxCollapsed(collapsed) {
 
   if (collapsed) {
     box.classList.add('is-collapsed');
-    if (label) label.textContent = 'Ver soluciones frecuentes (2)';
+    if (label) label.textContent = 'Ver soluciones frecuentes (3)';
     if (btn) {
       btn.setAttribute('aria-expanded', 'false');
       btn.setAttribute('title', 'Mostrar soluciones frecuentes a errores');
@@ -214,385 +269,6 @@ export function setWarningBoxCollapsed(collapsed) {
   }
 }
 window.setWarningBoxCollapsed = setWarningBoxCollapsed;
-
-// ─── STEPPER NAVIGATION ───────────────────────────
-export function goStep(stepNumber) {
-  const currentStepEl = document.getElementById(`step-${STATE.currentStep}`);
-  const nextStepEl = document.getElementById(`step-${stepNumber}`);
-
-  if (!nextStepEl) return;
-
-  currentStepEl?.classList.remove('active');
-  nextStepEl.classList.add('active');
-
-  STATE.currentStep = stepNumber;
-  updateStepperProgress(stepNumber);
-
-  // Al avanzar más allá del paso 1, colapsar el aviso de soluciones frecuentes
-  if (stepNumber > 1) {
-    setWarningBoxCollapsed(true);
-  } else {
-    setWarningBoxCollapsed(false);
-  }
-
-  // Desplazamiento seguro y fluido al inicio para mantener el formulario perfectamente centrado en pantalla
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-window.goStep = goStep;
-
-function updateStepperProgress(current) {
-  const fill = document.getElementById('progressFill');
-  const nodes = document.querySelectorAll('.step-node');
-
-  // Máximo 4 pasos en la barra
-  const pct = Math.min(100, Math.max(0, (current - 1) / 3 * 100));
-  if (fill) fill.style.width = `${pct}%`;
-
-  nodes.forEach(node => {
-    const step = parseInt(node.dataset.step, 10);
-    node.classList.remove('active', 'completed');
-    if (step === current) {
-      node.classList.add('active');
-    } else if (step < current) {
-      node.classList.add('completed');
-    }
-  });
-}
-
-// ─── VALIDATIONS ──────────────────────────────────
-export function validateStep1() {
-  let ok = true;
-
-  if (!STATE.data.issueType) {
-    setError('err-issueType', 'Por favor selecciona el tipo de incidencia que presentas.');
-    ok = false;
-  } else {
-    clearError('err-issueType');
-  }
-
-  const school = document.getElementById('schoolSelect').value;
-  if (!school) {
-    setError('err-school', 'Por favor selecciona tu escuela o institución.');
-    markInput('schoolSelect', true);
-    ok = false;
-  } else {
-    clearError('err-school');
-    markInput('schoolSelect', false);
-    STATE.data.school = school;
-
-    if (school === 'OTRA') {
-      const otherVal = document.getElementById('schoolOtherInput').value.trim();
-      if (!otherVal) {
-        setError('err-schoolOther', 'Indica el nombre de tu institución.');
-        markInput('schoolOtherInput', true);
-        ok = false;
-      } else {
-        clearError('err-schoolOther');
-        markInput('schoolOtherInput', false);
-        STATE.data.schoolOther = otherVal;
-      }
-    }
-  }
-
-  if (ok) goStep(2);
-}
-window.validateStep1 = validateStep1;
-
-export function validateStep2() {
-  let ok = true;
-  const email = document.getElementById('emailInput').value.trim();
-  const altEmail = document.getElementById('altEmailInput').value.trim();
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (!email || !re.test(email)) {
-    setError('err-email', 'Ingresa tu correo institucional o personal.');
-    markInput('emailInput', true);
-    ok = false;
-  } else {
-    clearError('err-email');
-    markInput('emailInput', false);
-    STATE.data.email = email;
-  }
-
-  if (altEmail && !re.test(altEmail)) {
-    setError('err-altEmail', 'Ingresa un correo con formato válido (ej. usuario@dominio.com).');
-    markInput('altEmailInput', true);
-    ok = false;
-  } else {
-    clearError('err-altEmail');
-    markInput('altEmailInput', false);
-    STATE.data.altEmail = altEmail;
-  }
-
-  // Validar WhatsApp: exactamente 10 dígitos numéricos
-  const phoneInput = document.getElementById('studentPhoneInput');
-  const phoneCountry = document.getElementById('studentPhoneCountry');
-  const phoneVal = phoneInput ? phoneInput.value.replace(/\D/g, '').trim() : '';
-  const countryCode = phoneCountry ? phoneCountry.value : '52';
-
-  if (!phoneVal) {
-    setError('err-studentPhone', 'Por favor ingresa tu número de WhatsApp a 10 dígitos.');
-    if (phoneInput) markInput('studentPhoneInput', true);
-    ok = false;
-  } else if (phoneVal.length !== 10 || !/^\d{10}$/.test(phoneVal)) {
-    setError('err-studentPhone', `El número de WhatsApp debe tener exactamente 10 dígitos (has ingresado ${phoneVal.length} de 10).`);
-    if (phoneInput) markInput('studentPhoneInput', true);
-    ok = false;
-  } else {
-    clearError('err-studentPhone');
-    if (phoneInput) markInput('studentPhoneInput', false);
-    STATE.data.studentWhatsApp = countryCode + phoneVal;
-  }
-
-  if (ok) goStep(3);
-}
-window.validateStep2 = validateStep2;
-
-export function validateStep3() {
-  let ok = true;
-  const fullName = document.getElementById('fullNameInput').value.trim();
-  const nickname = document.getElementById('nicknameInput').value.trim();
-
-  if (!fullName || fullName.length < 3) {
-    setError('err-fullName', 'Por favor ingresa tu nombre completo.');
-    markInput('fullNameInput', true);
-    ok = false;
-  } else {
-    clearError('err-fullName');
-    markInput('fullNameInput', false);
-    STATE.data.fullName = fullName;
-    STATE.data.nickname = nickname;
-  }
-
-  if (ok) goStep(4);
-}
-window.validateStep3 = validateStep3;
-
-export function validateStep4() {
-  let ok = true;
-  const bookCode = document.getElementById('bookCodeInput').value.trim();
-  const notes = document.getElementById('notesInput').value.trim();
-
-  if (!bookCode || bookCode.length < 4) {
-    setError('err-bookCode', 'Por favor ingresa el código de tu libro (página izquierda).');
-    markInput('bookCodeInput', true);
-    ok = false;
-  } else {
-    clearError('err-bookCode');
-    markInput('bookCodeInput', false);
-    STATE.data.bookCode = bookCode.toUpperCase();
-    STATE.data.notes = notes;
-  }
-
-  if (ok) {
-    submitTicket();
-  }
-}
-window.validateStep4 = validateStep4;
-
-// ─── ERROR HELPERS ────────────────────────────────
-function setError(id, msg) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = msg;
-}
-function clearError(id) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = '';
-}
-function markInput(id, isError) {
-  const el = document.getElementById(id);
-  if (el) el.classList.toggle('error', isError);
-}
-
-// ─── SUBMIT TICKET ────────────────────────────────
-async function submitTicket() {
-  const submitBtn = document.getElementById('btnSubmitTicket');
-  if (submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = `
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite;">
-        <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
-        <path d="M12 2a10 10 0 0 1 10 10"/>
-      </svg>
-      Registrando solicitud…`;
-  }
-
-  // Generar Folio Único (ej. HELP-84920)
-  const randomNum = Math.floor(10000 + Math.random() * 90000);
-  const folio = `HELP-${randomNum}`;
-
-  // Determinación de Asesor:
-  // Noroeste -> Alberto Yépiz (UTH, ITESCA, ITLM, ITH, IT MXL, UNIVAFU, UT NOGALES)
-  // Occidente -> Fabiola Martinez (UTNA, IT CUL, BACH TEPIC, UPSIN, CETI COLOMOS, LAMAR, CAI)
-  // (Escuelas de Luis Franco y Edgar Espinoza archivadas en backup_escuelas_archivadas.json)
-  const schoolKey = STATE.data.school;
-  let assignedAdvisor = 'Alberto Yépiz';
-  let advisorWA = '5216621147374';
-
-  const OCCIDENTE_SCHOOLS = [
-    'UTNA',
-    'IT CUL',
-    'BACH TEPIC',
-    'UPSIN',
-    'CETI COLOMOS',
-    'LAMAR',
-    'CAI'
-  ];
-
-  const SCHOOL_NAMES = {
-    'UTH': 'UTH - Univ. Tecnológica de Hermosillo',
-    'ITESCA': 'ITESCA - Inst. Tecnológico Superior de Cajeme',
-    'ITLM': 'ITLM - Inst. Tecnológico de Los Mochis',
-    'ITH': 'ITH - Inst. Tecnológico de Hermosillo',
-    'IT MXL': 'IT MXL - Inst. Tecnológico de Mexicali',
-    'UNIVAFU': 'UNIVAFU - Universidad del Valle del Fuerte',
-    'UT NOGALES': 'UT Nogales - Univ. Tecnológica de Nogales',
-    'UTNA': 'UTNA - Univ. Tecnológica del Norte de Aguascalientes',
-    'IT CUL': 'IT CUL - Inst. Tecnológico de Culiacán',
-    'BACH TEPIC': 'Bach. de Ciencias y Letras de Tepic',
-    'UPSIN': 'UPSIN - Univ. Politécnica de Sinaloa',
-    'CETI COLOMOS': 'CETI Colomos - Centro de Enseñanza Técnica Industrial',
-    'LAMAR': 'LAMAR - Univ. Guadalajara LAMAR',
-    'CAI': 'UAN, CAI - Universidad Autónoma de Nayarit (Coord. de Asuntos Internacionales)'
-  };
-
-  if (OCCIDENTE_SCHOOLS.includes(schoolKey)) {
-    assignedAdvisor = 'Fabiola Martinez';
-    advisorWA = '5213316025928';
-  } else {
-    assignedAdvisor = 'Alberto Yépiz';
-    advisorWA = '5216621147374';
-  }
-
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('es-MX', {
-    timeZone: 'America/Hermosillo',
-    year: 'numeric',
-    month: 'short',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-
-  const payload = {
-    folio: folio,
-    issueType: STATE.data.issueType,
-    school: schoolKey === 'OTRA' ? (STATE.data.schoolOther || 'Otra institución') : (SCHOOL_NAMES[schoolKey] || schoolKey),
-    schoolCode: schoolKey,
-    email: STATE.data.email.toLowerCase(),
-    altEmail: STATE.data.altEmail ? STATE.data.altEmail.toLowerCase() : '',
-    studentWhatsApp: STATE.data.studentWhatsApp || '',
-    fullName: STATE.data.fullName,
-    nickname: STATE.data.nickname || '',
-    bookCode: STATE.data.bookCode,
-    notes: STATE.data.notes || '',
-    status: 'Pendiente',
-    assignedAdvisor: assignedAdvisor,
-    advisorWA: advisorWA,
-    solutionNote: '',
-    createdAtMillis: Date.now(),
-    createdAtDateStr: dateStr,
-    resolvedAtMillis: null,
-    elapsedMinutes: 0
-  };
-
-  // Ocultar error previo si existe
-  const errCloudBox = document.getElementById('err-submit-cloud');
-  const errCloudMsg = document.getElementById('err-submit-cloud-msg');
-  if (errCloudBox) errCloudBox.style.display = 'none';
-
-  let firestoreDocId = null;
-
-  // Guardar en Firebase Firestore (REQUERIDO)
-  if (!db) {
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = `Enviar Solicitud <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`;
-    }
-    if (errCloudBox) {
-      errCloudBox.style.display = 'block';
-      if (errCloudMsg) errCloudMsg.textContent = 'No hay conexión activa con la base de datos de Richmond Pro. Verifica tu conexión a internet e intenta nuevamente.';
-    }
-    return;
-  }
-
-  try {
-    const docRef = await addDoc(collection(db, "help_tickets"), {
-      ...payload,
-      createdAt: serverTimestamp()
-    });
-    firestoreDocId = docRef.id;
-    console.log('[RichmondPro Help] Ticket saved to Firestore with ID:', docRef.id);
-  } catch (err) {
-    console.error('[RichmondPro Help] Firestore save error:', err);
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = `Reintentar Envío de Solicitud <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`;
-    }
-    if (errCloudBox) {
-      errCloudBox.style.display = 'block';
-      if (errCloudMsg) errCloudMsg.textContent = `No se pudo completar el registro en la base de datos (${err.code || err.message || 'Error de conexión'}). Por favor presiona "Reintentar Envío de Solicitud".`;
-    }
-    return; // <-- Si no se guarda bien en Firestore, muestra el error y no completa el ticket
-  }
-
-  // Guardar en LocalStorage como respaldo
-  const localTickets = JSON.parse(localStorage.getItem('richmond_help_tickets') || '[]');
-  localTickets.unshift({ ...payload, firestoreId: firestoreDocId });
-  localStorage.setItem('richmond_help_tickets', JSON.stringify(localTickets.slice(0, 100)));
-
-  // Enviar a Google Sheets Webhook si está configurado
-  if (SHEETS_WEBHOOK_URL && SHEETS_WEBHOOK_URL.startsWith('http')) {
-    fetch(SHEETS_WEBHOOK_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ...payload,
-        firestoreId: firestoreDocId,
-        dateStr: dateStr
-      })
-    }).catch(err => console.warn('[Sheets Webhook] notice:', err));
-  }
-
-  // Renderizar Pantalla de Éxito
-  renderSuccessScreen(payload);
-}
-
-function renderSuccessScreen(ticket) {
-  const folioCodeEl = document.getElementById('successFolioCode');
-  const schoolEl = document.getElementById('successSchool');
-  const advisorEl = document.getElementById('successAdvisor');
-
-  if (folioCodeEl) folioCodeEl.textContent = ticket.folio;
-  if (schoolEl) schoolEl.textContent = ticket.school;
-  if (advisorEl) advisorEl.textContent = ticket.assignedAdvisor;
-
-  goStep(5);
-  showToast('¡Tu solicitud ha sido recibida con éxito!');
-}
-
-// ─── COPY FOLIO ───────────────────────────────────
-export function copyFolioCode() {
-  const code = document.getElementById('successFolioCode')?.textContent?.trim();
-  if (code) {
-    navigator.clipboard.writeText(code).then(() => {
-      showToast(`Folio ${code} copiado al portapapeles`);
-    });
-  }
-}
-window.copyFolioCode = copyFolioCode;
-
-export function viewMyNewTicket() {
-  const code = document.getElementById('successFolioCode')?.textContent?.trim();
-  if (code) {
-    switchTab('status');
-    const input = document.getElementById('lookupInput');
-    if (input) input.value = code;
-    searchTicketStatus(code);
-  }
-}
-window.viewMyNewTicket = viewMyNewTicket;
 
 // ─── LOOKUP / CONSULTAR ESTATUS ───────────────────
 function initLookupEnterKey() {
@@ -946,8 +622,8 @@ function renderStatusCard(ticket) {
           </p>` : `
           <div class="resolved-tip-box variant-blue">
             <strong style="color: #1e3a8a; display: block; margin-bottom: 0.25rem;">¿No recuerdas tu contraseña?</strong>
-            La contraseña es la misma que pusiste cuando hiciste tu registro. En caso de que no la recuerdes o no te deje entrar aun así, levanta un nuevo ticket seleccionando la opción <strong>"No puedo entrar / Invalid Credentials"</strong> y en la solicitud coloca este correo, que es el correo oficial que tenemos en el sistema.
-            <span style="display: block; margin-top: 0.4rem; color: #dc2626; font-weight: 700;">(Importante: NO atendemos cambios ni restablecimiento de contraseña por WhatsApp).</span>
+            La contraseña es la misma que pusiste cuando hiciste tu registro. En caso de que no la recuerdes o no te deje entrar aun así, ingresa a <a href="https://richmondstudio.global/login" target="_blank" rel="noopener noreferrer" style="color: #1d4ed8; font-weight: 800; text-decoration: underline;">richmondstudio.global</a> y haz clic en <strong>"Forgot your password?"</strong> justo debajo de Password usando este correo oficial que tenemos en el sistema.
+            <span style="display: block; margin-top: 0.4rem; color: #dc2626; font-weight: 700;">(Importante: los cambios de contraseña ahora se realizan directamente en la plataforma con "Forgot your password?", no mediante tickets ni WhatsApp).</span>
           </div>`}
         </div>
       ` : ''}

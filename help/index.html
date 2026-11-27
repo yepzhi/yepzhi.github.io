@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Richmond Pro · Centro de Ayuda e Incidencias</title>
-  <meta name="description" content="Portal oficial de atención a incidencias técnicas comunes de Richmond Studio: Invalid Credentials, Invalid Code y recuperación de correos." />
+  <meta name="description" content="Portal oficial de ayuda de Richmond Studio: recuperación de contraseña con Forgot Password, soluciones frecuentes y contacto directo con tu asesor Richmond." />
   <meta name="color-scheme" content="light">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <link rel="stylesheet" href="style.css?v=2026.10.20.1" />
+  <link rel="stylesheet" href="style.css?v=2026.11.27.1" />
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 </head>
 <body>
@@ -31,17 +31,18 @@
       <a href="./" class="logo-badge" title="Richmond Pro Help">
         <span class="logo-text">Richmond <strong>Pro</strong></span>
       </a>
-      <p class="portal-tagline">Soporte Técnico Provisional · Richmond Studio</p>
+      <p class="portal-tagline">Centro de Ayuda y Recuperación · Richmond Studio</p>
     </header>
 
     <!-- TOP NAVIGATION TABS -->
     <nav class="top-nav" aria-label="Navegación del portal">
       <button type="button" class="nav-tab active" id="tabForm">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
         </svg>
-        Levantar Solicitud
+        Guía y Soporte
       </button>
       <button type="button" class="nav-tab" id="tabStatus">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -53,12 +54,293 @@
     </nav>
 
     <!-- ─────────────────────────────────────────────
-         VIEW 1: FORMULARIO PASO A PASO
+         VIEW 1: ANUNCIO FORGOT PASSWORD + ASESOR + GUÍA
     ───────────────────────────────────────────── -->
     <section class="view-panel active" id="viewForm">
 
-      <!-- PRE-FILL WARNING / SELF-DIAGNOSTIC BANNER (CON COLAPSO CON ESTILO) -->
-      <div class="warning-box" id="warningBox">
+      <!-- HERO ANNOUNCEMENT: FORGOT PASSWORD + MINI-VIDEO ZOOM-OUT -->
+      <article class="glass-card fp-hero-card" id="forgotPasswordHero" aria-labelledby="fpHeroTitle">
+        <div class="fp-hero-header">
+          <span class="fp-hero-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+            </svg>
+            NUEVO · YA DISPONIBLE EN RICHMOND STUDIO
+          </span>
+          <h1 class="fp-hero-title" id="fpHeroTitle">¡Ya NO necesitas ticket para cambiar tu contraseña!</h1>
+          <p class="fp-hero-subtitle">
+            Richmond Studio ya implementó la función oficial <strong>"Forgot your password?"</strong>. Ya no se reciben tickets para cambio o restablecimiento de contraseña; ahora puedes recuperarla tú mismo al instante desde la pantalla de inicio de sesión.
+          </p>
+        </div>
+
+        <!-- MINI-VIDEO ANIMADO: ZOOM-OUT EN LOGIN / PASSWORD -->
+        <div class="fp-video-shell">
+          <div class="fp-video-bar">
+            <div class="fp-video-dots" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="fp-video-url" aria-hidden="true">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <span>https://richmondstudio.global/login</span>
+            </div>
+            <div class="fp-video-bar-actions">
+              <span class="fp-video-meta">Guía visual · 0:09</span>
+              <button type="button" class="fp-video-toggle" id="fpVideoToggleBtn" aria-label="Pausar animación de guía visual">
+                <svg class="fp-toggle-icon-pause" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <rect x="6" y="4" width="4" height="16" rx="1"/>
+                  <rect x="14" y="4" width="4" height="16" rx="1"/>
+                </svg>
+                <svg class="fp-toggle-icon-play" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" hidden>
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                <span id="fpVideoToggleLabel">Pausar</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="fp-video-stage" id="fpVideoStage" role="img" aria-label="Mini video animado con efecto zoom-out sobre la pantalla Log in de Richmond Studio mostrando el enlace Forgot your password? justo debajo del campo Password">
+            <div class="fp-camera-canvas">
+              <div class="fp-mock-header">
+                <div class="fp-mock-brand">
+                  <span class="fp-mock-brand-dot"></span>
+                  <span>Richmond <strong>Studio</strong></span>
+                </div>
+                <span class="fp-mock-nav-pill">Log in</span>
+              </div>
+
+              <div class="fp-mock-body">
+                <div class="fp-mock-card">
+                  <div class="fp-mock-card-title">Log in to Richmond Studio</div>
+
+                  <div class="fp-mock-field">
+                    <span class="fp-mock-label">Email / Username</span>
+                    <div class="fp-mock-input">alumno@escuela.edu.mx</div>
+                  </div>
+
+                  <div class="fp-mock-field">
+                    <span class="fp-mock-label">Password</span>
+                    <div class="fp-mock-input fp-mock-pass">••••••••••••</div>
+                  </div>
+
+                  <div class="fp-forgot-row">
+                    <div class="fp-spotlight-wrap">
+                      <span class="fp-spotlight-ring" aria-hidden="true"></span>
+                      <span class="fp-click-ripple" aria-hidden="true"></span>
+                      <span class="fp-forgot-link">Forgot your password?</span>
+                      <svg class="fp-cursor" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M5 3L19 10.5L12.5 13L9.5 19.5L5 3Z" fill="#0f172a" stroke="#ffffff" stroke-width="1.8" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div class="fp-mock-btn">Sign in</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FASE 3 OVERLAY: CONFIRMACIÓN RESET PASSWORD -->
+            <div class="fp-reset-overlay" aria-hidden="true">
+              <div class="fp-reset-card">
+                <div class="fp-reset-badge">Recuperación oficial</div>
+                <div class="fp-reset-title">Reset your password</div>
+                <div class="fp-mock-field">
+                  <span class="fp-mock-label">Registered Email</span>
+                  <div class="fp-mock-input">alumno@escuela.edu.mx</div>
+                </div>
+                <div class="fp-reset-success-pill">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  <span>Enlace enviado a tu correo (revisa Spam)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- SUBTÍTULOS SINCRONIZADOS -->
+            <div class="fp-video-captions" aria-hidden="true">
+              <div class="fp-caption-step step-1">1. Haz clic en "Forgot your password?"</div>
+              <div class="fp-caption-step step-2">2. Ubicado justo debajo de Password en Log in</div>
+              <div class="fp-caption-step step-3">3. Ingresa tu correo y crea tu nueva contraseña</div>
+              <div class="fp-caption-static">En Log in, haz clic en "Forgot your password?" justo debajo de Password</div>
+            </div>
+
+            <!-- BARRA DE PROGRESO DEL MINI-VIDEO -->
+            <div class="fp-video-progress" aria-hidden="true">
+              <div class="fp-video-progress-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 PASOS RÁPIDOS -->
+        <ol class="fp-steps-list">
+          <li>
+            <span class="fp-step-num">1</span>
+            <span>Ingresa a <strong>richmondstudio.global</strong> en la sección de <strong>Log in</strong>.</span>
+          </li>
+          <li>
+            <span class="fp-step-num">2</span>
+            <span>Justo debajo del campo <strong>Password</strong>, haz clic en <strong>"Forgot your password?"</strong>.</span>
+          </li>
+          <li>
+            <span class="fp-step-num">3</span>
+            <span>Escribe el correo con el que te registraste y revisa tu bandeja (incluyendo <strong>Spam / No deseados</strong>) para crear tu nueva contraseña.</span>
+          </li>
+        </ol>
+
+        <div class="resolved-action-bar" style="margin-top: 0.4rem;">
+          <a href="https://richmondstudio.global/login" target="_blank" rel="noopener noreferrer" class="btn-access-studio btn-studio-blue fp-cta-btn">
+            <span>Ir a Richmond Studio (Forgot Password)</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- DIRECT ADVISOR CONTACT CARD (REEMPLAZA EL FORMULARIO DE TICKETS) -->
+      <section class="glass-card advisor-contact-card" id="advisorContactCard" aria-labelledby="advisorCardTitle">
+        <div class="step-title-wrap" style="margin-bottom: 1.4rem;">
+          <span class="step-subhead">Atención Directa · Asesor Richmond</span>
+          <h2 class="step-title" id="advisorCardTitle">¿Tu código no funciona o tienes otro problema?</h2>
+          <p class="step-desc">
+            Si tu código marca <strong>"Invalid Code"</strong>, no recuerdas qué correo registraste o tienes cualquier otro problema de acceso, manda un mensaje directo a tu asesor Richmond.
+          </p>
+        </div>
+
+        <div class="advisor-prep-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <div>
+            <strong>Para atenderte rápido, incluye en tu mensaje:</strong> nombre completo, institución, correo electrónico y <strong>foto legible de tu código del libro</strong>.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <span class="form-label">¿Cuál es tu situación? <span class="label-hint">(Opcional, personaliza tu mensaje)</span></span>
+          <div class="advisor-issue-chips" role="group" aria-label="Selecciona tu situación">
+            <button type="button" class="advisor-issue-chip selected" data-issue="Mi código no funciona (Invalid Code)">
+              <span class="advisor-chip-dot" aria-hidden="true"></span>
+              <span>Mi código no funciona (Invalid Code)</span>
+            </button>
+            <button type="button" class="advisor-issue-chip" data-issue="No recuerdo qué correo registré">
+              <span class="advisor-chip-dot" aria-hidden="true"></span>
+              <span>No recuerdo qué correo registré</span>
+            </button>
+            <button type="button" class="advisor-issue-chip" data-issue="Otro problema de acceso">
+              <span class="advisor-chip-dot" aria-hidden="true"></span>
+              <span>Otro problema de acceso</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.1rem;">
+          <label class="form-label" for="advisorSchoolSelect">
+            Escuela o Institución:
+          </label>
+          <select class="select-custom" id="advisorSchoolSelect">
+            <option value="" disabled selected>-- Selecciona tu institución educativa --</option>
+
+            <optgroup label="ZONA NOROESTE (Asesor: Alberto Yépiz)">
+              <option value="UTH">UTH - Universidad Tecnológica de Hermosillo</option>
+              <option value="ITESCA">ITESCA - Inst. Tecnológico Superior de Cajeme</option>
+              <option value="ITLM">ITLM - Instituto Tecnológico de Los Mochis</option>
+              <option value="ITH">ITH - Instituto Tecnológico de Hermosillo</option>
+              <option value="IT MXL">IT MXL - Instituto Tecnológico de Mexicali</option>
+              <option value="UNIVAFU">UNIVAFU - Universidad del Valle del Fuerte</option>
+              <option value="UT NOGALES">UT Nogales - Universidad Tecnológica de Nogales</option>
+            </optgroup>
+
+            <optgroup label="ZONA OCCIDENTE (Asesora: Fabiola Martinez)">
+              <option value="UTNA">UTNA - Universidad Tecnológica del Norte de Aguascalientes</option>
+              <option value="IT CUL">IT CUL - Inst. Tecnológico de Culiacán</option>
+              <option value="BACH TEPIC">Bach. de Ciencias y Letras de Tepic</option>
+              <option value="UPSIN">UPSIN - Universidad Politécnica de Sinaloa</option>
+              <option value="CETI COLOMOS">CETI Colomos - Centro de Enseñanza Técnica Industrial</option>
+              <option value="LAMAR">LAMAR - Universidad Guadalajara LAMAR</option>
+              <option value="CAI">UAN, CAI (Univ. Autónoma de Nayarit, Coord. de Asuntos Int.)</option>
+            </optgroup>
+
+            <optgroup label="OTRA REGIÓN O INSTITUCIÓN">
+              <option value="OTRA">Otra institución educativa…</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="form-group" id="advisorSchoolOtherWrap" style="display: none;">
+          <label class="form-label" for="advisorSchoolOtherInput">Escribe el nombre de tu escuela:</label>
+          <input type="text" class="input-text" id="advisorSchoolOtherInput" placeholder="Ej. Universidad de Sonora" />
+        </div>
+
+        <div class="advisor-result-box" id="advisorResultBox">
+          <div class="advisor-result-prompt" id="advisorResultPrompt">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <span>Selecciona tu escuela arriba para ver el contacto directo de tu asesor Richmond.</span>
+          </div>
+
+          <div class="advisor-result-content" id="advisorResultContent" hidden>
+            <div class="advisor-assigned-meta">
+              <div>
+                <span class="advisor-assigned-label">Asesor Richmond asignado</span>
+                <div class="advisor-assigned-name" id="advisorNameDisplay">Alberto Yépiz</div>
+                <div class="advisor-assigned-zone" id="advisorZoneDisplay">Zona Noroeste</div>
+              </div>
+              <span class="advisor-online-pill">Atención directa</span>
+            </div>
+
+            <a href="https://wa.me/5216621147374" id="advisorWhatsAppBtn" target="_blank" rel="noopener noreferrer" class="btn-solution-whatsapp">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/>
+              </svg>
+              <span>Enviar mensaje directo a <strong id="advisorBtnName">tu asesor</strong></span>
+            </a>
+          </div>
+        </div>
+
+        <hr class="advisor-divider" />
+
+        <!-- OPCIÓN A PROREPORT: PROBLEMAS CON EJERCICIOS Y CONTENIDOS -->
+        <a href="https://yepzhi.com/proreport/" target="_blank" rel="noopener noreferrer" class="issue-card issue-card-external" title="Ir a Richmond ProReport System">
+          <div class="issue-indicator ext-indicator">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </div>
+          <div class="issue-info" style="flex: 1;">
+            <div class="issue-name" style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
+              <span>Problemas con ejercicios o contenidos (no carga, no avanza o no cierra)</span>
+              <span class="ext-badge">ProReport</span>
+            </div>
+            <div class="issue-caption">Fallas dentro de las actividades: tareas no registradas, audios sin reproducir o calificaciones que no se guardan.</div>
+          </div>
+          <div class="issue-arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </a>
+
+        <div class="advisor-status-footer">
+          <button type="button" class="advisor-status-link" onclick="switchTab('status')">
+            ¿Ya tenías un folio anterior? Consulta su estatus aquí →
+          </button>
+        </div>
+      </section>
+
+      <!-- PRE-FILL WARNING / SELF-DIAGNOSTIC BANNER (COLAPSADO POR DEFECTO) -->
+      <div class="warning-box is-collapsed" id="warningBox">
         <div class="warning-header" id="warningHeader">
           <div class="warning-header-left">
             <span class="warning-badge">
@@ -70,12 +352,12 @@
               Importante
             </span>
             <h2 class="warning-title">
-              <span class="warning-title-full">¡Lee esto antes de enviar tu solicitud!</span>
+              <span class="warning-title-full">¡Lee esto antes de contactar a tu asesor!</span>
               <span class="warning-title-compact">Soluciones a errores más comunes</span>
             </h2>
           </div>
-          <button type="button" class="warning-toggle-btn" id="warningToggleBtn" onclick="toggleWarningBox()" aria-expanded="true" title="Mostrar u ocultar soluciones frecuentes">
-            <span id="warningToggleLabel">Ocultar guía</span>
+          <button type="button" class="warning-toggle-btn" id="warningToggleBtn" onclick="toggleWarningBox()" aria-expanded="false" title="Mostrar soluciones frecuentes a errores">
+            <span id="warningToggleLabel">Ver soluciones frecuentes (3)</span>
             <svg class="toggle-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <polyline points="6 9 12 15 18 9"/>
             </svg>
@@ -84,24 +366,8 @@
 
         <div class="warning-collapsible-wrapper" id="warningCollapsible">
           <div class="warning-collapsible-inner">
-            <!-- AVISO OFICIAL: TIEMPO ESTIMADO DE RESPUESTA Y TICKET ÚNICO -->
-            <div class="ticket-sla-notice" style="background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border: 1.5px solid #f59e0b; border-left: 5px solid #d97706; border-radius: 14px; padding: 1.05rem 1.3rem; margin-bottom: 1.3rem; display: flex; align-items: flex-start; gap: 0.9rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.12); text-align: left;">
-              <div style="background: #f59e0b; color: #ffffff; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; box-shadow: 0 2px 6px rgba(217, 119, 6, 0.3);">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-              </div>
-              <div style="font-size: 0.92rem; line-height: 1.55; color: #78350f;">
-                <div style="font-weight: 800; font-size: 0.98rem; color: #92400e; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.45rem;">
-                  <span>Tiempo estimado de respuesta: hasta 48 horas</span>
-                </div>
-                <span>El tiempo estimado de respuesta es de <strong>hasta 48 hrs</strong>. Si ya subió su ticket y no ha pasado ese tiempo, <strong style="color: #b45309; text-decoration: underline;">NO suba otro ticket</strong>. Espere su respuesta, se le contactará vía <strong>WhatsApp</strong>.</span>
-              </div>
-            </div>
-
             <p class="warning-intro" style="text-align: center; max-width: 580px; margin: 0 auto 1.2rem auto;">
-              La mayoría de los errores comunes tienen solución inmediata. Revisa estas soluciones frecuentes antes de llenar el formulario:
+              La mayoría de los errores comunes tienen solución inmediata. Revisa estas soluciones frecuentes antes de escribir a tu asesor:
             </p>
 
             <div class="diagnostics-grid">
@@ -132,7 +398,7 @@
                   <div class="diag-item">
                     <span class="diag-bullet">•</span>
                     <div>
-                      <strong>¿Olvidaste tu contraseña?</strong> Richmond Studio actualmente no cuenta con botón nativo de <em>"Forgot Password"</em> (esta función oficial será lanzada a <strong>finales de Octubre</strong>). Si la olvidaste por completo, procede a llenar este formulario para asignarte una clave provisional.
+                      <strong>¿Olvidaste tu contraseña? ¡Usa "Forgot your password?"!</strong> Richmond Studio ya cuenta con recuperación oficial de contraseña directamente en la pantalla de inicio de sesión. Haz clic en <em>"Forgot your password?"</em> debajo de Password, escribe tu correo y revisa tu bandeja (y Spam). Ya no se levantan tickets para cambio de contraseña.
                     </div>
                   </div>
                 </div>
@@ -192,7 +458,6 @@
                 </div>
               </details>
 
-
               <!-- ENLACE OFICIAL A LA PLATAFORMA -->
               <div class="diag-card" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(124, 58, 237, 0.05) 100%); border: 1.5px solid rgba(59, 130, 246, 0.3); border-radius: 14px; padding: 1.15rem 1.35rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.65rem;">
                 <div style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.88rem; font-weight: 800; color: #1e40af;">
@@ -222,346 +487,6 @@
         </div>
       </div>
 
-      <!-- MAIN GLASS CARD WIZARD -->
-      <div class="glass-card">
-
-        <!-- PROGRESS BAR -->
-        <div class="stepper-progress" aria-hidden="true">
-          <div class="progress-line-bg"></div>
-          <div class="progress-line-fill" id="progressFill"></div>
-
-          <div class="step-node active" data-step="1">
-            <div class="node-circle">1</div>
-            <span class="node-label">Incidencia</span>
-          </div>
-          <div class="step-node" data-step="2">
-            <div class="node-circle">2</div>
-            <span class="node-label">Correo</span>
-          </div>
-          <div class="step-node" data-step="3">
-            <div class="node-circle">3</div>
-            <span class="node-label">Nombre</span>
-          </div>
-          <div class="step-node" data-step="4">
-            <div class="node-circle">4</div>
-            <span class="node-label">Libro</span>
-          </div>
-        </div>
-
-        <!-- STEP 1: Tipo de Incidencia & Escuela -->
-        <div class="form-step active" id="step-1">
-          <div class="step-title-wrap">
-            <span class="step-subhead">Paso 1 de 4</span>
-            <h1 class="step-title">¿Qué incidencia presentas?</h1>
-            <p class="step-desc">Selecciona el problema y tu escuela para canalizar tu caso con tu asesor de zona.</p>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Tipo de Solicitud:</label>
-            <div class="issue-chips">
-              <div class="issue-card" data-value="NO PUEDO ENTRAR, INVALID CREDENTIALS, APOYO CON CAMBIO DE CONTRASEÑA">
-                <div class="issue-indicator"></div>
-                <div class="issue-info">
-                  <div class="issue-name">No puedo entrar / Invalid Credentials</div>
-                  <div class="issue-caption">Olvidé mi contraseña o mis credenciales marcan error al ingresar.</div>
-                </div>
-              </div>
-
-              <div class="issue-card" data-value="INVALID CODE, CODIGO NO VALIDO">
-                <div class="issue-indicator"></div>
-                <div class="issue-info">
-                  <div class="issue-name">Invalid Code / Código no válido</div>
-                  <div class="issue-caption">El código de mi libro marca error al intentar activarlo en la plataforma.</div>
-                </div>
-              </div>
-
-              <div class="issue-card" data-value="SI ME REGISTRE PERO NO RECUERDO QUE CORREO PUSE">
-                <div class="issue-indicator"></div>
-                <div class="issue-info">
-                  <div class="issue-name">Sí me registré pero no recuerdo qué correo puse</div>
-                  <div class="issue-caption">Ya tengo cuenta registrada pero no logro recordar con qué email la creé.</div>
-                </div>
-              </div>
-
-              <!-- OPCIÓN A PROREPORT: PROBLEMAS CON EJERCICIOS Y CONTENIDOS -->
-              <a href="https://yepzhi.com/proreport/" target="_blank" rel="noopener noreferrer" class="issue-card issue-card-external" title="Ir a Richmond ProReport System">
-                <div class="issue-indicator ext-indicator">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                  </svg>
-                </div>
-                <div class="issue-info" style="flex: 1;">
-                  <div class="issue-name" style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
-                    <span>Problemas con ejercicios o contenidos (no carga, no avanza o no cierra)</span>
-                    <span class="ext-badge">ProReport</span>
-                  </div>
-                  <div class="issue-caption">Fallas dentro de las actividades: tareas no registradas, audios sin reproducir o calificaciones que no se guardan.</div>
-                </div>
-                <div class="issue-arrow">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </div>
-              </a>
-            </div>
-            <div class="err-msg" id="err-issueType"></div>
-          </div>
-
-          <div class="form-group" style="margin-top: 1.2rem;">
-            <label class="form-label" for="schoolSelect">
-              Escuela o Institución:
-            </label>
-            <select class="select-custom" id="schoolSelect">
-              <option value="" disabled selected>-- Selecciona tu institución educativa --</option>
-
-              <optgroup label="ZONA NOROESTE (Asesor: Alberto Yépiz)">
-                <option value="UTH">UTH - Universidad Tecnológica de Hermosillo</option>
-                <option value="ITESCA">ITESCA - Inst. Tecnológico Superior de Cajeme</option>
-                <option value="ITLM">ITLM - Instituto Tecnológico de Los Mochis</option>
-                <option value="ITH">ITH - Instituto Tecnológico de Hermosillo</option>
-                <option value="IT MXL">IT MXL - Instituto Tecnológico de Mexicali</option>
-                <option value="UNIVAFU">UNIVAFU - Universidad del Valle del Fuerte</option>
-                <option value="UT NOGALES">UT Nogales - Universidad Tecnológica de Nogales</option>
-              </optgroup>
-
-              <optgroup label="ZONA OCCIDENTE (Asesora: Fabiola Martinez)">
-                <option value="UTNA">UTNA - Universidad Tecnológica del Norte de Aguascalientes</option>
-                <option value="IT CUL">IT CUL - Inst. Tecnológico de Culiacán</option>
-                <option value="BACH TEPIC">Bach. de Ciencias y Letras de Tepic</option>
-                <option value="UPSIN">UPSIN - Universidad Politécnica de Sinaloa</option>
-                <option value="CETI COLOMOS">CETI Colomos - Centro de Enseñanza Técnica Industrial</option>
-                <option value="LAMAR">LAMAR - Universidad Guadalajara LAMAR</option>
-                <option value="CAI">UAN, CAI (Univ. Autónoma de Nayarit, Coord. de Asuntos Int.)</option>
-              </optgroup>
-
-              <optgroup label="OTRA REGIÓN O INSTITUCIÓN">
-                <option value="OTRA">Otra institución educativa…</option>
-              </optgroup>
-            </select>
-            <div class="err-msg" id="err-school"></div>
-          </div>
-
-          <div class="form-group" id="schoolOtherWrap" style="display: none;">
-            <label class="form-label" for="schoolOtherInput">Escribe el nombre de tu escuela:</label>
-            <input type="text" class="input-text" id="schoolOtherInput" placeholder="Ej. Universidad de Sonora" />
-            <div class="err-msg" id="err-schoolOther"></div>
-          </div>
-
-          <div class="form-actions">
-            <button type="button" class="btn-primary" onclick="validateStep1()">
-              Siguiente Paso
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12 5 19 12 12 19"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- STEP 2: Correo Electrónico -->
-        <div class="form-step" id="step-2">
-          <div class="step-title-wrap">
-            <span class="step-subhead">Paso 2 de 4</span>
-            <h2 class="step-title">Correo electrónico registrado</h2>
-            <p class="step-desc">Ingresa el correo que usaste o intentaste usar en Richmond Studio. Entre más datos nos des, más fácil será ayudarte a encontrar tu cuenta.</p>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="emailInput">
-              Correo institucional o personal:
-            </label>
-            <input type="email" class="input-text" id="emailInput" placeholder="alumno@institucion.edu.mx o personal@gmail.com" />
-            <div class="err-msg" id="err-email"></div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="altEmailInput">
-              Correo personal opcional:
-              <span class="label-hint">(Opcional si dudas qué correo usaste)</span>
-            </label>
-            <input type="email" class="input-text" id="altEmailInput" placeholder="correo.personal@gmail.com" />
-            <div class="err-msg" id="err-altEmail"></div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="studentPhoneInput">
-              Tu numero de WhatsApp:
-              <span class="label-hint">(Te enviaremos un mensaje cuando tu solicitud sea resuelta)</span>
-            </label>
-            <div class="phone-stack">
-              <select class="select-custom" id="studentPhoneCountry" style="font-size: 0.95rem; font-weight: 700;">
-                <option value="52" selected>MEX +52</option>
-                <option value="1">USA +1</option>
-              </select>
-              <input type="tel" class="input-text" id="studentPhoneInput" placeholder="Número celular a 10 dígitos (ej. 6621234567)" maxlength="10" inputmode="numeric" pattern="[0-9]{10}" style="font-family: inherit; font-size: 1.02rem; font-weight: 600;" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10)" />
-            </div>
-            <div class="err-msg" id="err-studentPhone"></div>
-          </div>
-
-          <div class="form-actions">
-            <button type="button" class="btn-back" onclick="goStep(1)">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="19" y1="12" x2="5" y2="12"/>
-                <polyline points="12 19 5 12 12 5"/>
-              </svg>
-              Regresar
-            </button>
-            <button type="button" class="btn-primary" onclick="validateStep2()">
-              Siguiente Paso
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12 5 19 12 12 19"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- STEP 3: Nombre Completo -->
-        <div class="form-step" id="step-3">
-          <div class="step-title-wrap">
-            <span class="step-subhead">Paso 3 de 4</span>
-            <h2 class="step-title">¿Cuál es tu nombre?</h2>
-            <p class="step-desc">Permite al asesor identificarte en la base de datos de tu escuela.</p>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="fullNameInput">Nombre Completo:</label>
-            <input type="text" class="input-text" id="fullNameInput" placeholder="Ej. Carlos Alberto Mendoza Vega" />
-            <div class="err-msg" id="err-fullName"></div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="nicknameInput">
-              Nombre Corto, Alias o Apodo:
-              <span class="label-hint">(Opcional, si te registraste con diminutivo)</span>
-            </label>
-            <input type="text" class="input-text" id="nicknameInput" placeholder="Ej. Charlie Mendoza" />
-            <div class="err-msg" id="err-nickname"></div>
-          </div>
-
-          <div class="form-actions">
-            <button type="button" class="btn-back" onclick="goStep(2)">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="19" y1="12" x2="5" y2="12"/>
-                <polyline points="12 19 5 12 12 5"/>
-              </svg>
-              Regresar
-            </button>
-            <button type="button" class="btn-primary" onclick="validateStep3()">
-              Siguiente Paso
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12 5 19 12 12 19"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- STEP 4: Código del Libro -->
-        <div class="form-step" id="step-4">
-          <div class="step-title-wrap">
-            <span class="step-subhead">Paso 4 de 4</span>
-            <h2 class="step-title">Ingresa el código de tu libro</h2>
-            <p class="step-desc">Lo encuentras al abrir tu libro en la primera página interior izquierda.</p>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="bookCodeInput">Código de Acceso del Libro:</label>
-            <input type="text" class="input-text" id="bookCodeInput" placeholder="Ej. RPR-4892-KLA-9921" style="text-transform: uppercase; font-family: monospace; font-size: 1.05rem;" />
-            <div class="err-msg" id="err-bookCode"></div>
-
-            <div class="book-tip-box">
-              <svg class="book-tip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-              </svg>
-              <div class="book-tip-text">
-                <strong>¿Dónde está mi código?</strong> Abre la portada de tu libro. En la página blanca izquierda encontrarás una etiqueta o recuadro con el código alfanumérico para activar tu acceso.
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group" style="margin-top: 1rem;">
-            <label class="form-label" for="notesInput">
-              Comentarios adicionales o detalles extras:
-              <span class="label-hint">(Opcional)</span>
-            </label>
-            <textarea class="input-text" id="notesInput" rows="2" placeholder="Explica cualquier otro detalle que le ayude al asesor…"></textarea>
-          </div>
-
-          <div id="err-submit-cloud" style="display: none; margin-top: 1rem; padding: 1rem 1.15rem; background: #fff1f2; border: 1.5px solid #fca5a5; border-radius: 12px; color: #991b1b; font-size: 0.86rem; line-height: 1.45;">
-            <div style="font-weight: 800; display: flex; align-items: center; gap: 0.45rem; margin-bottom: 0.25rem;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              No se pudo registrar la solicitud en la base de datos
-            </div>
-            <span id="err-submit-cloud-msg">Ocurrió un problema de conexión con el servidor. Verifica tu internet y presiona Reintentar.</span>
-          </div>
-
-          <div class="form-actions">
-            <button type="button" class="btn-back" onclick="goStep(3)">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="19" y1="12" x2="5" y2="12"/>
-                <polyline points="12 19 5 12 12 5"/>
-              </svg>
-              Regresar
-            </button>
-            <button type="button" class="btn-primary" id="btnSubmitTicket" onclick="validateStep4()">
-              Enviar Solicitud
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- STEP 5: Éxito / Folio Generado -->
-        <div class="form-step" id="step-5">
-          <div class="success-wrap">
-            <div class="success-icon-badge">
-              <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </div>
-
-            <div>
-              <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem;">¡Solicitud Registrada!</h2>
-              <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.45;">
-                Tu reporte ha sido asignado a tu asesor técnico de zona. Guarda tu folio para dar seguimiento en tiempo real.
-              </p>
-            </div>
-
-            <div class="folio-card">
-              <span class="folio-label">Tu Folio de Seguimiento</span>
-              <div class="folio-code" id="successFolioCode">HELP-00000</div>
-              <button type="button" class="btn-copy-folio" onclick="copyFolioCode()">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                </svg>
-                Copiar Folio
-              </button>
-            </div>
-
-            <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; max-width: 440px;">
-              Escuela: <strong id="successSchool" style="color: var(--text-main); font-weight: 800;">-</strong> · 
-              Asesor: <strong id="successAdvisor" style="color: var(--primary); font-weight: 800;">-</strong><br />
-              <strong style="color: var(--text-main);">Tiempo de resolución: máximo 72 horas (3 días hábiles).</strong>
-            </div>
-
-            <button type="button" class="btn-primary" style="margin: 0.5rem auto 0;" onclick="viewMyNewTicket()">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"/>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-              </svg>
-              Ver Estatus y Tiempo Transcurrido
-            </button>
-          </div>
-        </div>
-
-      </div>
     </section>
 
 
@@ -621,7 +546,7 @@
     </div>
   </footer>
 
-  <script src="aurora.js?v=2026.10.20.1"></script>
-  <script type="module" src="app.js?v=2026.10.20.1"></script>
+  <script src="aurora.js?v=2026.11.27.1"></script>
+  <script type="module" src="app.js?v=2026.11.27.1"></script>
 </body>
 </html>
